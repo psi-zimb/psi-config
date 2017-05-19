@@ -36,12 +36,6 @@
                 "config":{
                     "orderType": "Radiology Order"
                 }
-            },
-            "conditions": {
-                "title": "Conditions",
-                "type": "conditionsList",
-                "displayOrder": 2,
-                "config": { }
             }
         }
     },

@@ -74,12 +74,8 @@
                     "type": "navigationLinksControl",
                     "displayOrder": 5,
                     "showLinks" : ["home", "visit", "registration", "inpatient", "enrolment", "visitAttribute"]
-                },
-                "conditions": {
-                    "translationKey":"CONDITION_LIST_DISPLAY_CONTROL_TITLE",
-                    "type": "conditionsList",
-                    "displayOrder": 6
                 }
+
             }}
 
         }

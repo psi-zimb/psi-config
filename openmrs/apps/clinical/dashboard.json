@@ -40,7 +40,7 @@
                     "visitAttribute"
                 ]
             },
-	          "tuberculosis": {
+	    "tuberculosis": {
                 "title": "Tuberculosis Follow Up",
                 "type": "tuberculosis",
                 "isObservation": true,
@@ -56,7 +56,7 @@
                 "showDetailsButton":true,
                 "type":"disposition",
                 "numberOfVisits":1,
-                "displayOrder":7
+                "displayOrder":3
             },
             "treatments":{  
                 "translationKey":"DASHBOARD_TITLE_TREATMENTS_KEY",
@@ -91,13 +91,13 @@
             "programs":{  
                 "translationKey":"DASHBOARD_TITLE_PROGRAMS_KEY",
                 "type":"programs",
-                "displayOrder":10
+                "displayOrder":6
             },
             "radiologyOrders":{  
                 "orderType":"Radiology Order",
                 "type":"ordersControl",
                 "translationKey":"DASHBOARD_TITLE_RADIOLOGY_ORDERS_KEY",
-                "displayOrder":17,
+                "displayOrder":7,
                 "dashboardConfig":{  
                     "conceptNames":[  
                         "Summary"
@@ -153,16 +153,15 @@
             "labResults":{  
                 "translationKey":"DASHBOARD_TITLE_LAB_RESULTS_KEY",
                 "type":"labOrders",
-                "displayOrder":6,
+                "displayOrder":10,
                 "dashboardConfig":{  
                     "title":null,
-                    "numberOfVisits":6,
-                    "showChart":true,
-                    "showTable":false,
-                    "showNormalLabResults": true,
-                    "showCommentsExpanded": true,
-                    "showAccessionNotes": true,
-                    "showDetailsButton":false
+                    "numberOfVisits":1,
+                    "showChart":false,
+                    "showTable":true,
+                    "showDetailsButton":false,
+                    "initialAccessionCount":0,
+                    "latestAccessionCount":1
                 },
                 "expandedViewConfig":{  
                     "numberOfVisits":10
@@ -327,7 +326,7 @@
             "visits":{  
                 "translationKey":"DASHBOARD_TITLE_VISITS_KEY",
                 "type":"visits",
-                "displayOrder":3,
+                "displayOrder":17,
                 "dashboardConfig":{  
                     "title":null,
                     "maximumNoOfVisits":8,
@@ -378,21 +377,6 @@
                 "type":"admissionDetails",
                 "displayOrder":19,
                 "showDetailsButton":true
-            },
-            "conditions": {
-                "translationKey":"CONDITION_LIST_DISPLAY_CONTROL_TITLE",
-                "type": "conditionsList",
-                "displayOrder": 20
-            },
-            "formsDisplay": {
-                "type": "forms",
-                "displayOrder": 21,
-                "dashboardConfig": {
-                    "title": null,
-                    "maximumNoOfVisits": 10
-                },
-                "formGroup": [ ],
-                "translationKey": "DASHBOARD_TITLE_FORMS_DISPLAY_CONTROL_KEY"
             }
         }
     },
