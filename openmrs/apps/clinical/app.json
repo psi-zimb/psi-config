@@ -72,7 +72,22 @@
         "conceptSetUI": {
             "If married/having a partner and individual T&C, Reasons for not  bringing partner  (Multiple responses possible)": {
                 "multiSelect" : true
-            }
+            },
+            "If yes, which method are you/partner using?  (Multiple responses possible)": {
+                "multiSelect" : true
+            },
+            "Why are you worried/ curious about learning your HIV status?  (Multiple responses possible)": {
+                "multiSelect" : true
+            },
+            "Disclosure planned to:  (Multiple responses possible)": {
+                "multiSelect" : true
+            },
+            "Risk reduction plan  (Multiple responses possible)": {
+                "multiSelect" : true
+            },
+            "Was referred to:  (Multiple responses possible)": {
+                "multiSelect" : true
+            },
             "Chief Complaint Data": {
                 "autocomplete":true,
                 "codedConceptName":"Chief Complaint",
