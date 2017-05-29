@@ -70,6 +70,9 @@
         "maxConceptSetLevels": 3,
         "allowOnlyCodedDiagnosis": false,
         "conceptSetUI": {
+            "If married/having a partner and individual T&C, Reasons for not  bringing partner  (Multiple responses possible)": {
+                "multiSelect" : true
+            }
             "Chief Complaint Data": {
                 "autocomplete":true,
                 "codedConceptName":"Chief Complaint",
