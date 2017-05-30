@@ -14,15 +14,15 @@ Bahmni.ConceptSet.FormConditions.rules = {
 
 	'Why are you worried/ curious about learning your HIV status?  (Multiple responses possible)': function (formName, formFieldValues) {
         var conditions = {
-            enable: [],
-            disable: []
+            show: [],
+            hide: []
         };
         var enExtraPul = "Other specific (why worried/curious about HIV status)";
         var conditionConcept = formFieldValues['Why are you worried/ curious about learning your HIV status?  (Multiple responses possible)'];
         if (conditionConcept && conditionConcept.indexOf("Other (specify)") > -1) {
-            conditions.enable.push(enExtraPul);
+            conditions.show.push(enExtraPul);
         } else {
-            conditions.disable.push(enExtraPul);
+            conditions.hide.push(enExtraPul);
         }
         return conditions;
     },
