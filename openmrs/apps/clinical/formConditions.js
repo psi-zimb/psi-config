@@ -8,7 +8,8 @@ Bahmni.ConceptSet.FormConditions.rules = {
         } else {
             conditions.hide.push("Other specific (why worried/curious about HIV status)")
         }
-    },
+        return conditions
+	    },
     'Diastolic Data' : function (formName, formFieldValues) {
         var systolic = formFieldValues['Systolic'];
         var diastolic = formFieldValues['Diastolic'];
