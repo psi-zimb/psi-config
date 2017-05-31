@@ -42,12 +42,11 @@
             },
             "addressHierarchy": {
                 "showAddressFieldsTopDown": false,
-                "strictAutocompleteFromLevel": "postalCode"},
+                "strictAutocompleteFromLevel": "postalCodeXX"},
             "relationshipTypeMap": {
                 "Doctor":"provider",
                 "Parent":"patient"
             },
-
             "autoCompleteFields":["familyName", "caste"],
             "defaultIdentifierPrefix": "NBAI",
             "defaultVisitType": "OPD",
