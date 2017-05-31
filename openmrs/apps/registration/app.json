@@ -42,8 +42,7 @@
             },
             "addressHierarchy": {
                 "showAddressFieldsTopDown": false,
-                "strictAutocompleteFromLevel": "postalCode"
-            },
+                "strictAutocompleteFromLevel": "postalCode"},
             "relationshipTypeMap": {
                 "Doctor":"provider",
                 "Parent":"patient"
