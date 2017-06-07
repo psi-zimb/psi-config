@@ -23,9 +23,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         var conditionTrue = selectedResponses.indexOf('Other (specify)') >= 0; // multi-select question: is this response one of the responses selected?
     	var ruleActions = {enable: [], disable: []};
         if(conditionTrue) {
-            ruleActions.enable.push("Other specific (why worried/curious about HIV status)")
+            ruleActions.enable.push(question1AffectedByRule)
         } else {
-            ruleActions.disable.push("Other specific (why worried/curious about HIV status)")
+            ruleActions.disable.push(question1AffectedByRule)
         }
         return ruleActions;
 	    },
