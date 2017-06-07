@@ -1,56 +1,47 @@
 Bahmni.ConceptSet.FormConditions.rules = {
 
-//    'Why are you worried/ curious about learning your HIV status?  (Multiple responses possible)': function(formName, formFieldValues) {
-//        var conditionActions = {show: [], hide: []};
-//        var selectedValues = formFieldValues['Why are you worried/ curious about learning your HIV status?  (Multiple responses possible)'];
-//        var conditionTrue = (selectedValues.indexOf("Other (specify)") >= 0);
-//        if(conditionTrue) {
-//            conditionActions.show.push("Other specific (why worried/curious about HIV status)")
-//        } else {
-//            conditionActions.hide.push("Other specific (why worried/curious about HIV status)")
-//        }
-//        return conditionActions;
-//	    },
+	"If married/having a partner and individual T&C, Reasons for not  bringing partner  (Multiple responses possible)": function(formName, formFieldValues) {
+		var questionThatTriggersRule = "If married/having a partner and individual T&C, Reasons for not  bringing partner  (Multiple responses possible)"
+        var selectedResponses = formFieldValues[questionThatTriggersRule];
+		var questionAffectedByRule1 = "Other specific (reasons for not bringing partner)"
+        var conditionTrue = "selectedResponses.indexOf('Other (specify)') >= 0"; // multi-select question: is this response one of the responses selected?
+    	var ruleActions = {enable: [], disable: []};
+        if(conditionTrue) {
+            conditionActions.enable.push(questionAffectedByRule1)
+        } else {
+            conditionActions.disable.push(questionAffectedByRule1)
+        }
+        return conditionActions;
+	    },
 
-	'Why are you worried/ curious about learning your HIV status?  (Multiple responses possible)': function (formName, formFieldValues) {
-        var conditions = {
-            show: [],
-            hide: []
-        };
-        var enExtraPul = "Other specific (why worried/curious about HIV status)";
-        var conditionConcept = formFieldValues['Why are you worried/ curious about learning your HIV status?  (Multiple responses possible)'];
-        if (conditionConcept && conditionConcept.indexOf("Other (specify)") > -1) {
-            conditions.show.push(enExtraPul);
-        } else {
-            conditions.hide.push(enExtraPul);
-        }
-        return conditions;
-    },
 
-    'Diastolic Data' : function (formName, formFieldValues) {
-        var systolic = formFieldValues['Systolic'];
-        var diastolic = formFieldValues['Diastolic'];
-        if (systolic || diastolic) {
-            return {
-                enable: ["Posture"]
-            }
+
+	"Why are you worried/ curious about learning your HIV status?  (Multiple responses possible)": function(formName, formFieldValues) {
+		var questionThatTriggersRule = "Why are you worried/ curious about learning your HIV status?  (Multiple responses possible)"
+        var selectedResponses = formFieldValues[questionThatTriggersRule];
+		var questionAffectedByRule1 = "Other specific (why worried/curious about HIV status)"
+        var conditionTrue = "selectedResponses.indexOf('Other (specify)') >= 0"; // multi-select question: is this response one of the responses selected?
+    	var ruleActions = {enable: [], disable: []};
+        if(conditionTrue) {
+            conditionActions.enable.push(questionAffectedByRule1)
         } else {
-            return {
-                disable: ["Posture"]
-            }
+            conditionActions.disable.push(questionAffectedByRule1)
         }
-    },
-    'Systolic Data' : function (formName, formFieldValues) {
-        var systolic = formFieldValues['Systolic'];
-        var diastolic = formFieldValues['Diastolic'];
-        if (systolic || diastolic) {
-            return {
-                enable: ["Posture"]
-            }
-        } else {
-            return {
-                disable: ["Posture"]
-            }
-        }
-    }
+        return conditionActions;
+	    },
+
+
+// How did you learn about this T&C site?
+// Other specific (how learned about this T&C site)
+
+// If client advised to return for re-testing indicate timeline (2 weeks, 4 weeks, 3months, 6 months, other)
+// Other specific (timeline advised to return for re-testing)
+
+// Disclosure planned to:  (Multiple responses possible)
+// Other specific (disclosure planned to)
+
+// Risk reduction plan  (Multiple responses possible)
+// Other specific (risk reduction plan)
+
+
 };
