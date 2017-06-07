@@ -4,7 +4,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
 		var questionThatTriggersRule = "If married/having a partner and individual T&C, Reasons for not  bringing partner  (Multiple responses possible)"
         var selectedResponses = formFieldValues[questionThatTriggersRule];
 		var question1AffectedByRule = "Other specific (reasons for not bringing partner)"
-        var conditionTrue = "selectedResponses.indexOf('Other (specify)') >= 0"; // multi-select question: is this response one of the responses selected?
+        var conditionTrue = selectedResponses.indexOf('Other (specify)') >= 0; // multi-select question: is this response one of the responses selected?
     	var ruleActions = {enable: [], disable: []};
         if(conditionTrue) {
             ruleActions.enable.push(question1AffectedByRule)
@@ -20,7 +20,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
 		var questionThatTriggersRule = "Why are you worried/ curious about learning your HIV status?  (Multiple responses possible)"
         var selectedResponses = formFieldValues[questionThatTriggersRule];
 		var question1AffectedByRule = "Other specific (why worried/curious about HIV status)"
-        var conditionTrue = "selectedResponses.indexOf('Other (specify)') >= 0"; // multi-select question: is this response one of the responses selected?
+        var conditionTrue = selectedResponses.indexOf('Other (specify)') >= 0; // multi-select question: is this response one of the responses selected?
     	var ruleActions = {enable: [], disable: []};
         if(conditionTrue) {
             ruleActions.enable.push("Other specific (why worried/curious about HIV status)")
