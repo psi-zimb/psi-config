@@ -1,5 +1,5 @@
 {
-    "search":{ otro
+    "search":{
         "id": "bahmni.registration.navigation.patient.search",
         "extensionPointId": "org.bahmni.registration.navigation",
         "type": "link",
