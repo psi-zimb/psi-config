@@ -73,7 +73,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
 	"Ever been tested": function(formName, formFieldValues) {
 		var questionThatTriggersRule = "Ever been tested"
         var selectedResponses = formFieldValues[questionThatTriggersRule];
-		var question1AffectedByRule = "If yes, where were you last tested"
+		var question1AffectedByRule = "If yes, where were you last tested?"
 		var question2AffectedByRule = "If ever been tested, how many times have you been tested for HIV before?"
 		var question3AffectedByRule = "How long ago were you last tested (months)?"
 		var question4AffectedByRule = "What were the results the last time you were tested?"
