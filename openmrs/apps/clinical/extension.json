@@ -74,10 +74,10 @@
     "type": "config",
     "extensionParams": {
       "searchHandler": "emrapi.sqlSearch.testingQueue_preCounselling",
-      "translationKey": "Awaiting pre test",
+      "translationKey": "Pre test",
       "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard/concept-set-group/observations"
     },
-    "label": "Awaiting Pre Test",
+    "label": "Pre Test",
     "order": 1,
     "requiredPrivilege": "app:clinical"
   },
@@ -87,10 +87,10 @@
     "type": "config",
     "extensionParams": {
       "searchHandler": "emrapi.sqlSearch.testingQueue_testResult",
-      "translationKey": "Awaiting test results",
+      "translationKey": "Testing",
       "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard/concept-set-group/observations"
     },
-    "label": "Awaiting test results",
+    "label": "Testing",
     "order": 2,
     "requiredPrivilege": "app:clinical"
   },
@@ -100,10 +100,10 @@
     "type": "config",
     "extensionParams": {
       "searchHandler": "emrapi.sqlSearch.testingQueue_postCounselling",
-      "translationKey": "Awaiting post test",
+      "translationKey": "Post test",
       "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard/concept-set-group/observations"
     },
-    "label": "Awaiting post test",
+    "label": "Post test",
     "order": 3,
     "requiredPrivilege": "app:clinical"
   },
