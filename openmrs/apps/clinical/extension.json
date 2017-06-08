@@ -67,6 +67,47 @@
     "order": 1,
     "requiredPrivilege": "app:clinical"
   },
+
+  "bahmniClinicalPatientsSearchPatientsAwaitingPreTestCounselling": {
+    "id": "bahmni.clinical.patients.search.patientsAwaitingPreTestCounselling",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.testingQueue_preCounselling",
+      "translationKey": "PATIENTS_AWAITING_PRE_TEST_COUNSELLING",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard/concept-set-group/observations"
+    },
+    "label": "Awaiting Pre Test",
+    "order": 2,
+    "requiredPrivilege": "app:clinical"
+  },
+  "bahmniClinicalPatientsSearchPatientsAwaitingTestResult": {
+    "id": "bahmni.clinical.patients.search.patientsAwaitingTestResult",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.testingQueue_testResult",
+      "translationKey": "PATIENTS_AWAITING_TEST_RESULT",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard/concept-set-group/observations"
+    },
+    "label": "Awaiting Test Result",
+    "order": 2,
+    "requiredPrivilege": "app:clinical"
+  },
+  "bahmniClinicalPatientsSearchPatientsAwaitingPostTestCounselling": {
+    "id": "bahmni.clinical.patients.search.patientsAwaitingPostTestCounselling",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.testingQueue_postCounselling",
+      "translationKey": "PATIENTS_AWAITING_POST_TEST_COUNSELLING",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard/concept-set-group/observations"
+    },
+    "label": "Awaiting Post Test",
+    "order": 2,
+    "requiredPrivilege": "app:clinical"
+  },
+
   "bahmniClinicalPatientsSearchActivePatientsForPrograms": {
     "id": "bahmni.clinical.patients.search.activePatients",
     "extensionPointId": "org.bahmni.patient.search",
