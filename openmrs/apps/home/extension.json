@@ -17,7 +17,7 @@
     "url": "../clinical/#/hivtesting/patient/search",
     "icon": "fa-stethoscope",
     "order": 2,
-    "requiredPrivilege": "app:clinical"
+    "requiredPrivilege": "app:hivtesting"
   },
   "programs": {
     "id": "bahmni.programs",
