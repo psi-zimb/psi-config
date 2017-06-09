@@ -97,11 +97,6 @@
                 "address1" : {"pattern" : "[a-zA-Z0-9 ]{0,}", "errorMessage" : "Should only contain characters and numbers"}
             },
             "patientSearch": {
-                "address": {
-                    "label": "Ward",
-                    "placeholder": "Enter ward",
-                    "field": "postalCode"
-                },
                 "customAttributes": {
                     "label": "Unique ID Code (UIC)",
                     "placeholder": "Enter UIC",
