@@ -45,8 +45,8 @@
                 "strictAutocompleteFromLevel": "postalCode"
             },
             "relationshipTypeMap": {
-                "Doctor":"provider",
-                "Parent":"patient"
+                "Parent":"patient",
+                "Partner": "patient"
             },
             "autoCompleteFields":["familyName", "caste"],
             "defaultIdentifierPrefix": "NBAI",
