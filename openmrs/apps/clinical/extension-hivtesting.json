@@ -108,8 +108,8 @@
     "requiredPrivilege": "app:clinical"
   },
 
-  "Pre HIV test counselling": {
-    "id": "bahmni.clinical.conceptSetGroup.observations.'Pre HIV test counselling'",
+  "PreHIVtestcounselling": {
+    "id": "bahmni.clinical.conceptSetGroup.observations.PreHIVtestcounselling",
     "extensionPointId": "org.bahmni.clinical.conceptSetGroup.observations",
     "type": "config",
     "extensionParams": {
@@ -119,7 +119,7 @@
     "order": 1,
     "requiredPrivilege": "app:clinical:history"
   },
-  "HIV rapid test results": {
+  "HIVrapidTestResults": {
     "id": "bahmni.clinical.conceptSetGroup.observations.'HIV rapid test results'",
     "extensionPointId": "org.bahmni.clinical.conceptSetGroup.observations",
     "type": "config",
