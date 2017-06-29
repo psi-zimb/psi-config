@@ -1,0 +1,217 @@
+{
+  "observations": {
+    "id": "bahmni.clinical.consultation.observations",
+    "extensionPointId": "org.bahmni.clinical.consultation.board",
+    "type": "link",
+    "label": "Observations",
+    "translationKey":"OBSERVATIONS_BOARD_LABEL_KEY",
+    "url": "concept-set-group/observations",
+    "default": true,
+    "icon": "fa-user-md",
+    "order": 1,
+    "requiredPrivilege": "app:clinical:observationTab"
+  },
+  "diagnosis": {
+    "id": "bahmni.clinical.consultation.diagnosis",
+    "extensionPointId": "org.bahmni.clinical.consultation.board",
+    "type": "link",
+    "label": "Diagnosis",
+    "translationKey":"DIAGNOSIS_BOARD_LABEL_KEY",
+    "url": "diagnosis",
+    "icon": "fa-user-md",
+    "order": 2,
+    "requiredPrivilege": "app:clinical:diagnosisTab"
+  },
+  "disposition": {
+    "id": "bahmni.clinical.consultation.disposition",
+    "extensionPointId": "org.bahmni.clinical.consultation.board",
+    "type": "link",
+    "label": "Disposition",
+    "translationKey":"DISPOSITION_BOARD_LABEL_KEY",
+    "url": "disposition",
+    "icon": "fa-user-md",
+    "order": 3,
+    "requiredPrivilege": "app:clinical:dispositionTab"
+  },
+  "consultationSummary": {
+    "id": "bahmni.clinical.consultation.summary",
+    "extensionPointId": "org.bahmni.clinical.consultation.board",
+    "type": "link",
+    "label": "Consultation",
+    "translationKey":"CONSULTATION_BOARD_LABEL_KEY",
+    "url": "consultation",
+    "icon": "fa-user-md",
+    "order": 5,
+    "requiredPrivilege": "app:clinical:consultationTab"
+  },
+  "bahmniClinicalOrdersPending": {
+    "id": "bahmni.clinical.orders.pending",
+    "extensionPointId": "org.bahmni.clinical.orders",
+    "type": "link",
+    "label": "Pending Orders",
+    "url": "pendingOrders",
+    "icon": "fa-user-md",
+    "order": 5,
+    "requiredPrivilege": "app:radiologyOrders"
+  },
+  "bahmniClinicalPatientsSearchAllActivePatients": {
+    "id": "bahmni.clinical.patients.search.allActivePatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.activePatients",
+      "translationKey": "All active",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "label": "All active",
+    "order": 4,
+    "requiredPrivilege": "app:clinical"
+  },
+
+  "bahmniClinicalPatientsSearchPatientsAwaitingPreTestCounselling": {
+    "id": "bahmni.clinical.patients.search.patientsAwaitingPreTestCounselling",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.testingQueue_preCounselling",
+      "translationKey": "Pre test",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard/concept-set-group/observations"
+    },
+    "label": "Pre Test",
+    "order": 1,
+    "requiredPrivilege": "app:clinical"
+  },
+  "bahmniClinicalPatientsSearchPatientsAwaitingTestResult": {
+    "id": "bahmni.clinical.patients.search.patientsAwaitingTestResult",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.testingQueue_testResult",
+      "translationKey": "Testing",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard/concept-set-group/observations"
+    },
+    "label": "Testing",
+    "order": 2,
+    "requiredPrivilege": "app:clinical"
+  },
+  "bahmniClinicalPatientsSearchPatientsAwaitingPostTestCounselling": {
+    "id": "bahmni.clinical.patients.search.patientsAwaitingPostTestCounselling",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.testingQueue_postCounselling",
+      "translationKey": "Post test",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard/concept-set-group/observations"
+    },
+    "label": "Post test",
+    "order": 3,
+    "requiredPrivilege": "app:clinical"
+  },
+
+  "Pre HIV test counselling": {
+    "id": "bahmni.clinical.conceptSetGroup.observations.'Pre HIV test counselling'",
+    "extensionPointId": "org.bahmni.clinical.conceptSetGroup.observations",
+    "type": "config",
+    "extensionParams": {
+      "conceptName": "Pre HIV test counselling",
+      "default": true
+    },
+    "order": 1,
+    "requiredPrivilege": "app:clinical:history"
+  },
+  "HIV rapid test results": {
+    "id": "bahmni.clinical.conceptSetGroup.observations.'HIV rapid test results'",
+    "extensionPointId": "org.bahmni.clinical.conceptSetGroup.observations",
+    "type": "config",
+    "extensionParams": {
+      "default": true,
+      "conceptName": "HIV rapid test results"
+    },
+    "order": 2,
+    "requiredPrivilege": "app:clinical"
+  },
+
+
+  "bahmniClinicalConceptSetGroupObservationsSecondVitals": {
+    "id": "bahmni.clinical.conceptSetGroup.observations.secondVitals",
+    "extensionPointId": "org.bahmni.clinical.conceptSetGroup.observations",
+    "type": "config",
+    "extensionParams": {
+      "conceptName": "Second Vitals",
+      "showIf": [
+        "var visitTypes = [];",
+        "if(visitTypes.length === 0) return true;",
+        "var visitTypeName = context.visitType ? context.visitType.name : null;",
+        "return visitTypes.indexOf(visitTypeName) !== -1;"
+      ]
+    },
+    "order": 3,
+    "requiredPrivilege": "app:clinical"
+  },
+  "bahmniClinicalConceptSetGroupObservationsObstetrics": {
+    "id": "bahmni.clinical.conceptSetGroup.observations.obstetrics",
+    "extensionPointId": "org.bahmni.clinical.conceptSetGroup.observations",
+    "type": "config",
+    "extensionParams": {
+      "conceptName": "Obstetrics"
+    },
+    "order": 4,
+    "requiredPrivilege": "app:clinical"
+  },
+  "bahmniClinicalConceptSetGroupObservationsGynaecology": {
+    "id": "bahmni.clinical.conceptSetGroup.observations.gynaecology",
+    "extensionPointId": "org.bahmni.clinical.conceptSetGroup.observations",
+    "type": "config",
+    "extensionParams": {
+      "conceptName": "Gynaecology"
+    },
+    "order": 5,
+    "requiredPrivilege": "app:clinical"
+  },
+  "bahmniClinicalConceptSetGroupObservationsDischargeSummary": {
+    "id": "bahmni.clinical.conceptSetGroup.observations.dischargeSummary",
+    "extensionPointId": "org.bahmni.clinical.conceptSetGroup.observations",
+    "type": "config",
+    "extensionParams": {
+      "conceptName": "Discharge Summary"
+    },
+    "order": 6,
+    "requiredPrivilege": "Discharge Summary"
+  },
+  "bahmniClinicalBillingTreatment": {
+    "id": "bahmni.clinical.billing.treatment",
+    "extensionPointId": "org.bahmni.clinical.consultation.board",
+    "type": "link",
+    "label": "Medications",
+    "translationKey":"MEDICATIONS_BOARD_LABEL_KEY",
+    "extensionParams":{
+      "tabConfigName": "allMedicationTabConfig"
+    },
+    "url": "treatment",
+    "icon": "fa-user-md",
+    "order": 7,
+    "requiredPrivilege": "app:clinical:treatmentTab"
+  },
+  "bahmniClinicalConsultationOrders": {
+    "id": "bahmni.clinical.consultation.orders",
+    "extensionPointId": "org.bahmni.clinical.consultation.board",
+    "type": "link",
+    "label": "Orders",
+    "translationKey":"ORDERS_BOARD_LABEL_KEY",
+    "url": "orders",
+    "icon": "icon-user-md",
+    "order": 6,
+    "requiredPrivilege": "app:clinical:ordersTab"
+  },
+  "bahmniClinicalConsultationBacteriology": {
+    "id": "bahmni.clinical.consultation.bacteriology",
+    "extensionPointId": "org.bahmni.clinical.consultation.board",
+    "type": "link",
+    "label": "Bacteriology",
+    "translationKey":"BACTERIOLOGY_BOARD_LABEL_KEY",
+    "url": "bacteriology",
+    "icon": "icon-user-md",
+    "order": 7,
+    "requiredPrivilege": "app:clinical:bacteriologyTab"
+  }
+}
