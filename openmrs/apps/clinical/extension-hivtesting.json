@@ -46,19 +46,6 @@
     "requiredPrivilege": "app:clinical"
   },
 
-  "bahmniClinicalPatientsSearchPatientsAwaitingPreTestCounselling": {
-    "id": "bahmni.clinical.patients.search.patientsAwaitingPreTestCounselling",
-    "extensionPointId": "org.bahmni.patient.search",
-    "type": "config",
-    "extensionParams": {
-      "searchHandler": "emrapi.sqlSearch.testingQueue_preCounselling",
-      "translationKey": "Pre test",
-      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard/concept-set-group/observations"
-    },
-    "label": "Pre Test",
-    "order": 1,
-    "requiredPrivilege": "app:clinical"
-  },
   "bahmniClinicalPatientsSearchPatientsAwaitingTestResult": {
     "id": "bahmni.clinical.patients.search.patientsAwaitingTestResult",
     "extensionPointId": "org.bahmni.patient.search",
