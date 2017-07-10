@@ -98,6 +98,18 @@
     "order": 2,
     "requiredPrivilege": "app:clinical"
   },
+  "PostHIVtestcounselling": {
+    "id": "bahmni.clinical.conceptSetGroup.observations.PostHIVtestcounselling",
+    "extensionPointId": "org.bahmni.clinical.conceptSetGroup.observations",
+    "type": "config",
+    "extensionParams": {
+      "conceptName": "Post HIV test counselling",
+      "default": true
+    },
+    "order": 3,
+    "requiredPrivilege": "app:clinical:history"
+  },
+
 
 
   "bahmniClinicalConceptSetGroupObservationsSecondVitals": {
