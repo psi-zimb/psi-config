@@ -35,19 +35,6 @@
 
 
 
-  "bahmniClinicalPatientsSearchAllActivePatients": {
-    "id": "bahmni.clinical.patients.search.allActivePatients",
-    "extensionPointId": "org.bahmni.patient.search",
-    "type": "config",
-    "extensionParams": {
-      "searchHandler": "emrapi.sqlSearch.activePatients",
-      "translationKey": "All active",
-      "forwardUrl": "#/hivtesting/patient/{{patientUuid}}/dashboard"
-    },
-    "label": "All active",
-    "order": 4,
-    "requiredPrivilege": "app:clinical"
-  },
   "bahmniClinicalPatientsSearchPatientsAwaitingPreTestCounselling": {
     "id": "bahmni.clinical.patients.search.patientsAwaitingPreTestCounselling",
     "extensionPointId": "org.bahmni.patient.search",
