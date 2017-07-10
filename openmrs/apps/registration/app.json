@@ -42,7 +42,7 @@
             },
             "addressHierarchy": {
                 "showAddressFieldsTopDown": false,
-                "strictAutocompleteFromLevel": "postalCode"
+                "strictAutocompleteFromLevel": "address1"
             },
             "relationshipTypeMap": {
                 "Parent":"patient",
