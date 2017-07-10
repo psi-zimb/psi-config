@@ -90,7 +90,7 @@
                 "address": {
                     "label": "Ward",
                     "placeholder": "Enter ward",
-                    "field": "postalCode"
+                    "field": "address1"
                 },
                 "customAttributes": {
                     "label": "Unique ID Code (UIC)",
