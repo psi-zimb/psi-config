@@ -147,20 +147,6 @@
     "order": 6,
     "requiredPrivilege": "Discharge Summary"
   },
-  "bahmniClinicalBillingTreatment": {
-    "id": "bahmni.clinical.billing.treatment",
-    "extensionPointId": "org.bahmni.clinical.consultation.board",
-    "type": "link",
-    "label": "Medications",
-    "translationKey":"MEDICATIONS_BOARD_LABEL_KEY",
-    "extensionParams":{
-      "tabConfigName": "allMedicationTabConfig"
-    },
-    "url": "treatment",
-    "icon": "fa-user-md",
-    "order": 7,
-    "requiredPrivilege": "app:clinical:treatmentTab"
-  },
   "bahmniClinicalConsultationOrders": {
     "id": "bahmni.clinical.consultation.orders",
     "extensionPointId": "org.bahmni.clinical.consultation.board",
@@ -172,15 +158,4 @@
     "order": 6,
     "requiredPrivilege": "app:clinical:ordersTab"
   },
-  "bahmniClinicalConsultationBacteriology": {
-    "id": "bahmni.clinical.consultation.bacteriology",
-    "extensionPointId": "org.bahmni.clinical.consultation.board",
-    "type": "link",
-    "label": "Bacteriology",
-    "translationKey":"BACTERIOLOGY_BOARD_LABEL_KEY",
-    "url": "bacteriology",
-    "icon": "icon-user-md",
-    "order": 7,
-    "requiredPrivilege": "app:clinical:bacteriologyTab"
-  }
 }
