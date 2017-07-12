@@ -88,7 +88,7 @@
             "Was referred to:  (Multiple responses possible)": {
                 "multiSelect" : true
             },
-            "Request service": {
+            "Testing and counselling service": {
                 "codedConceptName" : "RequestServiceCompletedCancelled"
             },
             "Chief Complaint Data": {
