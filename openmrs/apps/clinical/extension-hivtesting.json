@@ -11,6 +11,17 @@
     "order": 1,
     "requiredPrivilege": "app:clinical:observationTab"
   },
+  "bahmniClinicalConsultationOrders": {
+    "id": "bahmni.clinical.consultation.orders",
+    "extensionPointId": "org.bahmni.clinical.consultation.board",
+    "type": "link",
+    "label": "Orders",
+    "translationKey":"ORDERS_BOARD_LABEL_KEY",
+    "url": "orders",
+    "icon": "icon-user-md",
+    "order": 6,
+    "requiredPrivilege": "app:clinical:ordersTab"
+  },
   "bahmniClinicalOrdersPending": {
     "id": "bahmni.clinical.orders.pending",
     "extensionPointId": "org.bahmni.clinical.orders",
@@ -21,6 +32,7 @@
     "order": 5,
     "requiredPrivilege": "app:radiologyOrders"
   },
+
 
 
 
@@ -65,6 +77,8 @@
   },
 
 
+
+
   "PreHIVtestcounselling": {
     "id": "bahmni.clinical.conceptSetGroup.observations.PreHIVtestcounselling",
     "extensionPointId": "org.bahmni.clinical.conceptSetGroup.observations",
@@ -98,8 +112,6 @@
     "order": 3,
     "requiredPrivilege": "app:clinical:history"
   },
-
-
 
   "bahmniClinicalConceptSetGroupObservationsSecondVitals": {
     "id": "bahmni.clinical.conceptSetGroup.observations.secondVitals",
@@ -146,16 +158,5 @@
     },
     "order": 6,
     "requiredPrivilege": "Discharge Summary"
-  },
-  "bahmniClinicalConsultationOrders": {
-    "id": "bahmni.clinical.consultation.orders",
-    "extensionPointId": "org.bahmni.clinical.consultation.board",
-    "type": "link",
-    "label": "Orders",
-    "translationKey":"ORDERS_BOARD_LABEL_KEY",
-    "url": "orders",
-    "icon": "icon-user-md",
-    "order": 6,
-    "requiredPrivilege": "app:clinical:ordersTab"
   }
 }
