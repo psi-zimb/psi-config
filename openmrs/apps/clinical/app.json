@@ -72,24 +72,32 @@
         "conceptSetUI": {
             "If married/having a partner and individual T&C, Reasons for not  bringing partner  (Multiple responses possible)": {
                 "multiSelect" : true
+                ,"disableAddNotes" : true
             },
             "If yes, which method are you/partner using?  (Multiple responses possible)": {
                 "multiSelect" : true
+                ,"disableAddNotes" : true
             },
             "Why are you worried/ curious about learning your HIV status?  (Multiple responses possible)": {
                 "multiSelect" : true
+                ,"disableAddNotes" : true
             },
             "Disclosure planned to:  (Multiple responses possible)": {
                 "multiSelect" : true
+                ,"disableAddNotes" : true
             },
             "Risk reduction plan  (Multiple responses possible)": {
                 "multiSelect" : true
+                ,"disableAddNotes" : true
             },
             "Was referred to:  (Multiple responses possible)": {
                 "multiSelect" : true
+                ,"disableAddNotes" : true
             },
-            "Testing and counselling service": {
+            "HIV testing and counselling service": {
+                "autocomplete":true,
                 "codedConceptName" : "RequestServiceCompletedCancelled"
+                ,"disableAddNotes" : true
             },
             "Chief Complaint Data": {
                 "autocomplete":true,
@@ -139,14 +147,14 @@
                 "multiSelect": true
             },
             "defaults": {
-                "Number of living children": 1,
-                "Accepted Family Planning methods": [
-                    "Condoms",
-                    "Pills"
+                "Numeric concept": 1,
+                "Multiselect concept": [
+                    "option1",
+                    "option2"
                 ],
-                "Pain management given": true,
-                "Safe Abortion, Remarks": "Remarks",
-                "Malaria, Death Date": "2015-12-01"
+                "Boolean concept": true,
+                "Text concept": "Remarks",
+                "Date concept": "2015-12-01"
             }
         },
         "visitPage": {
