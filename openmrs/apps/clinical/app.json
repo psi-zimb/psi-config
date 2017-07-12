@@ -115,8 +115,7 @@
                 ,"disableAddNotes" : true
             },
             "HIV testing and counselling service": {
-                "autocomplete":true
-                ,"codedConceptName" : "RequestServiceCompleted"
+                "codedConceptName" : "RequestServiceCompleted"
                 ,"disableAddNotes" : true
             },
 
