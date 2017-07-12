@@ -88,6 +88,9 @@
             "Was referred to:  (Multiple responses possible)": {
                 "multiSelect" : true
             },
+            "Request service": {
+                "codedConceptName" : "RequestServiceCompletedCancelled"
+            },
             "Chief Complaint Data": {
                 "autocomplete":true,
                 "codedConceptName":"Chief Complaint",
