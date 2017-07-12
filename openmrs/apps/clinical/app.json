@@ -94,11 +94,32 @@
                 "multiSelect" : true
                 ,"disableAddNotes" : true
             },
-            "HIV testing and counselling service": {
-                "autocomplete":true,
-                "codedConceptName" : "RequestServiceCompletedCancelled"
+            "ART initiation service": {
+                "autocomplete":true
                 ,"disableAddNotes" : true
             },
+            "PrEP initiation service": {
+                "autocomplete":true
+                ,"disableAddNotes" : true
+            },
+            "Family planning service": {
+                "autocomplete":true
+                ,"disableAddNotes" : true
+            },
+            "VIAC service": {
+                "autocomplete":true
+                ,"disableAddNotes" : true
+            },
+            "VMMC service": {
+                "autocomplete":true
+                ,"disableAddNotes" : true
+            },
+            "HIV testing and counselling service": {
+                "autocomplete":true
+                ,"codedConceptName" : "RequestServiceCompleted"
+                ,"disableAddNotes" : true
+            },
+
             "Chief Complaint Data": {
                 "autocomplete":true,
                 "codedConceptName":"Chief Complaint",
