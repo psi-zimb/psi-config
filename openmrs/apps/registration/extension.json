@@ -37,7 +37,7 @@
         "type": "config",
         "extensionParams": {
             "conceptName": "Request services",
-            "translationKey": "REGISTRATION_VISIT_KEY",
+            "translationKey": "REGISTRATION_REQUEST_SERVICES_KEY",
             "conceptNames": ["HIV testing and counselling service",
                 "ART initiation service",
                 "ART routine follow-up service",
