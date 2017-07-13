@@ -167,6 +167,8 @@
                 "multiSelect": true
             },
             "defaults": {
+                "HIV testing and counselling service": "Requested",
+
                 "Numeric concept": 1,
                 "Multiselect concept": [
                     "option1",
