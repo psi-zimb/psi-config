@@ -68,6 +68,10 @@
                 }
             ],
             "conceptSetUI": {
+                "HIV testing and counselling service": {
+                    "codedConceptName" : "RequestServiceCompleted"
+                    ,"disableAddNotes" : true
+                },
                 "REGISTRATION FEES": {
                     "required": true,
                     "label": "Fee"
