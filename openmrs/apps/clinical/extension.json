@@ -55,6 +55,51 @@
     "requiredPrivilege": "app:radiologyOrders"
   },
 
+
+
+  "bahmniClinicalPatientsSearchInitialARTQueue_screening": {
+    "id": "bahmni.clinical.patients.search.InitialARTQueue_screening",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.InitialARTQueue_screening",
+      "translationKey": "ART screening",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard/concept-set-group/observations"
+    },
+    "label": "Screening",
+    "order": 1,
+    "requiredPrivilege": "app:clinical"
+  },
+  "bahmniClinicalPatientsSearchInitialARTQueue_labs": {
+    "id": "bahmni.clinical.patients.search.InitialARTQueue_labs",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.InitialARTQueue_labs",
+      "translationKey": "Wait for labs",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard/orders"
+    },
+    "label": "Wait labs",
+    "order": 2,
+    "requiredPrivilege": "app:clinical"
+  },
+  "bahmniClinicalPatientsSearchInitialARTQueue_consultation": {
+    "id": "bahmni.clinical.patients.search.InitialARTQueue_consultation",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.InitialARTQueue_consultation",
+      "translationKey": "Initial ART",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard/"
+    },
+    "label": "Wait labs",
+    "order": 2,
+    "requiredPrivilege": "app:clinical"
+  },
+
+
+
+
   "bahmniClinicalPatientsSearchAllActivePatients": {
     "id": "bahmni.clinical.patients.search.allActivePatients",
     "extensionPointId": "org.bahmni.patient.search",
@@ -68,6 +113,18 @@
     "order": 4,
     "requiredPrivilege": "app:clinical"
   },
+
+
+
+
+
+
+
+
+
+
+
+
 
   "bahmniClinicalConceptSetGroupObservationsHistory": {
     "id": "bahmni.clinical.conceptSetGroup.observations.history",
