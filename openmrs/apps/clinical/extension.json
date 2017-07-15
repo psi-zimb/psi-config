@@ -54,17 +54,6 @@
     "order": 5,
     "requiredPrivilege": "app:radiologyOrders"
   },
-  "bahmniClinicalConsultationOrders": {
-    "id": "bahmni.clinical.consultation.orders",
-    "extensionPointId": "org.bahmni.clinical.consultation.board",
-    "type": "link",
-    "label": "Orders",
-    "translationKey":"ORDERS_BOARD_LABEL_KEY",
-    "url": "orders",
-    "icon": "icon-user-md",
-    "order": 6,
-    "requiredPrivilege": "app:clinical"
-  },
 
 
 
@@ -224,7 +213,7 @@
     "url": "orders",
     "icon": "icon-user-md",
     "order": 6,
-    "requiredPrivilege": "app:clinical:ordersTab"
+    "requiredPrivilege": "app:clinical"
   },
   "bahmniClinicalConsultationBacteriology": {
     "id": "bahmni.clinical.consultation.bacteriology",
