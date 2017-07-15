@@ -42,7 +42,7 @@
     "type": "config",
     "extensionParams": {
       "searchHandler": "emrapi.sqlSearch.testingQueue_selfTest",
-      "translationKey": "SelfTest",
+      "translationKey": "Self test",
       "forwardUrl": "#/hivtesting/patient/{{patientUuid}}/dashboard/concept-set-group/observations"
     },
     "label": "Self test",
@@ -92,6 +92,17 @@
 
 
 
+  "HIVSelfTest": {
+    "id": "bahmni.clinical.conceptSetGroup.observations.HIVSelfTest",
+    "extensionPointId": "org.bahmni.clinical.conceptSetGroup.observations",
+    "type": "config",
+    "extensionParams": {
+      "default": true,
+      "conceptName": "HIV self-testing"
+    },
+    "order": 3,
+    "requiredPrivilege": "app:clinical"
+  },
   "PreHIVtestcounselling": {
     "id": "bahmni.clinical.conceptSetGroup.observations.PreHIVtestcounselling",
     "extensionPointId": "org.bahmni.clinical.conceptSetGroup.observations",
@@ -100,18 +111,18 @@
       "conceptName": "Pre HIV test counselling",
       "default": true
     },
-    "order": 1,
+    "order": 2,
     "requiredPrivilege": "app:clinical:history"
   },
-  "HIVrapidTestResults": {
-    "id": "bahmni.clinical.conceptSetGroup.observations.'HIV rapid test results'",
+  "HIVLabTestResults": {
+    "id": "bahmni.clinical.conceptSetGroup.observations.HIVLabTestResults",
     "extensionPointId": "org.bahmni.clinical.conceptSetGroup.observations",
     "type": "config",
     "extensionParams": {
       "default": true,
       "conceptName": "HIV rapid test results"
     },
-    "order": 2,
+    "order": 3,
     "requiredPrivilege": "app:clinical"
   },
   "PostHIVtestcounselling": {
@@ -122,7 +133,7 @@
       "conceptName": "Post HIV test counselling",
       "default": true
     },
-    "order": 3,
+    "order": 4,
     "requiredPrivilege": "app:clinical:history"
   }
 
