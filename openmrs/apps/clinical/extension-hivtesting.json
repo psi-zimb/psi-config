@@ -124,6 +124,6 @@
     },
     "order": 3,
     "requiredPrivilege": "app:clinical:history"
-  },
+  }
 
 }
