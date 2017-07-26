@@ -46,6 +46,7 @@
       "forwardUrl": "#/hivtesting/patient/{{patientUuid}}/dashboard/concept-set-group/observations"
     },
     "label": "Self test",
+    "view": "tile"
     "order": 1,
     "requiredPrivilege": "app:hivtesting"
   },
