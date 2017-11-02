@@ -396,7 +396,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         return conditions;
         },
 
-    "STI Symptoms, Patient’s gender": function (formName, formFieldValues) {
+    "STI Symptoms, Patients gender": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['STI Symptoms, Patient’s gender'];
         if (conditionConcept == "Male") {
