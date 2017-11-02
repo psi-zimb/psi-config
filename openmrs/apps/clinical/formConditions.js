@@ -398,7 +398,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
 
     "STI Symptoms, Patients gender": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
-        var conditionConcept = formFieldValues['STI Symptoms, Patient’s gender'];
+        var conditionConcept = formFieldValues['STI Symptoms, Patients gender'];
         if (conditionConcept == "Male") {
             conditions.enable.push("STI Symptoms, Male, Have you observed a discharge from the penis?","STI Symptoms, Male, Have you noticed non painful or painful ulcers on or around the penis?","STI Symptoms, Male, Have you had rash with any of the symptoms?", "STI Symptoms, Male, Have you noticed warts on the genital area?", "STI Symptoms, Male, Have you had swelling of your penis or foreskin?", "STI Symptoms, Male, Have you been treated for any of the following?")
             conditions.disable.push("STI Symptoms, Female Details")
@@ -607,13 +607,13 @@ Bahmni.ConceptSet.FormConditions.rules = {
         }
         return conditions;
         },
-    "BJE, Are you currently on NRTI’s": function (formName, formFieldValues) {
+    "BJE, Are you currently on NRTIs": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
-        var conditionConcept = formFieldValues['BJE, Are you currently on NRTI’s'];
+        var conditionConcept = formFieldValues['BJE, Are you currently on NRTIs'];
         if (conditionConcept == "Yes") {
-            conditions.enable.push("BJE, If yes on currently on NRTI’s, indicate drugs")
+            conditions.enable.push("BJE, If yes on currently on NRTIs, indicate drugs")
         } else {
-            conditions.disable.push("BJE, If yes on currently on NRTI’s, indicate drugs")
+            conditions.disable.push("BJE, If yes on currently on NRTIs, indicate drugs")
         }
         return conditions;
         },
@@ -748,15 +748,15 @@ Bahmni.ConceptSet.FormConditions.rules = {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['GU Tract, Child, Did the child cry during urination?'];
         if (conditionConcept == "Yes") {
-            conditions.enable.push("GU Tract, Child, Have you observed blood in the child’s urine?", "GU Tract, Child, Blood in urine severity", "GU Tract, Child, Duration of blood in urine")
+            conditions.enable.push("GU Tract, Child, Have you observed blood in the childs urine?", "GU Tract, Child, Blood in urine severity", "GU Tract, Child, Duration of blood in urine")
         } else {
-            conditions.disable.push("GU Tract, Child, Have you observed blood in the child’s urine?", "GU Tract, Child, Blood in urine severity", "GU Tract, Child, Duration of blood in urine")
+            conditions.disable.push("GU Tract, Child, Have you observed blood in the childs urine?", "GU Tract, Child, Blood in urine severity", "GU Tract, Child, Duration of blood in urine")
         }
         return conditions;
         },
-    "GU Tract, Child, Have you observed blood in the child’s urine?": function (formName, formFieldValues) {
+    "GU Tract, Child, Have you observed blood in the childs urine?": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
-        var conditionConcept = formFieldValues['GU Tract, Child, Have you observed blood in the child’s urine?'];
+        var conditionConcept = formFieldValues['GU Tract, Child, Have you observed blood in the childs urine?'];
         if (conditionConcept == "Yes") {
             conditions.enable.push("GU Tract, Child, Blood in urine severity", "GU Tract, Child, Duration of blood in urine")
         } else {
