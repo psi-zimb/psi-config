@@ -175,6 +175,1451 @@ Bahmni.ConceptSet.FormConditions.rules = {
         }
         return ruleActions;
 	    },
+        "HEENT, Are you hard on hearing?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['HEENT, Are you hard on hearing?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("HEENT, Hearing loss location","HEENT, Hearing loss Duration","HEENT, Additional comments about hearing loss")
+        } else {
+            conditions.disable.push("HEENT, Hearing loss location","HEENT, Hearing loss Duration","HEENT, Additional comments about hearing loss")
+        }
+        return conditions;
+        },
+
+    "HEENT, Do you have ear discharge?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['HEENT, Do you have ear discharge?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("HEENT, Ear discharge location","HEENT, Duration of ear discharge")
+        } else {
+            conditions.disable.push("HEENT, Ear discharge location","HEENT, Duration of ear discharge")
+        }
+        return conditions;
+        },
+
+    "HEENT, Do you have ear pain?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['HEENT, Do you have ear pain?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("HEENT, Ear pain location","HEENT, Ear pain duration", "HEENT, Is pain associated with discharge")
+        } else {
+            conditions.disable.push("HEENT, Ear pain location","HEENT, Ear pain duration", "HEENT, Is pain associated with discharge")
+        }
+        return conditions;
+        },
+
+    "HEENT, Are you suffering from headaches?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['HEENT, Are you suffering from headaches?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("HEENT, Headache location","HEENT, Onset of headache","HEENT, Headache Course","HEENT, Headache Severity","HEENT, Headache Frequency","HEENT, Headache association","HEENT, Duration of Headache","HEENT, Parotid enlargement")
+            var OtherSelected = formFieldValues['HEENT, Headache location'];
+            if (OtherSelected == "Other"){
+                conditions.enable.push("HEENT, If other headache location, specify")
+            } else {
+                conditions.disable.push("HEENT, If other headache location, specify")
+            }
+        } else {
+            conditions.disable.push("HEENT, Headache location","HEENT, Onset of headache","HEENT, Headache Course","HEENT, Headache Severity","HEENT, Headache Frequency","HEENT, Headache association","HEENT, Duration of Headache","HEENT, Parotid enlargement")
+        }
+        return conditions;
+        },
+    "HEENT, Headache location": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['HEENT, Headache location'];
+        if (conditionConcept == "Other") {
+            conditions.enable.push("HEENT, If other headache location, specify")
+        } else {
+            conditions.disable.push("HEENT, If other headache location, specify")
+        }
+        return conditions;
+        },
+
+    "HEENT, Do you have problems with your eyes?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['HEENT, Do you have problems with your eyes?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("HEENT, Have you experienced loss of vision", "HEENT, Are Sclerae / conjuctivae normal?","HEENT, Are eyelids normal?","HEENT, Coodinated bilateral eye movements?","HEENT, Pterygium present")
+            var YesSelected = formFieldValues['HEENT, Have you experienced loss of vision'];
+            var NoSelected = formFieldValues['HEENT, Are Sclerae / conjuctivae normal?'];
+            var NoEyeLidsSelected = formFieldValues['HEENT, Are eyelids normal?'];
+            var YesPteryiumSelected = formFieldValues['HEENT, Pterygium present'];
+            if (YesSelected == "Yes"){
+                conditions.enable.push("HEENT, If yes on loss of vision, specify")
+            } else {
+                conditions.disable.push("HEENT, If yes on loss of vision, specify")
+            }
+            if (NoSelected == "No"){
+                conditions.enable.push("HEENT, If no on conjunctive normal, specify where")
+            } else {
+                conditions.disable.push("HEENT, If no on conjunctive normal, specify where")
+            } 
+            if (NoEyeLidsSelected == "No"){
+                conditions.enable.push("HEENT, If no on normal eyelids, specify where")
+            } else {
+                conditions.disable.push("HEENT, If no on normal eyelids, specify where")
+            }
+            if (YesPteryiumSelected == "Yes"){
+                conditions.enable.push("HEENT, If yes on pterytium, which side")
+            } else {
+                conditions.disable.push("HEENT, If yes on pterytium, which side")
+            } 
+        } else {
+            conditions.disable.push("HEENT, Have you experienced loss of vision", "HEENT, Are Sclerae / conjuctivae normal?","HEENT, Are eyelids normal?","HEENT, Coodinated bilateral eye movements?","HEENT, Pterygium present")
+        }
+        return conditions;
+        },
+    "HEENT, Have you experienced loss of vision": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['HEENT, Have you experienced loss of vision'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("HEENT, If yes on loss of vision, specify")
+        } else {
+            conditions.disable.push("HEENT, If yes on loss of vision, specify")
+        }
+        return conditions;
+        },
+    "HEENT, Are Sclerae / conjuctivae normal?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['HEENT, Are Sclerae / conjuctivae normal?'];
+        if (conditionConcept == "No") {
+            conditions.enable.push("HEENT, If no on conjunctive normal, specify where")
+        } else {
+            conditions.disable.push("HEENT, If no on conjunctive normal, specify where")
+        }
+        return conditions;
+        },
+        "HEENT, Are eyelids normal?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['HEENT, Are eyelids normal?'];
+        if (conditionConcept == "No") {
+            conditions.enable.push("HEENT, If no on normal eyelids, specify where")
+        } else {
+            conditions.disable.push("HEENT, If no on normal eyelids, specify where")
+        }
+        return conditions;
+        },
+    "HEENT, Pterygium present": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['HEENT, Pterygium present'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("HEENT, If yes on pterytium, which side")
+        } else {
+            conditions.disable.push("HEENT, If yes on pterytium, which side")
+        }
+        return conditions;
+        },
+
+    "HEENT, Do you suffer from frequent nasal Discharge": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['HEENT, Do you suffer from frequent nasal Discharge'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("HEENT, Is the discharge associated with headaches?", "HEENT, Is the discharge associated with swelling of the face?", "HEENT, Is the discharge associated with facial pain?")
+        } else {
+            conditions.disable.push("HEENT, Is the discharge associated with headaches?", "HEENT, Is the discharge associated with swelling of the face?", "HEENT, Is the discharge associated with facial pain?")
+        }
+        return conditions;
+        },
+
+    "HEENT, Have you noticed any changes in or around the mouth and neck?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['HEENT, Have you noticed any changes in or around the mouth and neck?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("HEENT, Have you had sores or non healing ulcers in the mouth?", "HEENT, Have you had blisters or swelling on/around the lips?", "HEENT, Have you had non-healing cracks at the corner of your mouth?", "HEENT, Have you had oral thrush?", "HEENT, Have you had painful or bleeding gums?", "HEENT, Have you had painful teeth?", "HEENT, Have you had painful teeth?", "HEENT, Do you have any other oral conditions?", "HEENT, Do you have lumps?") 
+            var MNYesSelected = formFieldValues['HEENT, Have you had sores or non healing ulcers in the mouth?'];
+            var OralYesSelected = formFieldValues['HEENT, Have you had oral thrush?'];
+            var OralOtherSelected = formFieldValues['HEENT, Do you have any other oral conditions?'];
+            var LumpsYesSelected = formFieldValues['HEENT, Do you have lumps?'];
+            if (MNYesSelected == "Yes"){
+                conditions.enable.push("HEENT, If yes on sores, how often?")
+            } else {
+                conditions.disable.push("HEENT, If yes on sores, how often?")
+            }
+            if (OralYesSelected == "Yes"){
+                conditions.enable.push("HEENT, Is oral thrus associated with difficulty or pain when swallowing?")
+            } else {
+                conditions.disable.push("HEENT, Is oral thrus associated with difficulty or pain when swallowing?")
+            }
+            if (OralOtherSelected == "Yes"){
+                conditions.enable.push("HEENT, If yes on other oral condition, specify")
+            } else {
+                conditions.disable.push("HEENT, If yes on other oral condition, specify")
+            }
+            if (LumpsYesSelected == "Yes"){
+                conditions.enable.push("HEENT, Duration of Lumps", "HEENT, Location of the lumps")
+            } else {
+                conditions.disable.push("HEENT, Duration of Lumps", "HEENT, Location of the lumps")
+            }
+        } else {
+            conditions.disable.push("HEENT, Have you had sores or non healing ulcers in the mouth?", "HEENT, Have you had blisters or swelling on/around the lips?", "HEENT, Have you had non-healing cracks at the corner of your mouth?", "HEENT, Have you had oral thrush?", "HEENT, Have you had painful or bleeding gums?", "HEENT, Have you had painful teeth?", "HEENT, Have you had painful teeth?", "HEENT, Do you have any other oral conditions?", "HEENT, Do you have lumps?")
+        }
+        return conditions;
+        },
+    "HEENT, Have you had sores or non healing ulcers in the mouth?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['HEENT, Have you had sores or non healing ulcers in the mouth?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("HEENT, If yes on sores, how often?")
+        } else {
+            conditions.disable.push("HEENT, If yes on sores, how often?")
+        }
+        return conditions;
+        },
+    "HEENT, Have you had oral thrush?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['HEENT, Have you had oral thrush?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("HEENT, Is oral thrus associated with difficulty or pain when swallowing?")
+        } else {
+            conditions.disable.push("HEENT, Is oral thrus associated with difficulty or pain when swallowing?")
+        }
+        return conditions;
+        },
+    "HEENT, Do you have any other oral conditions?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['HEENT, Do you have any other oral conditions?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("HEENT, If yes on other oral condition, specify")
+        } else {
+            conditions.disable.push("HEENT, If yes on other oral condition, specify")
+        }
+        return conditions;
+        },
+    "HEENT, Do you have lumps?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['HEENT, Do you have lumps?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("HEENT, Duration of Lumps", "HEENT, Location of the lumps")
+        } else {
+            conditions.disable.push("HEENT, Duration of Lumps", "HEENT, Location of the lumps")
+        }
+        return conditions;
+        },
+
+    "STI Symptoms, Patient’s gender": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['STI Symptoms, Patient’s gender'];
+        if (conditionConcept == "Male") {
+            conditions.enable.push("STI Symptoms, Male, Have you observed a discharge from the penis?","STI Symptoms, Male, Have you noticed non painful or painful ulcers on or around the penis?","STI Symptoms, Male, Have you had rash with any of the symptoms?", "STI Symptoms, Male, Have you noticed warts on the genital area?", "STI Symptoms, Male, Have you had swelling of your penis or foreskin?", "STI Symptoms, Male, Have you been treated for any of the following?")
+            conditions.disable.push("STI Symptoms, Female Details")
+            var PenisDischarge = formFieldValues['STI Symptoms, Male, Have you observed a discharge from the penis?'];
+            var PenisUlcers = formFieldValues['STI Symptoms, Male, Have you noticed non painful or painful ulcers on or around the penis?'];
+            var RashSymptoms = formFieldValues['STI Symptoms, Male, Have you had rash with any of the symptoms?'];
+            if (PenisDischarge == "Yes") {
+                conditions.enable.push("STI Symptoms, Male, If yes on penis discharge, specify type");
+            } else {
+                conditions.disable.push("STI Symptoms, Male, If yes on penis discharge, specify type");
+            }
+            if (PenisUlcers == "Yes") {
+                conditions.enable.push("STI Symptoms, Male, Duration of the penis ulcer");
+            } else {
+                conditions.disable.push("STI Symptoms, Male, Duration of the penis ulcer");
+            }
+            if (RashSymptoms == "Yes") {
+                conditions.enable.push("STI Symptoms, Male, If yes on rash, location of rash");
+            } else {
+                conditions.disable.push("STI Symptoms, Male, If yes on rash, location of rash");
+            }
+
+        } 
+        else if (conditionConcept == "Female") {
+            conditions.enable.push("STI Symptoms, Female, Have you observed a vaginal discharge?","STI Symptoms, Female, Have you noticed non painful of painful ulcers on or around the labia?","STI Symptoms, Female, Have you had rash with any of the symptoms?", "STI Symptoms, Female, Have you noticed warts on the genital area?", "STI Symptoms, Female, Have you had swelling of the labia?", "STI Symptoms, Female, Have you been treated for any of the following?")
+            conditions.disable.push("STI Symptoms, Male Details")
+            var VagDischarge = formFieldValues['STI Symptoms, Female, Have you observed a vaginal discharge?'];
+            var LabiaUlcer = formFieldValues['STI Symptoms, Female, Have you noticed non painful of painful ulcers on or around the labia?'];
+            var RashSymptoms = formFieldValues['STI Symptoms, Female, Have you had rash with any of the symptoms?'];
+            if (VagDischarge == "Yes") {
+                conditions.enable.push("STI Symptoms, Female, If yes on vaginal discharge, specify type")
+            } else {
+                conditions.disable.push("STI Symptoms, Female, If yes on vaginal discharge, specify type")
+            }
+            if (VagDischarge == "Yes") {
+                conditions.enable.push("STI Symptoms, Female, Duration of the labia ulcer")
+            } else {
+                conditions.disable.push("STI Symptoms, Female, Duration of the labia ulcer")
+            }
+            if (VagDischarge == "Yes") {
+                conditions.enable.push("STI Symptoms, Female, If yes on rash, location of rash")
+            } else {
+                conditions.disable.push("STI Symptoms, Female, If yes on rash, location of rash")
+            }
+        }
+        else {
+            conditions.disable.push("STI Symptoms, Female Details", "STI Symptoms, Male Details")
+        }
+        return conditions;
+        },
+
+    "STI Symptoms, Male, Have you observed a discharge from the penis?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['STI Symptoms, Male, Have you observed a discharge from the penis?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("STI Symptoms, Male, If yes on penis discharge, specify type")
+        } else {
+            conditions.disable.push("STI Symptoms, Male, If yes on penis discharge, specify type")
+        }
+        return conditions;
+        },
+
+    "STI Symptoms, Male, Have you noticed non painful or painful ulcers on or around the penis?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['STI Symptoms, Male, Have you noticed non painful or painful ulcers on or around the penis?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("STI Symptoms, Male, Duration of the penis ulcer")
+        } else {
+            conditions.disable.push("STI Symptoms, Male, Duration of the penis ulcer")
+        }
+        return conditions;
+        },
+    "STI Symptoms, Male, Have you had rash with any of the symptoms?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['STI Symptoms, Male, Have you had rash with any of the symptoms?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("STI Symptoms, Male, If yes on rash, location of rash")
+        } else {
+            conditions.disable.push("STI Symptoms, Male, If yes on rash, location of rash")
+        }
+        return conditions;
+        },
+
+    "STI Symptoms, Female, Have you observed a vaginal discharge?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['STI Symptoms, Female, Have you observed a vaginal discharge?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("STI Symptoms, Female, If yes on vaginal discharge, specify type")
+        var VaginalOther = formFieldValues['STI Symptoms, Female, Other type of vaginal discharge'];
+        if (VaginalOther == "Other"){
+                conditions.enable.push("STI Symptoms, Female, Other type of vaginal discharge")
+            } 
+        } else {
+            conditions.disable.push("STI Symptoms, Female, If yes on vaginal discharge, specify type")
+        }
+        return conditions;
+        }, 
+ 
+
+    "STI Symptoms, Female, If yes on vaginal discharge, specify type": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['STI Symptoms, Female, If yes on vaginal discharge, specify type'];
+        if (conditionConcept == "Other") {
+            conditions.enable.push("STI Symptoms, Female, Other type of vaginal discharge")
+        } else {
+            conditions.disable.push("STI Symptoms, Female, Other type of vaginal discharge")
+        }
+        return conditions;
+        },
+    "STI Symptoms, Female, Have you noticed non painful of painful ulcers on or around the labia?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['STI Symptoms, Female, Have you noticed non painful of painful ulcers on or around the labia?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("STI Symptoms, Female, Duration of the labia ulcer")
+        } else {
+            conditions.disable.push("STI Symptoms, Female, Duration of the labia ulcer")
+        }
+        return conditions;
+        },
+    "STI Symptoms, Female, Have you had rash with any of the symptoms?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['STI Symptoms, Female, Have you had rash with any of the symptoms?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("STI Symptoms, Female, If yes on rash, location of rash")
+        } else {
+            conditions.disable.push("STI Symptoms, Female, If yes on rash, location of rash")
+        }
+        return conditions;
+        },
+
+    "BJE, Have you experienced joint pain?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['BJE, Have you experienced joint pain?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("BJE, Location of joint pain", "BJE, Joint pain duration", "BJE, Is the pain associated with swelling of the joint?")
+        } else {
+            conditions.disable.push("BJE, Location of joint pain", "BJE, Joint pain duration", "BJE, Is the pain associated with swelling of the joint?")
+        }
+        return conditions;
+        },
+
+    "BJE, Have you experienced joint swelling?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['BJE, Have you experienced joint swelling?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("BJE, Location of joint swelling", "BJE, Joint swelling duration", "BJE, Is the joint swelling associated with pain?")
+        } else {
+            conditions.disable.push("BJE, Location of joint swelling", "BJE, Joint swelling duration", "BJE, Is the joint swelling associated with pain?")
+        }
+        return conditions;
+        },
+    "BJE, Abnormal joint mobility": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['BJE, Abnormal joint mobility'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("BJE, If yes on abnormal joint mobility, illustrate")
+        } else {
+            conditions.disable.push("BJE, If yes on abnormal joint mobility, illustrate")
+        }
+        return conditions;
+        },
+    "BJE, Have you experienced chronic back pain?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['BJE, Have you experienced chronic back pain?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("BJE, Does the back pain occur with specific movements?", "BJE, Does the back pain occur at night?", "BJE, Duration of back pain", "BJE, Location of back pain")
+            var SpecMov = formFieldValues['BJE, Does the back pain occur with specific movements?'];
+            if (SpecMov == "Yes"){
+                conditions.enable.push("BJE, If yes, indicate the particular movements")
+            } else {
+                conditions.disable.push("BJE, If yes, indicate the particular movements")
+            }
+        } else {
+            conditions.disable.push("BJE, Does the back pain occur with specific movements?", "BJE, Does the back pain occur at night?", "BJE, Duration of back pain", "BJE, Location of back pain")
+        }
+        return conditions;
+        },
+    "BJE, Does the back pain occur with specific movements?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['BJE, Does the back pain occur with specific movements?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("BJE, If yes, indicate the particular movements")
+        } else {
+            conditions.disable.push("BJE, If yes, indicate the particular movements")
+        }
+        return conditions;
+        },
+    "BJE, Have you experienced muscle aches?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['BJE, Have you experienced muscle aches?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("BJE, Duration of muscle aches?", "BJE, Location of muscle aches")
+        }
+          else {
+            conditions.disable.push("BJE, Duration of muscle aches?", "BJE, Location of muscle aches")
+        }
+        return conditions;
+        },
+    "BJE, Do you have any muscular atrophy?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['BJE, Do you have any muscular atrophy?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("BJE, If yes on muscular atrophy, illustrate")
+        } else {
+            conditions.disable.push("BJE, If yes on muscular atrophy, illustrate")
+        }
+        return conditions;
+        },
+    "BJE, Are you currently on NRTI’s": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['BJE, Are you currently on NRTI’s'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("BJE, If yes on currently on NRTI’s, indicate drugs")
+        } else {
+            conditions.disable.push("BJE, If yes on currently on NRTI’s, indicate drugs")
+        }
+        return conditions;
+        },
+    "BJE, Clubbing of fingers": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['BJE, Clubbing of fingers'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("BJE, If yes on clubbing of fingers, specify additional information")
+        } else {
+            conditions.disable.push("BJE, If yes on clubbing of fingers, specify additional information")
+        }
+        return conditions;
+        },
+
+    "GU Tract, Male, Are you experiencing any problems when voiding?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['GU Tract, Male, Are you experiencing any problems when voiding?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("GU Tract, Male, Do you experience hesitancy before voiding?", "GU Tract, Male, Do you experience a burning sensation during micturation?", "GU Tract, Male, Do you have a sense of incomplete voiding?", "GU Tract, Male, Do you need to go more frequently?", "GU Tract, Male, Do you have to get up night?", "GU Tract, Male, Do you feel an urgency for urination?", "GU Tract, Male, Have you observed blood in your urine?", "GU Tract, Male, Have you experienced unintentional loss of urine?", "GU Tract, Male, Have you experienced loss of sexual interest?", "GU Tract, Male, Do you have erectile dysfunction?") 
+            var BurnMic = formFieldValues['GU Tract, Male, Do you experience a burning sensation during micturation?'];
+            if (BurnMic == "Yes"){
+                conditions.enable.push("GU Tract, Male, Burning sensation details")
+            } else {
+                conditions.disable.push("GU Tract, Male, Burning sensation details")
+            }
+        }
+          else {
+            conditions.disable.push("GU Tract, Male, Do you experience hesitancy before voiding?", "GU Tract, Male, Do you experience a burning sensation during micturation?", "GU Tract, Male, Do you have a sense of incomplete voiding?", "GU Tract, Male, Do you need to go more frequently?", "GU Tract, Male, Do you have to get up night?", "GU Tract, Male, Do you feel an urgency for urination?", "GU Tract, Male, Have you observed blood in your urine?", "GU Tract, Male, Have you experienced unintentional loss of urine?", "GU Tract, Male, Have you experienced loss of sexual interest?", "GU Tract, Male, Do you have erectile dysfunction?")
+        }
+        return conditions;
+        },
+    "GU Tract, Male, Do you experience a burning sensation during micturation?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['GU Tract, Male, Do you experience a burning sensation during micturation?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("GU Tract, Male, Burning sensation details",  "GU Tract, Male, Burning sensation duration")
+            
+        } else {
+            conditions.disable.push("GU Tract, Male, Burning sensation details", "GU Tract, Male, If burning sensation associated with flank pain, which side", "GU Tract, Male, Burning sensation duration")
+        }
+        return conditions;
+        },
+    "GU Tract, Male, Burning sensation details": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['GU Tract, Male, Burning sensation details'];
+        if (conditionConcept == "Associated with flank pain") {
+            conditions.enable.push("GU Tract, Male, If burning sensation associated with flank pain, which side")
+        } else {
+            conditions.disable.push("GU Tract, Male, If burning sensation associated with flank pain, which side")
+        }
+        return conditions;
+        },
+    "GU Tract, Male, Have you observed blood in your urine?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['GU Tract, Male, Have you observed blood in your urine?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("GU Tract, Male, Blood in urine severity", "GU Tract, Male, Duration of blood in urine")
+        } else {
+            conditions.disable.push("GU Tract, Male, Blood in urine severity", "GU Tract, Male, Duration of blood in urine")
+        }
+        return conditions;
+        },
+    "GU Tract, Male, Have you experienced unintentional loss of urine?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['GU Tract, Male, Have you experienced unintentional loss of urine?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("GU Tract, Male, If yes on unintentional loss of urine, specify when")
+        } else {
+            conditions.disable.push("GU Tract, Male, If yes on unintentional loss of urine, specify when")
+        }
+        return conditions;
+        }, 
+    "GU Tract, Female, Are you experiencing any problems when voiding?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['GU Tract, Female, Are you experiencing any problems when voiding?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("GU Tract, Female, Do you experience hesitancy before voiding?", "GU Tract, Female, Do you experience a burning sensation during micturation?", "GU Tract, Female, Do you have a sense of incomplete voiding?", "GU Tract, Female, Do you need to go more frequently?", "GU Tract, Female, Do you have to get up night?", "GU Tract, Female, Do you feel an urgency for urination?", "GU Tract, Female, Have you observed blood in your urine?", "GU Tract, Female, Have you experienced unintentional loss of urine?", "GU Tract, Female, Lower mid-abdominal (bladder area) tenderness?", "GU Tract, Female, Was it associated with a menstrual period?", "GU Tract, Female, Dyparenuia (painful sexual intercourse)", "GU Tract, Female, Have you experienced loss of sexual interest?") 
+            var BurnMic = formFieldValues['GU Tract, Female, Do you experience a burning sensation during micturation?'];
+            if (BurnMic == "Yes"){
+                conditions.enable.push("GU Tract, Female, Burning sensation details")
+            } else {
+                conditions.disable.push("GU Tract, Female, Burning sensation details")
+            }
+        }
+          else {
+            conditions.disable.push("GU Tract, Female, Do you experience hesitancy before voiding?", "GU Tract, Female, Do you experience a burning sensation during micturation?", "GU Tract, Female, Do you have a sense of incomplete voiding?", "GU Tract, Female, Do you need to go more frequently?", "GU Tract, Female, Do you have to get up night?", "GU Tract, Female, Do you feel an urgency for urination?", "GU Tract, Female, Have you observed blood in your urine?", "GU Tract, Female, Have you experienced unintentional loss of urine?", "GU Tract, Female, Lower mid-abdominal (bladder area) tenderness?", "GU Tract, Female, Was it associated with a menstrual period?", "GU Tract, Female, Dyparenuia (painful sexual intercourse)", "GU Tract, Female, Have you experienced loss of sexual interest?")
+        }
+        return conditions;
+        },
+    "GU Tract, Female, Do you experience a burning sensation during micturation?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['GU Tract, Female, Do you experience a burning sensation during micturation?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("GU Tract, Female, Burning sensation details",  "GU Tract, Female, Burning sensation duration")
+            
+        } else {
+            conditions.disable.push("GU Tract, Female, Burning sensation details", "GU Tract, Female, If burning sensation associated with flank pain, which side", "GU Tract, Female, Burning sensation duration")
+        }
+        return conditions;
+        },
+    "GU Tract, Female, Burning sensation details": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['GU Tract, Female, Burning sensation details'];
+        if (conditionConcept == "Associated with flank pain") {
+            conditions.enable.push("GU Tract, Female, If burning sensation associated with flank pain, which side")
+        } else {
+            conditions.disable.push("GU Tract, Female, If burning sensation associated with flank pain, which side")
+        }
+        return conditions;
+        },
+    "GU Tract, Female, Have you observed blood in your urine?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['GU Tract, Female, Have you observed blood in your urine?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("GU Tract, Female, Blood in urine severity", "GU Tract, Female, Duration of blood in urine")
+        } else {
+            conditions.disable.push("GU Tract, Female, Blood in urine severity", "GU Tract, Female, Duration of blood in urine")
+        }
+        return conditions;
+        },
+    "GU Tract, Female, Have you experienced unintentional loss of urine?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['GU Tract, Female, Have you experienced unintentional loss of urine?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("GU Tract, Female, If yes on unintentional loss of urine, specify when")
+        } else {
+            conditions.disable.push("GU Tract, Female, If yes on unintentional loss of urine, specify when")
+        }
+        return conditions;
+        },
+    "GU Tract, Child, Did the child cry during urination?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['GU Tract, Child, Did the child cry during urination?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("GU Tract, Child, Have you observed blood in the child’s urine?", "GU Tract, Child, Blood in urine severity", "GU Tract, Child, Duration of blood in urine")
+        } else {
+            conditions.disable.push("GU Tract, Child, Have you observed blood in the child’s urine?", "GU Tract, Child, Blood in urine severity", "GU Tract, Child, Duration of blood in urine")
+        }
+        return conditions;
+        },
+    "GU Tract, Child, Have you observed blood in the child’s urine?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['GU Tract, Child, Have you observed blood in the child’s urine?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("GU Tract, Child, Blood in urine severity", "GU Tract, Child, Duration of blood in urine")
+        } else {
+            conditions.disable.push("GU Tract, Child, Blood in urine severity", "GU Tract, Child, Duration of blood in urine")
+        }
+        return conditions;
+        },
+
+    "Substance Abuse, Do you drink alcoholic beverages?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['Substance Abuse, Do you drink alcoholic beverages?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("Substance Abuse, Alcohol consumption", "Substance Abuse, What type of alcohol do you drink?")
+        } else {
+            conditions.disable.push("Substance Abuse, Alcohol consumption", "Substance Abuse, What type of alcohol do you drink?")
+        }
+        return conditions;
+        },
+    "Substance Abuse, Do you use illicit drugs": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['Substance Abuse, Do you use illicit drugs'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("Substance Abuse, What types of illicit drugs do you use and how often?")
+        } else {
+            conditions.disable.push("Substance Abuse, What types of illicit drugs do you use and how often?")
+        }
+        return conditions;
+        },
+    "Substance Abuse, Are you or have you ever been a smoker?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['Substance Abuse, Are you or have you ever been a smoker?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("Substance Abuse, When did you start smoking? (year)", "Substance Abuse, How many cigarettes per day on average?", "Substance Abuse, Have you stopped smoking completely?")
+        } else {
+            conditions.disable.push("Substance Abuse, When did you start smoking? (year)", "Substance Abuse, How many cigarettes per day on average?", "Substance Abuse, Have you stopped smoking completely?")
+        }
+        return conditions;
+        },
+
+    'LH, Have you had a cough?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['LH, Have you had a cough?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("LH, Type of cough (answer needs selection of 1 item)","LH, Duration of the cough") 
+        } else { 
+            conditions.disable.push("LH, Type of cough (answer needs selection of 1 item)","LH, Duration of the cough") 
+        } 
+        return conditions; 
+         }, 
+     'LH, Have you experienced shortness of breath?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['LH, Have you experienced shortness of breath?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("LH, When does the shortness of breath occur?","LH, Duration of shortness of breath?") 
+        } else { 
+            conditions.disable.push("LH, When does the shortness of breath occur?","LH, Duration of shortness of breath?") 
+        } 
+        return conditions; 
+        }, 
+     'LH, Have you had a chest pain?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['LH, Have you had a chest pain?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("LH, Location of the chest pain","LH, Duration of chest pains?") 
+         var OtherSelected = formFieldValues['LH, Location of the chest pain']; 
+         if (OtherSelected == "Other"){ 
+          conditions.enable.push("LH, If other location of the chest pain, specify") 
+         } else { 
+          conditions.disable.push("LH, If other location of the chest pain, specify") 
+         } 
+        } else { 
+            conditions.disable.push("LH, Location of the chest pain","LH, Duration of chest pains?") 
+        } 
+        return conditions; 
+        }, 
+     'LH, Location of the chest pain': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['LH, Location of the chest pain']; 
+        if (conditionConcept == "Other") { 
+            conditions.enable.push("LH, If other location of the chest pain, specify") 
+        } else { 
+            conditions.disable.push("LH, If other location of the chest pain, specify") 
+        } 
+        return conditions; 
+        }, 
+     'LH, Have you had more than one episodes of Pneumonia?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['LH, Have you had more than one episodes of Pneumonia?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("LH, How many episodes of Pneumonia?") 
+        } else { 
+            conditions.disable.push("LH, How many episodes of Pneumonia?") 
+        } 
+        return conditions; 
+        }, 
+     'LH, Have you had Pneumocystis Carini Pneumonia?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['LH, Have you had Pneumocystis Carini Pneumonia?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("LH, Date of Pneumocystis Carini Pnemonia?") 
+        } else { 
+            conditions.disable.push("LH, Date of Pneumocystis Carini Pnemonia?") 
+        } 
+        return conditions; 
+        }, 
+     'LH, Have you had oedema?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['LH, Have you had oedema?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("LH, If yes on oedema, where?","LH, Oedeme other comments") 
+        } else { 
+            conditions.disable.push("LH, If yes on oedema, where?","LH, Oedeme other comments") 
+        } 
+        return conditions; 
+        }, 
+     'LH, Have you experienced wheezing?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['LH, Have you experienced wheezing?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("LH, If yes on wheezing, specify type","LH, Wheezing other comments") 
+        } else { 
+            conditions.disable.push("LH, If yes on wheezing, specify type","LH, Wheezing other comments") 
+        } 
+        return conditions; 
+        }, 
+     'LH, Do you have a high blood pressure': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['LH, Do you have a high blood pressure']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("LH, Are you on Hypertensive drugs?","LH, Is your blood pressure controlled?") 
+         var OnHypersensitiveDrugs = formFieldValues['LH, Are you on Hypertensive drugs?']; 
+         if (OnHypersensitiveDrugs == "Yes") { 
+          conditions.enable.push("LH, If yes on Hypertensive drugs, specify") 
+         } else { 
+          conditions.disable.push("LH, If yes on Hypertensive drugs, specify") 
+         } 
+        } else { 
+            conditions.disable.push("LH, Are you on Hypertensive drugs?","LH, Is your blood pressure controlled?") 
+        } 
+        return conditions; 
+        }, 
+     'LH, Are you on Hypertensive drugs?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['LH, Are you on Hypertensive drugs?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("LH, If yes on Hypertensive drugs, specify") 
+        } else { 
+            conditions.disable.push("LH, If yes on Hypertensive drugs, specify") 
+        } 
+        return conditions; 
+        },
+
+    'TB History, Are you currently being treated for TB?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['TB History, Are you currently being treated for TB?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("TB History, How was the current TB diagnosed?","TB History, Location of current TB") 
+         var OtherMethod = formFieldValues['TB History, How was the current TB diagnosed?']; 
+         var OtherLocation = formFieldValues['TB History, Location of current TB']; 
+         if (OtherMethod == "Other") { 
+          conditions.enable.push("TB History, If other for current TB diagnosed, specify") 
+         } else { 
+          conditions.disable.push("TB History, If other for current TB diagnosed, specify") 
+         } 
+         if (OtherLocation == "Other") { 
+                conditions.enable.push("TB History, If other for current TB location, specify") 
+            } else { 
+                conditions.disable.push("TB History, If other for current TB location, specify") 
+            } 
+        } else { 
+            conditions.disable.push("TB History, How was the current TB diagnosed?","TB History, Location of current TB") 
+        } 
+        return conditions; 
+        }, 
+     'TB History, How was the current TB diagnosed?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['TB History, How was the current TB diagnosed?']; 
+        if (conditionConcept == "Other") { 
+            conditions.enable.push("TB History, If other for current TB diagnosed, specify") 
+        } else { 
+            conditions.disable.push("TB History, If other for current TB diagnosed, specify") 
+        } 
+        return conditions; 
+        }, 
+     'TB History, Location of current TB': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['TB History, Location of current TB']; 
+        if (conditionConcept == "Other") { 
+            conditions.enable.push("TB History, If other for current TB location, specify") 
+        } else { 
+            conditions.disable.push("TB History, If other for current TB location, specify") 
+        } 
+        return conditions; 
+        }, 
+     'TB History, Have been treated for TB before?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['TB History, Have been treated for TB before?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("TB History, How was the previous TB diagnosed?","TB History, Location of previous TB","TB History, How many episodes of TB?","TB History, When were you treated for TB","TB History, Where were you last treated?","TB History, Was treatment interupted?") 
+            var OtherMethod = formFieldValues['TB History, How was the previous TB diagnosed?']; 
+            var OtherLocation = formFieldValues['TB History, Location of previous TB']; 
+            if (OtherMethod == "Other") { 
+                conditions.enable.push("TB History, If other for previous TB diagnosed, specify") 
+            } else { 
+                conditions.disable.push("TB History, If other for previous TB diagnosed, specify") 
+            } 
+            if (OtherLocation == "Other") { 
+                conditions.enable.push("TB History, If other for current TB location, specify") 
+            } else { 
+                conditions.disable.push("TB History, If other for current TB location, specify") 
+            } 
+        } else { 
+            conditions.disable.push("TB History, How was the previous TB diagnosed?","TB History, Location of previous TB","TB History, How many episodes of TB?","TB History, When were you treated for TB","TB History, Where were you last treated?","TB History, Was treatment interupted?") 
+        } 
+        return conditions; 
+        }, 
+        'TB History, How was the previous TB diagnosed?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['TB History, How was the previous TB diagnosed?']; 
+        if (conditionConcept == "Other") { 
+            conditions.enable.push("TB History, If other for previous TB diagnosed, specify") 
+        } else { 
+            conditions.disable.push("TB History, If other for previous TB diagnosed, specify") 
+        } 
+        return conditions; 
+        }, 
+        'TB History, Location of previous TB': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['TB History, Location of previous TB']; 
+        if (conditionConcept == "Other") { 
+            conditions.enable.push("TB History, If other for previous TB location, specify") 
+        } else { 
+            conditions.disable.push("TB History, If other for previous TB location, specify") 
+        } 
+        return conditions; 
+        }, 
+     'TB History, Has you mother or caregiver been treated for TB? (for children under 5)': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['TB History, Has you mother or caregiver been treated for TB? (for children under 5)']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("TB History, Did you received IPT?") 
+        } else { 
+            conditions.disable.push("TB History, Did you received IPT?") 
+        } 
+        return conditions; 
+        },
+
+    'Abuse, Have you experienced or are you experiencing any form of non-sexual abuse?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['Abuse, Have you experienced or are you experiencing any form of non-sexual abuse?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("Abuse, If yes on non-sexual abuse, specify type") 
+        } else { 
+            conditions.disable.push("Abuse, If yes on non-sexual abuse, specify type") 
+        } 
+        return conditions; 
+        },
+
+    'HIV Prevention, Are you sexually active?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['HIV Prevention, Are you sexually active?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("HIV Prevention, Age of sexual debut","HIV Prevention, Sexual partners","HIV Prevention, Do you use condoms every time you have sex?") 
+         var OtherPartners = formFieldValues['HIV Prevention, Sexual partners']; 
+         var CondomUse = formFieldValues['HIV Prevention, Do you use condoms every time you have sex?']; 
+         if (OtherPartners == "Other partners") { 
+          conditions.enable.push("HIV Prevention, If other partners, specify how many") 
+         } else { 
+          conditions.disable.push("HIV Prevention, If other partners, specify how many") 
+         } 
+         if (CondomUse == "Yes") { 
+          conditions.enable.push("HIV Prevention, Male condom use","HIV Prevention, Female condom use") 
+         } else { 
+          conditions.disable.push("HIV Prevention, Male condom use","HIV Prevention, Female condom use") 
+         } 
+        } else { 
+            conditions.disable.push("HIV Prevention, Age of sexual debut","HIV Prevention, Sexual partners","HIV Prevention, Do you use condoms every time you have sex?") 
+        } 
+        return conditions; 
+        }, 
+     'HIV Prevention, Sexual partners': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['HIV Prevention, Sexual partners']; 
+        if (conditionConcept == "Other partners") { 
+            conditions.enable.push("HIV Prevention, If other partners, specify how many") 
+        } else { 
+            conditions.disable.push("HIV Prevention, If other partners, specify how many") 
+        } 
+        return conditions; 
+        }, 
+     'HIV Prevention, Do you use condoms every time you have sex?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['HIV Prevention, Do you use condoms every time you have sex?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("HIV Prevention, Male condom use","HIV Prevention, Female condom use") 
+        } else { 
+            conditions.disable.push("HIV Prevention, Male condom use","HIV Prevention, Female condom use") 
+        } 
+        return conditions; 
+        },
+
+      'Skin, Do you have any skin problems?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['Skin, Do you have any skin problems?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("Skin, Have you had a skin rash recently?","Skin, Have you ever had Herpes zoster / shingles?","Skin, Is your skin inflammed?","Skin, Have you ever had any of the following?","Skin, Fungal infections?","Skin, Pruritis / Prurigo","Skin, Papular pruritic eruptions","Skin, Have you ever had Kaposi Sarcoma?","Skin, Have you observed a lump growing?") 
+         var SkinRashRecently = formFieldValues['Skin, Have you had a skin rash recently?']; 
+         var HerpesShingles = formFieldValues['Skin, Have you ever had Herpes zoster / shingles?']; 
+         var SkinInflammed = formFieldValues['Skin, Is your skin inflammed?']; 
+         var FungalInfections = formFieldValues['Skin, Fungal infections?']; 
+         var Pruritis = formFieldValues['Skin, Pruritis / Prurigo']; 
+         var KaposiSarcoma = formFieldValues['Skin, Have you ever had Kaposi Sarcoma?']; 
+         var LumpGrow = formFieldValues['Skin, Have you observed a lump growing?']; 
+         if (SkinRashRecently == "Yes") { 
+          conditions.enable.push("Skin, Did the skin rash start after taking new medications","Skin, Did you experience any itching with the rash?","Skin, Morphology of rash","Skin, Date rash started","Skin, Location of the skin rash") 
+         } else { 
+          conditions.disable.push("Skin, Did the skin rash start after taking new medications","Skin, Did you experience any itching with the rash?","Skin, Morphology of rash","Skin, Date rash started","Skin, Location of the skin rash") 
+         } 
+         if (HerpesShingles == "Yes") { 
+          conditions.enable.push("Skin, Herpes Zoster (scars)?","Skin, Shingles dates") 
+         } else { 
+          conditions.disable.push("Skin, Herpes Zoster (scars)?","Skin, Shingles dates") 
+         } 
+            if (SkinInflammed == "Yes") { 
+                conditions.enable.push("Skin, If yes on skin inflammed, specify type") 
+            } else { 
+                conditions.disable.push("Skin, If yes on skin inflammed, specify type") 
+            } 
+            if (FungalInfections == "Yes") { 
+                conditions.enable.push("Skin, If yes on fungal infections, where") 
+            } else { 
+                conditions.disable.push("Skin, If yes on fungal infections, where") 
+            } 
+            if (Pruritis == "Yes") { 
+                conditions.enable.push("Skin, If yes on Pruritis, specify type") 
+            } else { 
+                conditions.disable.push("Skin, If yes on Pruritis, specify type") 
+            } 
+            if (KaposiSarcoma == "Yes") { 
+                conditions.enable.push("Skin, Location of Kaposi Sarcoma","Skin, Kaposi Sarcoma Lesions present") 
+            } else { 
+                conditions.disable.push("Skin, Location of Kaposi Sarcoma","Skin, Kaposi Sarcoma Lesions present") 
+            } 
+            if (LumpGrow == "Yes") { 
+                conditions.enable.push("Skin, Location of lump","Skin, Duration of lump","Skin, Is the lump growing in size?") 
+            } else { 
+                conditions.disable.push("Skin, Location of lump","Skin, Duration of lump","Skin, Is the lump growing in size?") 
+            } 
+     } else { 
+            conditions.disable.push("Skin, Have you had a skin rash recently?","Skin, Have you ever had Herpes zoster / shingles?","Skin, Is your skin inflammed?","Skin, Have you ever had any of the following?","Skin, Fungal infections?","Skin, Pruritis / Prurigo","Skin, Papular pruritic eruptions","Skin, Have you ever had Kaposi Sarcoma?","Skin, Have you observed a lump growing?") 
+        } 
+        return conditions; 
+        },
+    'Skin, Have you had a skin rash recently?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['Skin, Have you had a skin rash recently?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("Skin, Did the skin rash start after taking new medications","Skin, Did you experience any itching with the rash?","Skin, Morphology of rash","Skin, Date rash started","Skin, Location of the skin rash") 
+         var AfterNewMeds = formFieldValues['Skin, Did the skin rash start after taking new medications']; 
+         var Itching = formFieldValues['Skin, Did you experience any itching with the rash?']; 
+         if (AfterNewMeds == "Yes") { 
+          conditions.enable.push("Skin, How long after taking the new medication?") 
+         } else { 
+          conditions.disable.push("Skin, How long after taking the new medication?") 
+         } 
+         if (Itching == "Yes") { 
+                conditions.enable.push("Skin, Severity of itchiness") 
+            } else { 
+                conditions.disable.push("Skin, Severity of itchiness") 
+            } 
+        } else { 
+            conditions.disable.push("Skin, Did the skin rash start after taking new medications","Skin, Did you experience any itching with the rash?","Skin, Morphology of rash","Skin, Date rash started","Skin, Location of the skin rash") 
+        } 
+        return conditions; 
+        }, 
+     'Skin, Did the skin rash start after taking new medications': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['Skin, Did the skin rash start after taking new medications']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("Skin, How long after taking the new medication?") 
+        } else { 
+            conditions.disable.push("Skin, How long after taking the new medication?") 
+        } 
+        return conditions; 
+        }, 
+     'Skin, Did you experience any itching with the rash?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['Skin, Did you experience any itching with the rash?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("Skin, Severity of itchiness") 
+        } else { 
+            conditions.disable.push("Skin, Severity of itchiness") 
+        } 
+        return conditions; 
+        }, 
+     'Skin, Have you ever had Herpes zoster / shingles?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['Skin, Have you ever had Herpes zoster / shingles?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("Skin, Herpes Zoster (scars)?","Skin, Shingles dates") 
+         var Scars = formFieldValues['Skin, Herpes Zoster (scars)?']; 
+         if (Scars == "Yes") { 
+          conditions.enable.push("Skin, Location of the Shingles") 
+         } else { 
+          conditions.disable.push("Skin, Location of the Shingles") 
+         } 
+        } else { 
+            conditions.disable.push("Skin, Herpes Zoster (scars)?","Skin, Shingles dates") 
+        } 
+        return conditions; 
+        }, 
+     'Skin, Herpes Zoster (scars)?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['Skin, Herpes Zoster (scars)?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("Skin, Location of the Shingles") 
+        } else { 
+            conditions.disable.push("Skin, Location of the Shingles") 
+        } 
+        return conditions; 
+        }, 
+     'Skin, Is your skin inflammed?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['Skin, Is your skin inflammed?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("Skin, If yes on skin inflammed, specify type") 
+         var InflameType = formFieldValues['Skin, If yes on skin inflammed, specify type']; 
+         if (InflameType == "Other") { 
+          conditions.enable.push("Skin, Specify other inflammation type") 
+         } else { 
+          conditions.disable.push("Skin, Specify other inflammation type") 
+         } 
+        } else { 
+            conditions.disable.push("Skin, If yes on skin inflammed, specify type") 
+        } 
+        return conditions; 
+        }, 
+     'Skin, If yes on skin inflammed, specify type': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['Skin, If yes on skin inflammed, specify type']; 
+        if (conditionConcept == "Other") { 
+            conditions.enable.push("Skin, Specify other inflammation type") 
+        } else { 
+            conditions.disable.push("Skin, Specify other inflammation type") 
+        } 
+        return conditions; 
+        }, 
+     'Skin, Fungal infections?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['Skin, Fungal infections?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("Skin, If yes on fungal infections, where") 
+        } else { 
+            conditions.disable.push("Skin, If yes on fungal infections, where") 
+        } 
+        return conditions; 
+        },
+    'Skin, Pruritis / Prurigo': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['Skin, Pruritis / Prurigo']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("Skin, If yes on Pruritis, specify type") 
+        } else { 
+            conditions.disable.push("Skin, If yes on Pruritis, specify type") 
+        } 
+        return conditions; 
+        }, 
+     'Skin, Have you ever had Kaposi Sarcoma?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['Skin, Have you ever had Kaposi Sarcoma?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("Skin, Location of Kaposi Sarcoma","Skin, Kaposi Sarcoma Lesions present") 
+        } else { 
+            conditions.disable.push("Skin, Location of Kaposi Sarcoma","Skin, Kaposi Sarcoma Lesions present") 
+        } 
+        return conditions; 
+        }, 
+     'Skin, Have you observed a lump growing?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['Skin, Have you observed a lump growing?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("Skin, Location of lump","Skin, Duration of lump","Skin, Is the lump growing in size?") 
+        } else { 
+            conditions.disable.push("Skin, Location of lump","Skin, Duration of lump","Skin, Is the lump growing in size?") 
+        } 
+        return conditions; 
+        },
+    'HIV Testing, Have you had a positive HIV test?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['HIV Testing, Have you had a positive HIV test?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("HIV Testing, When was the test done?","HIV Testing, Do you have a copy of the test result?","HIV Testing, Why was the test done?","HIV Testing, Do you have a partner?","HIV Testing, Have you ever had a Negative HIV test?","HIV Testing, Do you have any children?","HIV Testing, Is any of your other family members HIV Positive?") 
+         var WhyTestDone = formFieldValues['HIV Testing, Why was the test done?']; 
+         var Partner = formFieldValues['HIV Testing, Do you have a partner?']; 
+         var NegHIVTest = formFieldValues['HIV Testing, Have you ever had a Negative HIV test?']; 
+         var Children = formFieldValues['HIV Testing, Do you have any children?']; 
+         var FamilyMemHIVPos = formFieldValues['HIV Testing, Is any of your other family members HIV Positive?']; 
+         if (WhyTestDone == "Other") { 
+          conditions.enable.push("HIV Testing, If other reason for test, specify why") 
+         } else { 
+          conditions.disable.push("HIV Testing, If other reason for test, specify why") 
+         } 
+            if (Partner == "Yes") { 
+                conditions.enable.push("HIV Testing, Is your (sexual) partner aware of your HIV status?","HIV Testing, Has your partner been tested?","HIV Testing, Is your (sexual) partner aware of his/her HIV status?") 
+            } else { 
+                conditions.disable.push("HIV Testing, Is your (sexual) partner aware of your HIV status?","HIV Testing, Has your partner been tested?","HIV Testing, Is your (sexual) partner aware of his/her HIV status?") 
+            } 
+            if (NegHIVTest == "Yes") { 
+                conditions.enable.push("HIV Testing, When was the negative test done?") 
+            } else { 
+                conditions.disable.push("HIV Testing, When was the negative test done?") 
+            } 
+            if (Children == "Yes") { 
+                conditions.enable.push("HIV Testing, How many children do you have?","HIV Testing, Has any of your children tested?") 
+            } else { 
+                conditions.disable.push("HIV Testing, How many children do you have?","HIV Testing, Has any of your children tested?") 
+            } 
+            if (FamilyMemHIVPos == "Yes") { 
+                conditions.enable.push("HIV Testing, Are they receiving HIV care?") 
+            } else { 
+                conditions.disable.push("HIV Testing, Are they receiving HIV care?") 
+            } 
+        } else { 
+            conditions.disable.push("HIV Testing, When was the test done?","HIV Testing, Do you have a copy of the test result?","HIV Testing, Why was the test done?","HIV Testing, Do you have a partner?","HIV Testing, Have you ever had a Negative HIV test?","HIV Testing, Do you have any children?","HIV Testing, Is any of your other family members HIV Positive?") 
+        } 
+        return conditions; 
+        }, 
+     'HIV Testing, Why was the test done?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['HIV Testing, Why was the test done?']; 
+        if (conditionConcept == "Other") { 
+            conditions.enable.push("HIV Testing, If other reason for test, specify why") 
+        } else { 
+            conditions.disable.push("HIV Testing, If other reason for test, specify why") 
+        } 
+        return conditions; 
+        }, 
+     'HIV Testing, Do you have a partner?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['HIV Testing, Do you have a partner?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("HIV Testing, Is your (sexual) partner aware of your HIV status?","HIV Testing, Has your partner been tested?","HIV Testing, Is your (sexual) partner aware of his/her HIV status?") 
+         var PartnerAware = formFieldValues['HIV Testing, Is your (sexual) partner aware of his/her HIV status?']; 
+         if (PartnerAware == "Yes") { 
+          conditions.enable.push("HIV Testing, If yes, what is the partners HIV status") 
+         } else { 
+          conditions.disable.push("HIV Testing, If yes, what is the partners HIV status") 
+         } 
+        } else { 
+            conditions.disable.push("HIV Testing, Is your (sexual) partner aware of your HIV status?","HIV Testing, Has your partner been tested?","HIV Testing, Is your (sexual) partner aware of his/her HIV status?") 
+        } 
+        return conditions; 
+        }, 
+     'HIV Testing, Is your (sexual) partner aware of his/her HIV status?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['HIV Testing, Is your (sexual) partner aware of his/her HIV status?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("HIV Testing, If yes, what is the partners HIV status") 
+        } else { 
+            conditions.disable.push("HIV Testing, If yes, what is the partners HIV status") 
+        } 
+        return conditions; 
+        }, 
+     'HIV Testing, Have you ever had a Negative HIV test?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['HIV Testing, Have you ever had a Negative HIV test?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("HIV Testing, When was the negative test done?") 
+        } else { 
+            conditions.disable.push("HIV Testing, When was the negative test done?") 
+        } 
+        return conditions; 
+        },
+    'HIV Testing, Do you have any children?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['HIV Testing, Do you have any children?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("HIV Testing, How many children do you have?","HIV Testing, Has any of your children tested?") 
+         var ChildrenTested = formFieldValues['HIV Testing, Has any of your children tested?']; 
+         if (ChildrenTested == "Yes") { 
+          conditions.enable.push("HIV Testing, Number of Children HIV positive","HIV Testing, Number of children HIV negative","HIV Testing, Number of children not tested") 
+         } else { 
+          conditions.disable.push("HIV Testing, Number of Children HIV positive","HIV Testing, Number of children HIV negative","HIV Testing, Number of children not tested") 
+         } 
+        } else { 
+            conditions.disable.push("HIV Testing, How many children do you have?","HIV Testing, Has any of your children tested?") 
+        } 
+        return conditions; 
+        }, 
+     'HIV Testing, Has any of your children tested?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['HIV Testing, Has any of your children tested?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("HIV Testing, Number of Children HIV positive","HIV Testing, Number of children HIV negative","HIV Testing, Number of children not tested") 
+        } else { 
+            conditions.disable.push("HIV Testing, Number of Children HIV positive","HIV Testing, Number of children HIV negative","HIV Testing, Number of children not tested") 
+        } 
+        return conditions; 
+        }, 
+     'HIV Testing, Is any of your other family members HIV Positive?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['HIV Testing, Is any of your other family members HIV Positive?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("HIV Testing, Are they receiving HIV care?") 
+        } else { 
+            conditions.disable.push("HIV Testing, Are they receiving HIV care?") 
+        } 
+        return conditions; 
+        },
+
+    'GI Tract, Do you have difficulty swallowing?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['GI Tract, Do you have difficulty swallowing?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("GI Tract, Is swallowing painful","GI Tract, Swallowing difficulty details","GI Tract, Swallowing difficulty duration") 
+        } else { 
+            conditions.disable.push("GI Tract, Is swallowing painful","GI Tract, Swallowing difficulty details","GI Tract, Swallowing difficulty duration") 
+        } 
+        return conditions; 
+        }, 
+     'GI Tract, Do you have frequent nausea?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['GI Tract, Do you have frequent nausea?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("GI Tract, Nausea severity") 
+        } else { 
+            conditions.disable.push("GI Tract, Nausea severity") 
+        } 
+        return conditions; 
+        }, 
+     'GI Tract, Do you vomit frequently?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['GI Tract, Do you vomit frequently?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("GI Tract, When do you vomit?","GI Tract, Vomit content") 
+         var VomitOther = formFieldValues['GI Tract, When do you vomit?']; 
+         if (VomitOther == "Other") { 
+          conditions.enable.push("GI Tract, If other on vomit, specify") 
+         } else { 
+          conditions.disable.push("GI Tract, If other on vomit, specify") 
+         } 
+        } else { 
+            conditions.disable.push("GI Tract, When do you vomit?","GI Tract, Vomit content") 
+        } 
+        return conditions; 
+        }, 
+     'GI Tract, When do you vomit?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['GI Tract, When do you vomit?']; 
+        if (conditionConcept == "Other") { 
+            conditions.enable.push("GI Tract, If other on vomit, specify") 
+        } else { 
+            conditions.disable.push("GI Tract, If other on vomit, specify") 
+        } 
+        return conditions; 
+        }, 
+     'GI Tract, Do you suffer from heartburn?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['GI Tract, Do you suffer from heartburn?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("GI Tract, When does the heartburn occur?") 
+        } else { 
+            conditions.disable.push("GI Tract, When does the heartburn occur?") 
+        } 
+        return conditions; 
+        }, 
+     'GI Tract, Do you have frequent diarrhea?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['GI Tract, Do you have frequent diarrhea?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("GI Tract, Diarrhea Details","GI Tract, Diarrhea duration") 
+        } else { 
+            conditions.disable.push("GI Tract, Diarrhea Details","GI Tract, Diarrhea duration") 
+        } 
+        return conditions; 
+        }, 
+     'GI Tract, Do you have frequent abdominal pain?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['GI Tract, Do you have frequent abdominal pain?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("GI Tract, Abdominal pain location","GI Tract, Abdominal pain type","GI Tract, Abdominal pain duration","GI Tract, Does the abdominal pain occur during fasting?") 
+        } else { 
+            conditions.disable.push("GI Tract, Abdominal pain location","GI Tract, Abdominal pain type","GI Tract, Abdominal pain duration","GI Tract, Does the abdominal pain occur during fasting?") 
+        } 
+        return conditions; 
+        }, 
+     'GI Tract, Are you frequently constipated?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['GI Tract, Are you frequently constipated?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("GI Tract, Duration of constipation?") 
+        } else { 
+            conditions.disable.push("GI Tract, Duration of constipation?") 
+        } 
+        return conditions; 
+        }, 
+     'GI Tract, Have you experienced abdominal swelling?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['GI Tract, Have you experienced abdominal swelling?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("GI Tract, Duration of abdominal swelling") 
+        } else { 
+            conditions.disable.push("GI Tract, Duration of abdominal swelling") 
+        } 
+        return conditions; 
+        },
+
+    'Contact Tracing, Has your partner been tested?': function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['Contact Tracing, Has your partner been tested?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("Contact Tracing, If Yes, what was the result") 
+         conditions.disable.push("Contact Tracing, If Not tested, why have they not been tested?") 
+         var Result = formFieldValues['Contact Tracing, If Yes, what was the result']; 
+         if (Result == "Positive") { 
+          conditions.enable.push("Contact Tracing, If Positive, are they on ART or No") 
+          conditions.disable.push("Contact Tracing, If Negative, when was the last test done") 
+         } else if (Result == "Negative") { 
+          conditions.enable.push("Contact Tracing, If Negative, when was the last test done") 
+          conditions.disable.push("Contact Tracing, If Positive, are they on ART or No") 
+         } else { 
+          conditions.disable.push("Contact Tracing, If Positive, are they on ART or No","Contact Tracing, If Negative, when was the last test done") 
+         } 
+        } else if (conditionConcept == "No") { 
+         conditions.enable.push("Contact Tracing, If Not tested, why have they not been tested?") 
+            conditions.disable.push("Contact Tracing, If Yes, what was the result") 
+         var WhyNotTested = formFieldValues['Contact Tracing, If Not tested, why have they not been tested?']; 
+         if (WhyNotTested == "Too Busy") { 
+          conditions.enable.push("Contact Tracing, If they are too busy, would you be comfortable in us visiting your home to provide the HIV testing?") 
+         } else { 
+          conditions.disable.push("Contact Tracing, If they are too busy, would you be comfortable in us visiting your home to provide the HIV testing?") 
+         } 
+        } else { 
+         conditions.disable.push("Contact Tracing, If Yes, what was the result","Contact Tracing, If Not tested, why have they not been tested?") 
+     } 
+        return conditions; 
+        }, 
+     'Contact Tracing, If Yes, what was the result': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['Contact Tracing, If Yes, what was the result']; 
+        if (conditionConcept == "Positive") { 
+            conditions.enable.push("Contact Tracing, If Positive, are they on ART or No") 
+            conditions.disable.push("Contact Tracing, If Negative, when was the last test done") 
+        } else if (conditionConcept == "Negative") { 
+            conditions.enable.push("Contact Tracing, If Negative, when was the last test done") 
+            conditions.disable.push("Contact Tracing, If Positive, are they on ART or No") 
+        } else { 
+            conditions.disable.push("Contact Tracing, If Positive, are they on ART or No","Contact Tracing, If Negative, when was the last test done") 
+        } 
+        return conditions; 
+        }, 
+     'Contact Tracing, If Not tested, why have they not been tested?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['Contact Tracing, If Not tested, why have they not been tested?']; 
+        if (conditionConcept == "Too Busy") { 
+            conditions.enable.push("Contact Tracing, If they are too busy, would you be comfortable in us visiting your home to provide the HIV testing?") 
+         var HomeVisit = formFieldValues['Contact Tracing, If they are too busy, would you be comfortable in us visiting your home to provide the HIV testing?']; 
+         if (HomeVisit == "Yes") { 
+          conditions.enable.push("Contact Tracing, Would you mind if we call to check when you are ready for the test","Contact Tracing, After how long do you think we should call you") 
+         } else { 
+          conditions.disable.push("Contact Tracing, Would you mind if we call to check when you are ready for the test","Contact Tracing, After how long do you think we should call you") 
+         } 
+        } else { 
+            conditions.disable.push("Contact Tracing, If they are too busy, would you be comfortable in us visiting your home to provide the HIV testing?") 
+        } 
+        return conditions; 
+        }, 
+     'Contact Tracing, If they are too busy, would you be comfortable in us visiting your home to provide the HIV testing?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['Contact Tracing, If they are too busy, would you be comfortable in us visiting your home to provide the HIV testing?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("Contact Tracing, Would you mind if we call to check when you are ready for the test","Contact Tracing, After how long do you think we should call you") 
+        } else { 
+            conditions.disable.push("Contact Tracing, Would you mind if we call to check when you are ready for the test","Contact Tracing, After how long do you think we should call you") 
+        } 
+        return conditions; 
+        }, 
+     'Contact Tracing, Would you be comfortable if we contact your partner(s) that they can come for HIV test': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['Contact Tracing, Would you be comfortable if we contact your partner(s) that they can come for HIV test']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("Contact Tracing, If Yes, should we mention that you gave us their details or it should be anonymous","Contact Tracing, What time of the day would be advisable to call your partner") 
+        } else { 
+            conditions.disable.push("Contact Tracing, If Yes, should we mention that you gave us their details or it should be anonymous","Contact Tracing, What time of the day would be advisable to call your partner") 
+        } 
+        return conditions; 
+        },
+    'Contact Tracing, Do you have any children?': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['Contact Tracing, Do you have any children?']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("Contact Tracing, If Yes, how old are they, in their chronological order","Contact Tracing, Have any of your children been tested") 
+         var ChildrenTested = formFieldValues['Contact Tracing, Have any of your children been tested']; 
+         if (ChildrenTested == "Yes") { 
+          conditions.enable.push("Contact Tracing, If tested, how many","Contact Tracing, If tested, how many negative","Contact Tracing, If tested, how many positive") 
+          conditions.disable.push("Contact Tracing, If not tested, would you be comfortable if they get tested") 
+         } else if (ChildrenTested == "No") { 
+          conditions.enable.push("Contact Tracing, If not tested, would you be comfortable if they get tested") 
+          conditions.disable.push("Contact Tracing, If tested, how many","Contact Tracing, If tested, how many negative","Contact Tracing, If tested, how many positive") 
+         } else { 
+          conditions.disable.push("Contact Tracing, If tested, how many","Contact Tracing, If tested, how many negative","Contact Tracing, If tested, how many positive","Contact Tracing, If not tested, would you be comfortable if they get tested") 
+         } 
+        } else { 
+            conditions.disable.push("Contact Tracing, If Yes, how old are they, in their chronological order","Contact Tracing, Have any of your children been tested") 
+        } 
+        return conditions; 
+        }, 
+     'Contact Tracing, Have any of your children been tested': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['Contact Tracing, Have any of your children been tested']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("Contact Tracing, If tested, how many","Contact Tracing, If tested, how many negative","Contact Tracing, If tested, how many positive") 
+            conditions.disable.push("Contact Tracing, If not tested, would you be comfortable if they get tested") 
+         var HIVPos = formFieldValues['Contact Tracing, If tested, how many positive']; 
+         if (HIVPos > 0) { 
+          conditions.enable.push("Contact Tracing, If positive are they on ART") 
+         } else { 
+          conditions.disable.push("Contact Tracing, If positive are they on ART") 
+         } 
+        } else if (conditionConcept == "No") { 
+            conditions.enable.push("Contact Tracing, If not tested, would you be comfortable if they get tested") 
+            conditions.disable.push("Contact Tracing, If tested, how many","Contact Tracing, If tested, how many negative","Contact Tracing, If tested, how many positive") 
+         var GetTested = formFieldValues['Contact Tracing, If not tested, would you be comfortable if they get tested']; 
+         if (GetTested == "Yes") { 
+          conditions.enable.push("Contact Tracing, If Yes, what would you prefer a home visit or bringing them to NSC") 
+         } else { 
+          conditions.disable.push("Contact Tracing, If Yes, what would you prefer a home visit or bringing them to NSC") 
+         } 
+        } else { 
+            conditions.disable.push("Contact Tracing, If tested, how many","Contact Tracing, If tested, how many negative","Contact Tracing, If tested, how many positive","Contact Tracing, If not tested, would you be comfortable if they get tested") 
+        } 
+        return conditions; 
+        }, 
+     'Contact Tracing, If tested, how many positive': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['Contact Tracing, If tested, how many positive']; 
+        if (conditionConcept > 0) { 
+            conditions.enable.push("Contact Tracing, If positive are they on ART") 
+        } else { 
+            conditions.disable.push("Contact Tracing, If positive are they on ART") 
+        } 
+        return conditions; 
+        }, 
+     'Contact Tracing, If not tested, would you be comfortable if they get tested': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['Contact Tracing, If not tested, would you be comfortable if they get tested']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("Contact Tracing, If Yes, what would you prefer a home visit or bringing them to NSC") 
+        } else { 
+            conditions.disable.push("Contact Tracing, If Yes, what would you prefer a home visit or bringing them to NSC") 
+        } 
+        return conditions; 
+        }, 
+     'Contact Tracing, Do you think there is a family member that might have been exposed to HIV that you would want to be tested': function (formName, formFieldValues) { 
+        var conditions = {enable: [], disable: []}; 
+        var conditionConcept = formFieldValues['Contact Tracing, Do you think there is a family member that might have been exposed to HIV that you would want to be tested']; 
+        if (conditionConcept == "Yes") { 
+            conditions.enable.push("Contact Tracing, If Yes, how would you want them contacted") 
+        } else { 
+            conditions.disable.push("Contact Tracing, If Yes, how would you want them contacted") 
+        } 
+        return conditions; 
+        },
 
 "Have you experienced problems with medicines?(2)": function(formName, formFieldValues) {
 var questionThatTriggersRule ="Have you experienced problems with medicines?"
