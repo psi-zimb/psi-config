@@ -55,6 +55,7 @@
             "showMiddleName": true,
             "showBirthTime": false,
             "showCasteSameAsLastNameCheckbox": false,
+            "showEnterID":false,
             "printOptions": [
                 {
                     "translationKey": "REGISTRATION_PRINT_SUPPLEMENTAL_PAPER",
