@@ -964,9 +964,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
                 conditions.disable.push("TB History, If other for previous TB diagnosed, specify") 
             } 
             if (OtherLocation == "Other") { 
-                conditions.enable.push("TB History, If other for current TB location, specify") 
+                conditions.enable.push("TB History, If other for previous TB location, specify") 
             } else { 
-                conditions.disable.push("TB History, If other for current TB location, specify") 
+                conditions.disable.push("TB History, If other for previous TB location, specify") 
             } 
         } else { 
             conditions.disable.push("TB History, How was the previous TB diagnosed?","TB History, Location of previous TB","TB History, How many episodes of TB?","TB History, When were you treated for TB","TB History, Where were you last treated?","TB History, Was treatment interupted?") 
