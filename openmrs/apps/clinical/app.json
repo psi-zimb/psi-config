@@ -118,7 +118,9 @@
                 "codedConceptName" : "RequestServiceCompleted"
                 ,"disableAddNotes" : true
             },
-
+	    "LH, If yes on oedema, where?" : {
+		"multiSelect" : true
+	    },
             "Chief Complaint Data": {
                 "autocomplete":true,
                 "codedConceptName":"Chief Complaint",

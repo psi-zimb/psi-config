@@ -800,9 +800,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         var conditions = {enable: [], disable: []}; 
         var conditionConcept = formFieldValues['LH, Have you had a cough?']; 
         if (conditionConcept == "Yes") { 
-            conditions.enable.push("LH, Type of cough (answer needs selection of 1 item)","LH, Duration of the cough") 
+            conditions.enable.push("LH, Type of cough","LH, Duration of the cough") 
         } else { 
-            conditions.disable.push("LH, Type of cough (answer needs selection of 1 item)","LH, Duration of the cough") 
+            conditions.disable.push("LH, Type of cough","LH, Duration of the cough") 
         } 
         return conditions; 
          }, 
@@ -822,7 +822,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "Yes") { 
             conditions.enable.push("LH, Location of the chest pain","LH, Duration of chest pains?") 
          var OtherSelected = formFieldValues['LH, Location of the chest pain']; 
-         if (OtherSelected == "Other"){ 
+         if (OtherSelected == "Other locations"){ 
           conditions.enable.push("LH, If other location of the chest pain, specify") 
          } else { 
           conditions.disable.push("LH, If other location of the chest pain, specify") 
@@ -835,7 +835,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
      'LH, Location of the chest pain': function (formName, formFieldValues) { 
         var conditions = {enable: [], disable: []}; 
         var conditionConcept = formFieldValues['LH, Location of the chest pain']; 
-        if (conditionConcept == "Other") { 
+        if (conditionConcept == "Other locations") { 
             conditions.enable.push("LH, If other location of the chest pain, specify") 
         } else { 
             conditions.disable.push("LH, If other location of the chest pain, specify") 
