@@ -628,6 +628,49 @@ Bahmni.ConceptSet.FormConditions.rules = {
         return conditions;
         },
 
+    "GU Tract, Type of Patient": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['GU Tract, Type of Patient'];
+        if (conditionConcept == "Male") {
+            conditions.enable.push("GU Tract, Male, Are you experiencing any problems when voiding?")
+            conditions.disable.push("GU Tract, Female Details", "GU Tract, Child Details")
+            var MaleVoidProb = formFieldValues['GU Tract, Male, Are you experiencing any problems when voiding?'];
+            if (MaleVoidProb == "Yes") {
+                conditions.enable.push("GU Tract, Male, Do you experience hesitancy before voiding?", "GU Tract, Male, Do you experience a burning sensation during micturation?");
+            } else {
+                conditions.disable.push("GU Tract, Male, Do you experience hesitancy before voiding?", "GU Tract, Male, Do you experience a burning sensation during micturation?");
+            }
+
+        } 
+
+        else if (conditionConcept == "Female") {
+            conditions.enable.push("GU Tract, Female, Are you experiencing any problems when voiding?")
+            conditions.disable.push("GU Tract, Male Details", "GU Tract, Child Details")
+            var FemaleVoidProb = formFieldValues['GU Tract, Female, Are you experiencing any problems when voiding?'];
+            if (FemaleVoidProb == "Yes") {
+                conditions.enable.push("GU Tract, Female, Do you experience hesitancy before voiding?", "GU Tract, Female, Do you experience a burning sensation during micturation?")
+            } else {
+                conditions.disable.push("GU Tract, Female, Do you experience hesitancy before voiding?", "GU Tract, Female, Do you experience a burning sensation during micturation?")
+            }
+        }
+
+        else if (conditionConcept == "Child") {
+            conditions.enable.push("GU Tract, Child, Did the child cry during urination?")
+            conditions.disable.push("GU Tract, Male Details", "GU Tract, Female Details")
+            var ChildCry = formFieldValues['GU Tract, Child, Did the child cry during urination?'];
+            if (ChildCry == "Yes") {
+                conditions.enable.push("GU Tract, Child, Have you observed blood in the childs urine?")
+            } else {
+                conditions.disable.push("GU Tract, Child, Have you observed blood in the childs urine?")
+            }
+        }
+
+        else {
+            conditions.disable.push("GU Tract, Male Details", "GU Tract, Female Details", "GU Tract, Child Details")
+        }
+        return conditions;
+        },
+          
     "GU Tract, Male, Are you experiencing any problems when voiding?": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['GU Tract, Male, Are you experiencing any problems when voiding?'];
