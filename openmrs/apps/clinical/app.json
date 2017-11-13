@@ -171,6 +171,9 @@
 	    "PHTC, TB History, Disclosure planned to" : {
                 "multiSelect" : true
             },
+	    "ART Observations Form Template": {
+            	"hideAbnormalButton" : true
+            },
             "defaults": {
                 "HIV testing and counselling service": "Requested",
 
