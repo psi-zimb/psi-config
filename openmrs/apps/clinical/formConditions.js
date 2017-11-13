@@ -1057,6 +1057,16 @@ Bahmni.ConceptSet.FormConditions.rules = {
         } 
         return conditions; 
         },
+    'Abuse, Have you been sexually abused?': function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['Abuse, Have you been sexually abused?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("Abuse, Has a police report been filed?","Abuse, Did you receive any medical treatment afterwards?","Abuse, Did you receive counseling?")
+        } else {
+            conditions.disable.push("Abuse, Has a police report been filed?","Abuse, Did you receive any medical treatment afterwards?","Abuse, Did you receive counseling?")
+        }
+        return conditions;
+        },
 
     'HIV Prevention, Are you sexually active?': function (formName, formFieldValues) { 
         var conditions = {enable: [], disable: []}; 
