@@ -1710,6 +1710,16 @@ Bahmni.ConceptSet.FormConditions.rules = {
                 }
                 return conditions;
         },
+	"HST, External referral to:(Multiple responses possible)": function (formName, formFieldValues) {
+                var conditions = {enable: [], disable: []};
+                var conditionConcept = formFieldValues['HST, External referral to:(Multiple responses possible)'];
+                if (conditionConcept.indexOf("Other") >= 0) {
+                        conditions.enable.push("HST, If other on External referral to, specify")
+                } else {
+                        conditions.disable.push("HST, If other on External referral to, specify")
+                }
+                return conditions;
+        },
 
 "Have you experienced problems with medicines?(2)": function(formName, formFieldValues) {
 var questionThatTriggersRule ="Have you experienced problems with medicines?"
