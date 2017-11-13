@@ -168,6 +168,9 @@
             "Accepted Family Planning methods": {
                 "multiSelect": true
             },
+	    "PHTC, TB History, Disclosure planned to" : {
+                "multiSelect" : true
+            },
             "defaults": {
                 "HIV testing and counselling service": "Requested",
 

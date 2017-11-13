@@ -1663,6 +1663,53 @@ Bahmni.ConceptSet.FormConditions.rules = {
         } 
         return conditions; 
         },
+	"PHTC, Ever had sexual intercourse": function(formName, formFieldValues) {
+                var questionThatTriggersRule = "PHTC, Ever had sexual intercourse"
+                var selectedResponses = formFieldValues[questionThatTriggersRule];
+                var question1AffectedByRule = "PHTC, Age of first penetrative sex"
+                var question2AffectedByRule = "PHTC, Do you or your partner currently have an STI"
+                var question3AffectedByRule = "PHTC, In the last twelve months, ever had sex while intoxicated"
+                var question4AffectedByRule = "PHTC, In the last twelve month exchanged money or goods for sex"
+                var question5AffectedByRule = "PHTC, Last time you had sex did you use a condom"
+                var question6AffectedByRule = "PHTC, Do you currently have more than one sexual partner (including your spouse or regular partner)"
+                var question7AffectedByRule = "PHTC, How many sexual partners did you have in the last twelve months (including your spouse or sexual partner)"
+                var question8AffectedByRule = "PHTC, Are you or your partner circumcised (Male circumcision)"
+                var question9AffectedByRule = "PHTC, Have you ever talked about T&C with your partner/spouse?"
+                var conditionTrue = selectedResponses == 'Yes';
+                var ruleActions = {enable: [], disable: []};
+                if(conditionTrue) {
+                        ruleActions.enable.push(question1AffectedByRule)
+                        ruleActions.enable.push(question2AffectedByRule)
+                        ruleActions.enable.push(question3AffectedByRule)
+                        ruleActions.enable.push(question4AffectedByRule)
+                        ruleActions.enable.push(question5AffectedByRule)
+                        ruleActions.enable.push(question6AffectedByRule)
+                        ruleActions.enable.push(question7AffectedByRule)
+                        ruleActions.enable.push(question8AffectedByRule)
+                        ruleActions.enable.push(question9AffectedByRule)
+                } else {
+                        ruleActions.disable.push(question1AffectedByRule)
+                        ruleActions.disable.push(question2AffectedByRule)
+                        ruleActions.disable.push(question3AffectedByRule)
+                        ruleActions.disable.push(question4AffectedByRule)
+                        ruleActions.disable.push(question5AffectedByRule)
+                        ruleActions.disable.push(question6AffectedByRule)
+                        ruleActions.disable.push(question7AffectedByRule)
+                        ruleActions.disable.push(question8AffectedByRule)
+                        ruleActions.disable.push(question9AffectedByRule)
+                }
+                return ruleActions;
+        },
+        "PHTC, Are you currently coughing": function (formName, formFieldValues) {
+                var conditions = {enable: [], disable: []};
+                var conditionConcept = formFieldValues['PHTC, Are you currently coughing'];
+                if (conditionConcept == "Yes") {
+                        conditions.enable.push("PHTC, For how long have you been coughing")
+                } else {
+                        conditions.disable.push("PHTC, For how long have you been coughing")
+                }
+                return conditions;
+        },
 
 "Have you experienced problems with medicines?(2)": function(formName, formFieldValues) {
 var questionThatTriggersRule ="Have you experienced problems with medicines?"
