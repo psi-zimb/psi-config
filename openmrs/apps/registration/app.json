@@ -17,6 +17,25 @@
             "activeVisitUuid"
         ],
         "config" : {
+	"mandatoryPersonAttributes": [
+	"Nationality",
+	"education",
+	"Population",
+	"occupation",
+	"Other specific (occupation)",
+	"Secondary contact",
+	"Marital Status",
+	"Telephone",
+	"Ethnicity",
+	"Workplace",
+	"Client Resident",
+	"Referral source",
+	"District of Birth",
+	"Next-of-kin Contact Name",
+	"Next-of-kin Telephone Number",
+	"Next-of-kin Address",
+	"Mother's name"
+	],
             "patientInformation": {
                 "additionalPatientInformation": {
                     "title": "Additional Patient Information",
