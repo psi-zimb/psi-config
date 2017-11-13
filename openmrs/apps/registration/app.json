@@ -77,6 +77,11 @@
                     "required": true,
                     "label": "Fee"
                 },
+
+		"Reason for visit":{
+		"required":false,
+		"multiSelect":true
+		},
                 "FHS": {
                     "buttonSelect": true
                 },

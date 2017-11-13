@@ -56,6 +56,20 @@
         "order": 1,
         "requiredPrivilege": "Edit Visits"
     },
+    "visit":{
+        "id": "bahmni.registration.conceptSetGroup.nutritionalLevels",
+        "extensionPointId": "org.bahmni.registration.conceptSetGroup.observations",
+        "type": "config",
+        "extensionParams": {
+            "conceptName": "Visit",
+            "translationKey": "REGISTRATION_VISIT_KEY",
+            "conceptNames": ["Visit"],
+            "required":true,
+            "showLatest": false
+        },
+        "order": 1,
+        "requiredPrivilege": "Edit Visits"
+    },
     "feeInformation":{
         "id": "bahmni.registration.conceptSetGroup.feeInformation",
         "extensionPointId": "org.bahmni.registration.conceptSetGroup.observations",
