@@ -397,12 +397,13 @@ Bahmni.ConceptSet.FormConditions.rules = {
         },
 
     "STI Symptoms, Patients gender": function (formName, formFieldValues) {
-        var conditions = {enable: [], disable: []};
+        var conditions = {show: [], hide: [], enable: [], disable: []};
         var conditionConcept = formFieldValues['STI Symptoms, Patients gender'];
         if (conditionConcept == "Male") {
+            conditions.show.push("STI Symptoms, Male Details")
             conditions.enable.push("STI Symptoms, Male, Have you observed a discharge from the penis?","STI Symptoms, Male, Have you noticed non painful or painful ulcers on or around the penis?","STI Symptoms, Male, Have you had rash with any of the symptoms?", "STI Symptoms, Male, Have you noticed warts on the genital area?", "STI Symptoms, Male, Have you had swelling of your penis or foreskin?", "STI Symptoms, Male, Have you been treated for any of the following?")
-            conditions.disable.push("STI Symptoms, Female Details")
-            var PenisDischarge = formFieldValues['STI Symptoms, Male, Have you observed a discharge from the penis?'];
+            conditions.hide.push("STI Symptoms, Female Details")
+            var PenisDischarge = formFieldValues['STI Symptoms, M2ale, Have you observed a discharge from the penis?'];
             var PenisUlcers = formFieldValues['STI Symptoms, Male, Have you noticed non painful or painful ulcers on or around the penis?'];
             var RashSymptoms = formFieldValues['STI Symptoms, Male, Have you had rash with any of the symptoms?'];
             if (PenisDischarge == "Yes") {
@@ -423,8 +424,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
 
         } 
         else if (conditionConcept == "Female") {
+            conditions.show.push("STI Symptoms, Female Details")
             conditions.enable.push("STI Symptoms, Female, Have you observed a vaginal discharge?","STI Symptoms, Female, Have you noticed non painful of painful ulcers on or around the labia?","STI Symptoms, Female, Have you had rash with any of the symptoms?", "STI Symptoms, Female, Have you noticed warts on the genital area?", "STI Symptoms, Female, Have you had swelling of the labia?", "STI Symptoms, Female, Have you been treated for any of the following?")
-            conditions.disable.push("STI Symptoms, Male Details")
+            conditions.hide.push("STI Symptoms, Male Details")
             var VagDischarge = formFieldValues['STI Symptoms, Female, Have you observed a vaginal discharge?'];
             var LabiaUlcer = formFieldValues['STI Symptoms, Female, Have you noticed non painful of painful ulcers on or around the labia?'];
             var RashSymptoms = formFieldValues['STI Symptoms, Female, Have you had rash with any of the symptoms?'];
@@ -445,7 +447,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
             }
         }
         else {
-            conditions.disable.push("STI Symptoms, Female Details", "STI Symptoms, Male Details")
+            conditions.hide.push("STI Symptoms, Female Details", "STI Symptoms, Male Details")
         }
         return conditions;
         },
