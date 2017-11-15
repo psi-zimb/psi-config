@@ -113,7 +113,8 @@
                 "familyName" : {"pattern" : "[a-zA-Z]{0,}", "errorMessage" : "Should only contain characters"},
                 "givenName" : {"pattern" : "[a-zA-Z]{0,}", "errorMessage" : "Should only contain characters"},
                 "middleName" : {"pattern" : "[a-zA-Z]{0,}", "errorMessage" : "Should only contain characters"},
-                "address1" : {"pattern" : "[a-zA-Z0-9 ]{0,}", "errorMessage" : "Should only contain characters and numbers"}
+                "address1" : {"pattern" : "[a-zA-Z0-9 ]{0,}", "errorMessage" : "Should only contain characters and numbers"},
+                "Next-of-kin Telephone Number" : {"pattern" : "[0-9]{0,}", "errorMessage" : "Phone number can only be numerals"}
             },
             "patientSearch": {
                 "address": {
