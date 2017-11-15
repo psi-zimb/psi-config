@@ -60,9 +60,8 @@ Bahmni.ConceptSet.FormConditions.rules = {
 		var questionThatTriggersRule = "How did you learn about this T&C site?"
         var selectedResponses = formFieldValues[questionThatTriggersRule];
 		var question1AffectedByRule = "Other specific (how learned about this T&C site)"
-        var conditionTrue = selectedResponses == 'Other (specify)';
     	var ruleActions = {enable: [], disable: []};
-        if(conditionTrue) {
+        if(selectedResponses.indexOf('Other (specify)')>=0) {
             ruleActions.enable.push(question1AffectedByRule)
         } else {
             ruleActions.disable.push(question1AffectedByRule)
