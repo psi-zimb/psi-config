@@ -54,74 +54,269 @@
     "order": 5,
     "requiredPrivilege": "app:radiologyOrders"
   },
-
-
-
-  "bahmniClinicalPatientsSearchInitialARTQueue_screening": {
-    "id": "bahmni.clinical.patients.search.InitialARTQueue_screening",
+  "bahmniClinicalPatientsSearchTestingAndCounsellingPatients": {
+    "id": "bahmni.clinical.patients.search.testingAndCounsellingPatients",
     "extensionPointId": "org.bahmni.patient.search",
     "type": "config",
     "extensionParams": {
-      "searchHandler": "emrapi.sqlSearch.InitialARTQueue_screening",
-      "translationKey": "ART screening",
-      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard/concept-set-group/observations"
-    },
-    "label": "Screening",
-    "order": 1,
-    "requiredPrivilege": "app:clinical"
-  },
-  "bahmniClinicalPatientsSearchInitialARTQueue_labs": {
-    "id": "bahmni.clinical.patients.search.InitialARTQueue_labs",
-    "extensionPointId": "org.bahmni.patient.search",
-    "type": "config",
-    "extensionParams": {
-      "searchHandler": "emrapi.sqlSearch.InitialARTQueue_labs",
-      "translationKey": "Wait for labs",
-      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard/orders"
-    },
-    "label": "Wait labs",
-    "order": 2,
-    "requiredPrivilege": "app:clinical"
-  },
-  "bahmniClinicalPatientsSearchInitialARTQueue_consultation": {
-    "id": "bahmni.clinical.patients.search.InitialARTQueue_consultation",
-    "extensionPointId": "org.bahmni.patient.search",
-    "type": "config",
-    "extensionParams": {
-      "searchHandler": "emrapi.sqlSearch.InitialARTQueue_consultation",
-      "translationKey": "Initial ART",
-      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard/"
-    },
-    "label": "Wait labs",
-    "order": 2,
-    "requiredPrivilege": "app:clinical"
-  },
-  "bahmniClinicalPatientsSearchAllActivePatients": {
-    "id": "bahmni.clinical.patients.search.allActivePatients",
-    "extensionPointId": "org.bahmni.patient.search",
-    "type": "config",
-    "extensionParams": {
-      "searchHandler": "emrapi.sqlSearch.activePatients",
-      "translationKey": "All current",
+      "searchHandler": "emrapi.sqlSearch.testingAndCounsellingPatients",
+      "translationKey": "MODULE_LABEL_TandC_KEY",
       "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
     },
-    "label": "All active",
     "order": 4,
     "requiredPrivilege": "app:clinical"
   },
-
-
-
-
-
-
-
-
-
-
-
-
-
+  "bahmniClinicalPatientsSearchInitialARTPatients": {
+    "id": "bahmni.clinical.patients.search.initialARTPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.initialARTPatients",
+      "translationKey": "MODULE_LABEL_InitalART_KEY",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "order": 5,
+    "requiredPrivilege": "app:clinical"
+  },
+  "bahmniClinicalPatientsSearchBasic1andART1Patients": {
+    "id": "bahmni.clinical.patients.search.basic1andART1Patients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.basic1andART1Patients",
+      "translationKey": "MODULE_LABEL_Basic1andART1",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "order": 6,
+    "requiredPrivilege": "app:clinical"
+  },
+    "bahmniClinicalPatientsSearchARTRoutinePatients": {
+    "id": "bahmni.clinical.patients.search.ARTRoutinePatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.aRTRoutinePatients",
+      "translationKey": "MODULE_LABEL_ARTRoutine",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "order": 7,
+    "requiredPrivilege": "app:clinical"
+  },
+    "bahmniClinicalPatientsSearchPrEPInitialPatients": {
+    "id": "bahmni.clinical.patients.search.PrEPInitialPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.prEPInitialPatients",
+      "translationKey": "MODULE_LABEL_PrEPInitial",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "order": 8,
+    "requiredPrivilege": "app:clinical"
+  },
+    "bahmniClinicalPatientsSearchPrEPContinuationPatients": {
+    "id": "bahmni.clinical.patients.search.PrEPContinuationPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.prEPContinuationPatients",
+      "translationKey": "MODULE_LABEL_PrEPContinuation",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "order": 8,
+    "requiredPrivilege": "app:clinical"
+  },
+    "bahmniClinicalPatientsSearchReviewByMD/DoctorPatients": {
+    "id": "bahmni.clinical.patients.search.ReviewByMD/DoctorPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.reviewByMD/DoctorPatients",
+      "translationKey": "MODULE_LABEL_ReviewByMD/Doctor",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "order": 9,
+    "requiredPrivilege": "app:clinical"
+  },
+    "bahmniClinicalPatientsSearchReviewByNursePatients": {
+    "id": "bahmni.clinical.patients.search.ReviewByNursePatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.reviewByNursePatients",
+      "translationKey": "MODULE_LABEL_ReviewByNurse",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "order": 10,
+    "requiredPrivilege": "app:clinical"
+  },
+    "bahmniClinicalPatientsSearchLabtest(only)Patients": {
+    "id": "bahmni.clinical.patients.search.Labtest(only)Patients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.labtest(only)Patients",
+      "translationKey": "MODULE_LABEL_Labtest(only)",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "order": 11,
+    "requiredPrivilege": "app:clinical"
+  },
+    "bahmniClinicalPatientsSearchPickupDrugs(only)Patients": {
+    "id": "bahmni.clinical.patients.search.PickupDrugs(only)Patients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.pickupDrugs(only)Patients",
+      "translationKey": "MODULE_LABEL_PickupDrugs(only)",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "order": 12,
+    "requiredPrivilege": "app:clinical"
+  },
+    "bahmniClinicalPatientsSearchHIVSelfTestingPatients": {
+    "id": "bahmni.clinical.patients.search.HIVSelfTestingPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.hIVSelfTestingPatients",
+      "translationKey": "MODULE_LABEL_HIVSelfTesting",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "order": 13,
+    "requiredPrivilege": "app:clinical"
+  },
+    "bahmniClinicalPatientsSearchWalkoutPatients": {
+    "id": "bahmni.clinical.patients.search.WalkoutPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.walkoutPatients",
+      "translationKey": "MODULE_LABEL_Walkout",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "order": 14,
+    "requiredPrivilege": "app:clinical"
+  },
+    "bahmniClinicalPatientsSearchAdherenceCounsellingPatients": {
+    "id": "bahmni.clinical.patients.search.AdherenceCounsellingPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.adherenceCounsellingPatients",
+      "translationKey": "MODULE_LABEL_AdherenceCounselling",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "order": 15,
+    "requiredPrivilege": "app:clinical"
+  },
+    "bahmniClinicalPatientsSearchHomevisitPatients": {
+    "id": "bahmni.clinical.patients.search.HomevisitPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.homevisitPatients",
+      "translationKey": "MODULE_LABEL_Homevisit",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "order": 16,
+    "requiredPrivilege": "app:clinical"
+  },
+      "bahmniClinicalPatientsSearchHospitalvisitPatients": {
+    "id": "bahmni.clinical.patients.search.HospitalvisitPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.hospitalvisitPatients",
+      "translationKey": "MODULE_LABEL_Hospitalvisit",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "order": 17,
+    "requiredPrivilege": "app:clinical"
+  },
+      "bahmniClinicalPatientsSearchPhoneCallPatients": {
+    "id": "bahmni.clinical.patients.search.PhoneCallPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.phoneCallPatients",
+      "translationKey": "MODULE_LABEL_PhoneCall",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "order": 18,
+    "requiredPrivilege": "app:clinical"
+  },
+    "bahmniClinicalPatientsSearchUnplannedorwalkinvisitPatients": {
+    "id": "bahmni.clinical.patients.search.UnplannedorwalkinvisitPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.unplannedorwalkinvisitPatients",
+      "translationKey": "MODULE_LABEL_Unplannedorwalkinvisit",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "order": 19,
+    "requiredPrivilege": "app:clinical"
+  },
+    "bahmniClinicalPatientsSearchVIACPatients": {
+    "id": "bahmni.clinical.patients.search.VIACPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.vIACPatients",
+      "translationKey": "MODULE_LABEL_VIAC",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "order": 20,
+    "requiredPrivilege": "app:clinical"
+  },
+    "bahmniClinicalPatientsSearchFamilyPlanningPatients": {
+    "id": "bahmni.clinical.patients.search.FamilyPlanningPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.familyPlanningPatients",
+      "translationKey": "MODULE_LABEL_FamilyPlanning",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "order": 21,
+    "requiredPrivilege": "app:clinical"
+  },
+    "bahmniClinicalPatientsSearchReasonforVisitContactTracingPatients": {
+    "id": "bahmni.clinical.patients.search.ReasonforVisitContactTracingPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.reasonforVisitContactTracingPatients",
+      "translationKey": "MODULE_LABEL_ReasonforVisitContactTracing",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "order": 22,
+    "requiredPrivilege": "app:clinical"
+  },
+    "bahmniClinicalPatientsSearchVMMCPatients": {
+    "id": "bahmni.clinical.patients.search.VMMCPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.vMMCPatients",
+      "translationKey": "MODULE_LABEL_VMMC",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "order": 23,
+    "requiredPrivilege": "app:clinical"
+  },
+  "bahmniClinicalPatientsSearchAllPatients": {
+    "id": "bahmni.clinical.patients.search.allPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "translationKey": "MODULE_LABEL_ALL_KEY",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "order": 24,
+    "requiredPrivilege": "app:clinical"
+  },
   "bahmniClinicalConceptSetGroupObservationsHistory": {
     "id": "bahmni.clinical.conceptSetGroup.observations.history",
     "extensionPointId": "org.bahmni.clinical.conceptSetGroup.observations",
