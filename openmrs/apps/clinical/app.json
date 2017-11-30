@@ -51,7 +51,7 @@
             		"caste"
         		],
         		"additionalPatientIdentifiers": [
-           			"National ID"
+           			"UIC"
        		],
         		"preferredIdentifier": "Id_Number"
     	},
