@@ -35,11 +35,6 @@
             ]
         },
     	"diagnosisStatus": "Inactive",
-            "program": {
-                "patientInformation": {
-                    "ageLimit": 100
-                }
-            },
             "patientContext": {
         		"programAttributes": [
             		"Id_Number",
@@ -60,10 +55,6 @@
             "COMMENTS",
             "Patient file"
         ],
-        "otherInvestigationsMap": {
-            "Radiology": "Radiology Order",
-            "Endoscopy": "Endoscopy Order"
-        },
         "allowConsultationWhenNoOpenVisit": false,
         "defaultVisitType": "OPD",
         "visitTypeForRetrospectiveEntries": "Special OPD",
@@ -121,13 +112,6 @@
 	    "LH, If yes on oedema, where?" : {
 		"multiSelect" : true
 	    },
-            "Chief Complaint Data": {
-                "autocomplete":true,
-                "codedConceptName":"Chief Complaint",
-                "nonCodedConceptName":"Non-Coded Chief Complaint",
-                "durationRequired": false,
-                "allowAddMore": true
-            },
             "Tuberculosis, Adverse Effects" :{
                 "multiSelect" : true,
                 "autocomplete" : true

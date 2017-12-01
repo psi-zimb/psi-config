@@ -37,37 +37,22 @@
 	"Mother's name"
 	],
             "patientInformation": {
-                "additionalPatientInformation": {
-                    "title": "Additional Patient Information",
-                    "attributes": [
-                        "distanceFromCenter",
-                        "isUrban",
-                        "cluster",
-                        "RationCard",
-                        "familyIncome",
-                        "debt",
-                        "cluster"
-                    ]
-                },
                 "hidden": {
                     "attributes": [
-                        "primaryContact"
                     ]
                 },
                 "defaults":  {
-                    "class": "General",
-                    "landHolding": 2
+                   
                 }
             },
             "addressHierarchy": {
-                "showAddressFieldsTopDown": false,
-                "strictAutocompleteFromLevel": "address1"
+                "showAddressFieldsTopDown": true
             },
             "relationshipTypeMap": {
                 "Parent":"patient",
                 "Partner": "patient"
             },
-            "autoCompleteFields":["familyName", "caste"],
+            "autoCompleteFields":[],
             "defaultIdentifierPrefix": "NAH",
             "defaultVisitType": "OPD",
             "searchByIdForwardUrl": "/patient/{{patientUuid}}",
