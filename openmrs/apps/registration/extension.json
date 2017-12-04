@@ -31,31 +31,6 @@
         "order": 1,
         "requiredPrivilege": "View Patients"
     },
-    "requestServices":{
-        "id": "bahmni.registration.conceptSetGroup.requestServices",
-        "extensionPointId": "org.bahmni.registration.conceptSetGroup.observations",
-        "type": "config",
-        "extensionParams": {
-            "conceptName": "Request services",
-            "translationKey": "REGISTRATION_REQUEST_SERVICES_KEY",
-            "conceptNames": ["HIV testing and counselling service",
-                "ART initiation service",
-                "ART routine follow-up service",
-                "PrEP initiation service",
-                "PrEP routine follow-up service",
-                "Review by doctor service",
-                "Review by nurse service",
-                "Family planning service",
-                "SRH service",
-                "VIAC service",
-                "VMMC service",
-                "Lab test only service"],
-            "required":true,
-            "showLatest": true
-        },
-        "order": 1,
-        "requiredPrivilege": "Edit Visits"
-    },
     "visit":{
         "id": "bahmni.registration.conceptSetGroup.nutritionalLevels",
         "extensionPointId": "org.bahmni.registration.conceptSetGroup.observations",
