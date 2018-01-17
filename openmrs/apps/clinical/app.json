@@ -109,9 +109,18 @@
                 "codedConceptName" : "RequestServiceCompleted"
                 ,"disableAddNotes" : true
             },
-	    "LH, If yes on oedema, where?" : {
-		"multiSelect" : true
-	    },
+	       "LH, If yes on oedema, where?" : {
+		        "multiSelect" : true
+	        },
+           "LH, When does the shortness of breath occur?": {
+                "multiSelect" : true
+            },
+            "LH, Location of the chest pain": {
+                "multiSelect" : true
+            },
+            "LH, If yes on wheezing, specify type": {
+                "multiSelect" : true
+            },
             "Tuberculosis, Adverse Effects" :{
                 "multiSelect" : true,
                 "autocomplete" : true

@@ -855,7 +855,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
      'LH, Location of the chest pain': function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['LH, Location of the chest pain'];
-        if (conditionConcept == "Other locations") {
+        if (conditionConcept.indexOf("Other locations") >=0) {
             conditions.enable.push("LH, If other location of the chest pain, specify")
         } else {
             conditions.disable.push("LH, If other location of the chest pain, specify")
