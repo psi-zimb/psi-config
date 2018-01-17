@@ -1,5 +1,119 @@
 Bahmni.ConceptSet.FormConditions.rules = {
 
+    "TB Screening, Have you had a cough?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['TB Screening, Have you had a cough?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("TB Screening, Type of cough","TB Screening, Cough Duration")
+
+        }
+        else
+        {
+            conditions.disable.push("TB Screening, Type of cough","TB Screening, Cough Duration")
+        }
+        return conditions;
+
+    },
+    "TB Screening, Have you had chest pain?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['TB Screening, Have you had chest pain?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("TB Screening, Location of chest pains?","TB Screening, When does the chest pain occur?",
+                "TB Screening, Chest Pain Duration")
+
+        }
+        else
+        {
+            conditions.disable.push("TB Screening, Location of chest pains?","TB Screening, When does the chest pain occur?",
+                "TB Screening, Chest Pain Duration")
+        }
+        return conditions;
+
+    },
+    "TB Screening, Location of chest pains?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['TB Screening, Location of chest pains?'];
+        if (conditionConcept=='Other locations') {
+            conditions.enable.push("TB Screening, If other location, specify details")
+
+        }
+        else
+        {
+            conditions.disable.push("TB Screening, If other location, specify details")
+        }
+        return conditions;
+
+    },
+    "TB Screening, When does the chest pain occur?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['TB Screening, When does the chest pain occur?'];
+        if (conditionConcept=='Other') {
+            conditions.enable.push("TB Screening, If other, specify details")
+
+        }
+        else
+        {
+            conditions.disable.push("TB Screening, If other, specify details")
+        }
+        return conditions;
+
+    },
+    "TB Screening, Have you had shortness of breath?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['TB Screening, Have you had shortness of breath?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("TB Screening, Shortness of breath Duration","TB Screening, When does the shortness of breath occur?")
+
+        }
+        else
+        {
+            conditions.disable.push("TB Screening, Shortness of breath Duration","TB Screening, When does the shortness of breath occur?")
+        }
+        return conditions;
+
+    },
+    "TB Screening, Did you have fever recently?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['TB Screening, Did you have fever recently?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("TB Screening, Duration of fever")
+
+        }
+        else
+        {
+            conditions.disable.push("TB Screening, Duration of fever")
+        }
+        return conditions;
+
+    },
+    "TB Screening, Did you have night sweats?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['TB Screening, Did you have night sweats?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("TB Screening, Duration of night sweats")
+
+        }
+        else
+        {
+            conditions.disable.push("TB Screening, Duration of night sweats")
+        }
+        return conditions;
+
+    },
+    "TB Screening, Do you have weight loss?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['TB Screening, Do you have weight loss?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("TB Screening, Duration of weight loss")
+
+        }
+        else
+        {
+            conditions.disable.push("TB Screening, Duration of weight loss")
+        }
+        return conditions;
+
+    },
 	"Partner/Self Currently on F/P": function(formName, formFieldValues) {
 		var questionThatTriggersRule = "Partner/Self Currently on F/P"
         var selectedResponses = formFieldValues[questionThatTriggersRule];
