@@ -1262,7 +1262,8 @@ Bahmni.ConceptSet.FormConditions.rules = {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['Skin, Have you had a skin rash recently?'];
         if (conditionConcept == "Yes") {
-            conditions.enable.push("Skin, Did the skin rash start after taking new medications","Skin, Did you experience any itching with the rash?","Skin, Morphology of rash","Skin, Date rash started","Skin, Location of the skin rash")
+            conditions.enable.push("Skin, Did the skin rash start after taking new medications","Skin, Did you experience any itching with the rash?","Skin, Morphology of rash","Skin, Date rash started"
+                ,"Skin, Location of the skin rash","Skin, Images of location of rash section")
          var AfterNewMeds = formFieldValues['Skin, Did the skin rash start after taking new medications'];
          var Itching = formFieldValues['Skin, Did you experience any itching with the rash?'];
          if (AfterNewMeds == "Yes") {
@@ -1276,7 +1277,8 @@ Bahmni.ConceptSet.FormConditions.rules = {
                 conditions.disable.push("Skin, Severity of itchiness")
             }
         } else {
-            conditions.disable.push("Skin, Did the skin rash start after taking new medications","Skin, Did you experience any itching with the rash?","Skin, Morphology of rash","Skin, Date rash started","Skin, Location of the skin rash")
+            conditions.disable.push("Skin, Did the skin rash start after taking new medications","Skin, Did you experience any itching with the rash?","Skin, Morphology of rash","Skin, Date rash started"
+                ,"Skin, Location of the skin rash","Skin, Images of location of rash section")
         }
         return conditions;
         },
@@ -1307,9 +1309,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
             conditions.enable.push("Skin, Herpes Zoster (scars)?","Skin, Shingles dates")
          var Scars = formFieldValues['Skin, Herpes Zoster (scars)?'];
          if (Scars == "Yes") {
-          conditions.enable.push("Skin, Location of the Shingles")
+          conditions.enable.push("Skin, Location of the Shingles","Skin, Images of location of shingles section")
          } else {
-          conditions.disable.push("Skin, Location of the Shingles")
+          conditions.disable.push("Skin, Location of the Shingles","Skin, Images of location of shingles section")
          }
         } else {
             conditions.disable.push("Skin, Herpes Zoster (scars)?","Skin, Shingles dates")
@@ -1320,9 +1322,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['Skin, Herpes Zoster (scars)?'];
         if (conditionConcept == "Yes") {
-            conditions.enable.push("Skin, Location of the Shingles")
+            conditions.enable.push("Skin, Location of the Shingles","Skin, Images of location of shingles section")
         } else {
-            conditions.disable.push("Skin, Location of the Shingles")
+            conditions.disable.push("Skin, Location of the Shingles","Skin, Images of location of shingles section")
         }
         return conditions;
         },
