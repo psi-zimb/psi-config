@@ -173,6 +173,39 @@
 	    "HST, External referral to:(Multiple responses possible)":{
                 "multiSelect" : true
             },
+            "HEENT, Hearing loss location":{
+                "multiSelect": true
+            },
+            "HEENT, Ear discharge location":{
+                "multiSelect": true
+            },
+            "HEENT, Ear pain location":{
+                "multiSelect": true
+            },
+            "HEENT, Headache location":{
+                "multiSelect": true
+            },
+            "HEENT, Headache association":{
+                "multiSelect": true
+            },
+            "HEENT, Parotid enlargement":{
+                "multiSelect": true
+            },
+            "HEENT, If yes on loss of vision, specify":{
+                "multiSelect": true
+            },
+            "HEENT, If no on conjunctive normal, specify where":{
+                "multiSelect": true
+            },
+            "HEENT, If no on normal eyelids, specify where":{
+                "multiSelect": true
+            },
+            "HEENT, If yes on pterytium, which side":{
+                "multiSelect": true
+            },
+            "HEENT, If yes on other oral condition, specify":{
+                "multiSelect": true
+            },
             "defaults": {
                 "HIV testing and counselling service": "Requested",
 

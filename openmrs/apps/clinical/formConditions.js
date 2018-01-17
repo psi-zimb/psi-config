@@ -200,12 +200,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         var conditionConcept = formFieldValues['HEENT, Are you suffering from headaches?'];
         if (conditionConcept == "Yes") {
             conditions.enable.push("HEENT, Headache location","HEENT, Onset of headache","HEENT, Headache Course","HEENT, Headache Severity","HEENT, Headache Frequency","HEENT, Headache association","HEENT, Duration of Headache","HEENT, Parotid enlargement")
-            var OtherSelected = formFieldValues['HEENT, Headache location'];
-            if (OtherSelected == "Other"){
-                conditions.enable.push("HEENT, If other headache location, specify")
-            } else {
-                conditions.disable.push("HEENT, If other headache location, specify")
-            }
         } else {
             conditions.disable.push("HEENT, Headache location","HEENT, Onset of headache","HEENT, Headache Course","HEENT, Headache Severity","HEENT, Headache Frequency","HEENT, Headache association","HEENT, Duration of Headache","HEENT, Parotid enlargement")
         }
@@ -214,7 +208,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
     "HEENT, Headache location": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['HEENT, Headache location'];
-        if (conditionConcept == "Other") {
+        if (conditionConcept.indexOf("Other") >=0) {
             conditions.enable.push("HEENT, If other headache location, specify")
         } else {
             conditions.disable.push("HEENT, If other headache location, specify")
@@ -311,11 +305,11 @@ Bahmni.ConceptSet.FormConditions.rules = {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['HEENT, Have you noticed any changes in or around the mouth and neck?'];
         if (conditionConcept == "Yes") {
-            conditions.enable.push("HEENT, Have you had sores or non healing ulcers in the mouth?", "HEENT, Have you had blisters or swelling on/around the lips?", "HEENT, Have you had non-healing cracks at the corner of your mouth?", "HEENT, Have you had oral thrush?", "HEENT, Have you had painful or bleeding gums?", "HEENT, Have you had painful teeth?", "HEENT, Have you had painful teeth?", "HEENT, Do you have any other oral conditions?", "HEENT, Do you have lumps?")
+            conditions.enable.push("HEENT, Have you had sores or non healing ulcers in the mouth?", "HEENT, Have you had blisters or swelling on/around the lips?", "HEENT, Have you had non-healing cracks at the corner of your mouth?", "HEENT, Have you had oral thrush?", "HEENT, Have you had painful or bleeding gums?", "HEENT, Have you had painful teeth?", "HEENT, Have you had painful teeth?", "HEENT, Do you have any other oral conditions?")
             var MNYesSelected = formFieldValues['HEENT, Have you had sores or non healing ulcers in the mouth?'];
             var OralYesSelected = formFieldValues['HEENT, Have you had oral thrush?'];
             var OralOtherSelected = formFieldValues['HEENT, Do you have any other oral conditions?'];
-            var LumpsYesSelected = formFieldValues['HEENT, Do you have lumps?'];
+
             if (MNYesSelected == "Yes"){
                 conditions.enable.push("HEENT, If yes on sores, how often?")
             } else {
@@ -331,13 +325,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
             } else {
                 conditions.disable.push("HEENT, If yes on other oral condition, specify")
             }
-            if (LumpsYesSelected == "Yes"){
-                conditions.enable.push("HEENT, Duration of Lumps", "HEENT, Location of the lumps")
-            } else {
-                conditions.disable.push("HEENT, Duration of Lumps", "HEENT, Location of the lumps")
-            }
+
         } else {
-            conditions.disable.push("HEENT, Have you had sores or non healing ulcers in the mouth?", "HEENT, Have you had blisters or swelling on/around the lips?", "HEENT, Have you had non-healing cracks at the corner of your mouth?", "HEENT, Have you had oral thrush?", "HEENT, Have you had painful or bleeding gums?", "HEENT, Have you had painful teeth?", "HEENT, Have you had painful teeth?", "HEENT, Do you have any other oral conditions?", "HEENT, Do you have lumps?")
+            conditions.disable.push("HEENT, Have you had sores or non healing ulcers in the mouth?", "HEENT, Have you had blisters or swelling on/around the lips?", "HEENT, Have you had non-healing cracks at the corner of your mouth?", "HEENT, Have you had oral thrush?", "HEENT, Have you had painful or bleeding gums?", "HEENT, Have you had painful teeth?", "HEENT, Have you had painful teeth?", "HEENT, Do you have any other oral conditions?")
         }
         return conditions;
         },
@@ -368,16 +358,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
             conditions.enable.push("HEENT, If yes on other oral condition, specify")
         } else {
             conditions.disable.push("HEENT, If yes on other oral condition, specify")
-        }
-        return conditions;
-        },
-    "HEENT, Do you have lumps?": function (formName, formFieldValues) {
-        var conditions = {enable: [], disable: []};
-        var conditionConcept = formFieldValues['HEENT, Do you have lumps?'];
-        if (conditionConcept == "Yes") {
-            conditions.enable.push("HEENT, Duration of Lumps", "HEENT, Location of the lumps")
-        } else {
-            conditions.disable.push("HEENT, Duration of Lumps", "HEENT, Location of the lumps")
         }
         return conditions;
         },
