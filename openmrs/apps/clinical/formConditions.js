@@ -331,7 +331,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
             conditions.show.push("STI Symptoms, Male Details")
             conditions.enable.push("STI Symptoms, Male, Have you observed a discharge from the penis?","STI Symptoms, Male, Have you noticed non painful or painful ulcers on or around the penis?","STI Symptoms, Male, Have you had rash with any of the symptoms?", "STI Symptoms, Male, Have you noticed warts on the genital area?", "STI Symptoms, Male, Have you had swelling of your penis or foreskin?", "STI Symptoms, Male, Have you been treated for any of the following?")
             conditions.hide.push("STI Symptoms, Female Details")
-            var PenisDischarge = formFieldValues['STI Symptoms, M2ale, Have you observed a discharge from the penis?'];
+            var PenisDischarge = formFieldValues['STI Symptoms, Male, Have you observed a discharge from the penis?'];
             var PenisUlcers = formFieldValues['STI Symptoms, Male, Have you noticed non painful or painful ulcers on or around the penis?'];
             var RashSymptoms = formFieldValues['STI Symptoms, Male, Have you had rash with any of the symptoms?'];
             if (PenisDischarge == "Yes") {
@@ -414,10 +414,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         var conditionConcept = formFieldValues['STI Symptoms, Female, Have you observed a vaginal discharge?'];
         if (conditionConcept == "Yes") {
             conditions.enable.push("STI Symptoms, Female, If yes on vaginal discharge, specify type")
-        var VaginalOther = formFieldValues['STI Symptoms, Female, Other type of vaginal discharge'];
-        if (VaginalOther == "Other"){
-                conditions.enable.push("STI Symptoms, Female, Other type of vaginal discharge")
-            }
         } else {
             conditions.disable.push("STI Symptoms, Female, If yes on vaginal discharge, specify type")
         }
@@ -426,7 +422,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
     "STI Symptoms, Female, If yes on vaginal discharge, specify type": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['STI Symptoms, Female, If yes on vaginal discharge, specify type'];
-        if (conditionConcept == "Other") {
+        if (conditionConcept.indexOf("Other") >=0) {
             conditions.enable.push("STI Symptoms, Female, Other type of vaginal discharge")
         } else {
             conditions.disable.push("STI Symptoms, Female, Other type of vaginal discharge")
@@ -784,12 +780,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         var conditionConcept = formFieldValues['LH, Have you had a chest pain?'];
         if (conditionConcept == "Yes") {
             conditions.enable.push("LH, Location of the chest pain","LH, Duration of chest pains?")
-         var OtherSelected = formFieldValues['LH, Location of the chest pain'];
-         if (OtherSelected == "Other locations"){
-          conditions.enable.push("LH, If other location of the chest pain, specify")
-         } else {
-          conditions.disable.push("LH, If other location of the chest pain, specify")
-         }
         } else {
             conditions.disable.push("LH, Location of the chest pain","LH, Duration of chest pains?")
         }
