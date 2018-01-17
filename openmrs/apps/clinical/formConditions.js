@@ -1260,12 +1260,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         var conditionConcept = formFieldValues['Skin, Is your skin inflammed?'];
         if (conditionConcept == "Yes") {
             conditions.enable.push("Skin, If yes on skin inflammed, specify type")
-         var InflameType = formFieldValues['Skin, If yes on skin inflammed, specify type'];
-         if (InflameType == "Other") {
-          conditions.enable.push("Skin, Specify other inflammation type")
-         } else {
-          conditions.disable.push("Skin, Specify other inflammation type")
-         }
+         
         } else {
             conditions.disable.push("Skin, If yes on skin inflammed, specify type")
         }
@@ -1274,7 +1269,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
      'Skin, If yes on skin inflammed, specify type': function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['Skin, If yes on skin inflammed, specify type'];
-        if (conditionConcept == "Other") {
+        if (conditionConcept.indexOf('Other') >= 0) {
             conditions.enable.push("Skin, Specify other inflammation type")
         } else {
             conditions.disable.push("Skin, Specify other inflammation type")

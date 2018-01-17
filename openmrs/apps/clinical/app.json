@@ -221,6 +221,18 @@
         "STI Symptoms, Female, If yes on vaginal discharge, specify type":{
                 "multiSelect" : true
             },
+            "Skin, Morphology of rash":{
+                "multiSelect" : true
+            },
+            "Skin, If yes on skin inflammed, specify type":{
+                "multiSelect" : true
+            },
+            "Skin, Have you ever had any of the following?":{
+                "multiSelect" : true
+            },
+            "Skin, If yes on fungal infections, where":{
+                "multiSelect" : true
+            },
             "defaults": {
                 "HIV testing and counselling service": "Requested",
 
