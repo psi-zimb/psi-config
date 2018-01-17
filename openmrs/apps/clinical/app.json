@@ -161,16 +161,16 @@
             "Accepted Family Planning methods": {
                 "multiSelect": true
             },
-	    "PHTC, TB History, Disclosure planned to" : {
+	        "PHTC, TB History, Disclosure planned to" : {
                 "multiSelect" : true
             },
-	    "ART Observations Form Template": {
+	        "ART Observations Form Template": {
             	"hideAbnormalButton" : true
             },
-	    "HST, Request Services" : {
+	        "HST, Request Services" : {
                 "multiSelect" : true
             },
-	    "HST, External referral to:(Multiple responses possible)":{
+	        "HST, External referral to:(Multiple responses possible)":{
                 "multiSelect" : true
             },
             "HEENT, Hearing loss location":{
@@ -203,8 +203,17 @@
             "HEENT, If yes on pterytium, which side":{
                 "multiSelect": true
             },
-            "HEENT, If yes on other oral condition, specify":{
+            "HEENT, If yes on other oral condition, specify": {
                 "multiSelect": true
+            },
+            "If yes, which method are you/partner using? (Multiple responses possible)":{
+                "multiSelect":true
+            },
+            "PHTC, Why were you worried/curious about your HIV status":{
+                "multiSelect":true
+            },
+            "PHTC, Risk reduction plan":{
+                "multiSelect":true
             },
             "defaults": {
                 "HIV testing and counselling service": "Requested",

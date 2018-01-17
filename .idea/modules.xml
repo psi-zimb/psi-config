@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/openmrs/openmrs.iml" filepath="$PROJECT_DIR$/openmrs/openmrs.iml" />
-      <module fileurl="file://$PROJECT_DIR$/openmrs/rulesengine/rulesengine.iml" filepath="$PROJECT_DIR$/openmrs/rulesengine/rulesengine.iml" />
-    </modules>
-  </component>
-</project>

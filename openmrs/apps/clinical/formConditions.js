@@ -89,43 +89,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         }
         return ruleActions;
 	    },
-	"Ever had sexual intercourse": function(formName, formFieldValues) {
-		var questionThatTriggersRule = "Ever had sexual intercourse"
-        var selectedResponses = formFieldValues[questionThatTriggersRule];
-		var question1AffectedByRule = "Age at first penetrative sex?"
-		var question2AffectedByRule = "Do you / your partner currently have an STI?"
-		var question3AffectedByRule = "Past 12 months had sex while intoxicated"
-		var question4AffectedByRule = "Past 12 months exchanged money/ goods for sex?"
-		var question5AffectedByRule = "Last time had sex, did you use a condom?"
-		var question6AffectedByRule = "Do you currently have more than one sexual partner (including your spouse/regular partner)?"
-		var question7AffectedByRule = "How many sexual partners did you have in the past 12 mths? ( including your spouse/regular partner)"
-		var question8AffectedByRule = "Are you/is your partner circumcised (male circumcision)?"
-		var question9AffectedByRule = "Have you ever talked about T&C with your partner/spouse?"
-        var conditionTrue = selectedResponses == 'Yes';
-    	var ruleActions = {enable: [], disable: []};
-        if(conditionTrue) {
-            ruleActions.enable.push(question1AffectedByRule)
-            ruleActions.enable.push(question2AffectedByRule)
-            ruleActions.enable.push(question3AffectedByRule)
-            ruleActions.enable.push(question4AffectedByRule)
-            ruleActions.enable.push(question5AffectedByRule)
-            ruleActions.enable.push(question6AffectedByRule)
-            ruleActions.enable.push(question7AffectedByRule)
-            ruleActions.enable.push(question8AffectedByRule)
-            ruleActions.enable.push(question9AffectedByRule)
-        } else {
-            ruleActions.disable.push(question1AffectedByRule)
-            ruleActions.disable.push(question2AffectedByRule)
-            ruleActions.disable.push(question3AffectedByRule)
-            ruleActions.disable.push(question4AffectedByRule)
-            ruleActions.disable.push(question5AffectedByRule)
-            ruleActions.disable.push(question6AffectedByRule)
-            ruleActions.disable.push(question7AffectedByRule)
-            ruleActions.disable.push(question8AffectedByRule)
-            ruleActions.disable.push(question9AffectedByRule)
-        }
-        return ruleActions;
-	    },
 	"If client advised to return for re-testing indicate timeline (2 weeks, 4 weeks, 3months, 6 months, other)": function(formName, formFieldValues) {
 		var questionThatTriggersRule = "If client advised to return for re-testing indicate timeline (2 weeks, 4 weeks, 3months, 6 months, other)"
         var selectedResponses = formFieldValues[questionThatTriggersRule];
@@ -1641,7 +1604,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
                 var question6AffectedByRule = "PHTC, Do you currently have more than one sexual partner (including your spouse or regular partner)"
                 var question7AffectedByRule = "PHTC, How many sexual partners did you have in the last twelve months (including your spouse or sexual partner)"
                 var question8AffectedByRule = "PHTC, Are you or your partner circumcised (Male circumcision)"
-                var question9AffectedByRule = "PHTC, Have you ever talked about T&C with your partner/spouse?"
                 var conditionTrue = selectedResponses == 'Yes';
                 var ruleActions = {enable: [], disable: []};
                 if(conditionTrue) {
@@ -1653,7 +1615,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
                         ruleActions.enable.push(question6AffectedByRule)
                         ruleActions.enable.push(question7AffectedByRule)
                         ruleActions.enable.push(question8AffectedByRule)
-                        ruleActions.enable.push(question9AffectedByRule)
                 } else {
                         ruleActions.disable.push(question1AffectedByRule)
                         ruleActions.disable.push(question2AffectedByRule)
@@ -1663,7 +1624,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
                         ruleActions.disable.push(question6AffectedByRule)
                         ruleActions.disable.push(question7AffectedByRule)
                         ruleActions.disable.push(question8AffectedByRule)
-                        ruleActions.disable.push(question9AffectedByRule)
                 }
                 return ruleActions;
         },
@@ -3282,11 +3242,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
-
-
-
         "Accomodation(0)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Accomodation"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -3429,10 +3384,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
-
-
         "Have you had a cough?(0)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Have you had a cough?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -3494,13 +3445,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
-
-
-
-
-
         "Did you experience any itching?(0)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Did you experience any itching?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -3853,9 +3797,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
-
         "Do you have frequent abdominal pain?(0)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Do you have frequent abdominal pain?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -3868,7 +3809,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
         "Do you have ear pain or discharge?(2)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Do you have ear pain or discharge?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -3893,13 +3833,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
-
-
-
-
-
         "Have you experienced problems with medicines?(4)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Have you experienced problems with medicines?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -3912,7 +3845,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
         "Are you sexually active?(2)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Are you sexually active?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -3925,9 +3857,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
-
         "Did the child breast feed?(0)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Did the child breast feed?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -3976,9 +3905,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
-
         "Have you had TB in places other than the lungs?(0)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Have you had TB in places other than the lungs?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -4003,8 +3929,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
         "Have you experienced chronic back pain?(3)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Have you experienced chronic back pain?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -4017,10 +3941,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
-
-
         "Have you changed your medicines?(2)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Have you changed your medicines?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -4045,11 +3965,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
-
-
-
         "Have you been screened for cervical cancer?(0)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Have you been screened for cervical cancer?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -4087,8 +4002,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
         "Did your baby receive PMTCT?(1)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Did your baby receive PMTCT?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -4101,10 +4014,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
-
-
         "Did you have a rash from taking the medications?(1)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Did you have a rash from taking the medications?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -4117,12 +4026,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
-
-
-
-
         "Have you ever been pregnant?(3)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Have you ever been pregnant?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -4135,7 +4038,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
         "Have you had a positive HIV test?(9)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Have you had a positive HIV test?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -4173,7 +4075,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
 
         "Are Sclerae / Conjunctivae normal?(0)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Are Sclerae / Conjunctivae normal?"
@@ -4272,14 +4173,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
-
-
-
-
-
-
         "Have you experienced chronic back pain?(0)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Have you experienced chronic back pain?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -4317,10 +4210,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
-
-
         "Tachypnea?(0)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Tachypnea?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -4382,11 +4271,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
-
-
-
         "Wheezing(0)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Wheezing"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -4399,12 +4283,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
-
-
-
-
         "Do you have high blood pressure?(0)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Do you have high blood pressure?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -4541,11 +4419,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
-
-
-
         "Are you or have you ever been a smoker?(1)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Are you or have you ever been a smoker?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -4570,10 +4443,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
-
-
         "Did you have night sweats?(0)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Did you have night sweats?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -4586,10 +4455,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
-
-
         "Enlarged lymph nodes?(1)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Enlarged lymph nodes?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -4626,11 +4491,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
-
-
-
         "Have you had chest pain?(1)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Have you had chest pain?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -4815,10 +4675,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
-
-
         "Have you observed a lump growing?(0)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Have you observed a lump growing?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -4868,9 +4724,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
-
         "Have any of  your children been tested for HIV?(0)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Have any of  your children been tested for HIV?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -4932,8 +4785,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
         "Did the child exclusively breast feed?(1)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Did the child exclusively breast feed?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -4996,10 +4847,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
-
-
         "Do you have a partner?(6)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Do you have a partner?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -5012,7 +4859,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
 
         "Have any children died(0)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Have any children died"
@@ -5038,9 +4884,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
-
         "Itching rash?(1)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Itching rash?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -5093,7 +4936,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         return ruleActions;
         },
 
-
         "Have you had a cough?(1)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Have you had a cough?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -5106,11 +4948,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
-
-
-
         "Do you have ear pain or discharge?(1)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Do you have ear pain or discharge?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -5136,9 +4973,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
-
         "Have you noticed any changes in or around the mouth and neck?(3)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Have you noticed any changes in or around the mouth and neck?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -5187,8 +5021,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
         "Have you changed your medicines?(1)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Have you changed your medicines?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -5304,11 +5136,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
-
-
-
         "Have you observed a breast lump?(1)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Have you observed a breast lump?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -5383,9 +5210,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
-
         "Have you experienced intermenstrual bleeding?(0)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Have you experienced intermenstrual bleeding?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -5435,10 +5259,60 @@ Bahmni.ConceptSet.FormConditions.rules = {
             conditions.disable.push("HST, Request Services")
         }
         return conditions;
+        },
+    'Were you treated for TB before?': function (formName, formFieldValues) {
+        var conditions = {
+                    enable: [],
+                    disable: []
+                    };
+        var conditionConcept = formFieldValues['Were you treated for TB before?'];
+        if (conditionConcept == "No") {
+            conditions.disable.push("How was TB diagnosed?","Have you had TB in places other than the lungs?","Location of TB","Was treatment interupted?")
+        } else {
+            conditions.enable.push("How was TB diagnosed?","Have you had TB in places other than the lungs?","Location of TB","Was treatment interupted?")
         }
+        return conditions;
+        },
+    'PHTC, Ever had anal sex': function (formName, formFieldValues) {
+        var conditions = {
+                    enable: [],
+                    disable: []
+                    };
+        var conditionConcept = formFieldValues['PHTC, Ever had anal sex'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("PHTC, Age of first penetrative sex");
+            conditions.enable.push("PHTC, Do you or your partner currently have an STI");
+            conditions.enable.push("PHTC, In the last twelve months, ever had sex while intoxicated");
+            conditions.enable.push("PHTC, In the last twelve month exchanged money or goods for sex");
+            conditions.enable.push("PHTC, Last time you had sex did you use a condom");
+            conditions.enable.push("PHTC, Do you currently have more than one sexual partner (including your spouse or regular partner)");
+            conditions.enable.push("PHTC, Last time you had sex did you use a condom");
+            conditions.enable.push("PHTC, Last time you had sex did you use a condom");
 
+        } else {
+             conditions.disable.push("PHTC, Age of first penetrative sex");
+             conditions.disable.push("PHTC, Do you or your partner currently have an STI");
+             conditions.disable.push("PHTC, In the last twelve months, ever had sex while intoxicated");
+             conditions.disable.push("PHTC, In the last twelve month exchanged money or goods for sex");
+             conditions.disable.push("PHTC, Last time you had sex did you use a condom");
+             conditions.disable.push("PHTC, Do you currently have more than one sexual partner (including your spouse or regular partner)");
+             conditions.disable.push("PHTC, Last time you had sex did you use a condom");
+             conditions.disable.push("PHTC, Last time you had sex did you use a condom");
+        }
+        return conditions;
+        },
+    'Were you treated for TB before?': function (formName, formFieldValues) {
+        var conditions = {
+                    enable: [],
+                    disable: []
+                    };
+        var conditionConcept = formFieldValues['Were you treated for TB before?'];
+        if (conditionConcept == "No") {
+            conditions.disable.push("Have you had TB in places other than the lungs?")
+        } else {
+            conditions.enable.push("Have you had TB in places other than the lungs?")
+        }
+        return conditions;
+        },
 
-
-
-
-        };
+ };
