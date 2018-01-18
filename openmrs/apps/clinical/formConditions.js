@@ -1070,27 +1070,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         }
         return conditions;
         },
-     'Provider TB History, How was the TB diagnosed?': function (formName, formFieldValues) {
-        var conditions = {enable: [], disable: []};
-        var conditionConcept = formFieldValues['Provider TB History, How was the TB diagnosed?'];
-        if (conditionConcept == "Other") {
-            conditions.enable.push("Provider TB History, If other for current TB diagnosed, specify")
-        } else {
-            conditions.disable.push("Provider TB History, If other for current TB diagnosed, specify")
-        }
-        return conditions;
-        },
-     'Provider TB History, Location of current TB': function (formName, formFieldValues) {
-        var conditions = {enable: [], disable: []};
-        var conditionConcept = formFieldValues['Provider TB History, Location of current TB'];
-        if (conditionConcept == "Other") {
-            conditions.enable.push("Provider TB History, If other for current TB location, specify")
-        } else {
-            conditions.disable.push("Provider TB History, If other for current TB location, specify")
-        }
-        return conditions;
-        },
- 
      'Provider TB History, Has you mother or caregiver been treated for TB? (for children under 5)': function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['Provider TB History, Has you mother or caregiver been treated for TB? (for children under 5)'];
@@ -5423,17 +5402,17 @@ Bahmni.ConceptSet.FormConditions.rules = {
          }
          return conditions;
          },
-      'Provider TB History, Location of current TB': function (formName, formFieldValues) {
+      'Provider TB History, Location of TB': function (formName, formFieldValues) {
           var conditions = {
                   enable: [],
                   disable: []
                   };
-          var conditionConcept = formFieldValues['Provider TB History, Location of current TB'];
+          var conditionConcept = formFieldValues['Provider TB History, Location of TB'];
           if (conditionConcept == "Other") {
-              conditions.enable.push("Provider TB History, If other for current TB location, specify")
+              conditions.enable.push("Provider TB History, If other TB location, specify")
                 }
          else {
-              conditions.disable.push("Provider TB History, If other for current TB location, specify")
+              conditions.disable.push("Provider TB History, If other TB location, specify")
           }
           return conditions;
           }
