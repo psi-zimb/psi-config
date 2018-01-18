@@ -5351,9 +5351,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
                     };
         var conditionConcept = formFieldValues['Provider TB History, Were you treated for TB before?'];
         if (conditionConcept == "No") {
-            conditions.disable.push("Provider TB History, How was current TB diagnosed?","Provider TB History, Have you had TB in places other than the lungs?","Provider TB History, Location of current TB","Provider TB History, Was treatment interupted?")
+            conditions.disable.push("Provider TB History, How was the current TB diagnosed?","Provider TB History, Have you had TB in places other than the lungs?","Provider TB History, Location of current TB","Provider TB History, Was treatment interupted?")
         } else {
-            conditions.enable.push("Provider TB History, How was current TB diagnosed?","Provider TB History, Have you had TB in places other than the lungs?","Provider TB History, Location of current TB","Provider TB History, Was treatment interupted?")
+            conditions.enable.push("Provider TB History, How was the current TB diagnosed?","Provider TB History, Have you had TB in places other than the lungs?","Provider TB History, Location of current TB","Provider TB History, Was treatment interupted?")
         }
         return conditions;
         },
