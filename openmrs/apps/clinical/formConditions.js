@@ -5425,5 +5425,33 @@ Bahmni.ConceptSet.FormConditions.rules = {
               conditions.disable.push("Provider TB History, If other TB location, specify")
           }
           return conditions;
-          }
+          },
+    'PHT, Ever had anal sex': function (formName, formFieldValues) {
+         var conditions = {
+                     enable: [],
+                     disable: []
+                     };
+         var conditionConcept = formFieldValues['PHT, Ever had anal sex'];
+         if (conditionConcept == "Yes") {
+             conditions.enable.push("PHT, Age of first penetrative sex");
+             conditions.enable.push("PHT, Do you or your partner currently have an STI");
+             conditions.enable.push("PHT, In the last twelve months, ever had sex while intoxicated");
+             conditions.enable.push("PHT, In the last twelve month exchanged money or goods for sex");
+             conditions.enable.push("PHT, Last time you had sex did you use a condom");
+             conditions.enable.push("PHT, Do you currently have more than one sexual partner (including your spouse or regular partner)");
+             conditions.enable.push("PHT, Last time you had sex did you use a condom");
+             conditions.enable.push("PHT, Last time you had sex did you use a condom");
+
+         } else {
+              conditions.disable.push("PHT, Age of first penetrative sex");
+              conditions.disable.push("PHT, Do you or your partner currently have an STI");
+              conditions.disable.push("PHT, In the last twelve months, ever had sex while intoxicated");
+              conditions.disable.push("PHT, In the last twelve month exchanged money or goods for sex");
+              conditions.disable.push("PHT, Last time you had sex did you use a condom");
+              conditions.disable.push("PHT, Do you currently have more than one sexual partner (including your spouse or regular partner)");
+              conditions.disable.push("PHT, Last time you had sex did you use a condom");
+              conditions.disable.push("PHT, Last time you had sex did you use a condom");
+         }
+         return conditions;
+         },
  };
