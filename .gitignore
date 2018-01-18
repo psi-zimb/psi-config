@@ -4,7 +4,7 @@
 .project
 .settings
 .idea/*
-*/.idea/*
+.idea/*
 .tmp
 target
 playbook/all.retry
