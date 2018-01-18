@@ -2,8 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e68bc573-0bd6-424f-8a45-a276068f9ddd" name="Default" comment="">
+<<<<<<< 97396468e1442ac49a2bf95c2f5118d100d4bc87
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/openmrs/apps/clinical/formConditions.js" afterPath="$PROJECT_DIR$/openmrs/apps/clinical/formConditions.js" />
+=======
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/openmrs/apps/clinical/formConditions.js" afterPath="$PROJECT_DIR$/openmrs/apps/clinical/formConditions.js" />
+>>>>>>> Feedback on Contact tracing form
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -18,7 +23,11 @@
       <file leaf-file-name="app.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/openmrs/apps/clinical/app.json">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< 97396468e1442ac49a2bf95c2f5118d100d4bc87
             <state relative-caret-position="22">
+=======
+            <state relative-caret-position="3300">
+>>>>>>> Feedback on Contact tracing form
               <caret line="220" column="10" lean-forward="false" selection-start-line="220" selection-start-column="10" selection-end-line="220" selection-end-column="10" />
               <folding />
             </state>
@@ -28,8 +37,23 @@
       <file leaf-file-name="formConditions.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/openmrs/apps/clinical/formConditions.js">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< 97396468e1442ac49a2bf95c2f5118d100d4bc87
             <state relative-caret-position="-94842">
               <caret line="1071" column="10" lean-forward="false" selection-start-line="1071" selection-start-column="10" selection-end-line="1071" selection-end-column="10" />
+=======
+            <state relative-caret-position="253">
+              <caret line="1666" column="72" lean-forward="false" selection-start-line="1666" selection-start-column="72" selection-end-line="1666" selection-end-column="72" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="openmrs.iml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/openmrs/openmrs.iml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+>>>>>>> Feedback on Contact tracing form
               <folding />
             </state>
           </provider>
@@ -38,7 +62,11 @@
       <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< 97396468e1442ac49a2bf95c2f5118d100d4bc87
             <state relative-caret-position="220">
+=======
+            <state relative-caret-position="150">
+>>>>>>> Feedback on Contact tracing form
               <caret line="10" column="21" lean-forward="false" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
               <folding />
             </state>
@@ -55,10 +83,14 @@
       <find>Have you had a skin rash recently?</find>
       <find>Skin, Have you had a skin rash recently?</find>
       <find>GI Tract, Vomit content</find>
+<<<<<<< 97396468e1442ac49a2bf95c2f5118d100d4bc87
       <find>Provider TB History, How was the TB diagnosed?</find>
       <find>Provider TB History, Location of</find>
       <find>Provider TB History</find>
       <find>Provider TB History, Location of TB</find>
+=======
+      <find>What time of the day would be advisable to call your partner</find>
+>>>>>>> Feedback on Contact tracing form
     </findStrings>
     <replaceStrings>
       <replace>Provider TB History, How was the TB diagnosed?</replace>
@@ -75,9 +107,15 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+<<<<<<< 97396468e1442ac49a2bf95c2f5118d100d4bc87
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/openmrs/apps/clinical/app.json" />
         <option value="$PROJECT_DIR$/openmrs/apps/clinical/formConditions.js" />
+=======
+        <option value="$PROJECT_DIR$/openmrs/apps/clinical/app.json" />
+        <option value="$PROJECT_DIR$/openmrs/apps/clinical/formConditions.js" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+>>>>>>> Feedback on Contact tracing form
       </list>
     </option>
   </component>
@@ -110,7 +148,12 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
+<<<<<<< 97396468e1442ac49a2bf95c2f5118d100d4bc87
+=======
+      <pane id="PackagesPane" />
+>>>>>>> Feedback on Contact tracing form
       <pane id="AndroidView" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -122,8 +165,11 @@
           <select />
         </subPane>
       </pane>
+<<<<<<< 97396468e1442ac49a2bf95c2f5118d100d4bc87
       <pane id="PackagesPane" />
       <pane id="Scope" />
+=======
+>>>>>>> Feedback on Contact tracing form
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -237,16 +283,22 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1516252080458</updated>
-      <workItem from="1516252087075" duration="843000" />
+      <workItem from="1516252087075" duration="1670000" />
+      <workItem from="1516256153106" duration="37000" />
+      <workItem from="1516256195515" duration="34000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2746000" />
+    <option name="totallyTimeSpent" value="3644000" />
   </component>
   <component name="ToolWindowManager">
+<<<<<<< 97396468e1442ac49a2bf95c2f5118d100d4bc87
     <frame x="10" y="54" width="1906" height="954" extended-state="0" />
     <editor active="true" />
+=======
+    <frame x="0" y="23" width="1440" height="825" extended-state="0" />
+>>>>>>> Feedback on Contact tracing form
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -263,10 +315,28 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17051417" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+<<<<<<< 97396468e1442ac49a2bf95c2f5118d100d4bc87
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+=======
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="MaxCompute Project Explorer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="FAQ Robot" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17083333" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="MaxCompute Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+>>>>>>> Feedback on Contact tracing form
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -296,6 +366,14 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/openmrs/apps/clinical/app.json">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3300">
+          <caret line="220" column="10" lean-forward="false" selection-start-line="220" selection-start-column="10" selection-end-line="220" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/openmrs/openmrs.iml">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
@@ -303,9 +381,31 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
+<<<<<<< 97396468e1442ac49a2bf95c2f5118d100d4bc87
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
           <caret line="10" column="19" lean-forward="false" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
+=======
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="21" lean-forward="false" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/openmrs/apps/clinical/formConditions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24990">
+          <caret line="1666" column="72" lean-forward="false" selection-start-line="1666" selection-start-column="72" selection-end-line="1666" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/openmrs/apps/clinical/app.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3300">
+          <caret line="220" column="10" lean-forward="false" selection-start-line="220" selection-start-column="10" selection-end-line="220" selection-end-column="10" />
+>>>>>>> Feedback on Contact tracing form
           <folding />
         </state>
       </provider>
@@ -327,6 +427,33 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/openmrs/apps/clinical/formConditions.js">
+<<<<<<< 97396468e1442ac49a2bf95c2f5118d100d4bc87
+=======
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24990">
+          <caret line="1666" column="72" lean-forward="false" selection-start-line="1666" selection-start-column="72" selection-end-line="1666" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/openmrs/apps/clinical/app.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/openmrs/apps/clinical/formConditions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18135">
+          <caret line="1209" column="92" lean-forward="false" selection-start-line="1209" selection-start-column="92" selection-end-line="1209" selection-end-column="92" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/openmrs/openmrs.iml">
+>>>>>>> Feedback on Contact tracing form
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18135">
           <caret line="1209" column="92" lean-forward="false" selection-start-line="1209" selection-start-column="92" selection-end-line="1209" selection-end-column="92" />
@@ -343,19 +470,47 @@
         </state>
       </provider>
     </entry>
+<<<<<<< 97396468e1442ac49a2bf95c2f5118d100d4bc87
     <entry file="file://$PROJECT_DIR$/openmrs/openmrs.iml" />
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
           <caret line="10" column="21" lean-forward="false" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+=======
+    <entry file="file://$PROJECT_DIR$/openmrs/apps/clinical/app.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3300">
+          <caret line="220" column="10" lean-forward="false" selection-start-line="220" selection-start-column="10" selection-end-line="220" selection-end-column="10" />
+>>>>>>> Feedback on Contact tracing form
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/openmrs/apps/clinical/app.json">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< 97396468e1442ac49a2bf95c2f5118d100d4bc87
         <state relative-caret-position="22">
           <caret line="220" column="10" lean-forward="false" selection-start-line="220" selection-start-column="10" selection-end-line="220" selection-end-column="10" />
+=======
+        <state relative-caret-position="150">
+          <caret line="10" column="21" lean-forward="false" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/openmrs/openmrs.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/openmrs/apps/clinical/formConditions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="1666" column="72" lean-forward="false" selection-start-line="1666" selection-start-column="72" selection-end-line="1666" selection-end-column="72" />
+>>>>>>> Feedback on Contact tracing form
           <folding />
         </state>
       </provider>

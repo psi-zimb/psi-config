@@ -1637,6 +1637,16 @@ Bahmni.ConceptSet.FormConditions.rules = {
         }
         return conditions;
         },
+        "Contact Tracing, What time of the day would be advisable to call your partner": function (formName, formFieldValues) {
+            var conditions = {enable: [], disable: []};
+            var conditionConcept = formFieldValues['Contact Tracing, What time of the day would be advisable to call your partner'];
+            if (conditionConcept == "Given a specific time") {
+                conditions.enable.push("Contact Tracing, Specify time")
+            } else {
+                conditions.disable.push("Contact Tracing, Specify time")
+            }
+            return conditions;
+        },
     'Contact Tracing, Do you have any children?': function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['Contact Tracing, Do you have any children?'];
