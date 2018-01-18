@@ -1,5 +1,74 @@
 Bahmni.ConceptSet.FormConditions.rules = {
+    "Medications, Have you ever experienced a drug allergy?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['Medications, Have you ever experienced a drug allergy?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("Medications, Which drug(s) are you allerged to?")
 
+        }
+        else
+        {
+            conditions.disable.push("Medications, Which drug(s) are you allerged to?")
+        }
+        return conditions;
+
+    },
+    "Medications, Have you had a rash after taking medications?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['Medications, Have you had a rash after taking medications?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("Medications, Location of rash","Medications, Rash Morphology")
+
+        }
+        else
+        {
+            conditions.disable.push("Medications, Location of rash","Medications, Rash Morphology")
+        }
+        return conditions;
+
+    },
+    "Medications, Did you feel nauseated after taking medications?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['Medications, Did you feel nauseated after taking medications?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("Medications, Nausea from taking the medications?")
+
+        }
+        else
+        {
+            conditions.disable.push("Medications, Nausea from taking the medications?")
+        }
+        return conditions;
+
+    },
+    "Medications, Vomiting from taking the medications?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['Medications, Vomiting from taking the medications?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("Medications, Vomiting occurrence","Medications, Were tablets visible in vomitus?")
+
+        }
+        else
+        {
+            conditions.disable.push("Medications, Vomiting occurrence","Medications, Were tablets visible in vomitus?")
+        }
+        return conditions;
+
+    },
+    "Medications, Have you missed any doses since you visited the clinic?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['Medications, Have you missed any doses since you visited the clinic?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("Medications, When did you miss a dose?")
+
+        }
+        else
+        {
+            conditions.disable.push("Medications, When did you miss a dose?")
+        }
+        return conditions;
+
+    },
     "TB Screening, Have you had a cough?": function(formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['TB Screening, Have you had a cough?'];
