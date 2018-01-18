@@ -5363,27 +5363,27 @@ Bahmni.ConceptSet.FormConditions.rules = {
                     };
         var conditionConcept = formFieldValues['PHTC, Ever had anal sex'];
         if (conditionConcept == "Yes") {
-            conditions.enable.push("PHTC, Age of first penetrative sex");
-            conditions.enable.push("PHTC, Do you or your partner currently have an STI");
-            conditions.enable.push("PHTC, In the last twelve months, ever had sex while intoxicated");
-            conditions.enable.push("PHTC, In the last twelve month exchanged money or goods for sex");
-            conditions.enable.push("PHTC, Last time you had sex did you use a condom");
-            conditions.enable.push("PHTC, Do you currently have more than one sexual partner (including your spouse or regular partner)");
-            conditions.enable.push("PHTC, Last time you had sex did you use a condom");
-            conditions.enable.push("PHTC, Last time you had sex did you use a condom");
-
-        } else {
-             conditions.disable.push("PHTC, Age of first penetrative sex");
-             conditions.disable.push("PHTC, Do you or your partner currently have an STI");
-             conditions.disable.push("PHTC, In the last twelve months, ever had sex while intoxicated");
-             conditions.disable.push("PHTC, In the last twelve month exchanged money or goods for sex");
-             conditions.disable.push("PHTC, Last time you had sex did you use a condom");
-             conditions.disable.push("PHTC, Do you currently have more than one sexual partner (including your spouse or regular partner)");
-             conditions.disable.push("PHTC, Last time you had sex did you use a condom");
-             conditions.disable.push("PHTC, Last time you had sex did you use a condom");
-        }
-        return conditions;
-        },
+            conditions.enable.push("PHTC, Age of first penetrative sex");
+            conditions.enable.push("PHTC, Do you or your partner currently have an STI");
+            conditions.enable.push("PHTC, In the last twelve months, ever had sex while intoxicated");
+            conditions.enable.push("PHTC, In the last twelve month exchanged money or goods for sex");
+            conditions.enable.push("PHTC, Last time you had sex did you use a condom");
+            conditions.enable.push("PHTC, Do you currently have more than one sexual partner (including your spouse or regular partner)");
+            conditions.enable.push("PHTC, How many sexual partners did you have in the last twelve months (including your spouse or sexual partner)");
+            conditions.enable.push("PHTC, Are you or your partner circumcised (Male circumcision)");
+              }
+         else {
+            conditions.disable.push("PHTC, Age of first penetrative sex");
+            conditions.disable.push("PHTC, Do you or your partner currently have an STI");
+            conditions.disable.push("PHTC, In the last twelve months, ever had sex while intoxicated");
+            conditions.disable.push("PHTC, In the last twelve month exchanged money or goods for sex");
+            conditions.disable.push("PHTC, Last time you had sex did you use a condom");
+            conditions.disable.push("PHTC, Do you currently have more than one sexual partner (including your spouse or regular partner)");
+            conditions.disable.push("PHTC, How many sexual partners did you have in the last twelve months (including your spouse or sexual partner)");
+            conditions.disable.push("PHTC, Are you or your partner circumcised (Male circumcision)");
+              }
+             return conditions;
+           },
     'Provider TB History, Are you currently being treated for TB?': function (formName, formFieldValues) {
             var conditions = {
                     enable: [],
@@ -5439,18 +5439,18 @@ Bahmni.ConceptSet.FormConditions.rules = {
              conditions.enable.push("PHT, In the last twelve month exchanged money or goods for sex");
              conditions.enable.push("PHT, Last time you had sex did you use a condom");
              conditions.enable.push("PHT, Do you currently have more than one sexual partner (including your spouse or regular partner)");
-             conditions.enable.push("PHT, Last time you had sex did you use a condom");
-             conditions.enable.push("PHT, Last time you had sex did you use a condom");
+             conditions.enable.push("PHT, How many sexual partners did you have in the last twelve months (including your spouse or sexual partner)");
+             conditions.enable.push("PHT, Are you or your partner circumcised (Male circumcision)");
 
          } else {
-              conditions.disable.push("PHT, Age of first penetrative sex");
-              conditions.disable.push("PHT, Do you or your partner currently have an STI");
-              conditions.disable.push("PHT, In the last twelve months, ever had sex while intoxicated");
-              conditions.disable.push("PHT, In the last twelve month exchanged money or goods for sex");
-              conditions.disable.push("PHT, Last time you had sex did you use a condom");
-              conditions.disable.push("PHT, Do you currently have more than one sexual partner (including your spouse or regular partner)");
-              conditions.disable.push("PHT, Last time you had sex did you use a condom");
-              conditions.disable.push("PHT, Last time you had sex did you use a condom");
+               conditions.disable.push("PHT, Age of first penetrative sex");
+               conditions.disable.push("PHT, Do you or your partner currently have an STI");
+               conditions.disable.push("PHT, In the last twelve months, ever had sex while intoxicated");
+               conditions.disable.push("PHT, In the last twelve month exchanged money or goods for sex");
+               conditions.disable.push("PHT, Last time you had sex did you use a condom");
+               conditions.disable.push("PHT, Do you currently have more than one sexual partner (including your spouse or regular partner)");
+               conditions.disable.push("PHT, How many sexual partners did you have in the last twelve months (including your spouse or sexual partner)");
+               conditions.disable.push("PHT, Are you or your partner circumcised (Male circumcision)");
          }
          return conditions;
          },
