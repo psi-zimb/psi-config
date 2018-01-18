@@ -5660,4 +5660,66 @@ Bahmni.ConceptSet.FormConditions.rules = {
             return conditions;
             },
 
+        "Pregnancy Form Template, Are you currently pregnant?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['Pregnancy Form Template, Are you currently pregnant?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("Pregnancy Form Template, Are you booked for antenatal care?","Pregnancy Form Template, Due Date","Pregnancy Form Template, Are you on ARVs?","Pregnancy Form Template, Are you on any other drugs?","Pregnancy Form Template, Have you ever been pregnant before?","Pregnancy Form Template, Type of pregnancy","Pregnancy Form Template, If Yes ARVS for PMTCT then specify","Pregnancy Form Template, If Yes Specify other drug details");
+        }
+        else
+            conditions.disable.push("Pregnancy Form Template, Are you booked for antenatal care?","Pregnancy Form Template, Due Date","Pregnancy Form Template, Are you on ARVs?","Pregnancy Form Template, Are you on any other drugs?","Pregnancy Form Template, Have you ever been pregnant before?","Pregnancy Form Template, Type of pregnancy","Pregnancy Form Template, If Yes ARVS for PMTCT then specify","Pregnancy Form Template, If Yes Specify other drug details");
+            return conditions;
+        },
+        "Pregnancy Form Template, Are you booked for antenatal care?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['Pregnancy Form Template, Are you booked for antenatal care?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("Pregnancy Form Template, Due Date","Pregnancy Form Template, Where was the pregnancy booked?","Pregnancy Form Template, At what month was the pregnancy booked?","Pregnancy Form Template, How many antenatal visits did the mother attend?");
+        }
+        else
+            conditions.disable.push("Pregnancy Form Template, Due Date","Pregnancy Form Template, Where was the pregnancy booked?","Pregnancy Form Template, At what month was the pregnancy booked?","Pregnancy Form Template, How many antenatal visits did the mother attend?");
+            return conditions;
+        },
+        "Pregnancy Form Template, Have you ever been pregnant before?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['Pregnancy Form Template, Have you ever been pregnant before?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("Pregnancy Form Template, How many full pregnancies have you carries?","Pregnancy Form Template, Type of pregnancy","Pregnancy Form Template, Did you receive ARVs for PMTCT during pregnancy?","Pregnancy Form Template, Did you have any premature births?");
+        }
+        else
+            conditions.disable.push("Pregnancy Form Template, How many full pregnancies have you carries?","Pregnancy Form Template, Type of pregnancy","Pregnancy Form Template, Did you receive ARVs for PMTCT during pregnancy?","Pregnancy Form Template, Did you have any premature births?");
+            return conditions;
+        },
+        "Pregnancy Form Template, Are you on any other drugs?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['Pregnancy Form Template, Are you on any other drugs?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("Pregnancy Form Template, If Yes Specify other drug details");
+        }
+        else
+            conditions.disable.push("Pregnancy Form Template, If Yes Specify other drug details");
+            return conditions;
+        },
+        "Pregnancy Form Template, Did you receive ARVs for PMTCT during pregnancy?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['Pregnancy Form Template, Did you receive ARVs for PMTCT during pregnancy?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("Pregnancy Form Template, If Yes ARVS for PMTCT then specify");
+        }
+        else
+            conditions.disable.push("Pregnancy Form Template, If Yes ARVS for PMTCT then specify");
+            return conditions;
+        },
+        "Pregnancy Form Template, Did you have any premature births?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['Pregnancy Form Template, Did you have any premature births?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("Pregnancy Form Template, If Yes any premature births");
+        }
+        else
+            conditions.disable.push("Pregnancy Form Template, If Yes any premature births");
+            return conditions;
+        },
+
+
  };
