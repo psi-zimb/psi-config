@@ -8,4 +8,4 @@
 .tmp
 target
 playbook/all.retry
-.idea/workspace.xml
+*/.idea/workspace.xml

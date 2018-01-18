@@ -1507,7 +1507,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         }
         return conditions;
         },
-     'GI Tract, When do you vomit?': function (formName, formFieldValues) {
+          'GI Tract, When do you vomit?': function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['GI Tract, When do you vomit?'];
         if (conditionConcept == "Other") {
@@ -1517,7 +1517,17 @@ Bahmni.ConceptSet.FormConditions.rules = {
         }
         return conditions;
         },
-     'GI Tract, Do you suffer from heartburn?': function (formName, formFieldValues) {
+        'GI Tract, Vomit content': function (formName, formFieldValues) {
+            var conditions = {enable: [], disable: []};
+            var conditionConcept = formFieldValues['GI Tract, Vomit content'];
+            if (conditionConcept == "Other") {
+                conditions.enable.push("GI Tract, If other, specify details of vomit content")
+            } else {
+                conditions.disable.push("GI Tract, If other, specify details of vomit content")
+            }
+            return conditions;
+        },
+         'GI Tract, Do you suffer from heartburn?': function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['GI Tract, Do you suffer from heartburn?'];
         if (conditionConcept == "Yes") {

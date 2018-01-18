@@ -215,10 +215,10 @@
             "PHTC, Risk reduction plan":{
                 "multiSelect":true
             },
-        "STI Symptoms, Male, If yes on penis discharge, specify type":{
-                "multiSelect" : true
-            },
-        "STI Symptoms, Female, If yes on vaginal discharge, specify type":{
+           "STI Symptoms, Male, If yes on penis discharge, specify type":{
+                  "multiSelect" : true
+              },
+           "STI Symptoms, Female, If yes on vaginal discharge, specify type":{
                 "multiSelect" : true
             },
             "Skin, Morphology of rash":{
@@ -233,12 +233,15 @@
             "Skin, If yes on fungal infections, where":{
                 "multiSelect" : true
             },
-        "GU Tract, Male, Burning sensation details":{
-                "multiSelect" : true
+            "GU Tract, Male, Burning sensation details":{
+                    "multiSelect" : true
+                },
+            "GU Tract, Female, Burning sensation details":{
+                    "multiSelect" : true
             },
-        "GU Tract, Female, Burning sensation details":{
-                "multiSelect" : true
-        },   
+            "GI Tract, Diarrhea Details":{
+              "multiSelect" : true
+             },
             "defaults": {
                 "HIV testing and counselling service": "Requested",
                 "Numeric concept": 1,
