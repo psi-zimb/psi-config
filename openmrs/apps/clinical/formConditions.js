@@ -5405,10 +5405,10 @@ Bahmni.ConceptSet.FormConditions.rules = {
                  };
          var conditionConcept = formFieldValues['Provider TB History, How was the TB diagnosed?'];
          if (conditionConcept == "Other") {
-             conditions.enable.push("Provider TB History, If other for current TB diagnosed, specify")
+             conditions.enable.push("Provider TB History, If other TB diagnosed, specify")
                }
         else {
-             conditions.disable.push("Provider TB History, If other for current TB diagnosed, specify")
+             conditions.disable.push("Provider TB History, If other TB diagnosed, specify")
          }
          return conditions;
          },
