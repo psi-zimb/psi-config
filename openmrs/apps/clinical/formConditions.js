@@ -5495,14 +5495,17 @@ Bahmni.ConceptSet.FormConditions.rules = {
           }
           return conditions;
           },
-    'PHT, Ever had anal sex': function (formName, formFieldValues) {
+    'PHT, Ever had oral sex': function (formName, formFieldValues) {
          var conditions = {
                      enable: [],
                      disable: []
                      };
+                    var conditionConceptIntercourse = formFieldValues['PHT, Ever had sexual intercourse'];
                     var conditionConceptOral = formFieldValues['PHT, Ever had oral sex'];
                     var conditionConceptAnal = formFieldValues['PHT, Ever had anal sex'];
-             if (conditionConceptOral == "Yes" || conditionConceptAnal =="No") {
+
+             if (conditionConceptIntercourse == "Yes" || conditionConceptOral =="Yes" || conditionConceptAnal=="Yes") {
+
              conditions.enable.push("PHT, Age of first penetrative sex");
              conditions.enable.push("PHT, Do you or your partner currently have an STI");
              conditions.enable.push("PHT, In the last twelve months, ever had sex while intoxicated");
@@ -5511,17 +5514,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
              conditions.enable.push("PHT, Do you currently have more than one sexual partner (including your spouse or regular partner)");
              conditions.enable.push("PHT, How many sexual partners did you have in the last twelve months (including your spouse or sexual partner)");
              conditions.enable.push("PHT, Are you or your partner circumcised (Male circumcision)");
-         }
-       else if (conditionConceptOral == "No" || conditionConceptAnal =="Yes") {
-             conditions.enable.push("PHT, Age of first penetrative sex");
-             conditions.enable.push("PHT, Do you or your partner currently have an STI");
-             conditions.enable.push("PHT, In the last twelve months, ever had sex while intoxicated");
-             conditions.enable.push("PHT, In the last twelve month exchanged money or goods for sex");
-             conditions.enable.push("PHT, Last time you had sex did you use a condom");
-             conditions.enable.push("PHT, Do you currently have more than one sexual partner (including your spouse or regular partner)");
-             conditions.enable.push("PHT, How many sexual partners did you have in the last twelve months (including your spouse or sexual partner)");
-             conditions.enable.push("PHT, Are you or your partner circumcised (Male circumcision)");
-         }
+            }
         else {
                conditions.disable.push("PHT, Age of first penetrative sex");
                conditions.disable.push("PHT, Do you or your partner currently have an STI");
@@ -5534,5 +5527,69 @@ Bahmni.ConceptSet.FormConditions.rules = {
          }
          return conditions;
          },
+    'PHT, Ever had sexual intercourse': function (formName, formFieldValues) {
+          var conditions = {
+                      enable: [],
+                      disable: []
+                      };
+                     var conditionConceptIntercourse = formFieldValues['PHT, Ever had sexual intercourse'];
+                     var conditionConceptOral = formFieldValues['PHT, Ever had oral sex'];
+                     var conditionConceptAnal = formFieldValues['PHT, Ever had anal sex'];
+
+              if (conditionConceptIntercourse == "Yes" || conditionConceptOral =="Yes" || conditionConceptAnal=="Yes") {
+
+              conditions.enable.push("PHT, Age of first penetrative sex");
+              conditions.enable.push("PHT, Do you or your partner currently have an STI");
+              conditions.enable.push("PHT, In the last twelve months, ever had sex while intoxicated");
+              conditions.enable.push("PHT, In the last twelve month exchanged money or goods for sex");
+              conditions.enable.push("PHT, Last time you had sex did you use a condom");
+              conditions.enable.push("PHT, Do you currently have more than one sexual partner (including your spouse or regular partner)");
+              conditions.enable.push("PHT, How many sexual partners did you have in the last twelve months (including your spouse or sexual partner)");
+              conditions.enable.push("PHT, Are you or your partner circumcised (Male circumcision)");
+             }
+         else {
+                conditions.disable.push("PHT, Age of first penetrative sex");
+                conditions.disable.push("PHT, Do you or your partner currently have an STI");
+                conditions.disable.push("PHT, In the last twelve months, ever had sex while intoxicated");
+                conditions.disable.push("PHT, In the last twelve month exchanged money or goods for sex");
+                conditions.disable.push("PHT, Last time you had sex did you use a condom");
+                conditions.disable.push("PHT, Do you currently have more than one sexual partner (including your spouse or regular partner)");
+                conditions.disable.push("PHT, How many sexual partners did you have in the last twelve months (including your spouse or sexual partner)");
+                conditions.disable.push("PHT, Are you or your partner circumcised (Male circumcision)");
+          }
+          return conditions;
+          },
+   'PHT, Ever had anal sex': function (formName, formFieldValues) {
+            var conditions = {
+                        enable: [],
+                        disable: []
+                        };
+                       var conditionConceptIntercourse = formFieldValues['PHT, Ever had sexual intercourse'];
+                       var conditionConceptOral = formFieldValues['PHT, Ever had oral sex'];
+                       var conditionConceptAnal = formFieldValues['PHT, Ever had anal sex'];
+
+                if (conditionConceptIntercourse == "Yes" || conditionConceptOral =="Yes" || conditionConceptAnal=="Yes") {
+
+                conditions.enable.push("PHT, Age of first penetrative sex");
+                conditions.enable.push("PHT, Do you or your partner currently have an STI");
+                conditions.enable.push("PHT, In the last twelve months, ever had sex while intoxicated");
+                conditions.enable.push("PHT, In the last twelve month exchanged money or goods for sex");
+                conditions.enable.push("PHT, Last time you had sex did you use a condom");
+                conditions.enable.push("PHT, Do you currently have more than one sexual partner (including your spouse or regular partner)");
+                conditions.enable.push("PHT, How many sexual partners did you have in the last twelve months (including your spouse or sexual partner)");
+                conditions.enable.push("PHT, Are you or your partner circumcised (Male circumcision)");
+               }
+           else {
+                  conditions.disable.push("PHT, Age of first penetrative sex");
+                  conditions.disable.push("PHT, Do you or your partner currently have an STI");
+                  conditions.disable.push("PHT, In the last twelve months, ever had sex while intoxicated");
+                  conditions.disable.push("PHT, In the last twelve month exchanged money or goods for sex");
+                  conditions.disable.push("PHT, Last time you had sex did you use a condom");
+                  conditions.disable.push("PHT, Do you currently have more than one sexual partner (including your spouse or regular partner)");
+                  conditions.disable.push("PHT, How many sexual partners did you have in the last twelve months (including your spouse or sexual partner)");
+                  conditions.disable.push("PHT, Are you or your partner circumcised (Male circumcision)");
+            }
+            return conditions;
+            },
 
  };
