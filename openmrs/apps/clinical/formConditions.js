@@ -5350,9 +5350,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
                     };
         var conditionConcept = formFieldValues['Provider TB History, Were you treated for TB before?'];
         if (conditionConcept == "No") {
-            conditions.disable.push("Provider TB History, How was the TB diagnosed?","Provider TB History, Have you had TB in places other than the lungs?","Provider TB History, Location of current TB","Provider TB History, Was treatment interupted?")
+            conditions.disable.push("Provider TB History, How was the TB diagnosed?","Provider TB History, Have you had TB in places other than the lungs?","Provider TB History, Location of TB","Provider TB History, Was treatment interupted?")
         } else {
-            conditions.enable.push("Provider TB History, How was the TB diagnosed?","Provider TB History, Have you had TB in places other than the lungs?","Provider TB History, Location of current TB","Provider TB History, Was treatment interupted?")
+            conditions.enable.push("Provider TB History, How was the TB diagnosed?","Provider TB History, Have you had TB in places other than the lungs?","Provider TB History, Location of TB","Provider TB History, Was treatment interupted?")
         }
         return conditions;
         },
@@ -5391,10 +5391,10 @@ Bahmni.ConceptSet.FormConditions.rules = {
                     };
             var conditionConcept = formFieldValues['Provider TB History, Are you currently being treated for TB?'];
             if (conditionConcept == "Yes") {
-                conditions.enable.push("Provider TB History, How was the TB diagnosed?","Provider TB History, Location of current TB", "Provider TB History, How was the TB diagnosed?")
+                conditions.enable.push("Provider TB History, How was the TB diagnosed?","Provider TB History, Location of TB", "Provider TB History, How was the TB diagnosed?")
                   }
            else {
-                conditions.disable.push("Provider TB History, How was the TB diagnosed?","Provider TB History, Location of current TB", "Provider TB History, How was the TB diagnosed?")
+                conditions.disable.push("Provider TB History, How was the TB diagnosed?","Provider TB History, Location of TB", "Provider TB History, How was the TB diagnosed?")
             }
             return conditions;
         },

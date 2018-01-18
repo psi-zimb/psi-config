@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e68bc573-0bd6-424f-8a45-a276068f9ddd" name="Default" comment="">
+<<<<<<< HEAD
 <<<<<<< 97396468e1442ac49a2bf95c2f5118d100d4bc87
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+=======
+>>>>>>> ShivaKumar | Adding form conditions to Provider HIV test counselling
       <change beforePath="$PROJECT_DIR$/openmrs/apps/clinical/formConditions.js" afterPath="$PROJECT_DIR$/openmrs/apps/clinical/formConditions.js" />
 =======
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -37,6 +40,7 @@
       <file leaf-file-name="formConditions.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/openmrs/apps/clinical/formConditions.js">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
 <<<<<<< 97396468e1442ac49a2bf95c2f5118d100d4bc87
             <state relative-caret-position="-94842">
               <caret line="1071" column="10" lean-forward="false" selection-start-line="1071" selection-start-column="10" selection-end-line="1071" selection-end-column="10" />
@@ -54,6 +58,10 @@
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
 >>>>>>> Feedback on Contact tracing form
+=======
+            <state relative-caret-position="-216">
+              <caret line="5386" column="175" lean-forward="false" selection-start-line="5386" selection-start-column="150" selection-end-line="5386" selection-end-column="175" />
+>>>>>>> ShivaKumar | Adding form conditions to Provider HIV test counselling
               <folding />
             </state>
           </provider>
@@ -94,6 +102,7 @@
     </findStrings>
     <replaceStrings>
       <replace>Provider TB History, How was the TB diagnosed?</replace>
+      <replace>How was the TB diagnosed?</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -517,8 +526,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/openmrs/apps/clinical/formConditions.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-94842">
-          <caret line="1071" column="10" lean-forward="false" selection-start-line="1071" selection-start-column="10" selection-end-line="1071" selection-end-column="10" />
+        <state relative-caret-position="-216">
+          <caret line="5386" column="175" lean-forward="false" selection-start-line="5386" selection-start-column="150" selection-end-line="5386" selection-end-column="175" />
           <folding />
         </state>
       </provider>
