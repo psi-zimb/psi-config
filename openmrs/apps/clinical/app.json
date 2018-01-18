@@ -221,6 +221,7 @@
         "STI Symptoms, Female, If yes on vaginal discharge, specify type":{
                 "multiSelect" : true
             },
+<<<<<<< 916ed39bf240f34707448b01c81b29c5dfc2c11d
             "Skin, Morphology of rash":{
                 "multiSelect" : true
             },
@@ -233,6 +234,14 @@
             "Skin, If yes on fungal infections, where":{
                 "multiSelect" : true
             },
+=======
+        "GU Tract, Male, Burning sensation details":{
+                "multiSelect" : true
+            },
+        "GU Tract, Female, Burning sensation details":{
+                "multiSelect" : true
+        },   
+>>>>>>> Yash|Feedback changes related to GU Tract form
             "defaults": {
                 "HIV testing and counselling service": "Requested",
 

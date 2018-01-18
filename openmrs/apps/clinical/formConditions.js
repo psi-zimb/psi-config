@@ -734,7 +734,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
     "GU Tract, Male, Burning sensation details": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['GU Tract, Male, Burning sensation details'];
-        if (conditionConcept == "Associated with flank pain") {
+        if (conditionConcept.indexOf("Associated with flank pain") >=0) {
             conditions.enable.push("GU Tract, Male, If burning sensation associated with flank pain, which side")
         } else {
             conditions.disable.push("GU Tract, Male, If burning sensation associated with flank pain, which side")
@@ -792,7 +792,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
     "GU Tract, Female, Burning sensation details": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['GU Tract, Female, Burning sensation details'];
-        if (conditionConcept == "Associated with flank pain") {
+        if (conditionConcept.indexOf("Associated with flank pain") >=0) {
             conditions.enable.push("GU Tract, Female, If burning sensation associated with flank pain, which side")
         } else {
             conditions.disable.push("GU Tract, Female, If burning sensation associated with flank pain, which side")
