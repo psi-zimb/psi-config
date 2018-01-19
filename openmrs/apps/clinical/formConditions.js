@@ -5659,7 +5659,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
             }
             return conditions;
             },
-
         "Pregnancy Form Template, Are you currently pregnant?": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['Pregnancy Form Template, Are you currently pregnant?'];
@@ -5720,6 +5719,31 @@ Bahmni.ConceptSet.FormConditions.rules = {
             conditions.disable.push("Pregnancy Form Template, If Yes any premature births");
             return conditions;
         },
+          'N, Is the age equal or less than 18?': function (formName, formFieldValues) {
+              var conditions = {
+                      hide: [],
+                      show: [],
+                      enable: [],
+                      disable: []
+                      };
+              var conditionConcept = formFieldValues['N, Is the age equal or less than 18?'];
+                if (conditionConcept == "Yes") {
+                      conditions.enable.push("N, Have you noticed a deterioration in school performance?")
+                      conditions.show.push("N, Is child muscle strength normal?");
+                      conditions.hide.push("N, Is adult muscle strength normal?");
 
+                    }
+             else if (conditionConcept == "No") {
+                  conditions.show.push("N, Is adult muscle strength normal?");
+                  conditions.hide.push("N, Is child muscle strength normal?");
+            conditions.disable.push("N, Have you noticed a deterioration in school performance?");
 
+                    }
+             else {
+                  conditions.show.push("N, Is child muscle strength normal?");
+                  conditions.hide.push("N, Is adult muscle strength normal?");
+                  conditions.disable.push("N, Have you noticed a deterioration in school performance?");
+              }
+              return conditions;
+              }
  };

@@ -245,6 +245,9 @@
             "PHT, Why were you worried/curious about your HIV status":{
                 "multiSelect":true
             },
+            "N, Mental Status":{
+                "multiSelect":true
+            },
             "defaults": {
                 "HIV testing and counselling service": "Requested",
                 "Numeric concept": 1,
