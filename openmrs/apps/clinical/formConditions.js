@@ -1,4 +1,172 @@
 Bahmni.ConceptSet.FormConditions.rules = {
+    "GQRRH, Do you have any health related problems since your last visit?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['GQRRH, Do you have any health related problems since your last visit?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("GQRRH, If yes, specify details")
+
+        }
+        else
+        {
+            conditions.disable.push("GQRRH, If yes, specify details")
+        }
+        return conditions;
+
+    },
+    "GQRRH, Did you have fever recently?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['GQRRH, Did you have fever recently?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("GQRRH, Duration of fever")
+
+        }
+        else
+        {
+            conditions.disable.push("GQRRH, Duration of fever")
+        }
+        return conditions;
+
+    },
+    "GQRRH, Did you have night sweats?" : function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['GQRRH, Did you have night sweats?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("GQRRH, Duration of night sweats")
+
+        }
+        else
+        {
+            conditions.disable.push("GQRRH, Duration of night sweats")
+        }
+        return conditions;
+
+    },
+    "GQRRH, Do you have weight loss?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['GQRRH, Do you have weight loss?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("GQRRH, Duration of weight loss")
+
+        }
+        else
+        {
+            conditions.disable.push("GQRRH, Duration of weight loss")
+        }
+        return conditions;
+
+    },
+    "GQRRH, Do you have shortness of breath?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['GQRRH, Do you have shortness of breath?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("GQRRH, Duration of shortness of breath")
+
+        }
+        else
+        {
+            conditions.disable.push("GQRRH, Duration of shortness of breath")
+        }
+        return conditions;
+
+    },
+    "GQRRH, Are you suffering from headaches?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['GQRRH, Are you suffering from headaches?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("GQRRH, Duration of headache","GQRRH, Severity of Headache","GQRRH, Course of Headache","GQRRH, Headache Association")
+
+        }
+        else
+        {
+            conditions.disable.push("GQRRH, Duration of headache","GQRRH, Severity of Headache","GQRRH, Course of Headache","GQRRH, Headache Association")
+        }
+        return conditions;
+
+    },
+    "GQRRH, Have you had a cough?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['GQRRH, Have you had a cough?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("GQRRH, Type of cough","GQRRH, Duration")
+
+        }
+        else
+        {
+            conditions.disable.push("GQRRH, Type of cough","GQRRH, Duration")
+        }
+        return conditions;
+
+    },
+    "GQRRH, Female, Have you observed a vaginal Discharge?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['GQRRH, Female, Have you observed a vaginal Discharge?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("GQRRH, Female, If yes, specify type")
+
+        }
+        else
+        {
+            conditions.disable.push("GQRRH, Female, If yes, specify type")
+        }
+        return conditions;
+
+    },
+    "GQRRH, Male, Have you observed a discharge from the penis?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['GQRRH, Male, Have you observed a discharge from the penis?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("GQRRH, Male, If yes, specify type")
+
+        }
+        else
+        {
+            conditions.disable.push("GQRRH, Male, If yes, specify type")
+        }
+        return conditions;
+
+    },
+    "GQRRH, Have you ever been treated for a sexually transmitted infection?" : function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['GQRRH, Have you ever been treated for a sexually transmitted infection?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("GQRRH, If yes, specify STI details")
+
+        }
+        else
+        {
+            conditions.disable.push("GQRRH, If yes, specify STI details")
+        }
+        return conditions;
+
+    },
+    "GQRRH, Have you changed your medicines?" : function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['GQRRH, Have you changed your medicines?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("GQHHR, Medicines, If yes, specify details")
+
+        }
+        else
+        {
+            conditions.disable.push("GQHHR, Medicines, If yes, specify details")
+        }
+        return conditions;
+
+    },
+    "GQRRH, Do you use illicit drugs?" : function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['GQRRH, Do you use illicit drugs?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("GQRRH, What type do you use and how often?")
+
+        }
+        else
+        {
+            conditions.disable.push("GQRRH, What type do you use and how often?")
+        }
+        return conditions;
+
+    },
     "Medications, Have you ever experienced a drug allergy?": function(formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['Medications, Have you ever experienced a drug allergy?'];

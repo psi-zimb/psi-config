@@ -61,6 +61,12 @@
         "maxConceptSetLevels": 3,
         "allowOnlyCodedDiagnosis": false,
         "conceptSetUI": {
+            "GQRRH, Male, If yes, specify type":{
+              "multiSelect" : true
+            },
+            "GQRRH, Female, If yes, specify type":{
+              "multiSelect" : true
+            },
             "If married/having a partner and individual T&C, Reasons for not  bringing partner  (Multiple responses possible)": {
                 "multiSelect" : true
                 ,"disableAddNotes" : true
