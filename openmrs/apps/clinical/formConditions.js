@@ -5442,8 +5442,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         {ruleActions.disable.push(question1AffectedByRule)}
         return ruleActions;
         },
-
-
         "Tumors?(0)": function(formName, formFieldValues) {
         var questionThatTriggersRule ="Tumors?"
         var selectedResponses = formFieldValues[questionThatTriggersRule]
@@ -5574,9 +5572,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
                     };
         var conditionConcept = formFieldValues['Self-test outcome'];
         if (conditionConcept == "Positive") {
-            conditions.enable.push("HST, Request Services")
-        } else {
             conditions.disable.push("HST, Request Services")
+        } else {
+            conditions.enable.push("HST, Request Services")
         }
         return conditions;
         },
