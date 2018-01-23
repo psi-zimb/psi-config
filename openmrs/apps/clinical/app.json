@@ -254,6 +254,9 @@
             "N, Mental Status":{
                 "multiSelect":true
             },
+            "AS, Activity status":{
+                "multiSelect":true    
+            },
             "defaults": {
                 "HIV testing and counselling service": "Requested",
                 "Numeric concept": 1,
