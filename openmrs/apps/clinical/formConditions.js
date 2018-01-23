@@ -5911,5 +5911,243 @@ Bahmni.ConceptSet.FormConditions.rules = {
                   conditions.disable.push("N, Have you noticed a deterioration in school performance?");
               }
               return conditions;
-              }
+              },
+
+        "BCH, Did the mother receive ARVs during pregnancy or delivery?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['BCH, Did the mother receive ARVs during pregnancy or delivery?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("BCH, If yes for mother receive ARVs during pregnancy or delivery");
+        }
+        else
+            conditions.disable.push("BCH, If yes for mother receive ARVs during pregnancy or delivery");
+            return conditions;
+        },
+        "BCH, If yes for mother receive ARVs during pregnancy or delivery": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['BCH, If yes for mother receive ARVs during pregnancy or delivery'];
+        if (conditionConcept == "BCH, Other ARVs recevied by mother during pregnancy or delivery") {
+            conditions.enable.push("BCH, Specify Other ARVs recevied by mother during pregnancy or delivery");
+        }
+        else
+            conditions.disable.push("BCH, Specify Other ARVs recevied by mother during pregnancy or delivery");
+            return conditions;
+        },
+        "BCH, Did the child had any birth defects?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['BCH, Did the child had any birth defects?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("BCH, If yes for child had any birth defects");
+        }
+        else
+            conditions.disable.push("BCH, If yes for child had any birth defects");
+            return conditions;
+        },
+        "BCH, Is child's birth weight known?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues["BCH, Is child's birth weight known?"];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("BCH, If yes for childs birth weight known");
+        }
+        else
+            conditions.disable.push("BCH, If yes for childs birth weight known");
+            return conditions;
+        },
+        "BCH, Do you know the child's APGAR score?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues["BCH, Do you know the child's APGAR score?"];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("BCH, If yes for child's APGAR score known");
+        }
+        else
+            conditions.disable.push("BCH, If yes for child's APGAR score known");
+            return conditions;
+        },
+        "BCH, Is the fontanelle Normal": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues["BCH, Is the fontanelle Normal"];
+        if (conditionConcept == "No") {
+            conditions.enable.push("BCH, If no for fontanelle normal");
+        }
+        else
+            conditions.disable.push("BCH, If no for fontanelle normal");
+            return conditions;
+        },
+        "BCH, Was the child part of a twin / multiple birth?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues["BCH, Was the child part of a twin / multiple birth?"];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("BCH, If yes for child part of a twin / multiple birth");
+        }
+        else
+            conditions.disable.push("BCH, If yes for child part of a twin / multiple birth");
+            return conditions;
+        },
+        "BCH, Did the child receive ARVs at birth?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues["BCH, Did the child receive ARVs at birth?"];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("BCH, If Yes for child received ARVs at birth");
+        }
+        else
+            conditions.disable.push("BCH, If Yes for child received ARVs at birth");
+            return conditions;
+        },
+        "BCH, If Yes for child received ARVs at birth": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues["BCH, If Yes for child received ARVs at birth"];
+        if (conditionConcept == "BCH, Other ARVs received by child at birth") {
+            conditions.enable.push("BCH, Specify Other ARVs received by child at birth");
+        }
+        else
+            conditions.disable.push("BCH, Specify Other ARVs received by child at birth");
+            return conditions;
+        },
+        "BCH, Are the child's milestones normal?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues["BCH, Are the child's milestones normal?"];
+        if (conditionConcept == "No") {
+            conditions.enable.push("BCH, If No for child's milestones normal then");
+        }
+        else
+            conditions.disable.push("BCH, If No for child's milestones normal then");
+            return conditions;
+        },
+        "BCH, Do you have a child health card?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues["BCH, Do you have a child health card?"];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("BCH, If Yes for child health card");
+        }
+        else
+            conditions.disable.push("BCH, If Yes for child health card");
+            return conditions;
+        },
+        "BCH, Do you have a child health card?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues["BCH, Do you have a child health card?"];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("BCH, If Yes for child health card");
+        }
+        else
+            conditions.disable.push("BCH, If Yes for child health card");
+            return conditions;
+        },
+        "BCH, If Yes for child health card": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues["BCH, If Yes for child health card"];
+        if (conditionConcept == "No") {
+            conditions.enable.push("BCH, If No for Is the child growing as per the child health card curve");
+        }
+        else
+            conditions.disable.push("BCH, If No for Is the child growing as per the child health card curve");
+            return conditions;
+        },
+        "BCH, Is the child behaving like other children of the same age?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues["BCH, Is the child behaving like other children of the same age?"];
+        if (conditionConcept == "No") {
+            conditions.enable.push("BCH, If No for the child behaving like other children of the same age?");
+        }
+        else
+            conditions.disable.push("BCH, If No for the child behaving like other children of the same age?");
+            return conditions;
+        },
+        "BCH, If No for the child behaving like other children of the same age?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues["BCH, If No for the child behaving like other children of the same age?"];
+        if (conditionConcept == "BCH, Other for Child behaving like other children of the same age") {
+            conditions.enable.push("BCH, If Other for No for Child behaving like other children of the same age");
+        }
+        else
+            conditions.disable.push("BCH, If Other for No for Child behaving like other children of the same age");
+            return conditions;
+        },
+        "BCH, Is the physical activity of the child normal?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues["BCH, Is the physical activity of the child normal?"];
+        if (conditionConcept == "No") {
+            conditions.enable.push("BCH, If No for the physical activity of the child normal?");
+        }
+        else
+            conditions.disable.push("BCH, If No for the physical activity of the child normal?");
+            return conditions;
+        },
+        "BCH, Did the child breast feed?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues["BCH, Did the child breast feed?"];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("BCH, Did the child exclusively breast feed?","BCH, If yes for the child exclusively breast feed?","BCH, Did the child suckle properly?","BCH, Did the child breast feed well?","BCH, For how long did the child breast feed? (in months)");
+        }
+        else
+            conditions.disable.push("BCH, Did the child exclusively breast feed?","BCH, If yes for the child exclusively breast feed?","BCH, Did the child suckle properly?","BCH, Did the child breast feed well?","BCH, For how long did the child breast feed? (in months)");
+            return conditions;
+        },
+        "BCH, Did the child exclusively breast feed?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues["BCH, Did the child exclusively breast feed?"];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("BCH, If yes for the child exclusively breast feed?");
+        }
+        else
+            conditions.disable.push("BCH, If yes for the child exclusively breast feed?");
+            return conditions;
+        },
+        "BCH, Did the child exclusively breast feed?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues["BCH, Did the child exclusively breast feed?"];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("BCH, If yes for the child exclusively breast feed?");
+        }
+        else
+            conditions.disable.push("BCH, If yes for the child exclusively breast feed?");
+            return conditions;
+        },
+        "BCH, Was the child ever treated for malnutrition?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues["BCH, Was the child ever treated for malnutrition?"];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("BCH, Was the child admitted in hospital for malnutrition?","BCH, If Yes for the child admitted in hospital for malnutrition","BCH, What does the child's diet consist of? (free text)","BCH, Does the child eat well?","BCH, Does the child swallow well?");
+        }
+        else
+            conditions.disable.push("BCH, Was the child admitted in hospital for malnutrition?","BCH, If Yes for the child admitted in hospital for malnutrition","BCH, What does the child's diet consist of? (free text)","BCH, Does the child eat well?","BCH, Does the child swallow well?");
+            return conditions;
+        },
+        "BCH, Was the child admitted in hospital for malnutrition?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues["BCH, Was the child admitted in hospital for malnutrition?"];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("BCH, If Yes for the child admitted in hospital for malnutrition");
+        }
+        else
+            conditions.disable.push("BCH, If Yes for the child admitted in hospital for malnutrition");
+            return conditions;
+        },
+        "BCH, Has the child been treated for worms?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues["BCH, Has the child been treated for worms?"];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("BCH, If yes for Has the child been treated for worms?");
+        }
+        else
+            conditions.disable.push("BCH, If yes for Has the child been treated for worms?");
+            return conditions;
+        },
+        "BCH, Has the child ever attended school?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues["BCH, Has the child ever attended school?"];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("BCH, How is the child's performance at school?","BCH, What is the child's latest school Grade?","BCH, Has the child missed school?");
+        }
+        else
+            conditions.disable.push("BCH, How is the child's performance at school?","BCH, What is the child's latest school Grade?","BCH, Has the child missed school?");
+            return conditions;
+        },
+        
+
+
+
+
+
+
  };
