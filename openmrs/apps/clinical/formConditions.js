@@ -5831,8 +5831,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "Yes") {
             conditions.enable.push("Pregnancy Form Template, Are you booked for antenatal care?","Pregnancy Form Template, Due Date","Pregnancy Form Template, Are you on ARVs?","Pregnancy Form Template, Are you on any other drugs?","Pregnancy Form Template, Have you ever been pregnant before?","Pregnancy Form Template, Type of pregnancy","Pregnancy Form Template, If Yes ARVS for PMTCT then specify","Pregnancy Form Template, If Yes Specify other drug details");
         }
-        else
+        else {
             conditions.disable.push("Pregnancy Form Template, Are you booked for antenatal care?","Pregnancy Form Template, Due Date","Pregnancy Form Template, Are you on ARVs?","Pregnancy Form Template, Are you on any other drugs?","Pregnancy Form Template, Have you ever been pregnant before?","Pregnancy Form Template, Type of pregnancy","Pregnancy Form Template, If Yes ARVS for PMTCT then specify","Pregnancy Form Template, If Yes Specify other drug details");
+        }
             return conditions;
         },
         "Pregnancy Form Template, Are you booked for antenatal care?": function (formName, formFieldValues) {
@@ -5841,8 +5842,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "Yes") {
             conditions.enable.push("Pregnancy Form Template, Due Date","Pregnancy Form Template, Where was the pregnancy booked?","Pregnancy Form Template, At what month was the pregnancy booked?","Pregnancy Form Template, How many antenatal visits did the mother attend?");
         }
-        else
+        else {
             conditions.disable.push("Pregnancy Form Template, Due Date","Pregnancy Form Template, Where was the pregnancy booked?","Pregnancy Form Template, At what month was the pregnancy booked?","Pregnancy Form Template, How many antenatal visits did the mother attend?");
+        }
             return conditions;
         },
         "Pregnancy Form Template, Have you ever been pregnant before?": function (formName, formFieldValues) {
@@ -5851,8 +5853,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "Yes") {
             conditions.enable.push("Pregnancy Form Template, How many full pregnancies have you carries?","Pregnancy Form Template, Type of pregnancy","Pregnancy Form Template, Did you receive ARVs for PMTCT during pregnancy?","Pregnancy Form Template, Did you have any premature births?");
         }
-        else
+        else {
             conditions.disable.push("Pregnancy Form Template, How many full pregnancies have you carries?","Pregnancy Form Template, Type of pregnancy","Pregnancy Form Template, Did you receive ARVs for PMTCT during pregnancy?","Pregnancy Form Template, Did you have any premature births?");
+        }
             return conditions;
         },
         "Pregnancy Form Template, Are you on any other drugs?": function (formName, formFieldValues) {
@@ -5861,8 +5864,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "Yes") {
             conditions.enable.push("Pregnancy Form Template, If Yes Specify other drug details");
         }
-        else
+        else {
             conditions.disable.push("Pregnancy Form Template, If Yes Specify other drug details");
+        }
             return conditions;
         },
         "Pregnancy Form Template, Did you receive ARVs for PMTCT during pregnancy?": function (formName, formFieldValues) {
@@ -5871,8 +5875,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "Yes") {
             conditions.enable.push("Pregnancy Form Template, If Yes ARVS for PMTCT then specify");
         }
-        else
+        else {
             conditions.disable.push("Pregnancy Form Template, If Yes ARVS for PMTCT then specify");
+        }
             return conditions;
         },
         "Pregnancy Form Template, Did you have any premature births?": function (formName, formFieldValues) {
@@ -5881,8 +5886,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "Yes") {
             conditions.enable.push("Pregnancy Form Template, If Yes any premature births");
         }
-        else
+        else {
             conditions.disable.push("Pregnancy Form Template, If Yes any premature births");
+        }
             return conditions;
         },
           'N, Is the age equal or less than 18?': function (formName, formFieldValues) {
