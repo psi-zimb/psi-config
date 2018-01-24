@@ -5912,15 +5912,15 @@ Bahmni.ConceptSet.FormConditions.rules = {
               }
               return conditions;
               },
-
         "BCH, Did the mother receive ARVs during pregnancy or delivery?": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['BCH, Did the mother receive ARVs during pregnancy or delivery?'];
         if (conditionConcept == "Yes") {
             conditions.enable.push("BCH, If yes for mother receive ARVs during pregnancy or delivery");
         }
-        else
+        else {
             conditions.disable.push("BCH, If yes for mother receive ARVs during pregnancy or delivery");
+            }
             return conditions;
         },
         "BCH, If yes for mother receive ARVs during pregnancy or delivery": function (formName, formFieldValues) {
@@ -5929,8 +5929,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "BCH, Other ARVs recevied by mother during pregnancy or delivery") {
             conditions.enable.push("BCH, Specify Other ARVs recevied by mother during pregnancy or delivery");
         }
-        else
+        else {
             conditions.disable.push("BCH, Specify Other ARVs recevied by mother during pregnancy or delivery");
+            }
             return conditions;
         },
         "BCH, Did the child had any birth defects?": function (formName, formFieldValues) {
@@ -5939,8 +5940,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "Yes") {
             conditions.enable.push("BCH, If yes for child had any birth defects");
         }
-        else
+        else {
             conditions.disable.push("BCH, If yes for child had any birth defects");
+            }
             return conditions;
         },
         "BCH, Is child's birth weight known?": function (formName, formFieldValues) {
@@ -5949,8 +5951,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "Yes") {
             conditions.enable.push("BCH, If yes for childs birth weight known");
         }
-        else
+        else {
             conditions.disable.push("BCH, If yes for childs birth weight known");
+            }
             return conditions;
         },
         "BCH, Do you know the child's APGAR score?": function (formName, formFieldValues) {
@@ -5959,8 +5962,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "Yes") {
             conditions.enable.push("BCH, If yes for child's APGAR score known");
         }
-        else
+        else {
             conditions.disable.push("BCH, If yes for child's APGAR score known");
+            }
             return conditions;
         },
         "BCH, Is the fontanelle Normal": function (formName, formFieldValues) {
@@ -5969,8 +5973,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "No") {
             conditions.enable.push("BCH, If no for fontanelle normal");
         }
-        else
+        else {
             conditions.disable.push("BCH, If no for fontanelle normal");
+            }
             return conditions;
         },
         "BCH, Was the child part of a twin / multiple birth?": function (formName, formFieldValues) {
@@ -5979,8 +5984,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "Yes") {
             conditions.enable.push("BCH, If yes for child part of a twin / multiple birth");
         }
-        else
+        else {
             conditions.disable.push("BCH, If yes for child part of a twin / multiple birth");
+            }
             return conditions;
         },
         "BCH, Did the child receive ARVs at birth?": function (formName, formFieldValues) {
@@ -5989,8 +5995,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "Yes") {
             conditions.enable.push("BCH, If Yes for child received ARVs at birth");
         }
-        else
+        else {
             conditions.disable.push("BCH, If Yes for child received ARVs at birth");
+            }
             return conditions;
         },
         "BCH, If Yes for child received ARVs at birth": function (formName, formFieldValues) {
@@ -5999,8 +6006,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "BCH, Other ARVs received by child at birth") {
             conditions.enable.push("BCH, Specify Other ARVs received by child at birth");
         }
-        else
+        else {
             conditions.disable.push("BCH, Specify Other ARVs received by child at birth");
+            }
             return conditions;
         },
         "BCH, Are the child's milestones normal?": function (formName, formFieldValues) {
@@ -6009,8 +6017,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "No") {
             conditions.enable.push("BCH, If No for child's milestones normal then");
         }
-        else
+        else {
             conditions.disable.push("BCH, If No for child's milestones normal then");
+            }
             return conditions;
         },
         "BCH, Do you have a child health card?": function (formName, formFieldValues) {
@@ -6019,8 +6028,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "Yes") {
             conditions.enable.push("BCH, If Yes for child health card");
         }
-        else
+        else {
             conditions.disable.push("BCH, If Yes for child health card");
+            }
             return conditions;
         },
         "BCH, Do you have a child health card?": function (formName, formFieldValues) {
@@ -6029,8 +6039,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "Yes") {
             conditions.enable.push("BCH, If Yes for child health card");
         }
-        else
+        else {
             conditions.disable.push("BCH, If Yes for child health card");
+            }
             return conditions;
         },
         "BCH, If Yes for child health card": function (formName, formFieldValues) {
@@ -6039,8 +6050,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "No") {
             conditions.enable.push("BCH, If No for Is the child growing as per the child health card curve");
         }
-        else
+        else {
             conditions.disable.push("BCH, If No for Is the child growing as per the child health card curve");
+            }
             return conditions;
         },
         "BCH, Is the child behaving like other children of the same age?": function (formName, formFieldValues) {
@@ -6049,8 +6061,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "No") {
             conditions.enable.push("BCH, If No for the child behaving like other children of the same age?");
         }
-        else
+        else {
             conditions.disable.push("BCH, If No for the child behaving like other children of the same age?");
+            }
             return conditions;
         },
         "BCH, If No for the child behaving like other children of the same age?": function (formName, formFieldValues) {
@@ -6059,8 +6072,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "BCH, Other for Child behaving like other children of the same age") {
             conditions.enable.push("BCH, If Other for No for Child behaving like other children of the same age");
         }
-        else
+        else {
             conditions.disable.push("BCH, If Other for No for Child behaving like other children of the same age");
+            }
             return conditions;
         },
         "BCH, Is the physical activity of the child normal?": function (formName, formFieldValues) {
@@ -6069,8 +6083,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "No") {
             conditions.enable.push("BCH, If No for the physical activity of the child normal?");
         }
-        else
+        else {
             conditions.disable.push("BCH, If No for the physical activity of the child normal?");
+            }
             return conditions;
         },
         "BCH, Did the child breast feed?": function (formName, formFieldValues) {
@@ -6079,8 +6094,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "Yes") {
             conditions.enable.push("BCH, Did the child exclusively breast feed?","BCH, If yes for the child exclusively breast feed?","BCH, Did the child suckle properly?","BCH, Did the child breast feed well?","BCH, For how long did the child breast feed? (in months)");
         }
-        else
+        else{
             conditions.disable.push("BCH, Did the child exclusively breast feed?","BCH, If yes for the child exclusively breast feed?","BCH, Did the child suckle properly?","BCH, Did the child breast feed well?","BCH, For how long did the child breast feed? (in months)");
+            }
             return conditions;
         },
         "BCH, Did the child exclusively breast feed?": function (formName, formFieldValues) {
@@ -6089,8 +6105,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "Yes") {
             conditions.enable.push("BCH, If yes for the child exclusively breast feed?");
         }
-        else
+        else {
             conditions.disable.push("BCH, If yes for the child exclusively breast feed?");
+            }
             return conditions;
         },
         "BCH, Did the child exclusively breast feed?": function (formName, formFieldValues) {
@@ -6099,8 +6116,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "Yes") {
             conditions.enable.push("BCH, If yes for the child exclusively breast feed?");
         }
-        else
+        else {
             conditions.disable.push("BCH, If yes for the child exclusively breast feed?");
+            }
             return conditions;
         },
         "BCH, Was the child ever treated for malnutrition?": function (formName, formFieldValues) {
@@ -6109,8 +6127,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "Yes") {
             conditions.enable.push("BCH, Was the child admitted in hospital for malnutrition?","BCH, If Yes for the child admitted in hospital for malnutrition","BCH, What does the child's diet consist of? (free text)","BCH, Does the child eat well?","BCH, Does the child swallow well?");
         }
-        else
+        else {
             conditions.disable.push("BCH, Was the child admitted in hospital for malnutrition?","BCH, If Yes for the child admitted in hospital for malnutrition","BCH, What does the child's diet consist of? (free text)","BCH, Does the child eat well?","BCH, Does the child swallow well?");
+            }
             return conditions;
         },
         "BCH, Was the child admitted in hospital for malnutrition?": function (formName, formFieldValues) {
@@ -6119,8 +6138,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "Yes") {
             conditions.enable.push("BCH, If Yes for the child admitted in hospital for malnutrition");
         }
-        else
+        else {
             conditions.disable.push("BCH, If Yes for the child admitted in hospital for malnutrition");
+            }
             return conditions;
         },
         "BCH, Has the child been treated for worms?": function (formName, formFieldValues) {
@@ -6129,8 +6149,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "Yes") {
             conditions.enable.push("BCH, If yes for Has the child been treated for worms?");
         }
-        else
+        else {
             conditions.disable.push("BCH, If yes for Has the child been treated for worms?");
+            }
             return conditions;
         },
         "BCH, Has the child ever attended school?": function (formName, formFieldValues) {
@@ -6139,15 +6160,171 @@ Bahmni.ConceptSet.FormConditions.rules = {
         if (conditionConcept == "Yes") {
             conditions.enable.push("BCH, How is the child's performance at school?","BCH, What is the child's latest school Grade?","BCH, Has the child missed school?");
         }
-        else
+        else {
             conditions.disable.push("BCH, How is the child's performance at school?","BCH, What is the child's latest school Grade?","BCH, Has the child missed school?");
+            }
             return conditions;
         },
-        
 
+        "GY, Have you experienced abnormal bleeding?": function (formName, formFieldValues) {
+          var conditions = {enable: [], disable: []};
+          var conditionConcept = formFieldValues["GY, Have you experienced abnormal bleeding?"];
+          if (conditionConcept == "Yes") {
+              conditions.enable.push("GY, Have you experienced intermenstrual bleeding?",
+              "GY, Have you experienced post menopausal bleeding?",
+              "GY, Have you experienced Post-coital bleeding?");
+          }
+          else {
+          conditions.disable.push("GY, Have you experienced intermenstrual bleeding?",
+                        "GY, Have you experienced post menopausal bleeding?",
+                        "GY, Have you experienced Post-coital bleeding?");
+          }
+           return conditions;
+          },
+           "GY, Have you experienced intermenstrual bleeding?": function (formName, formFieldValues) {
+           var conditions = {enable: [], disable: []};
+           var conditionConcept = formFieldValues["GY, Have you experienced intermenstrual bleeding?"];
+           if (conditionConcept == "Yes") {
+               conditions.enable.push("GY, Intensity of intermenstrual bleeding","GY, Duration of intermenstrual bleeding");
+           }
+           else {
+             conditions.disable.push("GY, Intensity of intermenstrual bleeding","GY, Duration of intermenstrual bleeding");
+           }
+            return conditions;
+           },
+            "GY, Duration of intermenstrual bleeding": function (formName, formFieldValues) {
+             var conditions = {enable: [], disable: []};
+             var conditionConcept = formFieldValues["GY, Duration of intermenstrual bleeding"];
+             if (conditionConcept == "Several months") {
+                 conditions.enable.push("GY, Number of intermenstrual bleeding months");
+             }
+             else {
+               conditions.disable.push("GY, Number of intermenstrual bleeding months");
+             }
+              return conditions;
+             },
+            "GY, Have you experienced post menopausal bleeding?": function (formName, formFieldValues) {
+            var conditions = {enable: [], disable: []};
+            var conditionConcept = formFieldValues["GY, Have you experienced post menopausal bleeding?"];
+            if (conditionConcept == "Yes") {
+                conditions.enable.push("GY, Intensity of post menopausal bleeding?","GY, Duration of post menopausal bleeding?");
+            }
+            else {
+              conditions.disable.push("GY, Intensity of post menopausal bleeding?","GY, Duration of post menopausal bleeding?");
+            }
+             return conditions;
+            },
+             "GY, Duration of post menopausal bleeding?": function (formName, formFieldValues) {
+              var conditions = {enable: [], disable: []};
+              var conditionConcept = formFieldValues["GY, Duration of post menopausal bleeding?"];
+              if (conditionConcept == "Several months") {
+                  conditions.enable.push("GY, Number of post menopausal bleeding months");
+              }
+              else {
+                conditions.disable.push("GY, Number of post menopausal bleeding months");
+              }
+               return conditions;
+              },
+              "GY, Have you experienced Post-coital bleeding?": function (formName, formFieldValues) {
+              var conditions = {enable: [], disable: []};
+              var conditionConcept = formFieldValues["GY, Have you experienced Post-coital bleeding?"];
+              if (conditionConcept == "Yes") {
+                  conditions.enable.push("GY, Intensity of Post-coital bleeding?","GY, Duration of Post-coital bleeding?");
+              }
+              else {
+                conditions.disable.push("GY, Intensity of Post-coital bleeding?","GY, Duration of Post-coital bleeding?");
+              }
+               return conditions;
+              },
+               "GY, Duration of Post-coital bleeding?": function (formName, formFieldValues) {
+                var conditions = {enable: [], disable: []};
+                var conditionConcept = formFieldValues["GY, Duration of Post-coital bleeding?"];
+                if (conditionConcept == "Several months") {
+                    conditions.enable.push("GY, Number of Post-coital bleeding months");
+                }
+                else {
+                  conditions.disable.push("GY, Number of Post-coital bleeding months");
+                }
+                 return conditions;
+                },
+            "GY, Beginning of your last normal menstrual period": function (formName, formFieldValues) {
+            var conditions = {enable: [], disable: []};
+            var conditionConcept = formFieldValues["GY, Beginning of your last normal menstrual period"];
+            if (conditionConcept) {
+                conditions.enable.push("GY, Period intensity","GY, Dymenorrhea intensity","GY, Are your periods irregular?");
+                conditions.disable.push("GY, If not applicable, why?");
+            }
+            else {
+            conditions.disable.push("GY, Period intensity","GY, Dymenorrhea intensity","GY, Are your periods irregular?");
+            conditions.enable.push("GY, If not applicable, why?");
 
-
-
-
-
+            }
+             return conditions;
+            },
+             "GY, Have you been screened for cervical cancer?": function (formName, formFieldValues) {
+             var conditions = {enable: [], disable: []};
+             var conditionConcept = formFieldValues["GY, Have you been screened for cervical cancer?"];
+             if (conditionConcept == "Yes") {
+                 conditions.enable.push("GY, Date of screening","GY, What was the result?");
+             }
+             else {
+                conditions.disable.push("GY, Date of screening","GY, What was the result?");
+             }
+              return conditions;
+             },
+              "GY, What was the result?": function (formName, formFieldValues) {
+              var conditions = {enable: [], disable: []};
+              var conditionConcept = formFieldValues["GY, What was the result?"];
+              if (conditionConcept =="Other") {
+                  conditions.enable.push("GY, If Others, Specify");
+              }
+              else {
+                 conditions.disable.push("GY, If Others, Specify");
+              }
+               return conditions;
+              },
+               "GY, Have you observed a breast lump(s)?": function (formName, formFieldValues) {
+               var conditions = {enable: [], disable: []};
+               var conditionConcept = formFieldValues["GY, Have you observed a breast lump(s)?"];
+               if (conditionConcept =="Yes") {
+                   conditions.enable.push("GY, Duration of the lump","GY, Size of the breast lump (s)");
+               }
+               else {
+                  conditions.disable.push("GY, Duration of the lump","GY, Size of the breast lump (s)");
+               }
+                return conditions;
+               },
+                "GY, Do you have a discharge from the nipple(s)?": function (formName, formFieldValues) {
+                var conditions = {enable: [], disable: []};
+                var conditionConcept = formFieldValues["GY, Do you have a discharge from the nipple(s)?"];
+                if (conditionConcept =="Yes") {
+                    conditions.enable.push("GY, Side of the nipple(s)");
+                }
+                else {
+                   conditions.disable.push("GY, Side of the nipple(s)");
+                }
+                 return conditions;
+                },
+                  "GY, Do you use contraceptives?": function (formName, formFieldValues) {
+                  var conditions = {enable: [], disable: []};
+                  var conditionConcept = formFieldValues["GY, Do you use contraceptives?"];
+                  if (conditionConcept =="Yes") {
+                      conditions.enable.push("GY, Type of contraceptives");
+                  }
+                  else {
+                     conditions.disable.push("GY, Type of contraceptives");
+                  }
+                   return conditions;
+                  },
+                    "GY, Type of contraceptives": function (formName, formFieldValues) {
+                    var conditions = {enable: [], disable: []};
+                    var conditionConcept = formFieldValues["GY, Type of contraceptives"];
+                    if (conditionConcept =="Other") {
+                        conditions.enable.push("GY, Other contraceptives");
+                    }
+                    else {
+                       conditions.disable.push("GY, Other contraceptives");
+                    }
+                     return conditions;
+                    }
  };
