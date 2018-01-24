@@ -6443,7 +6443,26 @@ Bahmni.ConceptSet.FormConditions.rules = {
             conditions.disable.push("If GU Tract yes then specify")
             }
         return conditions;
-                    }
+                    },
+
+        "Are you in school?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['Are you in school?'];
+        if (conditionConcept == "Yes") {
+            conditions.disable.push("Did you drop out of school?")
+            conditions.enable.push("Have you ever missed school?")  
+        }
+        else if (conditionConcept == "No")
+        {
+            conditions.enable.push("Did you drop out of school?") 
+            conditions.disable.push("Have you ever missed school?")    
+        }
+        else 
+        {
+            conditions.disable.push("Have you ever missed school?","Did you drop out of school?")
+        }
+        return conditions;
+        }
         
 
  };
