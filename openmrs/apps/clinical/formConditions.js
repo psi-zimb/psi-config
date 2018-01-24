@@ -6332,5 +6332,118 @@ Bahmni.ConceptSet.FormConditions.rules = {
                        conditions.disable.push("GY, Other contraceptives");
                     }
                      return conditions;
+                    },
+
+        "Skin diseases": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var SkinYes = formFieldValues['Skin diseases'];
+        if (SkinYes == "Yes") {
+            conditions.enable.push("If Skin diseases yes then specify")
+        }
+            else {
+            conditions.disable.push("If Skin diseases yes then specify")
+            }
+        return conditions;
+                    },
+        "Neurological or Psychiatric diseases": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var NeurologicalPsychiatricYes = formFieldValues['Neurological or Psychiatric diseases'];
+        if (NeurologicalPsychiatricYes == "Yes") {
+            conditions.enable.push("If Neurological or Psychiatric diseases yes then specify")
+        }
+            else {
+            conditions.disable.push("If Neurological or Psychiatric diseases yes then specify")
+            }
+        return conditions;
+                    },
+        "Accidents": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var AccidentsYes = formFieldValues['Accidents'];
+        if (AccidentsYes == "Yes") {
+            conditions.enable.push("If Accidents yes then specify")
+        }
+            else {
+            conditions.disable.push("If Accidents yes then specify")
+            }
+        return conditions;
+                    },
+        "Respiratory or cardiac diseases": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var RespiratoryCardiacYes = formFieldValues['Respiratory or cardiac diseases'];
+        if (RespiratoryCardiacYes == "Yes") {
+            conditions.enable.push("If Respiratory or cardiac diseases yes then specify")
+        }
+            else {
+            conditions.disable.push("If Respiratory or cardiac diseases yes then specify")
+            }
+        return conditions;
+                    },
+        "GI and liver diseases": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var GILiverYes = formFieldValues['GI and liver diseases'];
+        if (GILiverYes == "Yes") {
+            conditions.enable.push("If GI and liver diseases yes then specify")
+        }
+            else {
+            conditions.disable.push("If GI and liver diseases yes then specify")
+            }
+        return conditions;
+                    },
+        "Operations": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var OperationsYes = formFieldValues['Operations'];
+        if (OperationsYes == "Yes") {
+            conditions.enable.push("If Operations yes then specify")
+        }
+            else {
+            conditions.disable.push("If Operations yes then specify")
+            }
+        return conditions;
+                    },
+        "EENT diseases": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var EENTYes = formFieldValues['EENT diseases'];
+        if (EENTYes == "Yes") {
+            conditions.enable.push("If EENT diseases yes then specify")
+        }
+            else {
+            conditions.disable.push("If EENT diseases yes then specify")
+            }
+        return conditions;
+                    },
+        "Cancers": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var CancersYes = formFieldValues['Cancers'];
+        if (CancersYes == "Yes") {
+            conditions.enable.push("If Cancers yes then specify")
+        }
+            else {
+            conditions.disable.push("If Cancers yes then specify")
+            }
+        return conditions;
+                    },
+        "Obstetric or gynecological illness": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var ObstetricGynecologicalillness = formFieldValues['Obstetric or gynecological illness'];
+        if (ObstetricGynecologicalillness == "Yes") {
+            conditions.enable.push("If Obstetric or gynecological illness yes then specify")
+        }
+            else {
+            conditions.disable.push("If Obstetric or gynecological illness yes then specify")
+            }
+        return conditions;
+                    },
+        "GU Tract": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var GUTractYes = formFieldValues['GU Tract'];
+        if (GUTractYes == "Yes") {
+            conditions.enable.push("If GU Tract yes then specify")
+        }
+            else {
+            conditions.disable.push("If GU Tract yes then specify")
+            }
+        return conditions;
                     }
+        
+
  };
