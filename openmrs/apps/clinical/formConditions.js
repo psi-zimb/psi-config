@@ -6462,6 +6462,139 @@ Bahmni.ConceptSet.FormConditions.rules = {
             conditions.disable.push("Have you ever missed school?","Did you drop out of school?")
         }
         return conditions;
+        },
+
+        "RUUV, Do you have any health related problems since your last visit?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['RUUV, Do you have any health related problems since your last visit?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("RUUV, If yes for Do you have any health related problems since your last visit?")
+        }
+            else {
+            conditions.disable.push("RUUV, If yes for Do you have any health related problems since your last visit?")
+            }
+        return conditions;
+        },
+        "RUUV, Did you have fever recently?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['RUUV, Did you have fever recently?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("RUUV, Duration of fever")
+        }
+            else {
+            conditions.disable.push("RUUV, Duration of fever")
+            }
+        return conditions;
+        },
+        "RUUV, Did you have night sweats?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['RUUV, Did you have night sweats?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("RUUV, Duration of night sweats")
+        }
+            else {
+            conditions.disable.push("RUUV, Duration of night sweats")
+            }
+        return conditions;
+        },
+        "RUUV, Do you have weight loss?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['RUUV, Do you have weight loss?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("RUUV, Duration of weight loss")
+        }
+            else {
+            conditions.disable.push("RUUV, Duration of weight loss")
+            }
+        return conditions;
+        },
+        "RUUV, Do you have shortness of breath?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['RUUV, Do you have shortness of breath?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("RUUV, Duration of shortness of breath")
+        }
+            else {
+            conditions.disable.push("RUUV, Duration of shortness of breath")
+            }
+        return conditions;
+        },
+        "RUUV, Have you had a cough?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['RUUV, Have you had a cough?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("RUUV, Type of cough","RUUV, Duration of cough")
+        }
+            else {
+            conditions.disable.push("RUUV, Type of cough","RUUV, Duration of cough")
+            }
+        return conditions;
+        },
+        "RUUV, Are you suffering from headaches": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['RUUV, Are you suffering from headaches'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("RUUV, Duration of headache","RUUV, Severity of Headache","RUUV, Course of Headache","RUUV, Headache Association")
+        }
+            else {
+            conditions.disable.push("RUUV, Duration of headache","RUUV, Severity of Headache","RUUV, Course of Headache","RUUV, Headache Association")
+            }
+        return conditions;
+        },
+        "RUUV, Female Have you observed a vaginal Discharge?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['RUUV, Female Have you observed a vaginal Discharge?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("RUUV, If Yes for Female Have you observed a vaginal Discharge?")
+        }
+            else {
+            conditions.disable.push("RUUV, If Yes for Female Have you observed a vaginal Discharge?")
+            }
+        return conditions;
+        },
+        "RUUV, Have you observed a discharge from the penis?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['RUUV, Have you observed a discharge from the penis?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("RUUV, If Yes for Male Have you observed a discharge from the penis?")
+        }
+            else {
+            conditions.disable.push("RUUV, If Yes for Male Have you observed a discharge from the penis?")
+            }
+        return conditions;
+        },
+        "RUUV, Have u ever been treated for a sexually transmitted infection?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['RUUV, Have u ever been treated for a sexually transmitted infection?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("RUUV, If yes for RUUV, Have u ever been treated for a sexually transmitted infection?")
+        }
+            else {
+            conditions.disable.push("RUUV, If yes for RUUV, Have u ever been treated for a sexually transmitted infection?")
+            }
+        return conditions;
+        },
+        "RUUV, Have you changed your medicines": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['RUUV, Have you changed your medicines'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("RUUV, Details of Medication changes")
+        }
+            else {
+            conditions.disable.push("RUUV, Details of Medication changes")
+            }
+        return conditions;
+        },
+        "RUUV, Do you use illicit drugs?": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['RUUV, Do you use illicit drugs?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("RUUV, What type do you use and how often?")
+        }
+            else {
+            conditions.disable.push("RUUV, What type do you use and how often?")
+            }
+        return conditions;
         }
         
 

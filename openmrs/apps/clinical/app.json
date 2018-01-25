@@ -257,6 +257,12 @@
             "AS, Activity status":{
                 "multiSelect":true    
             },
+            "RUUV, If Yes for Female Have you observed a vaginal Discharge?":{
+                "multiSelect":true
+            },
+            "RUUV, If Yes for Male Have you observed a discharge from the penis?":{
+                "multiSelect":true
+                },
             "defaults": {
                 "HIV testing and counselling service": "Requested",
                 "Numeric concept": 1,
