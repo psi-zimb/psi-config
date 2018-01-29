@@ -47,6 +47,7 @@
             "addressHierarchy": {
                 "showAddressFieldsTopDown": true
             },
+            "defaultVisitType": "FIELD",
             "relationshipTypeMap": {
                 "Parent":"patient",
                 "Partner": "patient"
