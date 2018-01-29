@@ -81,7 +81,7 @@
                 },
 
 		"Reason for visit":{
-		"required":false,
+		"required":true,
 		"multiSelect":true
 		},
                 "FHS": {

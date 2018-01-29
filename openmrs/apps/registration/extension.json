@@ -40,7 +40,7 @@
             "translationKey": "REGISTRATION_VISIT_KEY",
             "conceptNames": ["Visit"],
             "required":true,
-            "showLatest": false
+            "showLatest": true
         },
         "order": 1,
         "requiredPrivilege": "Edit Visits"
