@@ -262,7 +262,10 @@
             },
             "RUUV, If Yes for Male Have you observed a discharge from the penis?":{
                 "multiSelect":true
-                },
+            },
+            "Pregnancy Form Template, Due Date":{
+                "allowFutureDates": true
+            },
             "defaults": {
                 "HIV testing and counselling service": "Requested",
                 "Numeric concept": 1,
