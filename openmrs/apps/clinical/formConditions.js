@@ -6595,7 +6595,28 @@ Bahmni.ConceptSet.FormConditions.rules = {
             conditions.disable.push("RUUV, What type do you use and how often?")
             }
         return conditions;
-        }
+        },
         
+        "AS, Activity status": function (formName, formFieldValues) {
+        var conditions = {show: [], hide: []};
+        var conditionConceptTransferIn = formFieldValues['AS, Activity status'];
+        var conditionConceptTransferOut = formFieldValues['AS, Activity status'];
+        if (conditionConceptTransferIn.indexOf("Transfer in") >=0) {
+            conditions.show.push("AS, Details of facility from where patient is transferred")
+        }
+
+            else {
+            conditions.hide.push("AS, Details of facility from where patient is transferred")
+            }
+        if (conditionConceptTransferOut.indexOf("Transfer Out") >=0) {
+            conditions.show.push("AS, Details of facility to where patient is transferred")
+        }
+
+            else {
+            conditions.hide.push("AS, Details of facility to where patient is transferred")
+            }
+        return conditions;
+        },
+
 
  };
