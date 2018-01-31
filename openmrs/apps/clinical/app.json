@@ -83,6 +83,9 @@
                 "multiSelect" : true
                 ,"disableAddNotes" : true
             },
+            "Source giving history": {
+                "multiSelect" : true
+            },
             "Risk reduction plan  (Multiple responses possible)": {
                 "multiSelect" : true
                 ,"disableAddNotes" : true
