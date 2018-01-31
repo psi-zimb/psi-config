@@ -100,6 +100,16 @@
                 "address1" : {"pattern" : "[a-zA-Z0-9 ]{0,}", "errorMessage" : "Should only contain characters and numbers"},
                 "Next-of-kin Telephone Number" : {"pattern" : "[0-9]{0,}", "errorMessage" : "Phone number can only be numerals"}
             },
+            "patientSearchResults": {
+                "address": {
+                    "fields" : ["postal_code"]
+                },
+                "personAttributes": {
+                    "fields": [
+
+                    ]
+                }
+            },
             "patientSearch": {
                 "address": {
                     "label": "Ward",
