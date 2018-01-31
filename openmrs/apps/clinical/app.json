@@ -46,7 +46,9 @@
             		"caste"
         		],
         		"additionalPatientIdentifiers": [
-           			"UIC"
+           			"UIC",
+                    "PREP/OI Identifier"
+
        		],
         		"preferredIdentifier": "Id_Number"
     	},
