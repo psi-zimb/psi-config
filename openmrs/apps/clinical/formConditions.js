@@ -1,4 +1,18 @@
 Bahmni.ConceptSet.FormConditions.rules = {
+    "GQRRH, Are there any changes from the previous visits?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['GQRRH, Are there any changes from the previous visits?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("GQRRH, If yes, specify details of the changes")
+
+        }
+        else
+        {
+            conditions.disable.push("GQRRH, If yes, specify details of the changes")
+        }
+        return conditions;
+
+    },
     "GQRRH, Do you have any health related problems since your last visit?": function(formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['GQRRH, Do you have any health related problems since your last visit?'];
