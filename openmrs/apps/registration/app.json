@@ -104,12 +104,10 @@
                 "address": {
                     "label": "Ward",
                     "placeholder": "Enter ward",
-                    "field": "address1"
+                    "field": "POSTAL_CODE"
                 },
                 "customAttributes": {
-                    "label": "Unique ID Code (UIC)",
-                    "placeholder": "Enter UIC",
-                    "fields": ["Unique ID Code (UIC)"]
+
                 }
             }
         }
