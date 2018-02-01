@@ -18,7 +18,7 @@
         ]
       },
       "activityStatus":{
-        "translationKey":"DASHBOARD_TITLE_ACTIVITY_STATUS_KEY",
+        "translationKey":"Activity Status",
         "type":"vitals",
         "isObservation":true,
         "displayOrder":1,
@@ -67,7 +67,7 @@
         "displayOrder":3
       },
       "artObservation":{
-        "translationKey":"DASHBOARD_TITLE_ART_OBSERVATION_KEY",
+        "translationKey":"Art Observation",
         "type":"vitals",
         "isObservation":true,
         "displayOrder":4,
