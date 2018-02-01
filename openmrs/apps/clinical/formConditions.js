@@ -6630,7 +6630,643 @@ Bahmni.ConceptSet.FormConditions.rules = {
             conditions.hide.push("AS, Details of facility to where patient is transferred")
             }
         return conditions;
+        }
+      ,
+      "AIVC, Sourse giving history": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, Sourse giving history"];
+          if (conditionConcept == "Other (specify)") {
+              conditions.enable.push("AIVC, Sourse giving history, Other");
+          } else {
+              conditions.disable.push("AIVC, Sourse giving history, Other");
+          }
+          return conditions;
+      },
+      "AIVC, Have you had a positive HIV test?": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, Have you had a positive HIV test?"];
+          if (conditionConcept == "Yes") {
+              conditions.enable.push("AIVC, Why were u tested?", "AIVC, When was the test done?", "AIVC, Do you have a partner?", "AIVC, Do you have any children?");
+          } else {
+              conditions.disable.push("AIVC, Why were u tested?", "AIVC, When was the test done?", "AIVC, Do you have a partner?", "AIVC, Do you have any children?");
+          }
+          return conditions;
+      },
+      "AIVC, Why were u tested?": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, Why were u tested?"];
+          if (conditionConcept == "Others") {
+              conditions.enable.push("AIVC, Why were u tested, Other");
+          } else {
+              conditions.disable.push("AIVC, Why were u tested, Other");
+          }
+          return conditions;
+      },
+      "AIVC, Do you have a partner?": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, Do you have a partner?"];
+          if (conditionConcept == "Yes") {
+              conditions.enable.push("AIVC, Is your (sexual) partner aware of your HIV status?", "AIVC, Has you partner been tested?");
+          } else {
+              conditions.disable.push("AIVC, Is your (sexual) partner aware of your HIV status?", "AIVC, Has you partner been tested?");
+          }
+          return conditions;
+      },
+      "AIVC, Has you partner been tested?": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, Has you partner been tested?"];
+          if (conditionConcept == "Yes") {
+              conditions.enable.push("AIVC, Partners test result");
+          } else {
+              conditions.disable.push("AIVC, Partners test result");
+          }
+          return conditions;
+      },
+      "AIVC, Do you have any children?": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, Do you have any children?"];
+          if (conditionConcept == "Yes") {
+              conditions.enable.push("AIVC, How many children do you have?", "AIVC, Have any of your children been tested for HIV?");
+          } else {
+              conditions.disable.push("AIVC, How many children do you have?", "AIVC, Have any of your children been tested for HIV?");
+          }
+          return conditions;
+      },
+      "AIVC, Have any of your children been tested for HIV?": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, Have any of your children been tested for HIV?"];
+          if (conditionConcept == "Yes") {
+              conditions.enable.push("AIVC, Test Results");
+          } else {
+              conditions.disable.push("AIVC, Test Results");
+          }
+          return conditions;
+      },
+      "AIVC, Have you had a positive HIV test?": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, Have you had a positive HIV test?"];
+          if (conditionConcept == "Yes") {
+              conditions.enable.push("AIVC, HIV Test Results");
+          } else {
+              conditions.disable.push("AIVC, HIV Test Results");
+          }
+          return conditions;
+      },
+      "AIVC, Did you have fever recently?": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, Did you have fever recently?"];
+          if (conditionConcept == "Yes") {
+              conditions.enable.push("AIVC, Duration of fever");
+          } else {
+              conditions.disable.push("AIVC, Duration of fever");
+          }
+          return conditions;
+      },
+      "AIVC, Did you have night sweats?": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, Did you have night sweats?"];
+          if (conditionConcept == "Yes") {
+              conditions.enable.push("AIVC, Duration of night sweats");
+          } else {
+              conditions.disable.push("AIVC, Duration of night sweats");
+          }
+          return conditions;
+      },
+      "AIVC, Do you have weight loss?": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, Do you have weight loss?"];
+          if (conditionConcept == "Yes") {
+              conditions.enable.push("AIVC, Duration of weight loss");
+          } else {
+              conditions.disable.push("AIVC, Duration of weight loss");
+          }
+          return conditions;
+      },
+      "AIVC, Do you have shortness of breath?": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, Do you have shortness of breath?"];
+          if (conditionConcept == "Yes") {
+              conditions.enable.push("AIVC, Duration of shortness of breath");
+          } else {
+              conditions.disable.push("AIVC, Duration of shortness of breath");
+          }
+          return conditions;
+      },
+      "AIVC, Have you ever had TB?": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, Have you ever had TB?"];
+          if (conditionConcept == "Yes") {
+              conditions.enable.push("AIVC, How many episodes of TB?", "AIVC, Dates of previous episodes");
+          } else {
+              conditions.disable.push("AIVC, How many episodes of TB?", "AIVC, Dates of previous episodes");
+          }
+          return conditions;
+      },
+      "AIVC, Are you currently being treated for TB?": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, Are you currently being treated for TB?"];
+          if (conditionConcept == "Yes") {
+              conditions.enable.push("AIVC, How was it Diagnosed", "AIVC, Location of TB");
+          } else {
+              conditions.disable.push("AIVC, How was it Diagnosed", "AIVC, Location of TB");
+          }
+          return conditions;
+      },
+      "AIVC, Do you have any skin problems": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, Do you have any skin problems"];
+          if (conditionConcept == "Yes") {
+              conditions.enable.push("AIVC, Have you had a skin rash recently?", "AIVC, Have you ever had Herpes zoster/shingles?", "AIVC, Did you experience ant itching?", "AIVC, Have you observed a lump growing?");
+          } else {
+              conditions.disable.push("AIVC, Have you had a skin rash recently?", "AIVC, Have you ever had Herpes zoster/shingles?", "AIVC, Did you experience ant itching?", "AIVC, Have you observed a lump growing?");
+          }
+          return conditions;
+      },
+      "AIVC, Have you observed a lump growing?": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, Have you observed a lump growing?"];
+          if (conditionConcept == "Yes") {
+              conditions.enable.push("AIVC, Location Lump Image");
+          } else {
+              conditions.disable.push("AIVC, Location Lump Image");
+          }
+          return conditions;
+      },
+      "AIVC, Are you suffering from headaches?": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, Are you suffering from headaches?"];
+          if (conditionConcept == "Yes") {
+              conditions.enable.push("AIVC, Duration of Headache", "AIVC, Headache Severity", "AIVC, Headache Course", "AIVC, Headache association");
+          } else {
+              conditions.disable.push("AIVC, Duration of Headache", "AIVC, Headache Severity", "AIVC, Headache Course", "AIVC, Headache association");
+          }
+          return conditions;
+      },
+      "AIVC, Have you noticed any changes in or around the mouth and neck?": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, Have you noticed any changes in or around the mouth and neck?"];
+          if (conditionConcept == "Yes") {
+              conditions.enable.push("AIVC, Have you had blisters or swelling on/around the lips?", "AIVC, Have you had oral thrush?");
+          } else {
+              conditions.disable.push("AIVC, Have you had blisters or swelling on/around the lips?", "AIVC, Have you had oral thrush?");
+          }
+          return conditions;
+      },
+      "AIVC, Have you had a cough?": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, Have you had a cough?"];
+          if (conditionConcept == "Yes") {
+              conditions.enable.push("AIVC, Type of cough", "AIVC, Duration of the cough");
+          } else {
+              conditions.disable.push("AIVC, Type of cough", "AIVC, Duration of the cough");
+          }
+          return conditions;
+      },
+      "AIVC, Have you had a chest pain?": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, Have you had a chest pain?"];
+          if (conditionConcept == "Yes") {
+              conditions.enable.push("AIVC, Location of the chest pain", "AIVC, When does chest pain occur", "AIVC, Duration of chest pains?");
+          } else {
+              conditions.disable.push("AIVC, Location of the chest pain", "AIVC, When does chest pain occur", "AIVC, Duration of chest pains?");
+          }
+          return conditions;
+      },
+      "AIVC, Location of the chest pain": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, Location of the chest pain"];
+          if (conditionConcept == "Other locations") {
+              conditions.enable.push("AIVC, If other location of the chest pain, specify");
+          } else {
+              conditions.disable.push("AIVC, If other location of the chest pain, specify");
+          }
+          return conditions;
+      },
+      "AIVC, When does chest pain occur": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, When does chest pain occur"];
+          if (conditionConcept == "Others") {
+              conditions.enable.push("AIVC, chest pain occur Other");
+          } else {
+              conditions.disable.push("AIVC, chest pain occur Other");
+          }
+          return conditions;
+      },
+      "AIVC, Have you experienced shortness of breath?": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, Have you experienced shortness of breath?"];
+          if (conditionConcept == "Yes") {
+              conditions.enable.push("AIVC, When does the shortness of breath occur?", "AIVC, Duration of shortness of breath?");
+          } else {
+              conditions.disable.push("AIVC, When does the shortness of breath occur?", "AIVC, Duration of shortness of breath?");
+          }
+          return conditions;
+      },
+      "AIVC, Have you had more than one episodes of Pneumonia?": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, Have you had more than one episodes of Pneumonia?"];
+          if (conditionConcept == "Yes") {
+              conditions.enable.push("AIVC, How many episodes of Pneumonia?");
+          } else {
+              conditions.disable.push("AIVC, How many episodes of Pneumonia?");
+          }
+          return conditions;
+      },
+      "AIVC, Do you have a high blood pressure": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, Do you have a high blood pressure"];
+          if (conditionConcept == "Yes") {
+              conditions.enable.push("AIVC, Are you on Hypertensive drugs?");
+          } else {
+              conditions.disable.push("AIVC, Are you on Hypertensive drugs?");
+          }
+          return conditions;
+      },
+      "AIVC, Are you on Hypertensive drugs?": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, Are you on Hypertensive drugs?"];
+          if (conditionConcept == "Yes") {
+              conditions.enable.push("AIVC, Do you have a high blood pressure");
+          } else {
+              conditions.disable.push("AIVC, Do you have a high blood pressure");
+          }
+          return conditions;
+      },
+      "	AIVC, Do you have difficulty swallowing?": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, Do you have difficulty swallowing?"];
+          if (conditionConcept == "Yes") {
+              conditions.enable.push("AIVC, Is swallowing painful");
+          } else {
+              conditions.disable.push("AIVC, Do you have a high blood pressure");
+          }
+          return conditions;
+      },
+       "AIVC, Do you vomit frequently?": function(formName, formFieldValues) {
+           var conditions = {
+               enable: [],
+               disable: []
+           };
+           var conditionConcept = formFieldValues["AIVC, Do you vomit frequently?"];
+           if (conditionConcept == "Yes") {
+               conditions.enable.push("AIVC, When do you vomit?","AIVC, Vomit content");
+           } else {
+               conditions.disable.push("AIVC, When do you vomit?","AIVC, Vomit content");
+           }
+           return conditions;
+       },
+       "AIVC, When do you vomit?": function(formName, formFieldValues) {
+           var conditions = {
+               enable: [],
+               disable: []
+           };
+           var conditionConcept = formFieldValues["AIVC, When do you vomit?"];
+           if (conditionConcept == "Other (specify)") {
+               conditions.enable.push("AIVC, If other on vomit, specify");
+           } else {
+               conditions.disable.push("AIVC, If other on vomit, specify");
+           }
+           return conditions;
+       },
+        "AIVC, Vomit content": function(formName, formFieldValues) {
+            var conditions = {
+                enable: [],
+                disable: []
+            };
+            var conditionConcept = formFieldValues["AIVC, Vomit content"];
+            if (conditionConcept == "Other (specify)") {
+                conditions.enable.push("AIVC, Vommit Content Other");
+            } else {
+                conditions.disable.push("AIVC, Vommit Content Other");
+            }
+            return conditions;
         },
-
-
+        "AIVC, Do you have diarrhea?": function(formName, formFieldValues) {
+            var conditions = {
+                enable: [],
+                disable: []
+            };
+            var conditionConcept = formFieldValues["AIVC, Do you have diarrhea?"];
+            if (conditionConcept == "Yes") {
+                conditions.enable.push("AIVC, Diarrhea duration","AIVC, Diarrhea Details");
+            } else {
+                conditions.disable.push("AIVC, Diarrhea duration","AIVC, Diarrhea Details");
+            }
+            return conditions;
+        },
+        "AIVC, Do you have frequent abdominal pain?": function(formName, formFieldValues) {
+            var conditions = {
+                enable: [],
+                disable: []
+            };
+            var conditionConcept = formFieldValues["AIVC, Do you have frequent abdominal pain?"];
+            if (conditionConcept == "Yes") {
+                conditions.enable.push("AIVC, Abdominal pain location","AIVC, Abdominal pain duration","AIVC, Does the abdominal pain occur during fasting?");
+            } else {
+                conditions.disable.push("AIVC, Abdominal pain location","AIVC, Abdominal pain duration","AIVC, Does the abdominal pain occur during fasting?");
+            }
+            return conditions;
+        },
+        "AIVC, Does the abdominal pain occur during fasting?": function(formName, formFieldValues) {
+            var conditions = {
+                enable: [],
+                disable: []
+            };
+            var conditionConcept = formFieldValues["AIVC, Does the abdominal pain occur during fasting?"];
+            if (conditionConcept == "Yes") {
+                conditions.enable.push("AIVC, Do you have frequent epigastric pain?");
+            } else {
+                conditions.disable.push("AIVC, Do you have frequent epigastric pain?");
+            }
+            return conditions;
+        },
+        "AIVC, Have you experienced joint pain?": function(formName, formFieldValues) {
+            var conditions = {
+                enable: [],
+                disable: []
+            };
+            var conditionConcept = formFieldValues["AIVC, Have you experienced joint pain?"];
+            if (conditionConcept == "Yes") {
+                conditions.enable.push("AIVC, Joint pain duration","AIVC, Location of joint pain");
+            } else {
+                conditions.disable.push("AIVC, Joint pain duration","AIVC, Location of joint pain");
+            }
+            return conditions;
+        },
+        "AIVC, Have you experienced joint swelling?": function(formName, formFieldValues) {
+            var conditions = {
+                enable: [],
+                disable: []
+            };
+            var conditionConcept = formFieldValues["AIVC, Have you experienced joint swelling?"];
+            if (conditionConcept == "Yes") {
+                conditions.enable.push("AIVC, Joint swelling duration","AIVC, Location of joint swelling");
+            } else {
+                conditions.disable.push("AIVC, Joint swelling duration","AIVC, Location of joint swelling");
+            }
+            return conditions;
+        },
+        "AIVC, Do you feel a burning sensation with micturation?": function(formName, formFieldValues) {
+            var conditions = {
+                enable: [],
+                disable: []
+            };
+            var conditionConcept = formFieldValues["AIVC, Do you feel a burning sensation with micturation?"];
+            if (conditionConcept == "Yes") {
+                conditions.enable.push("AIVC, Did you have a fever rigors or chills with the burning sensation?");
+            } else {
+                conditions.disable.push("AIVC, Did you have a fever rigors or chills with the burning sensation?");
+            }
+            return conditions;
+        },
+         "AIVC, Have you experienced loss of sexual interest?": function(formName, formFieldValues) {
+             var conditions = {
+                 enable: [],
+                 disable: []
+             };
+             var conditionConcept = formFieldValues["AIVC, Do you feel a burning sensation with micturation?"];
+             if (conditionConcept == "Yes") {
+                 conditions.enable.push("AIVC, Erectile dysfunction","AIVC, Dysparenuia (painful sexual intercourse)");
+             } else {
+                 conditions.disable.push("AIVC, Erectile dysfunction","AIVC, Dysparenuia (painful sexual intercourse)");
+             }
+             return conditions;
+         },
+         "AIVC, Female, Have you observed a vaginal discharge?": function(formName, formFieldValues) {
+             var conditions = {
+                 enable: [],
+                 disable: []
+             };
+             var conditionConcept = formFieldValues["AIVC, Female, Have you observed a vaginal discharge?"];
+             if (conditionConcept == "Yes") {
+                 conditions.enable.push("AIVC, Female, If yes on vaginal discharge, specify type");
+             } else {
+                 conditions.disable.push("AIVC, Female, If yes on vaginal discharge, specify type");
+             }
+             return conditions;
+         },
+         "AIVC, Male, Have you observed a discharge from the penis?": function(formName, formFieldValues) {
+             var conditions = {
+                 enable: [],
+                 disable: []
+             };
+             var conditionConcept = formFieldValues["AIVC, Male, Have you observed a discharge from the penis?"];
+             if (conditionConcept == "Yes") {
+                 conditions.enable.push("AIVC, Male, If yes on penis discharge, specify type");
+             } else {
+                 conditions.disable.push("AIVC, Male, If yes on penis discharge, specify type");
+             }
+             return conditions;
+         },
+         "AIVC, Are you currently pregnant?": function(formName, formFieldValues) {
+             var conditions = {
+                 enable: [],
+                 disable: []
+             };
+             var conditionConcept = formFieldValues["AIVC, Are you currently pregnant?"];
+             if (conditionConcept == "Yes") {
+                 conditions.enable.push("AIVC, Are you booked for antenatal care?");
+             } else {
+                 conditions.disable.push("AIVC, Are you booked for antenatal care?");
+             }
+             return conditions;
+         },
+          "AIVC, Do you know the EDD?": function(formName, formFieldValues) {
+              var conditions = {
+                  enable: [],
+                  disable: []
+              };
+              var conditionConcept = formFieldValues["AIVC, Do you know the EDD?"];
+              if (conditionConcept == "Yes") {
+                  conditions.enable.push("AIVC, Date");
+              } else {
+                  conditions.disable.push("AIVC, Date");
+              }
+              return conditions;
+          },
+           "AIVC, Have you experienced intermenstrual bleeding?": function(formName, formFieldValues) {
+               var conditions = {
+                   enable: [],
+                   disable: []
+               };
+               var conditionConcept = formFieldValues["AIVC, Have you experienced intermenstrual bleeding?"];
+               if (conditionConcept == "Yes") {
+                   conditions.enable.push("AIVC, Duration of intermenstrual bleeding");
+               } else {
+                   conditions.disable.push("AIVC, Duration of intermenstrual bleeding");
+               }
+               return conditions;
+           },
+            "AIVC, Do you use contraceptives?": function(formName, formFieldValues) {
+                var conditions = {
+                    enable: [],
+                    disable: []
+                };
+                var conditionConcept = formFieldValues["AIVC, Do you use contraceptives?"];
+                if (conditionConcept == "Yes") {
+                    conditions.enable.push("What types of contraceptives do you use?");
+                } else {
+                    conditions.disable.push("What types of contraceptives do you use?");
+                }
+                return conditions;
+            },
+             "AIVC, Have you been screened for cervical cancer?": function(formName, formFieldValues) {
+                 var conditions = {
+                     enable: [],
+                     disable: []
+                 };
+                 var conditionConcept = formFieldValues["AIVC, Have you been screened for cervical cancer?"];
+                 if (conditionConcept == "Yes") {
+                     conditions.enable.push("AIVC, Date of screening","Screening result");
+                 } else {
+                     conditions.disable.push("AIVC, Date of screening","Screening result");
+                 }
+                 return conditions;
+             },
+              "AIVC, Have you observed a breast lump(s)?": function(formName, formFieldValues) {
+                  var conditions = {
+                      enable: [],
+                      disable: []
+                  };
+                  var conditionConcept = formFieldValues["AIVC, Have you observed a breast lump(s)?"];
+                  if (conditionConcept == "Yes") {
+                      conditions.enable.push("AIVC, Date of screening","Screening result");
+                  } else {
+                      conditions.disable.push("AIVC, Date of screening","Screening result");
+                  }
+                  return conditions;
+              },
+              "AIVC, Have you been taking other medications or muti (herbs) within the past 2 months?": function(formName, formFieldValues) {
+                  var conditions = {
+                      enable: [],
+                      disable: []
+                  };
+                  var conditionConcept = formFieldValues["AIVC, Have you been taking other medications or muti (herbs) within the past 2 months?"];
+                  if (conditionConcept == "Yes") {
+                      conditions.enable.push("AIVC, Medication Notes");
+                  } else {
+                      conditions.disable.push("AIVC, Medication Notes");
+                  }
+                  return conditions;
+              },
+               "AIVC,Have you ever experienced a drug allergy?": function(formName, formFieldValues) {
+                   var conditions = {
+                       enable: [],
+                       disable: []
+                   };
+                   var conditionConcept = formFieldValues["AIVC,Have you ever experienced a drug allergy?"];
+                   if (conditionConcept == "Yes") {
+                       conditions.enable.push("AIVC, Drug Allergy Notes");
+                   } else {
+                       conditions.disable.push("AIVC, Drug Allergy Notes");
+                   }
+                   return conditions;
+               },
+                "AIVC, Have you been sexually abused?": function(formName, formFieldValues) {
+                    var conditions = {
+                        enable: [],
+                        disable: []
+                    };
+                    var conditionConcept = formFieldValues["AIVC, Have you been sexually abused?"];
+                    if (conditionConcept == "Yes") {
+                        conditions.enable.push("AIVC, Has a police report been filed?","AIVC, Did you receive any medical treatment afterwards?","AIVC, Did you receive counseling?");
+                    } else {
+                        conditions.disable.push("AIVC, Has a police report been filed?","AIVC, Did you receive any medical treatment afterwards?","AIVC, Did you receive counseling?");
+                    }
+                    return conditions;
+                },
+                  "AIVC, Do you use illicit drugs?": function(formName, formFieldValues) {
+                      var conditions = {
+                          enable: [],
+                          disable: []
+                      };
+                      var conditionConcept = formFieldValues["AIVC, Do you use illicit drugs?"];
+                      if (conditionConcept == "Yes") {
+                          conditions.enable.push("AIVC, What types of illicit drugs do you use and how often?");
+                      } else {
+                          conditions.disable.push("AIVC, What types of illicit drugs do you use and how often?");
+                      }
+                      return conditions;
+                  }
  };
