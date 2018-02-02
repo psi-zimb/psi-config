@@ -7150,7 +7150,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         return conditions;
         }
       ,
-      "AIVC, Sourse giving history": function(formName, formFieldValues) {
+     "AIVC, Sourse giving history": function(formName, formFieldValues) {
           var conditions = {
               enable: [],
               disable: []
@@ -7482,9 +7482,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
           };
           var conditionConcept = formFieldValues["AIVC, Are you on Hypertensive drugs?"];
           if (conditionConcept == "Yes") {
-              conditions.enable.push("AIVC, Do you have a high blood pressure");
+              conditions.enable.push("AIVC, If yes on Hypertensive drugs, specify");
           } else {
-              conditions.disable.push("AIVC, Do you have a high blood pressure");
+              conditions.disable.push("AIVC, If yes on Hypertensive drugs, specify");
           }
           return conditions;
       },
@@ -7604,7 +7604,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                 conditions.disable.push("AIVC, Joint swelling duration","AIVC, Location of joint swelling");
             }
             return conditions;
-        },
+        },*/
         "AIVC, Do you feel a burning sensation with micturation?": function(formName, formFieldValues) {
             var conditions = {
                 enable: [],
