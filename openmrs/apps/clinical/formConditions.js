@@ -7241,12 +7241,12 @@ Bahmni.ConceptSet.FormConditions.rules = {
           }
           return conditions;
       },
-      "AIVC, Have you had a positive HIV test?": function(formName, formFieldValues) {
+      "AIVC, Have you had Other positive HIV test?": function(formName, formFieldValues) {
           var conditions = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, Have you had a positive HIV test?"];
+          var conditionConcept = formFieldValues["AIVC, Have you had Other positive HIV test?"];
           if (conditionConcept == "Yes") {
               conditions.enable.push("AIVC, HIV Test Results");
           } else {
