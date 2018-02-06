@@ -7604,7 +7604,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                 conditions.disable.push("AIVC, Joint swelling duration","AIVC, Location of joint swelling");
             }
             return conditions;
-        },*/
+        },
         "AIVC, Do you feel a burning sensation with micturation?": function(formName, formFieldValues) {
             var conditions = {
                 enable: [],
