@@ -7786,5 +7786,41 @@ Bahmni.ConceptSet.FormConditions.rules = {
                           conditions.disable.push("AIVC, What types of illicit drugs do you use and how often?");
                       }
                       return conditions;
-                  }
+                  },
+                  'PR, Program': function (formName, formFieldValues) {
+                      var conditions = {
+                          show: [],
+                          hide: []
+                      };
+                      var conditionConcept = formFieldValues['PR, Program'];
+                      if (conditionConcept == "PR, ART"){
+                          conditions.show.push("PR, Start date of ART program", "PR, ART Stage", "PR, Start date of ART Stage", "PR, ART Program Stop Date")
+                          conditions.hide.push("PR, Start date of Breast Feeding program", "PR, Start date of IPT (Isoniazid Preventive Therapy) program", "PR, Start date of Pregnancy program", "PR, Start date of PrEP program", "PR, Start date of TB program", "PR, Breast Feeding Stage", "PR, Pregnancy Stage", "PR, TB Stage", "PR, Start date of Breast Feeding Stage", "PR, Start date of Pregnancy Stage", "PR, Start date of TB Stage", "PR, Breast Feeding Program Stop Date", "PR, IPT (Isoniazid Preventive Therapy) Program Stop Date", "PR, Pregnancy Program Stop Date","PR, PrEP Program Stop Date", "PR, TB Program Stop Date")
+         }
+         else if (conditionConcept == "PR, Breast Feeding") {
+           conditions.show.push("PR, Start date of Breast Feeding program", "PR, Breast Feeding Stage", "PR, Start date of Breast Feeding Stage", "PR, Breast Feeding Program Stop Date")
+           conditions.hide.push("PR, Start date of ART program", "PR, Start date of IPT (Isoniazid Preventive Therapy) program",  "PR, Start date of Pregnancy program", "PR, Start date of PrEP program", "PR, Start date of TB program", "PR, ART Stage", "PR, Pregnancy Stage", "PR, TB Stage", "PR, Start date of ART Stage", "PR, ART Program Stop Date", "PR, Start date of Pregnancy Stage", "PR, Start date of TB Stage", "PR, IPT (Isoniazid Preventive Therapy) Program Stop Date", "PR, Pregnancy Program Stop Date","PR, PrEP Program Stop Date", "PR, TB Program Stop Date")
+         }  
+         else if (conditionConcept == "PR, IPT(Isoniazid Preventive Therapy)") {
+           conditions.show.push("PR, Start date of IPT (Isoniazid Preventive Therapy) program", "PR, IPT (Isoniazid Preventive Therapy) Program Stop Date")
+           conditions.hide.push("PR, Start date of ART program", "PR, Start date of Breast Feeding program",  "PR, Start date of Pregnancy program", "PR, Start date of PrEP program", "PR, Start date of TB program", "PR, ART Stage", "PR, Breast Feeding Stage", "PR, Pregnancy Stage", "PR, TB Stage", "PR, Start date of Breast Feeding Stage", "PR, Start date of Pregnancy Stage", "PR, Start date of TB Stage", "PR, Breast Feeding Program Stop Date", "PR, IPT (Isoniazid Preventive Therapy) Program Stop Date", "PR, Pregnancy Program Stop Date","PR, PrEP Program Stop Date", "PR, TB Program Stop Date", "PR, Start date of ART Stage", "PR, ART Program Stop Date")
+         }
+         else if (conditionConcept == "PR, Pregnancy") {
+            conditions.show.push("PR, Start date of Pregnancy program", "PR, Pregnancy Stage", "PR, Start date of Pregnancy Stage", "PR, Pregnancy Program Stop Date")
+            conditions.hide.push("PR, Start date of ART program", "PR, Start date of Breast Feeding program",  "PR, Start date of IPT (Isoniazid Preventive Therapy) program", "PR, Start date of PrEP program", "PR, Start date of TB program", "PR, Breast Feeding Stage", "PR, ART Stage", "PR, TB Stage", "PR, Start date of Breast Feeding Stage", "PR, Start date of TB Stage", "PR, Breast Feeding Program Stop Date", "PR, IPT (Isoniazid Preventive Therapy) Program Stop Date", "PR, PrEP Program Stop Date", "PR, TB Program Stop Date", "PR, Start date of ART Stage", "PR, ART Program Stop Date")
+         }
+         else if (conditionConcept == "PR, PrEP") {
+            conditions.show.push("PR, Start date of PrEP program", "PR, PrEP Program Stop Date")
+            conditions.hide.push("PR, Start date of ART program", "PR, Start date of Breast Feeding program",  "PR, Start date of IPT (Isoniazid Preventive Therapy) program", "PR, Start date of Pregnancy program", "PR, Start date of TB program", "PR, ART Stage", "PR, Breast Feeding Stage", "PR, Pregnancy Stage", "PR, TB Stage", "PR, Start date of Breast Feeding Stage", "PR, Start date of Pregnancy Stage", "PR, Start date of TB Stage", "PR, Breast Feeding Program Stop Date", "PR, IPT (Isoniazid Preventive Therapy) Program Stop Date", "PR, Pregnancy Program Stop Date", "PR, TB Program Stop Date", "PR, Start date of ART Stage", "PR, ART Program Stop Date")
+         }
+         else if (conditionConcept == "PR,TB") {
+            conditions.show.push("PR, Start date of TB program", "PR, TB Stage", "PR, Start date of TB Stage", "PR, TB Program Stop Date")
+            conditions.hide.push("PR, Start date of ART program", "PR, Start date of Breast Feeding program",  "PR, Start date of IPT (Isoniazid Preventive Therapy) program", "PR, Start date of Pregnancy program", "PR, Start date of PrEP program", "PR, ART Stage", "PR, Breast Feeding Stage", "PR, Pregnancy Stage", "PR, Start date of Breast Feeding Stage", "PR, Start date of Pregnancy Stage", "PR, Breast Feeding Program Stop Date", "PR, IPT (Isoniazid Preventive Therapy) Program Stop Date", "PR, Pregnancy Program Stop Date", "PR, PrEP Program Stop Date", "PR, Start date of ART Stage", "PR, ART Program Stop Date")
+          }
+          else {
+                 conditions.hide.push("PR, Start date of ART program", "PR, Start date of Breast Feeding program", "PR, Start date of IPT (Isoniazid Preventive Therapy) program", "PR, Start date of Pregnancy program", "PR, Start date of PrEP program", "PR, Start date of TB program", "PR, ART Stage", "PR, Breast Feeding Stage", "PR, Pregnancy Stage", "PR, TB Stage", "PR, Start date of ART Stage", "PR, ART Program Stop Date", "PR, Start date of Breast Feeding Stage", "PR, Start date of Pregnancy Stage", "PR, Start date of TB Stage", "PR, Breast Feeding Program Stop Date", "PR, IPT (Isoniazid Preventive Therapy) Program Stop Date", "PR, Pregnancy Program Stop Date","PR, PrEP Program Stop Date", "PR, TB Program Stop Date")
+         }
+         return conditions;
+    }
+
  };
