@@ -118,7 +118,7 @@
       "visits": {
         "translationKey": "DASHBOARD_TITLE_VISITS_KEY",
         "type": "visits",
-        "displayOrder": 6,
+        "displayOrder": 12,
         "dashboardConfig": {
           "title": null,
           "maximumNoOfVisits": 20,
