@@ -1,6 +1,6 @@
 {
   "general": {
-    "translationKey": "DASHBOARD_TAB_GENERAL_KEY",
+    "translationKey": "General",
     "displayByDefault": true,
     "maxRecentlyViewedPatients": 10,
     "sections": {
@@ -312,7 +312,7 @@
 }
 },
   "trends": {
-    "translationKey": "DASHBOARD_TAB_TRENDS_KEY",
+    "translationKey": "Trends",
     "maxRecentlyViewedPatients": 10,
     "sections": {
       "cd4Graph":{

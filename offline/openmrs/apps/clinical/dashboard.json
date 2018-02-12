@@ -1,501 +1,393 @@
-{  
-    "general":{  
-        "translationKey":"DASHBOARD_TAB_GENERAL_KEY",
-        "displayByDefault":true,
-        "maxRecentlyViewedPatients":10,
-        "sections":{  
-            "patientInformation":{  
-                "translationKey":"DASHBOARD_TITLE_PATIENT_INFORMATION_KEY",
-                "type":"patientInformation",
-                "displayOrder":0,
-                "ageLimit":100,
-                "patientAttributes":[  
+{
+  "general": {
+    "translationKey": "General",
+    "displayByDefault": true,
+    "maxRecentlyViewedPatients": 10,
+    "sections": {
+      "patientInformation": {
+        "translationKey": "Patient Information",
+        "type": "patientInformation",
+        "displayOrder": 0,
+        "ageLimit": 100,
+        "patientAttributes": [],
+        "addressFields": [
+          "address1",
+          "postalCode",
+          "cityVillage",
+          "stateProvince"
+        ]
+      },
+      "activityStatus":{
+        "translationKey":"Activity Status",
+        "type":"vitals",
+        "isObservation":true,
+        "displayOrder":1,
+        "hideEmptyDisplayControl":true,
+        "dashboardConfig":{
+          "showDetailsButton":true,
+          "conceptNames":[
+            "Activity Status Form template"
+          ],
+          "numberOfVisits":4
+        },
+        "expandedViewConfig":{
+          "conceptNames":[
+            "Activity Status Form template"
+          ],
+          "numberOfVisits":20,
+          "showDetailsButton":true,
+          "pivotTable":{
 
-                ],
-                "addressFields":[  
-                    "address1",
-                    "address2",
-                    "cityVillage",
-                    "countryDistrict"
-                ]
-            },
-            "diagnosis":{  
-                "translationKey":"DASHBOARD_TITLE_DIAGNOSIS_KEY",
-                "type":"diagnosis",
-                "showCertainty":true,
-                "showOrder":true,
-                "showDetailsButton":true,
-                "displayOrder":1
-            },
-            "treatments":{  
-                "translationKey":"DASHBOARD_TITLE_TREATMENTS_KEY",
-                "type":"treatment",
-                "displayOrder":4,
-                "dashboardConfig":{  
-                    "showFlowSheet":true,
-                    "showListView":true,
-                    "showRoute":true,
-                    "showDrugForm":true,
-                    "numberOfVisits":5,
-                    "showOtherActive":true,
-                    "showDetailsButton":true
-                },
-                "expandedViewConfig":{  
-                    "translationKey":"DASHBOARD_TITLE_TREATMENTS_KEY",
-                    "showFlowSheet":true,
-                    "showListView":true,
-                    "showRoute":true,
-                    "showDrugForm":true,
-                    "numberOfVisits":10,
-                    "showOtherActive":true,
-                    "showDetailsButton":true
-                }
-            },
-            "labResults":{  
-                "translationKey":"DASHBOARD_TITLE_LAB_RESULTS_KEY",
-                "type":"labOrders",
-                "displayOrder":10,
-                "dashboardConfig":{  
-                    "title":null,
-                    "numberOfVisits":1,
-                    "showChart":false,
-                    "showTable":true,
-                    "showDetailsButton":false,
-                    "initialAccessionCount":0,
-                    "latestAccessionCount":1
-                },
-                "expandedViewConfig":{  
-                    "numberOfVisits":10
-                }
-            },
-            "nutritionalValues":{  
-                "translationKey":"DASHBOARD_TITLE_NUTRITIONAL_VALUES_KEY",
-                "type":"vitals",
-                "isObservation":true,
-                "displayOrder":11,
-                "dashboardConfig":{  
-                    "conceptNames":[  
-                        "HEIGHT",
-                        "Weight",
-                        "BMI Data",
-                        "BMI Status Data"
-                    ],
-                    "showDetailsButton":true,
-                    "numberOfVisits":2
-                },
-                "expandedViewConfig":{  
-                    "conceptNames":[  
-                        "HEIGHT",
-                        "Weight",
-                        "BMI",
-                        "BMI STATUS"
-                    ],
-                    "numberOfVisits":2,
-                    "scope":"latest",
-                    "showDetailsButton":true,
-                    "pivotTable":{  
-
-                    }
-                }
-            },
-            "vitals":{  
-                "translationKey":"DASHBOARD_TITLE_VITALS_KEY",
-                "type":"vitals",
-                "isObservation":true,
-                "displayOrder":12,
-                "dashboardConfig":{  
-                    "showDetailsButton":true,
-                    "conceptNames":[  
-                        "Vitals"
-                    ],
-                    "numberOfVisits":2
-                },
-                "expandedViewConfig":{  
-                    "conceptNames":[  
-                        "Vitals"
-                    ],
-                    "numberOfVisits":2,
-                    "showDetailsButton":true,
-                    "pivotTable":{  
-                        "numberOfVisits":"10",
-                        "groupBy":"encounters",
-                        "obsConcepts":[  
-                            "Weight",
-                            "Vitals"
-                        ],
-                        "drugConcepts":[  
-
-                        ],
-                        "labConcepts":[  
-
-                        ]
-                    }
-                }
-            },
-            "secondVitals":{  
-                "translationKey":"DASHBOARD_TITLE_SECOND_VITALS_KEY",
-                "type":"second vitals",
-                "isObservation":true,
-                "displayOrder":13,
-                "dashboardConfig":{  
-                    "showDetailsButton":true,
-                    "conceptNames":[  
-                        "Second Vitals"
-                    ],
-                    "numberOfVisits":2
-                },
-                "expandedViewConfig":{  
-                    "conceptNames":[  
-                        "Second Vitals"
-                    ],
-                    "numberOfVisits":2,
-                    "showDetailsButton":true,
-                    "pivotTable":{  
-
-                    }
-                }
-            },
-            "historyAndExaminations":{  
-                "translationKey":"DASHBOARD_TITLE_HISTORY_AND_EXAMINATIONS_KEY",
-                "type":"vitals",
-                "isObservation":true,
-                "displayOrder":14,
-                "dashboardConfig":{  
-                    "showDetailsButton":true,
-                    "conceptNames":[  
-                        "History and Examination"
-                    ],
-                    "numberOfVisits":2
-                },
-                "expandedViewConfig":{  
-                    "conceptNames":[  
-                        "History and Examination"
-                    ],
-                    "numberOfVisits":2,
-                    "showDetailsButton":true,
-                    "pivotTable":{  
-
-                    }
-                }
-            },
-            "gynaecology":{  
-                "translationKey":"DASHBOARD_TITLE_GYNAECOLOGY_KEY",
-                "type":"gynaecology",
-                "isObservation":true,
-                "displayOrder":15,
-                "dashboardConfig":{  
-                    "conceptNames":[  
-                        "Gynaecology"
-                    ],
-                    "showDetailsButton":true,
-                    "numberOfVisits":2
-                },
-                "expandedViewConfig":{  
-                    "conceptNames":[  
-                        "Gynaecology"
-                    ],
-                    "numberOfVisits":2,
-                    "showDetailsButton":true,
-                    "pivotTable":{  
-
-                    }
-                }
-            },
-            "obstetrics":{  
-                "translationKey":"DASHBOARD_TITLE_OBSTETRICS_KEY",
-                "type":"obstetrics",
-                "isObservation":true,
-                "displayOrder":16,
-                "dashboardConfig":{  
-                    "showDetailsButton":true,
-                    "conceptNames":[  
-                        "Obstetrics"
-                    ],
-                    "numberOfVisits":2
-                },
-                "expandedViewConfig":{  
-                    "conceptNames":[  
-                        "Obstetrics"
-                    ],
-                    "numberOfVisits":2,
-                    "showDetailsButton":true,
-                    "pivotTable":{  
-
-                    }
-                }
-            },
-            "visits":{  
-                "translationKey":"DASHBOARD_TITLE_VISITS_KEY",
-                "type":"visits",
-                "displayOrder":3,
-                "dashboardConfig":{  
-                    "title":null,
-                    "maximumNoOfVisits":8,
-                    "groupByVisits":true
-                }
-            },
-            "diabetes":{  
-                "title":"Diabetes",
-                "templateName":"Diabetes Templates",
-                "type":"diseaseTemplate",
-                "displayOrder":18,
-                "dashboardConfig":{  
-                    "showOnly":[  
-
-                    ]
-                },
-                "expandedViewConfig":{  
-                    "showDetailsButton":true,
-                    "pivotTable":{  
-                        "numberOfVisits":"15",
-                        "groupBy":"encounters",
-                        "obsConcepts":[  
-                            "Weight",
-                            "Height",
-                            "Systolic",
-                            "Diastolic",
-                            "Diabetes, Foot Exam",
-                            "Diabetes, Eye Exam"
-                        ],
-                        "drugConcepts":[  
-                            "Ipratropium Pressurised",
-                            "Garbhpal Rasa"
-                        ],
-                        "labConcepts":[  
-                            "RBS",
-                            "FBS",
-                            "PP2BS",
-                            "Hb1AC",
-                            "Creatinine",
-                            "Albumin",
-                            "Polymorph"
-                        ]
-                    }
-                }
-            },
-            "formsDisplay": {
-                "type": "forms",
-                "displayOrder": 21,
-                "dashboardConfig": {
-                    "title": null,
-                    "maximumNoOfVisits": 10
-                },
-                "formGroup": [
-                    "History and Examination",
-                    "Discharge Summary",
-                    "ANC"
-                ],
-                "translationKey": "DASHBOARD_TITLE_FORMS_DISPLAY_CONTROL_KEY"
-            }
+          }
         }
-    },
-    "trends":{  
-        "translationKey":"DASHBOARD_TAB_TRENDS_KEY",
-        "maxRecentlyViewedPatients":10,
-        "sections":{  
-            "patientInformation":{  
-                "translationKey":"DASHBOARD_TITLE_PATIENT_INFORMATION_KEY",
-                "type":"patientInformation",
-                "patientAttributes":[  
-                    "caste",
-                    "class",
-                    "education",
-                    "occupation",
-                    "debt",
-                    "distanceFromCenter",
-                    "isUrban",
-                    "cluster",
-                    "RationCard",
-                    "familyIncome"
-                ],
-                "addressFields":[  
-                    "address1",
-                    "address2",
-                    "cityVillage",
-                    "countryDistrict"
-                ],
-                "displayOrder":0
-            },
-            "growthChart":{  
-                "type":"observationGraph",
-                "title":"Growth Chart",
-                "config":{  
-                    "yAxisConcepts":[  
-                        "Weight"
-                    ],
-                    "referenceData":"growthChartReference.csv",
-                    "numberOfVisits":20
-                },
-                "displayOrder":1
-            },
-            "BP":{  
-                "type":"observationGraph",
-                "title":"BP",
-                "config":{  
-                    "yAxisConcepts":[  
-                        "Systolic Data",
-                        "Diastolic Data"
-                    ],
-                    "xAxisConcept":"observationDateTime",
-                    "numberOfVisits":10
-                },
-                "displayOrder":2
-            },
-            "weight/BMI":{  
-                "type":"observationGraph",
-                "title":"Weight/BMI",
-                "config":{  
-                    "yAxisConcepts":[  
-                        "Weight",
-                        "BMI"
-                    ],
-                    "xAxisConcept":"observationDateTime",
-                    "numberOfVisits":10
-                },
-                "displayOrder":3
-            },
-            "diabetes/BloodSugar":{  
-                "type":"observationGraph",
-                "title":"Diabetes/Blood Sugar",
-                "config":{  
-                    "yAxisConcepts":[  
-                        "Blood Sugar Fasting",
-                        "Blood Sugar P.P"
-                    ],
-                    "xAxisConcept":"observationDateTime",
-                    "numberOfVisits":10
-                },
-                "displayOrder":4
-            },
-            "observationGraph":{  
-                "type":"observationGraph",
-                "title":"Pulse",
-                "config":{  
-                    "yAxisConcepts":[  
-                        "Pulse Data"
-                    ],
-                    "xAxisConcept":"observationDateTime",
-                    "numberOfVisits":10
-                },
-                "displayOrder":5
-            },
-            "diabetes":{  
-                "title":"Diabetes",
-                "templateName":"Diabetes, Progress",
-                "type":"diseaseTemplate",
-                "dashboardConfig":{  
-                    "showOnly":[  
-
-                    ]
-                },
-                "expandedViewConfig":{  
-                    "showDetailsButton":true,
-                    "pivotTable":{  
-                        "numberOfVisits":"10",
-                        "groupBy":"visits",
-                        "obsConcepts":[  
-                            "Diabetes, Blood Pressure",
-                            "Diabetes, A1C",
-                            "Diabetes, LDL",
-                            "Diabetes, Ulcers on Feet",
-                            "Blood Sugar Fasting",
-                            "Blood Sugar PP"
-                        ],
-                        "labConcepts":[  
-                            "RBS",
-                            "FBS",
-                            "PP2BS",
-                            "Hb1AC",
-                            "Creatinine",
-                            "Cholesterol"
-                        ]
-                    }
-                },
-                "displayOrder":6
-            }
+      },
+      "labResults": {
+        "translationKey": "Lab Results",
+        "type": "labOrders",
+        "displayOrder": 5,
+        "dashboardConfig": {
+          "title": null,
+          "numberOfVisits": 4,
+          "showChart": false,
+          "showTable": true,
+          "showDetailsButton": false,
+          "initialAccessionCount": 0,
+          "latestAccessionCount": 4
+        },
+        "expandedViewConfig": {
+          "numberOfVisits": 20
         }
-    },
-    "patientSummary":{  
-        "translationKey":"DASHBOARD_TAB_PATIENT_SUMMARY_KEY",
-        "maxRecentlyViewedPatients":10,
-        "sections":{  
-            "Bacteriology Concept Set":{  
-                "displayType":"Full-Page",
-                "translationKey":"DASHBOARD_TITLE_BACTERIOLOGY_RESULTS_KEY",
-                "type":"obsToObsFlowSheet",
-                "dashboardConfig":{  
-                    "numberOfVisits":1,
-                    "templateName":"BACTERIOLOGY CONCEPT SET",
-                    "groupByConcept":"Specimen Collection Date",
-                    "conceptNames":[  
-                        "Specimen Id"
-                    ]
-                },
-                "expandedViewConfig":{  
-                    "templateName":"BACTERIOLOGY CONCEPT SET",
-                    "groupByConcept":"Specimen Collection Date"
-                }
-            },
-            "HistoryAndExamination":{  
-                "type":"historyAndExamination",
-                "isObservation":true,
-                "displayType":"Full-Page",
-                "dashboardConfig":{  
-                    "showGroupDateTime":false,
-                    "conceptNames":[  
-                        "Chief Complaint Data",
-                        "Examination Notes",
-                        "Smoking History",
-                        "Clief COmplaint Notes",
-                        "Blood Pressure"
-                    ]
-                },
-                "displayOrder":6,
-                "translationKey":"DASHBOARD_TITLE_HISTORY_AND_EXAMINATIONS_KEY"
-            },
-            "drugOther":{  
-                "translationKey":"DASHBOARD_TITLE_TREATMENTS_KEY",
-                "type":"drugOrderDetails",
-                "displayType":"Full-Page",
-                "showDetailsButton":true,
-                "displayOrder":24,
-                "dashboardConfig":{  
-                    "showOnlyActive":true,
-                    "drugConceptSet":"All Other Drugs"
-                }
-            },
-            "malaria":{  
-                "title":"Malaria",
-                "type":"obsToObsFlowSheet",
-                "displayType":"Full-Page",
-                "displayOrder":26,
-                "dashboardConfig":{  
-                    "groupByConcept":"Malaria, Treatment Start Date",
-                    "templateName":"Malaria",
-                    "conceptNames":[  
-                        "Malaria, Parents Name",
-                        "Malaria, drug regimen",
-                        "Malaria, Malaria Type",
-                        "Malaria, Source"
-                    ]
-                }
-            },
-            "Chronic Treatment Chart":{  
-                "displayType":"Full-Page",
-                "title":"Chronic Treatment Chart",
-                "type":"chronicTreatmentChart",
-                "dashboardConfig":{  
-                    "drugs":[  
+      },
+      "diagnosis":{
+        "translationKey":"Diagnosis",
+        "type":"diagnosis",
+        "showCertainty":true,
+        "showOrder":true,
+        "showDetailsButton":true,
+        "displayOrder":3
+      },
+      "artObservation":{
+        "translationKey":"Art Observation",
+        "type":"vitals",
+        "isObservation":true,
+        "displayOrder":4,
+        "hideEmptyDisplayControl":true,
+        "dashboardConfig":{
+          "showDetailsButton":true,
+          "conceptNames":[
+            "ART Observations Form Template"
+          ],
+          "numberOfVisits":4
+        },
+        "expandedViewConfig":{
+          "conceptNames":[
+            "ART Observations Form Template"
+          ],
+          "numberOfVisits":20,
+          "showDetailsButton":true,
+          "pivotTable":{
 
-                    ]
-                },
-                "expandedViewConfig":{  
-                    "drugs":[  
-
-                    ]
-                }
-            }
+          }
         }
+      },
+      "treatments":{
+        "translationKey":"Treatments",
+        "type":"treatment",
+        "displayOrder":2,
+        "dashboardConfig":{
+          "showFlowSheet":true,
+          "showListView":true,
+          "showRoute":true,
+          "showDrugForm":true,
+          "numberOfVisits":4,
+          "showOtherActive":true,
+          "showDetailsButton":true
+        },
+        "expandedViewConfig":{
+          "translationKey":"Treatments",
+          "showFlowSheet":true,
+          "showListView":true,
+          "showRoute":true,
+          "showDrugForm":true,
+          "numberOfVisits":20,
+          "showOtherActive":true,
+          "showDetailsButton":true
+        }
+      },
+
+      "visits": {
+        "translationKey": "Visits",
+        "type": "visits",
+        "displayOrder": 12,
+        "dashboardConfig": {
+          "title": null,
+          "maximumNoOfVisits": 20,
+          "groupByVisits": true              
     }
+  },
+  "artprogram": {
+    "translationKey": "ART Program",
+    "type": "vitals",
+    "isObservation": true,
+    "displayOrder": 6,
+    "hideEmptyDisplayControl": true,
+    "dashboardConfig": {
+      "showDetailsButton": true,
+      "conceptNames": [
+        "PR, Start date of ART program",
+        "PR, ART Stage",
+        "PR, Start date of ART Stage",
+        "PR, Is ART Program Active",
+        "PR, Reason for Stopping ART Program",
+        "PR, ART Program Stop Date"
+      ],
+      "numberOfVisits": 4
+    },
+    "expandedViewConfig": {
+      "conceptNames": [
+        "PR, Start date of ART program",
+        "PR, ART Stage",
+        "PR, Start date of ART Stage",
+        "PR, Is ART Program Active",
+        "PR, Reason for Stopping ART Program",
+        "PR, ART Program Stop Date"
+      ],
+      "numberOfVisits": 20,
+      "showDetailsButton": true,
+      "pivotTable": {}
+    }
+  },
+  "prepprogram": {
+    "translationKey": "PrEP Program",
+    "type": "vitals",
+    "isObservation": true,
+    "displayOrder": 7,
+    "hideEmptyDisplayControl": true,
+    "dashboardConfig": {
+      "showDetailsButton": true,
+      "conceptNames": [
+        "PR, Start date of PrEP program",
+        "PR, Is PrEP Program Active",
+        "PR, Reason for Stopping PrEP Program",
+        "PR, PrEP Program Stop Date"
+      ],
+      "numberOfVisits": 4
+    },
+    "expandedViewConfig": {
+      "conceptNames": [
+        "PR, Start date of PrEP program",
+        "PR, Is PrEP Program Active",
+        "PR, Reason for Stopping PrEP Program",
+        "PR, PrEP Program Stop Date"
+      ],
+      "numberOfVisits": 20,
+      "showDetailsButton": true,
+      "pivotTable": {}
+    }
+  },
+  "iptprogram": {
+    "translationKey": "IPT Program",
+    "type": "vitals",
+    "isObservation": true,
+    "displayOrder": 8,
+    "hideEmptyDisplayControl": true,
+    "dashboardConfig": {
+      "showDetailsButton": true,
+      "conceptNames": [
+        "PR, Start date of IPT (Isoniazid Preventive Therapy) program",
+        "PR, Is IPT Program Active",
+        "PR, Reason for Stopping IPT PRogram",
+        "PR, IPT (Isoniazid Preventive Therapy) Program Stop Date"
+      ],
+      "numberOfVisits": 4
+    },
+    "expandedViewConfig": {
+      "conceptNames": [
+        "PR, Start date of IPT (Isoniazid Preventive Therapy) program",
+        "PR, Is IPT Program Active",
+        "PR, Reason for Stopping IPT Program",
+        "PR, IPT (Isoniazid Preventive Therapy) Program Stop Date"
+      ],
+      "numberOfVisits": 20,
+      "showDetailsButton": true,
+      "pivotTable": {}
+    }
+  },
+  "tbprogram": {
+    "translationKey": "TB Program",
+    "type": "vitals",
+    "isObservation": true,
+    "displayOrder": 9,
+    "hideEmptyDisplayControl": true,
+    "dashboardConfig": {
+      "showDetailsButton": true,
+      "conceptNames": [
+        "PR, Start date of TB program",
+        "PR, TB Stage",
+        "PR, Start date of TB Stage",
+        "PR, Is TB Program Active",
+        "PR, Reason for Stopping TB Program",
+        "PR, TB Program Stop Date"
+      ],
+      "numberOfVisits": 4
+    },
+    "expandedViewConfig": {
+      "conceptNames": [
+        "PR, Start date of TB program",
+        "PR, TB Stage",
+        "PR, Start date of TB Stage",
+        "PR, Is TB Program Active",
+        "PR, Reason for Stopping TB PRogram",
+        "PR, TB Program Stop Date"
+      ],
+      "numberOfVisits": 20,
+      "showDetailsButton": true,
+      "pivotTable": {}
+    }
+  },
+  "breastfeedingprogram": {
+    "translationKey": "Breast Feeding Program",
+    "type": "vitals",
+    "isObservation": true,
+    "displayOrder": 10,
+    "hideEmptyDisplayControl": true,
+    "dashboardConfig": {
+      "showDetailsButton": true,
+      "conceptNames": [
+        "PR, Start date of Breast Feeding program",
+        "PR, Breast Feeding Stage",
+        "PR, Start date of Breast Feeding Stage",
+        "PR, Is Breast Feeding Program Active",
+        "PR, Reason for Stopping Breast Feeding Program",
+        "PR, Breast Feeding Program Stop Date"
+      ],
+      "numberOfVisits": 4
+    },
+    "expandedViewConfig": {
+      "conceptNames": [
+        "PR, Start date of Breast Feeding program",
+        "PR, Breast Feeding Stage",
+        "PR, Start date of Breast Feeding Stage",
+        "PR, Is Breast Feeding Program Active",
+        "PR, Reason for Stopping Breast Feeding Program",
+        "PR, Breast Feeding Program Stop Date"
+      ],
+      "numberOfVisits": 20,
+      "showDetailsButton": true,
+      "pivotTable": {}
+    }
+  },
+  "pregnancyprogram": {
+    "translationKey": "Pregnancy Program",
+    "type": "vitals",
+    "isObservation": true,
+    "displayOrder": 11,
+    "hideEmptyDisplayControl": true,
+    "dashboardConfig": {
+      "showDetailsButton": true,
+      "conceptNames": [
+        "PR, Start date of Pregnancy program",
+        "PR, Pregnancy Stage",
+        "PR, Start date of Pregnancy Stage",
+        "PR, Is Pregnancy Program Active",
+        "PR, Reason for Stopping Pregnancy Program",
+        "PR, Pregnancy Program Stop Date"
+      ],
+      "numberOfVisits": 4
+    },
+    "expandedViewConfig": {
+      "conceptNames": [
+        "PR, Start date of Pregnancy program",
+        "PR, Pregnancy Stage",
+        "PR, Start date of Pregnancy Stage",
+        "PR, Is Pregnancy Program Active",
+        "PR, Reason for Stopping Pregnancy Program",
+        "PR, Pregnancy Program Stop Date"
+      ],
+      "numberOfVisits": 20,
+      "showDetailsButton": true,
+      "pivotTable": {}
+    }
+  }
 }
-
+},
+  "trends": {
+    "translationKey": "Trends",
+    "maxRecentlyViewedPatients": 10,
+    "sections": {
+      "cd4Graph":{
+        "type":"observationGraph",
+        "title":"CD4 Graph",
+        "config":{
+          "yAxisConcepts":[
+            "CD4 Count"
+          ],
+          "xAxisConcept":"observationDateTime",
+          "numberOfVisits":20
+        },
+        "displayOrder":0
+      },
+      "bDNAGraph":{
+        "type":"observationGraph",
+        "title":"bDNA Graph",
+        "config":{
+          "yAxisConcepts":[
+            "bDNA"
+          ],
+          "xAxisConcept":"observationDateTime",
+          "numberOfVisits":20
+        },
+        "displayOrder":1
+      },
+      "dnaPcrGraph ":{
+        "type":"observationGraph",
+        "title":"DNA PCR Graph",
+        "config":{
+          "yAxisConcepts":[
+            "DNA PCR"
+          ],
+          "xAxisConcept":"observationDateTime",
+          "numberOfVisits":20
+        },
+        "displayOrder":2
+      },
+      "hivRnaPcrGraph":{
+        "type":"observationGraph",
+        "title":"HIV RNA PCR Graph",
+        "config":{
+          "yAxisConcepts":[
+            "HIV RNA PCR"
+          ],
+          "xAxisConcept":"observationDateTime",
+          "numberOfVisits":20
+        },
+        "displayOrder":3
+      }
+    ,
+      "p24AntigenGraph":{
+        "type":"observationGraph",
+        "title":"P24 Antigen Graph",
+        "config":{
+          "yAxisConcepts":[
+            "P24 Antigen"
+          ],
+          "xAxisConcept":"observationDateTime",
+          "numberOfVisits":20
+        },
+        "displayOrder":4
+      },
+      "rnaPcrGraph":{
+        "type":"observationGraph",
+        "title":"RNA PCR Graph",
+        "config":{
+          "yAxisConcepts":[
+            "RNA PCR"
+          ],
+          "xAxisConcept":"observationDateTime",
+          "numberOfVisits":20
+        },
+        "displayOrder":5
+      }
+    }
+  }
+}
