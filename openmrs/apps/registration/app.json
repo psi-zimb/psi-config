@@ -112,8 +112,8 @@
             },
             "patientSearch": {
                 "address": {
-                    "label": "Ward",
-                    "placeholder": "Enter ward",
+                    "label": "Facility",
+                    "placeholder": "Enter Facility",
                     "field": "POSTAL_CODE"
                 },
                 "customAttributes": {
