@@ -54,7 +54,6 @@
             },
             "autoCompleteFields":[],
             "defaultIdentifierPrefix": "NAH",
-            "defaultVisitType": "OPD",
             "searchByIdForwardUrl": "/patient/{{patientUuid}}",
             "showMiddleName": true,
             "showLastName": true,
