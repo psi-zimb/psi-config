@@ -37,7 +37,7 @@
         "type": "config",
         "extensionParams": {
             "conceptName": "Visit",
-            "translationKey": "REGISTRATION_VISIT_KEY",
+            "translationKey": "Visit",
             "conceptNames": ["Visit"],
             "required":true,
             "showLatest": true

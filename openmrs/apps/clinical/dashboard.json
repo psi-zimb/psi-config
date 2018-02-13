@@ -320,7 +320,7 @@
         "title":"CD4 Graph",
         "config":{
           "yAxisConcepts":[
-            "CD4Count"
+            "CD4 Count"
           ],
           "xAxisConcept":"observationDateTime",
           "numberOfVisits":20
