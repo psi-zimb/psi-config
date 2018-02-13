@@ -7858,6 +7858,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                "PR, PrEP Program Stop Date", "PR, Start date of ART Stage", "PR, ART Program Stop Date", "PR, Is Breast Feeding Program Active", "PR, Is IPT Program Active", 
                "PR, Is Pregnancy Program Active", "PR, Is PrEP Program Active", "PR, Reason for Stopping Breast Feeding Program", "PR, Reason for Stopping IPT Program", 
                "PR, Reason for Stopping Pregnancy Program", "PR, Is ART Program Active", "PR, Reason for Stopping ART Program", "PR, Reason for Stopping PrEP Program");
+        }
         else {
                  conditions.hide.push("PR, Start date of ART program", "PR, Start date of Breast Feeding program", "PR, Start date of IPT (Isoniazid Preventive Therapy) program", 
                   "PR, Start date of Pregnancy program", "PR, Start date of PrEP program", "PR, Start date of TB program", "PR, ART Stage", "PR, Breast Feeding Stage", "PR, Pregnancy Stage", 
@@ -7869,6 +7870,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
          }
          return conditions;
        }
+
 
 
  };
