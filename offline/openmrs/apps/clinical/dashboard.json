@@ -12,7 +12,7 @@
         "patientAttributes": [],
         "addressFields": [
           "address1",
-          "postalCode",
+          "address2",
           "cityVillage",
           "stateProvince"
         ]
