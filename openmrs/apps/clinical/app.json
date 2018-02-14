@@ -24,6 +24,7 @@
     ],
     "config": {
         "enableRadiologyOrderOptions":["Urgent","NeedsPrint"],
+        "enableLabOrderOptions":["Urgent", "NeedsPrint"],
         "quickPrints":false,
         "networkConnectivity" : {
             "showNetworkStatusMessage": true,
@@ -260,7 +261,7 @@
                 "multiSelect":true
             },
             "AS, Activity status":{
-                "multiSelect":true    
+                "multiSelect":true
             },
             "RUUV, If Yes for Female Have you observed a vaginal Discharge?":{
                 "multiSelect":true
