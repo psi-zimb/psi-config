@@ -58,8 +58,8 @@
             "Patient file"
         ],
         "allowConsultationWhenNoOpenVisit": false,
-        "defaultVisitType": "OPD",
-        "visitTypeForRetrospectiveEntries": "Special OPD",
+        "defaultVisitType": "FIELD",
+        "visitTypeForRetrospectiveEntries": "FIELD",
         "maxConceptSetLevels": 3,
         "allowOnlyCodedDiagnosis": false,
         "conceptSetUI": {
