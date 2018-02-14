@@ -1321,16 +1321,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
         }
         return conditions;
         },
-     'Provider TB History, Has you mother or caregiver been treated for TB? (for children under 5)': function (formName, formFieldValues) {
-        var conditions = {enable: [], disable: []};
-        var conditionConcept = formFieldValues['Provider TB History, Has you mother or caregiver been treated for TB? (for children under 5)'];
-        if (conditionConcept == "Yes") {
-            conditions.enable.push("Provider TB History, Did you received IPT?");
-        } else {
-            conditions.disable.push("Provider TB History, Did you received IPT?");
-        }
-        return conditions;
-        },
     'Abuse, Have you experienced or are you experiencing any form of non-sexual abuse?': function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['Abuse, Have you experienced or are you experiencing any form of non-sexual abuse?'];
@@ -6110,61 +6100,100 @@ Bahmni.ConceptSet.FormConditions.rules = {
         }
         return conditions;
         },
-    'Provider TB History, Were you treated for TB before?': function (formName, formFieldValues) {
-        var conditions = {
-                    enable: [],
-                    disable: []
-                    };
-        var conditionConcept = formFieldValues['Provider TB History, Were you treated for TB before?'];
-        if (conditionConcept == "No") {
-            conditions.disable.push("Provider TB History, How was the TB diagnosed?","Provider TB History, Have you had TB in places other than the lungs?","Provider TB History, Location of TB","Provider TB History, Was treatment interupted?");
+'PHTCTB, Are you currently being treated for TB?': function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['PHTCTB, Are you currently being treated for TB?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("PHTCTB, How was the current TB diagnosed?","PHTCTB, Location of current TB");
+         var OtherMethod = formFieldValues['PHTCTB, How was the current TB diagnosed?'];
+         var OtherLocation = formFieldValues['PHTCTB, Location of current TB'];
+         if (OtherMethod == "Other") {
+          conditions.enable.push("PHTCTB, If other for current TB diagnosed, specify");
+         } else {
+          conditions.disable.push("PHTCTB, If other for current TB diagnosed, specify");
+         }
+         if (OtherLocation == "Other") {
+                conditions.enable.push("PHTCTB, If other for current TB location, specify");
+            } else {
+                conditions.disable.push("PHTCTB, If other for current TB location, specify");
+            }
         } else {
-            conditions.enable.push("Provider TB History, How was the TB diagnosed?","Provider TB History, Have you had TB in places other than the lungs?","Provider TB History, Location of TB","Provider TB History, Was treatment interupted?");
+            conditions.disable.push("PHTCTB, How was the current TB diagnosed?","PHTCTB, Location of current TB");
         }
         return conditions;
         },
-    'Provider TB History, Are you currently being treated for TB?': function (formName, formFieldValues) {
-            var conditions = {
-                    enable: [],
-                    disable: []
-                    };
-            var conditionConcept = formFieldValues['Provider TB History, Are you currently being treated for TB?'];
-            if (conditionConcept == "Yes") {
-                conditions.enable.push("Provider TB History, How was the TB diagnosed?","Provider TB History, Location of TB", "Provider TB History, How was the TB diagnosed?");
-                  }
-           else {
-                conditions.disable.push("Provider TB History, How was the TB diagnosed?","Provider TB History, Location of TB", "Provider TB History, How was the TB diagnosed?");
-            }
-            return conditions;
-        },
-     'Provider TB History, How was the TB diagnosed?': function (formName, formFieldValues) {
-         var conditions = {
-                 enable: [],
-                 disable: []
-                 };
-         var conditionConcept = formFieldValues['Provider TB History, How was the TB diagnosed?'];
-         if (conditionConcept == "Other") {
-             conditions.enable.push("Provider TB History, If other TB diagnosed, specify");
-               }
-        else {
-             conditions.disable.push("Provider TB History, If other TB diagnosed, specify");
-         }
-         return conditions;
-         },
-      'Provider TB History, Location of TB': function (formName, formFieldValues) {
-          var conditions = {
-                  enable: [],
-                  disable: []
-                  };
-          var conditionConcept = formFieldValues['Provider TB History, Location of TB'];
-          if (conditionConcept == "Other") {
-              conditions.enable.push("Provider TB History, If other TB location, specify");
-                }
-         else {
-              conditions.disable.push("Provider TB History, If other TB location, specify");
-          }
-          return conditions;
-          },
+     'PHTCTB, How was the current TB diagnosed?': function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['PHTCTB, How was the current TB diagnosed?'];
+        if (conditionConcept == "Other") {
+            conditions.enable.push("PHTCTB, If other for current TB diagnosed, specify");
+        } else {
+            conditions.disable.push("PHTCTB, If other for current TB diagnosed, specify");
+        }
+        return conditions;
+        },
+     'PHTCTB, Location of current TB': function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['PHTCTB, Location of current TB'];
+        if (conditionConcept == "Other") {
+            conditions.enable.push("PHTCTB, If other for current TB location, specify");
+        } else {
+            conditions.disable.push("PHTCTB, If other for current TB location, specify");
+        }
+        return conditions;
+        },
+     'PHTCTB, Have been treated for TB before?': function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['PHTCTB, Have been treated for TB before?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("PHTCTB, How was the previous TB diagnosed?","PHTCTB, Location of previous TB","PHTCTB, How many episodes of TB?","PHTCTB, Where were you last treated?","PHTCTB, Was treatment interupted?");
+            var OtherMethod = formFieldValues['PHTCTB, How was the previous TB diagnosed?'];
+            var OtherLocation = formFieldValues['PHTCTB, Location of previous TB'];
+            if (OtherMethod == "Other") {
+                conditions.enable.push("PHTCTB, If other for previous TB diagnosed, specify");
+            } else {
+                conditions.disable.push("PHTCTB, If other for previous TB diagnosed, specify");
+            }
+            if (OtherLocation == "Other") {
+                conditions.enable.push("PHTCTB, If other for previous TB location, specify");
+            } else {
+                conditions.disable.push("PHTCTB, If other for previous TB location, specify");
+            }
+        } else {
+            conditions.disable.push("PHTCTB, How was the previous TB diagnosed?","PHTCTB, Location of previous TB","PHTCTB, How many episodes of TB?","PHTCTB, Where were you last treated?","PHTCTB, Was treatment interupted?");
+        }
+        return conditions;
+        },
+        'PHTCTB, How was the previous TB diagnosed?': function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['PHTCTB, How was the previous TB diagnosed?'];
+        if (conditionConcept == "Other") {
+            conditions.enable.push("PHTCTB, If other for previous TB diagnosed, specify");
+        } else {
+            conditions.disable.push("PHTCTB, If other for previous TB diagnosed, specify");
+        }
+        return conditions;
+        },
+        'PHTCTB, Location of previous TB': function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['PHTCTB, Location of previous TB'];
+        if (conditionConcept == "Other") {
+            conditions.enable.push("PHTCTB, If other for previous TB location, specify");
+        } else {
+            conditions.disable.push("PHTCTB, If other for previous TB location, specify");
+        }
+        return conditions;
+        },
+     'PHTCTB, Has you mother or caregiver been treated for TB? (for children under 5)': function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['PHTCTB, Has you mother or caregiver been treated for TB? (for children under 5)'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("PHTCTB, Did you received IPT?");
+        } else {
+            conditions.disable.push("PHTCTB, Did you received IPT?");
+        }
+        return conditions;
+        },
     'PHT, Ever had oral sex': function (formName, formFieldValues) {
          var conditions = {
                      enable: [],
@@ -6982,14 +7011,14 @@ Bahmni.ConceptSet.FormConditions.rules = {
         var conditionConcept = formFieldValues['Are you in school?'];
         if (conditionConcept == "Yes") {
             conditions.disable.push("Did you drop out of school?");
-            conditions.enable.push("Have you ever missed school?");  
+            conditions.enable.push("Have you ever missed school?");
         }
         else if (conditionConcept == "No")
         {
-            conditions.enable.push("Did you drop out of school?"); 
-            conditions.disable.push("Have you ever missed school?");    
+            conditions.enable.push("Did you drop out of school?");
+            conditions.disable.push("Have you ever missed school?");
         }
-        else 
+        else
         {
             conditions.disable.push("Have you ever missed school?","Did you drop out of school?");
         }
@@ -7128,7 +7157,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
             }
         return conditions;
         },
-        
+
         "AS, Activity status": function (formName, formFieldValues) {
         var conditions = {show: [], hide: []};
         var conditionConceptTransferIn = formFieldValues['AS, Activity status'];
@@ -7864,4 +7893,3 @@ Bahmni.ConceptSet.FormConditions.rules = {
        }
 
  };
-
