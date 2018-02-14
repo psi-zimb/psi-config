@@ -6146,7 +6146,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['PHTCTB, Have been treated for TB before?'];
         if (conditionConcept == "Yes") {
-            conditions.enable.push("PHTCTB, How was the previous TB diagnosed?","PHTCTB, Location of previous TB","PHTCTB, How many episodes of TB?","PHTCTB, Where were you last treated?","PHTCTB, Was treatment interupted?");
+            conditions.enable.push("PHTCTB, How was the previous TB diagnosed?","PHTCTB, Location of previous TB","PHTCTB, How many episodes of TB?","PHTCTB, When were you treated for TB","PHTCTB, Where were you last treated?","PHTCTB, Was treatment interupted?");
             var OtherMethod = formFieldValues['PHTCTB, How was the previous TB diagnosed?'];
             var OtherLocation = formFieldValues['PHTCTB, Location of previous TB'];
             if (OtherMethod == "Other") {
@@ -6160,7 +6160,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                 conditions.disable.push("PHTCTB, If other for previous TB location, specify");
             }
         } else {
-            conditions.disable.push("PHTCTB, How was the previous TB diagnosed?","PHTCTB, Location of previous TB","PHTCTB, How many episodes of TB?","PHTCTB, Where were you last treated?","PHTCTB, Was treatment interupted?");
+            conditions.disable.push("PHTCTB, How was the previous TB diagnosed?","PHTCTB, Location of previous TB","PHTCTB, How many episodes of TB?","PHTCTB, When were you treated for TB","PHTCTB, Where were you last treated?","PHTCTB, Was treatment interupted?");
         }
         return conditions;
         },
