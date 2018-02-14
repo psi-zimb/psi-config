@@ -28,7 +28,7 @@
           "conceptNames":[
             "Activity Status Form template"
           ],
-          "numberOfVisits":4
+          "scope": "latest"
         },
         "expandedViewConfig":{
           "conceptNames":[
@@ -77,7 +77,7 @@
           "conceptNames":[
             "ART Observations Form Template"
           ],
-          "numberOfVisits":4
+          "scope": "latest"
         },
         "expandedViewConfig":{
           "conceptNames":[
@@ -140,7 +140,7 @@
         "PR, Reason for Stopping ART Program",
         "PR, ART Program Stop Date"
       ],
-      "numberOfVisits": 4
+      "scope": "latest"
     },
     "expandedViewConfig": {
       "conceptNames": [
@@ -168,7 +168,7 @@
         "PR, Reason for Stopping PrEP Program",
         "PR, PrEP Program Stop Date"
       ],
-      "numberOfVisits": 4
+      "scope": "latest"
     },
     "expandedViewConfig": {
       "conceptNames": [
@@ -194,7 +194,7 @@
         "PR, Reason for Stopping IPT PRogram",
         "PR, IPT Program Stop Date"
       ],
-      "numberOfVisits": 4
+      "scope": "latest"
     },
     "expandedViewConfig": {
       "conceptNames": [
@@ -222,7 +222,7 @@
         "PR, Reason for Stopping TB Program",
         "PR, TB Program Stop Date"
       ],
-      "numberOfVisits": 4
+      "scope": "latest"
     },
     "expandedViewConfig": {
       "conceptNames": [
@@ -252,7 +252,7 @@
         "PR, Reason for Stopping Breast Feeding Program",
         "PR, Breast Feeding Program Stop Date"
       ],
-      "numberOfVisits": 4
+      "scope": "latest"
     },
     "expandedViewConfig": {
       "conceptNames": [
@@ -282,7 +282,7 @@
         "PR, Reason for Stopping Pregnancy Program",
         "PR, Pregnancy Program Stop Date"
       ],
-      "numberOfVisits": 4
+      "scope": "latest"
     },
     "expandedViewConfig": {
       "conceptNames": [

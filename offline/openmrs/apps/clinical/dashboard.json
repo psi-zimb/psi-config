@@ -22,19 +22,18 @@
         "type":"vitals",
         "isObservation":true,
         "displayOrder":1,
-        "hideEmptyDisplayControl":true,
         "dashboardConfig":{
           "showDetailsButton":true,
           "conceptNames":[
             "Activity Status Form template"
           ],
-          "numberOfVisits":4
+          "scope": "latest"
         },
         "expandedViewConfig":{
           "conceptNames":[
             "Activity Status Form template"
           ],
-          "numberOfVisits":20,
+          "numberOfVisits":5,
           "showDetailsButton":true,
           "pivotTable":{
 
@@ -71,19 +70,18 @@
         "type":"vitals",
         "isObservation":true,
         "displayOrder":4,
-        "hideEmptyDisplayControl":true,
         "dashboardConfig":{
           "showDetailsButton":true,
           "conceptNames":[
             "ART Observations Form Template"
           ],
-          "numberOfVisits":4
+          "scope": "latest"
         },
         "expandedViewConfig":{
           "conceptNames":[
             "ART Observations Form Template"
           ],
-          "numberOfVisits":20,
+          "numberOfVisits":5,
           "showDetailsButton":true,
           "pivotTable":{
 
@@ -130,7 +128,6 @@
     "type": "vitals",
     "isObservation": true,
     "displayOrder": 6,
-    "hideEmptyDisplayControl": true,
     "dashboardConfig": {
       "showDetailsButton": true,
       "conceptNames": [
@@ -140,7 +137,7 @@
         "PR, Reason for Stopping ART Program",
         "PR, ART Program Stop Date"
       ],
-      "numberOfVisits": 4
+      "scope": "latest"
     },
     "expandedViewConfig": {
       "conceptNames": [
@@ -150,7 +147,7 @@
         "PR, Reason for Stopping ART Program",
         "PR, ART Program Stop Date"
       ],
-      "numberOfVisits": 20,
+      "numberOfVisits": 5,
       "showDetailsButton": true,
       "pivotTable": {}
     }
@@ -160,7 +157,6 @@
     "type": "vitals",
     "isObservation": true,
     "displayOrder": 7,
-    "hideEmptyDisplayControl": true,
     "dashboardConfig": {
       "showDetailsButton": true,
       "conceptNames": [
@@ -168,7 +164,7 @@
         "PR, Reason for Stopping PrEP Program",
         "PR, PrEP Program Stop Date"
       ],
-      "numberOfVisits": 4
+      "scope": "latest"
     },
     "expandedViewConfig": {
       "conceptNames": [
@@ -176,7 +172,7 @@
         "PR, Reason for Stopping PrEP Program",
         "PR, PrEP Program Stop Date"
       ],
-      "numberOfVisits": 20,
+      "numberOfVisits": 5,
       "showDetailsButton": true,
       "pivotTable": {}
     }
@@ -186,7 +182,6 @@
     "type": "vitals",
     "isObservation": true,
     "displayOrder": 8,
-    "hideEmptyDisplayControl": true,
     "dashboardConfig": {
       "showDetailsButton": true,
       "conceptNames": [
@@ -194,7 +189,7 @@
         "PR, Reason for Stopping IPT PRogram",
         "PR, IPT Program Stop Date"
       ],
-      "numberOfVisits": 4
+      "scope": "latest"
     },
     "expandedViewConfig": {
       "conceptNames": [
@@ -202,7 +197,7 @@
         "PR, Reason for Stopping IPT Program",
         "PR, IPT Program Stop Date"
       ],
-      "numberOfVisits": 20,
+      "numberOfVisits": 5,
       "showDetailsButton": true,
       "pivotTable": {}
     }
@@ -212,7 +207,6 @@
     "type": "vitals",
     "isObservation": true,
     "displayOrder": 9,
-    "hideEmptyDisplayControl": true,
     "dashboardConfig": {
       "showDetailsButton": true,
       "conceptNames": [
@@ -222,7 +216,7 @@
         "PR, Reason for Stopping TB Program",
         "PR, TB Program Stop Date"
       ],
-      "numberOfVisits": 4
+      "scope": "latest"
     },
     "expandedViewConfig": {
       "conceptNames": [
@@ -232,7 +226,7 @@
         "PR, Reason for Stopping TB PRogram",
         "PR, TB Program Stop Date"
       ],
-      "numberOfVisits": 20,
+      "numberOfVisits": 5,
       "showDetailsButton": true,
       "pivotTable": {}
     }
@@ -242,7 +236,6 @@
     "type": "vitals",
     "isObservation": true,
     "displayOrder": 10,
-    "hideEmptyDisplayControl": true,
     "dashboardConfig": {
       "showDetailsButton": true,
       "conceptNames": [
@@ -252,7 +245,7 @@
         "PR, Reason for Stopping Breast Feeding Program",
         "PR, Breast Feeding Program Stop Date"
       ],
-      "numberOfVisits": 4
+      "scope": "latest"
     },
     "expandedViewConfig": {
       "conceptNames": [
@@ -262,7 +255,7 @@
         "PR, Reason for Stopping Breast Feeding Program",
         "PR, Breast Feeding Program Stop Date"
       ],
-      "numberOfVisits": 20,
+      "numberOfVisits": 5,
       "showDetailsButton": true,
       "pivotTable": {}
     }
@@ -272,7 +265,6 @@
     "type": "vitals",
     "isObservation": true,
     "displayOrder": 11,
-    "hideEmptyDisplayControl": true,
     "dashboardConfig": {
       "showDetailsButton": true,
       "conceptNames": [
@@ -282,7 +274,7 @@
         "PR, Reason for Stopping Pregnancy Program",
         "PR, Pregnancy Program Stop Date"
       ],
-      "numberOfVisits": 4
+      "scope": "latest"
     },
     "expandedViewConfig": {
       "conceptNames": [
@@ -292,7 +284,7 @@
         "PR, Reason for Stopping Pregnancy Program",
         "PR, Pregnancy Program Stop Date"
       ],
-      "numberOfVisits": 20,
+      "numberOfVisits": 5,
       "showDetailsButton": true,
       "pivotTable": {}
     }
@@ -311,7 +303,7 @@
             "CD4Count"
           ],
           "xAxisConcept":"observationDateTime",
-          "numberOfVisits":20
+          "numberOfVisits":5
         },
         "displayOrder":0
       },
@@ -323,7 +315,7 @@
             "bDNA"
           ],
           "xAxisConcept":"observationDateTime",
-          "numberOfVisits":20
+          "numberOfVisits":5
         },
         "displayOrder":1
       },
@@ -335,7 +327,7 @@
             "DNA PCR"
           ],
           "xAxisConcept":"observationDateTime",
-          "numberOfVisits":20
+          "numberOfVisits":5
         },
         "displayOrder":2
       },
@@ -347,7 +339,7 @@
             "HIV RNA PCR"
           ],
           "xAxisConcept":"observationDateTime",
-          "numberOfVisits":20
+          "numberOfVisits":5
         },
         "displayOrder":3
       }
@@ -360,7 +352,7 @@
             "P24 Antigen"
           ],
           "xAxisConcept":"observationDateTime",
-          "numberOfVisits":20
+          "numberOfVisits":5
         },
         "displayOrder":4
       },
@@ -372,7 +364,7 @@
             "RNA PCR"
           ],
           "xAxisConcept":"observationDateTime",
-          "numberOfVisits":20
+          "numberOfVisits":5
         },
         "displayOrder":5
       }
