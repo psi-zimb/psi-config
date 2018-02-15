@@ -293,6 +293,9 @@
             "AIVC, if yes, Specify details":{
                 "multiSelect":true
             },
+            "AIVC, Male, If yes on penis discharge, specify type":{
+                "multiSelect":true
+            },
             "defaults": {
                 "HIV testing and counselling service": "Requested",
                 "Numeric concept": 1,

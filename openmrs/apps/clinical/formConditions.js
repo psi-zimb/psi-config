@@ -7763,7 +7763,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                     disable: []
                 };
                 var conditionConcept = formFieldValues["What types of contraceptives do you use?"];
-                if (conditionConcept == "Yes") {
+                if (conditionConcept == "AIVC, Other") {
                     conditions.enable.push("AIVC, Other contraceptives?");
                 } else {
                     conditions.disable.push("AIVC, Other contraceptives?");
