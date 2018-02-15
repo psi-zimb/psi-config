@@ -7706,8 +7706,8 @@ Bahmni.ConceptSet.FormConditions.rules = {
              };
              var conditionConcept = formFieldValues["AIVC, Are you currently pregnant?"];
              if (conditionConcept == "Yes") {
-                 conditions.enable.push("AIVC, Are you booked for antenatal care?","AIVC, Do you know the EDD?");
-                 conditions.disable.push("AIVC, Is the client on triple therapy?");
+                 conditions.enable.push("AIVC, Are you booked for antenatal care?","AIVC, Is the client on triple therapy?");
+        
              }
             else if(conditionConcept == "No") {
                     conditions.disable.push("AIVC, Are you booked for antenatal care?","AIVC, Do you know the EDD?");
@@ -7717,7 +7717,20 @@ Bahmni.ConceptSet.FormConditions.rules = {
                  conditions.disable.push("AIVC, Are you booked for antenatal care?","AIVC, Do you know the EDD?","AIVC, Is the client on triple therapy?");
              }
              return conditions;
-         },
+            },
+          "AIVC, Are you booked for antenatal care?": function(formName, formFieldValues) {
+              var conditions = {
+                  enable: [],
+                  disable: []
+              };
+              var conditionConcept = formFieldValues["AIVC, Are you booked for antenatal care?"];
+              if (conditionConcept == "Yes") {
+                  conditions.enable.push("AIVC, Do you know the EDD?");
+              } else {
+                  conditions.disable.push("AIVC, Do you know the EDD?");
+              }
+              return conditions;
+          },
           "AIVC, Do you know the EDD?": function(formName, formFieldValues) {
               var conditions = {
                   enable: [],
