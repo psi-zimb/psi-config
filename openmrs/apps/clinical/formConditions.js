@@ -7706,9 +7706,15 @@ Bahmni.ConceptSet.FormConditions.rules = {
              };
              var conditionConcept = formFieldValues["AIVC, Are you currently pregnant?"];
              if (conditionConcept == "Yes") {
-                 conditions.enable.push("AIVC, Are you booked for antenatal care?");
-             } else {
-                 conditions.disable.push("AIVC, Are you booked for antenatal care?");
+                 conditions.enable.push("AIVC, Are you booked for antenatal care?","AIVC, Do you know the EDD?");
+                 conditions.disable.push("AIVC, Is the client on triple therapy?");
+             }
+            else if(conditionConcept == "No") {
+                    conditions.disable.push("AIVC, Are you booked for antenatal care?","AIVC, Do you know the EDD?");
+                    conditions.enable.push("AIVC, Is the client on triple therapy?");
+                 }
+             else {
+                 conditions.disable.push("AIVC, Are you booked for antenatal care?","AIVC, Do you know the EDD?","AIVC, Is the client on triple therapy?");
              }
              return conditions;
          },
@@ -7751,6 +7757,19 @@ Bahmni.ConceptSet.FormConditions.rules = {
                 }
                 return conditions;
             },
+            "What types of contraceptives do you use?": function(formName, formFieldValues) {
+                var conditions = {
+                    enable: [],
+                    disable: []
+                };
+                var conditionConcept = formFieldValues["What types of contraceptives do you use?"];
+                if (conditionConcept == "Yes") {
+                    conditions.enable.push("AIVC, Other contraceptives?");
+                } else {
+                    conditions.disable.push("AIVC, Other contraceptives?");
+                }
+                return conditions;
+            },
              "AIVC, Have you been screened for cervical cancer?": function(formName, formFieldValues) {
                  var conditions = {
                      enable: [],
@@ -7771,9 +7790,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
                   };
                   var conditionConcept = formFieldValues["AIVC, Have you observed a breast lump(s)?"];
                   if (conditionConcept == "Yes") {
-                      conditions.enable.push("AIVC, Date of screening","Screening result");
+                      conditions.enable.push("AIVC, Duration of breast lump","AIVC, Location of breat lump");
                   } else {
-                      conditions.disable.push("AIVC, Date of screening","Screening result");
+                      conditions.disable.push("AIVC, Duration of breast lump","AIVC, Location of breat lump");
                   }
                   return conditions;
               },
@@ -7790,16 +7809,16 @@ Bahmni.ConceptSet.FormConditions.rules = {
                   }
                   return conditions;
               },
-               "AIVC,Have you ever experienced a drug allergy?": function(formName, formFieldValues) {
+               "AIVC, Have you ever experienced  a drug allergy?": function(formName, formFieldValues) {
                    var conditions = {
                        enable: [],
                        disable: []
                    };
-                   var conditionConcept = formFieldValues["AIVC,Have you ever experienced a drug allergy?"];
+                   var conditionConcept = formFieldValues["AIVC, Have you ever experienced  a drug allergy?"];
                    if (conditionConcept == "Yes") {
-                       conditions.enable.push("AIVC, Drug Allergy Notes");
+                       conditions.enable.push("AIVC, If yes, specify drug allergy details");
                    } else {
-                       conditions.disable.push("AIVC, Drug Allergy Notes");
+                       conditions.disable.push("AIVC, If yes, specify drug allergy details");
                    }
                    return conditions;
                },
@@ -7826,6 +7845,19 @@ Bahmni.ConceptSet.FormConditions.rules = {
                           conditions.enable.push("AIVC, What types of illicit drugs do you use and how often?");
                       } else {
                           conditions.disable.push("AIVC, What types of illicit drugs do you use and how often?");
+                      }
+                      return conditions;
+                  },
+                  "AIVC, Have been treated for any of the following conditions?": function(formName, formFieldValues) {
+                      var conditions = {
+                          enable: [],
+                          disable: []
+                      };
+                      var conditionConcept = formFieldValues["AIVC, Have been treated for any of the following conditions?"];
+                      if (conditionConcept == "Yes") {
+                          conditions.enable.push("AIVC, if yes, Sepecify details","AIVC, Medical and Surigcal History Notes");
+                      } else {
+                          conditions.disable.push("AIVC, if yes, Sepecify details","AIVC, Medical and Surigcal History Notes");
                       }
                       return conditions;
                   },

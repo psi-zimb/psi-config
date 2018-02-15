@@ -287,6 +287,12 @@
             "AIVC, Have you had swelling of?":{
                 "multiSelect":true
             },
+            "AIVC, Female, If yes on vaginal discharge, specify type":{
+                "multiSelect":true
+            },
+            "AIVC, if yes, Specify details":{
+                "multiSelect":true
+            },
             "defaults": {
                 "HIV testing and counselling service": "Requested",
                 "Numeric concept": 1,
