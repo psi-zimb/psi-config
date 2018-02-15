@@ -7342,9 +7342,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
           };
           var conditionConcept = formFieldValues["AIVC, Have you ever had TB?"];
           if (conditionConcept == "Yes") {
-              conditions.enable.push("AIVC, How many episodes of TB?", "AIVC, Dates of previous episodes");
+              conditions.enable.push("AIVC, How many episodes of TB?", "AIVC, TB Dates of previous episodes");
           } else {
-              conditions.disable.push("AIVC, How many episodes of TB?", "AIVC, Dates of previous episodes");
+              conditions.disable.push("AIVC, How many episodes of TB?", "AIVC, TB Dates of previous episodes");
           }
           return conditions;
       },
@@ -7371,6 +7371,19 @@ Bahmni.ConceptSet.FormConditions.rules = {
               conditions.enable.push("AIVC, Have you had a skin rash recently?", "AIVC, Have you ever had Herpes zoster/shingles?", "AIVC, Did you experience ant itching?", "AIVC, Have you observed a lump growing?");
           } else {
               conditions.disable.push("AIVC, Have you had a skin rash recently?", "AIVC, Have you ever had Herpes zoster/shingles?", "AIVC, Did you experience ant itching?", "AIVC, Have you observed a lump growing?");
+          }
+          return conditions;
+      },
+      "AIVC, Have you had a skin rash recently?": function(formName, formFieldValues) {
+          var conditions = {
+              enable: [],
+              disable: []
+          };
+          var conditionConcept = formFieldValues["AIVC, Have you had a skin rash recently?"];
+          if (conditionConcept == "Yes") {
+              conditions.enable.push("AIVC, Duration of skin rash","AIVC, Location of skin rash Image","AIVC, Mophology","AIVC, Did the skin rash start after taking medications?");
+          } else {
+              conditions.disable.push("AIVC, Duration of skin rash","AIVC, Location of skin rash Image","AIVC, Mophology","AIVC, Did the skin rash start after taking medications?");
           }
           return conditions;
       },

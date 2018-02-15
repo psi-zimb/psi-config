@@ -275,6 +275,18 @@
             "Programs": {
                 "allowAddMore": true
             },
+            "AIVC, Have you experienced loss of vision?":{
+                "multiSelect":true
+            },
+            "AIVC, TB Dates of previous episodes":{
+                "allowAddMore":true
+            },
+            "AIVC, Have you had oral thrush?":{
+                "multiSelect":true
+            },
+            "AIVC, Have you had swelling of?":{
+                "multiSelect":true
+            },
             "defaults": {
                 "HIV testing and counselling service": "Requested",
                 "Numeric concept": 1,
