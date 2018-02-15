@@ -59,8 +59,8 @@
             "Patient file"
         ],
         "allowConsultationWhenNoOpenVisit": false,
-        "defaultVisitType": "FIELD",
-        "visitTypeForRetrospectiveEntries": "FIELD",
+        "defaultVisitType": "OPD",
+        "visitTypeForRetrospectiveEntries": "OPD",
         "maxConceptSetLevels": 3,
         "allowOnlyCodedDiagnosis": false,
         "conceptSetUI": {
@@ -274,6 +274,27 @@
             },
             "Programs": {
                 "allowAddMore": true
+            },
+            "AIVC, Have you experienced loss of vision?":{
+                "multiSelect":true
+            },
+            "AIVC, TB Dates of previous episodes":{
+                "allowAddMore":true
+            },
+            "AIVC, Have you had oral thrush?":{
+                "multiSelect":true
+            },
+            "AIVC, Have you had swelling of?":{
+                "multiSelect":true
+            },
+            "AIVC, Female, If yes on vaginal discharge, specify type":{
+                "multiSelect":true
+            },
+            "AIVC, if yes, Specify details":{
+                "multiSelect":true
+            },
+            "AIVC, Male, If yes on penis discharge, specify type":{
+                "multiSelect":true
             },
             "defaults": {
                 "HIV testing and counselling service": "Requested",
