@@ -7790,9 +7790,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
                   };
                   var conditionConcept = formFieldValues["AIVC, Have you observed a breast lump(s)?"];
                   if (conditionConcept == "Yes") {
-                      conditions.enable.push("AIVC, Duration of breast lump","AIVC, Location of breat lump");
+                      conditions.enable.push("AIVC, Duration of breast lump","AIVC, Location of breast lump");
                   } else {
-                      conditions.disable.push("AIVC, Duration of breast lump","AIVC, Location of breat lump");
+                      conditions.disable.push("AIVC, Duration of breast lump","AIVC, Location of breast lump");
                   }
                   return conditions;
               },
@@ -7855,9 +7855,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
                       };
                       var conditionConcept = formFieldValues["AIVC, Have been treated for any of the following conditions?"];
                       if (conditionConcept == "Yes") {
-                          conditions.enable.push("AIVC, if yes, Sepecify details","AIVC, Medical and Surigcal History Notes");
+                          conditions.enable.push("AIVC, if yes, Specify details","AIVC, Medical and Surigcal History Notes");
                       } else {
-                          conditions.disable.push("AIVC, if yes, Sepecify details","AIVC, Medical and Surigcal History Notes");
+                          conditions.disable.push("AIVC, if yes, Specify details","AIVC, Medical and Surigcal History Notes");
                       }
                       return conditions;
                   },
