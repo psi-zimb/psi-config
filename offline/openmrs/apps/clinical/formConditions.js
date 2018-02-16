@@ -7381,9 +7381,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
           };
           var conditionConcept = formFieldValues["AIVC, Have you had a skin rash recently?"];
           if (conditionConcept == "Yes") {
-              conditions.enable.push("AIVC, Duration of skin rash","AIVC, Location of skin rash Image","AIVC, Mophology","AIVC, Did the skin rash start after taking medications?");
+              conditions.enable.push("AIVC, Duration of skin rash","AIVC, Location of skin rash details","AIVC, Location of skin rash Image","AIVC, Mophology","AIVC, Did the skin rash start after taking medications?");
           } else {
-              conditions.disable.push("AIVC, Duration of skin rash","AIVC, Location of skin rash Image","AIVC, Mophology","AIVC, Did the skin rash start after taking medications?");
+              conditions.disable.push("AIVC, Duration of skin rash","AIVC, Location of skin rash details","AIVC, Location of skin rash Image","AIVC, Mophology","AIVC, Did the skin rash start after taking medications?");
           }
           return conditions;
       },
@@ -7394,9 +7394,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
           };
           var conditionConcept = formFieldValues["AIVC, Have you observed a lump growing?"];
           if (conditionConcept == "Yes") {
-              conditions.enable.push("AIVC, Location Lump Image");
+              conditions.enable.push("AIVC, Location Lump Image","AIVC, Location lump details");
           } else {
-              conditions.disable.push("AIVC, Location Lump Image");
+              conditions.disable.push("AIVC, Location Lump Image","AIVC, Location lump details");
           }
           return conditions;
       },
