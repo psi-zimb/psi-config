@@ -296,6 +296,9 @@
             "AIVC, Male, If yes on penis discharge, specify type":{
                 "multiSelect":true
             },
+            "AIVC, Mophology":{
+                "multiSelect":true
+            },
             "defaults": {
                 "HIV testing and counselling service": "Requested",
                 "Numeric concept": 1,

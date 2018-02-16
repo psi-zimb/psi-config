@@ -7530,7 +7530,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
           }
           return conditions;
       },
-      "	AIVC, Do you have difficulty swallowing?": function(formName, formFieldValues) {
+      "AIVC, Do you have difficulty swallowing?": function(formName, formFieldValues) {
           var conditions = {
               enable: [],
               disable: []
