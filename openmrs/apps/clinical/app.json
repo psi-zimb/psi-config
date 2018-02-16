@@ -299,6 +299,9 @@
             "AIVC, Mophology":{
                 "multiSelect":true
             },
+            "AIVC, Date":{
+                "allowFutureDates": true
+            },
             "defaults": {
                 "HIV testing and counselling service": "Requested",
                 "Numeric concept": 1,
