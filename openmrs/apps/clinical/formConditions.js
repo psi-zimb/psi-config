@@ -7539,7 +7539,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
           if (conditionConcept == "Yes") {
               conditions.enable.push("AIVC, Is swallowing painful");
           } else {
-              conditions.disable.push("AIVC, Do you have a high blood pressure");
+              conditions.disable.push("AIVC, Is swallowing painful");
           }
           return conditions;
       },
