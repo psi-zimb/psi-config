@@ -7,47 +7,102 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-        <changeSet id="bahmni-atomfeed-offset-marker" author="tw" context="rel3">
-                <preConditions onFail="MARK_RAN">
-                        <sqlCheck expectedResult="0">
-                                SELECT COUNT(*) FROM scheduler_task_config where schedulable_class = 'org.openmrs.module.atomfeed.scheduler.tasks.EventRecordsNumberOffsetMarkerTask'
-                        </sqlCheck>
-                </preConditions>
-                <comment>rel3</comment>
-                <sql>
-                        INSERT INTO  scheduler_task_config  (name, description, schedulable_class,
-                        start_time, start_time_pattern, repeat_interval, start_on_startup, started,
-                        created_by, date_created, changed_by, date_changed, last_execution_time, uuid )
-                        VALUES ('OpenMRS event offset marker task', NULL, 'org.openmrs.module.atomfeed.scheduler.tasks.EventRecordsNumberOffsetMarkerTask',
-                        '2014-01-14 00:00:00','MM/dd/yyyy HH:mm:ss',86400, 1, 1,
-                        1, now(), NULL, NULL, NULL, uuid());
-                </sql>
-        </changeSet>
-        <changeSet id="default-201604211822" author="Gautam, Angshuman">
+        <changeSet id="PSI-CONFIG-1802271552" author="Pritam">
             <preConditions onFail="MARK_RAN">
                 <sqlCheck expectedResult="0">
-                    select count(concept_id) from concept where uuid="5090AAAAAAAAAAAAAAAAAAAAAAAAAAAA";
-                </sqlCheck>
+                          SELECT count(*) FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE="PROCEDURE"  AND ROUTINE_SCHEMA="openmrs" and ROUTINE_NAME='add_concept_psi';
+                   </sqlCheck>
             </preConditions>
-            <comment>update Height concept uuid to standard CEIL concept uuid</comment>
-            <sql>
-                update concept set uuid="5090AAAAAAAAAAAAAAAAAAAAAAAAAAAA" where concept_id in (
-                select concept_name.concept_id from concept_name where name="Height" and concept_name_type="FULLY_SPECIFIED"
-                );
-            </sql>
+            <comment>Adding the Procedure for creating concepts in Fr</comment>
+            <sqlFile splitStatements="false" path="AddConceptProc.sql"/>
         </changeSet>
-        <changeSet id="default-201604211823" author="Gautam, Angshuman">
-            <preConditions onFail="MARK_RAN">
-                <sqlCheck expectedResult="0">
-                    select count(concept_id) from concept where uuid="5089AAAAAAAAAAAAAAAAAAAAAAAAAAAA";
-                </sqlCheck>
-            </preConditions>
-            <comment>update Weight concept uuid to standard CEIL concept uuid</comment>
-            <sql>
-                update concept set uuid="5089AAAAAAAAAAAAAAAAAAAAAAAAAAAA" where concept_id in (
-                select concept_name.concept_id from concept_name where name="Weight" and concept_name_type="FULLY_SPECIFIED"
-                );
-            </sql>
+        <changeSet id="PSI-CONFIG-1802271133" author="Pritam">
+        <comment>Adding All Concepts related to drug</comment>
+        <sqlFile path="AddAllDrugConcepts.sql"/>
         </changeSet>
+        <changeSet id="OCB-CONFIG-18022713213" author="Pritam">
+        <comment>Adding Drugs to the Drug template</comment>
+        <sqlFile path="AddDrugConceptsToDrugForm.sql"/>
+        </changeSet>
+
+        <changeSet id="PSI-CONFIG-1802271608" author="Pritam">
+         <comment>Adding entries in event_records table for newly created drugs</comment>
+         <sql>
+             set @uuid = NULL;
+
+             select uuid into @uuid from concept where concept_id = (select concept_id from concept_name where name = 'Tenofovir + Lamivudine + Efavirenz' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0);
+             INSERT INTO event_records (uuid,title,timestamp,uri,object,category,date_created,tags) VALUES (uuid(),"concepts",now(),concat("/openmrs/ws/rest/v1/concept/",@uuid,"?s=byFullySpecifiedName&amp;amp;v=bahmni&amp;amp;name=","Tenofovir + Lamivudine + Efavirenz"),concat("/openmrs/ws/rest/v1/concept/",@uuid,"?s=byFullySpecifiedName&amp;amp;v=bahmni&amp;name=","Tenofovir + Lamivudine + Efavirenz"),"all-concepts",now(),"drug-concepts");
+
+             select uuid into @uuid from concept where concept_id = (select concept_id from concept_name where name = 'Zidovudine + Lamivudine + Nevirapine' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0);
+             INSERT INTO event_records (uuid,title,timestamp,uri,object,category,date_created,tags) VALUES (uuid(),'concepts',now(),concat('/openmrs/ws/rest/v1/concept/',@uuid,'?s=byFullySpecifiedName&amp;v=bahmni&amp;name=','Zidovudine + Lamivudine + Nevirapine'),concat('/openmrs/ws/rest/v1/concept/',@uuid,'?s=byFullySpecifiedName&amp;v=bahmni&amp;name=','Zidovudine + Lamivudine + Nevirapine'),'all-concepts',now(),'drug-concepts');
+
+             select uuid into @uuid from concept where concept_id = (select concept_id from concept_name where name = 'Tenofovir + Lamivudine' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0);
+             INSERT INTO event_records (uuid,title,timestamp,uri,object,category,date_created,tags)
+             VALUES (uuid(),'concepts',now(),concat('/openmrs/ws/rest/v1/concept/',@uuid,'?s=byFullySpecifiedName&amp;v=bahmni&amp;name=','Tenofovir + Lamivudine'),concat('/openmrs/ws/rest/v1/concept/',@uuid,'?s=byFullySpecifiedName&amp;v=bahmni&amp;name=','Tenofovir + Lamivudine'),'all-concepts',now(),'drug-concepts');
+
+             select uuid into @uuid from concept where concept_id = (select concept_id from concept_name where name = 'Tenofovir + Emtricitabine' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0);
+             INSERT INTO event_records (uuid,title,timestamp,uri,object,category,date_created,tags)
+             VALUES (uuid(),'concepts',now(),concat('/openmrs/ws/rest/v1/concept/',@uuid,'?s=byFullySpecifiedName&amp;v=bahmni&amp;name=','Tenofovir + Emtricitabine'),concat('/openmrs/ws/rest/v1/concept/',@uuid,'?s=byFullySpecifiedName&amp;v=bahmni&amp;name=','Tenofovir + Emtricitabine'),'all-concepts',now(),'drug-concepts');
+
+             select uuid into @uuid from concept where concept_id = (select concept_id from concept_name where name = 'Zidovudine + Lamivudine' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0);
+             INSERT INTO event_records (uuid,title,timestamp,uri,object,category,date_created,tags)
+             VALUES (uuid(),'concepts',now(),concat('/openmrs/ws/rest/v1/concept/',@uuid,'?s=byFullySpecifiedName&amp;v=bahmni&amp;name=','Zidovudine + Lamivudine'),concat('/openmrs/ws/rest/v1/concept/',@uuid,'?s=byFullySpecifiedName&amp;v=bahmni&amp;name=','Zidovudine + Lamivudine'),'all-concepts',now(),'drug-concepts');
+
+             select uuid into @uuid from concept where concept_id = (select concept_id from concept_name where name = 'Abacavir/Lamivudine' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0);
+             INSERT INTO event_records (uuid,title,timestamp,uri,object,category,date_created,tags)
+             VALUES (uuid(),'concepts',now(),concat('/openmrs/ws/rest/v1/concept/',@uuid,'?s=byFullySpecifiedName&amp;v=bahmni&amp;name=','Abacavir/Lamivudine'),concat('/openmrs/ws/rest/v1/concept/',@uuid,'?s=byFullySpecifiedName&amp;v=bahmni&amp;name=','Abacavir/Lamivudine'),'all-concepts',now(),'drug-concepts');
+
+             select uuid into @uuid from concept where concept_id = (select concept_id from concept_name where name = 'Atazanavir/Rtv' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0);
+             INSERT INTO event_records (uuid,title,timestamp,uri,object,category,date_created,tags)
+             VALUES (uuid(),'concepts',now(),concat('/openmrs/ws/rest/v1/concept/',@uuid,'?s=byFullySpecifiedName&amp;v=bahmni&amp;name=','ZAtazanavir/Rtv'),concat('/openmrs/ws/rest/v1/concept/',@uuid,'?s=byFullySpecifiedName&amp;v=bahmni&amp;name=','Atazanavir/Rtv'),'all-concepts',now(),'drug-concepts');
+
+             select uuid into @uuid from concept where concept_id = (select concept_id from concept_name where name = 'Lopinavir/Rtv' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0);
+             INSERT INTO event_records (uuid,title,timestamp,uri,object,category,date_created,tags)
+             VALUES (uuid(),'concepts',now(),concat('/openmrs/ws/rest/v1/concept/',@uuid,'?s=byFullySpecifiedName&amp;v=bahmni&amp;name=','Lopinavir/Rtv'),concat('/openmrs/ws/rest/v1/concept/',@uuid,'?s=byFullySpecifiedName&amp;v=bahmni&amp;name=','Lopinavir/Rtv'),'all-concepts',now(),'drug-concepts');
+
+             select uuid into @uuid from concept where concept_id = (select concept_id from concept_name where name = 'Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Efavirenz (EFV) 600mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0);
+             INSERT INTO event_records (uuid,title,timestamp,uri,object,category,date_created,tags) VALUES (uuid(),'drug',now(),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),'drug',now(),'drug');
+
+             select uuid into @uuid from concept where concept_id = (select concept_id from concept_name where name = 'Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Efavirenz (EFV) 400mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0);
+             INSERT INTO event_records (uuid,title,timestamp,uri,object,category,date_created,tags) VALUES (uuid(),'drug',now(),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),'drug',now(),'drug');
+
+             select uuid into @uuid from concept where concept_id = (select concept_id from concept_name where name = 'Zidovudine (AZT) 300mg + Lamivudine (3TC) 150mg + Nevirapine (NVP) 200mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0);
+             INSERT INTO event_records (uuid,title,timestamp,uri,object,category,date_created,tags) VALUES (uuid(),'drug',now(),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),'drug',now(),'drug');
+
+             select uuid into @uuid from concept where concept_id = (select concept_id from concept_name where name = 'Zidovudine (AZT) 60mg + Lamivudine (3TC) 30mg + Nevirapine (NVP) 50mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0);
+             INSERT INTO event_records (uuid,title,timestamp,uri,object,category,date_created,tags) VALUES (uuid(),'drug',now(),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),'drug',now(),'drug');
+
+             select uuid into @uuid from concept where concept_id = (select concept_id from concept_name where name = 'Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0);
+             INSERT INTO event_records (uuid,title,timestamp,uri,object,category,date_created,tags) VALUES (uuid(),'drug',now(),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),'drug',now(),'drug');
+
+             select uuid into @uuid from concept where concept_id = (select concept_id from concept_name where name = 'Tenofovir (TDF) 300mg + Emtricitabine 200mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0);
+             INSERT INTO event_records (uuid,title,timestamp,uri,object,category,date_created,tags) VALUES (uuid(),'drug',now(),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),'drug',now(),'drug');
+
+             select uuid into @uuid from concept where concept_id = (select concept_id from concept_name where name = 'Zidovudine (AZT) 300mg + Lamivudine (3TC) 150mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0);
+             INSERT INTO event_records (uuid,title,timestamp,uri,object,category,date_created,tags) VALUES (uuid(),'drug',now(),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),'drug',now(),'drug');
+
+             select uuid into @uuid from concept where concept_id = (select concept_id from concept_name where name = 'Zidovudine (AZT) 60mg + Lamivudine (3TC) 30mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0);
+             INSERT INTO event_records (uuid,title,timestamp,uri,object,category,date_created,tags) VALUES (uuid(),'drug',now(),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),'drug',now(),'drug');
+
+             select uuid into @uuid from concept where concept_id = (select concept_id from concept_name where name = 'Abacavir 600mg/Lamivudine 300mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0);
+             INSERT INTO event_records (uuid,title,timestamp,uri,object,category,date_created,tags) VALUES (uuid(),'drug',now(),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),'drug',now(),'drug');
+
+             select uuid into @uuid from concept where concept_id = (select concept_id from concept_name where name = 'Abacavir 60mg/Lamivudine 30mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0);
+             INSERT INTO event_records (uuid,title,timestamp,uri,object,category,date_created,tags) VALUES (uuid(),'drug',now(),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),'drug',now(),'drug');
+
+             select uuid into @uuid from concept where concept_id = (select concept_id from concept_name where name = 'Atazanavir/Rtv 300/100 mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0);
+             INSERT INTO event_records (uuid,title,timestamp,uri,object,category,date_created,tags) VALUES (uuid(),'drug',now(),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),'drug',now(),'drug');
+
+             select uuid into @uuid from concept where concept_id = (select concept_id from concept_name where name = 'Lopinavir/Rtv 80/20 mg/ml' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0);
+             INSERT INTO event_records (uuid,title,timestamp,uri,object,category,date_created,tags) VALUES (uuid(),'drug',now(),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),'drug',now(),'drug');
+
+             select uuid into @uuid from concept where concept_id = (select concept_id from concept_name where name = 'Lopinavir/Rtv 100/25 mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0);
+             INSERT INTO event_records (uuid,title,timestamp,uri,object,category,date_created,tags) VALUES (uuid(),'drug',now(),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),'drug',now(),'drug');
+
+             select uuid into @uuid from concept where concept_id = (select concept_id from concept_name where name = 'Lopinavir/Rtv 200/50 mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0);
+             INSERT INTO event_records (uuid,title,timestamp,uri,object,category,date_created,tags) VALUES (uuid(),'drug',now(),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),concat('/openmrs/ws/rest/v1/reference-data/drug/',@uuid),'drug',now(),'drug');
+
+</sql>
+       </changeSet>
 
 </databaseChangeLog>
