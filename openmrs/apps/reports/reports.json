@@ -136,6 +136,20 @@
             "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/testCount.sql"
         }
     },
+    "missedAppointmentsReport": {
+        "name": "Missed Appointments",
+        "type": "MRSGeneric",
+        "config": {
+            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/missedAppointments.sql"
+        }
+    },
+    "activeClientswithNoAppointmentReport": {
+        "name": "Active clients with No appointments",
+        "type": "MRSGeneric",
+        "config": {
+            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/activeClientswithNoAppointment.sql"
+        }
+    },
     "bloodPressure": {
         "name": "Blood Pressure",
         "type": "obsCount",
