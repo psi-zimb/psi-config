@@ -51,7 +51,7 @@ from patient pa
                             "Didanosine (ddl) 200mg",
                             "Didanosine (ddl) 250mg",
                             "Didanosine (ddl) 25mg",
-                            "Didanosine (ddl) 400mg"
+                            "Didanosine (ddl) 400mg",
                             "Emitricitabine 200mg",
                             "Tenofovir 300mg",
                             "Indinavir 400mg", 
