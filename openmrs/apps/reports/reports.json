@@ -156,6 +156,15 @@
         "config": {
             "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/activeClientswithNoAppointment.sql"
         }
+
+    },
+    "noVisitsSince90days": {
+        "name": "Client with no visits since 90 days",
+        "type": "MRSGeneric",
+        "config": {
+            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/noVisitsSince90days.sql"
+        }
+
     },
     "bloodPressure": {
         "name": "Blood Pressure",
