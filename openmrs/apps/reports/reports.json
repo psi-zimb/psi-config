@@ -140,8 +140,22 @@
       "name": "ART Attendance Register Report",
       "type": "MRSGeneric",
       "config": {
-          "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/art_attendance.sql"
+          "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artAttendanceRegister.sql"
       }
+  },
+  "transferOutListPerPeriod": {
+    "name": "Transfer Out List Per Period Report",
+    "type": "MRSGeneric",
+    "config": {
+        "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/transferOutListPerPeriod.sql"
+    }
+  },
+ "defaultersReport": {
+  "name": "Defaulters Report",
+  "type": "MRSGeneric",
+  "config": {
+      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/defaultersReport.sql"
+   }
   },
     "missedAppointmentsReport": {
         "name": "Missed Appointments",
