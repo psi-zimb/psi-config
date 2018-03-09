@@ -180,6 +180,14 @@
         }
 
     },
+    "deathsReport": {
+        "name": "Deaths Report",
+        "type": "MRSGeneric",
+        "config": {
+            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/deathsReport.sql"
+        }
+
+    },
     "bloodPressure": {
         "name": "Blood Pressure",
         "type": "obsCount",
