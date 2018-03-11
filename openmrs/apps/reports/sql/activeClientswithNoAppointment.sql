@@ -63,10 +63,7 @@ from patient p
                             "Tenofovir 300mg",
                             "Indinavir 400mg", 
                             "Saquinavir 200mg")
-            LEFT JOIN obs o3 on p.patient_id = o3.person_id and o3.voided = 0
-            INNER JOIN obs o4 on p.patient_id = o4.person_id
-            INNER join concept_view cv4 on o3.concept_id=cv4.concept_id and cv4.concept_full_name = "PR, Start date of ART program" and o3.voided=0
-            and o4.person_id not in (select o.person_id from obs o INNER JOIN concept_view cv on o.concept_id=cv.concept_id and cv.concept_full_name = "PR, ART Program Stop Date" and o.voided=0)
+
          lEFT JOIN person per on p.patient_id = per.person_id
          LEFT JOIN person_name pn on p.patient_id = pn.person_id
          LEFT JOIN person_attribute pac on p.patient_id = pac.person_id 
