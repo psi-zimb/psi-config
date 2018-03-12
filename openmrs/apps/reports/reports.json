@@ -188,6 +188,14 @@
         }
 
     },
+    "registeredInAPeriod": {
+        "name": "Registered in a period Report",
+        "type": "MRSGeneric",
+        "config": {
+            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/registeredInAPeriodReport.sql"
+        }
+
+    },
     "bloodPressure": {
         "name": "Blood Pressure",
         "type": "obsCount",
