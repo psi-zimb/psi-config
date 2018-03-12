@@ -55,7 +55,8 @@ select
             null 
     end
 )) as "Referred from", 
-    GROUP_CONCAT(distinct drugRegime.name) as "Regime", date(obsTypeOfService.obs_datetime) as "Date of Registration" 
+    GROUP_CONCAT(distinct drugRegime.name) as "Regime", 
+    date(MIN(obsTypeOfService.obs_datetime)) as "Date of Registration" 
 from
     patient pat 
     join
