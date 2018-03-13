@@ -23,8 +23,7 @@ inner join concept_name cn on o.concept_id = cn.concept_id and cn.name = 'PR, St
 inner join obs o2 on pat.patient_id = o2.person_id
 inner join concept_name cn2 on o2.concept_id = cn2.concept_id and cn2.name = 'AS, Activity status' and cn2.concept_name_type = 'FULLY_SPECIFIED'
 and o2.value_coded IN (select concept_id from concept_name where name = 'Deceased' and concept_name_type = 'FULLY_SPECIFIED')
-
-LEFT join patient_identifier pi on pat.patient_id = pi.patient_id and pi.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'PREP/OI Identifier' and retired=0 and uniqueness_behavior = 'UNIQUE')
+LEFT join patient_identifier pi on pat.patient_id = pi.patient_id and pi.voided=0 and pi.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'PREP/OI Identifier' and retired=0 and uniqueness_behavior = 'UNIQUE')
 LEFT JOIN person_name pn on pat.patient_id = pn.person_id
 lEFT JOIN person per on pat.patient_id = per.person_id
 lEFT JOIN patient_identifier pi2 on pat.patient_id = pi2.patient_id and pi2.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'UIC' and retired=0 )

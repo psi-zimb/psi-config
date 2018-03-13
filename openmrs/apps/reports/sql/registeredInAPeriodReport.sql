@@ -101,6 +101,7 @@ from
             LEFT join
                 patient_identifier piPrepOIIdentifier 
                 on pat.patient_id = piPrepOIIdentifier.patient_id 
+                and piPrepOIIdentifier.voided=0
                 and piPrepOIIdentifier.identifier_type in 
                 (
                     select

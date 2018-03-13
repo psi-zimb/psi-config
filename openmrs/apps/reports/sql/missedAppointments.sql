@@ -15,8 +15,7 @@ select  pi.identifier as "OI No.",
         GROUP_CONCAT(distinct (case when pat.name = 'Telephone' then pac.value else null end)) as "Telephone no", 
         GROUP_CONCAT(distinct (case when pat.name = 'Referral source' then case when cv.concept_short_name is null then cv.concept_full_name else cv.concept_short_name end else null end)) as "Referred from",
         group_concat(distinct d.name) as "Regime",
-        date(pai.start_date_time) as "Date of missed appointment"
-        
+        date(pai.start_date_time) as "Date of missed appointment" 
         
 from patient pa
          join patient_appointment pai on pa.patient_id=pai.patient_id 
@@ -66,13 +65,12 @@ from patient pa
          LEFT JOIN person_attribute pac on pai.patient_id = pac.person_id 
          LEFT JOIN person_attribute_type pat on pac.person_attribute_type_id = pat.person_attribute_type_id
          LEFT JOIN concept_view cv on pac.value = cv.concept_id AND cv.retired = 0
-         LEFT JOIN patient_identifier pi on pai.patient_id = pi.patient_id 
+         LEFT JOIN patient_identifier pi on pai.patient_id = pi.patient_id and pi.voided=0
+         and pi.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'PREP/OI Identifier' and retired=0 and uniqueness_behavior = 'UNIQUE')
          LEFT JOIN patient_identifier piu on pai.patient_id = piu.patient_id 
+         and piu.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'UIC' and retired=0)
          WHERE pai.start_date_time BETWEEN date('#startDate#') and date('#endDate#')
          and pai.status='Missed' and pai.appointment_kind='Scheduled' 
          AND pai.appointment_service_id IN (select appointment_service_id from appointment_service where name = 'ART')
-         and pi.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'PREP/OI Identifier' and retired=0 and uniqueness_behavior = 'UNIQUE')
-         and piu.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'UIC' and retired=0 )
          and cn.name = 'PR, Start date of ART program' and cn.concept_name_type = 'FULLY_SPECIFIED' and cn.voided = 0
-
          group by pai.patient_appointment_id;

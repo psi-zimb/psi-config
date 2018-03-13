@@ -25,7 +25,7 @@ from patient p
     LEFT JOIN person_attribute pac on p.patient_id = pac.person_id 
     LEFT JOIN person_attribute_type pat on pac.person_attribute_type_id = pat.person_attribute_type_id
     LEFT jOIN concept_view cv5 on pac.value = cv5.concept_id AND cv5.retired = 0
-    LEFT join patient_identifier pi on p.patient_id = pi.patient_id
+    LEFT join patient_identifier pi on p.patient_id = pi.patient_id and pi.voided=0
     and pi.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'PREP/OI Identifier' and retired=0 and uniqueness_behavior = 'UNIQUE') 
     LEFT JOIN patient_identifier piu on p.patient_id = piu.patient_id 
      and piu.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'UIC' and retired=0) 
