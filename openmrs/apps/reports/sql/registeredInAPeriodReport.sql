@@ -3,9 +3,9 @@ select
     CONCAT(pnNameSurnameofPatient.given_name, " ", COALESCE(pnNameSurnameofPatient.middle_name, '')) as "Name",
     pnNameSurnameofPatient.family_name as "Surname",
            case 
-              when p.gender = 'M' then 'Male'
-              when p.gender = 'F' then 'Female'
-              when p.gender = 'O' then 'Other'
+              when perSexAge.gender = 'M' then 'Male'
+              when perSexAge.gender = 'F' then 'Female'
+              when perSexAge.gender = 'O' then 'Other'
               end as "Sex",
     TIMESTAMPDIFF(YEAR, perSexAge.birthdate, CURDATE()) as "Age",
     GROUP_CONCAT(DISTINCT (
@@ -49,16 +49,8 @@ select
             null 
     end
 )) as "Telephone no", 
-    GROUP_CONCAT(distinct (
-    case
-        when
-            personAttributeTypeonRegistration.name = 'Referral source' 
-        then
-            cv.concept_full_name 
-        else
-            null 
-    end
-)) as "Referred from", 
+
+    GROUP_CONCAT(distinct (case when pat.name = 'Referral source' then case when cv.concept_short_name is null then cv.concept_full_name else cv.concept_short_name end else null end)) as "Referred from",
     GROUP_CONCAT(distinct drugRegime.name) as "Regime", 
     date(MIN(obsTypeOfService.obs_datetime)) as "Date of Registration" 
 from

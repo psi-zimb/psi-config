@@ -2,9 +2,9 @@ select pi.identifier as "OI No.",
 CONCAT(pn.given_name, " ", COALESCE(pn.middle_name, '')) as "Name",
 pn.family_name as "Surname",
 case 
-when p.gender = 'M' then 'Male'
-when p.gender = 'F' then 'Female'
-when p.gender = 'O' then 'Other'
+when per.gender = 'M' then 'Male'
+when per.gender = 'F' then 'Female'
+when per.gender = 'O' then 'Other'
 end as "Sex",
 TIMESTAMPDIFF(YEAR, per.birthdate, CURDATE()) as Age,
 GROUP_CONCAT(DISTINCT (case when peraty.name = 'Population' then cv.concept_full_name else null end)) as "Category",

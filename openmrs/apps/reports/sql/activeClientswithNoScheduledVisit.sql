@@ -2,9 +2,9 @@ select  pi.identifier as "OI No.",
         CONCAT(pn.given_name, " ", COALESCE(pn.middle_name, '')) as "Name",
         pn.family_name as Surname,
         case 
-            when p.gender = 'M' then 'Male'
-            when p.gender = 'F' then 'Female'
-            when p.gender = 'O' then 'Other'
+            when per.gender = 'M' then 'Male'
+            when per.gender = 'F' then 'Female'
+            when per.gender = 'O' then 'Other'
             end as "Sex",
         TIMESTAMPDIFF(YEAR, per.birthdate, CURDATE()) as Age,
         GROUP_CONCAT(DISTINCT (case when pat.name = 'Population' then cv5.concept_full_name else null end)) as "Category",
@@ -13,7 +13,7 @@ select  pi.identifier as "OI No.",
         GROUP_CONCAT(distinct (case when pat.name = 'Mother\'s name' Then pac.value else null end)) as "Mother's name",
         GROUP_CONCAT(distinct (case when pat.name = 'District of Birth' then cv5.concept_full_name else null end)) as "District of Birth", 
         GROUP_CONCAT(distinct (case when pat.name = 'Telephone' then pac.value else null end)) as "Telephone no", 
-        GROUP_CONCAT(distinct (case when pat.name = 'Referral source' then case when cv.concept_short_name is null then cv.concept_full_name else cv.concept_short_name end else null end)) as "Referred from",
+        GROUP_CONCAT(distinct (case when pat.name = 'Referral source' then case when cv5.concept_short_name is null then cv5.concept_full_name else cv5.concept_short_name end else null end)) as "Referred from",
         group_concat(distinct d.name) as "Regime",
         date(MAX(v.date_started)) as "Date Last Seen"
         
