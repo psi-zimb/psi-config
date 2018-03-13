@@ -64,4 +64,4 @@ LEFT JOIN drug d on dord.drug_inventory_id = d.drug_id
                             "Indinavir 400mg", 
                             "Saquinavir 200mg")
                 
-group by v.patient_id having datediff('#endDate#', date(max(v.date_started))) > 89;
+group by v.patient_id having datediff(date('#endDate#'), date(max(v.date_started))) > 89;

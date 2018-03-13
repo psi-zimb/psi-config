@@ -1,4 +1,4 @@
-select  pi.identifier as "OI No.",
+select  pi.identifier as "OI No.",o2.value_coded,o2.obs_datetime,
         CONCAT(pn.given_name, " ", COALESCE(pn.middle_name, '')) as "Name",
         pn.family_name as Surname,
         per.gender as Sex,
@@ -15,19 +15,22 @@ select  pi.identifier as "OI No.",
         
 from patient p 
     INNER JOIN obs o on p.patient_id = o.person_id
-    INNER join concept_view cv on o.concept_id=cv.concept_id and cv.concept_full_name = "PR, Start date of ART program" and o.voided=0 and o.person_id not in 
-    (select o.person_id from obs o INNER JOIN concept_view cv on o.concept_id=cv.concept_id and cv.concept_full_name = "PR, ART Program Stop Date" and o.voided=0)
-    INNER JOIN obs o2 ON p.patient_id = o2.person_id
-    INNER join concept_view cv2 on o2.concept_id = cv2.concept_id and cv2.concept_full_name = "AS, Activity status" and o2.voided = 0
-    INNER JOIN concept_view cv3 on o2.value_coded = cv3.concept_id and cv3.concept_full_name in ("Active") and cv3.retired = 0
-    and o.person_id not in 
-    (select o.person_id from obs o 
-        INNER join concept_view cv1 on o.concept_id = cv1.concept_id and cv1.concept_full_name = "AS, Activity status" and o.voided = 0
-        INNER JOIN concept_view cv2 on o.value_coded = cv2.concept_id and cv2.concept_full_name in ("Deceased","Double entry","Interrupted Exposure (PrEP only)","Lost to follow up","Opted out","Seroconverted (For PrEP only)","Transfer in","Transfer Out","Visitor") and cv2.retired = 0)
+    INNER join concept_view cv on o.concept_id=cv.concept_id AND cv.retired = 0
+    Left JOIN obs o2 ON p.patient_id = o2.person_id
+    Left JOIN concept_view cv3 on o2.value_coded = cv3.concept_id AND cv3.retired = 0
+    lEFT JOIN person per on p.patient_id = per.person_id
+    LEFT JOIN person_name pn on p.patient_id = pn.person_id
+    LEFT JOIN person_attribute pac on p.patient_id = pac.person_id 
+    LEFT JOIN person_attribute_type pat on pac.person_attribute_type_id = pat.person_attribute_type_id
+    left jOIN concept_view cv5 on pac.value = cv5.concept_id AND cv5.retired = 0
+    LEFT join patient_identifier pi on p.patient_id = pi.patient_id
+    LEFT JOIN patient_identifier piu on p.patient_id = piu.patient_id 
+    left JOIN visit v on p.patient_id=v.patient_id
     LEFT JOIN orders ord on p.patient_id=ord.patient_id and ord.order_type_id = 2
     LEFT JOIN drug_order dord on dord.order_id = ord.order_id 
     LEFT JOIN drug d on dord.drug_inventory_id = d.drug_id
-        and d.name in ("Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Efavirenz (EFV) 600mg",
+    and 
+    d.name in ("Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Efavirenz (EFV) 600mg",
                             "Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Efavirenz (EFV) 400mg",
                             "Zidovudine (AZT) 300mg + Lamivudine (3TC) 150mg + Nevirapine (NVP) 200mg",
                             "Zidovudine (AZT) 60mg + Lamivudine (3TC) 30mg + Nevirapine (NVP) 50mg",
@@ -62,18 +65,21 @@ from patient p
                             "Emitricitabine 200mg",
                             "Tenofovir 300mg",
                             "Indinavir 400mg", 
-                            "Saquinavir 200mg")
-
-         lEFT JOIN person per on p.patient_id = per.person_id
-         LEFT JOIN person_name pn on p.patient_id = pn.person_id
-         LEFT JOIN person_attribute pac on p.patient_id = pac.person_id 
-         LEFT JOIN person_attribute_type pat on pac.person_attribute_type_id = pat.person_attribute_type_id
-         left jOIN concept_view cv5 on pac.value = cv5.concept_id AND cv5.retired = 0
-         LEFT join patient_identifier pi on p.patient_id = pi.patient_id and pi.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'PREP/OI Identifier' and retired=0 and uniqueness_behavior = 'UNIQUE') 
-         LEFT JOIN patient_identifier piu on p.patient_id = piu.patient_id and piu.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'UIC' and retired=0 )
-         left JOIN visit v on p.patient_id=v.patient_id
+                            "Saquinavir 200mg") 
          
-where p.patient_id not in (
-    select patient_id from patient_appointment where patient_appointment.status not in ('Cancelled') and patient_appointment.appointment_service_id IN(select appointment_service_id from appointment_service where name = 'ART') and date(start_date_time) between '#startDate#' and '#endDate#') 
+where 
+    cv.concept_full_name = "PR, Start date of ART program" and o.voided=0 and o.person_id not in 
+    (select o.person_id from obs o INNER JOIN concept_view cv on o.concept_id=cv.concept_id and cv.concept_full_name = "PR, ART Program Stop Date" and o.voided=0)
+    and cv3.concept_full_name NOT in ("Deceased","Double entry","Interrupted Exposure (PrEP only)",
+    "Lost to follow up","Opted out","Seroconverted (For PrEP only)","Transfer in","Transfer Out","Visitor") 
     
+    and pi.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'PREP/OI Identifier' and retired=0 and uniqueness_behavior = 'UNIQUE') 
+    and piu.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'UIC' and retired=0) 
+
+AND 
+p.patient_id not in (
+    select patient_id from patient_appointment where patient_appointment.status not in ('Cancelled') 
+    and patient_appointment.appointment_service_id IN(select appointment_service_id from appointment_service where name = 'ART') 
+    and date(patient_appointment.start_date_time) between date('#startDate#') and date('#endDate#')
+    )    
   group by p.patient_id;

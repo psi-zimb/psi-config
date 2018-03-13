@@ -69,6 +69,6 @@ LEFT JOIN drug d on dord.drug_inventory_id = d.drug_id
 where 
 o.voided = 0 
 and o2.voided = 0
-and date(o2.obs_datetime) between '#startDate#' and '#endDate#'
+and date(o2.obs_datetime) between date('#startDate#') and date('#endDate#')
 group by pat.patient_id;
 
