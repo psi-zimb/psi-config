@@ -15,7 +15,7 @@ select  pi.identifier as "OI No.",
         GROUP_CONCAT(distinct (case when pat.name = 'Telephone' then pac.value else null end)) as "Telephone no", 
         GROUP_CONCAT(distinct (case when pat.name = 'Referral source' then cn2.name else null end)) as "Referred from",
         group_concat(distinct d.name) as "Regime",
-        date(pai.start_date_time) as "date of Missed appointment"
+        date(pai.start_date_time) as "Date of missed appointment"
         
         
 from patient pa
