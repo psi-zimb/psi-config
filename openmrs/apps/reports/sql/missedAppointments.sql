@@ -1,8 +1,12 @@
 select  pi.identifier as "OI No.",
         CONCAT(pn.given_name, " ", COALESCE(pn.middle_name, '')) as "Name",
         pn.family_name as Surname,
-        p.gender as Sex,
-        TIMESTAMPDIFF(YEAR, p.birthdate, CURDATE()) as Age,
+        case 
+        when p.gender = 'M' then 'Male'
+        when p.gender = 'F' then 'Female'
+        when p.gender = 'O' then 'Other'
+        end as "Sex",
+        TIMESTAMPDIFF(YEAR, p.birthdate, CURDATE()) as "Age",
         GROUP_CONCAT(DISTINCT (case when pat.name = 'Population' then cn2.name else null end)) as "Category",
         ROUND(DATEDIFF(CURDATE(), o.value_datetime) / 7, 0) as "Wks on ART",
         piu.identifier as "UIC",
@@ -15,12 +19,26 @@ select  pi.identifier as "OI No.",
         
         
 from patient pa
-         join patient_appointment pai on pa.patient_id=pai.patient_id and pai.status='Missed' and pai.appointment_kind='Scheduled' 
-         AND pai.appointment_service_id IN (select appointment_service_id from appointment_service where name = 'ART')
+         join patient_appointment pai on pa.patient_id=pai.patient_id 
          LEFT JOIN orders ord on pai.patient_id=ord.patient_id and ord.order_type_id = 2
          LEFT JOIN drug_order dord on dord.order_id = ord.order_id 
          LEFT JOIN drug d on dord.drug_inventory_id = d.drug_id
-            and d.name in ("Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Efavirenz (EFV) 600mg",
+         LEFT JOIN obs o on pai.patient_id = o.person_id and o.voided = 0
+         LEFT JOIN concept_name cn on o.concept_id = cn.concept_id 
+         LEFT JOIN person p on pai.patient_id = p.person_id
+         LEFT JOIN person_name pn on pai.patient_id = pn.person_id
+         LEFT JOIN person_attribute pac on pai.patient_id = pac.person_id 
+         LEFT JOIN person_attribute_type pat on pac.person_attribute_type_id = pat.person_attribute_type_id
+         left jOIN concept_name cn2 on pac.value = cn2.concept_id AND cn2.voided = 0 AND cn2.concept_name_type = 'FULLY_SPECIFIED'
+         LEFT join patient_identifier pi on pai.patient_id = pi.patient_id 
+         LEFT JOIN patient_identifier piu on pai.patient_id = piu.patient_id 
+         WHERE pai.start_date_time BETWEEN date('2018-03-01') and date('2018-03-30')
+         and pai.status='Missed' and pai.appointment_kind='Scheduled' 
+         AND pai.appointment_service_id IN (select appointment_service_id from appointment_service where name = 'ART')
+         and pi.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'PREP/OI Identifier' and retired=0 and uniqueness_behavior = 'UNIQUE')
+         and piu.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'UIC' and retired=0 )
+         and cn.name = 'PR, Start date of ART program' and cn.concept_name_type = 'FULLY_SPECIFIED' and cn.voided = 0
+         and d.name in ("Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Efavirenz (EFV) 600mg",
                             "Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Efavirenz (EFV) 400mg",
                             "Zidovudine (AZT) 300mg + Lamivudine (3TC) 150mg + Nevirapine (NVP) 200mg",
                             "Zidovudine (AZT) 60mg + Lamivudine (3TC) 30mg + Nevirapine (NVP) 50mg",
@@ -56,14 +74,4 @@ from patient pa
                             "Tenofovir 300mg",
                             "Indinavir 400mg", 
                             "Saquinavir 200mg")
-         LEFT JOIN obs o on pai.patient_id = o.person_id and o.voided = 0
-         LEFT JOIN concept_name cn on o.concept_id = cn.concept_id and cn.name = 'PR, Start date of ART program' and cn.concept_name_type = 'FULLY_SPECIFIED' and cn.voided = 0
-         LEFT JOIN person p on pai.patient_id = p.person_id
-         LEFT JOIN person_name pn on pai.patient_id = pn.person_id
-         LEFT JOIN person_attribute pac on pai.patient_id = pac.person_id 
-         LEFT JOIN person_attribute_type pat on pac.person_attribute_type_id = pat.person_attribute_type_id
-         left jOIN concept_name cn2 on pac.value = cn2.concept_id AND cn2.voided = 0 AND cn2.concept_name_type = 'FULLY_SPECIFIED'
-         LEFT join patient_identifier pi on pai.patient_id = pi.patient_id and pi.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'PREP/OI Identifier' and retired=0 and uniqueness_behavior = 'UNIQUE')
-         LEFT JOIN patient_identifier piu on pai.patient_id = piu.patient_id and piu.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'UIC' and retired=0 )
-         WHERE pai.start_date_time BETWEEN '#startDate#' and '#endDate#'
          group by pai.patient_appointment_id;
