@@ -1,7 +1,11 @@
 select pi.identifier as "OI No.",
 CONCAT(pn.given_name, " ", COALESCE(pn.middle_name, '')) as "Name",
 pn.family_name as "Surname",
-per.gender as "Sex",
+case 
+when p.gender = 'M' then 'Male'
+when p.gender = 'F' then 'Female'
+when p.gender = 'O' then 'Other'
+end as "Sex",
 TIMESTAMPDIFF(YEAR, per.birthdate, CURDATE()) as Age,
 GROUP_CONCAT(DISTINCT (case when peraty.name = 'Population' then cv.concept_full_name else null end)) as "Category",
 ROUND(DATEDIFF(CURDATE(), o.value_datetime) / 7, 0) as "Wks on ART",
@@ -9,7 +13,7 @@ pi2.identifier as "UIC",
 GROUP_CONCAT(distinct (case when peraty.name = 'Mother\'s name' Then peratt.value else null end)) as "Mother's name",
 GROUP_CONCAT(distinct (case when peraty.name = 'District of Birth' then cv.concept_full_name else null end)) as "District of Birth", 
 GROUP_CONCAT(distinct (case when peraty.name = 'Telephone' then peratt.value else null end)) as "Telephone no", 
-GROUP_CONCAT(distinct (case when peraty.name = 'Referral source' then cv.concept_full_name else null end)) as "Referred from",
+GROUP_CONCAT(distinct (case when peraty.name = 'Referral source' then case when cv.concept_short_name is null then cv.concept_full_name else cv.concept_short_name end else null end)) as "Referred from",
 GROUP_CONCAT(distinct d.name) as "Regime",
 date(o2.obs_datetime) as "Date of death"
 

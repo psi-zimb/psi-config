@@ -16,16 +16,16 @@ select  pi.identifier as "OI No.",o2.value_coded,o2.obs_datetime,
 from patient p 
     INNER JOIN obs o on p.patient_id = o.person_id
     INNER join concept_view cv on o.concept_id=cv.concept_id AND cv.retired = 0
-    Left JOIN obs o2 ON p.patient_id = o2.person_id
-    Left JOIN concept_view cv3 on o2.value_coded = cv3.concept_id AND cv3.retired = 0
-    lEFT JOIN person per on p.patient_id = per.person_id
+    LEFT JOIN obs o2 ON p.patient_id = o2.person_id
+    LEFT JOIN concept_view cv3 on o2.value_coded = cv3.concept_id AND cv3.retired = 0
+    LEFT JOIN person per on p.patient_id = per.person_id
     LEFT JOIN person_name pn on p.patient_id = pn.person_id
     LEFT JOIN person_attribute pac on p.patient_id = pac.person_id 
     LEFT JOIN person_attribute_type pat on pac.person_attribute_type_id = pat.person_attribute_type_id
-    left jOIN concept_view cv5 on pac.value = cv5.concept_id AND cv5.retired = 0
+    LEFT jOIN concept_view cv5 on pac.value = cv5.concept_id AND cv5.retired = 0
     LEFT join patient_identifier pi on p.patient_id = pi.patient_id
     LEFT JOIN patient_identifier piu on p.patient_id = piu.patient_id 
-    left JOIN visit v on p.patient_id=v.patient_id
+    LEFT JOIN visit v on p.patient_id=v.patient_id
     LEFT JOIN orders ord on p.patient_id=ord.patient_id and ord.order_type_id = 2
     LEFT JOIN drug_order dord on dord.order_id = ord.order_id 
     LEFT JOIN drug d on dord.drug_inventory_id = d.drug_id
