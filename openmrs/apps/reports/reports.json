@@ -58,5 +58,13 @@
             "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/registeredInAPeriodReport.sql"
         }
 
+    },
+    "artInitiated": {
+        "name": "ART Initiated in a Period Report",
+        "type": "MRSGeneric",
+        "config": {
+            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artInitiated.sql"
+        }
+
     }
 }
