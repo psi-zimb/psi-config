@@ -49,8 +49,7 @@ select
             null 
     end
 )) as "Telephone no", 
-
-    GROUP_CONCAT(distinct (case when pat.name = 'Referral source' then case when cv.concept_short_name is null then cv.concept_full_name else cv.concept_short_name end else null end)) as "Referred from",
+    GROUP_CONCAT(distinct (case when personAttributeTypeonRegistration.name = 'Referral source' then case when cv.concept_short_name is null then cv.concept_full_name else cv.concept_short_name end else null end)) as "Referred from",
     GROUP_CONCAT(distinct drugRegime.name) as "Regime", 
     date(MIN(obsTypeOfService.obs_datetime)) as "Date of Registration" 
 from
