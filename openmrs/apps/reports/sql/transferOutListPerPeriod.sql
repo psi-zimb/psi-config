@@ -1,15 +1,19 @@
 select  pi.identifier as "OI No.",
         CONCAT(pn.given_name, " ", COALESCE(pn.middle_name, '')) as "Name",
         pn.family_name as Surname,
-        p.gender as Sex,
+        case
+            when p.gender = 'M' then 'Male'
+            when p.gender = 'F' then 'Female'
+            when p.gender = 'O' then 'Other'
+            end as "Sex",
         TIMESTAMPDIFF(YEAR, p.birthdate, CURDATE()) as Age,
-        GROUP_CONCAT(DISTINCT (case when pat.name = 'Population' then cn2.name else null end)) as "Category",
+        GROUP_CONCAT(DISTINCT (case when pat.name = 'Population' then cv.concept_full_name else null end)) as "Category",
         GROUP_CONCAT(distinct ROUND(DATEDIFF(CURDATE(), o3.value_datetime) / 7, 0)) as "Wks on ART",
         piu.identifier as "UIC",
         GROUP_CONCAT(distinct (case when pat.name = 'Mother\'s name' Then pac.value else null end)) as "Mother's name",
-        GROUP_CONCAT(distinct (case when pat.name = 'District of Birth' then cn2.name else null end)) as "District of Birth",
+        GROUP_CONCAT(distinct (case when pat.name = 'District of Birth' then cv.concept_full_name else null end)) as "District of Birth",
         GROUP_CONCAT(distinct (case when pat.name = 'Telephone' then pac.value else null end)) as "Telephone no",
-        GROUP_CONCAT(distinct (case when pat.name = 'Referral source' then cn2.name else null end)) as "Referred from",
+        GROUP_CONCAT(distinct (case when pat.name = 'Referral source' then case when cv.concept_short_name is null then cv.concept_full_name else cv.concept_short_name end else null end)) as "Referred from",
         GROUP_CONCAT(distinct ROUND(DATEDIFF(CURDATE(), o3.value_datetime) / 7, 0)) as "Wks on ART",
         group_concat(distinct d.name) as "Regime" ,
         GROUP_CONCAT(DISTINCT DATE(o.obs_datetime)) as "Date of Transfer",
@@ -69,6 +73,6 @@ from patient pa
          LEFT JOIN person_name pn on pa.patient_id = pn.person_id
          LEFT JOIN person_attribute pac on pa.patient_id = pac.person_id
          LEFT JOIN person_attribute_type pat on pac.person_attribute_type_id = pat.person_attribute_type_id
-         left jOIN concept_name cn2 on pac.value = cn2.concept_id AND cn2.voided = 0 AND cn2.concept_name_type = 'FULLY_SPECIFIED'
+         LEFT jOIN concept_view cv on pac.value = cv.concept_id AND cv.retired = 0
 where o.obs_datetime is not null  and date(o3.value_datetime) BETWEEN '#startDate#' and '#endDate#'
-group by pi.identifier,o.obs_datetime
+group by pi.identifier,o.obs_datetime;
