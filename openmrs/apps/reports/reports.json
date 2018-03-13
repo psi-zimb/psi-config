@@ -27,11 +27,11 @@
             "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/missedAppointments.sql"
         }
     },
-    "activeClientswithNoAppointmentReport": {
-        "name": "ART Active clients with No appointments",
+    "activeClientswithNoScheduledVisit": {
+        "name": "ART Active clients with No Scheduled Visit",
         "type": "MRSGeneric",
         "config": {
-            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/activeClientswithNoAppointment.sql"
+            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/activeClientswithNoScheduledVisit.sql"
         }
     },
     "noVisitsSince90days": {

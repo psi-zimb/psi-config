@@ -7,13 +7,13 @@ select  pi.identifier as "OI No.",
         when p.gender = 'O' then 'Other'
         end as "Sex",
         TIMESTAMPDIFF(YEAR, p.birthdate, CURDATE()) as "Age",
-        GROUP_CONCAT(DISTINCT (case when pat.name = 'Population' then cn2.name else null end)) as "Category",
+        GROUP_CONCAT(DISTINCT (case when pat.name = 'Population' then cv.concept_full_name else null end)) as "Category",
         ROUND(DATEDIFF(CURDATE(), o.value_datetime) / 7, 0) as "Wks on ART",
         piu.identifier as "UIC",
         GROUP_CONCAT(distinct (case when pat.name = 'Mother\'s name' Then pac.value else null end)) as "Mother's name",
-        GROUP_CONCAT(distinct (case when pat.name = 'District of Birth' then cn2.name else null end)) as "District of Birth", 
+        GROUP_CONCAT(distinct (case when pat.name = 'District of Birth' then cv.concept_full_name else null end)) as "District of Birth", 
         GROUP_CONCAT(distinct (case when pat.name = 'Telephone' then pac.value else null end)) as "Telephone no", 
-        GROUP_CONCAT(distinct (case when pat.name = 'Referral source' then cn2.name else null end)) as "Referred from",
+        GROUP_CONCAT(distinct (case when pat.name = 'Referral source' then case when cv.concept_short_name is null then cv.concept_full_name else cv.concept_short_name end else null end)) as "Referred from",
         group_concat(distinct d.name) as "Regime",
         date(pai.start_date_time) as "Date of missed appointment"
         
@@ -65,7 +65,7 @@ from patient pa
          LEFT JOIN person_name pn on pai.patient_id = pn.person_id
          LEFT JOIN person_attribute pac on pai.patient_id = pac.person_id 
          LEFT JOIN person_attribute_type pat on pac.person_attribute_type_id = pat.person_attribute_type_id
-         LEFT JOIN concept_name cn2 on pac.value = cn2.concept_id AND cn2.voided = 0 AND cn2.concept_name_type = 'FULLY_SPECIFIED'
+         LEFT JOIN concept_view cv on pac.value = cv.concept_id AND cv.retired = 0
          LEFT JOIN patient_identifier pi on pai.patient_id = pi.patient_id 
          LEFT JOIN patient_identifier piu on pai.patient_id = piu.patient_id 
          WHERE pai.start_date_time BETWEEN date('#startDate#') and date('#endDate#')

@@ -2,7 +2,11 @@ select
     piPrepOIIdentifier.identifier as "OI No.",
     CONCAT(pnNameSurnameofPatient.given_name, " ", COALESCE(pnNameSurnameofPatient.middle_name, '')) as "Name",
     pnNameSurnameofPatient.family_name as "Surname",
-    perSexAge.gender as "Sex",
+           case 
+              when p.gender = 'M' then 'Male'
+              when p.gender = 'F' then 'Female'
+              when p.gender = 'O' then 'Other'
+              end as "Sex",
     TIMESTAMPDIFF(YEAR, perSexAge.birthdate, CURDATE()) as "Age",
     GROUP_CONCAT(DISTINCT (
     case
