@@ -134,7 +134,7 @@ from
       name = 'PREP/OI Identifier'
       and retired = 0
       and uniqueness_behavior = 'UNIQUE'
-  ) and pi.voided = 0
+  ) and piOINo.voided = 0
   LEFT JOIN patient_identifier piUIC on patient.patient_id = piUIC.patient_id
   and piUIC.identifier_type in (
     select
