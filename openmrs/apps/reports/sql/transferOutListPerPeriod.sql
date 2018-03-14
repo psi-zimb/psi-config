@@ -1,12 +1,12 @@
 select  pi.identifier as "OI No.",
         CONCAT(pn.given_name, " ", COALESCE(pn.middle_name, '')) as "Name",
-        pn.family_name as Surname,
+        pn.family_name as "Surname",
         case
             when p.gender = 'M' then 'Male'
             when p.gender = 'F' then 'Female'
             when p.gender = 'O' then 'Other'
             end as "Sex",
-        TIMESTAMPDIFF(YEAR, p.birthdate, CURDATE()) as Age,
+        TIMESTAMPDIFF(YEAR, p.birthdate, CURDATE()) as "Age",
         GROUP_CONCAT(DISTINCT (case when pat.name = 'Population' then cv.concept_full_name else null end)) as "Category",
         GROUP_CONCAT(distinct ROUND(DATEDIFF(CURDATE(), o3.value_datetime) / 7, 0)) as "Wks on ART",
         piu.identifier as "UIC",
@@ -20,7 +20,7 @@ select  pi.identifier as "OI No.",
         o2.value_text as  "Name of facility transferred to"
 from patient pa
           INNER JOIN obs o3 on pa.patient_id = o3.person_id
-          INNER join concept_view cv2 on o3.concept_id=cv2.concept_id and cv2.concept_full_name = 'PR, Start date of ART program' and o3.voided=0 and o3.person_id not in
+          INNER JOIN concept_view cv2 on o3.concept_id=cv2.concept_id and cv2.concept_full_name = 'PR, Start date of ART program' and o3.voided=0 and o3.person_id not in
                      (select o3.person_id from obs o3 INNER JOIN concept_view cv2 on o3.concept_id=cv2.concept_id and cv2.concept_full_name = 'PR, ART Program Stop Date' and o3.voided=0)
           LEFT JOIN orders ord on pa.patient_id=ord.patient_id and ord.order_type_id = 2
           LEFT JOIN drug_order dord on dord.order_id = ord.order_id
@@ -67,12 +67,12 @@ from patient pa
             (select distinct concept_id from concept_view where concept_full_name = 'Transfer Out')
          LEFT JOIN obs o2 on o.obs_group_id = o2.obs_group_id and o2.concept_id in
             (select distinct concept_id from concept_view where concept_full_name = 'AS, Details of facility to where patient is transferred')
-         LEFT join patient_identifier pi on pa.patient_id = pi.patient_id and pi.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'PREP/OI Identifier' and retired=0 and uniqueness_behavior = 'UNIQUE')
+         LEFT JOIN patient_identifier pi on pa.patient_id = pi.patient_id and pi.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'PREP/OI Identifier' and retired=0 and uniqueness_behavior = 'UNIQUE')
          LEFT JOIN patient_identifier piu on pa.patient_id = piu.patient_id and piu.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'UIC' and retired=0 )
          LEFT JOIN person p on pa.patient_id = p.person_id
          LEFT JOIN person_name pn on pa.patient_id = pn.person_id
          LEFT JOIN person_attribute pac on pa.patient_id = pac.person_id
          LEFT JOIN person_attribute_type pat on pac.person_attribute_type_id = pat.person_attribute_type_id
-         LEFT jOIN concept_view cv on pac.value = cv.concept_id AND cv.retired = 0
-where o.obs_datetime is not null  and date(o3.value_datetime) BETWEEN '#startDate#' and '#endDate#'
+         LEFT JOIN concept_view cv on pac.value = cv.concept_id AND cv.retired = 0
+where o.obs_datetime is not null  and date(o.obs_datetime) between date('#startDate#') and date('#endDate#')
 group by pi.identifier,o.obs_datetime;

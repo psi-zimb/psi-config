@@ -1,22 +1,22 @@
 select
       pi.identifier as "OI No",
       CONCAT(pn.given_name, " ", COALESCE(pn.middle_name, '')) as "Name",
-      pn.family_name as Surname,
+      pn.family_name as "Surname",
       case
           when pr.gender = 'M' then 'Male'
           when pr.gender = 'F' then 'Female'
           when pr.gender = 'O' then 'Other'
           end as "Sex",
-      TIMESTAMPDIFF(YEAR, pr.birthdate, CURDATE()) as Age,
-      GROUP_CONCAT(DISTINCT (case when pat.name = 'Population' then cv.concept_full_name else null end)) as Category,
+      TIMESTAMPDIFF(YEAR, pr.birthdate, CURDATE()) as "Age",
+      GROUP_CONCAT(DISTINCT (case when pat.name = 'Population' then cv.concept_full_name else null end)) as "Category",
       GROUP_CONCAT(distinct ROUND(DATEDIFF(CURDATE(), o3.value_datetime) / 7, 0)) as "Wks on ART",
       piu.identifier as "UIC",
-      GROUP_CONCAT(distinct (case when pat.name = 'Mother\'s name' Then pa.value else null end)) as `Mother's name`,
+      GROUP_CONCAT(distinct (case when pat.name = 'Mother\'s name' Then pa.value else null end)) as "Mother's name",
       GROUP_CONCAT(distinct (case when pat.name = 'District of Birth' then cv.concept_full_name else null end)) as "District of Birth",
       GROUP_CONCAT(distinct (case when pat.name = 'Telephone' then pa.value else null end)) as "Telephone no",
       GROUP_CONCAT(distinct (case when pat.name = 'Referral source' then case when cv.concept_short_name is null then cv.concept_full_name else cv.concept_short_name end else null end)) as "Referred from",
-      GROUP_CONCAT(DISTINCT cv1.concept_full_name) as `Type of Visit`,
-      date(v.date_started) as `Visit Date`
+      GROUP_CONCAT(DISTINCT cv1.concept_full_name) as "Type of Visit",
+      date(v.date_started) as "Visit Date"
 
 from patient p
       INNER JOIN obs o3 on p.patient_id = o3.person_id
@@ -33,5 +33,5 @@ from patient p
       LEFT JOIN obs o on o.encounter_id = e.encounter_id and o.voided = 0
       INNER JOIN concept_view cv1 on cv1.concept_id = o.value_coded and cv1.concept_full_name IN ('Initial ART service','ART Routine Service ','PrEP Initial','PrEP Continuation','Review by MD/Doctor','Review by Nurse','Lab test (only)','Pick up Drugs (only)','Adherence Counselling','Home visit','Phone Call','Unplanned or walk in visit','Urgent','Hospital Visit')
 
-where date(o3.value_datetime) BETWEEN '#startDate#' and '#endDate#'
-group by v.date_started,o.value_coded
+where date(v.date_started) BETWEEN date('#startDate#') and date('#endDate#')
+group by v.date_started,o.value_coded;
