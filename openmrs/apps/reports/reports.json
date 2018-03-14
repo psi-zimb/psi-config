@@ -69,14 +69,14 @@
             "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artTransferIn.sql"
         }
     },
-    "stiReport": {
+    "artstiReport": {
         "name": "ART STI Report",
         "type": "MRSGeneric",
         "config": {
             "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artStiReport.sql"
         }
     },
-    "stiReport": {
+    "arttbReport": {
         "name": "ART TB Report",
         "type": "MRSGeneric",
         "config": {

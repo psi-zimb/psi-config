@@ -127,7 +127,7 @@ where
       and obs.voided = 0
   ) 
   and date(obsTBDiagnosis.obs_datetime) between date('#startDate#') 
-  and date('#enddate#') 
+  and date('#endDate#') 
 group by 
   pat.patient_id, 
   obsTBDiagnosis.obs_datetime, 
