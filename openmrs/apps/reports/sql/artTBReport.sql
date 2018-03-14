@@ -51,14 +51,14 @@ select
   GROUP_CONCAT(
     distinct cnNameOfDiagnosisRecorded.name
   ) as "Diagnosis", 
-  date(obsSTIDiagnosis.obs_datetime) as "Diagnosis Date" 
+  date(obsTBDiagnosis.obs_datetime) as "Diagnosis Date" 
 from 
   patient pat 
-  join obs obsSTIDiagnosis on pat.patient_id = obsSTIDiagnosis.person_id 
-  join concept_name cnNameofDiagnosis on obsSTIDiagnosis.concept_id = cnNameofDiagnosis.concept_id 
+  join obs obsTBDiagnosis on pat.patient_id = obsTBDiagnosis.person_id 
+  join concept_name cnNameofDiagnosis on obsTBDiagnosis.concept_id = cnNameofDiagnosis.concept_id 
   join obs obsActiveArtProgram ON pat.patient_id = obsActiveArtProgram.person_id 
   join concept_name cnDateofARTProgram on obsActiveArtProgram.concept_id = cnDateofARTProgram.concept_id 
-  JOIN concept_name cnNameOfDiagnosisRecorded on obsSTIDiagnosis.value_coded = cnNameOfDiagnosisRecorded.concept_id 
+  JOIN concept_name cnNameOfDiagnosisRecorded on obsTBDiagnosis.value_coded = cnNameOfDiagnosisRecorded.concept_id 
   LEFT join patient_identifier piPrepOIIdentifier on pat.patient_id = piPrepOIIdentifier.patient_id 
   and piPrepOIIdentifier.voided = 0 
   and piPrepOIIdentifier.identifier_type in (
@@ -91,41 +91,33 @@ where
   cnNameofDiagnosis.name = 'Coded Diagnosis' 
   and cnNameofDiagnosis.concept_name_type = 'FULLY_SPECIFIED' 
   and cnNameofDiagnosis.voided = 0 
-  and obsSTIDiagnosis.value_coded IN (
+  and obsTBDiagnosis.value_coded IN ( /* Patients for whom TB Diagnosis recorded between the reporting date range */
     select 
       concept_id 
     from 
       concept_name 
     where 
       name IN (
-        "Balanitis",
-        "Candidiasis, vaginal",
-        "Chancroid",
-        "Chancroid contact",
-        "Chlamydia",
-        "Epididymo-orchotis",
-        "Genital ulcer disease",
-        "Genital warts",
-        "Gonorrhea",
-        "Gonorrhea Contact",
-        "Granuloma inguinale",
-        "Pelvic Inflammatory disease",
-        "Syphilis",
-        "Syphilis contact",
-        "Trichomoniasis",
-        "Trichomoniasis contact",
-        "Urethral Discharge Syndrome",
-        "Vaginal discharge syndrome",
-        "Vaginosis, bacterial"
-      ) 
+        "TB exposure",
+        "TB MDR",
+        "TB MDR, presumptive",
+        "TB, pulmonary (WHO 3)", 
+        "TB meningitis",
+        "TB peritonitis",
+        "TB pericarditis",
+        "TB lymphadenitis",
+        "TB of bones and joints",
+        "Gastrointestinal TB",
+        "TB of the liver"
+        ) 
       and concept_name_type = 'FULLY_SPECIFIED'
   ) 
-  AND obsSTIDiagnosis.voided = 0 
+  AND obsTBDiagnosis.voided = 0 
   and cnDateofARTProgram.name = 'PR, Start date of ART program' 
   and cnDateofARTProgram.concept_name_type = 'FULLY_SPECIFIED' 
   and cnDateofARTProgram.voided = 0 
   and obsActiveArtProgram.voided = 0 
-  and obsActiveArtProgram.person_id not in (
+  and obsActiveArtProgram.person_id not in ( /*Patients only having ART Program start date recorded and not having ART Stop Date*/
     select 
       obs.person_id 
     from 
@@ -134,11 +126,11 @@ where
       and concept_view.concept_full_name = "PR, ART Program Stop Date" 
       and obs.voided = 0
   ) 
-  and date(obsSTIDiagnosis.obs_datetime) between date('#startDate#') 
-  and date('#endDate#') 
+  and date(obsTBDiagnosis.obs_datetime) between date('#startDate#') 
+  and date('#enddate#') 
 group by 
   pat.patient_id, 
-  obsSTIDiagnosis.obs_datetime, 
-  obsSTIDiagnosis.value_coded 
+  obsTBDiagnosis.obs_datetime, 
+  obsTBDiagnosis.value_coded 
 order by 
-  obsSTIDiagnosis.obs_datetime;
+  obsTBDiagnosis.obs_datetime;

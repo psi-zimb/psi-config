@@ -24,35 +24,35 @@
         "name": "ART Missed Appointments",
         "type": "MRSGeneric",
         "config": {
-            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/missedAppointments.sql"
+            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artMissedAppointments.sql"
         }
     },
     "activeClientswithNoScheduledVisit": {
         "name": "ART Active clients with No Scheduled Visit",
         "type": "MRSGeneric",
         "config": {
-            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/activeClientswithNoScheduledVisit.sql"
+            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artActiveClientswithNoScheduledVisit.sql"
         }
     },
     "noVisitsSince90days": {
         "name": "ART Client with no visits since 90 days",
         "type": "MRSGeneric",
         "config": {
-            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/noVisitsSince90days.sql"
+            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artNoVisitsSince90days.sql"
         }
     },
     "deathsReport": {
         "name": "ART Deaths Report",
         "type": "MRSGeneric",
         "config": {
-            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/deathsReport.sql"
+            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artDeathsReport.sql"
         }
     },
     "registeredInAPeriod": {
         "name": "ART Registered in a period Report",
         "type": "MRSGeneric",
         "config": {
-            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/registeredInAPeriodReport.sql"
+            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artRegisteredInAPeriodReport.sql"
         }
     },
     "artInitiated": {
@@ -73,7 +73,14 @@
         "name": "ART STI Report",
         "type": "MRSGeneric",
         "config": {
-            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/stiReport.sql"
+            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artStiReport.sql"
+        }
+    },
+    "stiReport": {
+        "name": "ART TB Report",
+        "type": "MRSGeneric",
+        "config": {
+            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artTBReport.sql"
         }
     }
 }
