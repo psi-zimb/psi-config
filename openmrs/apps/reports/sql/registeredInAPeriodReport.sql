@@ -19,7 +19,7 @@ select
     end
 )) as "Category", 
     ROUND(DATEDIFF(CURDATE(), obsActiveArtProgram.value_datetime) / 7, 0) as "Wks 
-    on ART", pi2.identifier as "UIC", GROUP_CONCAT(distinct (
+    on ART", piUIC.identifier as "UIC", GROUP_CONCAT(distinct (
     case
         when
             personAttributeTypeonRegistration.name = 'Mother\'s name' 
@@ -49,7 +49,19 @@ select
             null 
     end
 )) as "Telephone no", 
-    GROUP_CONCAT(distinct (case when personAttributeTypeonRegistration.name = 'Referral source' then case when cv.concept_short_name is null then cv.concept_full_name else cv.concept_short_name end else null end)) as "Referred from",
+    GROUP_CONCAT(distinct (
+    case 
+        when personAttributeTypeonRegistration.name = 'Referral source' 
+    then 
+    case 
+        when cv.concept_short_name is null 
+        then
+            cv.concept_full_name 
+        else 
+            cv.concept_short_name end 
+        else
+            null end
+)) as "Referred from",
     GROUP_CONCAT(distinct drugRegime.name) as "Regime", 
     date(MIN(obsTypeOfService.obs_datetime)) as "Date of Registration" 
 from
@@ -114,9 +126,9 @@ from
                         and uniqueness_behavior = 'UNIQUE'
                 )
             LEFT JOIN
-                patient_identifier pi2 
-                on pat.patient_id = pi2.patient_id 
-                and pi2.identifier_type in 
+                patient_identifier piUIC 
+                on pat.patient_id = piUIC.patient_id 
+                and piUIC.identifier_type in 
                 (
                     select
                         patient_identifier_type_id 
