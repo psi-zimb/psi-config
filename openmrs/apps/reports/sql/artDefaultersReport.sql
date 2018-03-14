@@ -23,7 +23,22 @@ patient pa
 INNER JOIN obs o on pa.patient_id = o.person_id
 INNER join concept_view cv on o.concept_id=cv.concept_id and cv.concept_full_name = 'PR, Start date of ART program' and o.voided=0 and o.person_id not in
           (select o.person_id from obs o INNER JOIN concept_view cv on o.concept_id=cv.concept_id and cv.concept_full_name = 'PR, ART Program Stop Date' and o.voided=0)
-Inner join patient_appointment pai on pa.patient_id = pai.patient_id and pai.status='Scheduled'
+Inner join patient_appointment pai on pa.patient_id = pai.patient_id and pai.status='Scheduled' and pai.appointment_service_id = (select
+appointment_service_id from appointment_service where name= 'ART')
+and pa.patient_id not in(
+                        Select patient_id from
+                        patient_appointment futureAppointments
+                        where futureAppointments.patient_id=pa.patient_id
+                        And futureAppointments.status in ("Completed","CheckedIn")
+                        and futureAppointments.start_date_time > pai.start_date_time
+                         )
+-- and pai.patient_appointment_id
+--  NOT in
+--  (select pa1.patient_id from patient_appointment pa1
+--     INNER JOIN patient_appointment pa2
+--     on pa1.patient_id = pa2.patient_id and pa1.status in ("Scheduled") and pa2.status in ("Completed","CheckedIn")
+--     and pa1.start_date_time < pa2.start_date_time)
+
 LEFT JOIN orders ord on pa.patient_id=ord.patient_id and ord.order_type_id = 2
 LEFT JOIN drug_order dord on dord.order_id = ord.order_id
 LEFT JOIN drug d on dord.drug_inventory_id = d.drug_id and d.name in ("Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Efavirenz (EFV) 600mg",
@@ -71,4 +86,5 @@ LEFT JOIN person_attribute pac on pa.patient_id = pac.person_id
 LEFT JOIN person_attribute_type pat on pac.person_attribute_type_id = pat.person_attribute_type_id
 LEFT jOIN concept_view cv1 on pac.value = cv1.concept_id AND cv1.retired = 0
 
-group by pai.patient_id having datediff('#endDate#', date(max(pai.start_date_time))) >= 7 AND datediff('#endDate#', date(max(pai.start_date_time))) <= 89 ;
+group by pai.patient_id having datediff('#endDate#', date(max(pai.start_date_time))) >= 7 AND datediff('#endDate#', date(max(pai.start_date_time))) <= 89
+order by date(max(pai.start_date_time));
