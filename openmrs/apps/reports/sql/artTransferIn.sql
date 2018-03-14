@@ -11,7 +11,7 @@ select
     YEAR,
     person.birthdate,
     CURDATE()
-  ) as "Age", 
+  ) as "Age",
   GROUP_CONCAT(
     DISTINCT (
       case when personAttributeType.name = 'Population' then cvForRefferedFrom.concept_full_name else null end
@@ -134,7 +134,7 @@ from
       name = 'PREP/OI Identifier'
       and retired = 0
       and uniqueness_behavior = 'UNIQUE'
-  )
+  ) and pi.voided = 0
   LEFT JOIN patient_identifier piUIC on patient.patient_id = piUIC.patient_id
   and piUIC.identifier_type in (
     select

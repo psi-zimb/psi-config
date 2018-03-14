@@ -21,7 +21,7 @@ select
 from patient p
       INNER JOIN obs o3 on p.patient_id = o3.person_id
       INNER JOIN concept_view cv2 on o3.concept_id=cv2.concept_id and cv2.concept_full_name = 'PR, Start date of ART program' and o3.voided=0 and o3.person_id not in (select o3.person_id from obs o3 INNER JOIN concept_view cv2 on o3.concept_id=cv2.concept_id and cv2.concept_full_name = 'PR, ART Program Stop Date' and o3.voided=0)
-      LEFT JOIN patient_identifier pi on p.patient_id = pi.patient_id and pi.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'PREP/OI Identifier' and retired=0 and uniqueness_behavior = 'UNIQUE')
+      LEFT JOIN patient_identifier pi on p.patient_id = pi.patient_id and pi.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'PREP/OI Identifier' and retired=0 and uniqueness_behavior = 'UNIQUE') and pi.voided = 0
       LEFT JOIN patient_identifier piu on p.patient_id = piu.patient_id and piu.identifier_type in  (select patient_identifier_type_id from patient_identifier_type where name = 'UIC' and retired=0 )
       LEFT JOIN person_name pn on pn.person_id = p.patient_id
       LEFT JOIN person pr on pr.person_id = p.patient_id

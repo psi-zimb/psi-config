@@ -123,7 +123,7 @@ from
       name = 'PREP/OI Identifier'
       and retired = 0
       and uniqueness_behavior = 'UNIQUE'
-  )
+  ) and pi.voided = 0
   LEFT JOIN patient_identifier piu on pa.patient_id = piu.patient_id
   and piu.identifier_type in (
     select

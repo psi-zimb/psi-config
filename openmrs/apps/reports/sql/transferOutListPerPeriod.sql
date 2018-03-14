@@ -67,7 +67,7 @@ from patient pa
             (select distinct concept_id from concept_view where concept_full_name = 'Transfer Out')
          LEFT JOIN obs o2 on o.obs_group_id = o2.obs_group_id and o2.concept_id in
             (select distinct concept_id from concept_view where concept_full_name = 'AS, Details of facility to where patient is transferred')
-         LEFT JOIN patient_identifier pi on pa.patient_id = pi.patient_id and pi.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'PREP/OI Identifier' and retired=0 and uniqueness_behavior = 'UNIQUE')
+         LEFT JOIN patient_identifier pi on pa.patient_id = pi.patient_id and pi.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'PREP/OI Identifier' and retired=0 and uniqueness_behavior = 'UNIQUE') and pi.voided = 0
          LEFT JOIN patient_identifier piu on pa.patient_id = piu.patient_id and piu.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'UIC' and retired=0 )
          LEFT JOIN person p on pa.patient_id = p.person_id
          LEFT JOIN person_name pn on pa.patient_id = pn.person_id
