@@ -82,5 +82,12 @@
         "config": {
             "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artTBReport.sql"
         }
+    },
+    "artAdverseEventsReport": {
+        "name": "ART Adverse Events Report",
+        "type": "MRSGeneric",
+        "config": {
+            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artAdverseEvents.sql"
+        }
     }
 }
