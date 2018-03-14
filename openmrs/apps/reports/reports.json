@@ -10,14 +10,14 @@
     "name": "ART Transfer Out List Per Period Report",
     "type": "MRSGeneric",
     "config": {
-        "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/transferOutListPerPeriod.sql"
+        "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artTransferOutListPerPeriod.sql"
       }
   },
  "defaultersReport": {
   "name": "ART Defaulters Report",
   "type": "MRSGeneric",
   "config": {
-      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/defaultersReport.sql"
+      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artDefaultersReport.sql"
        }
   },
     "missedAppointmentsReport": {

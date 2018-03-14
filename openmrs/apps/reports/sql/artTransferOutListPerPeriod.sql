@@ -14,7 +14,6 @@ select  pi.identifier as "OI No.",
         GROUP_CONCAT(distinct (case when pat.name = 'District of Birth' then cv.concept_full_name else null end)) as "District of Birth",
         GROUP_CONCAT(distinct (case when pat.name = 'Telephone' then pac.value else null end)) as "Telephone no",
         GROUP_CONCAT(distinct (case when pat.name = 'Referral source' then case when cv.concept_short_name is null then cv.concept_full_name else cv.concept_short_name end else null end)) as "Referred from",
-        GROUP_CONCAT(distinct ROUND(DATEDIFF(CURDATE(), o3.value_datetime) / 7, 0)) as "Wks on ART",
         group_concat(distinct d.name) as "Regime" ,
         GROUP_CONCAT(DISTINCT DATE(o.obs_datetime)) as "Date of Transfer",
         o2.value_text as  "Name of facility transferred to"
