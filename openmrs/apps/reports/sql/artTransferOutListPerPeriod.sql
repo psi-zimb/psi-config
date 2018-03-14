@@ -74,4 +74,5 @@ from patient pa
          LEFT JOIN person_attribute_type pat on pac.person_attribute_type_id = pat.person_attribute_type_id
          LEFT JOIN concept_view cv on pac.value = cv.concept_id AND cv.retired = 0
 where o.obs_datetime is not null  and date(o.obs_datetime) between date('#startDate#') and date('#endDate#')
-group by pi.identifier,o.obs_datetime;
+group by pi.identifier,o.obs_datetime
+order by o.obs_datetime;
