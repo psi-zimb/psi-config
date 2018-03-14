@@ -154,4 +154,4 @@ having
     date(
       max(pai.start_date_time)
     )
-  ) < 89
+  ) < 89;
