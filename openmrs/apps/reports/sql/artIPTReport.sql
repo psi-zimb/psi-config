@@ -56,14 +56,14 @@ SELECT
     ifnull(Group_Concat(distinct nonCodedDiagnosisObs.value_text),'')
   ) as "Diagnosis", /*applied case for getting diagnosis for coded and noncoded values*/
   DATE(obsForIPTProg.value_datetime) as "Start Date",
-(   Select obsIPTStopDate.value_datetime
+  DATE((   Select obsIPTStopDate.value_datetime
     from obs obsIPTStopDate
     Where obsIPTStopDate.person_id =patient.patient_id
     and obsIPTStopDate.voided = 0
     and obsIPTStopDate.concept_id IN (select concept_id from concept_name where name = 'PR, IPT Program Stop Date' and concept_name_type = 'FULLY_SPECIFIED' and voided = 0 )
     and obsIPTStopDate.value_datetime > obsForIPTProg.value_datetime
     order by obsIPTStopDate.value_datetime asc limit 1
-) as "End Date"
+  ) )as "End Date"
 
 from patient
 
@@ -81,7 +81,7 @@ INNER JOIN obs obsForIPTProg on patient.patient_id = obsForIPTProg.person_id
 INNER JOIN concept_name nameToGetIPTProg on obsForIPTProg.concept_id = nameToGetIPTProg.concept_id
 and nameToGetIPTProg.name = "PR, Start date of IPT program"
 and nameToGetIPTProg.concept_name_type = 'FULLY_SPECIFIED'
-and obsForIPTProg.voided = 0  
+and obsForIPTProg.voided = 0
 /*Getting diagnosis for patient*/
 LEFT JOIN
 (
