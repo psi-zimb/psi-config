@@ -137,6 +137,6 @@
      "config": {
          "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artIPTReport.sql"
      }
- },
+ }
 
 }
