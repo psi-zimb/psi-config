@@ -98,12 +98,12 @@
         }
     },
 "internalReferral": {
-    "name": "Internal Referral",
+    "name": " ART Internal Referral",
     "type": "aggregation",
     "config": {
         "report":{
     "type": "observations",
-         "config": {    
+         "config": {
                       "showProvider": true,
                       "visitAttributes": ["Visit Status", "Admission Status"],
                       "showVisitInfo": true,
@@ -130,7 +130,13 @@
          "showTotalColumn":true
 
      }
- }
+ },
+ "artIPTReport": {
+     "name": "ART Isoniazid Preventive Therapy Report",
+     "type": "MRSGeneric",
+     "config": {
+         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artIPTReport.sql"
+     }
+ },
 
 }
-
