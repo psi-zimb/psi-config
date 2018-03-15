@@ -73,4 +73,6 @@ from patient pa
          and pai.status='Missed' and pai.appointment_kind='Scheduled' 
          AND pai.appointment_service_id IN (select appointment_service_id from appointment_service where name = 'ART')
          and cn.name = 'PR, Start date of ART program' and cn.concept_name_type = 'FULLY_SPECIFIED' and cn.voided = 0
+         and o.person_id not in 
+        (select obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0)
          group by pai.patient_appointment_id;

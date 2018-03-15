@@ -21,6 +21,8 @@ from visit v
 join patient pat on v.patient_id = pat.patient_id
 jOIN obs o on pat.patient_id = o.person_id
 join concept_view cv2 on o.concept_id=cv2.concept_id and cv2.concept_full_name = "PR, Start date of ART program" and o.voided=0
+and o.person_id not in 
+        (select obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0)
 LEFT join patient_identifier pi on pat.patient_id = pi.patient_id and pi.voided=0 and pi.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'PREP/OI Identifier' and retired=0 and uniqueness_behavior = 'UNIQUE')
 LEFT JOIN patient_identifier pi2 on pat.patient_id = pi2.patient_id and pi2.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'UIC' and retired=0 )
 LEFT JOIN person_name pn on pat.patient_id = pn.person_id
