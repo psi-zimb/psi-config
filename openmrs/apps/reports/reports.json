@@ -83,6 +83,13 @@
             "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artTBReport.sql"
         }
     },
+    "artSecondLineReport": {
+        "name": "ART Clients on Second Line Report",
+         "type": "MRSGeneric",
+          "config": {
+             "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artClientsOnSecondLine.sql"
+    }
+  },
     "artAdverseEventsReport": {
         "name": "ART Adverse Events Report",
         "type": "MRSGeneric",
