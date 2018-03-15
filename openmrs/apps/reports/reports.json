@@ -89,5 +89,41 @@
         "config": {
             "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artAdverseEvents.sql"
         }
-    }
+    },
+"internalReferral": {
+    "name": "Internal Referral",
+    "type": "aggregation",
+    "config": {
+        "report":{
+    "type": "observations",
+         "config": {    
+                      "showProvider": true,
+                      "visitAttributes": ["Visit Status", "Admission Status"],
+                      "showVisitInfo": true,
+                      "conceptNamesToFilter": ["IR, Referred to"],
+                      "conceptValuesToFilter":["HTS","TB-Screening","VIAC","STI","FP","VMMC","CD4"],
+                      "applyDateRangeFor": "obsDate",
+                      "excludeColumns": ["Patient Name","Patient Identifier","Birthdate","Age","Gender","Location Name","Program Name",
+                      "Program Enrollment Date","Program End Date","Patient Created Date","Observation Datetime","Observation Date","Observation Created Date",
+                      "Parent Concept","Visit Status","Admission Status","Visit Type","Visit Start Date","Visit Stop Date"],
+                      "conceptNameDisplayFormat": "shortNamePreferred",
+                      "showVisitInfo" : true
+             }
+
+         },
+
+         "rowGroups": ["Provider"],
+
+         "columnGroups": ["value"],
+
+         "distinctGroups": ["Observation Datetime"],
+
+         "showTotalRow":true,
+
+         "showTotalColumn":true
+
+     }
+ }
+
 }
+
