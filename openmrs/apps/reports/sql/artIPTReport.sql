@@ -125,4 +125,5 @@ LEFT JOIN person_attribute_type personAttributeType on personAttribute.person_at
 LEFT jOIN concept_view cvForRefferedFrom on personAttribute.value = cvForRefferedFrom.concept_id
 
 where obsForIPTProg.value_datetime is not null  and date(obsForIPTProg.value_datetime) between date('#startDate#') and date('#endDate#')
-group by DATE(obsForIPTProg.value_datetime);
+group by DATE(obsForIPTProg.value_datetime)
+order by DATE(obsForIPTProg.value_datetime);
