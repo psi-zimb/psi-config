@@ -8,14 +8,23 @@ select  pi.identifier as "OI No.",
         end as "Sex",
         TIMESTAMPDIFF(YEAR, p.birthdate, CURDATE()) as "Age",
         GROUP_CONCAT(DISTINCT (case when pat.name = 'Population' then cv.concept_full_name else null end)) as "Category",
-        ROUND(DATEDIFF(CURDATE(), o.value_datetime) / 7, 0) as "Wks on ART",
+        /*Wks on ART : If ART Stop date is present then ART stop date Else report end date for calculation*/
+        ROUND(DATEDIFF(
+        case when (select obs.value_datetime from obs 
+        INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0 
+        where obs.person_id = pa.patient_id) is null then date('#endDate#') 
+        else 
+        (select obs.value_datetime from obs 
+        INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0 
+        where obs.person_id = pa.patient_id) 
+        END, o.value_datetime) / 7, 0) as "Wks on ART",
         piu.identifier as "UIC",
         GROUP_CONCAT(distinct (case when pat.name = 'Mother\'s name' Then pac.value else null end)) as "Mother's name",
         GROUP_CONCAT(distinct (case when pat.name = 'District of Birth' then cv.concept_full_name else null end)) as "District of Birth", 
         GROUP_CONCAT(distinct (case when pat.name = 'Telephone' then pac.value else null end)) as "Telephone no", 
         GROUP_CONCAT(distinct (case when pat.name = 'Referral source' then case when cv.concept_short_name is null then cv.concept_full_name else cv.concept_short_name end else null end)) as "Referred from",
         group_concat(distinct d.name) as "Regime",
-        date(pai.start_date_time) as "Date of missed appointment" 
+        date(pai.start_date_time) as "Date of missed appointment"
         
 from patient pa
          join patient_appointment pai on pa.patient_id=pai.patient_id 
@@ -74,5 +83,7 @@ from patient pa
          AND pai.appointment_service_id IN (select appointment_service_id from appointment_service where name = 'ART')
          and cn.name = 'PR, Start date of ART program' and cn.concept_name_type = 'FULLY_SPECIFIED' and cn.voided = 0
          and o.person_id not in 
-        (select obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0)
+         (/*Patient with ART stop date <= report end date then remove the patient else show the patient for the past period.*/
+         select obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0
+         Where obs.value_datetime <= Date('#endDate#'))
          group by pai.patient_appointment_id;

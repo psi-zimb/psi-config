@@ -8,7 +8,16 @@ select pi.identifier as "OI No.",
               end as "Sex",
        TIMESTAMPDIFF(YEAR, per.birthdate, CURDATE()) as Age,
        GROUP_CONCAT(DISTINCT (case when peraty.name = 'Population' then cv.concept_full_name else null end)) as "Category",
-       ROUND(DATEDIFF(CURDATE(), o.value_datetime) / 7, 0) as "Wks on ART",
+       /*Wks on ART : If ART Stop date is present then ART stop date Else report end date for calculation*/
+        ROUND(DATEDIFF(
+        case when (select obs.value_datetime from obs 
+        INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0 
+        where obs.person_id = pat.patient_id) is null then date('#endDate#') 
+        else 
+        (select obs.value_datetime from obs 
+        INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0 
+        where obs.person_id = pat.patient_id) 
+        END, o.value_datetime) / 7, 0) as "Wks on ART",
        pi2.identifier as "UIC",
        GROUP_CONCAT(distinct (case when peraty.name = 'Mother\'s name' Then peratt.value else null end)) as "Mother's name",
        GROUP_CONCAT(distinct (case when peraty.name = 'District of Birth' then cv.concept_full_name else null end)) as "District of Birth", 
@@ -22,7 +31,15 @@ join patient pat on v.patient_id = pat.patient_id
 jOIN obs o on pat.patient_id = o.person_id
 join concept_view cv2 on o.concept_id=cv2.concept_id and cv2.concept_full_name = "PR, Start date of ART program" and o.voided=0
 and o.person_id not in 
-        (select obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0)
+         (/*Patient with ART stop date <= report end date then remove the patient else show the patient for the past period.*/
+         select obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0
+         Where obs.value_datetime <= Date('#endDate#'))
+and o.person_id not in (
+              /*removing patient who have future ART appointment after reporting end date*/
+              Select patient_id from patient_appointment where date(start_date_time) > Date('#endDate#') 
+              and patient_id=pat.patient_id and status not in ('Cancelled')
+              and appointment_service_id in (Select appointment_service_id from appointment_service where name ='ART')
+              )
 LEFT join patient_identifier pi on pat.patient_id = pi.patient_id and pi.voided=0 and pi.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'PREP/OI Identifier' and retired=0 and uniqueness_behavior = 'UNIQUE')
 LEFT JOIN patient_identifier pi2 on pat.patient_id = pi2.patient_id and pi2.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'UIC' and retired=0 )
 LEFT JOIN person_name pn on pat.patient_id = pn.person_id

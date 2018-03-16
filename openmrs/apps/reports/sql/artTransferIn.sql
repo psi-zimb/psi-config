@@ -17,15 +17,15 @@ select
       case when personAttributeType.name = 'Population' then cvForRefferedFrom.concept_full_name else null end
     )
   ) as "Category",
-  GROUP_CONCAT(
-    distinct ROUND(
-      DATEDIFF(
-        CURDATE(),
-        obsForArtProg.value_datetime
-      ) / 7,
-      0
-    )
-  ) as "Wks on ART",
+  ROUND(DATEDIFF(
+  case when (select obs.value_datetime from obs 
+  INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0 
+  where obs.person_id = patient.patient_id) is null then date('#endDate#') 
+  else 
+  (select obs.value_datetime from obs 
+  INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0 
+  where obs.person_id = patient.patient_id) 
+  END, obsForArtProg.value_datetime) / 7, 0) as "Wks on ART",
   piUIC.identifier as "UIC",
   GROUP_CONCAT(
     distinct (
@@ -60,16 +60,10 @@ from
   and nameToGetArtProg.name = "PR, Start date of ART program"
   and nameToGetArtProg.concept_name_type = 'FULLY_SPECIFIED'
   AND obsForArtProg.voided = 0
-  and obsForArtProg.person_id NOT in (
-    select
-      obsForArtProg.person_id
-    from
-      obs obsForArtProg
-      JOIN concept_name nameToGetArtProg on obsForArtProg.concept_id = nameToGetArtProg.concept_id
-      and nameToGetArtProg.name = "PR, ART Program Stop Date"
-      and nameToGetArtProg.concept_name_type = 'FULLY_SPECIFIED'
-      and obsForArtProg.voided = 0
-  )
+  and obsForArtProg.person_id not in 
+         (/*Patient with ART stop date <= report end date then remove the patient else show the patient for the past period.*/
+         select obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0
+         Where obs.value_datetime <= Date('#endDate#'))
   /*Not to include patients which having stop date*/
   INNER JOIN obs obsForActivityStatus on patient.patient_id = obsForActivityStatus.person_id
   and obsForActivityStatus.voided = 0

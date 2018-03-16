@@ -17,15 +17,15 @@ SELECT
       case when personAttributeType.name = 'Population' then cvForRefferedFrom.concept_full_name else null end
     )
   ) as "Category",
-  GROUP_CONCAT(
-    distinct ROUND(
-      DATEDIFF(
-        CURDATE(),
-        obsForArtProg.value_datetime
-      ) / 7,
-      0
-    )
-  ) as "Wks on ART",
+  ROUND(DATEDIFF(
+  case when (select obs.value_datetime from obs 
+  INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0 
+  where obs.person_id = patient.patient_id) is null then date('#endDate#') 
+  else 
+  (select obs.value_datetime from obs 
+  INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0 
+  where obs.person_id = patient.patient_id) 
+  END, obsForArtProg.value_datetime) / 7, 0) as "Wks on ART",
   piUIC.identifier as "UIC",
   GROUP_CONCAT(
     distinct (
@@ -73,9 +73,10 @@ and nameToGetArtProg.name = "PR, Start date of ART program"
 and nameToGetArtProg.concept_name_type = 'FULLY_SPECIFIED'
 AND obsForArtProg.voided=0
 and
-obsForArtProg.person_id NOT in
-(select obs.person_id from obs JOIN concept_view on obs.concept_id = concept_view.concept_id and concept_view.concept_full_name = 'PR, ART Program Stop Date'
-and obs.voided =0)
+obsForArtProg.person_id not in 
+         (/*Patient with ART stop date <= report end date then remove the patient else show the patient for the past period.*/
+         select obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0
+         Where obs.value_datetime <= Date('#endDate#'))
 /*Getting start date of IPT program*/
 INNER JOIN obs obsForIPTProg on patient.patient_id = obsForIPTProg.person_id
 INNER JOIN concept_name nameToGetIPTProg on obsForIPTProg.concept_id = nameToGetIPTProg.concept_id

@@ -8,7 +8,16 @@ when per.gender = 'O' then 'Other'
 end as "Sex",
 TIMESTAMPDIFF(YEAR, per.birthdate, CURDATE()) as Age,
 GROUP_CONCAT(DISTINCT (case when peraty.name = 'Population' then cv.concept_full_name else null end)) as "Category",
-ROUND(DATEDIFF(CURDATE(), o.value_datetime) / 7, 0) as "Wks on ART",
+ /*Wks on ART : If ART Stop date is present then ART stop date Else report end date for calculation*/
+ ROUND(DATEDIFF(
+ case when (select obs.value_datetime from obs 
+ INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0 
+ where obs.person_id = pat.patient_id) is null then date('#endDate#') 
+ else 
+ (select obs.value_datetime from obs 
+ INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0 
+ where obs.person_id = pat.patient_id) 
+ END, o.value_datetime) / 7, 0) as "Wks on ART",
 pi2.identifier as "UIC",
 GROUP_CONCAT(distinct (case when peraty.name = 'Mother\'s name' Then peratt.value else null end)) as "Mother's name",
 GROUP_CONCAT(distinct (case when peraty.name = 'District of Birth' then cv.concept_full_name else null end)) as "District of Birth", 
