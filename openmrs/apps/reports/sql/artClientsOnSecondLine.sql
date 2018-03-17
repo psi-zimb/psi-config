@@ -59,7 +59,7 @@ select
 )) as "Telephone no", 
     GROUP_CONCAT(distinct (case when personAttributeTypeonRegistration.name = 'Referral source' then case when cv.concept_short_name is null then cv.concept_full_name else cv.concept_short_name end else null end)) as "Referred from",
     GROUP_CONCAT(distinct drugRegime.name) as "Regime", 
-    obsForSecondLineTreatment.dateTimeForSecLine
+    obsForSecondLineTreatment.dateTimeForSecLine as "Date of Switch"
 from
     patient pat 
     join
@@ -94,29 +94,6 @@ from
                          GROUP BY obs.person_id
                          ) as obsForSecondLineTreatment
  on obsForSecondLineTreatment.person_id = pat.patient_id
-            join
-                obs obsTypeOfService 
-                on pat.patient_id = obsTypeOfService.person_id 
-            join
-                concept_name cnNameOfService 
-                on obsTypeOfService.concept_id = cnNameOfService.concept_id 
-                and cnNameOfService.name = "Reason for visit" 
-                and cnNameOfService.concept_name_type = 'FULLY_SPECIFIED' 
-                AND obsTypeOfService.value_coded in 
-                (
-                    select
-                        concept_id 
-                    from
-                        concept_name 
-                    where
-                        name IN 
-                        (
-                            'Initial ART service',
-                            'PrEP Initial'
-                        )
-                        and concept_name_type = 'FULLY_SPECIFIED' 
-                )
-                and obsTypeOfService.voided = 0 
             LEFT join
                 patient_identifier piPrepOIIdentifier 
                 on pat.patient_id = piPrepOIIdentifier.patient_id 
@@ -211,36 +188,6 @@ from
                     "Saquinavir 200mg"
                 )
         WHERE
-            date(obsTypeOfService.obs_datetime) between date ('#startDate#') and date ('#endDate#') 
-            AND obsTypeOfService.person_id not in 
-            (
-                /*Patients having Type of Service selected for the first time in given reporting date range and not selected anytime before the reporting starte date range */
-                Select
-                    person_id 
-                from
-                    obs 
-                    join
-                        concept_name 
-                        on obs.concept_id = concept_name.concept_id 
-                        and concept_name.name = "Reason for visit" 
-                        and concept_name.concept_name_type = 'FULLY_SPECIFIED' 
-                        AND obs.value_coded in 
-                        (
-                            select
-                                concept_id 
-                            from
-                                concept_name 
-                            where
-                                name IN 
-                                (
-                                    'Initial ART service',
-                                    'PrEP Initial'
-                                )
-                                and concept_name_type = 'FULLY_SPECIFIED'
-                        )
-                        and obs.voided = 0 
-                        and date(obs.obs_datetime) < date('#startDate#') 
-            )
-            and obsForSecondLineTreatment.dateTimeForSecLine between date('#startDate#') and date('#endDate#') 
+         obsForSecondLineTreatment.dateTimeForSecLine between date('#startDate#') and date('#endDate#') 
         group by
             pat.patient_id;
