@@ -51,17 +51,60 @@ select
       case when personAttributeTypeonRegistration.name = 'Referral source' then case when cv.concept_short_name is null then cv.concept_full_name else cv.concept_short_name end else null end
     )
   ) as "Referred from",
-  GROUP_CONCAT(
-    distinct cnNameOfDiagnosisRecorded.name
-  ) as "Diagnosis",
-  date(obsSTIDiagnosis.obs_datetime) as "Diagnosis Date"
+  patientWithSTIDiag.Diagnosis,
+  date(patientWithSTIDiag.obs_datetime) as "Diagnosis Date"
 from
   patient pat
-  join obs obsSTIDiagnosis on pat.patient_id = obsSTIDiagnosis.person_id
-  join concept_name cnNameofDiagnosis on obsSTIDiagnosis.concept_id = cnNameofDiagnosis.concept_id
+
   join obs obsActiveArtProgram ON pat.patient_id = obsActiveArtProgram.person_id
   join concept_name cnDateofARTProgram on obsActiveArtProgram.concept_id = cnDateofARTProgram.concept_id
-  JOIN concept_name cnNameOfDiagnosisRecorded on obsSTIDiagnosis.value_coded = cnNameOfDiagnosisRecorded.concept_id
+  join (/*Query to return patients with STI in the reporting period*/
+        Select person_id,
+        Case when cv.concept_short_name is null then cv.concept_full_name else cv.concept_short_name end as 'Diagnosis',
+        o.obs_datetime
+        from obs o
+        inner join concept_view cv
+        on cv.concept_id = o.value_coded
+        where
+        obs_datetime between date('#startDate#') and Date('#endDate#')
+        and o.voided = 0
+        and cv.retired = 0
+        And o.concept_id = 15
+        and value_coded in ( /* Patients for whom STI Diagnosis recorded between the reporting date range */
+            select
+              concept_name.concept_id
+            from
+              concept_name
+              inner join concept on concept.concept_id=concept_name.concept_id
+            where
+            concept.class_id=4
+            and
+              concept_name.name IN (
+                "Balanitis",
+                "Candidiasis, vaginal",
+                "Chancroid",
+                "Chancroid contact",
+                "Chlamydia",
+                "Epididymo-orchotis",
+                "Genital ulcer disease",
+                "Genital warts",
+                "Gonorrhea",
+                "Gonorrhea Contact",
+                "Granuloma inguinale",
+                "Pelvic Inflammatory disease",
+                "Syphilis STI",
+                "Syphilis contact",
+                "Trichomoniasis",
+                "Trichomoniasis contact",
+                "Urethral Discharge Syndrome",
+                "Vaginal discharge syndrome",
+                "Vaginosis, bacterial"
+              )
+              and concept_name_type = 'FULLY_SPECIFIED'
+          )
+) AS patientWithSTIDiag
+on patientWithSTIDiag.person_id = pat.patient_id
+
   LEFT join patient_identifier piPrepOIIdentifier on pat.patient_id = piPrepOIIdentifier.patient_id
   and piPrepOIIdentifier.voided = 0
   and piPrepOIIdentifier.identifier_type in (
@@ -91,40 +134,8 @@ from
   left jOIN concept_view cv on personAttributesonRegistration.value = cv.concept_id
   AND cv.retired = 0
 where
-  cnNameofDiagnosis.name = 'Coded Diagnosis'
-  and cnNameofDiagnosis.concept_name_type = 'FULLY_SPECIFIED'
-  and cnNameofDiagnosis.voided = 0
-  and obsSTIDiagnosis.value_coded IN ( /* Patients for whom STI Diagnosis recorded between the reporting date range */
-    select
-      concept_id
-    from
-      concept_name
-    where
-      name IN (
-        "Balanitis",
-        "Candidiasis, vaginal",
-        "Chancroid",
-        "Chancroid contact",
-        "Chlamydia",
-        "Epididymo-orchotis",
-        "Genital ulcer disease",
-        "Genital warts",
-        "Gonorrhea",
-        "Gonorrhea Contact",
-        "Granuloma inguinale",
-        "Pelvic Inflammatory disease",
-        "Syphilis STI",
-        "Syphilis contact",
-        "Trichomoniasis",
-        "Trichomoniasis contact",
-        "Urethral Discharge Syndrome",
-        "Vaginal discharge syndrome",
-        "Vaginosis, bacterial"
-      )
-      and concept_name_type = 'FULLY_SPECIFIED'
-  )
-  AND obsSTIDiagnosis.voided = 0
-  and cnDateofARTProgram.name = 'PR, Start date of ART program'
+
+   cnDateofARTProgram.name = 'PR, Start date of ART program'
   and cnDateofARTProgram.concept_name_type = 'FULLY_SPECIFIED'
   and cnDateofARTProgram.voided = 0
   and obsActiveArtProgram.voided = 0
@@ -132,11 +143,6 @@ where
          (/*Patient with ART stop date <= report end date then remove the patient else show the patient for the past period.*/
          select obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0
          Where obs.value_datetime <= Date('#endDate#'))
-  and date(obsSTIDiagnosis.obs_datetime) between date('#startDate#')
-  and date('#endDate#')
 group by
-  pat.patient_id,
-  obsSTIDiagnosis.obs_datetime,
-  obsSTIDiagnosis.value_coded
-order by
-  obsSTIDiagnosis.obs_datetime;
+  pat.patient_id,patientWithSTIDiag.Diagnosis,patientWithSTIDiag.obs_datetime
+order by patientWithSTIDiag.obs_datetime;
