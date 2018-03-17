@@ -54,8 +54,8 @@ select
   GROUP_CONCAT(distinct d.name) as "Regime",
   GROUP_CONCAT(
     distinct cnNameOfDiagnosisRecorded.name
-  ) as "adverse event",
-  date(obsARTStopDate.value_datetime) as "date stopped art"
+  ) as "Adverse Event",
+  date(obsARTStopDate.value_datetime) as "Date Stopped ART"
 from 
   patient pat 
   join obs obsAdverseEventsDiagnosis on pat.patient_id = obsAdverseEventsDiagnosis.person_id 
