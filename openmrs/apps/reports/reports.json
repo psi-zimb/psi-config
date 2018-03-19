@@ -97,6 +97,20 @@
             "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artAdverseEvents.sql"
         }
     },
+     "artIPTReport": {
+     "name": "ART Isoniazid Preventive Therapy Report",
+     "type": "MRSGeneric",
+     "config": {
+         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artIPTReport.sql"
+     }
+ },
+    "appointmentSchedulingIncompleteAppointmentsReport": {
+     "name": "Appointment Scheduling Report for Incomplete Appointments",
+     "type": "MRSGeneric",
+     "config": {
+         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/appointmentSchedulingIncompleteAppointments.sql"
+     }
+ },
 "internalReferral": {
     "name": " ART Internal Referral",
     "type": "aggregation",
@@ -129,13 +143,6 @@
 
          "showTotalColumn":true
 
-     }
- },
- "artIPTReport": {
-     "name": "ART Isoniazid Preventive Therapy Report",
-     "type": "MRSGeneric",
-     "config": {
-         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artIPTReport.sql"
      }
  }
 
