@@ -111,6 +111,13 @@
          "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/appointmentSchedulingIncompleteAppointments.sql"
      }
  },
+  "artLostToFollowUpReport": {
+  "name": "ART Lost To Follow Up Report",
+  "type": "MRSGeneric",
+  "config": {
+      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artLostToFollowUp.sql"
+  }
+},
 "internalReferral": {
     "name": " ART Internal Referral",
     "type": "aggregation",
