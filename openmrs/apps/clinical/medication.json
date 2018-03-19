@@ -5,7 +5,7 @@
     "allMedicationTabConfig": {
       "inputOptionsConfig": {
         "defaultDurationUnit": "Day(s)",
-        "hideOrderSet" : false,
+        "hideOrderSet" : true,
         "defaultInstructions": "As directed",
         "frequencyDefaultDurationUnitsMap": [
           {
@@ -91,6 +91,9 @@
           "Syrup": {
             "doseUnits": "ml",
             "route": "Oral"
+          },
+          "Suspension": {
+            "doseUnits": "ml"
           },
           "Tablet": {
             "doseUnits": "Tablet(s)",
