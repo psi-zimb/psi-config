@@ -127,8 +127,7 @@
                       "excludeColumns": ["Patient Name","Patient Identifier","Birthdate","Age","Gender","Location Name","Program Name",
                       "Program Enrollment Date","Program End Date","Patient Created Date","Observation Datetime","Observation Date","Observation Created Date",
                       "Parent Concept","Visit Status","Admission Status","Visit Type","Visit Start Date","Visit Stop Date"],
-                      "conceptNameDisplayFormat": "shortNamePreferred",
-                      "showVisitInfo" : true
+                      "conceptNameDisplayFormat": "shortNamePreferred"
              }
 
          },
