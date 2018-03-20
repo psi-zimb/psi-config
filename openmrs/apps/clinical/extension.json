@@ -52,7 +52,7 @@
     "url": "pendingOrders",
     "icon": "fa-user-md",
     "order": 5,
-    "requiredPrivilege": "app:clinical:ordersTab"
+    "requiredPrivilege": "app:radiologyOrders"
   },
   "bahmniClinicalPatientsSearchTestingAndCounsellingPatients": {
     "id": "bahmni.clinical.patients.search.testingAndCounsellingPatients",
