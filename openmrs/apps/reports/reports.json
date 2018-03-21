@@ -150,6 +150,59 @@
          "showTotalColumn":true
 
      }
- }
+ },
+ "visitByProvider": {
+     "name": " ART Visit By Provider",
+     "type": "aggregation",
+     "config": {
+         "report":{
+     "type": "observations",
+          "config": {
+                       "showProvider": true,
+                       "visitAttributes": ["Visit Status", "Admission Status"],
+                       "showVisitInfo": true,
+                       "forDataAnalysis": true,
+                       "conceptNamesToFilter": ["Reason for visit"],
+                       "conceptValuesToFilter":["ART Routine Service","Adherence Counselling","Basic 1 and ART 1 service","Initial ART service",
+                                                "Lab test (only)","Phone Call","Pick up Drugs (only)","PrEP Continuation",
+                                                "PrEP Initial","Review by Nurse","Unplanned or walk in visit",
+                                                "Urgent"],
+                       "applyDateRangeFor": "obsDate",
+                       "excludeColumns": ["Patient Name","Patient Identifier","Birthdate","Age","Gender","Location Name","Program Name",
+                       "Program Enrollment Date","Program End Date","Patient Created Date","Observation Datetime","Observation Date","Observation Created Date",
+                       "Parent Concept","Visit Status","Admission Status","Visit Type","Visit Start Date","Visit Stop Date"],
+                       "conceptNameDisplayFormat": "shortNamePreferred"
+              }
 
+          },
+
+          "rowGroups": ["Provider"],
+
+          "columnGroups": ["value"],
+
+          "distinctGroups": ["Obs Id"],
+
+          "showTotalRow":true,
+
+          "showTotalColumn":true
+
+      }
+  },
+  "visitCountGender": {
+         "name": "Visit Count Report Based on Gender",
+         "type": "aggregation",
+         "config": {
+             "report":{
+                 "type": "visits",
+                  "config": {
+                      "applyDateRangeFor": "visitStartDate",
+                      "patientAttributes": ["Gender"]
+                  }
+             },
+             "rowGroups": ["Gender"],
+             "distinctGroups": ["Visit Id"],
+             "showTotalRow":true
+
+         }
+     }
 }
