@@ -118,6 +118,20 @@
       "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artLostToFollowUp.sql"
   }
 },
+  "homeVisitDetails": {
+  "name": "Home visit details",
+  "type": "MRSGeneric",
+  "config": {
+      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/homeVisitDetails.sql"
+  }
+},
+"phoneVisitDetails": {
+  "name": "Phone visit details",
+  "type": "MRSGeneric",
+  "config": {
+      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/phoneVisitDetails.sql"
+  }
+},
 "internalReferral": {
     "name": " ART Internal Referral",
     "type": "aggregation",
