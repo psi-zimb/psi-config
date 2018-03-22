@@ -220,7 +220,7 @@
          }
      },
   "visitTypeCountGender": {
-    "name": " Aggregate count of visit type based on gender",
+    "name": "Aggregate count of visit type based on gender",
     "type": "aggregation",
             "config": {
             "report":{
@@ -230,7 +230,7 @@
                       "showVisitInfo": true,
                       "conceptNamesToFilter": ["Reason for visit"],
                       "conceptValuesToFilter":
-                      ["HIV Self Testing","Testing and Counselling Service","Confirmatory",
+                      ["HIV Self Testing","Provider Testing and Counseling","Confirmatory",
                       "Contact Tracing","Initial ART service", "ART Routine Service","Unplanned or walk in visit",
                       "Urgent","Pick up Drugs (only)","Review by MD/Doctor","Review by Nurse","Basic 1 and ART 1 service",
                       "Lab test (only)","Hospital Visit","Phone Call","Home visit","VIAC","Adherence Counselling","PrEP Initial",
