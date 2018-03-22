@@ -302,6 +302,18 @@
             "AIVC, Date":{
                 "allowFutureDates": true
             },
+            "AP, Type of Visit":{
+                "required":true
+           },
+            "PHTC, Disclosure planned to:  (Multiple responses possible)":{
+            "multiSelect":true
+            },
+            "PHTC, Risk reduction plan  (Multiple responses possible)":{
+            "multiSelect":true
+            },
+            "PHTC, Was referred to:  (Multiple responses possible)":{
+            "multiSelect":true
+            },
             "defaults": {
                 "HIV testing and counselling service": "Requested",
                 "Numeric concept": 1,
