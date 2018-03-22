@@ -149,4 +149,48 @@ angular.module('bahmni.common.displaycontrol.custom')
         },
         template: '<ng-include src="contentUrl"/>'
     }
+}]).directive('numberOfWeeksForProgram', ['observationsService', 'appService', 'spinner', function (observationsService, appService, spinner) {
+  var link = function ($scope) {
+    var conceptNames = ["Start date of ART program", "ART Program Stop Date"];
+
+    var calculateWeeksBetween = function(startDate, stopDate) {
+      var ONE_WEEK = 1000 * 60 * 60 * 24 * 7;
+      var startDateInMilliSeconds = startDate.getTime();
+      var stopDateInMilliSeconds = stopDate.getTime();
+      var difference_ms = Math.abs(startDateInMilliSeconds - stopDateInMilliSeconds);
+      return Math.round(difference_ms / ONE_WEEK);
+    };
+
+    var getValueForConcept = function(observations, conceptName) {
+      var obs = _.filter(observations, function (observation) {
+              return observation.conceptNameToDisplay === conceptName;
+      });
+      return (obs.length > 0) ? obs[0].value : undefined;
+    };
+
+    $scope.contentUrl = appService.configBaseUrl() + "/customDisplayControl/views/numberOfWeeksForProgram.html";
+    spinner.forPromise(observationsService.fetch($scope.patient.uuid, conceptNames, "latest", undefined, undefined, undefined).then(function (response) {
+      if (!_.isEmpty(response.data)) {
+        var startDateValue = getValueForConcept(response.data, conceptNames[0]);
+        var stopDateValue = getValueForConcept(response.data, conceptNames[1]);
+
+        var startDate = startDateValue ? new Date(startDateValue) : new Date();
+        var stopDate = stopDateValue ? new Date(stopDateValue) : new Date();
+        stopDate = (stopDate.getTime() - startDate.getTime() > 0) ? stopDate : new Date();
+        $scope.numberOfWeeks = calculateWeeksBetween(startDate, stopDate);
+      }
+    }));
+
+
+  };
+
+  return {
+    restrict: 'E',
+    link: link,
+    scope: {
+      patient: "=",
+      section: "="
+    },
+    template: '<ng-include src="contentUrl"/>'
+  }
 }]);

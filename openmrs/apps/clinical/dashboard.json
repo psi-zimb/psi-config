@@ -125,179 +125,190 @@
           "groupByVisits": true              
     }
   },
-  "artprogram": {
-    "translationKey": "ART Program",
-    "type": "vitals",
-    "isObservation": true,
-    "displayOrder": 6,
-    "hideEmptyDisplayControl": true,
-    "dashboardConfig": {
-      "showDetailsButton": true,
-      "conceptNames": [
-        "PR, Start date of ART program",
-        "PR, ART Stage",
-        "PR, Start date of ART Stage",
-        "PR, Reason for Stopping ART Program",
-        "PR, ART Program Stop Date"
-      ],
-      "scope": "latest"
-    },
-    "expandedViewConfig": {
-      "conceptNames": [
-        "PR, Start date of ART program",
-        "PR, ART Stage",
-        "PR, Start date of ART Stage",
-        "PR, Reason for Stopping ART Program",
-        "PR, ART Program Stop Date"
-      ],
-      "numberOfVisits": 20,
-      "showDetailsButton": true,
-      "pivotTable": {}
+      "artprogram": {
+        "translationKey": "ART Program",
+        "type": "vitals",
+        "isObservation": true,
+        "displayOrder": 6,
+        "hideEmptyDisplayControl": true,
+        "dashboardConfig": {
+          "showDetailsButton": true,
+          "conceptNames": [
+            "PR, Start date of ART program",
+            "PR, ART Stage",
+            "PR, Start date of ART Stage",
+            "PR, Reason for Stopping ART Program",
+            "PR, ART Program Stop Date"
+          ],
+          "scope": "latest"
+        },
+        "expandedViewConfig": {
+          "conceptNames": [
+            "PR, Start date of ART program",
+            "PR, ART Stage",
+            "PR, Start date of ART Stage",
+            "PR, Reason for Stopping ART Program",
+            "PR, ART Program Stop Date"
+          ],
+          "numberOfVisits": 20,
+          "showDetailsButton": true,
+          "pivotTable": {}
+        }
+      },
+      "prepprogram": {
+        "translationKey": "PrEP Program",
+        "type": "vitals",
+        "isObservation": true,
+        "displayOrder": 7,
+        "hideEmptyDisplayControl": true,
+        "dashboardConfig": {
+          "showDetailsButton": true,
+          "conceptNames": [
+            "PR, Start date of PrEP program",
+            "PR, Reason for Stopping PrEP Program",
+            "PR, PrEP Program Stop Date"
+          ],
+          "scope": "latest"
+        },
+        "expandedViewConfig": {
+          "conceptNames": [
+            "PR, Start date of PrEP program",
+            "PR, Reason for Stopping PrEP Program",
+            "PR, PrEP Program Stop Date"
+          ],
+          "numberOfVisits": 20,
+          "showDetailsButton": true,
+          "pivotTable": {}
+        }
+      },
+      "iptprogram": {
+        "translationKey": "IPT Program",
+        "type": "vitals",
+        "isObservation": true,
+        "displayOrder": 8,
+        "hideEmptyDisplayControl": true,
+        "dashboardConfig": {
+          "showDetailsButton": true,
+          "conceptNames": [
+            "PR, Start date of IPT program",
+            "PR, Reason for Stopping IPT PRogram",
+            "PR, IPT Program Stop Date"
+          ],
+          "scope": "latest"
+        },
+        "expandedViewConfig": {
+          "conceptNames": [
+            "PR, Start date of IPT program",
+            "PR, Reason for Stopping IPT Program",
+            "PR, IPT Program Stop Date"
+          ],
+          "numberOfVisits": 20,
+          "showDetailsButton": true,
+          "pivotTable": {}
+        }
+      },
+      "tbprogram": {
+        "translationKey": "TB Program",
+        "type": "vitals",
+        "isObservation": true,
+        "displayOrder": 9,
+        "hideEmptyDisplayControl": true,
+        "dashboardConfig": {
+          "showDetailsButton": true,
+          "conceptNames": [
+            "PR, Start date of TB program",
+            "PR, TB Stage",
+            "PR, Start date of TB Stage",
+            "PR, Reason for Stopping TB Program",
+            "PR, TB Program Stop Date"
+          ],
+          "scope": "latest"
+        },
+        "expandedViewConfig": {
+          "conceptNames": [
+            "PR, Start date of TB program",
+            "PR, TB Stage",
+            "PR, Start date of TB Stage",
+            "PR, Reason for Stopping TB PRogram",
+            "PR, TB Program Stop Date"
+          ],
+          "numberOfVisits": 20,
+          "showDetailsButton": true,
+          "pivotTable": {}
+        }
+      },
+      "breastfeedingprogram": {
+        "translationKey": "Breast Feeding Program",
+        "type": "vitals",
+        "isObservation": true,
+        "displayOrder": 10,
+        "hideEmptyDisplayControl": true,
+        "dashboardConfig": {
+          "showDetailsButton": true,
+          "conceptNames": [
+            "PR, Start date of Breast Feeding program",
+            "PR, Breast Feeding Stage",
+            "PR, Start date of Breast Feeding Stage",
+            "PR, Reason for Stopping Breast Feeding Program",
+            "PR, Breast Feeding Program Stop Date"
+          ],
+          "scope": "latest"
+        },
+        "expandedViewConfig": {
+          "conceptNames": [
+            "PR, Start date of Breast Feeding program",
+            "PR, Breast Feeding Stage",
+            "PR, Start date of Breast Feeding Stage",
+            "PR, Reason for Stopping Breast Feeding Program",
+            "PR, Breast Feeding Program Stop Date"
+          ],
+          "numberOfVisits": 20,
+          "showDetailsButton": true,
+          "pivotTable": {}
+        }
+      },
+      "pregnancyprogram": {
+        "translationKey": "Pregnancy Program",
+        "type": "vitals",
+        "isObservation": true,
+        "displayOrder": 11,
+        "hideEmptyDisplayControl": true,
+        "dashboardConfig": {
+          "showDetailsButton": true,
+          "conceptNames": [
+            "PR, Start date of Pregnancy program",
+            "PR, Pregnancy Stage",
+            "PR, Start date of Pregnancy Stage",
+            "PR, Reason for Stopping Pregnancy Program",
+            "PR, Pregnancy Program Stop Date"
+          ],
+          "scope": "latest"
+        },
+        "expandedViewConfig": {
+          "conceptNames": [
+            "PR, Start date of Pregnancy program",
+            "PR, Pregnancy Stage",
+            "PR, Start date of Pregnancy Stage",
+            "PR, Reason for Stopping Pregnancy Program",
+            "PR, Pregnancy Program Stop Date"
+          ],
+          "numberOfVisits": 20,
+          "showDetailsButton": true,
+          "pivotTable": {}
+        }
+      },
+      "weeksInProgram": {
+        "type": "custom",
+        "translationKey": "NUMBER_OF_WEEKS_IN_ART_PROGRAM",
+        "displayOrder": 5,
+        "hideEmptyDisplayControl": true,
+        "config": {
+          "title": "Weeks in ART Program",
+          "translationKey": "NUMBER_OF_WEEKS_IN_ART_PROGRAM",
+          "template": "<number-of-weeks-for-program section='config' patient='patient'></number-of-weeks-for-program>"
+        }
+      }
     }
-  },
-  "prepprogram": {
-    "translationKey": "PrEP Program",
-    "type": "vitals",
-    "isObservation": true,
-    "displayOrder": 7,
-    "hideEmptyDisplayControl": true,
-    "dashboardConfig": {
-      "showDetailsButton": true,
-      "conceptNames": [
-        "PR, Start date of PrEP program",
-        "PR, Reason for Stopping PrEP Program",
-        "PR, PrEP Program Stop Date"
-      ],
-      "scope": "latest"
-    },
-    "expandedViewConfig": {
-      "conceptNames": [
-        "PR, Start date of PrEP program",
-        "PR, Reason for Stopping PrEP Program",
-        "PR, PrEP Program Stop Date"
-      ],
-      "numberOfVisits": 20,
-      "showDetailsButton": true,
-      "pivotTable": {}
-    }
-  },
-  "iptprogram": {
-    "translationKey": "IPT Program",
-    "type": "vitals",
-    "isObservation": true,
-    "displayOrder": 8,
-    "hideEmptyDisplayControl": true,
-    "dashboardConfig": {
-      "showDetailsButton": true,
-      "conceptNames": [
-        "PR, Start date of IPT program",
-        "PR, Reason for Stopping IPT PRogram",
-        "PR, IPT Program Stop Date"
-      ],
-      "scope": "latest"
-    },
-    "expandedViewConfig": {
-      "conceptNames": [
-        "PR, Start date of IPT program",
-        "PR, Reason for Stopping IPT Program",
-        "PR, IPT Program Stop Date"
-      ],
-      "numberOfVisits": 20,
-      "showDetailsButton": true,
-      "pivotTable": {}
-    }
-  },
-  "tbprogram": {
-    "translationKey": "TB Program",
-    "type": "vitals",
-    "isObservation": true,
-    "displayOrder": 9,
-    "hideEmptyDisplayControl": true,
-    "dashboardConfig": {
-      "showDetailsButton": true,
-      "conceptNames": [
-        "PR, Start date of TB program",
-        "PR, TB Stage",
-        "PR, Start date of TB Stage",
-        "PR, Reason for Stopping TB Program",
-        "PR, TB Program Stop Date"
-      ],
-      "scope": "latest"
-    },
-    "expandedViewConfig": {
-      "conceptNames": [
-        "PR, Start date of TB program",
-        "PR, TB Stage",
-        "PR, Start date of TB Stage",
-        "PR, Reason for Stopping TB PRogram",
-        "PR, TB Program Stop Date"
-      ],
-      "numberOfVisits": 20,
-      "showDetailsButton": true,
-      "pivotTable": {}
-    }
-  },
-  "breastfeedingprogram": {
-    "translationKey": "Breast Feeding Program",
-    "type": "vitals",
-    "isObservation": true,
-    "displayOrder": 10,
-    "hideEmptyDisplayControl": true,
-    "dashboardConfig": {
-      "showDetailsButton": true,
-      "conceptNames": [
-        "PR, Start date of Breast Feeding program",
-        "PR, Breast Feeding Stage",
-        "PR, Start date of Breast Feeding Stage",
-        "PR, Reason for Stopping Breast Feeding Program",
-        "PR, Breast Feeding Program Stop Date"
-      ],
-      "scope": "latest"
-    },
-    "expandedViewConfig": {
-      "conceptNames": [
-        "PR, Start date of Breast Feeding program",
-        "PR, Breast Feeding Stage",
-        "PR, Start date of Breast Feeding Stage",
-        "PR, Reason for Stopping Breast Feeding Program",
-        "PR, Breast Feeding Program Stop Date"
-      ],
-      "numberOfVisits": 20,
-      "showDetailsButton": true,
-      "pivotTable": {}
-    }
-  },
-  "pregnancyprogram": {
-    "translationKey": "Pregnancy Program",
-    "type": "vitals",
-    "isObservation": true,
-    "displayOrder": 11,
-    "hideEmptyDisplayControl": true,
-    "dashboardConfig": {
-      "showDetailsButton": true,
-      "conceptNames": [
-        "PR, Start date of Pregnancy program",
-        "PR, Pregnancy Stage",
-        "PR, Start date of Pregnancy Stage",
-        "PR, Reason for Stopping Pregnancy Program",
-        "PR, Pregnancy Program Stop Date"
-      ],
-      "scope": "latest"
-    },
-    "expandedViewConfig": {
-      "conceptNames": [
-        "PR, Start date of Pregnancy program",
-        "PR, Pregnancy Stage",
-        "PR, Start date of Pregnancy Stage",
-        "PR, Reason for Stopping Pregnancy Program",
-        "PR, Pregnancy Program Stop Date"
-      ],
-      "numberOfVisits": 20,
-      "showDetailsButton": true,
-      "pivotTable": {}
-    }
-  }
-}
 },
 "trends": {
     "translationKey": "Trends",

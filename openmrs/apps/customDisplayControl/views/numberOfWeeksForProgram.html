@@ -1,0 +1,11 @@
+<section class="dashboard-section">
+    <h2 class="section-title">{{section | titleTranslate}}</h2>
+        <ul class="form-field">
+            <li ng-if="numberOfWeeks !== undefined">
+               {{'NUMBER_OF_WEEKS_IN_ART_PROGRAM' | translate}}: <span class="obs-date"> {{ numberOfWeeks }} </span>
+            </li>
+            <li ng-if="numberOfWeeks === undefined">
+                {{ 'NUMBER_OF_WEEKS_IN_ART_PROGRAM' | translate }}
+            </li>
+        </ul>
+</section>
