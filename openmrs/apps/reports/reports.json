@@ -204,5 +204,41 @@
              "showTotalRow":true
 
          }
+     },
+  "visitTypeCountGender": {
+    "name": " Aggregate count of visit type based on gender",
+    "type": "aggregation",
+            "config": {
+            "report":{
+    "type": "observations",
+            "config": {
+                      "visitAttributes": ["Visit Status", "Admission Status"],
+                      "showVisitInfo": true,
+                      "conceptNamesToFilter": ["Reason for visit"],
+                      "conceptValuesToFilter":
+                      ["HIV Self Testing","Testing and Counselling Service","Confirmatory",
+                      "Contact Tracing","Initial ART service", "ART Routine Service","Unplanned or walk in visit",
+                      "Urgent","Pick up Drugs (only)","Review by MD/Doctor","Review by Nurse","Basic 1 and ART 1 service",
+                      "Lab test (only)","Hospital Visit","Phone Call","Home visit","VIAC","Adherence Counselling"," PrEP Initial",
+                      "PrEP Continuation","VMMC","Family Planning"],
+                      "applyDateRangeFor": "obsDate",
+                      "excludeColumns": ["Patient Name","Patient Identifier","Birthdate","Age","Gender","Location Name","Program Name",
+                      "Program Enrollment Date","Program End Date","Patient Created Date","Observation Datetime","Observation Date","Observation Created Date",
+                      "Parent Concept","Visit Status","Admission Status","Visit Type","Visit Start Date","Visit Stop Date"],
+                      "conceptNameDisplayFormat": "shortNamePreferred"
+             }
+
+         },
+
+         "rowGroups": ["Gender"],
+
+         "columnGroups": ["value"],
+
+         "distinctGroups": ["Obs Id"]
+
      }
+ }
+
+
+
 }
