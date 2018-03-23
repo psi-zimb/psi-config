@@ -69,4 +69,5 @@ LEFT JOIN patient_identifier piUIC on pat.patient_id = piUIC.patient_id
 where cnTypeOfVisit.name = 'AP, Type of Visit' and cnTypeOfVisit.concept_name_type = "FULLY_SPECIFIED"
 and obsHomeVisit.value_coded = (select concept_id from concept_name where name = 'Home visit' and concept_name_type = "FULLY_SPECIFIED") AND obsHomeVisit.voided = 0
 and date(obsHomeVisit.obs_datetime) between date('#startDate#') and date('#endDate#')
-group by pat.patient_id,obsHomeVisit.obs_datetime;
+group by pat.patient_id,obsHomeVisit.obs_datetime
+order by obsHomeVisit.obs_datetime;
