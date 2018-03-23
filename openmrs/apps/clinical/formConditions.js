@@ -1,102 +1,102 @@
 Bahmni.ConceptSet.FormConditions.rules = {
   'Reason for visit' : function (formName, formFieldValues) {
-          var conditions = {show: [], hide: [],enable: [], disable: []};
-          var obj = formFieldValues['Reason for visit'];
-          if (obj.indexOf('Initial ART service')>=0 )
-          {
-          conditions.enable.push("Provider name for ART Initial");
-          }
+            var conditions = {show: [], hide: [],enable: [], disable: []};
+            var obj = formFieldValues['Reason for visit'];
 
-          if (obj.indexOf('ART Routine Service')>=0 )
-          {
-          conditions.enable.push("Provider name for ART Routine");
-          }
+			if (obj.indexOf('Initial ART service')>=0 ) {
+			         conditions.show.push("Provider name for ART Initial");
+			         } else {
+			           conditions.hide.push("Provider name for ART Initial");
+			         }
 
-          if (obj.indexOf('PrEP Initial')>=0 )
-          {
-          conditions.enable.push("Provider name for PrEP Initial");
-          }
+			if (obj.indexOf('ART Routine Service')>=0 ) {
+			         conditions.show.push("Provider name for ART Routine");
+			         } else {
+			           conditions.hide.push("Provider name for ART Routine");
+			         }
 
-          if (obj.indexOf('Unplanned or walk in visit')>=0 )
-          {
-          conditions.enable.push("Provider name for Unplanned or Walk in Visit");
-          }
+			if (obj.indexOf('PrEP Initial')>=0 ) {
+			         conditions.show.push("Provider name for PrEP Initial");
+			         } else {
+			           conditions.hide.push("Provider name for PrEP Initial");
+			         }
 
-          if (obj.indexOf('Urgent')>=0 )
-          {
-          conditions.enable.push("Provider name for Urgent");
-          }
+			if (obj.indexOf('Unplanned or walk in visit')>=0 ) {
+			         conditions.show.push("Provider name for Unplanned or Walk in Visit");
+			         } else {
+			           conditions.hide.push("Provider name for Unplanned or Walk in Visit");
+			         }
 
-          if (obj.indexOf('Pick up Drugs (only)')>=0 )
-          {
-          conditions.enable.push("Provider name for Pick up drugs (Only)");
-          }
+			if (obj.indexOf('Urgent')>=0 ) {
+			         conditions.show.push("Provider name for Urgent");
+			         } else {
+			           conditions.hide.push("Provider name for Urgent");
+			         }
 
-          if (obj.indexOf('Review by MD/Doctor')>=0 )
-          {
-          conditions.enable.push("Provider name for Review by MD/Doctor");
-          }
+			if (obj.indexOf('Pick up Drugs (only)')>=0 ) {
+			         conditions.show.push("Provider name for Pick up drugs (Only)");
+			         } else {
+			           conditions.hide.push("Provider name for Pick up drugs (Only)");
+			         }
 
-          if (obj.indexOf('Review by Nurse')>=0 )
-          {
-          conditions.enable.push("Provider name for Review by Nurse");
-          }
+			if (obj.indexOf('Review by MD/Doctor')>=0 ) {
+			         conditions.show.push("Provider name for Review by MD/Doctor");
+			         } else {
+			           conditions.hide.push("Provider name for Review by MD/Doctor");
+			         }
 
-          if (obj.indexOf('Lab test (only)')>=0 )
-          {
-          conditions.enable.push("Provider name for Lab Test (Only)");
-          }
+			if (obj.indexOf('Review by Nurse')>=0 ) {
+			         conditions.show.push("Provider name for Review by Nurse");
+			         } else {
+			           conditions.hide.push("Provider name for Review by Nurse");
+			         }
 
-          if (obj.indexOf('Basic 1 and ART 1 service')>=0 )
-          {
-          conditions.enable.push("Provider name for Basic 1 and ART 1");
-          }
-
-          if (obj.indexOf('Phone Call')>=0 )
-          {
-          conditions.enable.push("Provider name for Phone Call");
-          }
-
-          if (obj.indexOf('Home visit')>=0 )
-          {
-          conditions.enable.push("Provider name for Home Visit");
-          }
-
-          if (obj.indexOf('Hospital Visit')>=0 )
-          {
-          conditions.enable.push("Provider name for Hospital Visit");
-          }
-
-          if (obj.indexOf('Adherence Counselling')>=0 )
-          {
-          conditions.enable.push("Provider name for Adherence counseling");
-          }
-
-          if (obj.indexOf('PrEP Continuation')>=0 )
-          {
-          conditions.enable.push("Provider name for Prep Continuation");
-          }
+			if (obj.indexOf('Lab test (only)')>=0 ) {
+			         conditions.show.push("Provider name for Lab Test (Only)");
+			         } else {
+			           conditions.hide.push("Provider name for Lab Test (Only)");
+			         }
 
 
-          if(obj) {
-          conditions.disable.push("Provider name for ART Initial",
-                                  "Provider name for ART Routine",
-                                  "Provider name for Unplanned or Walk in Visit",
-                                  "Provider name for Urgent",
-                                  "Provider name for Pick up drugs (Only)",
-                                  "Provider name for Review by MD/Doctor",
-                                  "Provider name for Review by Nurse",
-                                  "Provider name for Lab Test (Only)",
-                                  "Provider name for Basic 1 and ART 1",
-                                  "Provider name for Phone Call",
-                                  "Provider name for Home Visit",
-                                  "Provider name for Hospital Visit",
-                                  "Provider name for Adherence counseling",
-                                  "Provider name for PrEP Initial",
-                                  "Provider name for Prep Continuation");
-                  }
-          return conditions;
-    },
+			if (obj.indexOf('Basic 1 and ART 1 service')>=0 ) {
+			         conditions.show.push("Provider name for Basic 1 and ART 1");
+			         } else {
+			           conditions.hide.push("Provider name for Basic 1 and ART 1");
+			         }
+
+
+			if (obj.indexOf('Phone Call')>=0 ) {
+			         conditions.show.push("Provider name for Phone Call");
+			         } else {
+			           conditions.hide.push("Provider name for Phone Call");
+			         }
+
+			if (obj.indexOf('Home visit')>=0 ) {
+			         conditions.show.push("Provider name for Home Visit");
+			         } else {
+			           conditions.hide.push("Provider name for Home Visit");
+			         }
+
+			if (obj.indexOf('Hospital Visit')>=0 ) {
+			         conditions.show.push("Provider name for Hospital Visit");
+			         } else {
+			           conditions.hide.push("Provider name for Hospital Visit");
+			         }
+
+			if (obj.indexOf('Adherence Counselling')>=0 ) {
+			         conditions.show.push("Provider name for Adherence counseling");
+			         } else {
+			           conditions.hide.push("Provider name for Adherence counseling");
+			         }
+
+			if (obj.indexOf('PrEP Continuation')>=0 ) {
+			         conditions.show.push("Provider name for Prep Continuation");
+			         } else {
+			           conditions.hide.push("Provider name for Prep Continuation");
+			         }
+
+      return conditions;
+},
     "GQRRH, Are there any changes from the previous visits?": function(formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['GQRRH, Are there any changes from the previous visits?'];
