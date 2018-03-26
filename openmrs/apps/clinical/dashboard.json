@@ -345,7 +345,7 @@
                     "CD4Count"
                   ],
                   "xAxisConcept":"observationDateTime",
-                  "numberOfVisits":4
+                  "numberOfVisits":10
                 },
                 "displayOrder":0
               },
@@ -357,7 +357,7 @@
                     "HIV RNA PCR"
                   ],
                   "xAxisConcept":"observationDateTime",
-                  "numberOfVisits":4
+                  "numberOfVisits":10
                 },
                 "displayOrder":1
               },
@@ -369,7 +369,7 @@
                     "Alt"
                   ],
                   "xAxisConcept":"observationDateTime",
-                  "numberOfVisits":4
+                  "numberOfVisits":10
                 },
                 "displayOrder":2
               },
@@ -381,7 +381,7 @@
                     "Creatinine (Chem)"
                   ],
                   "xAxisConcept":"observationDateTime",
-                  "numberOfVisits":4
+                  "numberOfVisits":10
                 },
                 "displayOrder":3
               },
@@ -393,7 +393,7 @@
                     "Creatinine Clearance (Chem)"
                   ],
                   "xAxisConcept":"observationDateTime",
-                  "numberOfVisits":4
+                  "numberOfVisits":10
                 },
                 "displayOrder":4
               },
@@ -405,7 +405,7 @@
                     "WBC (FBC)"
                   ],
                   "xAxisConcept":"observationDateTime",
-                  "numberOfVisits":4
+                  "numberOfVisits":10
                 },
                 "displayOrder":5
               },
@@ -417,7 +417,7 @@
                     "HGB (FBC)"
                   ],
                   "xAxisConcept":"observationDateTime",
-                  "numberOfVisits":4
+                  "numberOfVisits":10
                 },
                 "displayOrder":6
               },
@@ -429,7 +429,7 @@
                     "MCV (FBC)"
                   ],
                   "xAxisConcept":"observationDateTime",
-                  "numberOfVisits":4
+                  "numberOfVisits":10
                 },
                 "displayOrder":7
               },
@@ -441,7 +441,7 @@
                     "MCH (FBC)"
                   ],
                   "xAxisConcept":"observationDateTime",
-                  "numberOfVisits":4
+                  "numberOfVisits":10
                 },
                 "displayOrder":8
               },
@@ -453,7 +453,7 @@
                     "MCHC (FBC)"
                   ],
                   "xAxisConcept":"observationDateTime",
-                  "numberOfVisits":4
+                  "numberOfVisits":10
                 },
                 "displayOrder":9
               },
@@ -465,7 +465,7 @@
                     "PLT (FBC)"
                   ],
                   "xAxisConcept":"observationDateTime",
-                  "numberOfVisits":4
+                  "numberOfVisits":10
                 },
                 "displayOrder":10
               }
