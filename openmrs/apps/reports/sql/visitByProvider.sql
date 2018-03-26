@@ -339,4 +339,4 @@ UNION ALL
             group by provider    
             
 ) as A
-            group by Provider
+            group by Provider;
