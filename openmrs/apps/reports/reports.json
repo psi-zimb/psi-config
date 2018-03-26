@@ -139,6 +139,13 @@
       "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/visitByProvider.sql"
   }
 },
+"clientwithFree/PaidService": {
+  "name": "Aggregare Count for Client with Free and Paid Service",
+  "type": "MRSGeneric",
+  "config": {
+      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/aggregateReportforClientwithFree-PaidService.sql"
+  }
+},
 "internalReferral": {
     "name": " ART Internal Referral",
     "type": "aggregation",
