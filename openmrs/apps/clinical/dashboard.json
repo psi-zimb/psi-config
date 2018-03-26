@@ -337,79 +337,138 @@
     "translationKey": "Trends",
     "maxRecentlyViewedPatients": 10,
     "sections": {
-      "cd4Graph":{
-        "type":"observationGraph",
-        "title":"CD4 Graph",
-        "config":{
-          "yAxisConcepts":[
-            "CD4Count"
-          ],
-          "xAxisConcept":"observationDateTime",
-          "numberOfVisits":20
-        },
-        "displayOrder":0
-      },
-      "bDNAGraph":{
-        "type":"observationGraph",
-        "title":"bDNA Graph",
-        "config":{
-          "yAxisConcepts":[
-            "bDNA"
-          ],
-          "xAxisConcept":"observationDateTime",
-          "numberOfVisits":20
-        },
-        "displayOrder":1
-      },
-      "dnaPcrGraph ":{
-        "type":"observationGraph",
-        "title":"DNA PCR Graph",
-        "config":{
-          "yAxisConcepts":[
-            "DNA PCR"
-          ],
-          "xAxisConcept":"observationDateTime",
-          "numberOfVisits":20
-        },
-        "displayOrder":2
-      },
-      "hivRnaPcrGraph":{
-        "type":"observationGraph",
-        "title":"HIV RNA PCR Graph",
-        "config":{
-          "yAxisConcepts":[
-            "HIV RNA PCR"
-          ],
-          "xAxisConcept":"observationDateTime",
-          "numberOfVisits":20
-        },
-        "displayOrder":3
-      }
-    ,
-      "p24AntigenGraph":{
-        "type":"observationGraph",
-        "title":"P24 Antigen Graph",
-        "config":{
-          "yAxisConcepts":[
-            "P24 Antigen"
-          ],
-          "xAxisConcept":"observationDateTime",
-          "numberOfVisits":20
-        },
-        "displayOrder":4
-      },
-      "rnaPcrGraph":{
-        "type":"observationGraph",
-        "title":"RNA PCR Graph",
-        "config":{
-          "yAxisConcepts":[
-            "RNA PCR"
-          ],
-          "xAxisConcept":"observationDateTime",
-          "numberOfVisits":20
-        },
-        "displayOrder":5
-      }
+        "cd4Graph":{
+                "type":"observationGraph",
+                "title":"CD4 Graph",
+                "config":{
+                  "yAxisConcepts":[
+                    "CD4Count"
+                  ],
+                  "xAxisConcept":"observationDateTime",
+                  "numberOfVisits":4
+                },
+                "displayOrder":0
+              },
+        "HIVRNAPCRGraph":{
+                "type":"observationGraph",
+                "title":"HIV RNA PCR Graph",
+                "config":{
+                  "yAxisConcepts":[
+                    "HIV RNA PCR"
+                  ],
+                  "xAxisConcept":"observationDateTime",
+                  "numberOfVisits":4
+                },
+                "displayOrder":1
+              },
+        "AltGraph":{
+                "type":"observationGraph",
+                "title":"Alt Graph",
+                "config":{
+                  "yAxisConcepts":[
+                    "Alt"
+                  ],
+                  "xAxisConcept":"observationDateTime",
+                  "numberOfVisits":4
+                },
+                "displayOrder":2
+              },
+        "creatinineGraph":{
+                "type":"observationGraph",
+                "title":"Creatinine Graph",
+                "config":{
+                  "yAxisConcepts":[
+                    "Creatinine (Chem)"
+                  ],
+                  "xAxisConcept":"observationDateTime",
+                  "numberOfVisits":4
+                },
+                "displayOrder":3
+              },
+        "creatinineclearanceGraph":{
+                "type":"observationGraph",
+                "title":"Creatinine Clearance Graph",
+                "config":{
+                  "yAxisConcepts":[
+                    "Creatinine Clearance (Chem)"
+                  ],
+                  "xAxisConcept":"observationDateTime",
+                  "numberOfVisits":4
+                },
+                "displayOrder":4
+              },
+        "WBCGraph":{
+                "type":"observationGraph",
+                "title":"WBC Graph",
+                "config":{
+                  "yAxisConcepts":[
+                    "WBC (FBC)"
+                  ],
+                  "xAxisConcept":"observationDateTime",
+                  "numberOfVisits":4
+                },
+                "displayOrder":5
+              },
+        "HGBGraph":{
+                "type":"observationGraph",
+                "title":" HGB Graph",
+                "config":{
+                  "yAxisConcepts":[
+                    "HGB (FBC)"
+                  ],
+                  "xAxisConcept":"observationDateTime",
+                  "numberOfVisits":4
+                },
+                "displayOrder":6
+              },
+        "MCVGraph":{
+                "type":"observationGraph",
+                "title":"MCV Graph",
+                "config":{
+                  "yAxisConcepts":[
+                    "MCV (FBC)"
+                  ],
+                  "xAxisConcept":"observationDateTime",
+                  "numberOfVisits":4
+                },
+                "displayOrder":7
+              },
+        "MCHGraph":{
+                "type":"observationGraph",
+                "title":"MCH Graph",
+                "config":{
+                  "yAxisConcepts":[
+                    "MCH (FBC)"
+                  ],
+                  "xAxisConcept":"observationDateTime",
+                  "numberOfVisits":4
+                },
+                "displayOrder":8
+              },
+        "MCHCGraph":{
+                "type":"observationGraph",
+                "title":"MCHC Graph",
+                "config":{
+                  "yAxisConcepts":[
+                    "MCHC (FBC)"
+                  ],
+                  "xAxisConcept":"observationDateTime",
+                  "numberOfVisits":4
+                },
+                "displayOrder":9
+              },
+        "PLTGraph":{
+                "type":"observationGraph",
+                "title":"PLT Graph",
+                "config":{
+                  "yAxisConcepts":[
+                    "PLT (FBC)"
+                  ],
+                  "xAxisConcept":"observationDateTime",
+                  "numberOfVisits":4
+                },
+                "displayOrder":10
+              }
     }
-  }
+}
 }
