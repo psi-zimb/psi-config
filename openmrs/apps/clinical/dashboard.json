@@ -41,10 +41,52 @@
           }
         }
       },
+      "weeksInProgram": {
+        "type": "custom",
+        "translationKey": "NUMBER_OF_WEEKS_IN_ART_PROGRAM",
+        "displayOrder": 2,
+        "hideEmptyDisplayControl": true,
+        "config": {
+          "title": "Weeks in ART Program",
+          "translationKey": "NUMBER_OF_WEEKS_IN_ART_PROGRAM",
+          "template": "<number-of-weeks-for-program section='config' patient='patient'></number-of-weeks-for-program>"
+        }
+      },
+      "diagnosis":{
+        "translationKey":"DASHBOARD_TITLE_DIAGNOSIS_KEY",
+        "type":"diagnosis",
+        "showCertainty":true,
+        "showOrder":true,
+        "showDetailsButton":true,
+        "displayOrder":3
+      },
+      "internalReferral":{
+                "translationKey":"DASHBOARD_TITLE_INTERNAL_REFERRAL_FORM_KEY",
+                "type":"vitals",
+                "isObservation":true,
+                "displayOrder":4,
+                "dashboardConfig":{
+                    "showDetailsButton":true,
+                    "conceptNames":[
+                        "Internal Referral"
+                    ],
+                    "numberOfVisits":1
+                },
+                "expandedViewConfig":{
+                    "conceptNames":[
+                        "Internal Referral"
+                    ],
+                    "numberOfVisits":20,
+                    "showDetailsButton":true,
+                    "pivotTable":{
+
+                    }
+                }
+      },
       "labResults": {
         "translationKey": "DASHBOARD_TITLE_LAB_RESULTS_KEY",
         "type": "labOrders",
-        "displayOrder": 6,
+        "displayOrder": 5,
         "dashboardConfig": {
           "title": null,
           "numberOfVisits": 4,
@@ -58,19 +100,11 @@
           "numberOfVisits": 20
         }
       },
-      "diagnosis":{
-        "translationKey":"DASHBOARD_TITLE_DIAGNOSIS_KEY",
-        "type":"diagnosis",
-        "showCertainty":true,
-        "showOrder":true,
-        "showDetailsButton":true,
-        "displayOrder":4
-      },
       "artObservation":{
         "translationKey":"Art Observation",
         "type":"vitals",
         "isObservation":true,
-        "displayOrder":5,
+        "displayOrder":6,
         "hideEmptyDisplayControl":true,
         "dashboardConfig":{
           "showDetailsButton":true,
@@ -93,7 +127,7 @@
       "treatments":{
         "translationKey":"DASHBOARD_TITLE_TREATMENTS_KEY",
         "type":"treatment",
-        "displayOrder":3,
+        "displayOrder":7,
         "dashboardConfig":{
           "showFlowSheet":true,
           "showListView":true,
@@ -118,7 +152,7 @@
       "visits": {
         "translationKey": "DASHBOARD_TITLE_VISITS_KEY",
         "type": "visits",
-        "displayOrder": 12,
+        "displayOrder": 8,
         "dashboardConfig": {
           "title": null,
           "maximumNoOfVisits": 20,
@@ -129,7 +163,7 @@
         "translationKey": "ART Program",
         "type": "vitals",
         "isObservation": true,
-        "displayOrder": 7,
+        "displayOrder": 9,
         "hideEmptyDisplayControl": true,
         "dashboardConfig": {
           "showDetailsButton": true,
@@ -159,7 +193,7 @@
         "translationKey": "PrEP Program",
         "type": "vitals",
         "isObservation": true,
-        "displayOrder": 7,
+        "displayOrder": 10,
         "hideEmptyDisplayControl": true,
         "dashboardConfig": {
           "showDetailsButton": true,
@@ -185,7 +219,7 @@
         "translationKey": "IPT Program",
         "type": "vitals",
         "isObservation": true,
-        "displayOrder": 8,
+        "displayOrder": 11,
         "hideEmptyDisplayControl": true,
         "dashboardConfig": {
           "showDetailsButton": true,
@@ -211,7 +245,7 @@
         "translationKey": "TB Program",
         "type": "vitals",
         "isObservation": true,
-        "displayOrder": 9,
+        "displayOrder": 12,
         "hideEmptyDisplayControl": true,
         "dashboardConfig": {
           "showDetailsButton": true,
@@ -241,7 +275,7 @@
         "translationKey": "Breast Feeding Program",
         "type": "vitals",
         "isObservation": true,
-        "displayOrder": 10,
+        "displayOrder": 13,
         "hideEmptyDisplayControl": true,
         "dashboardConfig": {
           "showDetailsButton": true,
@@ -271,7 +305,7 @@
         "translationKey": "Pregnancy Program",
         "type": "vitals",
         "isObservation": true,
-        "displayOrder": 11,
+        "displayOrder": 14,
         "hideEmptyDisplayControl": true,
         "dashboardConfig": {
           "showDetailsButton": true,
@@ -295,17 +329,6 @@
           "numberOfVisits": 20,
           "showDetailsButton": true,
           "pivotTable": {}
-        }
-      },
-      "weeksInProgram": {
-        "type": "custom",
-        "translationKey": "NUMBER_OF_WEEKS_IN_ART_PROGRAM",
-        "displayOrder": 2,
-        "hideEmptyDisplayControl": true,
-        "config": {
-          "title": "Weeks in ART Program",
-          "translationKey": "NUMBER_OF_WEEKS_IN_ART_PROGRAM",
-          "template": "<number-of-weeks-for-program section='config' patient='patient'></number-of-weeks-for-program>"
         }
       }
     }
