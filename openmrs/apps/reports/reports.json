@@ -133,7 +133,7 @@
   }
 },
 "visitByProvider": {
-  "name": "Visit by Provider",
+  "name": "ART Visit by Provider",
   "type": "MRSGeneric",
   "config": {
       "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/visitByProvider.sql"
@@ -228,7 +228,47 @@
          "distinctGroups": ["Obs Id"]
 
      }
+ },
+ "internalReferralCompletion": {
+    "name": "Internal Referral Completion",
+    "type": "aggregation",
+    "config": {
+        "report":{
+    "type": "observations",
+         "config": {
+                      "showProvider": true,
+                      "visitAttributes": ["Visit Status", "Admission Status"],
+                      "showVisitInfo": true,
+                      "forDataAnalysis":true,
+                      "additionalPatientIdentifiers": ["UIC"],
+                      "conceptNamesToFilter": ["IR, Referred to","Referred From,internal referral completion form"],
+                      "conceptValuesToFilter":[
+                      "HTS","HTS Internal Referral Completed",
+                      "TB-Screening","TB-Screening Internal Referral Completed",
+                      "VIAC","VIAC Internal Referral Completed",
+                      "STI","STI Internal Referral Completed",
+                      "FP","FP Internal Referral Completed",
+                      "VMMC","VMMC Internal Referral Completed",
+                      "CD4", "CD4 Internal Referral Completed"
+                      ],
+                      "applyDateRangeFor": "obsDate",
+                      "excludeColumns": ["Birthdate","Age","Gender","Location Name","Program Name",
+                      "Program Enrollment Date","Program End Date","Patient Created Date","Observation Datetime","Observation Date","Observation Created Date",
+                      "Parent Concept","Visit Status","Admission Status","Visit Type","Visit Start Date","Visit Stop Date"],
+                      "conceptNameDisplayFormat": "shortNamePreferred"
+             }
+
+         },
+
+         "rowGroups": ["UIC","Patient Name"],
+
+         "columnGroups": ["value"],
+
+         "distinctGroups": ["Obs Id"]
+
+     }
  }
+
 
 
 }
