@@ -132,6 +132,13 @@
       "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/phoneVisitDetails.sql"
   }
 },
+"visitByProvider": {
+  "name": "Visit by Provider",
+  "type": "MRSGeneric",
+  "config": {
+      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/visitByProvider.sql"
+  }
+},
 "internalReferral": {
     "name": " ART Internal Referral",
     "type": "aggregation",
@@ -215,7 +222,6 @@
 
      }
  }
-
 
 
 }
