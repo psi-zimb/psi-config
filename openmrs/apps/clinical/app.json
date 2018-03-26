@@ -314,6 +314,18 @@
             "AP, Type of Visit":{
                 "required":true
             },
+            "Provider name,Referral Letter form":{
+                "required":true
+            },
+            "Date, Referral Letter form":{
+                "required":true
+            },
+            "Subject, Referral letter form":{
+                "required":true
+            },
+            "Body, Referral letter form":{
+                "required":true
+            },
             "defaults": {
                 "HIV testing and counselling service": "Requested",
                 "Numeric concept": 1,
