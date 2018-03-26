@@ -10,7 +10,7 @@
             sum(PrEPInitial) as "PrEP Initial",
             sum(ReviewByNurse) as "Review By Nurse",
             sum(RoutineVisit) as "Routine Visit",
-            sum("Unplanned/WalkInVisit") as "Unplanned/Walk In Visit",
+            sum(UnplannedWalkInVisit) as "Unplanned/Walk In Visit",
             sum(UrgentVisit) as "Urgent Visit"
       
             FROM
@@ -27,7 +27,7 @@
             '' as 'PrEPInitial',
             '' as 'ReviewByNurse',
             '' as 'RoutineVisit',
-            '' as 'Unplanned/WalkInVisit',
+            '' as 'UnplannedWalkInVisit',
             '' as 'UrgentVisit'
             from(
             select cnProviderName.name as "Provider"
@@ -54,7 +54,7 @@ UNION ALL
             '' as 'PrEPInitial',
             '' as 'ReviewByNurse',
             '' as 'RoutineVisit',
-            '' as 'Unplanned/WalkInVisit',
+            '' as 'UnplannedWalkInVisit',
             '' as 'UrgentVisit'
             from(
             select cnProviderName.name as "Provider"
@@ -81,7 +81,7 @@ UNION ALL
             '' as 'PrEPInitial',
             '' as 'ReviewByNurse',
             '' as 'RoutineVisit',
-            '' as 'Unplanned/WalkInVisit',
+            '' as 'UnplannedWalkInVisit',
             '' as 'UrgentVisit'
              
             from(select cnProviderName.name as "Provider"
@@ -108,7 +108,7 @@ UNION ALL
             '' as 'PrEPInitial',
             '' as 'ReviewByNurse',
             '' as 'RoutineVisit',
-            '' as 'Unplanned/WalkInVisit',
+            '' as 'UnplannedWalkInVisit',
             '' as 'UrgentVisit'
             from(
             select cnProviderName.name as "Provider"
@@ -135,7 +135,7 @@ UNION ALL
             '' as 'PrEPInitial',
             '' as 'ReviewByNurse',
             '' as 'RoutineVisit',
-            '' as 'Unplanned/WalkInVisit',
+            '' as 'UnplannedWalkInVisit',
             '' as 'UrgentVisit'
             from(
             select cnProviderName.name as "Provider"
@@ -162,7 +162,7 @@ UNION ALL
             '' as 'PrEPInitial',
             '' as 'ReviewByNurse',
             '' as 'RoutineVisit',
-            '' as 'Unplanned/WalkInVisit',
+            '' as 'UnplannedWalkInVisit',
             '' as 'UrgentVisit'
             from(
             select cnProviderName.name as "Provider"
@@ -189,7 +189,7 @@ UNION ALL
             '' as 'PrEPInitial',
             '' as 'ReviewByNurse',
             '' as 'RoutineVisit',
-            '' as 'Unplanned/WalkInVisit',
+            '' as 'UnplannedWalkInVisit',
             '' as 'UrgentVisit' 
             from(
             select cnProviderName.name as "Provider"
@@ -216,7 +216,7 @@ UNION ALL
             count(1) 'PrEPInitial',
             '' as 'ReviewByNurse',
             '' as 'RoutineVisit',
-            '' as 'Unplanned/WalkInVisit',
+            '' as 'UnplannedWalkInVisit',
             '' as 'UrgentVisit' 
             from(
             select cnProviderName.name as "Provider"
@@ -243,7 +243,7 @@ UNION ALL
             '' as 'PrEPInitial',
             count(1) 'ReviewByNurse',
             '' as 'RoutineVisit',
-            '' as 'Unplanned/WalkInVisit',
+            '' as 'UnplannedWalkInVisit',
             '' as 'UrgentVisit' 
             from(
             select cnProviderName.name as "Provider"
@@ -270,7 +270,7 @@ UNION ALL
             '' as 'PrEPInitial',
             '' AS 'ReviewByNurse',
             count(1) 'RoutineVisit',
-            '' as 'Unplanned/WalkInVisit',
+            '' as 'UnplannedWalkInVisit',
             '' as 'UrgentVisit'  
             from(
             select cnProviderName.name as "Provider"
@@ -297,7 +297,7 @@ UNION ALL
             '' as 'PrEPInitial',
             '' AS 'ReviewByNurse',
             '' AS 'RoutineVisit',
-            count(1) 'Unplanned/WalkInVisit',
+            count(1) 'UnplannedWalkInVisit',
             '' as 'UrgentVisit'
             from(
             select cnProviderName.name as "Provider"
@@ -324,7 +324,7 @@ UNION ALL
             '' as 'PrEPInitial',
             '' AS 'ReviewByNurse',
             '' AS 'RoutineVisit',
-            '' AS 'Unplanned/WalkInVisit',
+            '' AS 'UnplannedWalkInVisit',
             count(1) 'UrgentVisit' 
             from(
             select cnProviderName.name as "Provider"
