@@ -104,13 +104,6 @@
          "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artIPTReport.sql"
      }
  },
-    "appointmentSchedulingIncompleteAppointmentsReport": {
-     "name": "Appointment Scheduling Report for Incomplete Appointments",
-     "type": "MRSGeneric",
-     "config": {
-         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/appointmentSchedulingIncompleteAppointments.sql"
-     }
- },
   "artLostToFollowUpReport": {
   "name": "ART Lost To Follow Up Report",
   "type": "MRSGeneric",
@@ -118,32 +111,11 @@
       "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artLostToFollowUp.sql"
   }
 },
-  "homeVisitDetails": {
-  "name": "Home visit details",
-  "type": "MRSGeneric",
-  "config": {
-      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/homeVisitDetails.sql"
-  }
-},
-"phoneVisitDetails": {
-  "name": "Phone visit details",
-  "type": "MRSGeneric",
-  "config": {
-      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/phoneVisitDetails.sql"
-  }
-},
 "visitByProvider": {
   "name": "ART Visit by Provider",
   "type": "MRSGeneric",
   "config": {
       "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/visitByProvider.sql"
-  }
-},
-"clientwithFree/PaidService": {
-  "name": "Aggregare Count for Client with Free and Paid Service",
-  "type": "MRSGeneric",
-  "config": {
-      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/aggregateReportforClientwithFree-PaidService.sql"
   }
 },
 "internalReferral": {
@@ -179,6 +151,27 @@
 
      }
  },
+  "homeVisitDetails": {
+  "name": "Home visit details",
+  "type": "MRSGeneric",
+  "config": {
+      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/homeVisitDetails.sql"
+  }
+},
+"phoneVisitDetails": {
+  "name": "Phone visit details",
+  "type": "MRSGeneric",
+  "config": {
+      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/phoneVisitDetails.sql"
+  }
+},
+"clientwithFree/PaidService": {
+  "name": "Aggregare Count for Client with Free and Paid Service",
+  "type": "MRSGeneric",
+  "config": {
+      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/aggregateReportforClientwithFree-PaidService.sql"
+  }
+},
   "visitCountGender": {
          "name": "Visit Count Report Based on Gender",
          "type": "aggregation",
@@ -229,7 +222,14 @@
 
      }
  },
- "internalReferralCompletion": {
+     "appointmentSchedulingIncompleteAppointmentsReport": {
+     "name": "Appointment Scheduling Report for Incomplete Appointments",
+     "type": "MRSGeneric",
+     "config": {
+         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/appointmentSchedulingIncompleteAppointments.sql"
+     }
+ },
+  "internalReferralCompletion": {
     "name": "Internal Referral Completion",
     "type": "aggregation",
     "config": {
