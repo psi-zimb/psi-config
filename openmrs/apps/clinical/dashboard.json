@@ -70,7 +70,7 @@
                     "conceptNames":[
                         "Internal Referral"
                     ],
-                    "numberOfVisits":1
+                    "scope": "latest"
                 },
                 "expandedViewConfig":{
                     "conceptNames":[
