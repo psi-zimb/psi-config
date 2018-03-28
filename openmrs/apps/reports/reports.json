@@ -166,7 +166,7 @@
   }
 },
 "clientwithFree/PaidService": {
-  "name": "Aggregare Count for Client with Free and Paid Service",
+  "name": "Aggregate Count for Client with Free and Paid Service",
   "type": "MRSGeneric",
   "config": {
       "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/aggregateReportforClientwithFree-PaidService.sql"
