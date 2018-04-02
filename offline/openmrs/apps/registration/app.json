@@ -85,82 +85,66 @@
     "defaults":{
         "FHS": "Present"
       },
-  "Provider name for ART Initial":{
-     "answersConceptName":"Providers List",
-     "autocomplete":true,
-     "disableAddNotes":true
-  },
-  "Provider name for ART Routine":{
-     "answersConceptName":"Providers List",
-     "autocomplete":true,
-     "disableAddNotes":true
-  },
-  "Provider name for Unplanned or Walk in Visit":{
-     "answersConceptName":"Providers List",
-     "autocomplete":true,
-     "disableAddNotes":true
-  },
-  "Provider name for Urgent":{
-     "answersConceptName":"Providers List",
-     "autocomplete":true,
-     "disableAddNotes":true
-  },
-  "Provider name for Pick up drugs (Only)":{
-     "answersConceptName":"Providers List",
-     "autocomplete":true,
-     "disableAddNotes":true
-  },
-  "Provider name for Review by MD/Doctor":{
-     "answersConceptName":"Providers List",
-     "autocomplete":true,
-     "disableAddNotes":true
-  },
-  "Provider name for Review by Nurse":{
-     "answersConceptName":"Providers List",
-     "autocomplete":true,
-     "disableAddNotes":true
-  },
-  "Provider name for Lab Test (Only)":{
-     "answersConceptName":"Providers List",
-     "autocomplete":true,
-     "disableAddNotes":true
-  },
-  "Provider name for Basic 1 and ART 1":{
-     "answersConceptName":"Providers List",
-     "autocomplete":true,
-     "disableAddNotes":true
-  },
-  "Provider name for Phone Call":{
-     "answersConceptName":"Providers List",
-     "autocomplete":true,
-     "disableAddNotes":true
-  },
-  "Provider name for Home Visit":{
-     "answersConceptName":"Providers List",
-     "autocomplete":true,
-     "disableAddNotes":true
-  },
-  "Provider name for Hospital Visit":{
-     "answersConceptName":"Providers List",
-     "autocomplete":true,
-     "disableAddNotes":true
-  },
-  "Provider name for Adherence counseling":{
-     "answersConceptName":"Providers List",
-     "autocomplete":true,
-     "disableAddNotes":true
-  },
-  "Provider name for PrEP Initial":{
-     "answersConceptName":"Providers List",
-     "autocomplete":true,
-     "disableAddNotes":true
-  },
-  "Provider name for Prep Continuation":{
-     "answersConceptName":"Providers List",
-     "autocomplete":true,
-     "disableAddNotes":true
-  }
-           
+              "Provider name for ART Initial":{
+                "dropdown": true,
+                "disableAddNotes":true
+              },
+              "Provider name for ART Routine":{
+                "dropdown": true,
+                "disableAddNotes":true
+              },
+              "Provider name for Unplanned or Walk in Visit":{
+                "dropdown": true,
+                "disableAddNotes":true
+              },
+              "Provider name for Urgent":{
+                "dropdown": true,
+                "disableAddNotes":true
+              },
+              "Provider name for Pick up drugs (Only)":{
+                "dropdown": true,
+                "disableAddNotes":true
+              },
+              "Provider name for Review by MD/Doctor":{
+                "dropdown": true,
+                "disableAddNotes":true
+              },
+              "Provider name for Review by Nurse":{
+                "dropdown": true,
+                "disableAddNotes":true
+              },
+              "Provider name for Lab Test (Only)":{
+                "dropdown": true,
+                "disableAddNotes":true
+              },
+              "Provider name for Basic 1 and ART 1":{
+                "dropdown": true,
+                "disableAddNotes":true
+              },
+              "Provider name for Phone Call":{
+                "dropdown": true,
+                "disableAddNotes":true
+              },
+              "Provider name for Home Visit":{
+                "dropdown": true,
+                "disableAddNotes":true
+              },
+              "Provider name for Hospital Visit":{
+                "dropdown": true,
+                "disableAddNotes":true
+              },
+              "Provider name for Adherence counseling":{
+                "dropdown": true,
+                "disableAddNotes":true
+              },
+              "Provider name for PrEP Initial":{
+                "dropdown": true,
+                "disableAddNotes":true
+              },
+              "Provider name for Prep Continuation":{
+                "dropdown": true,
+                "disableAddNotes":true
+              }
             },
             "fieldValidation" : {
                 "Telephone" : {"pattern" : "[0-9]{0,}", "errorMessage" : "Phone number can only be numerals"},
