@@ -27,7 +27,7 @@
         "enableLabOrderOptions":["Urgent", "NeedsPrint"],
         "quickPrints":false,
         "networkConnectivity" : {
-            "showNetworkStatusMessage": true,
+            "showNetworkStatusMessage": false,
             "networkStatusCheckInterval": 5000,
             "locales" : [
                 { "locale" : "fr", "css" : "offline-language-french"},
