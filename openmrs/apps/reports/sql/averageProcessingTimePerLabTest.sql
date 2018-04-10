@@ -14,6 +14,7 @@ AND obsResultReceived.concept_id not in
 and cnLabTestName.concept_name_type ="FULLY_SPECIFIED"
 and cnLabTestName.voided = 0
 and orderPlaced.voided = 0
+and orderPlaced.order_action != "DISCONTINUE"
 and obsResultReceived.voided = 0
 where date(orderPlaced.date_activated) between date('#startDate#') and date('#endDate#')
 GROUP BY obsResultReceived.concept_id;
