@@ -267,6 +267,13 @@
          "distinctGroups": ["Obs Id"]
 
      }
+ },
+ "averageProcessingTimePerLabTestReport": {
+ "name": "Average processing time per lab test",
+     "type": "MRSGeneric",
+     "config": {
+         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/averageProcessingTimePerLabTest.sql"
+     }
  }
 
 
