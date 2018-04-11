@@ -295,5 +295,13 @@
      "config": {
      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/rapidHIVLabTestPerEnteredDurationByResult.sql"
  }
-}
+},
+  "rapidHivLabTestByGender": {
+    "name": "Rapid HIV lab test by gender and year (Positive or Negative)",
+     "type": "MRSGeneric",
+     "config": {
+     "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/rapidHIVlabtestbygender.sql"
+     }
+ }
+
 }
