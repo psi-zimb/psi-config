@@ -281,8 +281,13 @@
      "config": {
          "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/totalTestsForPeriod.sql"
      }
+ },
+   "totalTestsForPeriodwithPriorityReport": {
+ "name": "Total Tests for Period with Priority",
+     "type": "MRSGeneric",
+     "config": {
+         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/totalTestsforPeriodwithPriority.sql"
+     }
  }
-
-
 
 }
