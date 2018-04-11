@@ -283,11 +283,17 @@
      }
  },
    "totalTestsForPeriodwithPriorityReport": {
- "name": "Total Tests for Period with Priority",
+   "name": "Total Tests for Period with Priority",
      "type": "MRSGeneric",
      "config": {
          "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/totalTestsforPeriodwithPriority.sql"
      }
+ },
+ "rapidHIVLabTestPerEnteredDurationByResult" : {
+   "name": "Rapid HIV lab test per entered duration by result (Positive or Negative)",
+     "type": "MRSGeneric",
+     "config": {
+     "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/rapidHIVLabTestPerEnteredDurationByResult.sql"
  }
-
+}
 }
