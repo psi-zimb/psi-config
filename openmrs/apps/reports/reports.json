@@ -274,6 +274,13 @@
      "config": {
          "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/averageProcessingTimePerLabTest.sql"
      }
+ },
+ "totalTestForPeriodReport": {
+ "name": "Total Tests For Period Report",
+     "type": "MRSGeneric",
+     "config": {
+         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/totalTestsForPeriod.sql"
+     }
  }
 
 
