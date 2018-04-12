@@ -310,6 +310,13 @@
      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/rapidHIVlabtestbygender.sql"
      }
  },
+ "labOrderCountPerLabUser": {
+   "name": "Lab Count per Lab User",
+    "type": "ElisGeneric",
+    "config": {
+    "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/labOrderCountPerLabUser.sql"
+    }
+},
    "labCountPerNurse": {
     "name": "Lab Count per Nurse",
      "type": "MRSGeneric",
