@@ -324,5 +324,13 @@
      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/labCountPerNurse.sql"
      }
  }
+ ,
+    "labTestPending": {
+     "name": "Lab Request Pending",
+      "type": "ElisGeneric",
+      "config": {
+      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/labTestPending.sql"
+      }
+  }
 
 }
