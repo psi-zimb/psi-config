@@ -1,4 +1,5 @@
-SELECT RapidHIVResults,
+Select /*Pivoting the table*/
+RapidHIVResults AS 'Rapid HIV Results',
 SUM(lessThan1yr) AS '<1',
 SUM(1To9yr) AS '1-9',
 SUM(10To14yr) AS '10-14',
