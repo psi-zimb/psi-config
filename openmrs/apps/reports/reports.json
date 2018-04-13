@@ -324,6 +324,13 @@
      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/labCountPerNurse.sql"
      }
  },
+    "potentialSerumAgCandidates": {
+    "name": "Potential Serum CrAg Candidates",
+     "type": "MRSGeneric",
+     "config": {
+     "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/potentialSerumCrAgCandidates.sql"
+     }
+ },
     "labTestPending": {
      "name": "Pending Lab Request",
       "type": "ElisGeneric",
