@@ -323,6 +323,13 @@
      "config": {
      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/labCountPerNurse.sql"
      }
+ },
+    "labCountPerNurse": {
+    "name": "Potential Serum CrAg Candidates",
+     "type": "MRSGeneric",
+     "config": {
+     "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/potentialSerumCrAgCandidates.sql"
+     }
  }
  ,
     "labTestPending": {
