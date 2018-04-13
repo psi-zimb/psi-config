@@ -11,4 +11,4 @@ and obsHivRapidTestbyGenderValue.value_coded In (select concept_id from concept_
 and obsHivRapidTestbyGenderValue.voided = 0
 and date(obsHivRapidTestbyGenderValue.obs_datetime) between date('#startDate#') and date('#endDate#')
 group by obsHivRapidTestbyGenderValue.value_coded, pnHivRapidTestbyGenderValue.gender
-order by obsHivRapidTestbyGenderValue.value_coded desc , pnHivRapidTestbyGenderValue.gender desc ;
+order by obsHivRapidTestbyGenderValue.value_coded  , pnHivRapidTestbyGenderValue.gender  ;

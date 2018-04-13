@@ -39,6 +39,7 @@ JOIN person p on p.person_id = obs.person_id
 where obs.concept_id IN (select concept_id from concept_view where concept_full_name = 'Rapid HIV Test' and retired=0)
 AND obs.value_coded In (select concept_id from concept_view where concept_full_name IN ('Positive','Negative') and retired=0)
 AND obs.voided = 0
+AND date(obs.date_created) between date('#startDate#') and date('#endDate#')
 GROUP BY obs.value_coded,
 CASE
              WHEN timestampdiff(YEAR,p.birthdate,'#endDate#')  < 1
