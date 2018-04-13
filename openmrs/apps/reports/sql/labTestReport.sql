@@ -14,8 +14,8 @@ GROUP_CONCAT(distinct (case WHEN pattyLabTest.name = 'District of Birth' THEN cv
 GROUP_CONCAT(distinct (case WHEN pattyLabTest.name = 'Telephone' THEN patLabTest.value ELSE NULL END)) AS "Telephone no",
 cvLabTest.concept_full_name AS "Lab Test",
 COALESCE(obsLabTest.value_numeric,obsLabTest.value_text,codedValues.concept_short_name,codedValues.concept_full_name) AS "Test Result/Value",
+DATE(oLabTest.date_created) AS "Lab order date",
 CONCAT(pnLabTest.given_name, " ", COALESCE(pnLabTest.family_name, '')) AS "Lab Services Requested By"
-
 FROM obs obsLabTest
 JOIN concept_view cvLabTest ON cvLabTest.concept_id = obsLabTest.concept_id AND cvLabTest.retired =0 AND cvLabTest.concept_class_name = 'Labtest'
 LEFT JOIN concept_view codedValues ON obsLabTest.value_coded = codedValues.concept_id
@@ -30,4 +30,5 @@ LEFT JOIN person_attribute_type pattyLabTest ON patLabTest.person_attribute_type
 LEFT JOIN concept_view cvAttributeLabTest ON patLabTest.value = cvAttributeLabTest.concept_id AND cvAttributeLabTest.retired = 0
 WHERE COALESCE(obsLabTest.value_numeric,obsLabTest.value_text,obsLabTest.value_coded) IS NOT NULL
 AND DATE(oLabTest.date_created) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
-GROUP BY obsLabTest.person_id,cvLabTest.concept_full_name;
+GROUP BY obsLabTest.person_id,cvLabTest.concept_full_name
+order by oLabTest.date_created,obsLabTest.person_id;
