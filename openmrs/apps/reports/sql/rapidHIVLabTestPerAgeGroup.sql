@@ -64,3 +64,4 @@ CASE
                END
 ) AS rapidHIVLAbTestPerAgeGroup
 GROUP BY RapidHIVResults
+ORDER BY RapidHIVResults;

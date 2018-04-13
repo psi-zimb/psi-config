@@ -7,4 +7,5 @@ JOIN test testPendingLabRequests ON testPendingLabRequests.id = analysisPendingL
 AND analysisPendingLabRequests.revision = 0
 AND analysisPendingLabRequests.entry_date IS NULL
 AND DATE(analysisPendingLabRequests.started_date) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
-GROUP BY testPendingLabRequests.description;
+GROUP BY testPendingLabRequests.description
+ORDER BY testPendingLabRequests.description;
