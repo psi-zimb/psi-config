@@ -11,3 +11,4 @@ And COALESCE(obsLabCountPerNurse.value_coded,obsLabCountPerNurse.value_text,obsL
 and ordLabCountPerNurse.date_stopped is NULL
 and date(obsLabCountPerNurse.obs_datetime) between date('#startDate#') and date('#endDate#')
 group by ordLabCountPerNurse.orderer
+order by pnLabCountPerNurse.given_name

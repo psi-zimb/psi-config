@@ -72,3 +72,4 @@ and obsPotentialSerumCandidates.voided = 0
 and obsPotentialSerumCandidates.concept_id in (Select concept_id from concept where class_id = 26)
 and date(obsPotentialSerumCandidates.obs_datetime) between date('#startDate#') and date('#endDate#')
 group by obsPotentialSerumCandidates.obs_id
+order by ordPotentialSerumCandidates.date_activated desc;
