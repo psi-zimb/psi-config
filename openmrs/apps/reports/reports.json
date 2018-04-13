@@ -338,7 +338,7 @@
       "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/labTestPending.sql"
       }
   },
-     "labTestPending": {
+     "labTestReport": {
       "name": "Lab Test Report",
        "type": "MRSGeneric",
        "config": {
