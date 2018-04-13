@@ -6,4 +6,4 @@ and obsRapidTestCount.value_coded In (select concept_id from concept_view where 
 and obsRapidTestCount.voided = 0
 AND date(obsRapidTestCount.obs_datetime) between date('#startDate#') and date('#endDate#')
 group by obsRapidTestCount.value_coded
-order by obsRapidTestCount.value_coded desc;
+order by obsRapidTestCount.value_coded;
