@@ -1,6 +1,6 @@
 select AvgCnLabTestName.name as "Lab Test",
-avg(
-	(TIMESTAMPDIFF(second,AvgOrderPlaced.date_activated,AvgObsResultReceived.obs_datetime))/60)
+TRUNCATE(avg(
+	(TIMESTAMPDIFF(second,AvgOrderPlaced.date_activated,AvgObsResultReceived.date_created))/60),2)
 	 as "Avg processing time (in mins)"
 from orders AvgOrderPlaced
 join obs AvgObsResultReceived on AvgOrderPlaced.order_id = AvgObsResultReceived.order_id
@@ -17,4 +17,5 @@ and AvgOrderPlaced.voided = 0
 and AvgOrderPlaced.date_stopped is NULL
 and AvgObsResultReceived.voided = 0
 where date(AvgOrderPlaced.date_activated) between date('#startDate#') and date('#endDate#')
-GROUP BY AvgObsResultReceived.concept_id;
+GROUP BY AvgObsResultReceived.concept_id
+order by AvgCnLabTestName.name;
