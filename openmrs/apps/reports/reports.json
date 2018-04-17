@@ -355,6 +355,15 @@
         "config": {
         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/labTestReport.sql"
         }
+  },
+  "numberOfClientsWhoReceivedPretestInformationThisMonth" : {
+     "name": "Number of clients who received pre-test information this month",
+     "type": "MRSGeneric",
+     "config": {
+     "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsWhoReceivedPretestInformationThisMonth.sql"
+     }
+
   }
+
 
 }
