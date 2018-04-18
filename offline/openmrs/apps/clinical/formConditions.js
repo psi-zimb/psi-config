@@ -2106,6 +2106,16 @@ Bahmni.ConceptSet.FormConditions.rules = {
                 }
                 return conditions;
         },
+    "PHTC, Was referred to:  (Multiple responses possible)": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['PHTC, Was referred to:  (Multiple responses possible)'];
+        if (conditionConcept.indexOf("Other") >=0) {
+            conditions.enable.push("PHTC, Post Test Counselling Other");
+        } else {
+            conditions.disable.push("PHTC, Post Test Counselling Other");
+        }
+        return conditions;
+        },
 	"HST, External referral to:(Multiple responses possible)": function (formName, formFieldValues) {
                 var conditions = {enable: [], disable: []};
                 var conditionConcept = formFieldValues['HST, External referral to:(Multiple responses possible)'];
