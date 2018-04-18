@@ -65,20 +65,18 @@ FROM
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
          then COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM (
-            select o.person_id from patient pat
-                join obs o on pat.patient_id = o.person_id
-                join concept_name cn on o.concept_id = cn.concept_id
-                where cn.name = 'Ever been tested' 
-                and cn.concept_name_type = 'FULLY_SPECIFIED' 
-                and o.value_coded IN (select concept_id from concept_name where name = 'Yes' 
-                and concept_name.concept_name_type = 'FULLY_SPECIFIED' 
-                AND concept_name.voided = 0) and o.voided = 0
-                and o.person_id NOT IN (select person_id from obs where concept_id IN (select concept_id from concept_name 
-                where name IN ('Art initial Visit compulsory Question 1 of 2','Art initial Visit compulsory Question 2 of 2') 
-                and concept_name_type = 'FULLY_SPECIFIED' 
-                AND voided = 0) and voided = 0 and date(obs.obs_datetime) <= date('#endDate#'))
-                and date(o.obs_datetime) between date('#startDate#') and date('#endDate#')
-                group by o.person_id
+           select distinct o.person_id
+    from patient pat
+        join obs o on pat.patient_id = o.person_id
+        join concept_name cn on o.concept_id = cn.concept_id
+    where cn.name = 'PHTC, Client received post test counseling?' 
+        and cn.concept_name_type = 'FULLY_SPECIFIED' 
+        and o.value_coded IN (select concept_id from concept_name where name = 'Yes' 
+        and concept_name.concept_name_type = 'FULLY_SPECIFIED' 
+        AND concept_name.voided = 0) 
+        and o.voided = 0
+        and date(o.obs_datetime) between date('#startDate#') and date('#endDate#')
+         group by o.person_id
          ) AS PersonReTestedforHIV
            INNER JOIN person p ON p.person_id = PersonReTestedforHIV.person_id
            GROUP BY
