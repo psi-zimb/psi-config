@@ -1,5 +1,5 @@
 SELECT/*Pivoting the table*/
-    'Number of Clients receiving first ever test for HIV this month' AS '-',
+    'Number of clients who tested HIV positive for the first ever test this month' AS '-',
     SUM(lessThan1yrMale) AS '<1 M',
     SUM(lessThan1yrFemale) AS '<1 F',
     SUM(1To9yrMale) AS '1-9 M',
@@ -23,55 +23,65 @@ SELECT/*Pivoting the table*/
 FROM
 (
     SELECT
-         'Number Of Clients who received pre-test information this month',
+         'Number of clients who tested HIV positive for the first ever test this month',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
-         THEN COUNT(1)  END AS 'lessThan1yrMale',
+         then COUNT(1)  END AS 'lessThan1yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
-         THEN COUNT(1)  END AS 'lessThan1yrFemale',
+         then COUNT(1)  END AS 'lessThan1yrFemale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'M'
-         THEN COUNT(1)  END AS '1To9yrMale',
+         then COUNT(1)  END AS '1To9yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'F'
-         THEN COUNT(1)  END AS '1To9yrFemale',
+         then COUNT(1)  END AS '1To9yrFemale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'M'
-         THEN COUNT(1)  END AS '10To14yrMale',
+         then COUNT(1)  END AS '10To14yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'F'
-         THEN COUNT(1)  END AS '10To14yrFemale',
+         then COUNT(1)  END AS '10To14yrFemale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'M'
-         THEN COUNT(1)  END AS '15To19yrMale',
+         then COUNT(1)  END AS '15To19yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'F'
-         THEN COUNT(1)  END AS '15To19yrFemale',
+         then COUNT(1)  END AS '15To19yrFemale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
-         THEN COUNT(1)  END AS '20To24yrMale',
+         then COUNT(1)  END AS '20To24yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'F'
-         THEN COUNT(1)  END AS '20To24yrFemale',
+         then COUNT(1)  END AS '20To24yrFemale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'M'
-         THEN COUNT(1)  END AS '25To29yrMale',
+         then COUNT(1)  END AS '25To29yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'F'
-         THEN COUNT(1)  END AS '25To29yrFemale',
+         then COUNT(1)  END AS '25To29yrFemale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'M'
-         THEN COUNT(1)  END AS '30To34yrMale',
+         then COUNT(1)  END AS '30To34yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'F'
-         THEN COUNT(1)  END AS '30To34yrFemale',
+         then COUNT(1)  END AS '30To34yrFemale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'M'
-         THEN COUNT(1)  END AS '35To39yrMale',
+         then COUNT(1)  END AS '35To39yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'F'
-         THEN COUNT(1)  END AS '35To39yrFemale',
+         then COUNT(1)  END AS '35To39yrFemale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'M'
-         THEN COUNT(1)  END AS '40To49YrsMale',
+         then COUNT(1)  END AS '40To49YrsMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'F'
-         THEN COUNT(1)  END AS '40To49YrsFemale',
+         then COUNT(1)  END AS '40To49YrsFemale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'M'
-         THEN COUNT(1)  END AS 'GrtThan50YrsMale',
+         then COUNT(1)  END AS 'GrtThan50YrsMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
-         THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
+         then COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM (
-           SELECT person_id FROM obs
-            WHERE concept_id = ( SELECT concept_id FROM concept_view WHERE concept_full_name = 'Ever been tested' AND voided = 0)
-            AND value_coded = ( SELECT concept_id FROM concept_view WHERE concept_full_name = 'No' AND voided = 0)
-            AND DATE(obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
-            GROUP BY person_id
-         ) AS formFilledForPersonFirstTime
-           INNER JOIN person p ON p.person_id = formFilledForPersonFirstTime.person_id
+            SELECT distinct a.person_id,DATE(a.obs_datetime) AS 'obs_datetime'
+            from
+                (select person_id,concept_id,value_coded,obs_datetime
+                    from obs
+                    where concept_id = (select concept_id from concept_view where concept_full_name = 'Ever been tested' and voided = 0)
+                    and value_coded = (select concept_id from concept_view where concept_full_name = 'Yes' and voided = 0))  a
+                 inner join
+                (select person_id,concept_id,value_coded,obs_datetime
+                    from obs
+                    where concept_id = (select concept_id from concept_view where concept_full_name = 'HIV test results' and voided = 0)
+                    and value_coded = (select concept_id from concept_view where concept_full_name = 'Positive' and voided = 0) ) b
+            on a.person_id = b.person_id
+            AND DATE(a.obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
+            group by a.person_id
+         )
+         AS firstEverTestHIV
+           INNER JOIN person p ON p.person_id = firstEverTestHIV.person_id
            GROUP BY
            CASE
                WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
@@ -115,4 +125,4 @@ FROM
                WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
                THEN '> 50 Yrs F'
             END
-    ) AS MOHReport219;
+    ) AS MOHReport223;

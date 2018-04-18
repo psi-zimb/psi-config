@@ -385,14 +385,18 @@
     }
 
   },
+  "numberOfClientsWhoTestedHIVPositiveDuringRetestThisMonth(excludingforARTinitiation)" : {
+    "name": "Number of clients who tested HIV positive during retest this month (excluding for ART initiation)",
+    "type": "MRSGeneric",
+    "config": {
+    "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsWhoTestedHIVPositiveDuringRetestThisMonth(excludingforARTinitiation).sql"
+              }
+   },
     "numberOfClientsHIVTestedWhoReceivedResultsandPost-testCounseledthisMonth(excludingforARTinitiation)" : {
      "name": "Number of clients HIV tested who received results and post-test counseled this month (excluding for ART initiation)",
      "type": "MRSGeneric",
      "config": {
      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsHIVTestedWhoReceivedResultsandPost-testCounseledthisMonth(excludingforARTinitiation).sql"
     }
-
   }
-
-
 }
