@@ -363,6 +363,14 @@
      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsWhoReceivedPretestInformationThisMonth.sql"
      }
 
+  },
+  "numberOfClientsWhoWereRe-testedForHIVThisMonth(excludingforARTinitiation)" : {
+     "name": "Number of clients who were re-tested for HIV this month (excluding for  ART initiation)",
+     "type": "MRSGeneric",
+     "config": {
+     "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsWhoWereRe-testedForHIVThisMonth(excludingforARTinitiation).sql"
+    }
+
   }
 
 
