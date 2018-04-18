@@ -1,5 +1,5 @@
 SELECT/*Pivoting the table*/
-    'Number Of Clients who received pre-test information this month' AS '-',
+    'Number of Clients receiving first ever test for HIV this month' AS '-',
     SUM(lessThan1yrMale) AS '<1 M',
     SUM(lessThan1yrFemale) AS '<1 F',
     SUM(1To9yrMale) AS '1-9 M',
@@ -65,16 +65,12 @@ FROM
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
          then COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM (
-            SELECT distinct obs.person_id, DATE(obs_datetime) AS 'obs_datetime'
-            FROM obs
-            INNER JOIN person p
-            ON p.person_id = obs.person_id
-            WHERE concept_id IN
-            (SELECT concept_id FROM concept_view WHERE concept_full_name IN ( "Provider HIV test counselling","HIV self-testing" ) )
-            AND obs.voided = 0
-            AND DATE(obs.date_created) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
-         ) AS formFilledForPerson
-           INNER JOIN person p ON p.person_id = formFilledForPerson.person_id
+           select person_id from obs
+            where concept_id = (select concept_id from concept_view where concept_full_name = 'Ever been tested' and voided = 0)
+            and value_coded = (select concept_id from concept_view where concept_full_name = 'No' and voided = 0)
+            AND DATE(obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
+         ) AS formFilledForPersonFirstTime
+           INNER JOIN person p ON p.person_id = formFilledForPersonFirstTime.person_id
            GROUP BY
            CASE
                WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
@@ -118,4 +114,4 @@ FROM
                WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
                THEN '> 50 Yrs F'
             END
-    ) AS MOHReport218;
+    ) AS MOHReport219;
