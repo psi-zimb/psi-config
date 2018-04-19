@@ -65,20 +65,23 @@ FROM
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
          then COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM (
-             SELECT distinct a.person_id, DATE(a.obs_datetime) AS 'obs_datetime'
-            FROM
-                ( SELECT person_id,concept_id,value_coded,obs_datetime
-                    FROM obs
-                    WHERE concept_id = ( SELECT concept_id FROM concept_view WHERE concept_full_name = 'Ever been tested' AND voided = 0)
-                    AND value_coded = ( SELECT concept_id FROM concept_view WHERE concept_full_name = 'No' AND voided = 0))  a
-                 INNER JOIN
-                ( SELECT person_id,concept_id,value_coded,obs_datetime
-                    FROM obs
-                    WHERE concept_id = ( SELECT concept_id FROM concept_view WHERE concept_full_name = 'HIV test results' AND voided = 0)
-                    AND value_coded = ( SELECT concept_id FROM concept_view WHERE concept_full_name = 'Positive' AND voided = 0)) b
-            ON a.person_id = b.person_id
-            AND DATE(a.obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
-            GROUP BY a.person_id
+      SELECT
+      person_id
+      FROM obs
+      WHERE concept_id = (SELECT concept_id FROM concept_view WHERE concept_full_name = 'Ever been tested' AND voided = 0)
+      AND value_coded in (SELECT concept_id FROM concept_view WHERE concept_full_name IN ('No') AND voided = 0)
+      And voided = 0
+      AND person_id
+      IN (
+          SELECT person_id
+          FROM obs
+          WHERE
+          voided = 0
+          AND concept_id = (SELECT concept_id FROM concept_view WHERE concept_full_name = 'HIV test results' AND voided = 0)
+          AND value_coded = (SELECT concept_id FROM concept_view WHERE concept_full_name = 'Positive' AND voided = 0)
+          AND Date(obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
+         )
+          AND DATE(obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
          )
          AS firstEverTestHIV
            INNER JOIN person p ON p.person_id = firstEverTestHIV.person_id
