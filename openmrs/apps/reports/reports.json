@@ -413,6 +413,14 @@
      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfclientslinkedtootherservices.sql"
     }
 
+  },
+    "numberofPLHIVinCareScreenedforTBduringTheirLastVisitthisMonth" : {
+     "name": "Number of PLHIV in care screened for TB during their last visit this month",
+     "type": "MRSGeneric",
+     "config": {
+     "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/numberofPLHIVinCareScreenedforTBduringTheirLastVisitthisMonth.sql"
+    }
+
   }
 
 }
