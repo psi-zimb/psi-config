@@ -72,7 +72,7 @@ FROM
             WHERE concept_id IN
             (SELECT concept_id FROM concept_view WHERE concept_full_name IN ( "Provider HIV test counselling","HIV self-testing" ) )
             AND obs.voided = 0
-            AND DATE(obs.date_created) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
+            AND DATE(obs.obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
          ) AS formFilledForPerson
            INNER JOIN person p ON p.person_id = formFilledForPerson.person_id
            GROUP BY

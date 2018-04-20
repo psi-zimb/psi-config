@@ -69,7 +69,6 @@ FROM
             WHERE concept_id = ( SELECT concept_id FROM concept_view WHERE concept_full_name = 'Ever been tested' AND voided = 0)
             AND value_coded = ( SELECT concept_id FROM concept_view WHERE concept_full_name = 'No' AND voided = 0)
             AND DATE(obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
-            GROUP BY person_id
          ) AS formFilledForPersonFirstTime
            INNER JOIN person p ON p.person_id = formFilledForPersonFirstTime.person_id
            GROUP BY

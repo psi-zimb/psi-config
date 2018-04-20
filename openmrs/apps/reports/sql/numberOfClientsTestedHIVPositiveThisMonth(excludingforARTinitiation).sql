@@ -70,20 +70,21 @@ FROM
                   concept_id,
                   value_coded,
                   Date(obs_datetime) AS 'obs_datetime'
-                    FROM obs
+                    FROM obs obsEverBeenTested
                     WHERE concept_id = (SELECT concept_id FROM concept_view WHERE concept_full_name = 'Ever been tested' AND voided = 0)
                     AND value_coded IN (SELECT concept_id FROM concept_view WHERE concept_full_name IN ('Yes','No') AND voided = 0)
                     AND voided = 0
                     AND person_id in (
                                 SELECT person_id
-                                FROM obs
+                                FROM obs obsHIVTestResult
                                 WHERE
                                 voided = 0
                                 AND concept_id = (SELECT concept_id FROM concept_view WHERE concept_full_name = 'HIV test results' AND voided = 0)
                                 AND value_coded = (SELECT concept_id FROM concept_view WHERE concept_full_name = 'Positive' AND voided = 0)
-                                AND Date(obs_datetime) BETWEEN DATE('2018-04-01') AND DATE('2018-04-19')
+                                AND obsHIVTestResult.encounter_id = obsEverBeenTested.encounter_id
+                                AND Date(obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
                     )
-                    And DATE(obs_datetime) BETWEEN DATE('2018-04-01') AND DATE('2018-04-19')
+                    And DATE(obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
          )
          AS sumTestedHIVPositive
            INNER JOIN person p ON p.person_id = sumTestedHIVPositive.person_id

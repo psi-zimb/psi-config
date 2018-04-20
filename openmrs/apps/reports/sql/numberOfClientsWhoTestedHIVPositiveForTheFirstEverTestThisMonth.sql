@@ -65,23 +65,22 @@ FROM
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
          then COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM (
-      SELECT
-      person_id
-      FROM obs
-      WHERE concept_id = (SELECT concept_id FROM concept_view WHERE concept_full_name = 'Ever been tested' AND voided = 0)
-      AND value_coded in (SELECT concept_id FROM concept_view WHERE concept_full_name IN ('No') AND voided = 0)
-      And voided = 0
-      AND person_id
-      IN (
-          SELECT person_id
-          FROM obs
-          WHERE
-          voided = 0
-          AND concept_id = (SELECT concept_id FROM concept_view WHERE concept_full_name = 'HIV test results' AND voided = 0)
-          AND value_coded = (SELECT concept_id FROM concept_view WHERE concept_full_name = 'Positive' AND voided = 0)
-          AND Date(obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
-         )
-          AND DATE(obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
+      select person_id
+             from obs obsEverBeenTested
+             where concept_id = (select concept_id from concept_view where concept_full_name = 'Ever been tested' and voided = 0)
+             and value_coded in (select concept_id from concept_view where concept_full_name in ('No') and voided = 0)
+             And voided = 0
+             AND person_id in (
+                         select person_id
+                         from obs obsHIVTestResult
+                         where
+                         voided = 0
+                         AND concept_id = (select concept_id from concept_view where concept_full_name = 'HIV test results' and voided = 0)
+                         and value_coded = (select concept_id from concept_view where concept_full_name = 'Positive' and voided = 0)
+                         AND obsHIVTestResult.encounter_id = obsEverBeenTested.encounter_id
+                         AND Date(obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
+             )
+             And Date(obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
          )
          AS firstEverTestHIV
            INNER JOIN person p ON p.person_id = firstEverTestHIV.person_id
