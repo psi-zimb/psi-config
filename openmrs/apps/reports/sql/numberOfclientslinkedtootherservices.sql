@@ -1,5 +1,4 @@
-SELECT/*Pivoting the table*/
-    'Number of clients who were re-tested for HIV this month (excluding for  ART initiation)' AS '-',
+select service as '-',
     SUM(lessThan1yrMale) AS '<1 M',
     SUM(lessThan1yrFemale) AS '<1 F',
     SUM(1To9yrMale) AS '1-9 M',
@@ -19,12 +18,24 @@ SELECT/*Pivoting the table*/
     SUM(40To49YrsMale) AS '40-49 M',
     SUM(40To49YrsFemale) AS '40-49 F',
     SUM(GrtThan50YrsMale) AS '>50 M',
-    SUM(GrtThan50YrsFemale) AS '>50 F'
-FROM
-(
-    SELECT
-         'Number of clients who were re-tested for HIV this month (excluding for  ART initiation)',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
+    SUM(GrtThan50YrsFemale) AS '>50 F' 
+    from
+(select case 
+when cn2.name = 'Antenatal PMTCT' then 'Number of clients linked to PMTCT'
+when cn2.name = 'Other medical services' then 'Number of clients linked to Medical Services'
+when cn2.name = 'Male circumcision' then 'Number of clients linked to Voluntary Medical Male circumcision'
+when cn2.name = 'STI treatment centre' then 'Number of clients linked to STI'
+when cn2.name = 'PEP' then 'Number of clients linked to PEP'
+when cn2.name = 'VIAC' then 'Number of clients linked to Cervical Cancer Screening'
+when cn2.name = 'OI-ART clinic' then 'Number of clients linked to OI/ART'
+when cn2.name = 'TB diagnostic center' then 'Number of clients linked to TB Services'
+when cn2.name = 'Nutritional information' then 'Number of clients linked to Nutrition Support Services'
+when cn2.name = 'Other pyscho social support services' then 'Number of clients linked to Psychosocial Support Services'
+when cn2.name = 'Family Planning' then 'Number of clients linked to Family Planning Services'
+when cn2.name = 'PrEP' then 'Number of clients linked to PrEP'
+when cn2.name = 'Other' then 'Number of clients linked to Other' 
+end as Service, 
+CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
          then COUNT(1)  END AS 'lessThan1yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
          then COUNT(1)  END AS 'lessThan1yrFemale',
@@ -64,22 +75,36 @@ FROM
          then COUNT(1)  END AS 'GrtThan50YrsMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
          then COUNT(1)  END AS 'GrtThan50YrsFemale'
-    FROM (
-           select o.person_id
-    from patient pat
-        join obs o on pat.patient_id = o.person_id
+    from person p
+        join obs o on p.person_id = o.person_id
         join concept_name cn on o.concept_id = cn.concept_id
-    where cn.name = 'PHTC, Client received post test counseling?' 
-        and cn.concept_name_type = 'FULLY_SPECIFIED' 
-        and o.value_coded IN (select concept_id from concept_name where name = 'Yes' 
-        and concept_name.concept_name_type = 'FULLY_SPECIFIED' 
-        AND concept_name.voided = 0) 
-        and o.voided = 0
-        and date(o.obs_datetime) between date('#startDate#') and date('#endDate#')
-         group by o.obs_id
-         ) AS PersonReTestedforHIV
-           INNER JOIN person p ON p.person_id = PersonReTestedforHIV.person_id
-           GROUP BY
+        join concept_name cn2 on o.value_coded = cn2.concept_id
+        where 
+                cn.name In ("HST, External referral to:(Multiple responses possible)", "PHTC, Was referred to:  (Multiple responses possible)")
+                    and cn.concept_name_type = 'FULLY_SPECIFIED' 
+                    and o.value_coded IN (select concept_id from concept_name where name IN 
+                    (
+                      
+                            "Antenatal PMTCT",
+                            "Other medical services",
+                            "Male circumcision",
+                            "STI treatment centre",
+                            "PEP",
+                            "VIAC",
+                            "OI-ART clinic",
+                            "TB diagnostic center",
+                            "Nutritional information",
+                            "Other pyscho social support services",
+                            "Family Planning",
+                            "PrEP",
+                            "Other"
+                    ) 
+                    and concept_name.concept_name_type = 'FULLY_SPECIFIED' 
+                    AND concept_name.voided = 0) 
+                    and o.voided = 0
+                    and cn.voided = 0 and cn2.voided = 0
+                    and date(o.obs_datetime) between date('#startDate#') and date('#endDate#')
+                 group by o.value_coded,
            CASE
                WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
                THEN '< 1 Yr M'
@@ -121,5 +146,5 @@ FROM
                THEN '> 50 Yrs M'
                WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
                THEN '> 50 Yrs F'
-            END
-    ) AS MOHReport224;
+            END) as A
+            group by service

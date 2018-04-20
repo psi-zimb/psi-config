@@ -78,7 +78,7 @@ FROM
                 and concept_name_type = 'FULLY_SPECIFIED' 
                 AND voided = 0) and voided = 0 and date(obs.obs_datetime) <= date('#endDate#'))
                 and date(o.obs_datetime) between date('#startDate#') and date('#endDate#')
-                group by o.person_id
+                group by o.obs_id
          ) AS PersonReTestedforHIV
            INNER JOIN person p ON p.person_id = PersonReTestedforHIV.person_id
            GROUP BY

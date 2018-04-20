@@ -404,6 +404,13 @@
     "type": "MRSGeneric",
     "config": {
     "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsTestedHIVPositiveThisMonth(excludingforARTinitiation).sql"
-   }
+   },
+  "numberOfclientslinkedtootherservices" : {
+     "name": "Number of clients linked to other services",
+     "type": "MRSGeneric",
+     "config": {
+     "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfclientslinkedtootherservices.sql"
+    }
+
   }
 }
