@@ -146,5 +146,5 @@ CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
                THEN '> 50 Yrs M'
                WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
                THEN '> 50 Yrs F'
-            END) as A
+            END) as MOHReport242
             group by service
