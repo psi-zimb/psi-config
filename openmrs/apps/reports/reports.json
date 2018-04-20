@@ -1,426 +1,543 @@
 {
-    "artAttendanceRegister": {
-      "name": "ART Attendance Register Report",
-      "type": "MRSGeneric",
-      "config": {
-          "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artAttendanceRegister.sql"
+   "artAttendanceRegister":{
+      "name":"ART Attendance Register Report",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/artAttendanceRegister.sql"
       }
-  },
-  "transferOutListPerPeriod": {
-    "name": "ART Transfer Out List Per Period Report",
-    "type": "MRSGeneric",
-    "config": {
-        "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artTransferOutListPerPeriod.sql"
+   },
+   "transferOutListPerPeriod":{
+      "name":"ART Transfer Out List Per Period Report",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/artTransferOutListPerPeriod.sql"
       }
-  },
- "defaultersReport": {
-  "name": "ART Defaulters Report",
-  "type": "MRSGeneric",
-  "config": {
-      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artDefaultersReport.sql"
-       }
-  },
-    "missedAppointmentsReport": {
-        "name": "ART Missed Appointments",
-        "type": "MRSGeneric",
-        "config": {
-            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artMissedAppointments.sql"
-        }
-    },
-    "activeClientswithNoScheduledVisit": {
-        "name": "ART Active clients with No Scheduled Visit",
-        "type": "MRSGeneric",
-        "config": {
-            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artActiveClientswithNoScheduledVisit.sql"
-        }
-    },
-    "noVisitsSince90days": {
-        "name": "ART Client with no visits since 90 days",
-        "type": "MRSGeneric",
-        "config": {
-            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artNoVisitsSince90days.sql"
-        }
-    },
-    "deathsReport": {
-        "name": "ART Deaths Report",
-        "type": "MRSGeneric",
-        "config": {
-            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artDeathsReport.sql"
-        }
-    },
-    "registeredInAPeriod": {
-        "name": "ART Registered in a period Report",
-        "type": "MRSGeneric",
-        "config": {
-            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artRegisteredInAPeriodReport.sql"
-        }
-    },
-    "artInitiated": {
-        "name": "ART Initiated in a Period Report",
-        "type": "MRSGeneric",
-        "config": {
-            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artInitiated.sql"
-        }
-    },
-    "artTransferIn": {
-        "name": "ART Transfer In Report",
-        "type": "MRSGeneric",
-        "config": {
-            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artTransferIn.sql"
-        }
-    },
-    "artstiReport": {
-        "name": "ART STI Report",
-        "type": "MRSGeneric",
-        "config": {
-            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artStiReport.sql"
-        }
-    },
-    "arttbReport": {
-        "name": "ART TB Report",
-        "type": "MRSGeneric",
-        "config": {
-            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artTBReport.sql"
-        }
-    },
-    "artSecondLineReport": {
-        "name": "ART Clients on Second Line Report",
-         "type": "MRSGeneric",
-          "config": {
-             "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artClientsOnSecondLine.sql"
-    }
-  },
-    "artAdverseEventsReport": {
-        "name": "ART Adverse Events Report",
-        "type": "MRSGeneric",
-        "config": {
-            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artAdverseEvents.sql"
-        }
-    },
-     "artIPTReport": {
-     "name": "ART Isoniazid Preventive Therapy Report",
-     "type": "MRSGeneric",
-     "config": {
-         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artIPTReport.sql"
-     }
- },
-  "artLostToFollowUpReport": {
-  "name": "ART Lost To Follow Up Report",
-  "type": "MRSGeneric",
-  "config": {
-      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artLostToFollowUp.sql"
-  }
-},
-"visitByProvider": {
-  "name": "ART Visit by Provider",
-  "type": "MRSGeneric",
-  "config": {
-      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/visitByProvider.sql"
-  }
-},
-"internalReferral": {
-    "name": " ART Internal Referral",
-    "type": "aggregation",
-    "config": {
-        "report":{
-    "type": "observations",
-         "config": {
-                      "showProvider": true,
-                      "visitAttributes": ["Visit Status", "Admission Status"],
-                      "showVisitInfo": true,
-                      "conceptNamesToFilter": ["IR, Referred to"],
-                      "conceptValuesToFilter":["HTS","TB-Screening","VIAC","STI","FP","VMMC","CD4"],
-                      "applyDateRangeFor": "obsDate",
-                      "excludeColumns": ["Patient Name","Patient Identifier","Birthdate","Age","Gender","Location Name","Program Name",
-                      "Program Enrollment Date","Program End Date","Patient Created Date","Observation Datetime","Observation Date","Observation Created Date",
-                      "Parent Concept","Visit Status","Admission Status","Visit Type","Visit Start Date","Visit Stop Date"],
-                      "conceptNameDisplayFormat": "shortNamePreferred"
-             }
-
+   },
+   "defaultersReport":{
+      "name":"ART Defaulters Report",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/artDefaultersReport.sql"
+      }
+   },
+   "missedAppointmentsReport":{
+      "name":"ART Missed Appointments",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/artMissedAppointments.sql"
+      }
+   },
+   "activeClientswithNoScheduledVisit":{
+      "name":"ART Active clients with No Scheduled Visit",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/artActiveClientswithNoScheduledVisit.sql"
+      }
+   },
+   "noVisitsSince90days":{
+      "name":"ART Client with no visits since 90 days",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/artNoVisitsSince90days.sql"
+      }
+   },
+   "deathsReport":{
+      "name":"ART Deaths Report",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/artDeathsReport.sql"
+      }
+   },
+   "registeredInAPeriod":{
+      "name":"ART Registered in a period Report",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/artRegisteredInAPeriodReport.sql"
+      }
+   },
+   "artInitiated":{
+      "name":"ART Initiated in a Period Report",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/artInitiated.sql"
+      }
+   },
+   "artTransferIn":{
+      "name":"ART Transfer In Report",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/artTransferIn.sql"
+      }
+   },
+   "artstiReport":{
+      "name":"ART STI Report",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/artStiReport.sql"
+      }
+   },
+   "arttbReport":{
+      "name":"ART TB Report",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/artTBReport.sql"
+      }
+   },
+   "artSecondLineReport":{
+      "name":"ART Clients on Second Line Report",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/artClientsOnSecondLine.sql"
+      }
+   },
+   "artAdverseEventsReport":{
+      "name":"ART Adverse Events Report",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/artAdverseEvents.sql"
+      }
+   },
+   "artIPTReport":{
+      "name":"ART Isoniazid Preventive Therapy Report",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/artIPTReport.sql"
+      }
+   },
+   "artLostToFollowUpReport":{
+      "name":"ART Lost To Follow Up Report",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/artLostToFollowUp.sql"
+      }
+   },
+   "visitByProvider":{
+      "name":"ART Visit by Provider",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/visitByProvider.sql"
+      }
+   },
+   "internalReferral":{
+      "name":" ART Internal Referral",
+      "type":"aggregation",
+      "config":{
+         "report":{
+            "type":"observations",
+            "config":{
+               "showProvider":true,
+               "visitAttributes":[
+                  "Visit Status",
+                  "Admission Status"
+               ],
+               "showVisitInfo":true,
+               "conceptNamesToFilter":[
+                  "IR, Referred to"
+               ],
+               "conceptValuesToFilter":[
+                  "HTS",
+                  "TB-Screening",
+                  "VIAC",
+                  "STI",
+                  "FP",
+                  "VMMC",
+                  "CD4"
+               ],
+               "applyDateRangeFor":"obsDate",
+               "excludeColumns":[
+                  "Patient Name",
+                  "Patient Identifier",
+                  "Birthdate",
+                  "Age",
+                  "Gender",
+                  "Location Name",
+                  "Program Name",
+                  "Program Enrollment Date",
+                  "Program End Date",
+                  "Patient Created Date",
+                  "Observation Datetime",
+                  "Observation Date",
+                  "Observation Created Date",
+                  "Parent Concept",
+                  "Visit Status",
+                  "Admission Status",
+                  "Visit Type",
+                  "Visit Start Date",
+                  "Visit Stop Date"
+               ],
+               "conceptNameDisplayFormat":"shortNamePreferred"
+            }
          },
-
-         "rowGroups": ["Provider"],
-
-         "columnGroups": ["value"],
-
-         "distinctGroups": ["Observation Datetime"],
-
+         "rowGroups":[
+            "Provider"
+         ],
+         "columnGroups":[
+            "value"
+         ],
+         "distinctGroups":[
+            "Observation Datetime"
+         ],
          "showTotalRow":true,
-
          "showTotalColumn":true
-
-     }
- },
-  "homeVisitDetails": {
-  "name": "Home visit details",
-  "type": "MRSGeneric",
-  "config": {
-      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/homeVisitDetails.sql"
-  }
-},
-"phoneVisitDetails": {
-  "name": "Phone visit details",
-  "type": "MRSGeneric",
-  "config": {
-      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/phoneVisitDetails.sql"
-  }
-},
-"clientwithFree/PaidService": {
-  "name": "Aggregate Count for Client with Free and Paid Service",
-  "type": "MRSGeneric",
-  "config": {
-      "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/aggregateReportforClientwithFree-PaidService.sql"
-  }
-},
-  "visitCountGender": {
-         "name": "Visit Count Report Based on Gender",
-         "type": "aggregation",
-         "config": {
-             "report":{
-                 "type": "visits",
-                  "config": {
-                      "applyDateRangeFor": "visitStartDate",
-                      "patientAttributes": ["Gender"]
-                  }
-             },
-             "rowGroups": ["Gender"],
-             "distinctGroups": ["Visit Id"],
-             "showTotalRow":true
-
-         }
-     },
-  "visitTypeCountGender": {
-    "name": "Aggregate count of visit type based on gender",
-    "type": "aggregation",
-            "config": {
-            "report":{
-    "type": "observations",
-            "config": {
-                      "visitAttributes": ["Visit Status", "Admission Status"],
-                      "showVisitInfo": true,
-                      "conceptNamesToFilter": ["Reason for visit"],
-                      "conceptValuesToFilter":
-                      ["HIV Self Testing","Provider Testing and Counseling","Confirmatory HIV testing and Counseling",
-                      "Contact Tracing","Initial ART service", "ART Routine Service","Unplanned or walk in visit",
-                      "Urgent","Pick up Drugs (only)","Review by MD/Doctor","Review by Nurse","Basic 1 and ART 1 service",
-                      "Lab test (only)","Hospital Visit","Phone Call","Home visit","VIAC","Adherence Counselling","PrEP Initial",
-                      "PrEP Continuation","VMMC","Family Planning"],
-                      "applyDateRangeFor": "obsDate",
-                      "excludeColumns": ["Patient Name","Patient Identifier","Birthdate","Age","Gender","Location Name","Program Name",
-                      "Program Enrollment Date","Program End Date","Patient Created Date","Observation Datetime","Observation Date","Observation Created Date",
-                      "Parent Concept","Visit Status","Admission Status","Visit Type","Visit Start Date","Visit Stop Date"],
-                      "conceptNameDisplayFormat": "shortNamePreferred"
-             }
-
+      }
+   },
+   "homeVisitDetails":{
+      "name":"Home visit details",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/homeVisitDetails.sql"
+      }
+   },
+   "phoneVisitDetails":{
+      "name":"Phone visit details",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/phoneVisitDetails.sql"
+      }
+   },
+   "clientwithFree/PaidService":{
+      "name":"Aggregate Count for Client with Free and Paid Service",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/aggregateReportforClientwithFree-PaidService.sql"
+      }
+   },
+   "visitCountGender":{
+      "name":"Visit Count Report Based on Gender",
+      "type":"aggregation",
+      "config":{
+         "report":{
+            "type":"visits",
+            "config":{
+               "applyDateRangeFor":"visitStartDate",
+               "patientAttributes":[
+                  "Gender"
+               ]
+            }
          },
-
-         "rowGroups": ["Gender"],
-
-         "columnGroups": ["value"],
-
-         "distinctGroups": ["Obs Id"]
-
-     }
- },
-     "appointmentSchedulingIncompleteAppointmentsReport": {
-     "name": "Appointment Scheduling Report for Incomplete Appointments",
-     "type": "MRSGeneric",
-     "config": {
-         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/appointmentSchedulingIncompleteAppointments.sql"
-     }
- },
-  "internalReferralCompletion": {
-    "name": "Internal Referral Completion",
-    "type": "aggregation",
-    "config": {
-        "report":{
-    "type": "observations",
-         "config": {
-                      "showProvider": true,
-                      "visitAttributes": ["Visit Status", "Admission Status"],
-                      "showVisitInfo": true,
-                      "forDataAnalysis":true,
-                      "additionalPatientIdentifiers": ["UIC"],
-                      "conceptNamesToFilter": ["IR, Referred to","Referred From,internal referral completion form"],
-                      "conceptValuesToFilter":[
-                      "HTS","HTS Internal Referral Completed",
-                      "TB-Screening","TB-Screening Internal Referral Completed",
-                      "VIAC","VIAC Internal Referral Completed",
-                      "STI","STI Internal Referral Completed",
-                      "FP","FP Internal Referral Completed",
-                      "VMMC","VMMC Internal Referral Completed",
-                      "CD4", "CD4 Internal Referral Completed"
-                      ],
-                      "applyDateRangeFor": "obsDate",
-                      "excludeColumns": ["Birthdate","Age","Gender","Location Name","Program Name",
-                      "Program Enrollment Date","Program End Date","Patient Created Date","Observation Datetime","Observation Date","Observation Created Date",
-                      "Parent Concept","Visit Status","Admission Status","Visit Type","Visit Start Date","Visit Stop Date"],
-                      "conceptNameDisplayFormat": "shortNamePreferred"
-             }
-
+         "rowGroups":[
+            "Gender"
+         ],
+         "distinctGroups":[
+            "Visit Id"
+         ],
+         "showTotalRow":true
+      }
+   },
+   "visitTypeCountGender":{
+      "name":"Aggregate count of visit type based on gender",
+      "type":"aggregation",
+      "config":{
+         "report":{
+            "type":"observations",
+            "config":{
+               "visitAttributes":[
+                  "Visit Status",
+                  "Admission Status"
+               ],
+               "showVisitInfo":true,
+               "conceptNamesToFilter":[
+                  "Reason for visit"
+               ],
+               "conceptValuesToFilter":[
+                  "HIV Self Testing",
+                  "Provider Testing and Counseling",
+                  "Confirmatory HIV testing and Counseling",
+                  "Contact Tracing",
+                  "Initial ART service",
+                  "ART Routine Service",
+                  "Unplanned or walk in visit",
+                  "Urgent",
+                  "Pick up Drugs (only)",
+                  "Review by MD/Doctor",
+                  "Review by Nurse",
+                  "Basic 1 and ART 1 service",
+                  "Lab test (only)",
+                  "Hospital Visit",
+                  "Phone Call",
+                  "Home visit",
+                  "VIAC",
+                  "Adherence Counselling",
+                  "PrEP Initial",
+                  "PrEP Continuation",
+                  "VMMC",
+                  "Family Planning"
+               ],
+               "applyDateRangeFor":"obsDate",
+               "excludeColumns":[
+                  "Patient Name",
+                  "Patient Identifier",
+                  "Birthdate",
+                  "Age",
+                  "Gender",
+                  "Location Name",
+                  "Program Name",
+                  "Program Enrollment Date",
+                  "Program End Date",
+                  "Patient Created Date",
+                  "Observation Datetime",
+                  "Observation Date",
+                  "Observation Created Date",
+                  "Parent Concept",
+                  "Visit Status",
+                  "Admission Status",
+                  "Visit Type",
+                  "Visit Start Date",
+                  "Visit Stop Date"
+               ],
+               "conceptNameDisplayFormat":"shortNamePreferred"
+            }
          },
-
-         "rowGroups": ["UIC","Patient Name"],
-
-         "columnGroups": ["value"],
-
-         "distinctGroups": ["Obs Id"]
-
-     }
- },
- "labConcatenatedReport":
-    {
-        "name": "Laboratory Report",
-        "type": "concatenated",
-        "config":
-          {
-          "reports": [
+         "rowGroups":[
+            "Gender"
+         ],
+         "columnGroups":[
+            "value"
+         ],
+         "distinctGroups":[
+            "Obs Id"
+         ]
+      }
+   },
+   "appointmentSchedulingIncompleteAppointmentsReport":{
+      "name":"Appointment Scheduling Report for Incomplete Appointments",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/appointmentSchedulingIncompleteAppointments.sql"
+      }
+   },
+   "internalReferralCompletion":{
+      "name":"Internal Referral Completion",
+      "type":"aggregation",
+      "config":{
+         "report":{
+            "type":"observations",
+            "config":{
+               "showProvider":true,
+               "visitAttributes":[
+                  "Visit Status",
+                  "Admission Status"
+               ],
+               "showVisitInfo":true,
+               "forDataAnalysis":true,
+               "additionalPatientIdentifiers":[
+                  "UIC"
+               ],
+               "conceptNamesToFilter":[
+                  "IR, Referred to",
+                  "Referred From,internal referral completion form"
+               ],
+               "conceptValuesToFilter":[
+                  "HTS",
+                  "HTS Internal Referral Completed",
+                  "TB-Screening",
+                  "TB-Screening Internal Referral Completed",
+                  "VIAC",
+                  "VIAC Internal Referral Completed",
+                  "STI",
+                  "STI Internal Referral Completed",
+                  "FP",
+                  "FP Internal Referral Completed",
+                  "VMMC",
+                  "VMMC Internal Referral Completed",
+                  "CD4",
+                  "CD4 Internal Referral Completed"
+               ],
+               "applyDateRangeFor":"obsDate",
+               "excludeColumns":[
+                  "Birthdate",
+                  "Age",
+                  "Gender",
+                  "Location Name",
+                  "Program Name",
+                  "Program Enrollment Date",
+                  "Program End Date",
+                  "Patient Created Date",
+                  "Observation Datetime",
+                  "Observation Date",
+                  "Observation Created Date",
+                  "Parent Concept",
+                  "Visit Status",
+                  "Admission Status",
+                  "Visit Type",
+                  "Visit Start Date",
+                  "Visit Stop Date"
+               ],
+               "conceptNameDisplayFormat":"shortNamePreferred"
+            }
+         },
+         "rowGroups":[
+            "UIC",
+            "Patient Name"
+         ],
+         "columnGroups":[
+            "value"
+         ],
+         "distinctGroups":[
+            "Obs Id"
+         ]
+      }
+   },
+   "labConcatenatedReport":{
+      "name":"Laboratory Report",
+      "type":"concatenated",
+      "config":{
+         "reports":[
             {
-           	"name": "Total Tests For Period Report",
-             "type": "MRSGeneric",
-             "config": {
-             "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/totalTestsForPeriod.sql"
-           				    }
+               "name":"Total Tests For Period Report",
+               "type":"MRSGeneric",
+               "config":{
+                  "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/totalTestsForPeriod.sql"
+               }
             },
             {
-           	"name": "Total Tests for Period with Priority",
-             "type": "MRSGeneric",
-             "config": {
-             "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/totalTestsforPeriodwithPriority.sql"
-             					}
+               "name":"Total Tests for Period with Priority",
+               "type":"MRSGeneric",
+               "config":{
+                  "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/totalTestsforPeriodwithPriority.sql"
+               }
             },
             {
-             "name": "Average processing time per lab test",
-             "type": "MRSGeneric",
-             "config": {
-             "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/averageProcessingTimePerLabTest.sql"
-                       }
-             },
-             {
-    				  "name": "Rapid HIV lab test per entered duration by result (Positive or Negative)",
-    				  "type": "MRSGeneric",
-    				  "config": {
-    				  "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/rapidHIVLabTestPerEnteredDurationByResult.sql"
-    				               }
-    			    },
-             {
-    				  "name": "Rapid HIV lab test per age group and year (Positive or Negative)",
-    				  "type": "MRSGeneric",
-    				  "config": {
-    				    "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/rapidHIVLabTestPerAgeGroup.sql"
-    				 			}
-    			    },
-    			    {
-    				  "name": "Rapid HIV lab test by gender and year (Positive or Negative)",
-    				  "type": "MRSGeneric",
-    				  "config": {
-    				  "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/rapidHIVlabtestbygender.sql"
-    							 }
-    			    },
-             {
-    				   "name": "Lab Count per Nurse",
-    				   "type": "MRSGeneric",
-    				   "config": {
-    				   "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/labCountPerNurse.sql"
-    				     		 }
-    			    },
-             {
-    				    "name": "Potential Serum CrAg Candidates",
-    				    "type": "MRSGeneric",
-    				    "config": {
-    				    "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/potentialSerumCrAgCandidates.sql"
-    				     		  }
-    			    }
-
-           ]
-         }
+               "name":"Average processing time per lab test",
+               "type":"MRSGeneric",
+               "config":{
+                  "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/averageProcessingTimePerLabTest.sql"
+               }
+            },
+            {
+               "name":"Rapid HIV lab test per entered duration by result (Positive or Negative)",
+               "type":"MRSGeneric",
+               "config":{
+                  "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/rapidHIVLabTestPerEnteredDurationByResult.sql"
+               }
+            },
+            {
+               "name":"Rapid HIV lab test per age group and year (Positive or Negative)",
+               "type":"MRSGeneric",
+               "config":{
+                  "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/rapidHIVLabTestPerAgeGroup.sql"
+               }
+            },
+            {
+               "name":"Rapid HIV lab test by gender and year (Positive or Negative)",
+               "type":"MRSGeneric",
+               "config":{
+                  "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/rapidHIVlabtestbygender.sql"
+               }
+            },
+            {
+               "name":"Lab Count per Nurse",
+               "type":"MRSGeneric",
+               "config":{
+                  "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/labCountPerNurse.sql"
+               }
+            },
+            {
+               "name":"Potential Serum CrAg Candidates",
+               "type":"MRSGeneric",
+               "config":{
+                  "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/potentialSerumCrAgCandidates.sql"
+               }
+            }
+         ]
+      }
    },
-   "labOrderCountPerLabUser": {
-       "name": "Lab Count per Lab User",
-        "type": "ElisGeneric",
-        "config": {
-        "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/labOrderCountPerLabUser.sql"
-        }
-  },
-    "labTestPending": {
-       "name": "Pending Lab Request",
-        "type": "ElisGeneric",
-        "config": {
-        "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/labTestPending.sql"
-        }
-  },
-  "labTestReport": {
-       "name": "Lab Test Table Report",
-        "type": "MRSGeneric",
-        "config": {
-        "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/labTestReport.sql"
-        }
-  },
-  "numberOfClientsWhoReceivedPretestInformationThisMonth" : {
-     "name": "Number of clients who received pre-test information this month",
-     "type": "MRSGeneric",
-     "config": {
-     "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsWhoReceivedPretestInformationThisMonth.sql"
-     }
-  },
-  "numberOfClientsReceivingFirstEverTestForHIVThisMonth" : {
-    "name": "Number of clients receiving First ever test for HIV this month",
-    "type": "MRSGeneric",
-    "config": {
-    "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsReceivingFirstEverTestForHIVThisMonth.sql"
-    }
-  },
-  "numberOfClientsWhoTestedHIVPositiveForTheFirstEverTestThisMonth" : {
-    "name": "Number of clients who tested HIV positive for the first ever test this month ",
-    "type": "MRSGeneric",
-    "config": {
-    "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsWhoTestedHIVPositiveForTheFirstEverTestThisMonth.sql"
-    }
-  },
-  "numberOfClientsWhoWereRe-testedForHIVThisMonth(excludingforARTinitiation)" : {
-     "name": "Number of clients who were re-tested for HIV this month (excluding for  ART initiation)",
-     "type": "MRSGeneric",
-     "config": {
-     "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsWhoWereRe-testedForHIVThisMonth(excludingforARTinitiation).sql"
-    }
-
-  },
-  "numberOfClientsWhoTestedHIVPositiveDuringRetestThisMonth(excludingforARTinitiation)" : {
-    "name": "Number of clients who tested HIV positive during retest this month (excluding for ART initiation)",
-    "type": "MRSGeneric",
-    "config": {
-    "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsWhoTestedHIVPositiveDuringRetestThisMonth(excludingforARTinitiation).sql"
-              }
+   "labOrderCountPerLabUser":{
+      "name":"Lab Count per Lab User",
+      "type":"ElisGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/labOrderCountPerLabUser.sql"
+      }
    },
-    "numberOfClientsHIVTestedWhoReceivedResultsandPost-testCounseledthisMonth(excludingforARTinitiation)" : {
-     "name": "Number of clients HIV tested who received results and post-test counseled this month (excluding for ART initiation)",
-     "type": "MRSGeneric",
-     "config": {
-     "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsHIVTestedWhoReceivedResultsandPost-testCounseledthisMonth(excludingforARTinitiation).sql"
-    }
-  },
-  "numberOfClientsTestedHIVPositiveThisMonth(excludingforARTinitiation)" : {
-    "name": "Number of clients tested HIV positive this month (excluding for ART initiation)",
-    "type": "MRSGeneric",
-    "config": {
-    "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsTestedHIVPositiveThisMonth(excludingforARTinitiation).sql"
-  }
+   "labTestPending":{
+      "name":"Pending Lab Request",
+      "type":"ElisGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/labTestPending.sql"
+      }
    },
-  "numberOfclientslinkedtootherservices" : {
-     "name": "Number of clients linked to other services",
-     "type": "MRSGeneric",
-     "config": {
-     "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfclientslinkedtootherservices.sql"
-    }
-
-  },
-    "numberofPLHIVinCareScreenedforTBduringTheirLastVisitthisMonth" : {
-     "name": "Number of PLHIV in care screened for TB during their last visit this month",
-     "type": "MRSGeneric",
-     "config": {
-     "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/numberofPLHIVinCareScreenedforTBduringTheirLastVisitthisMonth.sql"
-    }
-
-  }
-
+   "labTestReport":{
+      "name":"Lab Test Table Report",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/labTestReport.sql"
+      }
+   },
+   "numberOfClientsWhoReceivedPretestInformationThisMonth":{
+      "name":"Number of clients who received pre-test information this month",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsWhoReceivedPretestInformationThisMonth.sql"
+      }
+   },
+   "numberOfClientsReceivingFirstEverTestForHIVThisMonth":{
+      "name":"Number of clients receiving First ever test for HIV this month",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsReceivingFirstEverTestForHIVThisMonth.sql"
+      }
+   },
+   "numberOfClientsWhoTestedHIVPositiveForTheFirstEverTestThisMonth":{
+      "name":"Number of clients who tested HIV positive for the first ever test this month ",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsWhoTestedHIVPositiveForTheFirstEverTestThisMonth.sql"
+      }
+   },
+   "numberOfClientsWhoWereRe-testedForHIVThisMonth(excludingforARTinitiation)":{
+      "name":"Number of clients who were re-tested for HIV this month (excluding for  ART initiation)",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsWhoWereRe-testedForHIVThisMonth(excludingforARTinitiation).sql"
+      }
+   },
+   "numberOfClientsWhoTestedHIVPositiveDuringRetestThisMonth(excludingforARTinitiation)":{
+      "name":"Number of clients who tested HIV positive during retest this month (excluding for ART initiation)",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsWhoTestedHIVPositiveDuringRetestThisMonth(excludingforARTinitiation).sql"
+      }
+   },
+   "numberOfClientsHIVTestedWhoReceivedResultsandPost-testCounseledthisMonth(excludingforARTinitiation)":{
+      "name":"Number of clients HIV tested who received results and post-test counseled this month (excluding for ART initiation)",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsHIVTestedWhoReceivedResultsandPost-testCounseledthisMonth(excludingforARTinitiation).sql"
+      }
+   },
+   "numberOfClientsTestedHIVPositiveThisMonth(excludingforARTinitiation)":{
+      "name":"Number of clients tested HIV positive this month (excluding for ART initiation)",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsTestedHIVPositiveThisMonth(excludingforARTinitiation).sql"
+      }
+   },
+   "numberOfclientslinkedtootherservices":{
+      "name":"Number of clients linked to other services",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfclientslinkedtootherservices.sql"
+      }
+   },
+   "numberofPLHIVinCareScreenedforTBduringTheirLastVisitthisMonth":{
+      "name":"Number of PLHIV in care screened for TB during their last visit this month",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/numberofPLHIVinCareScreenedforTBduringTheirLastVisitthisMonth.sql"
+      }
+   },
+   "numberOfTBPatientsInCareTestedForHIVThisMonth":{
+      "name":"Number of TB patients in care tested for HIV this month",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfTBPatientsInCareTestedForHIVThisMonth.sql"
+      }
+   },
+   "numberOfTBPatientsInCareTestedPositiveForHIVThisMonth":{
+      "name":"Number of TB patients in care tested positive for HIV this month",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfTBPatientsInCareTestedPositiveForHIVThisMonth.sql"
+      }
+   }
 }
