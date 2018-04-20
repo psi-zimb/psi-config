@@ -11,4 +11,5 @@ from (select o.person_id
                 AND voided = 0) and voided = 0
                 and date(obs.obs_datetime) < date(o.obs_datetime)
                 )
+                and date(o.obs_datetime) between date('#startDate#') and date('#endDate#')
                 group by o.obs_id) as personPLSHIVScreenedforTB
