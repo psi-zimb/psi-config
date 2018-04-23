@@ -560,5 +560,12 @@
       "config":{
          "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfPLHIVInCareScreenedForTBAndHadSignsOfActiveTBDisease(Presumptive Cases).sql"
       }
+   },
+   "numberofPLHIVNewlyEnrolledinHIVCarewithActiveTBDisease":{
+      "name":"Number of PLHIV newly enrolled in HIV care with active TB disease",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/numberofPLHIVNewlyEnrolledinHIVCarewithActiveTBDisease.sql"
+      }
    }
 }
