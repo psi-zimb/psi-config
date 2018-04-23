@@ -1,5 +1,5 @@
 SELECT
-   "Number of TB patients in care tested for HIV this month" as '-',
+   "Number of TB patients in care tested positive for HIV this month" as '-',
    count(DISTINCT ordersRapidHIV.order_id) as 'Count'
 FROM
    obs obsForTBForm
@@ -19,4 +19,5 @@ FROM
       INNER JOIN obs obsRapidHIVResults
       ON obsRapidHIVResults.order_id = ordersRapidHIV.order_id
       AND obsRapidHIVResults.value_coded = (SELECT concept_id FROM concept_view where concept_full_name IN ('Positive') AND retired=0)
+      AND obsRapidHIVResults.voided = 0
       AND DATE(ordersRapidHIV.date_activated) BETWEEN DATE('#startDate#') AND DATE('#endDate#');

@@ -1,5 +1,6 @@
 SELECT "Number of PLHIV in care screened for TB and had signs of active TB disease (Presumptive Cases)" as '-',
-count(1) FROM
+count(1) as 'Count'
+ FROM
 (
 SELECT person_id,obsTBQuestion.obs_datetime,concept_id,obs_id,encounter_id
 
