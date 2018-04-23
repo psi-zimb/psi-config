@@ -553,5 +553,12 @@
       "config":{
          "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/numberofPLHIVinCaretestedPositiveTBDiseasethisMonth.sql"
       }
+   },
+   "numberOfPLHIVInCareScreenedForTBAndHadSignsOfActiveTBDisease(Presumptive Cases)":{
+      "name":"Number of PLHIV in care screened for TB and had signs of active TB disease (Presumptive Cases)",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfPLHIVInCareScreenedForTBAndHadSignsOfActiveTBDisease(Presumptive Cases).sql"
+      }
    }
 }
