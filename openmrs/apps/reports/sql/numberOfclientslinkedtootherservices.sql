@@ -77,8 +77,8 @@ CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
          then COUNT(1)  END AS 'GrtThan50YrsFemale'
     from person p
         join obs o on p.person_id = o.person_id
-        join concept_name cn on o.concept_id = cn.concept_id
-        join concept_name cn2 on o.value_coded = cn2.concept_id
+        join concept_name cn on o.concept_id = cn.concept_id and cn.concept_name_type = 'FULLY_SPECIFIED'
+        join concept_name cn2 on o.value_coded = cn2.concept_id and cn2.concept_name_type = 'FULLY_SPECIFIED'
         where 
                 cn.name In ("HST, External referral to:(Multiple responses possible)", "PHTC, Was referred to:  (Multiple responses possible)")
                     and cn.concept_name_type = 'FULLY_SPECIFIED' 
@@ -148,3 +148,4 @@ CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
                THEN '> 50 Yrs F'
             END) as MOHReport242
             group by service
+            order by service;
