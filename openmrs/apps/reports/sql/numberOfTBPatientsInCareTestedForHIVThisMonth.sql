@@ -1,6 +1,6 @@
 SELECT
    "Number of TB patients in care tested for HIV this month" as '-',
-   count(DISTINCT ordersRapidHIV.order_id)
+   count(DISTINCT ordersRapidHIV.order_id) as 'Count'
 FROM
    obs obsForTBForm
    JOIN
