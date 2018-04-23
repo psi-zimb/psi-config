@@ -546,5 +546,12 @@
       "config":{
          "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/numberofPLHIVincareinvestigatedforTBdiseasethismonth.sql"
       }
+   },
+   "numberofPLHIVinCaretestedPositiveTBDiseasethisMonth":{
+      "name":"Number of PLHIV in care tested positive TB disease this month",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/numberofPLHIVinCaretestedPositiveTBDiseasethisMonth.sql"
+      }
    }
 }
