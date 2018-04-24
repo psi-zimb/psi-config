@@ -470,6 +470,13 @@
          "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/MOHReportHIVTestingServices.sql"
       }
    },
+   "numberOfClientsWhoReceivedPretestInformationThisMonth":{
+      "name":"Number of clients who received pre-test information this month",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsWhoReceivedPretestInformationThisMonth.sql"
+      }
+   },
    "numberOfClientsReceivingFirstEverTestForHIVThisMonth":{
       "name":"Number of clients receiving First ever test for HIV this month",
       "type":"MRSGeneric",
