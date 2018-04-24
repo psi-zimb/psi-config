@@ -38,14 +38,16 @@ ANd obsActiveDiagnosis.obs_group_id not in
 (/*Removing diagnosis group if there are any revisions*/
     Select obs_group_id from obs where concept_id = 51 and  value_coded = 1 and voided=0 and obs_group_id is not null
     AND obs.person_id = obsActiveDiagnosis.person_id
+    and date(obs.obs_datetime) <= date('#endDate#')
 )
 AND obsActiveDiagnosis.obs_group_id not in (/*Removing ruled out diagnosis*/
     Select obs_group_id from obs where concept_id = 49 and  value_coded = 48 and voided=0 and obs_group_id is not null
     AND obs.person_id = obsActiveDiagnosis.person_id
     AND obs.obs_group_id = obsActiveDiagnosis.obs_group_id
+    and date(obs.obs_datetime) <= date('#endDate#')
 )
 and cnDiagnosisName.concept_name_type = 'FULLY_SPECIFIED' 
 AND cnDiagnosisName.voided = 0
 and obsActiveDiagnosis.voided = 0
-and date(obsActiveDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
+and date(obsActiveDiagnosis.obs_datetime) <= date('#endDate#')
 and date(obsActiveARTProgram.value_datetime) between date('#startDate#') and date('#endDate#')
