@@ -24,45 +24,45 @@ FROM
 (
     SELECT
          'Number of clients tested HIV positive this month (excluding for ART initiation)',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') < 1 AND p.gender = 'M'
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
          then COUNT(1)  END AS 'lessThan1yrMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') < 1 AND p.gender = 'F'
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
          then COUNT(1)  END AS 'lessThan1yrFemale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 1 AND 9 AND p.gender = 'M'
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'M'
          then COUNT(1)  END AS '1To9yrMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 1 AND 9 AND p.gender = 'F'
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'F'
          then COUNT(1)  END AS '1To9yrFemale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 10 AND 14 AND p.gender = 'M'
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'M'
          then COUNT(1)  END AS '10To14yrMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 10 AND 14 AND p.gender = 'F'
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'F'
          then COUNT(1)  END AS '10To14yrFemale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 15 AND 19 AND p.gender = 'M'
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'M'
          then COUNT(1)  END AS '15To19yrMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 15 AND 19 AND p.gender = 'F'
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'F'
          then COUNT(1)  END AS '15To19yrFemale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 20 AND 24 AND p.gender = 'M'
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
          then COUNT(1)  END AS '20To24yrMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 20 AND 24 AND p.gender = 'F'
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'F'
          then COUNT(1)  END AS '20To24yrFemale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 25 AND 29 AND p.gender = 'M'
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'M'
          then COUNT(1)  END AS '25To29yrMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 25 AND 29 AND p.gender = 'F'
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'F'
          then COUNT(1)  END AS '25To29yrFemale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 30 AND 34 AND p.gender = 'M'
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'M'
          then COUNT(1)  END AS '30To34yrMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 30 AND 34 AND p.gender = 'F'
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'F'
          then COUNT(1)  END AS '30To34yrFemale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 35 AND 39 AND p.gender = 'M'
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'M'
          then COUNT(1)  END AS '35To39yrMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 35 AND 39 AND p.gender = 'F'
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'F'
          then COUNT(1)  END AS '35To39yrFemale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 40 AND 49 AND p.gender = 'M'
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'M'
          then COUNT(1)  END AS '40To49YrsMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 40 AND 49 AND p.gender = 'F'
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'F'
          then COUNT(1)  END AS '40To49YrsFemale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') >= 50 AND p.gender = 'M'
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'M'
          then COUNT(1)  END AS 'GrtThan50YrsMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') >= 50 AND p.gender = 'F'
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
          then COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM (
           SELECT  obs_id,
@@ -90,45 +90,45 @@ FROM
            INNER JOIN person p ON p.person_id = sumTestedHIVPositive.person_id
            GROUP BY
            CASE
-               WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') < 1 AND p.gender = 'M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
                THEN '< 1 Yr M'
-               WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') < 1 AND p.gender = 'F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
                THEN '< 1 Yr F'
-               WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 1 AND 9 AND p.gender = 'M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'M'
                THEN '1-9 Yrs M'
-               WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 1 AND 9 AND p.gender = 'F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'F'
                THEN '1-9 Yrs F'
-               WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 10 AND 14 AND p.gender = 'M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'M'
                THEN '10-14 Yrs M'
-               WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 10 AND 14 AND p.gender = 'F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'F'
                THEN '10-14 Yrs F'
-               WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 15 AND 19 AND p.gender = 'M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'M'
                THEN '15-19 Yrs M'
-               WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 15 AND 19 AND p.gender = 'F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'F'
                THEN '15-19 Yrs F'
-               WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 20 AND 24 AND p.gender = 'M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
                THEN '20-24 Yrs M'
-               WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 20 AND 24 AND p.gender = 'M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
                THEN '20-24 Yrs F'
-               WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 25 AND 29 AND p.gender = 'M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'M'
                THEN '25-29 Yrs M'
-               WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 25 AND 29 AND p.gender = 'F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'F'
                THEN '25-29 Yrs F'
-               WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 30 AND 34 AND p.gender = 'M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'M'
                THEN '30-34 Yrs M'
-               WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 30 AND 34 AND p.gender = 'F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'F'
                THEN '30-34 Yrs F'
-               WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 35 AND 39 AND p.gender = 'M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'M'
                THEN '35-39 Yrs M'
-               WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 35 AND 39 AND p.gender = 'F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'F'
                THEN '35-39 Yrs F'
-               WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 40 AND 49 AND p.gender = 'M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'M'
                THEN '40-49 Yrs M'
-               WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') BETWEEN 40 AND 49 AND p.gender = 'F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'F'
                THEN '40-49 Yrs F'
-               WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') >= 50 AND p.gender = 'M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'M'
                THEN '> 50 Yrs M'
-               WHEN timestampdiff(YEAR,p.birthdate,'2018-04-18') >= 50 AND p.gender = 'F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
                THEN '> 50 Yrs F'
             END
     ) AS MOHReport225;

@@ -463,60 +463,11 @@
          "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/labTestReport.sql"
       }
    },
-   "numberOfClientsWhoReceivedPretestInformationThisMonth":{
-      "name":"Number of clients who received pre-test information this month",
+   "MOHReportHIVTestingServices(includingVCT,PICT,TB,OI/ART,INPATIENTSandPMTCT)Report":{
+      "name":"MOH Report - HIV testing services (including VCT, PICT, TB, OI/ART, INPATIENTS and PMTCT) Report",
       "type":"MRSGeneric",
       "config":{
-         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsWhoReceivedPretestInformationThisMonth.sql"
-      }
-   },
-   "numberOfClientsReceivingFirstEverTestForHIVThisMonth":{
-      "name":"Number of clients receiving First ever test for HIV this month",
-      "type":"MRSGeneric",
-      "config":{
-         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsReceivingFirstEverTestForHIVThisMonth.sql"
-      }
-   },
-   "numberOfClientsWhoTestedHIVPositiveForTheFirstEverTestThisMonth":{
-      "name":"Number of clients who tested HIV positive for the first ever test this month ",
-      "type":"MRSGeneric",
-      "config":{
-         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsWhoTestedHIVPositiveForTheFirstEverTestThisMonth.sql"
-      }
-   },
-   "numberOfClientsWhoWereRe-testedForHIVThisMonth(excludingforARTinitiation)":{
-      "name":"Number of clients who were re-tested for HIV this month (excluding for  ART initiation)",
-      "type":"MRSGeneric",
-      "config":{
-         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsWhoWereRe-testedForHIVThisMonth(excludingforARTinitiation).sql"
-      }
-   },
-   "numberOfClientsWhoTestedHIVPositiveDuringRetestThisMonth(excludingforARTinitiation)":{
-      "name":"Number of clients who tested HIV positive during retest this month (excluding for ART initiation)",
-      "type":"MRSGeneric",
-      "config":{
-         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsWhoTestedHIVPositiveDuringRetestThisMonth(excludingforARTinitiation).sql"
-      }
-   },
-   "numberOfClientsHIVTestedWhoReceivedResultsandPost-testCounseledthisMonth(excludingforARTinitiation)":{
-      "name":"Number of clients HIV tested who received results and post-test counseled this month (excluding for ART initiation)",
-      "type":"MRSGeneric",
-      "config":{
-         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsHIVTestedWhoReceivedResultsandPost-testCounseledthisMonth(excludingforARTinitiation).sql"
-      }
-   },
-   "numberOfClientsTestedHIVPositiveThisMonth(excludingforARTinitiation)":{
-      "name":"Number of clients tested HIV positive this month (excluding for ART initiation)",
-      "type":"MRSGeneric",
-      "config":{
-         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfClientsTestedHIVPositiveThisMonth(excludingforARTinitiation).sql"
-      }
-   },
-   "numberOfclientslinkedtootherservices":{
-      "name":"Number of clients linked to other services",
-      "type":"MRSGeneric",
-      "config":{
-         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/numberOfclientslinkedtootherservices.sql"
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/MOHReportHIVTestingServices.sql"
       }
    },
    "numberofPLHIVinCareScreenedforTBduringTheirLastVisitthisMonth":{
