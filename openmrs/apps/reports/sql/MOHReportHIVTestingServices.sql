@@ -511,7 +511,7 @@ UNION ALL
 /*Number of clients who tested HIV positive during retest this month (excluding for ART
 initiation)*/
 SELECT/*Pivoting the table*/
-    'Number of clients who tested HIV positive for the first ever test this month' AS '-',
+    'Number of clients who tested HIV positive during retest this month (excluding for ART initiation)' AS '-',
     SUM(lessThan1yrMale) AS '<1 M',
     SUM(lessThan1yrFemale) AS '<1 F',
     SUM(1To9yrMale) AS '1-9 M',
@@ -535,7 +535,7 @@ SELECT/*Pivoting the table*/
 FROM
 (
     SELECT
-         'Number of clients who tested HIV positive for the first ever test this month',
+         'Number of clients who tested HIV positive during retest this month (excluding for ART initiation)',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
          then COUNT(1)  END AS 'lessThan1yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
@@ -647,7 +647,7 @@ UNION ALL
 initiation)*/
 
 SELECT/*Pivoting the table*/
-    'Number of clients who were re-tested for HIV this month (excluding for  ART initiation)' AS '-',
+    'Number of clients HIV tested who received results and post-test counseled this month (excluding for ART initiation)' AS '-',
     SUM(lessThan1yrMale) AS '<1 M',
     SUM(lessThan1yrFemale) AS '<1 F',
     SUM(1To9yrMale) AS '1-9 M',
@@ -671,7 +671,7 @@ SELECT/*Pivoting the table*/
 FROM
 (
     SELECT
-         'Number of clients who were re-tested for HIV this month (excluding for  ART initiation)',
+         'Number of clients HIV tested who received results and post-test counseled this month (excluding for ART initiation)',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
          then COUNT(1)  END AS 'lessThan1yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
