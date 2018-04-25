@@ -1,6 +1,6 @@
 /*Number of TB patients in care tested for HIV this month*/
 SELECT
-   "Number of TB patients in care tested for HIV this month" as '-',
+   "C1. Number of TB patients in care tested for HIV this month" as '-',
    count(DISTINCT ordersRapidHIV.order_id) as 'Count'
 FROM
    obs obsForTBForm
@@ -52,9 +52,9 @@ FROM
 
 UNION ALL
 
-/*Number of TB patients in care tested for HIV this month*/
+/*Number of TB patients in care tested positive for HIV this month*/
 SELECT
-   "Number of TB patients in care tested positive for HIV this month" as '-',
+   "C2. Number of TB patients in care tested positive for HIV this month" as '-',
    count(DISTINCT ordersRapidHIV.order_id) as 'Count'
 FROM
    obs obsForTBForm
@@ -79,7 +79,7 @@ FROM
 
 UNION ALL
 /*Number of PLHIV in care screened for TB during their last visit this month*/
-select "Number of PLHIV in care screened for TB during their last visit this month" as "-", count(1) as "Count"
+select "C3. Number of PLHIV in care screened for TB during their last visit this month" as "-", count(1) as "Count"
 from (select o.person_id
             from person per
                 join obs o on per.person_id = o.person_id
@@ -97,7 +97,7 @@ from (select o.person_id
 
 UNION ALL
 /*Number of PLHIV in care screened for TB and had signs of active TB disease (Presumptive Cases)*/
-SELECT "Number of PLHIV in care screened for TB and had signs of active TB disease (Presumptive Cases)" as '-',
+SELECT "C4. Number of PLHIV in care screened for TB and had signs of active TB disease (Presumptive Cases)" as '-',
 count(1) as 'Count'
  FROM
 (
@@ -132,7 +132,7 @@ GROUP BY person_id,DATE(obs_datetime)
 UNION ALL
 /*Number of PLHIV in care investigated for TB disease this month*/
 select
-    'Number of PLHIV in care investigated for TB disease this month' as '-' ,
+    "C5. Number of PLHIV in care investigated for TB disease this month" as '-' ,
     count(distinct patient_id) as 'Count'
     from
     orders
@@ -153,7 +153,7 @@ UNION ALL
 
 /*Number of PLHIV in care tested positive TB disease this month*/
 select
-'Number of PLHIV in care tested positive TB disease this month' as '-' ,
+'C6. Number of PLHIV in care tested positive TB disease this month' as '-' ,
 count(distinct person_id) as 'Count'
 from obs
 where concept_id IN
@@ -181,7 +181,7 @@ and date(obs.obs_datetime) between date('#startDate#') and date('#endDate#')
 UNION ALL
 /*Number of PLHIV newly enrolled in HIV care with active TB disease*/
 select
-"Number of PLHIV newly enrolled in HIV care with active TB disease" as "-",
+"C7. Number of PLHIV newly enrolled in HIV care with active TB disease" as "-",
 count(distinct obsActiveARTProgram.person_id) as "Count"
 from patient pat
         join obs obsActiveARTProgram on pat.patient_id = obsActiveARTProgram.person_id
@@ -238,7 +238,7 @@ UNION ALL
 
 /*Number of PLHIV in care newly diagnosed with TB before ART initiation*/
 select
-"Number of PLHIV in care newly diagnosed with TB before ART initiation" as "-",
+"C8. Number of PLHIV in care newly diagnosed with TB before ART initiation" as "-",
 count(distinct obsActiveARTProgram.person_id) as "Count"
 from patient pat
         join obs obsActiveARTProgram on pat.patient_id = obsActiveARTProgram.person_id

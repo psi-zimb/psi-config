@@ -476,6 +476,27 @@
      "config" : {
         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/MOHReport-HIVTBCollaborationReport.sql"
      }
-   }
+   },
+  "C1NumberOfTBPatientsInCareTestedForHIVThisMonth":{
+      "name":"C1. Number of TB patients in care tested for HIV this month",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/C1NumberOfTBPatientsInCareTestedForHIVThisMonth.sql"
+      }
+   },
+   "C2NumberOfTBPatientsInCareTestedPositiveForHIVThisMonth":{
+       "name":"C2. Number of TB patients in care tested positive for HIV this month",
+       "type":"MRSGeneric",
+       "config":{
+          "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/C2NumberOfTBPatientsInCareTestedPositiveForHIVThisMonth.sql"
+       }
+    },
+    "C4NumberOfPLHIVInCareScreenedForTBAndHadSignsOfActiveTBDiseasePresumptiveCases":{
+        "name":"C4. Number of PLHIV in care screened for TB and had signs of active TB disease (Presumptive Cases)",
+        "type":"MRSGeneric",
+        "config":{
+           "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/C4NumberOfPLHIVInCareScreenedForTBAndHadSignsOfActiveTBDiseasePresumptiveCases.sql"
+        }
+     }
 
 }

@@ -1,6 +1,6 @@
 /*Number of clients who received pre-test information this month*/
 SELECT/*Pivoting the table*/
-    'Number Of Clients who received pre-test information this month' AS '-',
+    'B1. Number of clients who received pre-test information this month' AS '-',
     SUM(lessThan1yrMale) AS '<1 M',
     SUM(lessThan1yrFemale) AS '<1 F',
     SUM(1To9yrMale) AS '1-9 M',
@@ -24,7 +24,7 @@ SELECT/*Pivoting the table*/
 FROM
 (
     SELECT
-         'Number Of Clients who received pre-test information this month',
+         'B1. Number of clients who received pre-test information this month',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
          then COUNT(1)  END AS 'lessThan1yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
@@ -124,7 +124,7 @@ FROM
 UNION ALL
     /*Number of clients receiving First ever test for HIV this month*/
 SELECT/*Pivoting the table*/
-    'Number of Clients receiving first ever test for HIV this month' AS '-',
+    'B2. Number of clients receiving First ever test for HIV this month' AS '-',
     SUM(lessThan1yrMale) AS '<1 M',
     SUM(lessThan1yrFemale) AS '<1 F',
     SUM(1To9yrMale) AS '1-9 M',
@@ -148,7 +148,7 @@ SELECT/*Pivoting the table*/
     FROM
     (
     SELECT
-         'Number Of Clients who received pre-test information this month',
+         'B2. Number of clients receiving First ever test for HIV this month',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
          THEN COUNT(1)  END AS 'lessThan1yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
@@ -245,7 +245,7 @@ UNION ALL
 
 /*Number of clients who tested HIV positive for the first ever test this month*/
 SELECT/*Pivoting the table*/
-    'Number of clients who tested HIV positive for the first ever test this month' AS '-',
+    'B3. Number of clients who tested HIV positive for the first ever test this month' AS '-',
     SUM(lessThan1yrMale) AS '<1 M',
     SUM(lessThan1yrFemale) AS '<1 F',
     SUM(1To9yrMale) AS '1-9 M',
@@ -269,7 +269,7 @@ SELECT/*Pivoting the table*/
 FROM
 (
     SELECT
-         'Number of clients who tested HIV positive for the first ever test this month',
+         'B3. Number of clients who tested HIV positive for the first ever test this month',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
          then COUNT(1)  END AS 'lessThan1yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
@@ -380,7 +380,7 @@ UNION ALL
 /*Number of clients who were re-tested for HIV this month (excluding for
 ART initiation)*/
 SELECT/*Pivoting the table*/
-    'Number of clients who were re-tested for HIV this month (excluding for  ART initiation)' AS '-',
+    'B4. Number of clients who were re-tested for HIV this month (excluding for ART initiation)' AS '-',
     SUM(lessThan1yrMale) AS '<1 M',
     SUM(lessThan1yrFemale) AS '<1 F',
     SUM(1To9yrMale) AS '1-9 M',
@@ -404,7 +404,7 @@ SELECT/*Pivoting the table*/
 FROM
 (
     SELECT
-         'Number of clients who were re-tested for HIV this month (excluding for  ART initiation)',
+         'B4. Number of clients who were re-tested for HIV this month (excluding for ART initiation) ',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
          then COUNT(1)  END AS 'lessThan1yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
@@ -508,10 +508,9 @@ FROM
     ) AS MOHReport222
 
 UNION ALL
-/*Number of clients who tested HIV positive during retest this month (excluding for ART
-initiation)*/
+/*Number of clients who tested HIV positive during retest this month (excluding for ART initiation)*/
 SELECT/*Pivoting the table*/
-    'Number of clients who tested HIV positive during retest this month (excluding for ART initiation)' AS '-',
+    'B5. Number of clients who tested HIV positive during retest this month (excluding for ART initiation)' AS '-',
     SUM(lessThan1yrMale) AS '<1 M',
     SUM(lessThan1yrFemale) AS '<1 F',
     SUM(1To9yrMale) AS '1-9 M',
@@ -535,7 +534,7 @@ SELECT/*Pivoting the table*/
 FROM
 (
     SELECT
-         'Number of clients who tested HIV positive during retest this month (excluding for ART initiation)',
+         'B5. Number of clients who tested HIV positive during retest this month (excluding for ART initiation)',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
          then COUNT(1)  END AS 'lessThan1yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
@@ -647,7 +646,7 @@ UNION ALL
 initiation)*/
 
 SELECT/*Pivoting the table*/
-    'Number of clients HIV tested who received results and post-test counseled this month (excluding for ART initiation)' AS '-',
+    'B6. Number of clients HIV tested who received results and post-test counselled this month (excluding for ART initiation)' AS '-',
     SUM(lessThan1yrMale) AS '<1 M',
     SUM(lessThan1yrFemale) AS '<1 F',
     SUM(1To9yrMale) AS '1-9 M',
@@ -671,7 +670,7 @@ SELECT/*Pivoting the table*/
 FROM
 (
     SELECT
-         'Number of clients HIV tested who received results and post-test counseled this month (excluding for ART initiation)',
+         'B6. Number of clients HIV tested who received results and post-test counselled this month (excluding for ART initiation)',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
          then COUNT(1)  END AS 'lessThan1yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
@@ -775,7 +774,7 @@ FROM
 UNION ALL
 /*Number of clients tested HIV positive this month (excluding for ART initiation)*/
 SELECT/*Pivoting the table*/
-    'Number of clients tested HIV positive this month (excluding for ART initiation)' AS '-',
+    'B7. Number of clients tested HIV positive this month (excluding for ART initiation)' AS '-',
     SUM(lessThan1yrMale) AS '<1 M',
     SUM(lessThan1yrFemale) AS '<1 F',
     SUM(1To9yrMale) AS '1-9 M',
@@ -799,7 +798,7 @@ SELECT/*Pivoting the table*/
 FROM
 (
     SELECT
-         'Number of clients tested HIV positive this month (excluding for ART initiation)',
+         'B7. Number of clients tested HIV positive this month (excluding for ART initiation)',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
          then COUNT(1)  END AS 'lessThan1yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
@@ -936,19 +935,19 @@ SELECT service as '-',
     SUM(GrtThan50YrsFemale) AS '>50 F'
     FROM
 (SELECT case
-when cn2.name = 'Antenatal PMTCT' then 'Number of clients linked to PMTCT'
-when cn2.name = 'Other medical services' then 'Number of clients linked to Medical Services'
-when cn2.name = 'Male circumcision' then 'Number of clients linked to Voluntary Medical Male circumcision'
-when cn2.name = 'STI treatment centre' then 'Number of clients linked to STI'
-when cn2.name = 'PEP' then 'Number of clients linked to PEP'
-when cn2.name = 'VIAC' then 'Number of clients linked to Cervical Cancer Screening'
-when cn2.name = 'OI-ART clinic' then 'Number of clients linked to OI/ART'
-when cn2.name = 'TB diagnostic center' then 'Number of clients linked to TB Services'
-when cn2.name = 'Nutritional information' then 'Number of clients linked to Nutrition Support Services'
-when cn2.name = 'Other pyscho social support services' then 'Number of clients linked to Psychosocial Support Services'
-when cn2.name = 'Family Planning' then 'Number of clients linked to Family Planning Services'
-when cn2.name = 'PrEP' then 'Number of clients linked to PrEP'
-when cn2.name = 'Other' then 'Number of clients linked to Other'
+when cn2.name = 'Antenatal PMTCT' then 'B8.1. Number of clients linked to PMTCT'
+when cn2.name = 'Other medical services' then 'B8.2. Number of clients linked to Medical Services'
+when cn2.name = 'Male circumcision' then 'B8.3. Number of clients linked to Voluntary Medical Male circumcision'
+when cn2.name = 'STI treatment centre' then 'B8.4. Number of clients linked to STI'
+when cn2.name = 'PEP' then 'B8.5. Number of clients linked to PEP'
+when cn2.name = 'VIAC' then 'B8.6. Number of clients linked to Cervical Cancer Screening'
+when cn2.name = 'OI-ART clinic' then 'B8.7. Number of clients linked to OI/ART'
+when cn2.name = 'TB diagnostic center' then 'B8.8. Number of clients linked to TB Services'
+when cn2.name = 'Nutritional information' then 'B8.9. Number of clients linked to Nutrition Support Services'
+when cn2.name = 'Other pyscho social support services' then 'B8.10. Number of clients linked to Psychosocial Support Services'
+when cn2.name = 'Family Planning' then 'B8.11. Number of clients linked to Family Planning Services'
+when cn2.name = 'PrEP' then 'B8.12. Number of clients linked to PrEP'
+when cn2.name = 'Other' then 'B8.13. Number of clients linked to Other'
 end as Service,
 CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
          then COUNT(1)  END AS 'lessThan1yrMale',
