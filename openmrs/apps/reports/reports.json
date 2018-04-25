@@ -463,7 +463,7 @@
          "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/labTestReport.sql"
       }
    },
-   "MOHReportHIVTestingServices(includingVCT,PICT,TB,OI/ART,INPATIENTSandPMTCT)Report":{
+   "MOHReport-HIVTestingServices(includingVCT,PICT,TB,OI/ART,INPATIENTSandPMTCT)Report":{
       "name":"MOH Report - HIV testing services (including VCT, PICT, TB, OI/ART, INPATIENTS and PMTCT) Report",
       "type":"MRSGeneric",
       "config":{
@@ -491,6 +491,13 @@
           "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/C2NumberOfTBPatientsInCareTestedPositiveForHIVThisMonth.sql"
        }
     },
+    "C3NumberOfPLHIVInCareScreenedForTBDuringTheirLastVisitThisMonth":{
+        "name":"C3. Number of PLHIV in care screened for TB during their last visit this month",
+        "type":"MRSGeneric",
+        "config":{
+           "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/C3NumberOfPLHIVInCareScreenedForTBDuringTheirLastVisitThisMonth.sql"
+        }
+     },
     "C4NumberOfPLHIVInCareScreenedForTBAndHadSignsOfActiveTBDiseasePresumptiveCases":{
         "name":"C4. Number of PLHIV in care screened for TB and had signs of active TB disease (Presumptive Cases)",
         "type":"MRSGeneric",
