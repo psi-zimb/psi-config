@@ -911,8 +911,10 @@ FROM
 UNION ALL
 
 /*Number of clients linked to other services*/
-Select * FROM (
-SELECT service as '-',
+Select *
+ FROM (
+Select
+    Service as '-',
     SUM(lessThan1yrMale) AS '<1 M',
     SUM(lessThan1yrFemale) AS '<1 F',
     SUM(1To9yrMale) AS '1-9 M',
@@ -934,7 +936,25 @@ SELECT service as '-',
     SUM(GrtThan50YrsMale) AS '>50 M',
     SUM(GrtThan50YrsFemale) AS '>50 F'
     FROM
-(SELECT case
+(SELECT
+case
+when cn2.name = 'Antenatal PMTCT' then 1
+when cn2.name = 'Other medical services' then 2
+when cn2.name = 'Male circumcision' then 3
+when cn2.name = 'STI treatment centre' then 4
+when cn2.name = 'PEP' then 5
+when cn2.name = 'VIAC' then 6
+when cn2.name = 'OI-ART clinic' then 7
+when cn2.name = 'TB diagnostic center' then 8
+when cn2.name = 'Nutritional information' then 9
+when cn2.name = 'Other pyscho social support services' then 10
+when cn2.name = 'Family Planning' then 11
+when cn2.name = 'PrEP' then 12
+when cn2.name = 'Other' then 13
+END as orderingColumn,
+
+
+case
 when cn2.name = 'Antenatal PMTCT' then 'B8.1. Number of clients linked to PMTCT'
 when cn2.name = 'Other medical services' then 'B8.2. Number of clients linked to Medical Services'
 when cn2.name = 'Male circumcision' then 'B8.3. Number of clients linked to Voluntary Medical Male circumcision'
@@ -949,6 +969,7 @@ when cn2.name = 'Family Planning' then 'B8.11. Number of clients linked to Famil
 when cn2.name = 'PrEP' then 'B8.12. Number of clients linked to PrEP'
 when cn2.name = 'Other' then 'B8.13. Number of clients linked to Other'
 end as Service,
+
 CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
          then COUNT(1)  END AS 'lessThan1yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
@@ -1060,8 +1081,10 @@ CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
                THEN '> 50 Yrs M'
                WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
                THEN '> 50 Yrs F'
-            END) as MOHReport242
+            END
+
+            ) as MOHReport242
             GROUP BY service
-            ORDER BY service
-          ) as A
+            ORDER BY orderingColumn
+            ) as A
       ;
