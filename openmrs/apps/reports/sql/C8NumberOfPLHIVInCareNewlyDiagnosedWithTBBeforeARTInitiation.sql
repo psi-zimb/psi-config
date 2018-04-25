@@ -1,5 +1,5 @@
 SELECT/*Pivoting the table*/
-    "C1. Number of TB patients in care tested for HIV this month" AS '-',
+    "C8. Number of PLHIV in care newly diagnosed with TB before ART initiation" AS '-',
     SUM(lessThan1yrMale) AS '<1 M',
     SUM(lessThan1yrFemale) AS '<1 F',
     SUM(1To9yrMale) AS '1-9 M',
@@ -23,7 +23,7 @@ SELECT/*Pivoting the table*/
     FROM
     (
     SELECT
-         "C1. Number of TB patients in care tested for HIV this month",
+         "C8. Number of PLHIV in care newly diagnosed with TB before ART initiation",
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
          THEN COUNT(1)  END AS 'lessThan1yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
@@ -66,24 +66,60 @@ SELECT/*Pivoting the table*/
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM
 (
-SELECT
-    distinct ordersRapidHIV.order_id,ordersRapidHIV.patient_id
-FROM
-obs obsForTBForm
-JOIN orders ordersRapidHIV ON obsForTBForm.person_id = ordersRapidHIV.patient_id AND obsForTBForm.concept_id in
-      ( SELECT concept_id FROM concept_view WHERE concept_full_name = 'TB History, Are you currently being treated for TB?' AND retired = 0 )
-      AND obsForTBForm.value_coded In
-      ( SELECT concept_id FROM concept_view WHERE concept_full_name IN ('Yes') AND retired = 0 )
-      AND obsForTBForm.voided = 0
-      AND ordersRapidHIV.concept_id =
-      ( select concept_id from concept_view where concept_full_name = 'Rapid HIV Test' AND retired = 0 )
-      AND ordersRapidHIV.date_stopped is NULL
-      AND ordersRapidHIV.order_action in ('NEW','REVISE' )
-      AND ordersRapidHIV.date_activated > obsForTBForm.obs_datetime
-      AND DATE(ordersRapidHIV.date_activated) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
+        select DISTINCT patient_id
+        from patient pat
+                join obs obsActiveARTProgram on pat.patient_id = obsActiveARTProgram.person_id
+                join concept_name cnARTProgramStartDate on obsActiveARTProgram.concept_id = cnARTProgramStartDate.concept_id
+                join obs obsActiveDiagnosis on pat.patient_id = obsActiveDiagnosis.person_id
+                join concept_name cnDiagnosisName on obsActiveDiagnosis.value_coded = cnDiagnosisName.concept_id
+                join concept on concept.concept_id=cnDiagnosisName.concept_id
+        where cnARTProgramStartDate.name = 'PR, Start date of ART program'
+                and cnARTProgramStartDate.concept_name_type = 'FULLY_SPECIFIED'
+                AND cnARTProgramStartDate.voided = 0
+                and obsActiveARTProgram.voided = 0
+        and obsActiveARTProgram.person_id not in
+                 (/*Patient with ART stop date <= report end date then remove the patient else show the patient for the past period.*/
+                 select obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id
+                 and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0
+                 Where date(obs.value_datetime) <= Date('#endDate#')
+                 )
+            and concept.class_id=4
+            and
+        cnDiagnosisName.name IN (
 
-) as numberOfTBPatientsInCareTestedforHIVThisMonth
-INNER JOIN person p ON p.person_id = numberOfTBPatientsInCareTestedforHIVThisMonth.patient_id
+                    "TB exposure",
+                    "TB MDR",
+                    "TB MDR, presumptive",
+                    "TB, pulmonary (WHO 3)",
+                    "TB meningitis",
+                    "TB peritonitis",
+                    "TB pericarditis",
+                    "TB lymphadenitis",
+                    "TB of bones and joints",
+                    "Gastrointestinal TB",
+                    "TB of the liver"
+                      )
+        and date(obsActiveDiagnosis.obs_datetime) > date(obsActiveARTProgram.value_datetime)
+        ANd obsActiveDiagnosis.obs_group_id not in
+        (/*Removing diagnosis group if there are any revisions*/
+            Select obs_group_id from obs where concept_id = 51 and  value_coded = 1 and voided=0 and obs_group_id is not null
+            AND obs.person_id = obsActiveDiagnosis.person_id
+            and date(obs.date_created) <= date('#endDate#')
+        )
+        AND obsActiveDiagnosis.obs_group_id not in (/*Removing ruled out diagnosis*/
+            Select obs_group_id from obs where concept_id = 49 and  value_coded = 48 and voided=0 and obs_group_id is not null
+            AND obs.person_id = obsActiveDiagnosis.person_id
+            AND obs.obs_group_id = obsActiveDiagnosis.obs_group_id
+            and date(obs.obs_datetime) <= date('#endDate#')
+        )
+        and cnDiagnosisName.concept_name_type = 'FULLY_SPECIFIED'
+        AND cnDiagnosisName.voided = 0
+        and obsActiveDiagnosis.voided = 0
+        and date(obsActiveDiagnosis.obs_datetime) <= date('#endDate#')
+        and date(obsActiveARTProgram.value_datetime) between date('#startDate#') and date('#endDate#')
+
+) as numberOfPLHIVInCareNewlyDiagnosedWithTBBeforeARTInitiation
+INNER JOIN person p ON p.person_id = numberOfPLHIVInCareNewlyDiagnosedWithTBBeforeARTInitiation.patient_id
 
 GROUP BY
            CASE
@@ -128,4 +164,4 @@ GROUP BY
                WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
                THEN '> 50 Yrs F'
             END
-    ) AS MOHReportC1NumberOfTBPatientsInCareTestedforHIVThisMonth
+    ) AS MOHReportC8numberOfPLHIVInCareNewlyDiagnosedWithTBBeforeARTInitiation
