@@ -64,7 +64,7 @@ SELECT/*Pivoting the table*/
          THEN COUNT(1)  END AS 'GrtThan50YrsMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
-    FROM 
+    FROM
 (
   SELECT
     DISTINCT ordersRapidHIV.order_id,ordersRapidHIV.patient_id
@@ -88,7 +88,7 @@ FROM
       AND obsRapidHIVResults.value_coded = (SELECT concept_id FROM concept_view where concept_full_name IN ('Positive') AND retired=0)
       AND obsRapidHIVResults.voided = 0
       AND DATE(ordersRapidHIV.date_activated) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
-  
+
 ) as numberOfTBPatientsInCareTestedPositiveForHIVThisMonth
 INNER JOIN person p ON p.person_id = numberOfTBPatientsInCareTestedPositiveForHIVThisMonth.patient_id
 
@@ -135,4 +135,4 @@ GROUP BY
                WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
                THEN '> 50 Yrs F'
             END
-    ) AS MOHReportC2NumberOfTBPatientsInCareTestedPositiveForHIVThisMonth
+    ) AS MOHReportC2NumberOfTBPatientsInCareTestedPositiveForHIVThisMonth;

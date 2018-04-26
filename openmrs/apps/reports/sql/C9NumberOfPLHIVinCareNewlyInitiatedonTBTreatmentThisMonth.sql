@@ -1,4 +1,4 @@
-                   
+
 SELECT/*Pivoting the table*/
     'C9. Number of PLHIV in care newly initiated on TB treatment this month' AS '-',
     SUM(lessThan1yrMale) AS '<1 M',
@@ -24,7 +24,7 @@ SELECT/*Pivoting the table*/
 FROM
 
 (
-        select 
+        select
 'C9. Number of PLHIV in care newly initiated on TB treatment this month',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
          then COUNT(distinct obsTBProgram.obs_id)  END AS 'lessThan1yrMale',
@@ -73,21 +73,21 @@ FROM
                                 join obs obsActiveARTProgram on pat.patient_id = obsActiveARTProgram.person_id
                                 join concept_name cnARTProgramStartDate on obsActiveARTProgram.concept_id = cnARTProgramStartDate.concept_id
                                 join person p on obsTBProgram.person_id = p.person_id
-                where 
-                                cnTBProgram.name = 'PR, Start date of TB program' 
-                                        and cnTBProgram.concept_name_type = 'FULLY_SPECIFIED' 
+                where
+                                cnTBProgram.name = 'PR, Start date of TB program'
+                                        and cnTBProgram.concept_name_type = 'FULLY_SPECIFIED'
                                         AND cnTBProgram.voided = 0
                                         and obsTBProgram.voided = 0
                                         and date(obsTBProgram.value_datetime) between date('#startDate#') and date('#endDate#')
-                AND 
-                                cnARTProgramStartDate.name = 'PR, Start date of ART program' 
-                                        and cnARTProgramStartDate.concept_name_type = 'FULLY_SPECIFIED' 
+                AND
+                                cnARTProgramStartDate.name = 'PR, Start date of ART program'
+                                        and cnARTProgramStartDate.concept_name_type = 'FULLY_SPECIFIED'
                                         AND cnARTProgramStartDate.voided = 0
                                         and obsActiveARTProgram.voided = 0
                 and obsActiveARTProgram.person_id not in
                          (/*Patient with ART stop date <= report end date then remove the patient else show the patient for the past period.*/
-                         select obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id 
-                         and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0 
+                         select obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id
+                         and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0
                          Where date(obs.value_datetime) <= Date('#endDate#'))
                 and date(obsTBProgram.value_datetime) > date(obsActiveARTProgram.value_datetime)
                 GROUP BY
@@ -134,4 +134,4 @@ FROM
                THEN '> 50 Yrs F'
             END
          )
-         AS MOHReport235
+         AS MOHReportC9NumberPLHIVInCareNewlyInitiatedOnTBTreatmentThisMonth;

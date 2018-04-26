@@ -64,7 +64,7 @@ SELECT/*Pivoting the table*/
          THEN COUNT(1)  END AS 'GrtThan50YrsMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
-    FROM 
+    FROM
 (
                 select
                 distinct obsActiveARTProgram.person_id
@@ -164,4 +164,4 @@ GROUP BY
                WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
                THEN '> 50 Yrs F'
             END
-    ) AS MOHReportC7NumberofPLHIVnewlyenrolledinHIVcareWithActiveTBDisease
+    ) AS MOHReportC7NumberofPLHIVnewlyenrolledinHIVcareWithActiveTBDisease;
