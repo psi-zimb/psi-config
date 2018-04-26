@@ -539,5 +539,12 @@
       "config":{
          "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/C9NumberOfPLHIVinCareNewlyInitiatedonTBTreatmentThisMonth.sql"
       }
+   },
+   "RapidHIVLabTestPerAgeGroupAndYearPositiveOrnegative":{
+      "name":"Rapid HIV lab test per age group and year (positive or negative)",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/RapidHIVLabTestPerAgeGroupAndYearPositiveOrnegative.sql"
+      }
    }
 }
