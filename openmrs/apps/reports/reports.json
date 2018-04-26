@@ -553,5 +553,12 @@
       "config":{
          "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/RapidHIVLabTestPerAgeGroupAndYearPositiveOrnegative.sql"
       }
+   },
+   "C11NumberofPLHIVscreenedforTBandEligibleforIPTthismonth":{
+      "name":"C11. Number of PLHIV screened for TB and Eligible for IPT this month",
+      "type":"MRSGeneric",
+      "config":{
+         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/C11NumberofPLHIVscreenedforTBandEligibleforIPTthismonth.sql"
+      }
    }
 }
