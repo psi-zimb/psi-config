@@ -78,10 +78,15 @@ and obsTBScreening.voided = 0
 and date(obsTBScreening.obs_datetime) <= date('#endDate#')
 and cnARTProgramStartDate.name = 'PR, Start date of ART program' and cnARTProgramStartDate.concept_name_type = 'FULLY_SPECIFIED'      
 and obsARTProgramStartDate.voided = 0      
-and datediff(date('#endDate#'), (Select max(value_datetime) from obs where person_id = obsARTProgramStartDate.person_id and concept_id = 
-    (
-    select concept_id from concept_name where name = 'PR, Start date of ART program' and 
-    concept_name_type = 'FULLY_SPECIFIED' and voided = 0 ))) > 120
+and 
+datediff
+      ( date('#endDate#'), 
+        (Select max(value_datetime) from obs where voided = 0 and person_id = obsARTProgramStartDate.person_id and concept_id = 
+      (
+      select concept_id from concept_name where name = 'PR, Start date of ART program' and 
+      concept_name_type = 'FULLY_SPECIFIED' and voided = 0 )
+      )
+    ) > 120
         
 and obsARTProgramStartDate.person_id NOT in
                     (
