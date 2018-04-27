@@ -567,5 +567,12 @@
      "config":{
         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/C13numberOfPLHIVinCareStartedOnIsoniazidPreventiveTherapy.sql"
      }
+  },
+  "C14NumberOfPLHIVInCareKnownToHaveDiedWhilstOnIPTThisMonth":{
+     "name":"C14. Number of PLHIV in care known to have died whilst on IPT this month",
+     "type":"MRSGeneric",
+     "config":{
+        "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/C14NumberOfPLHIVInCareKnownToHaveDiedWhilstOnIPTThisMonth.sql"
+     }
   }
 }
