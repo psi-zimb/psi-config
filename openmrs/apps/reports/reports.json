@@ -553,5 +553,19 @@
       "config":{
          "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/C11NumberofPLHIVscreenedforTBandEligibleforIPTthismonth.sql"
       }
-   }
+   },
+   "C12NumberofPLHIVnewlyEnrolledInHIVcareWhoWereInitiatedOnIPTthisMonth":{
+     "name":"C12. Number of PLHIV newly enrolled in HIV care who were initiated on IPT this month",
+     "type":"MRSGeneric",
+     "config":{
+        "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/C12NumberofPLHIVnewlyEnrolledInHIVcareWhoWereInitiatedOnIPTthisMonth.sql"
+     }
+  },
+  "C13numberOfPLHIVinCareStartedOnIsoniazidPreventiveTherapy":{
+     "name":"C13. Number of PLHIV in care started on Isoniazid Preventive Therapy",
+     "type":"MRSGeneric",
+     "config":{
+        "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/C13numberOfPLHIVinCareStartedOnIsoniazidPreventiveTherapy.sql"
+     }
+  }
 }
