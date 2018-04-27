@@ -83,7 +83,7 @@ SELECT/*Pivoting the table*/
         and obsForTBProg.value_datetime < obsForARTProg.value_datetime
         And obsForTBProg.voided = 0
         )
-        AND date(obsForARTProg.date_created)  between date('#startDate#') and date('#endDate#')
+        AND date(obsForARTProg.value_datetime)  between date('#startDate#') and date('#endDate#')
         AND obsForARTProg.person_id not in
               (/*Patient with ART stop date <= report end date then remove the patient else show the patient for the past period.*/
               select obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id
