@@ -76,21 +76,31 @@ SELECT/*Pivoting the table*/
      and obsHIVTest.obs_datetime < obsForARTProg.value_datetime
      and obsHIVTest.voided = 0
      )
-     and obsForARTProg.person_id in (
-     select person_id from obs obsForTBProg
-     where concept_id = (select concept_id from concept_view where concept_full_name = "PR, Start date of TB program" and voided =0)
-     and obsForTBProg.value_datetime < obsForARTProg.value_datetime
-     And obsForTBProg.voided = 0
-     AND 1 =
-     (/*Patient with TB stop date <= report end date then remove the patient else show the patient for the past period.*/
-           select case when Ifnull( max(obs.value_datetime),1) = 1 then 1 else 0 end
-           from obs
-           INNER JOIN concept_view on obs.concept_id=concept_view.concept_id
-           and concept_view.concept_full_name = "PR, TB Program Stop Date"
-           and obs.voided=0
-           Where date(obs.value_datetime) <= Date('#endDate#')
-           And  obs.person_id = obsForTBProg.person_id
-      )
+     and obsForARTProg.person_id in
+     (
+     select
+     person_id
+     from
+     obs obsForTBProg
+     where concept_id = (
+                            select
+                            concept_id
+                            from concept_view
+                            where concept_full_name = "PR, Start date of TB program" and voided =0
+                        )
+              and obsForTBProg.value_datetime < obsForARTProg.value_datetime
+              And obsForTBProg.voided = 0
+              AND 1 =
+               (/*Patient with TB stop date <= report end date then remove the patient else show the patient for the past period.*/
+                     select case when Ifnull( max(obs.value_datetime),1) = 1 then 1 else 0 end
+                     from obs
+                     INNER JOIN concept_view on obs.concept_id=concept_view.concept_id
+                     and concept_view.concept_full_name = "PR, TB Program Stop Date"
+                     and obs.voided=0
+                     Where date(obs.value_datetime) <= Date('#endDate#')
+                     And  obs.person_id = obsForTBProg.person_id
+                     AND date(obs.value_datetime) >= date(obsForTBProg.value_datetime)
+                )
   )
      AND date(obsForARTProg.value_datetime)  between date('#startDate#') and date('#endDate#')
      AND obsForARTProg.person_id not in
@@ -99,6 +109,7 @@ SELECT/*Pivoting the table*/
            and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0
            Where date(obs.value_datetime) <= Date('#endDate#'))
      AND obsForARTProg.voided = 0
+
 ) as numberOfPLHIVInCareWithTBStartedOnARTThisMonth
 INNER JOIN person p ON p.person_id = numberOfPLHIVInCareWithTBStartedOnARTThisMonth.patient_id
 GROUP BY
