@@ -1402,16 +1402,16 @@ SELECT/*Pivoting the table*/
            INNER JOIN concept_view on obs.concept_id=concept_view.concept_id
            and concept_view.concept_full_name = "PR, TB Program Stop Date"
            and obs.voided=0
-           Where date(obs.value_datetime) <= Date('2018-04-15')
+           Where date(obs.value_datetime) <= Date('#endDate#')
            And  obs.person_id = obsForTBProg.person_id
-      )         
+      )
   )
-     AND date(obsForARTProg.value_datetime)  between date('2018-04-01') and date('2018-04-15')
+     AND date(obsForARTProg.value_datetime)  between date('#startDate#') and date('#endDate#')
      AND obsForARTProg.person_id not in
            (/*Patient with ART stop date <= report end date then remove the patient else show the patient for the past period.*/
            select obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id
            and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0
-           Where date(obs.value_datetime) <= Date('2018-04-15'))
+           Where date(obs.value_datetime) <= Date('#endDate#'))
      AND obsForARTProg.voided = 0
 ) as numberOfPLHIVInCareWithTBStartedOnARTThisMonth
 INNER JOIN person p ON p.person_id = numberOfPLHIVInCareWithTBStartedOnARTThisMonth.patient_id
