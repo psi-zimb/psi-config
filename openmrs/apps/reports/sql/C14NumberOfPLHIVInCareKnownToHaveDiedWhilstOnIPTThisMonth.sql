@@ -66,27 +66,86 @@ SELECT/*Pivoting the table*/
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM
 (
-          select person_id,value_datetime,obsForIPTProg.obs_datetime,obsForIPTProg.date_created from patient pat
-        join obs obsForIPTProg on pat.patient_id = obsForIPTProg.person_id
-        join concept_name cnForIPTProg on cnForIPTProg.concept_id = obsForIPTProg.concept_id
+  select
+person_id,
+value_datetime,
+obsForIPTProg.obs_datetime,
+obsForIPTProg.date_created
+    from patient pat
+    join obs obsForIPTProg on pat.patient_id = obsForIPTProg.person_id
+    join concept_name cnForIPTProg on cnForIPTProg.concept_id = obsForIPTProg.concept_id
+    where cnForIPTProg.name = 'PR, Start date of IPT program'
+    and cnForIPTProg.concept_name_type = 'FULLY_SPECIFIED'
+    and obsForIPTProg.voided = 0
 
-        where cnForIPTProg.name = 'PR, Start date of IPT program' and cnForIPTProg.concept_name_type = 'FULLY_SPECIFIED'
-        and obsForIPTProg.voided = 0
-        and
-        (
-        obsForIPTProg.person_id in
-        (Select person_id from obs
-        where concept_id = (SELECT concept_id FROM concept_view WHERE concept_full_name = 'AS, Activity status' AND retired=0)
-        and value_coded = (SELECT concept_id FROM concept_view WHERE concept_full_name = 'Deceased' AND retired=0) and voided = 0)
-        or
-        obsForIPTProg.person_id in
-        (SELECT DISTINCT obs.person_id from obs
-         join obs obs1 on obs.obs_group_id = obs1.obs_group_id
-         where obs.concept_id = (SELECT concept_id FROM concept_view WHERE concept_full_name = 'PR, Reason for Stopping IPT Program' AND retired=0)
-         and obs.value_coded = (SELECT concept_id FROM concept_view WHERE concept_full_name = 'PR, Deceased' AND retired=0) and obs.voided = 0)
-         )
+    AND (
+                obsForIPTProg.person_id in
+                        (
+                        Select
+                        person_id
+                        from obs
+                        where concept_id = (
+                                              SELECT concept_id
+                                              FROM concept_view
+                                              WHERE concept_full_name = 'AS, Activity status'
+                                              AND retired=0
+                                            )
+                        and value_coded = (
+                                              SELECT concept_id
+                                              FROM concept_view
+                                              WHERE concept_full_name = 'Deceased'
+                                              AND retired=0
+                                           )
+                        and voided = 0
+                        AND DATE(obs.obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
 
-        AND DATE(obsForIPTProg.value_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
+                        )
+
+
+                        or
+
+
+                        obsForIPTProg.person_id in
+                        (
+                              Select
+                              obsForIPTStopDate.person_id
+                              from obs obsForIPTStopDate
+                              where
+                              Date(obsForIPTStopDate.value_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
+                              AND obsForIPTStopDate.voided = 0
+                              AND obsForIPTStopDate.concept_id =  (
+                                                                      SELECT
+                                                                      concept_id
+                                                                      FROM concept_view
+                                                                      WHERE
+                                                                      concept_full_name = 'PR, IPT Program Stop Date'
+                                                                      AND retired=0
+                                                                   )
+                              AND obsForIPTStopDate.obs_group_id in (
+                             /*Reason for stopping IPT program as Deceased*/
+                                                 select obs_group_id
+                                                 from obs reasonAsDeceasedForStoppingIPT
+                                                 where reasonAsDeceasedForStoppingIPT.concept_id = (
+                                                                                                      SELECT
+                                                                                                      concept_id
+                                                                                                      FROM concept_view
+                                                                                                      WHERE
+                                                                                                      concept_full_name = 'PR, Reason for Stopping IPT Program'
+                                                                                                      AND retired=0
+                                                                                                    )
+                                                 AND reasonAsDeceasedForStoppingIPT.value_coded = (
+                                                                                                      SELECT
+                                                                                                      concept_id
+                                                                                                      FROM concept_view
+                                                                                                      WHERE
+                                                                                                      concept_full_name = 'PR, Deceased'
+                                                                                                      AND retired=0
+                                                                                                   )
+                                                 And obsForIPTStopDate.person_id = reasonAsDeceasedForStoppingIPT.person_id
+                                                 AND reasonAsDeceasedForStoppingIPT.voided = 0
+                             )
+                         )
+           )
 
 ) as numberOfPLHIVInCareKnownToHaveDiedWhilstOnIPTThisMonth
 INNER JOIN person p ON p.person_id = numberOfPLHIVInCareKnownToHaveDiedWhilstOnIPTThisMonth.person_id
