@@ -582,6 +582,13 @@
         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/C15NumberOfPLHIVinCareLostToFollowUpWhilstOnIPTthisMonth.sql"
      }
   },
+   "C16NumberofPLHIVInCareonIPTWhoDevelopedAdverseEventsThisMonth.sql": {
+    "name":"C16. Number of PLHIV in care on IPT who developed adverse events this month",
+    "type":"MRSGeneric",
+    "config":{
+       "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/C16NumberofPLHIVInCareonIPTWhoDevelopedAdverseEventsThisMonth.sql"
+    }
+  },
   "C17NumberOfPLHIVInCareStoppingIPTDueToSevereAdvanceEventsThisMonth": {
     "name":"C17. Number of PLHIV in care stopping IPT due to severe advance events this month",
     "type":"MRSGeneric",
