@@ -1,5 +1,5 @@
 SELECT/*Pivoting the table*/
-    "C17. Number of PLHIV in care stopping IPT due to severe advance events this month" AS '-',
+    "C18. Number of PLHIV in care transferred out on IPT this month" AS '-',
     SUM(lessThan1yrMale) AS '<1 M',
     SUM(lessThan1yrFemale) AS '<1 F',
     SUM(1To9yrMale) AS '1-9 M',
@@ -23,7 +23,7 @@ SELECT/*Pivoting the table*/
     FROM
     (
     SELECT
-         "C17. Number of PLHIV in care stopping IPT due to severe advance events this month",
+         "C18. Number of PLHIV in care transferred out on IPT this month",
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
          THEN COUNT(1)  END AS 'lessThan1yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
@@ -66,46 +66,89 @@ SELECT/*Pivoting the table*/
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM
     (
-      SELECT
-      obsForIPTStopDate.person_id,obsForIPTStopDate.value_datetime
-      FROM obs obsForIPTStopDate
-      WHERE
-      DATE(obsForIPTStopDate.value_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
-      AND obsForIPTStopDate.voided = 0
-      AND obsForIPTStopDate.concept_id =  (
-                                            SELECT
-                                            concept_id
-                                            FROM concept_view
-                                            WHERE
-                                            concept_full_name = 'PR, IPT Program Stop Date'
-                                            AND retired=0
-                                           )
-      AND obsForIPTStopDate.obs_group_id IN
-                                    (
-     /*Reason for stopping IPT program as Adverse effect*/
-                 SELECT obs_group_id
-                 FROM obs reasonAsDeceasedForStoppingIPT
-                 WHERE reasonAsDeceasedForStoppingIPT.concept_id = (
-                                                                      SELECT
-                                                                      concept_id
-                                                                      FROM concept_view
-                                                                      WHERE
-                                                                      concept_full_name = 'PR, Reason for Stopping IPT Program'
-                                                                      AND retired=0
-                                                                    )
-                 AND reasonAsDeceasedForStoppingIPT.value_coded = (
-                                                                      SELECT
-                                                                      concept_id
-                                                                      FROM concept_view
-                                                                      WHERE
-                                                                      concept_full_name = 'PR, Adverse effect / event'
-                                                                      AND retired=0
-                                                                   )
-                 AND obsForIPTStopDate.person_id = reasonAsDeceasedForStoppingIPT.person_id
-                 AND reasonAsDeceasedForStoppingIPT.voided = 0
-                                      )
-  ) AS numberOfPLHIVInCareStoppingIPTDueToSevereAdvanceEventsThisMonth
-  INNER JOIN person p ON p.person_id = numberOfPLHIVInCareStoppingIPTDueToSevereAdvanceEventsThisMonth.person_id
+    SELECT
+    person_id,
+    value_datetime,
+    obsForIPTProg.obs_datetime,
+    obsForIPTProg.date_created
+        from patient pat
+        join obs obsForIPTProg on pat.patient_id = obsForIPTProg.person_id
+        join concept_name cnForIPTProg on cnForIPTProg.concept_id = obsForIPTProg.concept_id
+        where cnForIPTProg.name = 'PR, Start date of IPT program'
+        and cnForIPTProg.concept_name_type = 'FULLY_SPECIFIED'
+        and obsForIPTProg.voided = 0
+
+        AND (
+            obsForIPTProg.person_id in
+                (
+                SELECT
+                person_id
+                from obs
+                where concept_id = (
+                                      SELECT concept_id
+                                      FROM concept_view
+                                      WHERE concept_full_name = 'AS, Activity status'
+                                      AND retired=0
+                                    )
+                and value_coded = (
+                                      SELECT concept_id
+                                      FROM concept_view
+                                      WHERE concept_full_name = 'Transfer Out'
+                                      AND retired=0
+                                   )
+                and voided = 0
+                AND DATE(obs.obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
+
+                )
+
+
+                or
+
+
+                obsForIPTProg.person_id in
+                (
+                      SELECT
+                      obsForIPTStopDate.person_id
+                      from obs obsForIPTStopDate
+                      where
+                      Date(obsForIPTStopDate.value_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
+                      AND obsForIPTStopDate.voided = 0
+                      AND obsForIPTStopDate.concept_id =  (
+                                                              SELECT
+                                                              concept_id
+                                                              FROM concept_view
+                                                              WHERE
+                                                              concept_full_name = 'PR, IPT Program Stop Date'
+                                                              AND retired=0
+                                                           )
+                      AND obsForIPTStopDate.obs_group_id in (
+                     /*Reason for stopping IPT program as TransferOut*/
+                                         SELECT obs_group_id
+                                         from obs reasonAsDeceasedForStoppingIPT
+                                         where reasonAsDeceasedForStoppingIPT.concept_id = (
+                                                                                              SELECT
+                                                                                              concept_id
+                                                                                              FROM concept_view
+                                                                                              WHERE
+                                                                                              concept_full_name = 'PR, Reason for Stopping IPT Program'
+                                                                                              AND retired=0
+                                                                                            )
+                                         AND reasonAsDeceasedForStoppingIPT.value_coded = (
+                                                                                              SELECT
+                                                                                              concept_id
+                                                                                              FROM concept_view
+                                                                                              WHERE
+                                                                                              concept_full_name = 'PR, Transfer out'
+                                                                                              AND retired=0
+                                                                                           )
+                                         And obsForIPTStopDate.person_id = reasonAsDeceasedForStoppingIPT.person_id
+                                         AND reasonAsDeceasedForStoppingIPT.voided = 0
+                     )
+                 )
+           )
+
+    ) AS numberOfPLHIVInCareTransferredOutOnIPTThisMonth
+  INNER JOIN person p ON p.person_id = numberOfPLHIVInCareTransferredOutOnIPTThisMonth.person_id
 
   GROUP BY
              CASE
@@ -150,4 +193,4 @@ SELECT/*Pivoting the table*/
                  WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
                  THEN '> 50 Yrs F'
               END
-      ) AS MOHReportC17numberOfPLHIVInCareStoppingIPTDueToSevereAdvanceEventsThisMonth
+      ) AS MOHReportC18numberOfPLHIVInCareTransferredOutOnIPTThisMonth;

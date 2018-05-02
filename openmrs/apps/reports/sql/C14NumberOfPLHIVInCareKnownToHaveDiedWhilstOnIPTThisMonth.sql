@@ -66,7 +66,7 @@ SELECT/*Pivoting the table*/
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM
 (
-  select
+select
 person_id,
 value_datetime,
 obsForIPTProg.obs_datetime,

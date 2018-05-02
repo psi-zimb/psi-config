@@ -581,7 +581,13 @@
     "config":{
        "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/C17NumberOfPLHIVInCareStoppingIPTDueToSevereAdvanceEventsThisMonth.sql"
     }
+  },
+  "C18NumberOfPLHIVInCareTransferredOutOnIPTThisMonth": {
+    "name":"C18. Number of PLHIV in care transferred out on IPT this month",
+    "type":"MRSGeneric",
+    "config":{
+       "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/C18NumberOfPLHIVInCareTransferredOutOnIPTThisMonth.sql"
+    }
   }
-
 
 }
