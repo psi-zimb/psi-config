@@ -609,6 +609,13 @@
     "config":{
        "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/C19NumberOfPLHIVInCareTransferringInWhilstOnIPTThisMonth.sql"
     }
+  },
+  "C21NumberOfClientsInCareWhoCompletedIPTCourseThisMonth" :{
+    "name":"C21. Number of clients in care who completed IPT course this month",
+    "type":"MRSGeneric",
+    "config":{
+       "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/C21NumberOfClientsInCareWhoCompletedIPTCourseThisMonth.sql"
+    }
   }
 
 }
