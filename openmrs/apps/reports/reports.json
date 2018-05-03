@@ -665,6 +665,13 @@
      "config":{
         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/D7NumberOfPLHIVInCareOnCTXDevelopedAdverseEventsThisMonth.sql"
     }
-   }
+  },
+    "D8NumberOfPLHIVInCareStoppingCotrimoxazoleProphylaxisDueToAdverseEventsThisMonth" : {
+       "name" : "D8. Number of PLHIV in care stopping Cotrimoxazole prophylaxis due to adverse events this month",
+       "type" : "MRSGeneric",
+       "config" : {
+          "sqlPath" : "/var/www/bahmni_config/openmrs/apps/reports/sql/D8NumberOfPLHIVInCareStoppingCotrimoxazoleProphylaxisDueToAdverseEventsThisMonth.sql"
+       }
+    }
 
 }
