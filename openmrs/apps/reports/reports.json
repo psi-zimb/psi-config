@@ -624,6 +624,13 @@
        "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/C21NumberOfClientsInCareWhoCompletedIPTCourseThisMonth.sql"
     }
   },
+   "D1NumberofNewlyDiagnosedPLHIVRegisteredintoCareThisMonth": {
+    "name":"D1. Number of newly diagnosed PLHIV registered into care this month",
+    "type":"MRSGeneric",
+    "config":{
+       "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/D1NumberofNewlyDiagnosedPLHIVRegisteredintoCareThisMonth.sql"
+    }
+  },
    "D2NumberofnewPLHIVincareinWHOStage1atregistrationthismonth": {
     "name":"D2. Number of new PLHIV in care in WHO Stage 1 at registration this month",
     "type":"MRSGeneric",
