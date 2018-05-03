@@ -23,11 +23,20 @@ SELECT/*Pivoting the table*/
 FROM
 
 (
-
+Select "D5. Number of new PLHIV in care in WHO Stage 4 at registration this month" as 'Diagnosis' ,null AS 'lessThan1yrMale',null as 'lessThan1yrFemale',
+null as '1To9yrMale',null as '1To9yrFemale',null as '10To14yrMale',null as '10To14yrFemale',null as '15To19yrMale',null as '15To19yrFemale',null AS '20To24yrMale',
+null AS '20To24yrFemale',null AS '25To29yrMale',null AS '25To29yrFemale',null AS '30To34yrMale',null AS '30To34yrFemale',null AS '35To39yrMale',null AS '35To39yrFemale',
+null AS '40To49YrsMale',null AS '40To49YrsFemale',null AS 'GrtThan50YrsMale',null AS 'GrtThan50YrsFemale'
+Union ALL
+Select "D5. Number of new PLHIV in care in P WHO Stage 4 at registration this month" as 'Diagnosis' ,null AS 'lessThan1yrMale',null as 'lessThan1yrFemale',
+null as '1To9yrMale',null as '1To9yrFemale',null as '10To14yrMale',null as '10To14yrFemale',null as '15To19yrMale',null as '15To19yrFemale',null AS '20To24yrMale',
+null AS '20To24yrFemale',null AS '25To29yrMale',null AS '25To29yrFemale',null AS '30To34yrMale',null AS '30To34yrFemale',null AS '35To39yrMale',null AS '35To39yrFemale',
+null AS '40To49YrsMale',null AS '40To49YrsFemale',null AS 'GrtThan50YrsMale',null AS 'GrtThan50YrsFemale'
+Union all
 select
          CASE 
-         when cnCodedDiagnosisVC.name = 'WHO stage IV' then "D4. Number of new PLHIV in care in WHO Stage 4 at registration this month"
-         when cnCodedDiagnosisVC.name = 'P-WHO stage IV (Peads Stage IV)' then "D4. Number of new PLHIV in care in P WHO Stage 4 at registration this month" end as 'Diagnosis',
+         when cnCodedDiagnosisVC.name = 'WHO stage IV' then "D5. Number of new PLHIV in care in WHO Stage 4 at registration this month"
+         when cnCodedDiagnosisVC.name = 'P-WHO stage IV (Peads Stage IV)' then "D5. Number of new PLHIV in care in P WHO Stage 4 at registration this month" end as 'Diagnosis',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
          THEN COUNT(distinct p.person_id)  END AS 'lessThan1yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
