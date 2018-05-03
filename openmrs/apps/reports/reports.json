@@ -624,12 +624,19 @@
        "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/C21NumberOfClientsInCareWhoCompletedIPTCourseThisMonth.sql"
     }
   },
+   "D2NumberofnewPLHIVincareinWHOStage1atregistrationthismonth": {
+    "name":"D2. Number of new PLHIV in care in WHO Stage 1 at registration this month",
+    "type":"MRSGeneric",
+    "config":{
+       "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/D2NumberofnewPLHIVincareinWHOStage1atregistrationthismonth.sql"
+    }
+  },
   "D6TotalNumberOfPLHIVInCareStartedOnCTXprophylaxisIncludingTBPatientsThisMonth" :{
     "name":"D6. Total number of PLHIV in care started on CTX prophylaxis (including TB patients) this month",
     "type":"MRSGeneric",
     "config":{
        "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/D6TotalNumberOfPLHIVInCareStartedOnCTXprophylaxisIncludingTBPatientsThisMonth.sql"
-    }
-  }
+   }
+}
 
 }
