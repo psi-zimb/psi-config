@@ -623,6 +623,13 @@
     "config":{
        "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/C21NumberOfClientsInCareWhoCompletedIPTCourseThisMonth.sql"
     }
+  },
+  "D6TotalNumberOfPLHIVInCareStartedOnCTXprophylaxisIncludingTBPatientsThisMonth" :{
+    "name":"D6. Total number of PLHIV in care started on CTX prophylaxis (including TB patients) this month",
+    "type":"MRSGeneric",
+    "config":{
+       "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/D6TotalNumberOfPLHIVInCareStartedOnCTXprophylaxisIncludingTBPatientsThisMonth.sql"
+    }
   }
 
 }

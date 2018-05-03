@@ -65,14 +65,14 @@ SELECT/*Pivoting the table*/
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM (
-       
+
         select distinct person_id from obs
         where
             (
             concept_id=
             (select concept_id from concept_name
              where concept_name.name='Coded Diagnosis' and concept_name_type='FULLY_SPECIFIED' )
-             and value_coded in    
+             and value_coded in
                               (select concept_id from concept_name
                                where concept_name.name in ('TB exposure',
                                               'TB meningitis',
@@ -84,32 +84,32 @@ SELECT/*Pivoting the table*/
                                               'TB lymphadenitis',
                                               'TB of bones and joints',
                                               'Gastrointestinal TB',
-                                              'TB of the liver') 
+                                              'TB of the liver')
                               and concept_name_type='FULLY_SPECIFIED')
                                       )
         and date(obs_datetime) between date('#startDate#') and date('#endDate#')
 
-                 
+
         and person_id IN
                        (select person_id from obs
-                        where 
+                        where
                         (
-                        concept_id=(select concept_id from concept_name 
+                        concept_id=(select concept_id from concept_name
                                     where (concept_name.name='PR, Start date of IPT program')
                                     and concept_name_type='FULLY_SPECIFIED' )
                         and value_datetime is not null
-                        
+
                         )
                         )
                         and person_id not IN
                        (select person_id from obs
-                        where 
+                        where
                         (
-                        concept_id=(select concept_id from concept_name 
+                        concept_id=(select concept_id from concept_name
                                     where (concept_name.name='PR, IPT Program Stop Date')
                                     and concept_name_type='FULLY_SPECIFIED' )
                         and value_datetime is not null
-                        
+
                         )
                         )
                         and voided=0
@@ -158,4 +158,4 @@ SELECT/*Pivoting the table*/
                WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
                THEN '> 50 Yrs F'
             END
-    ) AS C20NumberOfPLHIVinCareDevelopingActiveTBthisMonth;
+    ) AS MOHReportC20NumberOfPLHIVinCareDevelopingActiveTBthisMonth;
