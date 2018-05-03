@@ -66,23 +66,23 @@ SELECT/*Pivoting the table*/
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM
     (
-        select
+        SELECT
             ordersForDrugname.patient_id,
             ordersForStopDate.date_stopped
-            from drug drugForDrugname
-            Join orders ordersForDrugname on ordersForDrugname.concept_id = drugForDrugname.concept_id
-            JOIN orders ordersForStopDate on ordersForStopDate.order_id = ordersForDrugname.previous_order_id
-            and drugForDrugname.name = "Cotrimoxazole(prophylaxis)"
-            and ordersForDrugname.order_reason =
+            FROM drug drugForDrugname
+            JOIN orders ordersForDrugname ON ordersForDrugname.concept_id = drugForDrugname.concept_id
+            JOIN orders ordersForStopDate ON ordersForStopDate.order_id = ordersForDrugname.previous_order_id
+            AND drugForDrugname.name = "Cotrimoxazole(prophylaxis)"
+            AND ordersForDrugname.order_reason =
                                                 (
-                                                select concept_id
-                                                from concept_view
-                                                where concept_full_name = 'Adverse Effect'
-                                                and retired = 0
+                                                SELECT concept_id
+                                                FROM concept_view
+                                                WHERE concept_full_name = 'Adverse Effect'
+                                                AND retired = 0
                                                 )
             AND ordersForDrugname.order_action = ('DISCONTINUE')
-            and ordersForDrugname.order_reason_non_coded IS NOT NULL
-            And DATE(ordersForStopDate.date_stopped)  BETWEEN ('#startDate#') and ('#endDate#')
+            AND ordersForDrugname.order_reason_non_coded IS NOT NULL
+            AND DATE(ordersForStopDate.date_stopped)  BETWEEN ('#startDate#') AND ('#endDate#')
 
     ) AS numberOfPLHIVInCareStoppingCotrimoxazoleProphylaxisDueToAdverseEventsThisMonth
   INNER JOIN person p ON p.person_id = numberOfPLHIVInCareStoppingCotrimoxazoleProphylaxisDueToAdverseEventsThisMonth.patient_id
