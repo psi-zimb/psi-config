@@ -66,16 +66,26 @@ SELECT/*Pivoting the table*/
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM
     (
-        SELECT
-        DISTINCT orders.patient_id
-        FROM orders
-        INNER JOIN drug ON orders.concept_id = drug.concept_id
-        AND drug.name = "Cotrimoxazole(prophylaxis)"
-        AND drug.retired = 0
-        AND DATE(orders.date_activated)  BETWEEN DATE('#startDate#') AND DATE('#endDate#')
-        AND orders.voided = 0
-        AND orders.order_action IN ('NEW','REVISE','DISCONTINUE')
-        AND orders.date_stopped IS NULL
+      SELECT  DISTINCT o.patient_id
+      FROM orders o
+      JOIN drug_order dro on o.order_id = dro.order_id
+      JOIN drug d on d.drug_id = dro.drug_inventory_id
+      WHERE d.name = "Cotrimoxazole(prophylaxis)"
+      AND DATE(o.date_activated)  BETWEEN DATE('#startDate#') AND DATE('#endDate#')
+      AND d.retired = 0
+      AND o.voided = 0
+      AND o.date_stopped IS NULL
+      AND o.patient_id NOT IN (/*To remove the patient which have the drug before starting date*/
+                                SELECT  o.patient_id
+                                FROM orders o
+                                JOIN drug_order dro on o.order_id = dro.order_id
+                                JOIN drug d on d.drug_id = dro.drug_inventory_id
+                                WHERE d.name = "Cotrimoxazole(prophylaxis)"
+                                AND DATE(o.date_activated)  < ('#startDate#')
+                                AND d.retired = 0
+                                AND o.voided = 0
+                                AND o.date_stopped IS NULL
+                             )
     ) AS totalNumberOfPLHIVInCareStartedOnCTXprophylaxisIncludingTBPatientsThisMonth
   INNER JOIN person p ON p.person_id = totalNumberOfPLHIVInCareStartedOnCTXprophylaxisIncludingTBPatientsThisMonth.patient_id
 

@@ -477,6 +477,13 @@
         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/MOHReport-HIVTBCollaborationReport.sql"
      }
    },
+   "MOH Report - Opportunistic Infections And Antiretroviral Therapy And Prophylaxis report" :{
+     "name" : "MOH Report - Opportunistic Infections And Antiretroviral Therapy And Prophylaxis Report",
+     "type" : "MRSGeneric",
+     "config" : {
+        "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/MOHReport-OpportunisticInfectionsAndAntiretroviralTherapyAndProphylaxisReport.sql"
+     }
+   },
   "C1NumberOfTBPatientsInCareTestedForHIVThisMonth":{
       "name":"C1. Number of TB patients in care tested for HIV this month",
       "type":"MRSGeneric",

@@ -3210,10 +3210,7 @@ SELECT/*Pivoting the table*/
     FROM
     (
     SELECT
-    person_id,
-    value_datetime,
-    obsForIPTProg.obs_datetime,
-    obsForIPTProg.date_created
+    DISTINCT person_id
         FROM patient pat
         JOIN obs obsForIPTProg on pat.patient_id = obsForIPTProg.person_id
         JOIN concept_name cnForIPTProg on cnForIPTProg.concept_id = obsForIPTProg.concept_id
