@@ -66,11 +66,8 @@ SELECT/*Pivoting the table*/
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM
     (
-    SELECT
-    person_id,
-    value_datetime,
-    obsForIPTProg.obs_datetime,
-    obsForIPTProg.date_created
+    SELECT DISTINCT
+    person_id
         from patient pat
         join obs obsForIPTProg on pat.patient_id = obsForIPTProg.person_id
         join concept_name cnForIPTProg on cnForIPTProg.concept_id = obsForIPTProg.concept_id
