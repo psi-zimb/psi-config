@@ -83,6 +83,16 @@ select
         join concept_name cnCodedDiagnosisVC on obsCodedDiagnosis.value_coded = cnCodedDiagnosisVC.concept_id
         join obs obsARTProgram on p.person_id = obsARTProgram.person_id
         join concept_name cnARTProgram on obsARTProgram.concept_id = cnARTProgram.concept_id
+        Left join obs obsARTProgramStop on p.person_id = obsARTProgramStop.person_id
+        AND obsARTProgramStop.voided = 0
+        AND obsARTProgramStop.concept_id = (
+                                                Select concept_id 
+                                                from concept_name 
+                                                where 
+                                                name ='PR, ART Program Stop Date' 
+                                                AND concept_name_type = 'FULLY_SPECIFIED' 
+                                                and voided = 0
+                                           )
         where 
         cnCodedDiagnosis.name = 'Coded Diagnosis' and cnCodedDiagnosis.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosis.voided = 0
         and cnCodedDiagnosisVC.name IN ('WHO stage II','P-WHO stage II (Peads Stage II)') and cnCodedDiagnosisVC.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosisVC.voided = 0
@@ -93,6 +103,11 @@ select
         and cnARTProgram.voided = 0
         and date(obsCodedDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
         and date(obsARTProgram.value_datetime ) between date('#startDate#') and date('#endDate#')
+        AND (   /*ART program stop date should not be there OR ART program stop date 
+                should be greater or equal to Diagnosis date*/
+                date(obsARTProgramStop.value_datetime) >= date(obsCodedDiagnosis.obs_datetime)
+                OR date(obsARTProgramStop.value_datetime) is null
+            )
         group by obsCodedDiagnosis.value_coded,
                    CASE
                  WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'

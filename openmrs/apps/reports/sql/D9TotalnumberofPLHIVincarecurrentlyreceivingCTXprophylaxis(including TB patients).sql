@@ -1,5 +1,5 @@
 SELECT/*Pivoting the table*/
-    'D1. Number of newly diagnosed PLHIV registered into care this month' AS '-',
+    'D9. Total number of PLHIV in care currently receiving CTX prophylaxis (including TB patients)' AS '-',
     SUM(lessThan1yrMale) AS '<1 M',
     SUM(lessThan1yrFemale) AS '<1 F',
     SUM(1To9yrMale) AS '1-9 M',
@@ -23,7 +23,7 @@ SELECT/*Pivoting the table*/
     FROM
     (
     SELECT
-         'D1. Number of newly diagnosed PLHIV registered into care this month',
+         'D9. Total number of PLHIV in care currently receiving CTX prophylaxis (including TB patients)',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
          THEN COUNT(1)  END AS 'lessThan1yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
@@ -65,49 +65,18 @@ SELECT/*Pivoting the table*/
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM 
-        (
-            select distinct cnCodedDiagnosisVC.name, p.person_id
-            from person p
-            join obs obsCodedDiagnosis on p.person_id = obsCodedDiagnosis.person_id
-            join concept_name cnCodedDiagnosis on obsCodedDiagnosis.concept_id = cnCodedDiagnosis.concept_id
-            join concept_name cnCodedDiagnosisVC on obsCodedDiagnosis.value_coded = cnCodedDiagnosisVC.concept_id
-            join obs obsARTProgram on p.person_id = obsARTProgram.person_id
-            join concept_name cnARTProgram on obsARTProgram.concept_id = cnARTProgram.concept_id
-            Left join obs obsARTProgramStop on p.person_id = obsARTProgramStop.person_id
-        AND obsARTProgramStop.voided = 0
-        AND obsARTProgramStop.concept_id = (
-                                                Select concept_id 
-                                                from concept_name 
-                                                where 
-                                                name ='PR, ART Program Stop Date' 
-                                                AND concept_name_type = 'FULLY_SPECIFIED' 
-                                                and voided = 0
-                                           )
-            where 
-            cnCodedDiagnosis.name = 'Coded Diagnosis' and cnCodedDiagnosis.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosis.voided = 0
-            and cnCodedDiagnosisVC.name IN 
-            (
-                'WHO stage IV','P-WHO stage IV (Peads Stage IV)',
-                'WHO stage III','P-WHO stage III (Peads Stage III)',
-                'WHO stage II','P-WHO stage II (Peads Stage II)',
-                'WHO stage I','P-WHO stage I (Peads Stage I)'
-            ) 
-            and cnCodedDiagnosisVC.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosisVC.voided = 0
-            and obsCodedDiagnosis.voided = 0
-            and obsARTProgram.voided = 0
-            and cnARTProgram.name = 'PR, Start date of ART program'
-            and cnARTProgram.concept_name_type = 'FULLY_SPECIFIED'
-            and cnARTProgram.voided = 0
-            and date(obsCodedDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
-            and date(obsARTProgram.value_datetime ) between date('#startDate#') and date('#endDate#')
-            AND (   /*ART program stop date should not be there OR ART program stop date 
-                should be greater or equal to Diagnosis date*/
-                date(obsARTProgramStop.value_datetime) >= date(obsCodedDiagnosis.obs_datetime)
-                OR date(obsARTProgramStop.value_datetime) is null
-            )
-        ) 
-        AS numberofnewlydiagnosedPLHIVregisteredintoCarethisMonth
-           INNER JOIN person p ON p.person_id = numberofnewlydiagnosedPLHIVregisteredintoCarethisMonth.person_id
+  (  
+        select 
+        distinct ord.patient_id
+        from orders ord
+        join drug_order dro on ord.order_id = dro.order_id
+        join drug on dro.drug_inventory_id = drug.drug_id
+        where 
+        drug.name = 'Cotrimoxazole(prophylaxis)' and drug.retired = 0
+        and date(ord.date_activated) <= date('#endDate#')        
+                    
+ ) AS totalnumberofPLHIVincarecurrentlyreceivingCTXprophylaxisincludingTBpatients
+           INNER JOIN person p ON p.person_id = totalnumberofPLHIVincarecurrentlyreceivingCTXprophylaxisincludingTBpatients.patient_id
            GROUP BY
            CASE
                WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
@@ -151,4 +120,4 @@ SELECT/*Pivoting the table*/
                WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
                THEN '> 50 Yrs F'
             END
-    ) AS MOHReportD1NumberofnewlydiagnosedPLHIVregisteredintoCarethisMonth;
+    ) AS D9TotalnumberofPLHIVincarecurrentlyreceivingCTXprophylaxisincludingTBpatients;

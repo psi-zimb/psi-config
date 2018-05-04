@@ -673,11 +673,18 @@
         "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/D7NumberOfPLHIVInCareOnCTXDevelopedAdverseEventsThisMonth.sql"
     }
   },
-    "D8NumberOfPLHIVInCareStoppingCotrimoxazoleProphylaxisDueToAdverseEventsThisMonth" : {
+   "D8NumberOfPLHIVInCareStoppingCotrimoxazoleProphylaxisDueToAdverseEventsThisMonth" : {
        "name" : "D8. Number of PLHIV in care stopping Cotrimoxazole prophylaxis due to adverse events this month",
        "type" : "MRSGeneric",
        "config" : {
           "sqlPath" : "/var/www/bahmni_config/openmrs/apps/reports/sql/D8NumberOfPLHIVInCareStoppingCotrimoxazoleProphylaxisDueToAdverseEventsThisMonth.sql"
+       }
+    },
+   "D9TotalnumberofPLHIVincarecurrentlyreceivingCTXprophylaxis(including TB patients)" : {
+       "name" : "D9. Total number of PLHIV in care currently receiving CTX prophylaxis (including TB patients)",
+       "type" : "MRSGeneric",
+       "config" : {
+          "sqlPath" : "/var/www/bahmni_config/openmrs/apps/reports/sql/D9TotalnumberofPLHIVincarecurrentlyreceivingCTXprophylaxis(including TB patients).sql"
        }
     }
 
