@@ -67,12 +67,11 @@ SELECT/*Pivoting the table*/
     FROM
     (
         SELECT
-            ordersForDrugname.patient_id,
-            ordersForStopDate.date_stopped
+            DISTINCT ordersForDrugname.patient_id
             FROM drug drugForDrugname
-            JOIN orders ordersForDrugname ON ordersForDrugname.concept_id = drugForDrugname.concept_id
-            JOIN orders ordersForStopDate ON ordersForStopDate.order_id = ordersForDrugname.previous_order_id
-            AND drugForDrugname.name = "Cotrimoxazole(prophylaxis)"
+            JOIN drug_order drugOrder on drugOrder.drug_inventory_id = drugForDrugname.drug_id
+            JOIN orders ordersForDrugname on drugOrder.order_id = ordersForDrugname.order_id
+            Where drugForDrugname.name = 'Cotrimoxazole(prophylaxis)'
             AND ordersForDrugname.order_reason =
                                                 (
                                                 SELECT concept_id
@@ -81,8 +80,7 @@ SELECT/*Pivoting the table*/
                                                 AND retired = 0
                                                 )
             AND ordersForDrugname.order_action = ('DISCONTINUE')
-            AND ordersForDrugname.order_reason_non_coded IS NOT NULL
-            AND DATE(ordersForStopDate.date_stopped)  BETWEEN ('#startDate#') AND ('#endDate#')
+            AND DATE(ordersForDrugname.date_activated)  BETWEEN ('#startDate#') AND ('#endDate#')
 
     ) AS numberOfPLHIVInCareStoppingCotrimoxazoleProphylaxisDueToAdverseEventsThisMonth
   INNER JOIN person p ON p.person_id = numberOfPLHIVInCareStoppingCotrimoxazoleProphylaxisDueToAdverseEventsThisMonth.patient_id
