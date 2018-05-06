@@ -80,6 +80,7 @@ SELECT/*Pivoting the table*/
                                                 AND retired = 0
                                                 )
             AND ordersForDrugname.order_action = ('DISCONTINUE')
+            AND ordersForDrugname.voided = 0
             AND DATE(ordersForDrugname.date_activated)  BETWEEN ('#startDate#') AND ('#endDate#')
 
     ) AS numberOfPLHIVInCareStoppingCotrimoxazoleProphylaxisDueToAdverseEventsThisMonth
