@@ -65,55 +65,61 @@ SELECT/*Pivoting the table*/
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM (
-
-        select distinct person_id from obs
-        where
+          select distinct p.person_id from person p
+            join obs obsDiagnosis on p.person_id = obsDiagnosis.person_id
+            join concept_name cnDiagnosis on obsDiagnosis.concept_id = cnDiagnosis.concept_id
+            join obs obsIPTStartDate on p.person_id = obsIPTStartDate.person_id
+            join concept_name cnIPTStartDate on obsIPTStartDate.concept_id = cnIPTStartDate.concept_id
+            where cnDiagnosis.name = 'Coded Diagnosis' and cnDiagnosis.concept_name_type='FULLY_SPECIFIED'
+            and cnIPTStartDate.name = 'PR, Start date of IPT program' and cnIPTStartDate.concept_name_type='FULLY_SPECIFIED'
+            and obsDiagnosis.value_coded in 
             (
-            concept_id=
-            (select concept_id from concept_name
-             where concept_name.name='Coded Diagnosis' and concept_name_type='FULLY_SPECIFIED' )
-             and value_coded in
-                              (select concept_id from concept_name
-                               where concept_name.name in ('TB exposure',
-                                              'TB meningitis',
-                                              'TB MDR',
-                                              'TB MDR, presumptive',
-                                              'TB, pulmonary (WHO 3)',
-                                              'TB peritonitis',
-                                              'TB pericarditis',
-                                              'TB lymphadenitis',
-                                              'TB of bones and joints',
-                                              'Gastrointestinal TB',
-                                              'TB of the liver')
-                              and concept_name_type='FULLY_SPECIFIED')
-                                      )
-        and date(obs_datetime) between date('#startDate#') and date('#endDate#')
-
-
-        and person_id IN
-                       (select person_id from obs
-                        where
+                        select concept_id from concept_name where concept_name.name
+                            in (
+                                                         'TB exposure',
+                                                         'TB meningitis',
+                                                         'TB MDR',
+                                                         'TB MDR, presumptive',
+                                                         'TB, pulmonary (WHO 3)',
+                                                         'TB peritonitis',
+                                                         'TB pericarditis',
+                                                         'TB lymphadenitis',
+                                                         'TB of bones and joints',
+                                                         'Gastrointestinal TB',
+                                                         'TB of the liver'
+                               )
+          )
+          and obsDiagnosis.voided = 0
+          and obsIPTStartDate.voided = 0
+          and date(obsDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
+          and obsIPTStartDate.person_id NOT IN 
                         (
-                        concept_id=(select concept_id from concept_name
-                                    where (concept_name.name='PR, Start date of IPT program')
-                                    and concept_name_type='FULLY_SPECIFIED' )
-                        and value_datetime is not null
-
-                        )
-                        )
-                        and person_id not IN
-                       (select person_id from obs
-                        where
-                        (
-                        concept_id=(select concept_id from concept_name
-                                    where (concept_name.name='PR, IPT Program Stop Date')
-                                    and concept_name_type='FULLY_SPECIFIED' )
-                        and value_datetime is not null
-
-                        )
-                        )
-                        and voided=0
-                   ) AS formFilledForPersonFirstTime
+                                    select person_id from obs obsStopDate
+                                    where
+                                     (
+                                         concept_id=(
+                                                         select concept_id from concept_name
+                                                         where (concept_name.name='PR, IPT Program Stop Date')
+                                                         and concept_name_type='FULLY_SPECIFIED'
+                                                     )
+                                         
+                                     )
+                                     and date(obsStopDate.value_datetime) < date('#endDate#')
+                                     and 
+                                     date(obsStopDate.value_datetime) >
+                                      (
+                                         select max(date(obsMaxStartDate.value_datetime)) from obs obsMaxStartDate 
+                                         where obsMaxStartDate.concept_id = 
+                                          ( select concept_id from concept_name
+                                            where concept_name.name='PR, Start date of IPT program'
+                                            and concept_name_type='FULLY_SPECIFIED'
+                                         )
+                                         and obsStopDate.person_id = obsMaxStartDate.person_id and obsMaxStartDate.voided =0
+                                     )
+                                     and obsIPTStartDate.person_id = obsStopDate.person_id
+                                     and obsStopDate.voided=0
+                         )
+            ) AS formFilledForPersonFirstTime
            INNER JOIN person p ON p.person_id = formFilledForPersonFirstTime.person_id
            GROUP BY
            CASE
