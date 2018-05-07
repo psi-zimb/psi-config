@@ -73,17 +73,7 @@ SELECT/*Pivoting the table*/
         join drug on dro.drug_inventory_id = drug.drug_id
         where 
         drug.name = 'Cotrimoxazole(prophylaxis)' and drug.retired = 0
-        and date(ord.date_activated) <= date('#endDate#')
-        and 
-          ord.patient_id NOT IN
-              (
-                  select patient_id from orders where date(orders.date_stopped) < date('#endDate#')
-              )
-        and
-          ord.patient_id NOT IN
-              (
-                    select patient_id from orders where date(orders.auto_expire_date) < date('#endDate#')
-              )    
+        and date(ord.date_activated) <= date('#endDate#')   
  ) AS totalnumberofPLHIVincarecurrentlyreceivingCTXprophylaxisincludingTBpatients
            INNER JOIN person p ON p.person_id = totalnumberofPLHIVincarecurrentlyreceivingCTXprophylaxisincludingTBpatients.patient_id
            GROUP BY
