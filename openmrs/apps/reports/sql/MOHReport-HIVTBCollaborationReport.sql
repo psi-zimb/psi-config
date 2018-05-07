@@ -2200,66 +2200,84 @@ SELECT/*Pivoting the table*/
          THEN COUNT(1)  END AS 'GrtThan50YrsMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
-  FROM (
-        SELECT distinct person_id
-        from obs observations
-        inner JOIN orders orderPlaced
-        on observations.person_id=orderPlaced.patient_id
-        WHERE(
-                ( observations.concept_id=(
-                                          SELECT concept_id
-                                          from concept_name
-                                          WHERE (concept_name.name='AS, Activity status')
-                                          and concept_name_type='FULLY_SPECIFIED')
-                                          and observations.value_coded =
-                                                                        (
-                                                                          SELECT concept_id
-                                                                          from concept_name
-                                                                          WHERE (concept_name.name='Lost to follow up')
-                                                                          and concept_name_type='FULLY_SPECIFIED'
-                                                                        )
-                                                                          and date(observations.obs_datetime) between date('#startDate#') and date('#endDate#')
-                )
-                or
-                ( observations.concept_id= (
-                                           SELECT concept_id
-                                           from concept_name
-                                           WHERE (concept_name.name='PR, Reason for Stopping IPT Program')
-                                           and concept_name_type='FULLY_SPECIFIED' )
-                                           and observations.value_coded=
-                                                                        (
-                                                                        SELECT concept_id
-                                                                        from concept_name
-                                                                        WHERE (concept_name.name='PR, Lost to follow up')
-                                                                        and concept_name_type='FULLY_SPECIFIED'
-                                                                        )
-                                                                        and date(observations.obs_datetime) between date('#startDate#') and date('#endDate#')
-
-                 )
-             )
-               and observations.voided=0
-               and observations.person_id in
-                                           (
-                                           Select orders.patient_id from drug drugs
-                                           inner JOIN drug_order drugsOrder on drugs.drug_id = drugsOrder.drug_inventory_id
-                                           Inner JOIN orders  on orders.order_id  = drugsOrder.order_id
-                                           and orders.order_type_id = 2
-                                           WHERE drugs.name = 'Isoniazid'
-                                           and orders.date_stopped is null
-                                           )
-                                           and observations.person_id IN
-                                                                        (
-                                                                         SELECT person_id
-                                                                         from obs
-                                                                         WHERE concept_id=
-                                                                                          (
-                                                                                           SELECT concept_id from concept_name
-                                                                                           WHERE (concept_name.name='PR, Start date of IPT program')
-                                                                                           and concept_name_type='FULLY_SPECIFIED'
-                                                                                           )
-                                                                        and value_datetime is not null
-                                                                        )
-                                                                        and date(orderPlaced.date_activated) < date(observations.obs_datetime)
+    FROM 
+    (
+       
+             select 
+             distinct obsForIPTStopDate.person_id
+            from obs obsForIPTStopDate
+           inner join orders orderPlaced 
+           on obsForIPTStopDate.person_id=orderPlaced.patient_id
+           where(
+                  (
+                     obsForIPTStopDate.concept_id=(
+                                select concept_id 
+                                from concept_name 
+                                     where (concept_name.name='AS, Activity status')
+                                     and concept_name_type='FULLY_SPECIFIED')
+                                and
+                     obsForIPTStopDate.value_coded=
+                                (
+                                select concept_id 
+                                from concept_name 
+                                     where (concept_name.name='Lost to follow up')
+                                     and concept_name_type='FULLY_SPECIFIED')
+                       and date(obsForIPTStopDate.obs_datetime) between date('#startDate#') and date('#endDate#')
+                       AND obsForIPTStopDate.voided = 0
+                       AND date(orderPlaced.date_activated)<date(obsForIPTStopDate.obs_datetime)
+                   )
+                            or
+                   (
+                      obsForIPTStopDate.concept_id =  (
+                                                      SELECT
+                                                      concept_id
+                                                      FROM concept_view
+                                                      WHERE
+                                                      concept_full_name = 'PR, IPT Program Stop Date'
+                                                      AND retired = 0
+                                                   )
+                              AND DATE(obsForIPTStopDate.value_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
+                              AND obsForIPTStopDate.voided = 0
+                              AND obsForIPTStopDate.obs_group_id IN (
+                                                                       SELECT obs_group_id
+                                                                       FROM obs reasonAsLostForStoppingIPT
+                                                                       WHERE reasonAsLostForStoppingIPT.concept_id = (
+                                                                                                                            SELECT
+                                                                                                                            concept_id
+                                                                                                                            FROM concept_view
+                                                                                                                            WHERE
+                                                                                                                            concept_full_name = 'PR, Reason for Stopping IPT Program'
+                                                                                                                            AND retired=0
+                                                                                                                          )
+                                                                       AND reasonAsLostForStoppingIPT.value_coded = (
+                                                                                                                            SELECT
+                                                                                                                            concept_id
+                                                                                                                            FROM concept_view
+                                                                                                                            WHERE
+                                                                                                                            concept_full_name = 'PR, Lost to follow up'
+                                                                                                                            AND retired=0
+                                                                                                                         )
+                                                                       AND obsForIPTStopDate.person_id = reasonAsLostForStoppingIPT.person_id
+                                                                       AND reasonAsLostForStoppingIPT.voided = 0
+                                                                    )
+                          AND date(orderPlaced.date_activated)<date(obsForIPTStopDate.value_datetime)
+                    )
+                                                                  )
+         and obsForIPTStopDate.person_id in
+                            (Select orders.patient_id from drug drugs
+                                   inner join drug_order drugsOrder
+                                   on drugs.drug_id = drugsOrder.drug_inventory_id
+                                   Inner join orders 
+                                   on orders.order_id  = drugsOrder.order_id
+                                      and orders.order_type_id = 2
+                                      where drugs.name = 'Isoniazid'
+                                      and orders.date_stopped is null)
+           and obsForIPTStopDate.person_id IN
+                             (select person_id from obs
+                              where concept_id=(select concept_id from concept_name 
+                                                     where (concept_name.name='PR, Start date of IPT program')
+                                                     and concept_name_type='FULLY_SPECIFIED' )
+                              and value_datetime is not null)
           ) AS formFilledForPersonFirstTime
            INNER JOIN person p ON p.person_id = formFilledForPersonFirstTime.person_id
            GROUP BY
@@ -2305,7 +2323,7 @@ SELECT/*Pivoting the table*/
                WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
                THEN '> 50 Yrs F'
             END
-    ) AS MOHReportC15numberOfPLHIVinCareLostToFollowUpWhilstOnIPTthisMonth
+    ) AS C15NumberOfPLHIVinCareLostToFollowUpWhilstOnIPTthisMonth
 
 UNION ALL
 
