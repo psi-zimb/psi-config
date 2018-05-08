@@ -2200,26 +2200,26 @@ SELECT/*Pivoting the table*/
          THEN COUNT(1)  END AS 'GrtThan50YrsMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
-    FROM 
+    FROM
     (
-       
-             select 
+
+             select
              distinct obsForIPTStopDate.person_id
             from obs obsForIPTStopDate
-           inner join orders orderPlaced 
+           inner join orders orderPlaced
            on obsForIPTStopDate.person_id=orderPlaced.patient_id
            where(
                   (
                      obsForIPTStopDate.concept_id=(
-                                select concept_id 
-                                from concept_name 
+                                select concept_id
+                                from concept_name
                                      where (concept_name.name='AS, Activity status')
                                      and concept_name_type='FULLY_SPECIFIED')
                                 and
                      obsForIPTStopDate.value_coded=
                                 (
-                                select concept_id 
-                                from concept_name 
+                                select concept_id
+                                from concept_name
                                      where (concept_name.name='Lost to follow up')
                                      and concept_name_type='FULLY_SPECIFIED')
                        and date(obsForIPTStopDate.obs_datetime) between date('#startDate#') and date('#endDate#')
@@ -2267,14 +2267,14 @@ SELECT/*Pivoting the table*/
                             (Select orders.patient_id from drug drugs
                                    inner join drug_order drugsOrder
                                    on drugs.drug_id = drugsOrder.drug_inventory_id
-                                   Inner join orders 
+                                   Inner join orders
                                    on orders.order_id  = drugsOrder.order_id
                                       and orders.order_type_id = 2
                                       where drugs.name = 'Isoniazid'
                                       and orders.date_stopped is null)
            and obsForIPTStopDate.person_id IN
                              (select person_id from obs
-                              where concept_id=(select concept_id from concept_name 
+                              where concept_id=(select concept_id from concept_name
                                                      where (concept_name.name='PR, Start date of IPT program')
                                                      and concept_name_type='FULLY_SPECIFIED' )
                               and value_datetime is not null)
@@ -2397,7 +2397,7 @@ SELECT/*Pivoting the table*/
     FROM
 (
  select distinct obsAdverseEventsDiagnosis.person_id from
-patient pat 
+patient pat
       join obs obsAdverseEventsDiagnosis on pat.patient_id = obsAdverseEventsDiagnosis.person_id
       join concept_name cnNameofDiagnosis on obsAdverseEventsDiagnosis.concept_id = cnNameofDiagnosis.concept_id
       join obs obsIPTProgramStartDate on obsIPTProgramStartDate.person_id = pat.patient_id
@@ -2406,20 +2406,20 @@ patient pat
               AND obsAdverseEventsDiagnosis.voided = 0
               and obsAdverseEventsDiagnosis.value_coded IN
                 ( /* Patients for whom Adverse Events Diagnosis recorded */
-                    select 
-                      concept_id  
-                    from 
-                      concept_name 
-                    where 
+                    select
+                      concept_id
+                    from
+                      concept_name
+                    where
                       name IN (
                             "Liver (Isoniazid)",
                             "Nervous System (Isoniazid)"
-                              ) 
+                              )
                       and concept_name_type = 'FULLY_SPECIFIED'
                       and voided = 0
                 )
       and obsAdverseEventsDiagnosis.voided = 0
-      and obsIPTProgramStartDate.concept_id = 
+      and obsIPTProgramStartDate.concept_id =
       (
       select concept_id from concept_name where name = 'PR, Start date of IPT program' and concept_name_type = 'FULLY_SPECIFIED' and voided = 0
       )
@@ -3063,7 +3063,7 @@ SELECT/*Pivoting the table*/
             join concept_name cnIPTStartDate on obsIPTStartDate.concept_id = cnIPTStartDate.concept_id
             where cnDiagnosis.name = 'Coded Diagnosis' and cnDiagnosis.concept_name_type='FULLY_SPECIFIED'
             and cnIPTStartDate.name = 'PR, Start date of IPT program' and cnIPTStartDate.concept_name_type='FULLY_SPECIFIED'
-            and obsDiagnosis.value_coded in 
+            and obsDiagnosis.value_coded in
             (
                         select concept_id from concept_name where concept_name.name
                             in (
@@ -3083,7 +3083,7 @@ SELECT/*Pivoting the table*/
           and obsDiagnosis.voided = 0
           and obsIPTStartDate.voided = 0
           and date(obsDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
-          and obsIPTStartDate.person_id NOT IN 
+          and obsIPTStartDate.person_id NOT IN
                         (
                                     select person_id from obs obsStopDate
                                     where
@@ -3093,14 +3093,14 @@ SELECT/*Pivoting the table*/
                                                          where (concept_name.name='PR, IPT Program Stop Date')
                                                          and concept_name_type='FULLY_SPECIFIED'
                                                      )
-                                         
+
                                      )
                                      and date(obsStopDate.value_datetime) < date('#endDate#')
-                                     and 
+                                     and
                                      date(obsStopDate.value_datetime) >
                                       (
-                                         select max(date(obsMaxStartDate.value_datetime)) from obs obsMaxStartDate 
-                                         where obsMaxStartDate.concept_id = 
+                                         select max(date(obsMaxStartDate.value_datetime)) from obs obsMaxStartDate
+                                         where obsMaxStartDate.concept_id =
                                           ( select concept_id from concept_name
                                             where concept_name.name='PR, Start date of IPT program'
                                             and concept_name_type='FULLY_SPECIFIED'

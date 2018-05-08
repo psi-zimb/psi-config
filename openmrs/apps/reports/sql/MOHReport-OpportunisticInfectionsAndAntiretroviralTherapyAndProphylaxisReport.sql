@@ -65,7 +65,7 @@ SELECT/*Pivoting the table*/
          THEN COUNT(1)  END AS 'GrtThan50YrsMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
-    FROM 
+    FROM
         (
             select distinct cnCodedDiagnosisVC.name, p.person_id
             from person p
@@ -77,22 +77,22 @@ SELECT/*Pivoting the table*/
             Left join obs obsARTProgramStop on p.person_id = obsARTProgramStop.person_id
         AND obsARTProgramStop.voided = 0
         AND obsARTProgramStop.concept_id = (
-                                                Select concept_id 
-                                                from concept_name 
-                                                where 
-                                                name ='PR, ART Program Stop Date' 
-                                                AND concept_name_type = 'FULLY_SPECIFIED' 
+                                                Select concept_id
+                                                from concept_name
+                                                where
+                                                name ='PR, ART Program Stop Date'
+                                                AND concept_name_type = 'FULLY_SPECIFIED'
                                                 and voided = 0
                                            )
-            where 
+            where
             cnCodedDiagnosis.name = 'Coded Diagnosis' and cnCodedDiagnosis.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosis.voided = 0
-            and cnCodedDiagnosisVC.name IN 
+            and cnCodedDiagnosisVC.name IN
             (
                 'WHO stage IV','P-WHO stage IV (Peads Stage IV)',
                 'WHO stage III','P-WHO stage III (Peads Stage III)',
                 'WHO stage II','P-WHO stage II (Peads Stage II)',
                 'WHO stage I','P-WHO stage I (Peads Stage I)'
-            ) 
+            )
             and cnCodedDiagnosisVC.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosisVC.voided = 0
             and obsCodedDiagnosis.voided = 0
             and obsARTProgram.voided = 0
@@ -101,12 +101,12 @@ SELECT/*Pivoting the table*/
             and cnARTProgram.voided = 0
             and date(obsCodedDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
             and date(obsARTProgram.value_datetime ) between date('#startDate#') and date('#endDate#')
-            AND (   /*ART program stop date should not be there OR ART program stop date 
+            AND (   /*ART program stop date should not be there OR ART program stop date
                 should be greater or equal to Diagnosis date*/
                 date(obsARTProgramStop.value_datetime) >= date(obsCodedDiagnosis.obs_datetime)
                 OR date(obsARTProgramStop.value_datetime) is null
             )
-        ) 
+        )
         AS numberofnewlydiagnosedPLHIVregisteredintoCarethisMonth
            INNER JOIN person p ON p.person_id = numberofnewlydiagnosedPLHIVregisteredintoCarethisMonth.person_id
            GROUP BY
@@ -195,7 +195,7 @@ null AS '20To24yrFemale',null AS '25To29yrMale',null AS '25To29yrFemale',null AS
 null AS '40To49YrsMale',null AS '40To49YrsFemale',null AS 'GrtThan50YrsMale',null AS 'GrtThan50YrsFemale'
 UNION ALL
 select
-         CASE 
+         CASE
          when cnCodedDiagnosisVC.name = 'WHO stage I' then "D2. Number of new PLHIV in care in WHO Stage 1 at registration this month"
          when cnCodedDiagnosisVC.name = 'P-WHO stage I (Peads Stage I)' then "D2. Number of new PLHIV in care in P WHO Stage 1 at registration this month" end as 'Diagnosis',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
@@ -247,14 +247,14 @@ select
         Left join obs obsARTProgramStop on p.person_id = obsARTProgramStop.person_id
         AND obsARTProgramStop.voided = 0
         AND obsARTProgramStop.concept_id = (
-                                                Select concept_id 
-                                                from concept_name 
-                                                where 
-                                                name ='PR, ART Program Stop Date' 
-                                                AND concept_name_type = 'FULLY_SPECIFIED' 
+                                                Select concept_id
+                                                from concept_name
+                                                where
+                                                name ='PR, ART Program Stop Date'
+                                                AND concept_name_type = 'FULLY_SPECIFIED'
                                                 and voided = 0
                                            )
-        where 
+        where
         cnCodedDiagnosis.name = 'Coded Diagnosis' and cnCodedDiagnosis.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosis.voided = 0
         and cnCodedDiagnosisVC.name IN ('WHO stage I','P-WHO stage I (Peads Stage I)') and cnCodedDiagnosisVC.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosisVC.voided = 0
         and obsCodedDiagnosis.voided = 0
@@ -264,7 +264,7 @@ select
         and cnARTProgram.voided = 0
         and date(obsCodedDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
         and date(obsARTProgram.value_datetime ) between date('#startDate#') and date('#endDate#')
-        AND (   /*ART program stop date should not be there OR ART program stop date 
+        AND (   /*ART program stop date should not be there OR ART program stop date
                 should be greater or equal to Diagnosis date*/
                 date(obsARTProgramStop.value_datetime) >= date(obsCodedDiagnosis.obs_datetime)
                 OR date(obsARTProgramStop.value_datetime) is null
@@ -360,7 +360,7 @@ null AS '20To24yrFemale',null AS '25To29yrMale',null AS '25To29yrFemale',null AS
 null AS '40To49YrsMale',null AS '40To49YrsFemale',null AS 'GrtThan50YrsMale',null AS 'GrtThan50YrsFemale'
 UNION ALL
 select
-         CASE 
+         CASE
          when cnCodedDiagnosisVC.name = 'WHO stage II' then "D3. Number of new PLHIV in care in WHO Stage 2 at registration this month"
          when cnCodedDiagnosisVC.name = 'P-WHO stage II (Peads Stage II)' then "D3. Number of new PLHIV in care in P WHO Stage 2 at registration this month" end as 'Diagnosis',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
@@ -412,14 +412,14 @@ select
         Left join obs obsARTProgramStop on p.person_id = obsARTProgramStop.person_id
         AND obsARTProgramStop.voided = 0
         AND obsARTProgramStop.concept_id = (
-                                                Select concept_id 
-                                                from concept_name 
-                                                where 
-                                                name ='PR, ART Program Stop Date' 
-                                                AND concept_name_type = 'FULLY_SPECIFIED' 
+                                                Select concept_id
+                                                from concept_name
+                                                where
+                                                name ='PR, ART Program Stop Date'
+                                                AND concept_name_type = 'FULLY_SPECIFIED'
                                                 and voided = 0
                                            )
-        where 
+        where
         cnCodedDiagnosis.name = 'Coded Diagnosis' and cnCodedDiagnosis.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosis.voided = 0
         and cnCodedDiagnosisVC.name IN ('WHO stage II','P-WHO stage II (Peads Stage II)') and cnCodedDiagnosisVC.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosisVC.voided = 0
         and obsCodedDiagnosis.voided = 0
@@ -429,7 +429,7 @@ select
         and cnARTProgram.voided = 0
         and date(obsCodedDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
         and date(obsARTProgram.value_datetime ) between date('#startDate#') and date('#endDate#')
-        AND (   /*ART program stop date should not be there OR ART program stop date 
+        AND (   /*ART program stop date should not be there OR ART program stop date
                 should be greater or equal to Diagnosis date*/
                 date(obsARTProgramStop.value_datetime) >= date(obsCodedDiagnosis.obs_datetime)
                 OR date(obsARTProgramStop.value_datetime) is null
@@ -524,7 +524,7 @@ null AS '20To24yrFemale',null AS '25To29yrMale',null AS '25To29yrFemale',null AS
 null AS '40To49YrsMale',null AS '40To49YrsFemale',null AS 'GrtThan50YrsMale',null AS 'GrtThan50YrsFemale'
 UNION ALL
 select
-         CASE 
+         CASE
          when cnCodedDiagnosisVC.name = 'WHO stage III' then "D4. Number of new PLHIV in care in WHO Stage 3 at registration this month"
          when cnCodedDiagnosisVC.name = 'P-WHO stage III (Peads Stage III)' then "D4. Number of new PLHIV in care in P WHO Stage 3 at registration this month" end as 'Diagnosis',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
@@ -576,14 +576,14 @@ select
         Left join obs obsARTProgramStop on p.person_id = obsARTProgramStop.person_id
         AND obsARTProgramStop.voided = 0
         AND obsARTProgramStop.concept_id = (
-                                                Select concept_id 
-                                                from concept_name 
-                                                where 
-                                                name ='PR, ART Program Stop Date' 
-                                                AND concept_name_type = 'FULLY_SPECIFIED' 
+                                                Select concept_id
+                                                from concept_name
+                                                where
+                                                name ='PR, ART Program Stop Date'
+                                                AND concept_name_type = 'FULLY_SPECIFIED'
                                                 and voided = 0
                                            )
-        where 
+        where
         cnCodedDiagnosis.name = 'Coded Diagnosis' and cnCodedDiagnosis.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosis.voided = 0
         and cnCodedDiagnosisVC.name IN ('WHO stage III','P-WHO stage III (Peads Stage III)') and cnCodedDiagnosisVC.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosisVC.voided = 0
         and obsCodedDiagnosis.voided = 0
@@ -593,7 +593,7 @@ select
         and cnARTProgram.voided = 0
         and date(obsCodedDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
         and date(obsARTProgram.value_datetime ) between date('#startDate#') and date('#endDate#')
-        AND (   /*ART program stop date should not be there OR ART program stop date 
+        AND (   /*ART program stop date should not be there OR ART program stop date
                 should be greater or equal to Diagnosis date*/
                 date(obsARTProgramStop.value_datetime) >= date(obsCodedDiagnosis.obs_datetime)
                 OR date(obsARTProgramStop.value_datetime) is null
@@ -688,7 +688,7 @@ null AS '20To24yrFemale',null AS '25To29yrMale',null AS '25To29yrFemale',null AS
 null AS '40To49YrsMale',null AS '40To49YrsFemale',null AS 'GrtThan50YrsMale',null AS 'GrtThan50YrsFemale'
 Union all
 select
-         CASE 
+         CASE
          when cnCodedDiagnosisVC.name = 'WHO stage IV' then "D5. Number of new PLHIV in care in WHO Stage 4 at registration this month"
          when cnCodedDiagnosisVC.name = 'P-WHO stage IV (Peads Stage IV)' then "D5. Number of new PLHIV in care in P WHO Stage 4 at registration this month" end as 'Diagnosis',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
@@ -740,14 +740,14 @@ select
         Left join obs obsARTProgramStop on p.person_id = obsARTProgramStop.person_id
         AND obsARTProgramStop.voided = 0
         AND obsARTProgramStop.concept_id = (
-                                                Select concept_id 
-                                                from concept_name 
-                                                where 
-                                                name ='PR, ART Program Stop Date' 
-                                                AND concept_name_type = 'FULLY_SPECIFIED' 
+                                                Select concept_id
+                                                from concept_name
+                                                where
+                                                name ='PR, ART Program Stop Date'
+                                                AND concept_name_type = 'FULLY_SPECIFIED'
                                                 and voided = 0
                                            )
-        where 
+        where
         cnCodedDiagnosis.name = 'Coded Diagnosis' and cnCodedDiagnosis.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosis.voided = 0
         and cnCodedDiagnosisVC.name IN ('WHO stage IV','P-WHO stage IV (Peads Stage IV)') and cnCodedDiagnosisVC.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosisVC.voided = 0
         and obsCodedDiagnosis.voided = 0
@@ -757,7 +757,7 @@ select
         and cnARTProgram.voided = 0
         and date(obsCodedDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
         and date(obsARTProgram.value_datetime ) between date('#startDate#') and date('#endDate#')
-        AND (   /*ART program stop date should not be there OR ART program stop date 
+        AND (   /*ART program stop date should not be there OR ART program stop date
                 should be greater or equal to Diagnosis date*/
                 date(obsARTProgramStop.value_datetime) >= date(obsCodedDiagnosis.obs_datetime)
                 OR date(obsARTProgramStop.value_datetime) is null
@@ -1296,16 +1296,16 @@ SELECT/*Pivoting the table*/
          THEN COUNT(1)  END AS 'GrtThan50YrsMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
-    FROM 
-  (  
-        select 
+    FROM
+  (
+        select
         distinct ord.patient_id
         from orders ord
         join drug_order dro on ord.order_id = dro.order_id
         join drug on dro.drug_inventory_id = drug.drug_id
-        where 
+        where
         drug.name = 'Cotrimoxazole(prophylaxis)' and drug.retired = 0
-        and date(ord.date_activated) <= date('#endDate#')   
+        and date(ord.date_activated) <= date('#endDate#')
  ) AS totalnumberofPLHIVincarecurrentlyreceivingCTXprophylaxisincludingTBpatients
            INNER JOIN person p ON p.person_id = totalnumberofPLHIVincarecurrentlyreceivingCTXprophylaxisincludingTBpatients.patient_id
            GROUP BY
