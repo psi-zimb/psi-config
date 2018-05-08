@@ -470,7 +470,7 @@
          "sqlPath":"/var/www/bahmni_config/openmrs/apps/reports/sql/MOHReportHIVTestingServices.sql"
       }
    },
-   "MOHReport-HIVTBCollaborationReport.sql" :{
+   "MOHReport-HIVTBCollaborationReport" :{
      "name" : "MOH Report - HIV/TB Collaboration report",
      "type" : "MRSGeneric",
      "config" : {
@@ -482,6 +482,13 @@
      "type" : "MRSGeneric",
      "config" : {
         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/MOHReport-OpportunisticInfectionsAndAntiretroviralTherapyAndProphylaxisReport.sql"
+     }
+   },
+   "MOHReport-HIVTBCollaborationReport.sql" :{
+     "name" : "MOH Report - Laboratory services report",
+     "type" : "MRSGeneric",
+     "config" : {
+        "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/MOHReport-LaboratoryServicesReport.sql"
      }
    }
 
