@@ -148,7 +148,7 @@ SELECT/*Pivoting the table*/
                 and obsHIVRNAPCR.voided = 0
                 and date(obsHIVRNAPCR.obs_datetime) between date('#startDate#') and date('#endDate#')
                 and d.retired = 0
-                and date(ord.date_activated) < date('#endDate#')
+                and date(ord.date_activated) <= date('#endDate#')
          ) AS numberofPLHIVincareonARTwithViralLoadtestdoneat12monthsafterARTinitiationthismonth
            INNER JOIN person p ON p.person_id = numberofPLHIVincareonARTwithViralLoadtestdoneat12monthsafterARTinitiationthismonth.person_id
            GROUP BY
