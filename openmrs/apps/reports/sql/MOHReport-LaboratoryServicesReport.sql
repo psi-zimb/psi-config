@@ -120,7 +120,7 @@ SELECT/*Pivoting the table*/
                 and datediff /*Difference of reporting end and ART Program start date should be greater than or equal to 365*/
                             ( date('#endDate#'),
                               (
-                                  Select date(value_datetime) from obs WHERE voided = 0 and person_id = obsARTProgram.person_id and concept_id =
+                                  Select date(max(value_datetime)) from obs WHERE voided = 0 and person_id = obsARTProgram.person_id and concept_id =
                                   (
                                       SELECT concept_id from concept_name WHERE name = 'PR, Start date of ART program' and
                                       concept_name_type = 'FULLY_SPECIFIED' and voided = 0 
