@@ -484,7 +484,7 @@
         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/MOHReport-OpportunisticInfectionsAndAntiretroviralTherapyAndProphylaxisReport.sql"
      }
    },
-   "MOHReport-HIVTBCollaborationReport.sql" :{
+   "MOHReport-LaboratoryServicesReport" :{
      "name" : "MOH Report - Laboratory services report",
      "type" : "MRSGeneric",
      "config" : {
