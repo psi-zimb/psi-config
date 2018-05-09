@@ -1780,6 +1780,643 @@ SELECT/*Pivoting the table*/
     ) AS MOHReportD11NumberPLHIVInCareLostToFollowUpBeforeInitiationOnARTThisMonth
 
 UNION ALL
+
+SELECT/*Pivoting the table*/
+    'D12. Number of PLHIV in care transferred out before initiation on ART this month (Pre- ART)' AS '-',
+    SUM(lessThan1yrMale) AS '<1 M',
+    SUM(lessThan1yrFemale) AS '<1 F',
+    SUM(1To9yrMale) AS '1-9 M',
+    SUM(1To9yrFemale) AS '1-9 F',
+    SUM(10To14yrMale) AS '10-14 M',
+    SUM(10To14yrFemale) AS '10-14 F',
+    SUM(15To19yrMale) AS '15-19 M',
+    SUM(15To19yrFemale) AS '15-19 F',
+    SUM(20To24yrMale) AS '20-24 M',
+    SUM(20To24yrFemale) AS '20-24 F',
+    SUM(25To29yrMale) AS '25-29 M',
+    SUM(25To29yrFemale) AS '25-29 F',
+    SUM(30To34yrMale) AS '30-34 M',
+    SUM(30To34yrFemale) AS '30-34 F',
+    SUM(35To39yrMale) AS '35-39 M',
+    SUM(35To39yrFemale) AS '35-39 F',
+    SUM(40To49YrsMale) AS '40-49 M',
+    SUM(40To49YrsFemale) AS '40-49 F',
+    SUM(GrtThan50YrsMale) AS '>50 M',
+    SUM(GrtThan50YrsFemale) AS '>50 F'
+    FROM
+    (
+    SELECT
+         'D12. Number of PLHIV in care transferred out before initiation on ART this month (Pre- ART)',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
+         THEN COUNT(1)  END AS 'lessThan1yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
+         THEN COUNT(1)  END AS 'lessThan1yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '1To9yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '1To9yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '10To14yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '10To14yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '15To19yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '15To19yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '20To24yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '20To24yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '25To29yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '25To29yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '30To34yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '30To34yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '35To39yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '35To39yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '40To49YrsMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '40To49YrsFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'M'
+         THEN COUNT(1)  END AS 'GrtThan50YrsMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
+         THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
+    FROM (
+            Select
+            DISTINCT obsForTransferOut.person_id
+            from
+            obs  obsForTransferOut
+            Left join patient_identifier artNumber
+                        on artNumber.patient_id = obsForTransferOut.person_id
+                        And artNumber.identifier_type = (
+                                                        select
+                                                        patient_identifier_type_id
+                                                        from patient_identifier_type
+                                                        where
+                                                        name = 'PREP/OI Identifier'
+                                                        and retired = 0
+                                                        and uniqueness_behavior = 'UNIQUE'
+                                                        )
+                        and artNumber.voided = 0
+            LEFT JOIN obs artProgramCheck
+                        On artProgramCheck.person_id = obsForTransferOut.person_id
+                        AND artProgramCheck.concept_id =
+                                                        (
+                                                        SELECT concept_id
+                                                        FROM concept_view
+                                                        WHERE concept_full_name = 'PR, Start date of ART program'
+                                                        AND retired=0 /*Concept id for ART start date*/
+                                                        )
+                        AND artProgramCheck.voided = 0
+            where
+            obsForTransferOut.concept_id =
+                                           (
+                                            SELECT concept_id
+                                            FROM concept_view
+                                            WHERE concept_full_name = 'AS, Activity status'
+                                            AND retired=0
+                                            )
+            and obsForTransferOut.value_coded =
+                                            (
+                                            SELECT concept_id
+                                            FROM concept_view
+                                            WHERE concept_full_name = 'Transfer Out'
+                                            AND retired=0
+                                            )
+            AND obsForTransferOut.voided =0
+            And date(obsForTransferOut.obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
+            AND
+                (
+                    date(artProgramCheck.value_datetime) < date(obsForTransferOut.obs_datetime)/*Checking if patient was enrolled before marking deceased*/
+                    OR
+                    COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) < date(obsForTransferOut.obs_datetime)/*Checking if patient have ART number before marking deceased*/
+                )
+            AND ( artNumber.identifier is not Null OR artProgramCheck.value_datetime IS Not Null ) /*Checking if ART OI number is present or patient is enrolled into ART program*/
+            AND obsForTransferOut.person_id NOT IN
+                                     (/*Patient not having ARV drugs before marking deceased*/
+                                     Select patient_id
+                                     from orders
+                                     inner JOIN drug_order dord on dord.order_id = orders.order_id
+                                     inner JOIN drug drugRegime on dord.drug_inventory_id = drugRegime.drug_id
+                                     where drugRegime.name  IN (
+                                                                "Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Efavirenz (EFV) 600mg",
+                                                                "Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Efavirenz (EFV) 400mg",
+                                                                "Zidovudine (AZT) 300mg + Lamivudine (3TC) 150mg + Nevirapine (NVP) 200mg",
+                                                                "Zidovudine (AZT) 60mg + Lamivudine (3TC) 30mg + Nevirapine (NVP) 50mg",
+                                                                "Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg",
+                                                                "Tenofovir (TDF) 300mg + Emtricitabine 200mg",
+                                                                "Zidovudine (AZT) 300mg + Lamivudine (3TC) 150mg",
+                                                                "Zidovudine (AZT) 60mg + Lamivudine (3TC) 30mg",
+                                                                "Abacavir 600mg / Lamivudine 300mg",
+                                                                "Abacavir 60mg / Lamivudine 30mg",
+                                                                "Atazanavir / Rtv 300 / 100 mg",
+                                                                "Lopinavir / Rtv 80 / 20 mg / ml",
+                                                                "Lopinavir / Rtv 100 / 25 mg",
+                                                                "Lopinavir / Rtv 200 / 50 mg",
+                                                                "Lamivudine (3TC) 150 mg",
+                                                                "Lamivudine (3TC) 50mg / 5ml",
+                                                                "Efavirenz (EFV) 50 mg",
+                                                                "Efavirenz (EFV) 200 mg",
+                                                                "Efavirenz (EFV) 600 mg",
+                                                                "Zidovudine (AZT) 300 mg",
+                                                                "Zidovudine (AZT) 100mg",
+                                                                "Zidovudine (AZT) 50mg / 5ml",
+                                                                "Abacavir (ABC) 20mg / ml",
+                                                                "Abacavir (ABC) 300 mg",
+                                                                "Abacavir (ABC) 60mg",
+                                                                "Nevirapine (NVP) 50mg / 5ml",
+                                                                "Nevirapine (NVP) 200mg",
+                                                                "Didanosine (ddl) 125mg",
+                                                                "Didanosine (ddl) 200mg",
+                                                                "Didanosine (ddl) 250mg",
+                                                                "Didanosine (ddl) 25mg",
+                                                                "Didanosine (ddl) 400mg",
+                                                                "Emitricitabine 200mg",
+                                                                "Tenofovir 300mg",
+                                                                "Indinavir 400mg",
+                                                                "Saquinavir 200mg"
+                                                                )
+                                     And date(orders.date_activated) < date(obsForTransferOut.obs_datetime)
+                                     )
+) AS numberOfPLHIVInCareTransferredOutBeforeInitiationOnARTThisMonthPreART
+           INNER JOIN person p ON p.person_id = numberOfPLHIVInCareTransferredOutBeforeInitiationOnARTThisMonthPreART.person_id
+           GROUP BY
+           CASE
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
+               THEN '< 1 Yr M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
+               THEN '< 1 Yr F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'M'
+               THEN '1-9 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'F'
+               THEN '1-9 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'M'
+               THEN '10-14 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'F'
+               THEN '10-14 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'M'
+               THEN '15-19 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'F'
+               THEN '15-19 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
+               THEN '20-24 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
+               THEN '20-24 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'M'
+               THEN '25-29 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'F'
+               THEN '25-29 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'M'
+               THEN '30-34 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'F'
+               THEN '30-34 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'M'
+               THEN '35-39 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'F'
+               THEN '35-39 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'M'
+               THEN '40-49 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'F'
+               THEN '40-49 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'M'
+               THEN '> 50 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
+               THEN '> 50 Yrs F'
+            END
+    ) AS MOHReportD12NumberOfPLHIVInCareTransferredOutBeforeInitiationOnARTThisMonthPreART
+
+UNION ALL
+/*D13. Number of PLHIV in care who transferred in before initiation on ART this month (Pre-ART)*/
+SELECT/*Pivoting the table*/
+    'D13. Number of PLHIV in care who transferred in before initiation on ART this month (Pre-ART)' AS '-',
+    SUM(lessThan1yrMale) AS '<1 M',
+    SUM(lessThan1yrFemale) AS '<1 F',
+    SUM(1To9yrMale) AS '1-9 M',
+    SUM(1To9yrFemale) AS '1-9 F',
+    SUM(10To14yrMale) AS '10-14 M',
+    SUM(10To14yrFemale) AS '10-14 F',
+    SUM(15To19yrMale) AS '15-19 M',
+    SUM(15To19yrFemale) AS '15-19 F',
+    SUM(20To24yrMale) AS '20-24 M',
+    SUM(20To24yrFemale) AS '20-24 F',
+    SUM(25To29yrMale) AS '25-29 M',
+    SUM(25To29yrFemale) AS '25-29 F',
+    SUM(30To34yrMale) AS '30-34 M',
+    SUM(30To34yrFemale) AS '30-34 F',
+    SUM(35To39yrMale) AS '35-39 M',
+    SUM(35To39yrFemale) AS '35-39 F',
+    SUM(40To49YrsMale) AS '40-49 M',
+    SUM(40To49YrsFemale) AS '40-49 F',
+    SUM(GrtThan50YrsMale) AS '>50 M',
+    SUM(GrtThan50YrsFemale) AS '>50 F'
+    FROM
+    (
+    SELECT
+         'D13. Number of PLHIV in care who transferred in before initiation on ART this month (Pre-ART)',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
+         THEN COUNT(1)  END AS 'lessThan1yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
+         THEN COUNT(1)  END AS 'lessThan1yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '1To9yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '1To9yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '10To14yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '10To14yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '15To19yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '15To19yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '20To24yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '20To24yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '25To29yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '25To29yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '30To34yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '30To34yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '35To39yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '35To39yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '40To49YrsMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '40To49YrsFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'M'
+         THEN COUNT(1)  END AS 'GrtThan50YrsMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
+         THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
+    FROM (
+            Select
+            DISTINCT obsForTransferIn.person_id
+            from
+            obs  obsForTransferIn
+            Left join patient_identifier artNumber
+                        on artNumber.patient_id = obsForTransferIn.person_id
+                        And artNumber.identifier_type = (
+                                                        select
+                                                        patient_identifier_type_id
+                                                        from patient_identifier_type
+                                                        where
+                                                        name = 'PREP/OI Identifier'
+                                                        and retired = 0
+                                                        and uniqueness_behavior = 'UNIQUE'
+                                                        )
+                        and artNumber.voided = 0
+            LEFT JOIN obs artProgramCheck
+                        On artProgramCheck.person_id = obsForTransferIn.person_id
+                        AND artProgramCheck.concept_id =
+                                                        (
+                                                        SELECT concept_id
+                                                        FROM concept_view
+                                                        WHERE concept_full_name = 'PR, Start date of ART program'
+                                                        AND retired=0 /*Concept id for ART start date*/
+                                                        )
+                        AND artProgramCheck.voided = 0
+            where
+            obsForTransferIn.concept_id =
+                                           (
+                                            SELECT concept_id
+                                            FROM concept_view
+                                            WHERE concept_full_name = 'AS, Activity status'
+                                            AND retired=0
+                                            )
+            and obsForTransferIn.value_coded =
+                                            (
+                                            SELECT concept_id
+                                            FROM concept_view
+                                            WHERE concept_full_name = 'Transfer in'
+                                            AND retired=0
+                                            )
+            AND obsForTransferIn.voided =0
+            And date(obsForTransferIn.obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
+            AND
+                (
+                    date(artProgramCheck.value_datetime) < date(obsForTransferIn.obs_datetime)/*Checking if patient was enrolled before marking deceased*/
+                    OR
+                    COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) < date(obsForTransferIn.obs_datetime)/*Checking if patient have ART number before marking deceased*/
+                )
+            AND ( artNumber.identifier is not Null OR artProgramCheck.value_datetime IS Not Null ) /*Checking if ART OI number is present or patient is enrolled into ART program*/
+            AND obsForTransferIn.person_id NOT IN
+                                     (/*Patient not having ARV drugs before marking deceased*/
+                                     Select patient_id
+                                     from orders
+                                     inner JOIN drug_order dord on dord.order_id = orders.order_id
+                                     inner JOIN drug drugRegime on dord.drug_inventory_id = drugRegime.drug_id
+                                     where drugRegime.name  IN (
+                                                                "Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Efavirenz (EFV) 600mg",
+                                                                "Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Efavirenz (EFV) 400mg",
+                                                                "Zidovudine (AZT) 300mg + Lamivudine (3TC) 150mg + Nevirapine (NVP) 200mg",
+                                                                "Zidovudine (AZT) 60mg + Lamivudine (3TC) 30mg + Nevirapine (NVP) 50mg",
+                                                                "Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg",
+                                                                "Tenofovir (TDF) 300mg + Emtricitabine 200mg",
+                                                                "Zidovudine (AZT) 300mg + Lamivudine (3TC) 150mg",
+                                                                "Zidovudine (AZT) 60mg + Lamivudine (3TC) 30mg",
+                                                                "Abacavir 600mg / Lamivudine 300mg",
+                                                                "Abacavir 60mg / Lamivudine 30mg",
+                                                                "Atazanavir / Rtv 300 / 100 mg",
+                                                                "Lopinavir / Rtv 80 / 20 mg / ml",
+                                                                "Lopinavir / Rtv 100 / 25 mg",
+                                                                "Lopinavir / Rtv 200 / 50 mg",
+                                                                "Lamivudine (3TC) 150 mg",
+                                                                "Lamivudine (3TC) 50mg / 5ml",
+                                                                "Efavirenz (EFV) 50 mg",
+                                                                "Efavirenz (EFV) 200 mg",
+                                                                "Efavirenz (EFV) 600 mg",
+                                                                "Zidovudine (AZT) 300 mg",
+                                                                "Zidovudine (AZT) 100mg",
+                                                                "Zidovudine (AZT) 50mg / 5ml",
+                                                                "Abacavir (ABC) 20mg / ml",
+                                                                "Abacavir (ABC) 300 mg",
+                                                                "Abacavir (ABC) 60mg",
+                                                                "Nevirapine (NVP) 50mg / 5ml",
+                                                                "Nevirapine (NVP) 200mg",
+                                                                "Didanosine (ddl) 125mg",
+                                                                "Didanosine (ddl) 200mg",
+                                                                "Didanosine (ddl) 250mg",
+                                                                "Didanosine (ddl) 25mg",
+                                                                "Didanosine (ddl) 400mg",
+                                                                "Emitricitabine 200mg",
+                                                                "Tenofovir 300mg",
+                                                                "Indinavir 400mg",
+                                                                "Saquinavir 200mg"
+                                                                )
+                                     And date(orders.date_activated) < date(obsForTransferIn.obs_datetime)
+                                     )
+) AS numberOfPLHIVInCareTransferredInBeforeInitiationOnARTThisMonthPreART
+           INNER JOIN person p ON p.person_id = numberOfPLHIVInCareTransferredInBeforeInitiationOnARTThisMonthPreART.person_id
+           GROUP BY
+           CASE
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
+               THEN '< 1 Yr M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
+               THEN '< 1 Yr F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'M'
+               THEN '1-9 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'F'
+               THEN '1-9 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'M'
+               THEN '10-14 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'F'
+               THEN '10-14 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'M'
+               THEN '15-19 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'F'
+               THEN '15-19 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
+               THEN '20-24 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
+               THEN '20-24 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'M'
+               THEN '25-29 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'F'
+               THEN '25-29 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'M'
+               THEN '30-34 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'F'
+               THEN '30-34 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'M'
+               THEN '35-39 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'F'
+               THEN '35-39 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'M'
+               THEN '40-49 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'F'
+               THEN '40-49 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'M'
+               THEN '> 50 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
+               THEN '> 50 Yrs F'
+            END
+    ) AS MOHReportD13NumberOfPLHIVInCareTransferredInBeforeInitiationOnARTThisMonthPreART
+
+UNION ALL
+ /*D14. Total number of PLHIV in care currently on Pre- ART this month*/
+SELECT/*Pivoting the table*/
+    'D14. Total number of PLHIV in care currently on Pre- ART this month' AS '-',
+    SUM(lessThan1yrMale) AS '<1 M',
+    SUM(lessThan1yrFemale) AS '<1 F',
+    SUM(1To9yrMale) AS '1-9 M',
+    SUM(1To9yrFemale) AS '1-9 F',
+    SUM(10To14yrMale) AS '10-14 M',
+    SUM(10To14yrFemale) AS '10-14 F',
+    SUM(15To19yrMale) AS '15-19 M',
+    SUM(15To19yrFemale) AS '15-19 F',
+    SUM(20To24yrMale) AS '20-24 M',
+    SUM(20To24yrFemale) AS '20-24 F',
+    SUM(25To29yrMale) AS '25-29 M',
+    SUM(25To29yrFemale) AS '25-29 F',
+    SUM(30To34yrMale) AS '30-34 M',
+    SUM(30To34yrFemale) AS '30-34 F',
+    SUM(35To39yrMale) AS '35-39 M',
+    SUM(35To39yrFemale) AS '35-39 F',
+    SUM(40To49YrsMale) AS '40-49 M',
+    SUM(40To49YrsFemale) AS '40-49 F',
+    SUM(GrtThan50YrsMale) AS '>50 M',
+    SUM(GrtThan50YrsFemale) AS '>50 F'
+    FROM
+    (
+    SELECT
+         'D14. Total number of PLHIV in care currently on Pre- ART this month',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
+         THEN COUNT(1)  END AS 'lessThan1yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
+         THEN COUNT(1)  END AS 'lessThan1yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '1To9yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '1To9yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '10To14yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '10To14yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '15To19yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '15To19yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '20To24yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '20To24yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '25To29yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '25To29yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '30To34yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '30To34yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '35To39yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '35To39yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '40To49YrsMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '40To49YrsFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'M'
+         THEN COUNT(1)  END AS 'GrtThan50YrsMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
+         THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
+    FROM (
+      Select
+      DISTINCT obsForTransferIn.person_id
+      from
+      obs  obsForTransferIn
+      Left join patient_identifier artNumber
+              on artNumber.patient_id = obsForTransferIn.person_id
+              And artNumber.identifier_type = (
+                                              select
+                                              patient_identifier_type_id
+                                              from patient_identifier_type
+                                              where
+                                              name = 'PREP/OI Identifier'
+                                              and retired = 0
+                                              and uniqueness_behavior = 'UNIQUE'
+                                              )
+              and artNumber.voided = 0
+      LEFT JOIN obs artProgramCheck
+              On artProgramCheck.person_id = obsForTransferIn.person_id
+              AND artProgramCheck.concept_id =
+                                              (
+                                              SELECT concept_id
+                                              FROM concept_view
+                                              WHERE concept_full_name = 'PR, Start date of ART program'
+                                              AND retired=0 /*Concept id for ART start date*/
+                                              )
+              AND artProgramCheck.voided = 0
+      where
+      obsForTransferIn.concept_id =
+                                 (
+                                  SELECT concept_id
+                                  FROM concept_view
+                                  WHERE concept_full_name = 'AS, Activity status'
+                                  AND retired=0
+                                  )
+      and obsForTransferIn.value_coded IN
+                                  (
+                                  SELECT concept_id
+                                  FROM concept_view
+                                  WHERE concept_full_name in  ('Transfer in','Active')
+                                  AND retired=0
+                                  )
+      AND obsForTransferIn.voided =0
+      And date(obsForTransferIn.obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
+      AND
+      (
+          date(artProgramCheck.value_datetime) < date(obsForTransferIn.obs_datetime)/*Checking if patient was enrolled before marking deceased*/
+          OR
+          COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) < date(obsForTransferIn.obs_datetime)/*Checking if patient have ART number before marking deceased*/
+      )
+      AND ( artNumber.identifier is not Null OR artProgramCheck.value_datetime IS Not Null ) /*Checking if ART OI number is present or patient is enrolled into ART program*/
+      AND obsForTransferIn.person_id NOT IN
+                           (/*Patient not having ARV drugs before marking deceased*/
+                           Select patient_id
+                           from orders
+                           inner JOIN drug_order dord on dord.order_id = orders.order_id
+                           inner JOIN drug drugRegime on dord.drug_inventory_id = drugRegime.drug_id
+                           where drugRegime.name  IN (
+                                                      "Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Efavirenz (EFV) 600mg",
+                                                      "Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Efavirenz (EFV) 400mg",
+                                                      "Zidovudine (AZT) 300mg + Lamivudine (3TC) 150mg + Nevirapine (NVP) 200mg",
+                                                      "Zidovudine (AZT) 60mg + Lamivudine (3TC) 30mg + Nevirapine (NVP) 50mg",
+                                                      "Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg",
+                                                      "Tenofovir (TDF) 300mg + Emtricitabine 200mg",
+                                                      "Zidovudine (AZT) 300mg + Lamivudine (3TC) 150mg",
+                                                      "Zidovudine (AZT) 60mg + Lamivudine (3TC) 30mg",
+                                                      "Abacavir 600mg / Lamivudine 300mg",
+                                                      "Abacavir 60mg / Lamivudine 30mg",
+                                                      "Atazanavir / Rtv 300 / 100 mg",
+                                                      "Lopinavir / Rtv 80 / 20 mg / ml",
+                                                      "Lopinavir / Rtv 100 / 25 mg",
+                                                      "Lopinavir / Rtv 200 / 50 mg",
+                                                      "Lamivudine (3TC) 150 mg",
+                                                      "Lamivudine (3TC) 50mg / 5ml",
+                                                      "Efavirenz (EFV) 50 mg",
+                                                      "Efavirenz (EFV) 200 mg",
+                                                      "Efavirenz (EFV) 600 mg",
+                                                      "Zidovudine (AZT) 300 mg",
+                                                      "Zidovudine (AZT) 100mg",
+                                                      "Zidovudine (AZT) 50mg / 5ml",
+                                                      "Abacavir (ABC) 20mg / ml",
+                                                      "Abacavir (ABC) 300 mg",
+                                                      "Abacavir (ABC) 60mg",
+                                                      "Nevirapine (NVP) 50mg / 5ml",
+                                                      "Nevirapine (NVP) 200mg",
+                                                      "Didanosine (ddl) 125mg",
+                                                      "Didanosine (ddl) 200mg",
+                                                      "Didanosine (ddl) 250mg",
+                                                      "Didanosine (ddl) 25mg",
+                                                      "Didanosine (ddl) 400mg",
+                                                      "Emitricitabine 200mg",
+                                                      "Tenofovir 300mg",
+                                                      "Indinavir 400mg",
+                                                      "Saquinavir 200mg"
+                                                      )
+                           And date(orders.date_activated) < date(obsForTransferIn.obs_datetime)
+                           )
+) AS totalNumberOfPLHIVInCareCurrentlyOnPreARTThisMonth
+           INNER JOIN person p ON p.person_id = totalNumberOfPLHIVInCareCurrentlyOnPreARTThisMonth.person_id
+           GROUP BY
+           CASE
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
+               THEN '< 1 Yr M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
+               THEN '< 1 Yr F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'M'
+               THEN '1-9 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'F'
+               THEN '1-9 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'M'
+               THEN '10-14 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'F'
+               THEN '10-14 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'M'
+               THEN '15-19 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'F'
+               THEN '15-19 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
+               THEN '20-24 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
+               THEN '20-24 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'M'
+               THEN '25-29 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'F'
+               THEN '25-29 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'M'
+               THEN '30-34 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'F'
+               THEN '30-34 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'M'
+               THEN '35-39 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'F'
+               THEN '35-39 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'M'
+               THEN '40-49 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'F'
+               THEN '40-49 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'M'
+               THEN '> 50 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
+               THEN '> 50 Yrs F'
+            END
+    ) AS MOHReportD14TotalNumberOfPLHIVInCareCurrentlyOnPreARTThisMonth
+
+UNION ALL
+
 /*D15. Number of  newly diagnosed Cryptococcal Meningitis(CM)cases commenced on Fluconazole treatment this month*/
 SELECT/*Pivoting the table*/
     'D15. Number of newly diagnosed Cryptococcal Meningitis(CM)cases commenced on Fluconazole treatment this month' AS '-',
