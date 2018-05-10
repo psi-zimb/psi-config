@@ -490,6 +490,13 @@
      "config" : {
         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/MOHReport-LaboratoryServicesReport.sql"
      }
+   },
+   "MOHReport-ARTSummaryReport" :{
+     "name" : "MOH Report - ART Summary Report",
+     "type" : "MRSGeneric",
+     "config" : {
+        "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/MOHReport-ARTSummaryReport.sql"
+     }
    }
 
 }
