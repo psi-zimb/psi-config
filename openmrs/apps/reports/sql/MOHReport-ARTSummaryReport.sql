@@ -285,7 +285,7 @@ SELECT/*Pivoting the table*/
                                                      AND retired=0 
                                                    )
                                    
-                             and date(obs_datetime) between date('#startDate#') and ('#endDate#')
+                             and date(obs_datetime) between date('#startDate#') and date('#endDate#')
                              and voided = 0
             
             ) AS numberOfPLHIVinCareNewlyEnrolled
