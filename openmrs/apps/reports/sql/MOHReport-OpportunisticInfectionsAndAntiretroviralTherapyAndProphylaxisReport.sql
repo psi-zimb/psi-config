@@ -2105,13 +2105,13 @@ SELECT/*Pivoting the table*/
             And date(obsForTransferIn.obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
             AND
                 (
-                    date(artProgramCheck.value_datetime) < date(obsForTransferIn.obs_datetime)/*Checking if patient was enrolled before marking deceased*/
+                    date(artProgramCheck.value_datetime) between DATE('#startDate#') AND DATE('#endDate#')/*Checking if patient was enrolled into ART in the reporting period*/
                     OR
-                    COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) < date(obsForTransferIn.obs_datetime)/*Checking if patient have ART number before marking deceased*/
+                    COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) between DATE('#startDate#') AND DATE('#endDate#')/*Checking if patient have ART number in the reporting period*/
                 )
             AND ( artNumber.identifier is not Null OR artProgramCheck.value_datetime IS Not Null ) /*Checking if ART OI number is present or patient is enrolled into ART program*/
             AND obsForTransferIn.person_id NOT IN
-                                     (/*Patient not having ARV drugs before marking deceased*/
+                                     (/*Patient not having ARV drugs between the reporting period will be excluded*/
                                      Select patient_id
                                      from orders
                                      inner JOIN drug_order dord on dord.order_id = orders.order_id
@@ -2154,7 +2154,7 @@ SELECT/*Pivoting the table*/
                                                                 "Indinavir 400mg",
                                                                 "Saquinavir 200mg"
                                                                 )
-                                     And date(orders.date_activated) < date(obsForTransferIn.obs_datetime)
+                                     And date(orders.date_activated) between DATE('#startDate#') AND DATE('#endDate#')
                                      )
 ) AS numberOfPLHIVInCareTransferredInBeforeInitiationOnARTThisMonthPreART
            INNER JOIN person p ON p.person_id = numberOfPLHIVInCareTransferredInBeforeInitiationOnARTThisMonthPreART.person_id
