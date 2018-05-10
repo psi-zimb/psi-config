@@ -2317,13 +2317,13 @@ SELECT/*Pivoting the table*/
       And date(obsForTransferIn.obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
       AND
       (
-          date(artProgramCheck.value_datetime) < date(obsForTransferIn.obs_datetime)/*Checking if patient was enrolled before marking deceased*/
+          date(artProgramCheck.value_datetime) <= date('#endDate#')/*Checking if patient was enrolled into ART Program before or equal to the reporting end date*/
           OR
-          COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) < date(obsForTransferIn.obs_datetime)/*Checking if patient have ART number before marking deceased*/
+          COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) <= date('#endDate#')/*Checking if patient have ART number before or equal to the reporting end date*/
       )
       AND ( artNumber.identifier is not Null OR artProgramCheck.value_datetime IS Not Null ) /*Checking if ART OI number is present or patient is enrolled into ART program*/
       AND obsForTransferIn.person_id NOT IN
-                           (/*Patient not having ARV drugs before marking deceased*/
+                           (/*Patient not having ARV drugs before or equal to reporting end date*/
                            Select patient_id
                            from orders
                            inner JOIN drug_order dord on dord.order_id = orders.order_id
@@ -2366,7 +2366,7 @@ SELECT/*Pivoting the table*/
                                                       "Indinavir 400mg",
                                                       "Saquinavir 200mg"
                                                       )
-                           And date(orders.date_activated) < date(obsForTransferIn.obs_datetime)
+                           And date(orders.date_activated) <= date('#endDate#')
                            )
 ) AS totalNumberOfPLHIVInCareCurrentlyOnPreARTThisMonth
            INNER JOIN person p ON p.person_id = totalNumberOfPLHIVInCareCurrentlyOnPreARTThisMonth.person_id
