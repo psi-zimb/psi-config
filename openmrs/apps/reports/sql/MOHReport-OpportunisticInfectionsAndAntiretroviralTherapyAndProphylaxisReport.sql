@@ -2520,6 +2520,7 @@ SELECT/*Pivoting the table*/
                                                       and concept_name_type='FULLY_SPECIFIED'
                                                    )
                                  and date(obs_datetime) < date('#startDate#')
+                                 and voided = 0
                                   )
                  and person_id in
                                   (
@@ -2531,7 +2532,7 @@ SELECT/*Pivoting the table*/
                                         and orders.order_type_id = 2
                                         where drugs.name = 'Fluconazole'
                                         and orders.date_stopped is null
-                                        and orders.date_activated between ('#startDate#') and ('#endDate#')
+                                        and orders.date_activated between date('#startDate#') and date('#endDate#')
                                   )
 ) AS numberOfNewlDiagnosedCryptococcalMeningitisCasesCommencedOnFluconazole
            INNER JOIN person p ON p.person_id = numberOfNewlDiagnosedCryptococcalMeningitisCasesCommencedOnFluconazole.person_id
