@@ -2814,7 +2814,9 @@ SELECT/*Pivoting the table*/
          THEN COUNT(1)  END AS 'GrtThan50YrsMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
-    FROM (  Select 
+    FROM (  
+
+            Select 
             DISTINCT obsForDiagnosis.person_id
             from 
             obs obsForDiagnosis
@@ -2850,7 +2852,8 @@ SELECT/*Pivoting the table*/
                                                                     FROM concept_view
                                                                     WHERE concept_full_name = 'Liver (Fluconazole - high dose)'
                                                                     AND retired=0 
-                                   )
+                                              )
+            AND date(obsForDiagnosis.obs_datetime) between date('#startDate#') AND date('#endDate#')
             AND obsForDiagnosis.voided = 0
             AND (
                     date(artProgramCheck.value_datetime) < date(obsForDiagnosis.obs_datetime)/*Checking if patient was enrolled before marking deceased*/
@@ -2867,7 +2870,7 @@ SELECT/*Pivoting the table*/
                                                  AND orders.order_action = 'DISCONTINUE'
                                                  And orders.voided = 0
                                                  AND date(obsForDiagnosis.obs_datetime) < date(orders.date_activated) /*Date of daignosis < date of meds*/
-                                                 AND date(orders.date_activated) between '#startDate#' AND '#endDate#'
+                                                 AND date(orders.date_activated) between date('#startDate#') AND date('#endDate#')
                                                )
                          
 ) AS numberOfNewlDiagnosedCryptococcalMeningitisCasesCommencedOnFluconazole
@@ -2916,4 +2919,3 @@ SELECT/*Pivoting the table*/
                THEN '> 50 Yrs F'
             END
     ) AS D17NumberOfPLHIVinCareWithCryptococcalMeningitisOnFluconazoleTreatmentWhoStoppedTreatmentDueToSevereAdverseEvent;
-
