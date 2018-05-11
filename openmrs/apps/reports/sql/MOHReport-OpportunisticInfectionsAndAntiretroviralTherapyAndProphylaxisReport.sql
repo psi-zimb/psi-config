@@ -2531,7 +2531,6 @@ SELECT/*Pivoting the table*/
                                      on orders.order_id  = drugsOrder.order_id
                                         and orders.order_type_id = 2
                                         where drugs.name = 'Fluconazole'
-                                        and orders.date_stopped is null
                                         and orders.date_activated between date('#startDate#') and date('#endDate#')
                                   )
 ) AS numberOfNewlDiagnosedCryptococcalMeningitisCasesCommencedOnFluconazole
