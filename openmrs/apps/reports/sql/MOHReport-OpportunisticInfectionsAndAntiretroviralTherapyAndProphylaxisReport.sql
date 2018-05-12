@@ -2650,54 +2650,76 @@ SELECT/*Pivoting the table*/
          THEN COUNT(1)  END AS 'GrtThan50YrsMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
-    FROM (   select distinct person_id
-             from obs
-             where person_id IN
-                        (
-                          select person_id
-                          from obs
-                          where concept_id =
-                                              (
-                                                 select concept_id
-                                                 from concept_name
-                                                 where concept_name.name='Coded Diagnosis'
-                                                 and concept_name_type='FULLY_SPECIFIED'
-                                              )
-                          and value_coded =
-                                              (
-                                                  select concept_id
-                                                  from concept_name
-                                                  where concept_name.name =   ('Liver (Fluconazole - high dose)')
-                                                  and concept_name_type='FULLY_SPECIFIED'
-                                               )
-                          and voided = 0
-                          and date(obs_datetime) between date('#startDate#') and date('#endDate#')
-
-                            )
-
-                         or person_id in       (
-                                                 select patient_id
-                                                 from patient_identifier
-                                                 where identifier_type=6
-                                                 and voided=0
-                                                )
-
-                         and person_id IN      (
-                                                select person_id
-                                                from obs
-                                                where concept_id =
-                                                                  (
-                                                                  SELECT concept_id
-                                                                  FROM concept_name
-                                                                  where concept_name.name='PR, Start date of ART program'
-                                                                  and concept_name_type='fully_specified'
-                                                                  )
-                                                                  and voided =0
-                                                  )
-
-                                                  and voided = 0
-                         and date(obs_datetime) between date('#startDate#') and date('#endDate#')
-
+    FROM (
+                    Select distinct obsForDiagnosis.person_id
+                    from obs obsForDiagnosis
+                    Left join patient_identifier artNumber
+                    on artNumber.patient_id = obsForDiagnosis.person_id
+                    And artNumber.identifier_type = (
+                                                        select
+                                                        patient_identifier_type_id
+                                                        from patient_identifier_type
+                                                        where name = 'PREP/OI Identifier'
+                                                        and retired = 0
+                                                    )
+                                                        and artNumber.voided = 0
+                    LEfT JOIN obs artProgramCheck
+                    On artProgramCheck.person_id = obsForDiagnosis.person_id
+                    AND artProgramCheck.concept_id =
+                                                    (  /*Concept id for ART start date*/
+                                                        SELECT concept_id
+                                                        FROM concept_view
+                                                        WHERE concept_full_name = 'PR, Start date of ART program'
+                                                        AND retired=0 
+                                                    )
+                                                        AND artProgramCheck.voided = 0
+                    where obsForDiagnosis.concept_id = 
+                                                    (  /*Concept id for Coded Diagnosis*/
+                                                        SELECT concept_id
+                                                        FROM concept_view
+                                                        WHERE concept_full_name = 'Coded Diagnosis'
+                                                        AND retired=0 
+                                                    )
+                    AND obsForDiagnosis.value_coded = 
+                                                    (  /*Concept id for Liver (Fluconazole - high dose)*/
+                                                        SELECT concept_id
+                                                        FROM concept_view
+                                                        WHERE concept_full_name = 'Liver (Fluconazole - high dose)'
+                                                        AND retired=0 
+                                                    )
+                                                        AND obsForDiagnosis.voided = 0
+                    ANd obsForDiagnosis.obs_group_id not in
+                                                    (/*Removing diagnosis group if there are any revisions*/
+                                                                    
+                                                        Select obs_group_id 
+                                                        from obs WHERE concept_id = 51 
+                                                        AND  value_coded = 1 
+                                                        AND voided=0 
+                                                        AND obs_group_id is not null
+                                                        AND obs.person_id = obsForDiagnosis.person_id
+                                                        AND date(obs.date_created) <= date('#endDate#')
+                                                     )
+                    AND obsForDiagnosis.obs_group_id not in 
+                                                     ( /*Removing ruled out diagnosis*/
+                                                                      
+                                                        Select obs_group_id 
+                                                        from obs 
+                                                        WHERE concept_id = 49 
+                                                        AND  value_coded = 48 
+                                                        AND voided=0 
+                                                        AND obs_group_id is not null
+                                                        AND obs.person_id = obsForDiagnosis.person_id
+                                                        AND obs.obs_group_id = obsForDiagnosis.obs_group_id
+                                                        AND date(obs.obs_datetime) <= date('#endDate#')
+                                                     )
+                                    AND 
+                                                    (/*Checking if patient was enrolled before giving diagnosis*/
+                                                        date(artProgramCheck.value_datetime) < date(obsForDiagnosis.obs_datetime)
+                                              OR
+                                                     /*Checking if patient have ART number before giving diagnosis*/
+                                                        COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) < date(obsForDiagnosis.obs_datetime)
+                                                     )
+                                    and   date(obsForDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
 ) AS numberOfNewlDiagnosedCryptococcalMeningitisCasesCommencedOnFluconazole
            INNER JOIN person p ON p.person_id = numberOfNewlDiagnosedCryptococcalMeningitisCasesCommencedOnFluconazole.person_id
            GROUP BY
