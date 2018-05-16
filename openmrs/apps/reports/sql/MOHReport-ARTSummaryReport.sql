@@ -620,7 +620,12 @@ SELECT/*Pivoting the table*/
                                                                                                 concept_full_name = 'Deceased'
                                                                                                 AND retired=0
                                                                                             ) 
-                                                                                              
+                                 AND obsForCheckingIfPatientIsMarkedAsDeceased.person_id not in
+                                 (/*Patient with ART stop date < Date of Marked as Deceased date will be excluded*/
+                                 SELECT obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id
+                                 AND concept_view.concept_full_name = "PR, ART Program Stop Date" AND obs.voided=0
+                                 Where date(obs.value_datetime) < Date(obsForCheckingIfPatientIsMarkedAsDeceased.obs_datetime)
+                                 )                                                            
                                 And obsForCheckingIfPatientIsMarkedAsDeceased.voided = 0
                                 And obsToCheckARTStageValue.voided = 0
                                 And obsToGetLastARTStageChangeDate.voided = 0
@@ -802,7 +807,13 @@ from obs obsToGetLastARTStageChangeDate
                                                                                                 WHERE
                                                                                                 concept_full_name = 'Lost to follow up'
                                                                                                 AND retired=0
-                                                                                            )      
+                                                                                            )
+                                  AND obsForCheckingIfPatientIsMarkedAsDeceased.person_id not in
+                                 (/*Patient with ART stop date < Date of Marked as Lost to follow up date will be excluded*/
+                                 SELECT obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id
+                                 AND concept_view.concept_full_name = "PR, ART Program Stop Date" AND obs.voided=0
+                                 Where date(obs.value_datetime) < Date(obsForCheckingIfPatientIsMarkedAsDeceased.obs_datetime)
+                                 )      
                                 And obsForCheckingIfPatientIsMarkedAsDeceased.voided = 0
                                 And obsToCheckARTStageValue.voided = 0
                                 And obsToGetLastARTStageChangeDate.voided = 0
@@ -1179,8 +1190,13 @@ from obs obsToGetLastARTStageChangeDate
                                                                                                 WHERE
                                                                                                 concept_full_name = 'Transfer Out'
                                                                                                 AND retired=0
-                                                                                            ) 
-                                                                                              
+                                                                                            )
+                                AND obsForCheckingIfPatientIsMarkedAsDeceased.person_id not in
+                                 (/*Patient with ART stop date < Date of Marked as Transfer Out date will be excluded*/
+                                 SELECT obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id
+                                 AND concept_view.concept_full_name = "PR, ART Program Stop Date" AND obs.voided=0
+                                 Where date(obs.value_datetime) < Date(obsForCheckingIfPatientIsMarkedAsDeceased.obs_datetime)
+                                 )                                                             
                                 And obsForCheckingIfPatientIsMarkedAsDeceased.voided = 0
                                 And obsToCheckARTStageValue.voided = 0
                                 And obsToGetLastARTStageChangeDate.voided = 0
@@ -1604,7 +1620,60 @@ SELECT/*Pivoting the table*/
                                                                                                 "Zidovudine Drug reaction (to be reassigned)"
                                                                                                )
                                                                                                 AND retired=0
-                                                                       )                                    
+                                                                       )
+                                  AND obsForCodedDiagnosis.person_id not in
+                                 (/*Patient with ART stop date < Date of Marked as Transfer Out date will be excluded*/
+                                     SELECT obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id
+                                     AND concept_view.concept_full_name = "PR, ART Program Stop Date" AND obs.voided=0
+                                     Where date(obs.value_datetime) < (
+                                      Select date(max(obs_datetime)) from obs WHERE voided = 0 and person_id = obsForCodedDiagnosis.person_id 
+                                             and concept_id IN
+                                                                       (
+                                                                          SELECT
+                                                                          concept_id
+                                                                          FROM concept_view
+                                                                          WHERE
+                                                                          concept_full_name = 'Coded Diagnosis'
+                                                                          AND retired=0
+                                                                       )
+                                            and value_coded IN         (
+                                                                          SELECT
+                                                                          concept_id
+                                                                          FROM concept_view
+                                                                          WHERE
+                                                                          concept_full_name IN ( "Anemia (Zidovudine associated)",
+                                                                                                "Cardiomyopathy (Zidovudine related)",
+                                                                                                "Cardiovascular (Zidovudine)",
+                                                                                                "Efavirenz drug reaction (to be reassigned)",
+                                                                                                "Gastrointestinal (Lopinavir)",
+                                                                                                "Haematological (zidovudine)",
+                                                                                                "Hyperbilirubimia (Atazanavir)",
+                                                                                                "Hypersensitivity (Abacavir)",
+                                                                                                "Hypersensitivity (Efavirenz)",
+                                                                                                "Hypersensitivity (Nevirapine)",
+                                                                                                "Kidney (atazanavir)",
+                                                                                                "Kidney (tenofovir)",
+                                                                                                "Lipodystrophy (lopinavir)",
+                                                                                                "Lipodystrophy (Zidovudine)",
+                                                                                                "Liver (efavirenz)",
+                                                                                                "Liver (Nevirapine)",
+                                                                                                "Metabolic (atazanavir)",
+                                                                                                "Metabolic (didanosine)",
+                                                                                                "Metabolic (Lopinavir)",
+                                                                                                "Metabolic (tenofovir)",
+                                                                                                "Nervous System (Efavirenz)",
+                                                                                                "Nervous System (stavudine)",
+                                                                                                "Nevirapine drug reaction (to be reassigned)",
+                                                                                                "Peripheral Sensory Polyneuropathy (d4T)",
+                                                                                                "SJS (nevirapine)",
+                                                                                                "Skin (efavirenz)",
+                                                                                                "Skin (nevirapine)",
+                                                                                                "Zidovudine Drug reaction (to be reassigned)"
+                                                                                               )
+                                                                                                AND retired=0
+                                                                       )
+                                  )
+                                 )                                     
                                 And obsForCodedDiagnosis.voided = 0
                                 And obsToCheckARTStageValue.voided = 0
                                 And obsToGetLastARTStageChangeDate.voided = 0
@@ -2055,8 +2124,13 @@ from obs obsToGetLastARTStageChangeDate
                                                                                                 WHERE
                                                                                                 concept_full_name = 'Deceased'
                                                                                                 AND retired=0
-                                                                                            ) 
-                                                                                              
+                                                                                            )
+                                AND obsForCheckingIfPatientIsMarkedAsDeceased.person_id not in
+                                 (/*Patient with ART stop date < Date of Marked as Deceased date will be excluded*/
+                                 SELECT obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id
+                                 AND concept_view.concept_full_name = "PR, ART Program Stop Date" AND obs.voided=0
+                                 Where date(obs.value_datetime) < Date(obsForCheckingIfPatientIsMarkedAsDeceased.obs_datetime)
+                                 )                                                            
                                 And obsForCheckingIfPatientIsMarkedAsDeceased.voided = 0
                                 And obsToCheckARTStageValue.voided = 0
                                 And obsToGetLastARTStageChangeDate.voided = 0
@@ -2241,8 +2315,13 @@ from obs obsToGetLastARTStageChangeDate
                                                                             WHERE
                                                                             concept_full_name = 'Lost to follow up'
                                                                             AND retired=0
-                                                                        ) 
-                                                                                              
+                                                                        )
+                                AND obsForLostToFollowUp.person_id not in
+                                 (/*Patient with ART stop date < Date of Marked as Lost to follow up date will be excluded*/
+                                 SELECT obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id
+                                 AND concept_view.concept_full_name = "PR, ART Program Stop Date" AND obs.voided=0
+                                 Where date(obs.value_datetime) < Date(obsForLostToFollowUp.obs_datetime)
+                                 )                                                             
                                 And obsForLostToFollowUp.voided = 0
                                 And obsToCheckARTStageValue.voided = 0
                                 And obsToGetLastARTStageChangeDate.voided = 0
