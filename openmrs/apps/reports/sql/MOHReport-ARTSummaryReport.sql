@@ -1134,7 +1134,7 @@ from obs obsToGetLastARTStageChangeDate
                                                                  concept_full_name = 'PR, Start date of ART Stage'
                                                                  AND retired=0
                                                                 )
-                                               and date(value_datetime) <= '#endDate#'
+                                               and date(value_datetime) <= date('#endDate#')
                                                And voided = 0
                                                group by person_id
                                 ) as lastARTStageDate
@@ -1746,7 +1746,7 @@ from obs obsToGetLastARTStageChangeDate
                                                                  concept_full_name = 'PR, Start date of ART Stage'
                                                                  AND retired=0
                                                                 )
-                                               and date(value_datetime) <= '#startDate#'
+                                               and date(value_datetime) <= date('#endDate#')
                                                And voided = 0
                                                group by person_id
                                 ) as lastARTStageDate
