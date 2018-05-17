@@ -1994,6 +1994,273 @@ SELECT/*Pivoting the table*/
 
     UNION ALL
 
+/*D33. Number of PLHIV in care on first line Substituting due to toxicity this month*/
+SELECT/*Pivoting the table*/
+    'D33. Number of PLHIV in care on first line Substituting due to toxicity this month' AS '-',
+    SUM(lessThan1yrMale) AS '<1 M',
+    SUM(lessThan1yrFemale) AS '<1 F',
+    SUM(1To9yrMale) AS '1-9 M',
+    SUM(1To9yrFemale) AS '1-9 F',
+    SUM(10To14yrMale) AS '10-14 M',
+    SUM(10To14yrFemale) AS '10-14 F',
+    SUM(15To19yrMale) AS '15-19 M',
+    SUM(15To19yrFemale) AS '15-19 F',
+    SUM(20To24yrMale) AS '20-24 M',
+    SUM(20To24yrFemale) AS '20-24 F',
+    SUM(25To29yrMale) AS '25-29 M',
+    SUM(25To29yrFemale) AS '25-29 F',
+    SUM(30To34yrMale) AS '30-34 M',
+    SUM(30To34yrFemale) AS '30-34 F',
+    SUM(35To39yrMale) AS '35-39 M',
+    SUM(35To39yrFemale) AS '35-39 F',
+    SUM(40To49YrsMale) AS '40-49 M',
+    SUM(40To49YrsFemale) AS '40-49 F',
+    SUM(GrtThan50YrsMale) AS '>50 M',
+    SUM(GrtThan50YrsFemale) AS '>50 F'
+    FROM
+    (
+    SELECT
+         'D33. Number of PLHIV in care on first line Substituting due to toxicity this month',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
+         THEN COUNT(1)  END AS 'lessThan1yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
+         THEN COUNT(1)  END AS 'lessThan1yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '1To9yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '1To9yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '10To14yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '10To14yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '15To19yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '15To19yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '20To24yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '20To24yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '25To29yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '25To29yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '30To34yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '30To34yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '35To39yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '35To39yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '40To49YrsMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '40To49YrsFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'M'
+         THEN COUNT(1)  END AS 'GrtThan50YrsMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
+         THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
+    FROM (Select distinct obsToGetLastARTStageChangeDate.person_id,
+          ordARVDrugOrderStopped.previous_order_id
+              from obs obsToGetLastARTStageChangeDate
+                     Inner Join (   /*Max ART program stage date per person before the end of reporting period*/
+                                     Select person_id, max(value_datetime) lastARTStageDateTime
+                                     from obs
+                                     where concept_id = (
+                                     SELECT
+                                     concept_id
+                                     FROM concept_view
+                                     WHERE
+                                     concept_full_name = 'PR, Start date of ART Stage'
+                                     AND retired=0
+                                     )
+                                     and date(value_datetime) <= date('#endDate#')
+                                     And voided = 0
+                                     group by person_id
+                              ) as lastARTStageDate
+          on obsToGetLastARTStageChangeDate.person_id = lastARTStageDate.person_id
+          ANd obsToGetLastARTStageChangeDate.value_datetime = lastARTStageDate.lastARTStageDateTime                                
+          Inner Join obs obsToCheckARTStageValue
+          on obsToGetLastARTStageChangeDate.obs_group_id = obsToCheckARTStageValue.obs_group_id
+          And obsToCheckARTStageValue.concept_id = 
+                                                    (
+                                                        SELECT
+                                                        concept_id
+                                                        FROM concept_view
+                                                        WHERE
+                                                        concept_full_name = 'PR, ART Stage'
+                                                        AND retired=0
+                                                    )                                            
+          inner join orders ordARVDrugOrderStopped on obsToCheckARTStageValue.person_id = ordARVDrugOrderStopped.patient_id
+          and ordARVDrugOrderStopped.order_reason = (
+                                                        SELECT
+                                                        concept_id
+                                                        FROM concept_view
+                                                        WHERE
+                                                        concept_full_name = 'Adverse Effect'
+                                                        AND retired=0
+                                                    )
+          inner JOIN drug_order dord1 on dord1.order_id = ordARVDrugOrderStopped.order_id
+          inner JOIN drug ARVDrugs1 on dord1.drug_inventory_id = ARVDrugs1.drug_id
+          Inner join      (
+                            Select ordARVDrugNewlyPriscribed.order_id,
+                            ordARVDrugNewlyPriscribed.patient_id,
+                            ordARVDrugNewlyPriscribed.date_activated,
+                            ARVDrugs1.drug_id                          
+                            from 
+                            orders ordARVDrugNewlyPriscribed 
+                            inner JOIN drug_order dord1 on dord1.order_id = ordARVDrugNewlyPriscribed.order_id
+                            inner JOIN drug ARVDrugs1 on dord1.drug_inventory_id = ARVDrugs1.drug_id
+                            where ARVDrugs1.name  IN (                "Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Efavirenz (EFV) 600mg",
+                                                                      "Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Efavirenz (EFV) 400mg",
+                                                                      "Zidovudine (AZT) 300mg + Lamivudine (3TC) 150mg + Nevirapine (NVP) 200mg",
+                                                                      "Zidovudine (AZT) 60mg + Lamivudine (3TC) 30mg + Nevirapine (NVP) 50mg",
+                                                                      "Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg",
+                                                                      "Tenofovir (TDF) 300mg + Emtricitabine 200mg",
+                                                                      "Zidovudine (AZT) 300mg + Lamivudine (3TC) 150mg",
+                                                                      "Zidovudine (AZT) 60mg + Lamivudine (3TC) 30mg",
+                                                                      "Abacavir 600mg / Lamivudine 300mg",
+                                                                      "Abacavir 60mg / Lamivudine 30mg",
+                                                                      "Atazanavir/Rtv 300/100 mg",
+                                                                      "Lopinavir/Rtv 80/20 mg/ml",
+                                                                      "Lopinavir/Rtv 100/25 mg",
+                                                                      "Lopinavir/Rtv 200/50 mg",
+                                                                      "Lamivudine (3TC) 150 mg", 
+                                                                      "Lamivudine (3TC) 50mg/5ml", 
+                                                                      "Efavirenz (EFV) 50 mg",
+                                                                      "Efavirenz (EFV) 200 mg",
+                                                                      "Efavirenz (EFV) 600 mg",
+                                                                      "Zidovudine (AZT) 300 mg", 
+                                                                      "Zidovudine (AZT) 100mg", 
+                                                                      "Zidovudine (AZT) 50mg/5ml",  
+                                                                      "Abacavir (ABC) 20mg/ml",
+                                                                      "Abacavir (ABC) 300 mg",
+                                                                      "Abacavir (ABC) 60mg",
+                                                                      "Nevirapine (NVP) 50mg/5ml",
+                                                                      "Nevirapine (NVP) 200mg",
+                                                                      "Didanosine (ddl) 125mg",
+                                                                      "Didanosine (ddl) 200mg",
+                                                                      "Didanosine (ddl) 250mg",
+                                                                      "Didanosine (ddl) 25mg",
+                                                                      "Didanosine (ddl) 400mg",
+                                                                      "Emitricitabine 200mg",
+                                                                      "Tenofovir 300mg",
+                                                                      "Indinavir 400mg", 
+                                                                      "Saquinavir 200mg")   
+                            And ordARVDrugNewlyPriscribed.order_action in('NEW','REVISE') /*Add other option too*/
+                            AND date(ordARVDrugNewlyPriscribed.date_activated) between date('#startDate#') and date('#endDate#')
+                          ) AS newlyPrescribedARVDrugsToPatient
+              On newlyPrescribedARVDrugsToPatient.patient_id = obsToGetLastARTStageChangeDate.person_id
+              inner join obs obsARTProgramStopDate on newlyPrescribedARVDrugsToPatient.patient_id = obsARTProgramStopDate.person_id
+              where ARVDrugs1.name  IN      ( "Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Efavirenz (EFV) 600mg",
+                                              "Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Efavirenz (EFV) 400mg",
+                                              "Zidovudine (AZT) 300mg + Lamivudine (3TC) 150mg + Nevirapine (NVP) 200mg",
+                                              "Zidovudine (AZT) 60mg + Lamivudine (3TC) 30mg + Nevirapine (NVP) 50mg",
+                                              "Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg",
+                                              "Tenofovir (TDF) 300mg + Emtricitabine 200mg",
+                                              "Zidovudine (AZT) 300mg + Lamivudine (3TC) 150mg",
+                                              "Zidovudine (AZT) 60mg + Lamivudine (3TC) 30mg",
+                                              "Abacavir 600mg / Lamivudine 300mg",
+                                              "Abacavir 60mg / Lamivudine 30mg",
+                                              "Atazanavir/Rtv 300/100 mg",
+                                              "Lopinavir/Rtv 80/20 mg/ml",
+                                              "Lopinavir/Rtv 100/25 mg",
+                                              "Lopinavir/Rtv 200/50 mg",
+                                              "Lamivudine (3TC) 150 mg", 
+                                              "Lamivudine (3TC) 50mg/5ml", 
+                                              "Efavirenz (EFV) 50 mg",
+                                              "Efavirenz (EFV) 200 mg",
+                                              "Efavirenz (EFV) 600 mg",
+                                              "Zidovudine (AZT) 300 mg", 
+                                              "Zidovudine (AZT) 100mg", 
+                                              "Zidovudine (AZT) 50mg/5ml",  
+                                              "Abacavir (ABC) 20mg/ml",
+                                              "Abacavir (ABC) 300 mg",
+                                              "Abacavir (ABC) 60mg",
+                                              "Nevirapine (NVP) 50mg/5ml",
+                                              "Nevirapine (NVP) 200mg",
+                                              "Didanosine (ddl) 125mg",
+                                              "Didanosine (ddl) 200mg",
+                                              "Didanosine (ddl) 250mg",
+                                              "Didanosine (ddl) 25mg",
+                                              "Didanosine (ddl) 400mg",
+                                              "Emitricitabine 200mg",
+                                              "Tenofovir 300mg",
+                                              "Indinavir 400mg", 
+                                              "Saquinavir 200mg"
+                                )                                                                  
+                                 AND obsToCheckARTStageValue.value_coded = 
+                                                                            (
+                                                                                SELECT
+                                                                                concept_id
+                                                                                FROM concept_view
+                                                                                WHERE
+                                                                                concept_full_name = 'PR, 1st Line'
+                                                                                AND retired=0
+                                                                        )
+                                 AND obsARTProgramStopDate.person_id not in
+                                 (/*Patient with ART stop date < new Drug prescription date will be excluded*/
+                                 SELECT obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id
+                                 AND concept_view.concept_full_name = "PR, ART Program Stop Date" AND obs.voided=0
+                                 Where date(obs.value_datetime) < Date(newlyPrescribedARVDrugsToPatient.date_activated)
+                                 )
+                                And obsToCheckARTStageValue.voided = 0
+                                AND ordARVDrugOrderStopped.order_action = 'DISCONTINUE'
+                                And obsToGetLastARTStageChangeDate.voided = 0
+                                and ordARVDrugOrderStopped.voided = 0
+                                AND newlyPrescribedARVDrugsToPatient.order_id != ordARVDrugOrderStopped.previous_order_id
+                                AND DATE(newlyPrescribedARVDrugsToPatient.date_activated) >= DATE(ordARVDrugOrderStopped.date_activated)
+                                AND newlyPrescribedARVDrugsToPatient.drug_id!= ARVDrugs1.drug_id
+         ) AS D33NumberofPLHIVincareonfirstlineSubstitutingduetotoxicitythismonth 
+           INNER JOIN person p ON p.person_id = D33NumberofPLHIVincareonfirstlineSubstitutingduetotoxicitythismonth.person_id
+           GROUP BY
+           CASE
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
+               THEN '< 1 Yr M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
+               THEN '< 1 Yr F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'M'
+               THEN '1-9 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'F'
+               THEN '1-9 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'M'
+               THEN '10-14 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'F'
+               THEN '10-14 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'M'
+               THEN '15-19 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'F'
+               THEN '15-19 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
+               THEN '20-24 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
+               THEN '20-24 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'M'
+               THEN '25-29 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'F'
+               THEN '25-29 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'M'
+               THEN '30-34 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'F'
+               THEN '30-34 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'M'
+               THEN '35-39 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'F'
+               THEN '35-39 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'M'
+               THEN '40-49 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'F'
+               THEN '40-49 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'M'
+               THEN '> 50 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
+               THEN '> 50 Yrs F'
+            END
+    ) AS D33NumberofPLHIVincareonfirstlineSubstitutingduetotoxicitythismonth
+
+    UNION ALL
+
     /*D36. Number of PLHIV in care who died whilst on second line ART regimen this month*/
 SELECT/*Pivoting the table*/
     'D36. Number of PLHIV in care who died whilst on second line ART regimen this month' AS '-',
