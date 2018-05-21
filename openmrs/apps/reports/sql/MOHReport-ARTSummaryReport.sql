@@ -2422,6 +2422,7 @@ from obs obsToGetLastARTStageChangeDate
                                                                                 AND retired=0
                                                                             )
                                ANd obsToGetLastARTStageChangeDate.voided = 0
+                               and obsToCheckARTStageValue.voided = 0
    
             ) AS D35numberOfPLHIVinCareOnFirstLineSwitchingToSecondLineThisMonth 
            INNER JOIN person p ON p.person_id = D35numberOfPLHIVinCareOnFirstLineSwitchingToSecondLineThisMonth.person_id
