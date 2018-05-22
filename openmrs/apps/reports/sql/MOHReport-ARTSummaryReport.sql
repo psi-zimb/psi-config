@@ -2262,27 +2262,27 @@ SELECT/*Pivoting the table*/
         UNION ALL
 
            /*D34. Total number of PLHIV in care currently  receiving first line ART This month (including those initiated during the current month)*/
-   select setone.set as '-', /*setone - settwo : (D25 + D30 + D33) - (D26 + D27 + D28 + D29 + D35)*/
-          ifnull(setone.lessThan1yrMale,0) - ifnull(settwo.lessThan1yrMale,0) as '<1 M',
-          ifnull(setone.lessThan1yrFemale,0) - ifnull(settwo.lessThan1yrFemale,0) as '<1 F',
-          ifnull(setone.1To9yrMale,0) - ifnull(settwo.1To9yrMale,0) as '1-9 M',
-          ifnull(setone.1To9yrFemale,0) - ifnull(settwo.1To9yrFemale,0) as '1-9 F',
-          ifnull(setone.10To14yrMale,0) - ifnull(settwo.10To14yrMale,0) as '10-14 M',
-          ifnull(setone.10To14yrFemale,0) - ifnull(settwo.10To14yrFemale,0) as '10-14 F',
-          ifnull(setone.15To19yrMale,0) - ifnull(settwo.15To19yrMale,0) as '15-19 M',
-          ifnull(setone.15To19yrFemale,0) - ifnull(settwo.15To19yrFemale,0) as '15-19 F',
-          ifnull(setone.20To24yrMale,0) - ifnull(settwo.20To24yrMale,0) as '20-24 M',
-          ifnull(setone.20To24yrFemale,0) - ifnull(settwo.20To24yrFemale,0) as '20-24 F',
-          ifnull(setone.25To29yrMale,0) - ifnull(settwo.25To29yrMale,0) as '25-29 M',
-          ifnull(setone.25To29yrFemale,0) - ifnull(settwo.25To29yrFemale,0) as '25-29 F',
-          ifnull(setone.30To34yrMale,0) - ifnull(settwo.30To34yrMale,0) as '30-34 M',
-          ifnull(setone.30To34yrFemale,0) - ifnull(settwo.30To34yrFemale,0) as '30-34 F',
-          ifnull(setone.35To39yrMale,0) - ifnull(settwo.35To39yrFemale,0) as '35-39 M',
-          ifnull(setone.35To39yrFemale,0) - ifnull(settwo.35To39yrFemale,0) as '35-39 F',
-          ifnull(setone.40To49YrsMale,0) - ifnull(settwo.40To49YrsMale,0) as '40-49 M',
-          ifnull(setone.40To49YrsFemale,0) - ifnull(settwo.40To49YrsFemale,0) as '40-49 F',
-          ifnull(setone.GrtThan50YrsMale,0) - ifnull(settwo.GrtThan50YrsMale,0) as '>50 M',
-          ifnull(setone.GrtThan50YrsFemale,0) - ifnull(settwo.GrtThan50YrsFemale,0) as '>50 F'
+    select setone.set as '-', /*setone - settwo : (D25 + D30 + D33) - (D26 + D27 + D28 + D29 + D35)*/
+    case (ifnull(setone.lessThan1yrMale,0) - ifnull(settwo.lessThan1yrMale,0)) when 0 then null else (ifnull(setone.lessThan1yrMale,0) - ifnull(settwo.lessThan1yrMale,0)) end as '<1 M',
+    case (ifnull(setone.lessThan1yrFemale,0) - ifnull(settwo.lessThan1yrFemale,0)) when 0 then null else (ifnull(setone.lessThan1yrFemale,0) - ifnull(settwo.lessThan1yrFemale,0)) end as '<1 F',
+    case (ifnull(setone.1To9yrMale,0) - ifnull(settwo.1To9yrMale,0)) when 0 then null else (ifnull(setone.1To9yrMale,0) - ifnull(settwo.1To9yrMale,0)) end as '1-9 M', 
+    case (ifnull(setone.1To9yrFemale,0) - ifnull(settwo.1To9yrFemale,0)) when 0 then null else (ifnull(setone.1To9yrFemale,0) - ifnull(settwo.1To9yrFemale,0)) end as '1-9 F',
+    case (ifnull(setone.10To14yrMale,0) - ifnull(settwo.10To14yrMale,0)) when 0 then null else (ifnull(setone.10To14yrMale,0) - ifnull(settwo.10To14yrMale,0)) end as '10-14 M',
+    case (ifnull(setone.10To14yrFemale,0) - ifnull(settwo.10To14yrFemale,0)) when 0 then null else (ifnull(setone.10To14yrFemale,0) - ifnull(settwo.10To14yrFemale,0)) end as '10-14 F',
+    case (ifnull(setone.15To19yrMale,0) - ifnull(settwo.15To19yrMale,0)) when 0 then null else (ifnull(setone.15To19yrMale,0) - ifnull(settwo.15To19yrMale,0)) end as '15-19 M',
+    case (ifnull(setone.15To19yrFemale,0) - ifnull(settwo.15To19yrFemale,0)) when 0 then null else (ifnull(setone.15To19yrFemale,0) - ifnull(settwo.15To19yrFemale,0)) end as '15-19 F',
+    case (ifnull(setone.20To24yrMale,0) - ifnull(settwo.20To24yrMale,0)) when 0 then null else (ifnull(setone.20To24yrMale,0) - ifnull(settwo.20To24yrMale,0)) end as '20-24 M', 
+    case (ifnull(setone.20To24yrFemale,0) - ifnull(settwo.20To24yrFemale,0)) when 0 then null else (ifnull(setone.20To24yrFemale,0) - ifnull(settwo.20To24yrFemale,0)) end as '20-24 F',
+    case (ifnull(setone.25To29yrMale,0) - ifnull(settwo.25To29yrMale,0)) when 0 then null else (ifnull(setone.25To29yrMale,0) - ifnull(settwo.25To29yrMale,0)) end as '25-29 M',
+    case (ifnull(setone.25To29yrFemale,0) - ifnull(settwo.25To29yrFemale,0)) when 0 then null else (ifnull(setone.25To29yrFemale,0) - ifnull(settwo.25To29yrFemale,0)) end as '25-29 F',
+    case (ifnull(setone.30To34yrMale,0) - ifnull(settwo.30To34yrMale,0)) when 0 then null else (ifnull(setone.30To34yrMale,0) - ifnull(settwo.30To34yrMale,0)) end as '30-34 M',
+    case (ifnull(setone.30To34yrFemale,0) - ifnull(settwo.30To34yrFemale,0)) when 0 then null else (ifnull(setone.30To34yrFemale,0) - ifnull(settwo.30To34yrFemale,0)) end as '30-34 F',
+    case (ifnull(setone.35To39yrMale,0) - ifnull(settwo.35To39yrFemale,0)) when 0 then null else (ifnull(setone.35To39yrMale,0) - ifnull(settwo.35To39yrFemale,0)) end as '35-39 M',
+    case (ifnull(setone.35To39yrFemale,0) - ifnull(settwo.35To39yrFemale,0)) when 0 then null else (ifnull(setone.35To39yrFemale,0) - ifnull(settwo.35To39yrFemale,0)) end as '35-39 F',
+    case (ifnull(setone.40To49YrsMale,0) - ifnull(settwo.40To49YrsMale,0)) when 0 then null else (ifnull(setone.40To49YrsMale,0) - ifnull(settwo.40To49YrsMale,0)) end as '40-49 M',
+    case (ifnull(setone.40To49YrsFemale,0) - ifnull(settwo.40To49YrsFemale,0)) when 0 then null else (ifnull(setone.40To49YrsFemale,0) - ifnull(settwo.40To49YrsFemale,0)) end as '40-49 F',
+    case (ifnull(setone.GrtThan50YrsMale,0) - ifnull(settwo.GrtThan50YrsMale,0)) when 0 then null else (ifnull(setone.GrtThan50YrsMale,0) - ifnull(settwo.GrtThan50YrsMale,0)) end as '>50 M',
+    case (ifnull(setone.GrtThan50YrsFemale,0) - ifnull(settwo.GrtThan50YrsFemale,0)) when 0 then null else (ifnull(setone.GrtThan50YrsFemale,0) - ifnull(settwo.GrtThan50YrsFemale,0)) end as '>50 F'
          
    from
     (/*ADDITION OF REPORTS : D25 + D30 + D33*/
