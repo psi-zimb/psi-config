@@ -502,7 +502,7 @@
      "name" : "MOH Report - Sexually Transmitted Infections (STI ) report",
      "type" : "MRSGeneric",
      "config" : {
-        "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/F1totalNumberOfNewSTIClientsThisMonth.sql"
+        "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/MOHReport-SexuallyTransmittedInfections(STI)report.sql"
      }
    }
 
