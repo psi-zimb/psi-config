@@ -4018,8 +4018,8 @@ SELECT/*Pivoting the table*/
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM ( 
-    Select 
-    distinct (obsToGetLastARTStageChangeDate.person_id)
+          Select 
+        distinct (obsToGetLastARTStageChangeDate.person_id)
     from obs obsToGetLastARTStageChangeDate
                                 Inner Join 
                                 (/*Max ART program stage date per person before the end of reporting period*/
@@ -4053,8 +4053,8 @@ SELECT/*Pivoting the table*/
                                                                             AND retired=0
                                                                         )
                                                                              
-                                Inner join obs obsForCheckingIfPatientIsMarkedAsDeceased
-                                on obsForCheckingIfPatientIsMarkedAsDeceased.person_id = obsToCheckARTStageValue.person_id
+                                Inner join obs obsForCheckingIfPatientIsMarkedAsTransferredOut
+                                on obsForCheckingIfPatientIsMarkedAsTransferredOut.person_id = obsToCheckARTStageValue.person_id
                                 Where obsToCheckARTStageValue.value_coded = 
                                                                             (
                                                                                 SELECT
@@ -4064,7 +4064,7 @@ SELECT/*Pivoting the table*/
                                                                                 concept_full_name = 'PR, 2nd Line'
                                                                                 AND retired=0
                                                                             )
-                                AND obsForCheckingIfPatientIsMarkedAsDeceased.concept_id = (
+                                AND obsForCheckingIfPatientIsMarkedAsTransferredOut.concept_id = (
                                                                                                 SELECT
                                                                                                 concept_id
                                                                                                 FROM concept_view
@@ -4072,7 +4072,7 @@ SELECT/*Pivoting the table*/
                                                                                                 concept_full_name = 'AS, Activity status'
                                                                                                 AND retired=0
                                                                                            ) 
-                                And obsForCheckingIfPatientIsMarkedAsDeceased.value_coded = (
+                                And obsForCheckingIfPatientIsMarkedAsTransferredOut.value_coded = (
                                                                                                 SELECT
                                                                                                 concept_id
                                                                                                 FROM concept_view
@@ -4080,22 +4080,21 @@ SELECT/*Pivoting the table*/
                                                                                                 concept_full_name = 'Transfer Out'
                                                                                                 AND retired=0
                                                                                             )
-                                AND obsForCheckingIfPatientIsMarkedAsDeceased.person_id not in
-                                 (/*Patient with ART stop date < Date of Marked as Deceased date will be excluded*/
+                                AND obsForCheckingIfPatientIsMarkedAsTransferredOut.person_id not in
+                                 (/*Patient with ART stop date < Date of Marked as Transfer out date will be excluded*/
                                      SELECT obs.person_id 
                                      from obs 
                                            INNER JOIN concept_view 
                                            on obs.concept_id=concept_view.concept_id
                                            AND concept_view.concept_full_name = "PR, ART Program Stop Date" 
                                            AND obs.voided=0
-                                           Where date(obs.value_datetime) < Date(obsForCheckingIfPatientIsMarkedAsDeceased.obs_datetime)
+                                           Where date(obs.value_datetime) < Date(obsForCheckingIfPatientIsMarkedAsTransferredOut.obs_datetime)
                                  )                                                            
-                                And obsForCheckingIfPatientIsMarkedAsDeceased.voided = 0
+                                And obsForCheckingIfPatientIsMarkedAsTransferredOut.voided = 0
                                 And obsToCheckARTStageValue.voided = 0
                                 And obsToGetLastARTStageChangeDate.voided = 0
-                                And date(obsForCheckingIfPatientIsMarkedAsDeceased.obs_datetime) >= date(obsToGetLastARTStageChangeDate.value_datetime)
-                                And date(obsForCheckingIfPatientIsMarkedAsDeceased.obs_datetime) between date('#startDate#') AND date('#endDate#')
-              
+                                And date(obsForCheckingIfPatientIsMarkedAsTransferredOut.obs_datetime) >= date(obsToGetLastARTStageChangeDate.value_datetime)
+                                And date(obsForCheckingIfPatientIsMarkedAsTransferredOut.obs_datetime) between date('#startDate#') AND date('#endDate#')
             ) AS D39numberOfPLHIVinCareTransferredOutWhilstOnSecondLineRegimenThisMonth 
            INNER JOIN person p ON p.person_id = D39numberOfPLHIVinCareTransferredOutWhilstOnSecondLineRegimenThisMonth.person_id
            GROUP BY
@@ -4754,7 +4753,7 @@ SELECT/*Pivoting the table*/
               on obsForCodedDiagnosis.person_id = obsToCheckARTStageValue.person_id
               Inner join obs obsForARTStopDate
               on obsForARTStopDate.person_id = obsToCheckARTStageValue.person_id
-              Where obsToCheckARTStageValue.value_coded = (/*Max ART program stage date per person to be 1st Line before the end of reporting period*/
+              Where obsToCheckARTStageValue.value_coded = (/*Max ART program stage date per person to be 2nd Line before the end of reporting period*/
                                                             SELECT
                                                             concept_id
                                                             FROM concept_view
