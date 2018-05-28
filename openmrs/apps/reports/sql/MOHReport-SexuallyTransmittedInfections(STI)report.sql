@@ -209,7 +209,7 @@ SELECT/*Pivoting the table*/
                                  and obsForSTIDiagnosedPatients.voided=0
                                  group by obsForSTIDiagnosedPatients.person_id,
                                           obsForSTIDiagnosedPatients.value_coded
-                                 having count(*)>1
+                                 having count(1)>1
 
             ) AS F2totalNumberOfRepeatSTIClientsThisMonth 
            INNER JOIN person p ON p.person_id = F2totalNumberOfRepeatSTIClientsThisMonth.person_id
