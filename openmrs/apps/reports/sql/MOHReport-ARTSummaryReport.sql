@@ -4886,829 +4886,6 @@ SELECT/*Pivoting the table*/
 
 UNION ALL
 
-/*D43. Total number of PLHIV in care currently receiving Second line ART (including those switched during the current month)*/
-    select setone.set as '-', /*setone - settwo : (D35 + D40) - (D36 + D37 + D38 + D39 + D44)*/
-    case (ifnull(setone.lessThan1yrMale,0) - ifnull(settwo.lessThan1yrMale,0)) when 0 then null else (ifnull(setone.lessThan1yrMale,0) - ifnull(settwo.lessThan1yrMale,0)) end as '<1 M',
-    case (ifnull(setone.lessThan1yrFemale,0) - ifnull(settwo.lessThan1yrFemale,0)) when 0 then null else (ifnull(setone.lessThan1yrFemale,0) - ifnull(settwo.lessThan1yrFemale,0)) end as '<1 F',
-    case (ifnull(setone.1To9yrMale,0) - ifnull(settwo.1To9yrMale,0)) when 0 then null else (ifnull(setone.1To9yrMale,0) - ifnull(settwo.1To9yrMale,0)) end as '1-9 M', 
-    case (ifnull(setone.1To9yrFemale,0) - ifnull(settwo.1To9yrFemale,0)) when 0 then null else (ifnull(setone.1To9yrFemale,0) - ifnull(settwo.1To9yrFemale,0)) end as '1-9 F',
-    case (ifnull(setone.10To14yrMale,0) - ifnull(settwo.10To14yrMale,0)) when 0 then null else (ifnull(setone.10To14yrMale,0) - ifnull(settwo.10To14yrMale,0)) end as '10-14 M',
-    case (ifnull(setone.10To14yrFemale,0) - ifnull(settwo.10To14yrFemale,0)) when 0 then null else (ifnull(setone.10To14yrFemale,0) - ifnull(settwo.10To14yrFemale,0)) end as '10-14 F',
-    case (ifnull(setone.15To19yrMale,0) - ifnull(settwo.15To19yrMale,0)) when 0 then null else (ifnull(setone.15To19yrMale,0) - ifnull(settwo.15To19yrMale,0)) end as '15-19 M',
-    case (ifnull(setone.15To19yrFemale,0) - ifnull(settwo.15To19yrFemale,0)) when 0 then null else (ifnull(setone.15To19yrFemale,0) - ifnull(settwo.15To19yrFemale,0)) end as '15-19 F',
-    case (ifnull(setone.20To24yrMale,0) - ifnull(settwo.20To24yrMale,0)) when 0 then null else (ifnull(setone.20To24yrMale,0) - ifnull(settwo.20To24yrMale,0)) end as '20-24 M', 
-    case (ifnull(setone.20To24yrFemale,0) - ifnull(settwo.20To24yrFemale,0)) when 0 then null else (ifnull(setone.20To24yrFemale,0) - ifnull(settwo.20To24yrFemale,0)) end as '20-24 F',
-    case (ifnull(setone.25To29yrMale,0) - ifnull(settwo.25To29yrMale,0)) when 0 then null else (ifnull(setone.25To29yrMale,0) - ifnull(settwo.25To29yrMale,0)) end as '25-29 M',
-    case (ifnull(setone.25To29yrFemale,0) - ifnull(settwo.25To29yrFemale,0)) when 0 then null else (ifnull(setone.25To29yrFemale,0) - ifnull(settwo.25To29yrFemale,0)) end as '25-29 F',
-    case (ifnull(setone.30To34yrMale,0) - ifnull(settwo.30To34yrMale,0)) when 0 then null else (ifnull(setone.30To34yrMale,0) - ifnull(settwo.30To34yrMale,0)) end as '30-34 M',
-    case (ifnull(setone.30To34yrFemale,0) - ifnull(settwo.30To34yrFemale,0)) when 0 then null else (ifnull(setone.30To34yrFemale,0) - ifnull(settwo.30To34yrFemale,0)) end as '30-34 F',
-    case (ifnull(setone.35To39yrMale,0) - ifnull(settwo.35To39yrFemale,0)) when 0 then null else (ifnull(setone.35To39yrMale,0) - ifnull(settwo.35To39yrFemale,0)) end as '35-39 M',
-    case (ifnull(setone.35To39yrFemale,0) - ifnull(settwo.35To39yrFemale,0)) when 0 then null else (ifnull(setone.35To39yrFemale,0) - ifnull(settwo.35To39yrFemale,0)) end as '35-39 F',
-    case (ifnull(setone.40To49YrsMale,0) - ifnull(settwo.40To49YrsMale,0)) when 0 then null else (ifnull(setone.40To49YrsMale,0) - ifnull(settwo.40To49YrsMale,0)) end as '40-49 M',
-    case (ifnull(setone.40To49YrsFemale,0) - ifnull(settwo.40To49YrsFemale,0)) when 0 then null else (ifnull(setone.40To49YrsFemale,0) - ifnull(settwo.40To49YrsFemale,0)) end as '40-49 F',
-    case (ifnull(setone.GrtThan50YrsMale,0) - ifnull(settwo.GrtThan50YrsMale,0)) when 0 then null else (ifnull(setone.GrtThan50YrsMale,0) - ifnull(settwo.GrtThan50YrsMale,0)) end as '>50 M',
-    case (ifnull(setone.GrtThan50YrsFemale,0) - ifnull(settwo.GrtThan50YrsFemale,0)) when 0 then null else (ifnull(setone.GrtThan50YrsFemale,0) - ifnull(settwo.GrtThan50YrsFemale,0)) end as '>50 F'
-         
-   from
-    (/*ADDITION OF REPORTS : D35 + D40*/
-     SELECT/*Pivoting the table*/
-    'D43. Total number of PLHIV in care currently receiving Second line ART (including those switched during the current month)' AS 'set',
-    SUM(lessThan1yrMale) AS 'lessThan1yrMale',
-    SUM(lessThan1yrFemale) AS 'lessThan1yrFemale',
-    SUM(1To9yrMale) AS '1To9yrMale',
-    SUM(1To9yrFemale) AS '1To9yrFemale',
-    SUM(10To14yrMale) AS '10To14yrMale',
-    SUM(10To14yrFemale) AS '10To14yrFemale',
-    SUM(15To19yrMale) AS '15To19yrMale',
-    SUM(15To19yrFemale) AS '15To19yrFemale',
-    SUM(20To24yrMale) AS '20To24yrMale',
-    SUM(20To24yrFemale) AS '20To24yrFemale',
-    SUM(25To29yrMale) AS '25To29yrMale',
-    SUM(25To29yrFemale) AS '25To29yrFemale',
-    SUM(30To34yrMale) AS '30To34yrMale',
-    SUM(30To34yrFemale) AS '30To34yrFemale',
-    SUM(35To39yrMale) AS '35To39yrMale',
-    SUM(35To39yrFemale) AS '35To39yrFemale',
-    SUM(40To49YrsMale) AS '40To49YrsMale',
-    SUM(40To49YrsFemale) AS '40To49YrsFemale',
-    SUM(GrtThan50YrsMale) AS 'GrtThan50YrsMale',
-    SUM(GrtThan50YrsFemale) AS 'GrtThan50YrsFemale'
-    FROM
-    (
-    SELECT
-         'D43. Total number of PLHIV in care currently receiving Second line ART (including those switched during the current month)',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
-         THEN COUNT(1)  END AS 'lessThan1yrMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
-         THEN COUNT(1)  END AS 'lessThan1yrFemale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'M'
-         THEN COUNT(1)  END AS '1To9yrMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'F'
-         THEN COUNT(1)  END AS '1To9yrFemale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'M'
-         THEN COUNT(1)  END AS '10To14yrMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'F'
-         THEN COUNT(1)  END AS '10To14yrFemale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'M'
-         THEN COUNT(1)  END AS '15To19yrMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'F'
-         THEN COUNT(1)  END AS '15To19yrFemale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
-         THEN COUNT(1)  END AS '20To24yrMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'F'
-         THEN COUNT(1)  END AS '20To24yrFemale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'M'
-         THEN COUNT(1)  END AS '25To29yrMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'F'
-         THEN COUNT(1)  END AS '25To29yrFemale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'M'
-         THEN COUNT(1)  END AS '30To34yrMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'F'
-         THEN COUNT(1)  END AS '30To34yrFemale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'M'
-         THEN COUNT(1)  END AS '35To39yrMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'F'
-         THEN COUNT(1)  END AS '35To39yrFemale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'M'
-         THEN COUNT(1)  END AS '40To49YrsMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'F'
-         THEN COUNT(1)  END AS '40To49YrsFemale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'M'
-         THEN COUNT(1)  END AS 'GrtThan50YrsMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
-         THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
-    FROM
-    (   /*D35. Number of PLHIV in care on First line switching to Second line this month*/
-        Select 
-      distinct obsToGetLastARTStageChangeDate.person_id
-from obs obsToGetLastARTStageChangeDate
-                                   Inner Join 
-                                (/*Max ART program stage date per person before the end of reporting period*/
-                                
-                                               Select person_id, max(value_datetime) lastARTStageDateTime
-                                               from obs obslastARTStageDateTime
-                                               where obslastARTStageDateTime.concept_id = (
-                                                                                             SELECT
-                                                                                             concept_id
-                                                                                             FROM concept_view
-                                                                                             WHERE
-                                                                                             concept_full_name = 'PR, Start date of ART Stage'
-                                                                                             AND retired=0
-                                                                                          )
-                                               and date(obslastARTStageDateTime.value_datetime) < 
-                                               
-                                               (   /* Maximum Start Date of ART Program's 2nd line */
-                                                   Select max(obsART2ndLine.value_datetime)
-                                                   from obs obsART2ndLine 
-                                                   Where obsART2ndLine.person_id = obslastARTStageDateTime.person_id
-                                                   AND obsART2ndLine.concept_id =  (
-                                                                                       SELECT
-                                                                                       concept_id
-                                                                                       FROM concept_view
-                                                                                       WHERE
-                                                                                       concept_full_name = 'PR, Start date of ART Stage'
-                                                                                       AND retired=0
-                                                                                   )
-                                                   AND obsART2ndLine.voided = 0
-                                                   
-                                                   AND obsART2ndLine.obs_group_id in 
-                                                                                    (
-                                                                                    /*ART Stage as 2nd Line*/
-                                                                                      SELECT obs_group_id
-                                                                                      from obs obsART2ndLineStartDate
-                                                                                      WHERE obsART2ndLineStartDate.concept_id =(
-                                                                                                                                 SELECT
-                                                                                                                                 concept_id
-                                                                                                                                 FROM concept_view
-                                                                                                                                 WHERE
-                                                                                                                                 concept_full_name = 'PR, ART Stage'
-                                                                                                                                 AND retired=0
-                                                                                                                                )
-                                                  AND obsART2ndLineStartDate.value_coded = (
-                                                                                             SELECT
-                                                                                             concept_id
-                                                                                             FROM concept_view
-                                                                                             WHERE
-                                                                                             concept_full_name = 'PR, 2nd Line'
-                                                                                             AND retired=0
-                                                                                           )
-                                                 And obsART2ndLine.person_id = obsART2ndLineStartDate.person_id
-                                                 AND obsART2ndLineStartDate.voided = 0
-                                                  )
-                                                 and date(obsART2ndLine.value_datetime) between date('#startDate#')  and date('#endDate#')
-                                                 and obsART2ndLine.person_id not IN 
-                                                   (/*Condition where patient excluded with Stop Date of ART Program less than Start Date of 2nd line ART Program*/
-                                                                 SELECT obsARTStopDate.person_id
-                                                                 from obs obsARTStopDate
-                                                                 INNER JOIN concept_view 
-                                                                 on obsARTStopDate.concept_id=concept_view.concept_id
-                                                                 AND concept_view.concept_full_name = "PR, ART Program Stop Date" 
-                                                                 AND obsARTStopDate.voided=0
-                                                                 where date(obsARTStopDate.value_datetime) < date(obsART2ndLine.value_datetime)
-                                                                 )
-                                                )
-                                               And voided = 0
-                                               group by person_id
-                                ) as lastARTStageDate
-                                on obsToGetLastARTStageChangeDate.person_id = lastARTStageDate.person_id
-                                ANd obsToGetLastARTStageChangeDate.value_datetime = lastARTStageDate.lastARTStageDateTime
-                                
-                                Inner Join obs obsToCheckARTStageValue
-                                on obsToGetLastARTStageChangeDate.obs_group_id = obsToCheckARTStageValue.obs_group_id
-                                And obsToCheckARTStageValue.concept_id = 
-                                                                        (
-                                                                            SELECT
-                                                                            concept_id
-                                                                            FROM concept_view
-                                                                            WHERE
-                                                                            concept_full_name = ('PR, ART Stage')
-                                                                            AND retired=0
-                                                                        )                               
-                                Where obsToCheckARTStageValue.value_coded = 
-                                                                            (
-                                                                                SELECT
-                                                                                concept_id
-                                                                                FROM concept_view
-                                                                                WHERE
-                                                                                concept_full_name = ('PR, 1st Line')
-                                                                                AND retired=0
-                                                                            )
-                               ANd obsToGetLastARTStageChangeDate.voided = 0
-                               and obsToCheckARTStageValue.voided = 0
-
-        UNION ALL
-                /*D40. Number PLHIV in care transferred in on second line regimen this month*/
-                Select 
-                distinct (obsToGetLastARTStageChangeDate.person_id)
-                from obs obsToGetLastARTStageChangeDate
-                                    Inner Join obs obsToCheckARTStageValue
-                                    on obsToGetLastARTStageChangeDate.obs_group_id = obsToCheckARTStageValue.obs_group_id
-                                    and obsToGetLastARTStageChangeDate.concept_id = (
-                                                                                         SELECT
-                                                                                         concept_id
-                                                                                         FROM concept_view
-                                                                                         WHERE
-                                                                                         concept_full_name = 'PR, Start date of ART Stage'
-                                                                                         AND retired=0
-                                                                                    )
-                                    and date(obsToGetLastARTStageChangeDate.value_datetime) <= date('#endDate#')
-                                    And obsToCheckARTStageValue.concept_id = 
-                                                                            (
-                                                                                SELECT
-                                                                                concept_id
-                                                                                FROM concept_view
-                                                                                WHERE
-                                                                                concept_full_name = 'PR, ART Stage'
-                                                                                AND retired=0
-                                                                            )    
-                                    Inner join obs obsForCheckingTransferIn
-                                    on obsForCheckingTransferIn.person_id = obsToCheckARTStageValue.person_id
-                                    Where obsToCheckARTStageValue.value_coded = 
-                                                                                (
-                                                                                    SELECT
-                                                                                    concept_id
-                                                                                    FROM concept_view
-                                                                                    WHERE
-                                                                                    concept_full_name = 'PR, 2nd Line'
-                                                                                    AND retired=0
-                                                                                )
-                                    And obsForCheckingTransferIn.value_coded = (
-                                                                                    SELECT
-                                                                                    concept_id
-                                                                                    FROM concept_view
-                                                                                    WHERE
-                                                                                    concept_full_name = 'Transfer in'
-                                                                                    AND retired=0
-                                                                               ) 
-                                                                                                  
-                                    And obsForCheckingTransferIn.voided = 0
-                                    And obsToCheckARTStageValue.voided = 0
-                                    And obsToGetLastARTStageChangeDate.voided = 0
-                                    And date(obsForCheckingTransferIn.obs_datetime) = date(obsToGetLastARTStageChangeDate.value_datetime)
-                                    And date(obsForCheckingTransferIn.obs_datetime) between date('#startDate#') AND date('#endDate#')
-        ) as D43TotalnumberofPLHIVincarecurrentlyreceivingSecondlineARTincludingthoseswitchedduringthecurrentmonth
-        JOIN person p ON p.person_id = D43TotalnumberofPLHIVincarecurrentlyreceivingSecondlineARTincludingthoseswitchedduringthecurrentmonth.person_id
-           GROUP BY
-           CASE
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
-               THEN '< 1 Yr M'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
-               THEN '< 1 Yr F'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'M'
-               THEN '1-9 Yrs M'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'F'
-               THEN '1-9 Yrs F'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'M'
-               THEN '10-14 Yrs M'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'F'
-               THEN '10-14 Yrs F'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'M'
-               THEN '15-19 Yrs M'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'F'
-               THEN '15-19 Yrs F'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
-               THEN '20-24 Yrs M'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
-               THEN '20-24 Yrs F'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'M'
-               THEN '25-29 Yrs M'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'F'
-               THEN '25-29 Yrs F'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'M'
-               THEN '30-34 Yrs M'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'F'
-               THEN '30-34 Yrs F'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'M'
-               THEN '35-39 Yrs M'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'F'
-               THEN '35-39 Yrs F'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'M'
-               THEN '40-49 Yrs M'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'F'
-               THEN '40-49 Yrs F'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'M'
-               THEN '> 50 Yrs M'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
-               THEN '> 50 Yrs F'
-            END
-    ) AS D43TotalnumberofPLHIVincarecurrentlyreceivingSecondlineARTincludingthoseswitchedduringthecurrentmonth)
-    as setone  
-    
-    INNER JOIN  
-    
-        (/*ADDITION OF REPORTS : D36 + D37 + D38 + D39 + D44*/
-SELECT/*Pivoting the table*/
-    'D43. Total number of PLHIV in care currently receiving Second line ART (including those switched during the current month)' AS 'set',
-    SUM(lessThan1yrMale) AS 'lessThan1yrMale',
-    SUM(lessThan1yrFemale) AS 'lessThan1yrFemale',
-    SUM(1To9yrMale) AS '1To9yrMale',
-    SUM(1To9yrFemale) AS '1To9yrFemale',
-    SUM(10To14yrMale) AS '10To14yrMale',
-    SUM(10To14yrFemale) AS '10To14yrFemale',
-    SUM(15To19yrMale) AS '15To19yrMale',
-    SUM(15To19yrFemale) AS '15To19yrFemale',
-    SUM(20To24yrMale) AS '20To24yrMale',
-    SUM(20To24yrFemale) AS '20To24yrFemale',
-    SUM(25To29yrMale) AS '25To29yrMale',
-    SUM(25To29yrFemale) AS '25To29yrFemale',
-    SUM(30To34yrMale) AS '30To34yrMale',
-    SUM(30To34yrFemale) AS '30To34yrFemale',
-    SUM(35To39yrMale) AS '35To39yrMale',
-    SUM(35To39yrFemale) AS '35To39yrFemale',
-    SUM(40To49YrsMale) AS '40To49YrsMale',
-    SUM(40To49YrsFemale) AS '40To49YrsFemale',
-    SUM(GrtThan50YrsMale) AS 'GrtThan50YrsMale',
-    SUM(GrtThan50YrsFemale) AS 'GrtThan50YrsFemale'
-    FROM
-    (
-    SELECT
-         'D43. Total number of PLHIV in care currently receiving Second line ART (including those switched during the current month)',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
-         THEN COUNT(1)  END AS 'lessThan1yrMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
-         THEN COUNT(1)  END AS 'lessThan1yrFemale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'M'
-         THEN COUNT(1)  END AS '1To9yrMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'F'
-         THEN COUNT(1)  END AS '1To9yrFemale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'M'
-         THEN COUNT(1)  END AS '10To14yrMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'F'
-         THEN COUNT(1)  END AS '10To14yrFemale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'M'
-         THEN COUNT(1)  END AS '15To19yrMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'F'
-         THEN COUNT(1)  END AS '15To19yrFemale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
-         THEN COUNT(1)  END AS '20To24yrMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'F'
-         THEN COUNT(1)  END AS '20To24yrFemale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'M'
-         THEN COUNT(1)  END AS '25To29yrMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'F'
-         THEN COUNT(1)  END AS '25To29yrFemale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'M'
-         THEN COUNT(1)  END AS '30To34yrMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'F'
-         THEN COUNT(1)  END AS '30To34yrFemale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'M'
-         THEN COUNT(1)  END AS '35To39yrMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'F'
-         THEN COUNT(1)  END AS '35To39yrFemale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'M'
-         THEN COUNT(1)  END AS '40To49YrsMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'F'
-         THEN COUNT(1)  END AS '40To49YrsFemale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'M'
-         THEN COUNT(1)  END AS 'GrtThan50YrsMale',
-         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
-         THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
-    FROM (  /*D36. Number of PLHIV in care who died whilst on second line ART regimen this month*/
-            Select 
-            distinct (obsToGetLastARTStageChangeDate.person_id)
-            from obs obsToGetLastARTStageChangeDate
-
-                                Inner Join 
-                                (/*Max ART program stage date per person before the end of reporting period*/
-                                
-                                               Select person_id, max(value_datetime) lastARTStageDateTime
-                                               from obs
-                                               where concept_id = (
-                                                                 SELECT
-                                                                 concept_id
-                                                                 FROM concept_view
-                                                                 WHERE
-                                                                 concept_full_name = 'PR, Start date of ART Stage'
-                                                                 AND retired=0
-                                                                )
-                                               and date(value_datetime) <= date('#endDate#')
-                                               And voided = 0
-                                               group by person_id
-                                ) as lastARTStageDate
-                                on obsToGetLastARTStageChangeDate.person_id = lastARTStageDate.person_id
-                                ANd obsToGetLastARTStageChangeDate.value_datetime = lastARTStageDate.lastARTStageDateTime
-                                
-                                Inner Join obs obsToCheckARTStageValue
-                                on obsToGetLastARTStageChangeDate.obs_group_id = obsToCheckARTStageValue.obs_group_id
-                                And obsToCheckARTStageValue.concept_id = 
-                                                                        (
-                                                                            SELECT
-                                                                            concept_id
-                                                                            FROM concept_view
-                                                                            WHERE
-                                                                            concept_full_name = 'PR, ART Stage'
-                                                                            AND retired=0
-                                                                        )
-                                                                             
-                                Inner join obs obsForCheckingIfPatientIsMarkedAsDeceased
-                                on obsForCheckingIfPatientIsMarkedAsDeceased.person_id = obsToCheckARTStageValue.person_id
-                                Where obsToCheckARTStageValue.value_coded = 
-                                                                            (
-                                                                                SELECT
-                                                                                concept_id
-                                                                                FROM concept_view
-                                                                                WHERE
-                                                                                concept_full_name = 'PR, 2nd Line'
-                                                                                AND retired=0
-                                                                            )
-                                AND obsForCheckingIfPatientIsMarkedAsDeceased.concept_id = (
-                                                                                                SELECT
-                                                                                                concept_id
-                                                                                                FROM concept_view
-                                                                                                WHERE
-                                                                                                concept_full_name = 'AS, Activity status'
-                                                                                                AND retired=0
-                                                                                           ) 
-                                And obsForCheckingIfPatientIsMarkedAsDeceased.value_coded = (
-                                                                                                SELECT
-                                                                                                concept_id
-                                                                                                FROM concept_view
-                                                                                                WHERE
-                                                                                                concept_full_name = 'Deceased'
-                                                                                                AND retired=0
-                                                                                            )
-                                AND obsForCheckingIfPatientIsMarkedAsDeceased.person_id not in
-                                 (/*Patient with ART stop date < Date of Marked as Deceased date will be excluded*/
-                                 SELECT obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id
-                                 AND concept_view.concept_full_name = "PR, ART Program Stop Date" AND obs.voided=0
-                                 Where date(obs.value_datetime) < Date(obsForCheckingIfPatientIsMarkedAsDeceased.obs_datetime)
-                                 )                                                            
-                                And obsForCheckingIfPatientIsMarkedAsDeceased.voided = 0
-                                And obsToCheckARTStageValue.voided = 0
-                                And obsToGetLastARTStageChangeDate.voided = 0
-                                And date(obsForCheckingIfPatientIsMarkedAsDeceased.obs_datetime) >= date(obsToGetLastARTStageChangeDate.value_datetime)
-                                And date(obsForCheckingIfPatientIsMarkedAsDeceased.obs_datetime) between date('#startDate#') AND date('#endDate#')
-
-                UNION ALL
-
-                /*D37. Number of PLHIV in care lost to follow up whilst on second line regimen this month*/
-                Select 
-distinct (obsToGetLastARTStageChangeDate.person_id)
-from obs obsToGetLastARTStageChangeDate
-
-                                Inner Join 
-                                (/*Max ART program stage date per person before the end of reporting period*/
-                                
-                                               Select person_id, max(value_datetime) lastARTStageDateTime
-                                               from obs
-                                               where concept_id = (
-                                                                     SELECT
-                                                                     concept_id
-                                                                     FROM concept_view
-                                                                     WHERE
-                                                                     concept_full_name = 'PR, Start date of ART Stage'
-                                                                     AND retired=0
-                                                                    )
-                                               and date(value_datetime) <= date('#endDate#')
-                                               And voided = 0
-                                               group by person_id
-                                ) as lastARTStageDate
-                                on obsToGetLastARTStageChangeDate.person_id = lastARTStageDate.person_id
-                                ANd obsToGetLastARTStageChangeDate.value_datetime = lastARTStageDate.lastARTStageDateTime
-                                
-                                Inner Join obs obsToCheckARTStageValue
-                                on obsToGetLastARTStageChangeDate.obs_group_id = obsToCheckARTStageValue.obs_group_id
-                                And obsToCheckARTStageValue.concept_id = 
-                                                                        (
-                                                                            SELECT
-                                                                            concept_id
-                                                                            FROM concept_view
-                                                                            WHERE
-                                                                            concept_full_name = 'PR, ART Stage'
-                                                                            AND retired=0
-                                                                        )
-                                                                             
-                                Inner join obs obsForLostToFollowUp
-                                on obsForLostToFollowUp.person_id = obsToCheckARTStageValue.person_id
-                                Where obsToCheckARTStageValue.value_coded = 
-                                                                            (
-                                                                                SELECT
-                                                                                concept_id
-                                                                                FROM concept_view
-                                                                                WHERE
-                                                                                concept_full_name = 'PR, 2nd Line'
-                                                                                AND retired=0
-                                                                            )
-                                AND obsForLostToFollowUp.concept_id = (
-                                                                            SELECT
-                                                                            concept_id
-                                                                            FROM concept_view
-                                                                            WHERE
-                                                                            concept_full_name = 'AS, Activity status'
-                                                                            AND retired=0
-                                                                       ) 
-                                And obsForLostToFollowUp.value_coded = (
-                                                                            SELECT
-                                                                            concept_id
-                                                                            FROM concept_view
-                                                                            WHERE
-                                                                            concept_full_name = 'Lost to follow up'
-                                                                            AND retired=0
-                                                                        )
-                                AND obsForLostToFollowUp.person_id not in
-                                 (/*Patient with ART stop date < Date of Marked as Lost to follow up date will be excluded*/
-                                 SELECT obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id
-                                 AND concept_view.concept_full_name = "PR, ART Program Stop Date" AND obs.voided=0
-                                 Where date(obs.value_datetime) < Date(obsForLostToFollowUp.obs_datetime)
-                                 )                                                             
-                                And obsForLostToFollowUp.voided = 0
-                                And obsToCheckARTStageValue.voided = 0
-                                And obsToGetLastARTStageChangeDate.voided = 0
-                                And date(obsForLostToFollowUp.obs_datetime) >= date(obsToGetLastARTStageChangeDate.value_datetime)
-                                And date(obsForLostToFollowUp.obs_datetime) between date('#startDate#') AND date('#endDate#')
-
-                UNION ALL
-
-                /*D38. Number of PLHIV in care who had stopped treatment whilst on second line regimen this month*/
-                Select distinct (obsToGetLastARTStageChangeDate.person_id)
-               from obs obsToGetLastARTStageChangeDate
-               Inner Join 
-                (/*Max ART program stage date per person before the end of reporting period*/
-                              Select person_id, max(value_datetime) lastARTStageDateTime 
-                              from obs 
-                              where concept_id = (
-                                                  SELECT
-                                                  concept_id
-                                                  FROM concept_view
-                                                  WHERE
-                                                  concept_full_name = 'PR, Start date of ART Stage'
-                                                  AND retired=0
-                                                 )
-                              and date(value_datetime) <= date('#endDate#')
-                              And voided = 0
-                              group by person_id
-              ) as lastARTStageDate
-              on obsToGetLastARTStageChangeDate.person_id = lastARTStageDate.person_id
-              ANd obsToGetLastARTStageChangeDate.value_datetime = lastARTStageDate.lastARTStageDateTime
-              Inner Join obs obsToCheckARTStageValue
-              on obsToGetLastARTStageChangeDate.obs_group_id = obsToCheckARTStageValue.obs_group_id
-              And obsToCheckARTStageValue.concept_id = (
-                                                            SELECT
-                                                            concept_id
-                                                            FROM concept_view
-                                                            WHERE
-                                                            concept_full_name = 'PR, ART Stage'
-                                                            AND retired=0
-                                                       )
-              Inner join obs obsForARTStopDate
-              on obsForARTStopDate.person_id = obsToCheckARTStageValue.person_id
-              Where obsToCheckARTStageValue.value_coded = (
-                                                            SELECT
-                                                            concept_id
-                                                            FROM concept_view
-                                                            WHERE
-                                                            concept_full_name = 'PR, 2nd Line'
-                                                            AND retired=0
-                                                          )
-              And obsToCheckARTStageValue.voided = 0
-              And obsToGetLastARTStageChangeDate.voided = 0
-              AND obsForARTStopDate.concept_id =  (
-                                                        SELECT
-                                                        concept_id
-                                                        FROM concept_view
-                                                        WHERE
-                                                        concept_full_name = 'PR, ART Program Stop Date'
-                                                        AND retired=0
-                                                   )
-               AND obsForARTStopDate.voided = 0
-               AND obsForARTStopDate.obs_group_id in (
-                                             /*Reason for stopping ART program as Treatment Failure*/
-                                                         SELECT obs_group_id
-                                                         from obs reasonAsTreatmentFailureForStoppingART
-                                                         WHERE reasonAsTreatmentFailureForStoppingART.concept_id = (
-                                                                                                              SELECT
-                                                                                                              concept_id
-                                                                                                              FROM concept_view
-                                                                                                              WHERE
-                                                                                                              concept_full_name = 'PR, Reason for Stopping ART Program'
-                                                                                                              AND retired=0
-                                                                                                            )
-                                                         AND reasonAsTreatmentFailureForStoppingART.value_coded = (
-                                                                                                              SELECT
-                                                                                                              concept_id
-                                                                                                              FROM concept_view
-                                                                                                              WHERE
-                                                                                                              concept_full_name = 'PR, Treatment failure'
-                                                                                                              AND retired=0
-                                                                                                           )
-                                                         And obsForARTStopDate.person_id = reasonAsTreatmentFailureForStoppingART.person_id
-                                                         AND reasonAsTreatmentFailureForStoppingART.voided = 0
-                                                    )
-                              And date(obsForARTStopDate.value_datetime) >= date(obsToGetLastARTStageChangeDate.value_datetime)
-                              And date(obsForARTStopDate.value_datetime) between date('#startDate#') AND date('#endDate#')
-
-             UNION ALL
-             
-             /*D39. Number PLHIV in care transferred out whilst on second line regimen this month*/
-             Select 
-        distinct (obsToGetLastARTStageChangeDate.person_id)
-    from obs obsToGetLastARTStageChangeDate
-                                Inner Join 
-                                (/*Max ART program stage date per person before the end of reporting period*/
-                                
-                                               Select person_id, max(value_datetime) lastARTStageDateTime
-                                               from obs
-                                               where concept_id = (
-                                                                     SELECT
-                                                                     concept_id
-                                                                     FROM concept_view
-                                                                     WHERE
-                                                                     concept_full_name = 'PR, Start date of ART Stage'
-                                                                     AND retired=0
-                                                                  )
-                                               and date(value_datetime) <= date('#endDate#')
-                                               And voided = 0
-                                               group by person_id
-                                ) as lastARTStageDate
-                                on obsToGetLastARTStageChangeDate.person_id = lastARTStageDate.person_id
-                                ANd obsToGetLastARTStageChangeDate.value_datetime = lastARTStageDate.lastARTStageDateTime
-                                
-                                Inner Join obs obsToCheckARTStageValue
-                                on obsToGetLastARTStageChangeDate.obs_group_id = obsToCheckARTStageValue.obs_group_id
-                                And obsToCheckARTStageValue.concept_id = 
-                                                                        (
-                                                                            SELECT
-                                                                            concept_id
-                                                                            FROM concept_view
-                                                                            WHERE
-                                                                            concept_full_name = 'PR, ART Stage'
-                                                                            AND retired=0
-                                                                        )
-                                                                             
-                                Inner join obs obsForCheckingIfPatientIsMarkedAsTransferredOut
-                                on obsForCheckingIfPatientIsMarkedAsTransferredOut.person_id = obsToCheckARTStageValue.person_id
-                                Where obsToCheckARTStageValue.value_coded = 
-                                                                            (
-                                                                                SELECT
-                                                                                concept_id
-                                                                                FROM concept_view
-                                                                                WHERE
-                                                                                concept_full_name = 'PR, 2nd Line'
-                                                                                AND retired=0
-                                                                            )
-                                AND obsForCheckingIfPatientIsMarkedAsTransferredOut.concept_id = (
-                                                                                                SELECT
-                                                                                                concept_id
-                                                                                                FROM concept_view
-                                                                                                WHERE
-                                                                                                concept_full_name = 'AS, Activity status'
-                                                                                                AND retired=0
-                                                                                           ) 
-                                And obsForCheckingIfPatientIsMarkedAsTransferredOut.value_coded = (
-                                                                                                SELECT
-                                                                                                concept_id
-                                                                                                FROM concept_view
-                                                                                                WHERE
-                                                                                                concept_full_name = 'Transfer Out'
-                                                                                                AND retired=0
-                                                                                            )
-                                AND obsForCheckingIfPatientIsMarkedAsTransferredOut.person_id not in
-                                 (/*Patient with ART stop date < Date of Marked as Transfer out date will be excluded*/
-                                     SELECT obs.person_id 
-                                     from obs 
-                                           INNER JOIN concept_view 
-                                           on obs.concept_id=concept_view.concept_id
-                                           AND concept_view.concept_full_name = "PR, ART Program Stop Date" 
-                                           AND obs.voided=0
-                                           Where date(obs.value_datetime) < Date(obsForCheckingIfPatientIsMarkedAsTransferredOut.obs_datetime)
-                                 )                                                            
-                                And obsForCheckingIfPatientIsMarkedAsTransferredOut.voided = 0
-                                And obsToCheckARTStageValue.voided = 0
-                                And obsToGetLastARTStageChangeDate.voided = 0
-                                And date(obsForCheckingIfPatientIsMarkedAsTransferredOut.obs_datetime) >= date(obsToGetLastARTStageChangeDate.value_datetime)
-                                And date(obsForCheckingIfPatientIsMarkedAsTransferredOut.obs_datetime) between date('#startDate#') AND date('#endDate#')
-
-            UNION ALL 
-
-                /*D44. Number of PLHIV in care on Second line switching to Third line regimen this month*/
-                Select 
-                distinct obsToGetLastARTStageChangeDate.person_id
-                from obs obsToGetLastARTStageChangeDate
-                                   Inner Join 
-                                (/*Max ART program stage date per person before the end of reporting period*/
-                                
-                                               Select person_id, max(value_datetime) lastARTStageDateTime
-                                               from obs obslastARTStageDateTime
-                                               where obslastARTStageDateTime.concept_id = (
-                                                                                             SELECT
-                                                                                             concept_id
-                                                                                             FROM concept_view
-                                                                                             WHERE
-                                                                                             concept_full_name = 'PR, Start date of ART Stage'
-                                                                                             AND retired=0
-                                                                                          )
-                                               and date(obslastARTStageDateTime.value_datetime) < 
-                                               
-                                               (   /* Maximum Start Date of ART Program's 3rd line */
-                                                   Select max(obsART3rdLine.value_datetime)
-                                                   from obs obsART3rdLine 
-                                                   Where obsART3rdLine.person_id = obslastARTStageDateTime.person_id
-                                                   AND obsART3rdLine.concept_id =  (
-                                                                                       SELECT
-                                                                                       concept_id
-                                                                                       FROM concept_view
-                                                                                       WHERE
-                                                                                       concept_full_name = 'PR, Start date of ART Stage'
-                                                                                       AND retired=0
-                                                                                   )
-                                                   AND obsART3rdLine.voided = 0
-                                                   
-                                                   AND obsART3rdLine.obs_group_id in 
-                                                                                    (
-                                                                                    /*ART Stage as 3rd Line*/
-                                                                                      SELECT obs_group_id
-                                                                                      from obs obsART3rdLineStartDate
-                                                                                      WHERE obsART3rdLineStartDate.concept_id =(
-                                                                                                                                 SELECT
-                                                                                                                                 concept_id
-                                                                                                                                 FROM concept_view
-                                                                                                                                 WHERE
-                                                                                                                                 concept_full_name = 'PR, ART Stage'
-                                                                                                                                 AND retired=0
-                                                                                                                                )
-                                                  AND obsART3rdLineStartDate.value_coded = (
-                                                                                             SELECT
-                                                                                             concept_id
-                                                                                             FROM concept_view
-                                                                                             WHERE
-                                                                                             concept_full_name = 'PR, 3rd Line'
-                                                                                             AND retired=0
-                                                                                           )
-                                                 And obsART3rdLine.person_id = obsART3rdLineStartDate.person_id
-                                                 AND obsART3rdLineStartDate.voided = 0
-                                                  )
-                                                 and date(obsART3rdLine.value_datetime) between date('#startDate#')  and date('#endDate#')
-                                                 and obsART3rdLine.person_id not IN 
-                                                   (/*Condition where patient excluded with Stop Date of ART Program less than Start Date of 3rd line ART Program*/
-                                                                 SELECT obsARTStopDate.person_id
-                                                                 from obs obsARTStopDate
-                                                                 INNER JOIN concept_view 
-                                                                 on obsARTStopDate.concept_id=concept_view.concept_id
-                                                                 AND concept_view.concept_full_name = "PR, ART Program Stop Date" 
-                                                                 AND obsARTStopDate.voided=0
-                                                                 where date(obsARTStopDate.value_datetime) < date(obsART3rdLine.value_datetime)
-                                                                 )
-                                                )
-                                               And voided = 0
-                                               group by person_id
-                                ) as lastARTStageDate
-                                on obsToGetLastARTStageChangeDate.person_id = lastARTStageDate.person_id
-                                ANd obsToGetLastARTStageChangeDate.value_datetime = lastARTStageDate.lastARTStageDateTime
-                                
-                                Inner Join obs obsToCheckARTStageValue
-                                on obsToGetLastARTStageChangeDate.obs_group_id = obsToCheckARTStageValue.obs_group_id
-                                And obsToCheckARTStageValue.concept_id = 
-                                                                        (
-                                                                            SELECT
-                                                                            concept_id
-                                                                            FROM concept_view
-                                                                            WHERE
-                                                                            concept_full_name = ('PR, ART Stage')
-                                                                            AND retired=0
-                                                                        )                               
-                                Where obsToCheckARTStageValue.value_coded = 
-                                                                            (
-                                                                                SELECT
-                                                                                concept_id
-                                                                                FROM concept_view
-                                                                                WHERE
-                                                                                concept_full_name = ('PR, 2nd Line')
-                                                                                AND retired=0
-                                                                            )
-                               ANd obsToGetLastARTStageChangeDate.voided = 0
-                               and obsToCheckARTStageValue.voided = 0                
-
-        ) as D43TotalnumberofPLHIVincarecurrentlyreceivingSecondlineARTincludingthoseswitchedduringthecurrentmonth
-        JOIN person p ON p.person_id = D43TotalnumberofPLHIVincarecurrentlyreceivingSecondlineARTincludingthoseswitchedduringthecurrentmonth.person_id
-           GROUP BY
-           CASE
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
-               THEN '< 1 Yr M'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
-               THEN '< 1 Yr F'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'M'
-               THEN '1-9 Yrs M'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'F'
-               THEN '1-9 Yrs F'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'M'
-               THEN '10-14 Yrs M'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'F'
-               THEN '10-14 Yrs F'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'M'
-               THEN '15-19 Yrs M'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'F'
-               THEN '15-19 Yrs F'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
-               THEN '20-24 Yrs M'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
-               THEN '20-24 Yrs F'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'M'
-               THEN '25-29 Yrs M'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'F'
-               THEN '25-29 Yrs F'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'M'
-               THEN '30-34 Yrs M'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'F'
-               THEN '30-34 Yrs F'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'M'
-               THEN '35-39 Yrs M'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'F'
-               THEN '35-39 Yrs F'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'M'
-               THEN '40-49 Yrs M'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'F'
-               THEN '40-49 Yrs F'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'M'
-               THEN '> 50 Yrs M'
-               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
-               THEN '> 50 Yrs F'
-            END
-    ) AS D43TotalnumberofPLHIVincarecurrentlyreceivingSecondlineARTincludingthoseswitchedduringthecurrentmonth)
-    as settwo  
-    on setone.set = settwo.set
-
-    UNION ALL
-
      /*D44. Number of PLHIV in care on Second line switching to Third line regimen this month*/
 SELECT/*Pivoting the table*/
     'D44. Number of PLHIV in care on Second line switching to Third line regimen this month' AS '-',
@@ -7433,3 +6610,732 @@ SELECT/*Pivoting the table*/
                THEN '> 50 Yrs F'
             END
     ) AS D51NumberofPLHIVincareonThirdLineARTregimenwhohadstoppedduetoadverseeventsthismonth
+
+UNION ALL
+/*D52. Total number of PLHIV in care currently receiving Third line ART (including those switched during the current month).*/
+    select setone.set as '-', /*setone - settwo : (D44 + D49) - (D45 + D46 + D47 + D48 )*/
+    case (ifnull(setone.lessThan1yrMale,0) - ifnull(settwo.lessThan1yrMale,0)) when 0 then null else (ifnull(setone.lessThan1yrMale,0) - ifnull(settwo.lessThan1yrMale,0)) end as '<1 M',
+    case (ifnull(setone.lessThan1yrFemale,0) - ifnull(settwo.lessThan1yrFemale,0)) when 0 then null else (ifnull(setone.lessThan1yrFemale,0) - ifnull(settwo.lessThan1yrFemale,0)) end as '<1 F',
+    case (ifnull(setone.1To9yrMale,0) - ifnull(settwo.1To9yrMale,0)) when 0 then null else (ifnull(setone.1To9yrMale,0) - ifnull(settwo.1To9yrMale,0)) end as '1-9 M', 
+    case (ifnull(setone.1To9yrFemale,0) - ifnull(settwo.1To9yrFemale,0)) when 0 then null else (ifnull(setone.1To9yrFemale,0) - ifnull(settwo.1To9yrFemale,0)) end as '1-9 F',
+    case (ifnull(setone.10To14yrMale,0) - ifnull(settwo.10To14yrMale,0)) when 0 then null else (ifnull(setone.10To14yrMale,0) - ifnull(settwo.10To14yrMale,0)) end as '10-14 M',
+    case (ifnull(setone.10To14yrFemale,0) - ifnull(settwo.10To14yrFemale,0)) when 0 then null else (ifnull(setone.10To14yrFemale,0) - ifnull(settwo.10To14yrFemale,0)) end as '10-14 F',
+    case (ifnull(setone.15To19yrMale,0) - ifnull(settwo.15To19yrMale,0)) when 0 then null else (ifnull(setone.15To19yrMale,0) - ifnull(settwo.15To19yrMale,0)) end as '15-19 M',
+    case (ifnull(setone.15To19yrFemale,0) - ifnull(settwo.15To19yrFemale,0)) when 0 then null else (ifnull(setone.15To19yrFemale,0) - ifnull(settwo.15To19yrFemale,0)) end as '15-19 F',
+    case (ifnull(setone.20To24yrMale,0) - ifnull(settwo.20To24yrMale,0)) when 0 then null else (ifnull(setone.20To24yrMale,0) - ifnull(settwo.20To24yrMale,0)) end as '20-24 M', 
+    case (ifnull(setone.20To24yrFemale,0) - ifnull(settwo.20To24yrFemale,0)) when 0 then null else (ifnull(setone.20To24yrFemale,0) - ifnull(settwo.20To24yrFemale,0)) end as '20-24 F',
+    case (ifnull(setone.25To29yrMale,0) - ifnull(settwo.25To29yrMale,0)) when 0 then null else (ifnull(setone.25To29yrMale,0) - ifnull(settwo.25To29yrMale,0)) end as '25-29 M',
+    case (ifnull(setone.25To29yrFemale,0) - ifnull(settwo.25To29yrFemale,0)) when 0 then null else (ifnull(setone.25To29yrFemale,0) - ifnull(settwo.25To29yrFemale,0)) end as '25-29 F',
+    case (ifnull(setone.30To34yrMale,0) - ifnull(settwo.30To34yrMale,0)) when 0 then null else (ifnull(setone.30To34yrMale,0) - ifnull(settwo.30To34yrMale,0)) end as '30-34 M',
+    case (ifnull(setone.30To34yrFemale,0) - ifnull(settwo.30To34yrFemale,0)) when 0 then null else (ifnull(setone.30To34yrFemale,0) - ifnull(settwo.30To34yrFemale,0)) end as '30-34 F',
+    case (ifnull(setone.35To39yrMale,0) - ifnull(settwo.35To39yrFemale,0)) when 0 then null else (ifnull(setone.35To39yrMale,0) - ifnull(settwo.35To39yrFemale,0)) end as '35-39 M',
+    case (ifnull(setone.35To39yrFemale,0) - ifnull(settwo.35To39yrFemale,0)) when 0 then null else (ifnull(setone.35To39yrFemale,0) - ifnull(settwo.35To39yrFemale,0)) end as '35-39 F',
+    case (ifnull(setone.40To49YrsMale,0) - ifnull(settwo.40To49YrsMale,0)) when 0 then null else (ifnull(setone.40To49YrsMale,0) - ifnull(settwo.40To49YrsMale,0)) end as '40-49 M',
+    case (ifnull(setone.40To49YrsFemale,0) - ifnull(settwo.40To49YrsFemale,0)) when 0 then null else (ifnull(setone.40To49YrsFemale,0) - ifnull(settwo.40To49YrsFemale,0)) end as '40-49 F',
+    case (ifnull(setone.GrtThan50YrsMale,0) - ifnull(settwo.GrtThan50YrsMale,0)) when 0 then null else (ifnull(setone.GrtThan50YrsMale,0) - ifnull(settwo.GrtThan50YrsMale,0)) end as '>50 M',
+    case (ifnull(setone.GrtThan50YrsFemale,0) - ifnull(settwo.GrtThan50YrsFemale,0)) when 0 then null else (ifnull(setone.GrtThan50YrsFemale,0) - ifnull(settwo.GrtThan50YrsFemale,0)) end as '>50 F'
+         
+   from
+    (/*ADDITION OF REPORTS : D44 + D49*/
+    SELECT/*Pivoting the table*/
+    'D52. Total number of PLHIV in care currently receiving Third line ART (including those switched during the current month)' AS 'set',
+    SUM(lessThan1yrMale) AS 'lessThan1yrMale',
+    SUM(lessThan1yrFemale) AS 'lessThan1yrFemale',
+    SUM(1To9yrMale) AS '1To9yrMale',
+    SUM(1To9yrFemale) AS '1To9yrFemale',
+    SUM(10To14yrMale) AS '10To14yrMale',
+    SUM(10To14yrFemale) AS '10To14yrFemale',
+    SUM(15To19yrMale) AS '15To19yrMale',
+    SUM(15To19yrFemale) AS '15To19yrFemale',
+    SUM(20To24yrMale) AS '20To24yrMale',
+    SUM(20To24yrFemale) AS '20To24yrFemale',
+    SUM(25To29yrMale) AS '25To29yrMale',
+    SUM(25To29yrFemale) AS '25To29yrFemale',
+    SUM(30To34yrMale) AS '30To34yrMale',
+    SUM(30To34yrFemale) AS '30To34yrFemale',
+    SUM(35To39yrMale) AS '35To39yrMale',
+    SUM(35To39yrFemale) AS '35To39yrFemale',
+    SUM(40To49YrsMale) AS '40To49YrsMale',
+    SUM(40To49YrsFemale) AS '40To49YrsFemale',
+    SUM(GrtThan50YrsMale) AS 'GrtThan50YrsMale',
+    SUM(GrtThan50YrsFemale) AS 'GrtThan50YrsFemale'
+    FROM
+    (
+    SELECT
+         'D52. Total number of PLHIV in care currently receiving Third line ART (including those switched during the current month)',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
+         THEN COUNT(1)  END AS 'lessThan1yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
+         THEN COUNT(1)  END AS 'lessThan1yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '1To9yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '1To9yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '10To14yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '10To14yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '15To19yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '15To19yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '20To24yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '20To24yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '25To29yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '25To29yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '30To34yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '30To34yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '35To39yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '35To39yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '40To49YrsMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '40To49YrsFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'M'
+         THEN COUNT(1)  END AS 'GrtThan50YrsMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
+         THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
+    FROM (
+    /*D44. Number of PLHIV in care on Second line switching to Third line regimen this month*/
+    Select 
+      distinct obsToGetLastARTStageChangeDate.person_id
+from obs obsToGetLastARTStageChangeDate
+                                   Inner Join 
+                                (/*Max ART program stage date per person before the end of reporting period*/
+                                
+                                               Select person_id, max(value_datetime) lastARTStageDateTime
+                                               from obs obslastARTStageDateTime
+                                               where obslastARTStageDateTime.concept_id = (
+                                                                                             SELECT
+                                                                                             concept_id
+                                                                                             FROM concept_view
+                                                                                             WHERE
+                                                                                             concept_full_name = 'PR, Start date of ART Stage'
+                                                                                             AND retired=0
+                                                                                          )
+                                               and date(obslastARTStageDateTime.value_datetime) < 
+                                               
+                                               (   /* Maximum Start Date of ART Program's 3rd line */
+                                                   Select max(obsART3rdLine.value_datetime)
+                                                   from obs obsART3rdLine 
+                                                   Where obsART3rdLine.person_id = obslastARTStageDateTime.person_id
+                                                   AND obsART3rdLine.concept_id =  (
+                                                                                       SELECT
+                                                                                       concept_id
+                                                                                       FROM concept_view
+                                                                                       WHERE
+                                                                                       concept_full_name = 'PR, Start date of ART Stage'
+                                                                                       AND retired=0
+                                                                                   )
+                                                   AND obsART3rdLine.voided = 0
+                                                   
+                                                   AND obsART3rdLine.obs_group_id in 
+                                                                                    (
+                                                                                    /*ART Stage as 3rd Line*/
+                                                                                      SELECT obs_group_id
+                                                                                      from obs obsART3rdLineStartDate
+                                                                                      WHERE obsART3rdLineStartDate.concept_id =(
+                                                                                                                                 SELECT
+                                                                                                                                 concept_id
+                                                                                                                                 FROM concept_view
+                                                                                                                                 WHERE
+                                                                                                                                 concept_full_name = 'PR, ART Stage'
+                                                                                                                                 AND retired=0
+                                                                                                                                )
+                                                  AND obsART3rdLineStartDate.value_coded = (
+                                                                                             SELECT
+                                                                                             concept_id
+                                                                                             FROM concept_view
+                                                                                             WHERE
+                                                                                             concept_full_name = 'PR, 3rd Line'
+                                                                                             AND retired=0
+                                                                                           )
+                                                 And obsART3rdLine.person_id = obsART3rdLineStartDate.person_id
+                                                 AND obsART3rdLineStartDate.voided = 0
+                                                  )
+                                                 and date(obsART3rdLine.value_datetime) between date('#startDate#')  and date('#endDate#')
+                                                 and obsART3rdLine.person_id not IN 
+                                                   (/*Condition where patient excluded with Stop Date of ART Program less than Start Date of 3rd line ART Program*/
+                                                                 SELECT obsARTStopDate.person_id
+                                                                 from obs obsARTStopDate
+                                                                 INNER JOIN concept_view 
+                                                                 on obsARTStopDate.concept_id=concept_view.concept_id
+                                                                 AND concept_view.concept_full_name = "PR, ART Program Stop Date" 
+                                                                 AND obsARTStopDate.voided=0
+                                                                 where date(obsARTStopDate.value_datetime) < date(obsART3rdLine.value_datetime)
+                                                                 )
+                                                )
+                                               And voided = 0
+                                               group by person_id
+                                ) as lastARTStageDate
+                                on obsToGetLastARTStageChangeDate.person_id = lastARTStageDate.person_id
+                                ANd obsToGetLastARTStageChangeDate.value_datetime = lastARTStageDate.lastARTStageDateTime
+                                
+                                Inner Join obs obsToCheckARTStageValue
+                                on obsToGetLastARTStageChangeDate.obs_group_id = obsToCheckARTStageValue.obs_group_id
+                                And obsToCheckARTStageValue.concept_id = 
+                                                                        (
+                                                                            SELECT
+                                                                            concept_id
+                                                                            FROM concept_view
+                                                                            WHERE
+                                                                            concept_full_name = ('PR, ART Stage')
+                                                                            AND retired=0
+                                                                        )                               
+                                Where obsToCheckARTStageValue.value_coded = 
+                                                                            (
+                                                                                SELECT
+                                                                                concept_id
+                                                                                FROM concept_view
+                                                                                WHERE
+                                                                                concept_full_name = ('PR, 2nd Line')
+                                                                                AND retired=0
+                                                                            )
+                               ANd obsToGetLastARTStageChangeDate.voided = 0
+                               and obsToCheckARTStageValue.voided = 0
+                               
+             union all 
+          /*D49. Number PLHIV in care transferred in on Third line regimen this month*/
+             Select 
+    distinct (obsToGetLastARTStageChangeDate.person_id)
+    from obs obsToGetLastARTStageChangeDate
+                                    Inner Join obs obsToCheckARTStageValue
+                                    on obsToGetLastARTStageChangeDate.obs_group_id = obsToCheckARTStageValue.obs_group_id
+                                    and obsToGetLastARTStageChangeDate.concept_id = (
+                                                                                         SELECT
+                                                                                         concept_id
+                                                                                         FROM concept_view
+                                                                                         WHERE
+                                                                                         concept_full_name = 'PR, Start date of ART Stage'
+                                                                                         AND retired=0
+                                                                                    )
+                                    and date(obsToGetLastARTStageChangeDate.value_datetime) <= date('#endDate#')
+                                    And obsToCheckARTStageValue.concept_id = 
+                                                                            (
+                                                                                SELECT
+                                                                                concept_id
+                                                                                FROM concept_view
+                                                                                WHERE
+                                                                                concept_full_name = 'PR, ART Stage'
+                                                                                AND retired=0
+                                                                            )    
+                                    Inner join obs obsForCheckingTransferIn
+                                    on obsForCheckingTransferIn.person_id = obsToCheckARTStageValue.person_id
+                                    Where obsToCheckARTStageValue.value_coded = 
+                                                                                (
+                                                                                    SELECT
+                                                                                    concept_id
+                                                                                    FROM concept_view
+                                                                                    WHERE
+                                                                                    concept_full_name = 'PR, 3rd Line'
+                                                                                    AND retired=0
+                                                                                )
+                                    And obsForCheckingTransferIn.value_coded = (
+                                                                                    SELECT
+                                                                                    concept_id
+                                                                                    FROM concept_view
+                                                                                    WHERE
+                                                                                    concept_full_name = 'Transfer in'
+                                                                                    AND retired=0
+                                                                               ) 
+                                                                                                  
+                                    And obsForCheckingTransferIn.voided = 0
+                                    And obsToCheckARTStageValue.voided = 0
+                                    And obsToGetLastARTStageChangeDate.voided = 0
+                                    And date(obsForCheckingTransferIn.obs_datetime) = date(obsToGetLastARTStageChangeDate.value_datetime)
+                                    And date(obsForCheckingTransferIn.obs_datetime) between date('#startDate#') AND date('#endDate#')
+   
+            ) AS D52totalNumberOfPLHIVinCareCurrentlyReceivingThirdLineART 
+           INNER JOIN person p ON p.person_id = D52totalNumberOfPLHIVinCareCurrentlyReceivingThirdLineART.person_id
+           GROUP BY
+           CASE
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
+               THEN '< 1 Yr M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
+               THEN '< 1 Yr F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'M'
+               THEN '1-9 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'F'
+               THEN '1-9 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'M'
+               THEN '10-14 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'F'
+               THEN '10-14 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'M'
+               THEN '15-19 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'F'
+               THEN '15-19 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
+               THEN '20-24 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
+               THEN '20-24 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'M'
+               THEN '25-29 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'F'
+               THEN '25-29 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'M'
+               THEN '30-34 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'F'
+               THEN '30-34 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'M'
+               THEN '35-39 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'F'
+               THEN '35-39 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'M'
+               THEN '40-49 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'F'
+               THEN '40-49 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'M'
+               THEN '> 50 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
+               THEN '> 50 Yrs F'
+            END
+    ) AS D52totalNumberOfPLHIVinCareCurrentlyReceivingThirdLineART)
+    as setone
+    inner join
+    
+   (/*ADDITION OF REPORTS : D45 + D46 + D47 + D48*/
+SELECT/*Pivoting the table*/
+    'D52. Total number of PLHIV in care currently receiving Third line ART (including those switched during the current month)' AS 'set',
+    SUM(lessThan1yrMale) AS 'lessThan1yrMale',
+    SUM(lessThan1yrFemale) AS 'lessThan1yrFemale',
+    SUM(1To9yrMale) AS '1To9yrMale',
+    SUM(1To9yrFemale) AS '1To9yrFemale',
+    SUM(10To14yrMale) AS '10To14yrMale',
+    SUM(10To14yrFemale) AS '10To14yrFemale',
+    SUM(15To19yrMale) AS '15To19yrMale',
+    SUM(15To19yrFemale) AS '15To19yrFemale',
+    SUM(20To24yrMale) AS '20To24yrMale',
+    SUM(20To24yrFemale) AS '20To24yrFemale',
+    SUM(25To29yrMale) AS '25To29yrMale',
+    SUM(25To29yrFemale) AS '25To29yrFemale',
+    SUM(30To34yrMale) AS '30To34yrMale',
+    SUM(30To34yrFemale) AS '30To34yrFemale',
+    SUM(35To39yrMale) AS '35To39yrMale',
+    SUM(35To39yrFemale) AS '35To39yrFemale',
+    SUM(40To49YrsMale) AS '40To49YrsMale',
+    SUM(40To49YrsFemale) AS '40To49YrsFemale',
+    SUM(GrtThan50YrsMale) AS 'GrtThan50YrsMale',
+    SUM(GrtThan50YrsFemale) AS 'GrtThan50YrsFemale'
+    FROM
+    (
+    SELECT
+         'D52. Total number of PLHIV in care currently receiving Third line ART (including those switched during the current month)',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
+         THEN COUNT(1)  END AS 'lessThan1yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
+         THEN COUNT(1)  END AS 'lessThan1yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '1To9yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '1To9yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '10To14yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '10To14yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '15To19yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '15To19yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '20To24yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '20To24yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '25To29yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '25To29yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '30To34yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '30To34yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '35To39yrMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '35To39yrFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'M'
+         THEN COUNT(1)  END AS '40To49YrsMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'F'
+         THEN COUNT(1)  END AS '40To49YrsFemale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'M'
+         THEN COUNT(1)  END AS 'GrtThan50YrsMale',
+         CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
+         THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
+    FROM (  /*D45. Number of PLHIV in care who died whilst on Third line ART regimen this month*/
+            Select 
+            distinct (obsToGetLastARTStageChangeDate.person_id)
+            from obs obsToGetLastARTStageChangeDate
+                                Inner Join 
+                                (/*Max ART program stage date per person before the end of reporting period*/
+                                
+                                               Select person_id, max(value_datetime) lastARTStageDateTime
+                                               from obs
+                                               where concept_id = (
+                                                                     SELECT
+                                                                     concept_id
+                                                                     FROM concept_view
+                                                                     WHERE
+                                                                     concept_full_name = 'PR, Start date of ART Stage'
+                                                                     AND retired=0
+                                                                  )
+                                               and date(value_datetime) <= date('#endDate#')
+                                               And voided = 0
+                                               group by person_id
+                                ) as lastARTStageDate
+                                on obsToGetLastARTStageChangeDate.person_id = lastARTStageDate.person_id
+                                ANd obsToGetLastARTStageChangeDate.value_datetime = lastARTStageDate.lastARTStageDateTime
+                                
+                                Inner Join obs obsToCheckARTStageValue
+                                on obsToGetLastARTStageChangeDate.obs_group_id = obsToCheckARTStageValue.obs_group_id
+                                And obsToCheckARTStageValue.concept_id = 
+                                                                        (
+                                                                            SELECT
+                                                                            concept_id
+                                                                            FROM concept_view
+                                                                            WHERE
+                                                                            concept_full_name = 'PR, ART Stage'
+                                                                            AND retired=0
+                                                                        )
+                                                                             
+                                Inner join obs obsForCheckingIfPatientIsMarkedAsDeceased
+                                on obsForCheckingIfPatientIsMarkedAsDeceased.person_id = obsToCheckARTStageValue.person_id
+                                Where obsToCheckARTStageValue.value_coded = 
+                                                                            (
+                                                                                SELECT
+                                                                                concept_id
+                                                                                FROM concept_view
+                                                                                WHERE
+                                                                                concept_full_name = 'PR, 3rd Line'
+                                                                                AND retired=0
+                                                                            )
+                                AND obsForCheckingIfPatientIsMarkedAsDeceased.concept_id = (
+                                                                                                SELECT
+                                                                                                concept_id
+                                                                                                FROM concept_view
+                                                                                                WHERE
+                                                                                                concept_full_name = 'AS, Activity status'
+                                                                                                AND retired=0
+                                                                                           ) 
+                                And obsForCheckingIfPatientIsMarkedAsDeceased.value_coded = (
+                                                                                                SELECT
+                                                                                                concept_id
+                                                                                                FROM concept_view
+                                                                                                WHERE
+                                                                                                concept_full_name = 'Deceased'
+                                                                                                AND retired=0
+                                                                                            )
+                                AND obsForCheckingIfPatientIsMarkedAsDeceased.person_id not in
+                                 (/*Patient with ART stop date < Date of Marked as Transfer In date will be excluded*/
+                                     SELECT obs.person_id 
+                                     from obs 
+                                           INNER JOIN concept_view 
+                                           on obs.concept_id=concept_view.concept_id
+                                           AND concept_view.concept_full_name = "PR, ART Program Stop Date" 
+                                           AND obs.voided=0
+                                           Where date(obs.value_datetime) < Date(obsForCheckingIfPatientIsMarkedAsDeceased.obs_datetime)
+                                 )                                                            
+                                And obsForCheckingIfPatientIsMarkedAsDeceased.voided = 0
+                                And obsToCheckARTStageValue.voided = 0
+                                And obsToGetLastARTStageChangeDate.voided = 0
+                                And date(obsForCheckingIfPatientIsMarkedAsDeceased.obs_datetime) >= date(obsToGetLastARTStageChangeDate.value_datetime)
+                                And date(obsForCheckingIfPatientIsMarkedAsDeceased.obs_datetime) between date('#startDate#') AND date('#endDate#')
+                                
+                                UNION ALL
+                                
+            /*D46. Number of PLHIV lost to follow up whilst on Third line regimen this month*/
+                                Select 
+            distinct (obsToGetLastARTStageChangeDate.person_id)
+            from obs obsToGetLastARTStageChangeDate
+                                Inner Join 
+                                (/*Max ART program stage date per person before the end of reporting period*/
+                                
+                                               Select person_id, max(value_datetime) lastARTStageDateTime
+                                               from obs
+                                               where concept_id = (
+                                                                     SELECT
+                                                                     concept_id
+                                                                     FROM concept_view
+                                                                     WHERE
+                                                                     concept_full_name = 'PR, Start date of ART Stage'
+                                                                     AND retired=0
+                                                                  )
+                                               and date(value_datetime) <= date('#endDate#')
+                                               And voided = 0
+                                               group by person_id
+                                ) as lastARTStageDate
+                                on obsToGetLastARTStageChangeDate.person_id = lastARTStageDate.person_id
+                                ANd obsToGetLastARTStageChangeDate.value_datetime = lastARTStageDate.lastARTStageDateTime
+                                
+                                Inner Join obs obsToCheckARTStageValue
+                                on obsToGetLastARTStageChangeDate.obs_group_id = obsToCheckARTStageValue.obs_group_id
+                                And obsToCheckARTStageValue.concept_id = 
+                                                                        (
+                                                                            SELECT
+                                                                            concept_id
+                                                                            FROM concept_view
+                                                                            WHERE
+                                                                            concept_full_name = 'PR, ART Stage'
+                                                                            AND retired=0
+                                                                        )
+                                                                             
+                                Inner join obs obsForCheckingIfPatientIsMarkedAsLostToFollowUp
+                                on obsForCheckingIfPatientIsMarkedAsLostToFollowUp.person_id = obsToCheckARTStageValue.person_id
+                                Where obsToCheckARTStageValue.value_coded = 
+                                                                            (
+                                                                                SELECT
+                                                                                concept_id
+                                                                                FROM concept_view
+                                                                                WHERE
+                                                                                concept_full_name = 'PR, 3rd Line'
+                                                                                AND retired=0
+                                                                            )
+                                AND obsForCheckingIfPatientIsMarkedAsLostToFollowUp.concept_id = (
+                                                                                                SELECT
+                                                                                                concept_id
+                                                                                                FROM concept_view
+                                                                                                WHERE
+                                                                                                concept_full_name = 'AS, Activity status'
+                                                                                                AND retired=0
+                                                                                           ) 
+                                And obsForCheckingIfPatientIsMarkedAsLostToFollowUp.value_coded = (
+                                                                                                SELECT
+                                                                                                concept_id
+                                                                                                FROM concept_view
+                                                                                                WHERE
+                                                                                                concept_full_name = 'Lost to follow up'
+                                                                                                AND retired=0
+                                                                                            )
+                                AND obsForCheckingIfPatientIsMarkedAsLostToFollowUp.person_id not in
+                                 (/*Patient with ART stop date < Date of Marked as Lost To Follow Up date will be excluded*/
+                                     SELECT obs.person_id 
+                                     from obs 
+                                           INNER JOIN concept_view 
+                                           on obs.concept_id=concept_view.concept_id
+                                           AND concept_view.concept_full_name = "PR, ART Program Stop Date" 
+                                           AND obs.voided=0
+                                           Where date(obs.value_datetime) < Date(obsForCheckingIfPatientIsMarkedAsLostToFollowUp.obs_datetime)
+                                 )                                                            
+                                And obsForCheckingIfPatientIsMarkedAsLostToFollowUp.voided = 0
+                                And obsToCheckARTStageValue.voided = 0
+                                And obsToGetLastARTStageChangeDate.voided = 0
+                                And date(obsForCheckingIfPatientIsMarkedAsLostToFollowUp.obs_datetime) >= date(obsToGetLastARTStageChangeDate.value_datetime)
+                                And date(obsForCheckingIfPatientIsMarkedAsLostToFollowUp.obs_datetime) between date('#startDate#') AND date('#endDate#')
+                                
+                                UNION ALL 
+      /*D47. Number of PLHIV in care who stopped treatment whilst on Third line regimen this month*/
+                                Select distinct (obsToGetLastARTStageChangeDate.person_id)
+               from obs obsToGetLastARTStageChangeDate
+               Inner Join 
+                (/*Max ART program stage date per person before the end of reporting period*/
+                              Select person_id, max(value_datetime) lastARTStageDateTime 
+                              from obs 
+                              where concept_id = (
+                                                  SELECT
+                                                  concept_id
+                                                  FROM concept_view
+                                                  WHERE
+                                                  concept_full_name = 'PR, Start date of ART Stage'
+                                                  AND retired=0
+                                                 )
+                              and date(value_datetime) <= date('#endDate#')
+                              And voided = 0
+                              group by person_id
+              ) as lastARTStageDate
+              on obsToGetLastARTStageChangeDate.person_id = lastARTStageDate.person_id
+              ANd obsToGetLastARTStageChangeDate.value_datetime = lastARTStageDate.lastARTStageDateTime
+              Inner Join obs obsToCheckARTStageValue
+              on obsToGetLastARTStageChangeDate.obs_group_id = obsToCheckARTStageValue.obs_group_id
+              And obsToCheckARTStageValue.concept_id = (
+                                                            SELECT
+                                                            concept_id
+                                                            FROM concept_view
+                                                            WHERE
+                                                            concept_full_name = 'PR, ART Stage'
+                                                            AND retired=0
+                                                       )
+              Inner join obs obsForARTStopDate
+              on obsForARTStopDate.person_id = obsToCheckARTStageValue.person_id
+              Where obsToCheckARTStageValue.value_coded = (
+                                                            SELECT
+                                                            concept_id
+                                                            FROM concept_view
+                                                            WHERE
+                                                            concept_full_name = 'PR, 3rd Line'
+                                                            AND retired=0
+                                                          )
+              And obsToCheckARTStageValue.voided = 0
+              And obsToGetLastARTStageChangeDate.voided = 0
+              AND obsForARTStopDate.concept_id =  (
+                                                        SELECT
+                                                        concept_id
+                                                        FROM concept_view
+                                                        WHERE
+                                                        concept_full_name = 'PR, ART Program Stop Date'
+                                                        AND retired=0
+                                                   )
+               AND obsForARTStopDate.voided = 0
+               AND obsForARTStopDate.obs_group_id in (
+                                             /*Reason for stopping ART program as Treatment Failure*/
+                                                         SELECT obs_group_id
+                                                         from obs reasonAsTreatmentFailureForStoppingART
+                                                         WHERE reasonAsTreatmentFailureForStoppingART.concept_id = (
+                                                                                                              SELECT
+                                                                                                              concept_id
+                                                                                                              FROM concept_view
+                                                                                                              WHERE
+                                                                                                              concept_full_name = 'PR, Reason for Stopping ART Program'
+                                                                                                              AND retired=0
+                                                                                                            )
+                                                         AND reasonAsTreatmentFailureForStoppingART.value_coded = (
+                                                                                                              SELECT
+                                                                                                              concept_id
+                                                                                                              FROM concept_view
+                                                                                                              WHERE
+                                                                                                              concept_full_name = 'PR, Treatment failure'
+                                                                                                              AND retired=0
+                                                                                                           )
+                                                         And obsForARTStopDate.person_id = reasonAsTreatmentFailureForStoppingART.person_id
+                                                         AND reasonAsTreatmentFailureForStoppingART.voided = 0
+                                                    )
+                              And date(obsForARTStopDate.value_datetime) >= date(obsToGetLastARTStageChangeDate.value_datetime)
+                              And date(obsForARTStopDate.value_datetime) between date('#startDate#') AND date('#endDate#')
+                              
+                              UNION ALL
+                              
+        /*D48. Number PLHIV in care transferred out whilst on Third line regimen this month*/
+                              
+                              Select
+                              distinct obsToGetLastARTStageChangeDate.person_id
+                              from obs obsToGetLastARTStageChangeDate
+                                Inner Join 
+                                (/*Max ART program stage date per person before the end of reporting period*/
+                                
+                                               Select person_id, max(value_datetime) lastARTStageDateTime
+                                               from obs
+                                               where concept_id = (
+                                                                     SELECT
+                                                                     concept_id
+                                                                     FROM concept_view
+                                                                     WHERE
+                                                                     concept_full_name = 'PR, Start date of ART Stage'
+                                                                     AND retired=0
+                                                                  )
+                                               and date(value_datetime) <= date('#endDate#')
+                                               And voided = 0
+                                               group by person_id
+                                ) as lastARTStageDate
+                                on obsToGetLastARTStageChangeDate.person_id = lastARTStageDate.person_id
+                                ANd obsToGetLastARTStageChangeDate.value_datetime = lastARTStageDate.lastARTStageDateTime
+                                
+                                Inner Join obs obsToCheckARTStageValue
+                                on obsToGetLastARTStageChangeDate.obs_group_id = obsToCheckARTStageValue.obs_group_id
+                                And obsToCheckARTStageValue.concept_id = 
+                                                                        (
+                                                                            SELECT
+                                                                            concept_id
+                                                                            FROM concept_view
+                                                                            WHERE
+                                                                            concept_full_name = 'PR, ART Stage'
+                                                                            AND retired=0
+                                                                        )
+                                                                             
+                                Inner join obs obsForCheckingIfPatientIsMarkedAsTransferOut
+                                on obsForCheckingIfPatientIsMarkedAsTransferOut.person_id = obsToCheckARTStageValue.person_id
+                                Where obsToCheckARTStageValue.value_coded = 
+                                                                            (
+                                                                                SELECT
+                                                                                concept_id
+                                                                                FROM concept_view
+                                                                                WHERE
+                                                                                concept_full_name = 'PR, 3rd Line'
+                                                                                AND retired=0
+                                                                            )
+                                AND obsForCheckingIfPatientIsMarkedAsTransferOut.concept_id = (
+                                                                                                    SELECT
+                                                                                                    concept_id
+                                                                                                    FROM concept_view
+                                                                                                    WHERE
+                                                                                                    concept_full_name = 'AS, Activity status'
+                                                                                                    AND retired=0
+                                                                                                  ) 
+                                And obsForCheckingIfPatientIsMarkedAsTransferOut.value_coded = (
+                                                                                                    SELECT
+                                                                                                    concept_id
+                                                                                                    FROM concept_view
+                                                                                                    WHERE
+                                                                                                    concept_full_name = 'Transfer Out'
+                                                                                                    AND retired=0
+                                                                                                   )
+                                AND obsForCheckingIfPatientIsMarkedAsTransferOut.person_id not in
+                                 (/*Patient with ART stop date < Date of Marked as Transfer Out date will be excluded*/
+                                     SELECT obs.person_id 
+                                     from obs 
+                                           INNER JOIN concept_view 
+                                           on obs.concept_id=concept_view.concept_id
+                                           AND concept_view.concept_full_name = "PR, ART Program Stop Date" 
+                                           AND obs.voided=0
+                                           Where date(obs.value_datetime) < Date(obsForCheckingIfPatientIsMarkedAsTransferOut.obs_datetime)
+                                 )                                                            
+                                And obsForCheckingIfPatientIsMarkedAsTransferOut.voided = 0
+                                And obsToCheckARTStageValue.voided = 0
+                                And obsToGetLastARTStageChangeDate.voided = 0
+                                And date(obsForCheckingIfPatientIsMarkedAsTransferOut.obs_datetime) >= date(obsToGetLastARTStageChangeDate.value_datetime)
+                                And date(obsForCheckingIfPatientIsMarkedAsTransferOut.obs_datetime) between date('#startDate#') AND date('#endDate#')
+                                
+        ) as D52totalNumberOfPLHIVinCareCurrentlyReceivingThirdLineART
+        JOIN person p ON p.person_id = D52totalNumberOfPLHIVinCareCurrentlyReceivingThirdLineART.person_id
+           GROUP BY
+           CASE
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
+               THEN '< 1 Yr M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
+               THEN '< 1 Yr F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'M'
+               THEN '1-9 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'F'
+               THEN '1-9 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'M'
+               THEN '10-14 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'F'
+               THEN '10-14 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'M'
+               THEN '15-19 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'F'
+               THEN '15-19 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
+               THEN '20-24 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
+               THEN '20-24 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'M'
+               THEN '25-29 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'F'
+               THEN '25-29 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'M'
+               THEN '30-34 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'F'
+               THEN '30-34 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'M'
+               THEN '35-39 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'F'
+               THEN '35-39 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'M'
+               THEN '40-49 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'F'
+               THEN '40-49 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'M'
+               THEN '> 50 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
+               THEN '> 50 Yrs F'
+            END
+    ) AS D52totalNumberOfPLHIVinCareCurrentlyReceivingThirdLineART)
+    as settwo  
+    on setone.set = settwo.set
+
