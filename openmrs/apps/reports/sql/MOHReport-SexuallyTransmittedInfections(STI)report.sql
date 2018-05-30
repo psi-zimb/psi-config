@@ -497,7 +497,7 @@ SELECT/*Pivoting the table*/
                 or  
                   obsHIVSelfTestingFormRapidHivTestResults.person_id IN (
                                                                          select person_id from obs 
-                                                                         join encounter on obs.encounter_id = obs.encounter_id
+                                                                         join encounter on obs.encounter_id = encounter.encounter_id
                                                                          where concept_id = (
                                                                                                 select concept_id 
                                                                                                 from concept_view 
