@@ -507,6 +507,7 @@ SELECT/*Pivoting the table*/
                                                                          and obs.voided = 0
                                                                          and encounter.encounter_type = 8
                                                                          and obs.person_id = obsHIVSelfTestingFormRapidHivTestResults.person_id
+                                                                         and obs.value_coded is NOT NULL
                                                                        )
     
             )
