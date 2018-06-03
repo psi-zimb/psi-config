@@ -814,7 +814,7 @@ SELECT/*Pivoting the table*/
             and obsRapidHivTestResults.voided = 0
             and date(obsForSTIDiagnosedPatients.obs_datetime) between date('#startDate#') and date('#endDate#')
             and date(obsRapidHivTestResults.obs_datetime) between date('#startDate#') and date('#endDate#')
-            and date(obsForSTIDiagnosedPatients.obs_datetime) < date(obsRapidHivTestResults.obs_datetime)
+            and date(obsForSTIDiagnosedPatients.obs_datetime) <= date(obsRapidHivTestResults.obs_datetime)
          ) AS F6TotalnumberofSTIClientstestedHIVpositivethismonth
            INNER JOIN person p ON p.person_id = F6TotalnumberofSTIClientstestedHIVpositivethismonth.person_id
            GROUP BY
