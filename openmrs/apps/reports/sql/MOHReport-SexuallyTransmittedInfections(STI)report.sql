@@ -666,7 +666,7 @@ SELECT/*Pivoting the table*/
             and obsHIVSelfTestingFormRapidHivTestResults.voided = 0
             and date(obsForSTIDiagnosedPatients.obs_datetime) between date('#startDate#') and date('#endDate#')
             and date(obsHIVSelfTestingFormRapidHivTestResults.obs_datetime) between date('#startDate#') and date('#endDate#')
-            and date(obsForSTIDiagnosedPatients.obs_datetime) < date(obsHIVSelfTestingFormRapidHivTestResults.obs_datetime)
+            and date(obsForSTIDiagnosedPatients.obs_datetime) <= date(obsHIVSelfTestingFormRapidHivTestResults.obs_datetime)
          ) AS F5TotalnumberofSTIclientsHIVtestedthismonthOnlycountclientswhotestedforSTIandHIVonthesamedaywithin1month
            INNER JOIN person p ON p.person_id = F5TotalnumberofSTIclientsHIVtestedthismonthOnlycountclientswhotestedforSTIandHIVonthesamedaywithin1month.person_id
            GROUP BY
