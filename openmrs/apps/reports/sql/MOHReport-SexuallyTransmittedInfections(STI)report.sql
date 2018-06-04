@@ -473,38 +473,97 @@ SELECT/*Pivoting the table*/
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM (
-            select obsForSTIRegister.person_id
-            from obs obsForSTIRegister
-            where obsForSTIRegister.concept_id in 
-                                                  (
-                                                   select concept_id 
-                                                   from concept_view
-                                                   where concept_full_name in 
-                                                     ('Syphilis Anti-TP (Baseline)',
-                                                     'Syphilis Anti-TP (Yearly)', 
-                                                      'Syphilis Anti-TP (24 Weeks)', 
-                                                     'Syphilis Anti-TP (1st Visit)', 
-                                                     'Syphilis Anti-TP (48 Weeks)', 
-                                                     'Syphilis Anti-TP (Syp)', 
-                                                     'Syphilis Anti-TP (6 Monthly)', 
-                                                     'Syphilis RPR (Syp)', 
-                                                     'Syphilis RPR (Baseline)',
-                                                     'Syphilis RPR (1st Visit)', 
-                                                     'Syphilis RPR (Yearly)', 
-                                                     'Syphilis RPR (48 Weeks)', 
-                                                     'Syphilis RPR (6 Monthly)', 
-                                                     'Syphilis RPR (24 Weeks)')
-                                                   and retired=0
-                                                      )
-            and obsForSTIRegister.value_coded=   (
-                                                      select concept_id 
-                                                      from concept_view 
-                                                      where concept_full_name='Positive'
-                                                      and retired=0  
-                                                 )
-            and obsForSTIRegister.voided=0
-            and obsForSTIRegister.obs_datetime between date('#startDate#') and date('#endDate#')            
-                        
+            Select
+                 distinct person_id
+                from
+                    (
+                        /*Pivoting the values based on the grouping on person id and obsdate so that lab test ordered on the same date are grouped together.*/
+                        Select
+                            person_id,
+                            MAX(antiTP),
+                            MAX(RPR),
+                            ObsDate,
+                            (Select concept_full_name from concept_view where concept_id = MAX(antiTPValue) and retired = 0) as 'AntiTPValue',
+                            (Select concept_full_name from concept_view where concept_id = MAX(RPRValue) and retired = 0) as 'RPRValue'
+                        from
+                        /*Union all result of patient with Anti TP and RPR lab tests*/
+                        (
+                            /*Getting all the patients for whome Syphilis Anti TP have lab test value*/
+                            Select
+                                obsForSTIRegister.person_id,
+                                obsForSTIRegister.obs_id,
+                                obsForSTIRegister.concept_id as 'antiTP',
+                                Null as 'RPR',
+                                Date(obsForSTIRegister.obs_datetime) 'ObsDate',
+                                obsForSTIRegister.value_coded AS'antiTPValue',
+                                NULL as 'RPRValue'
+                            from obs obsForSTIRegister
+                            where obsForSTIRegister.concept_id in
+                                                                  (
+                                                                       select
+                                                                        concept_id
+                                                                       from concept_view
+                                                                       where concept_full_name in
+                                                                         ('Syphilis Anti-TP (Baseline)',
+                                                                         'Syphilis Anti-TP (Yearly)',
+                                                                          'Syphilis Anti-TP (24 Weeks)',
+                                                                         'Syphilis Anti-TP (1st Visit)',
+                                                                         'Syphilis Anti-TP (48 Weeks)',
+                                                                         'Syphilis Anti-TP (Syp)',
+                                                                         'Syphilis Anti-TP (6 Monthly)'
+                                                                         )
+                                                                       and retired=0
+                                                                  )
+
+                            and obsForSTIRegister.voided=0
+                            and date(obsForSTIRegister.obs_datetime) between date('#startDate#') and date('#endDate#')
+                            AND obsForSTIRegister.value_coded is not null
+                            Union all
+                            /*Getting all the patients for whome Syphilis RPR have lab test value*/
+                            Select
+                                obsForSTIRegister.person_id,
+                                obsForSTIRegister.obs_id,
+                                Null as 'antiTP',
+                                obsForSTIRegister.concept_id as 'RPR',
+                                Date(obsForSTIRegister.obs_datetime) 'RPRObsDate',
+                                Null as 'antiTPValue',
+                                obsForSTIRegister.value_coded as 'RPRValue'
+                            from obs obsForSTIRegister
+                            where obsForSTIRegister.concept_id in
+                                                                  (
+                                                                       select concept_id
+                                                                       from concept_view
+                                                                       where concept_full_name in
+                                                                         (
+                                                                         'Syphilis RPR (Syp)',
+                                                                         'Syphilis RPR (Baseline)',
+                                                                         'Syphilis RPR (1st Visit)',
+                                                                         'Syphilis RPR (Yearly)',
+                                                                         'Syphilis RPR (48 Weeks)',
+                                                                         'Syphilis RPR (6 Monthly)',
+                                                                         'Syphilis RPR (24 Weeks)')
+                                                                       and retired=0
+                                                                   )
+
+                            and obsForSTIRegister.voided=0
+                            and date(obsForSTIRegister.obs_datetime) between date('#startDate#') and date('#endDate#')
+                            AND obsForSTIRegister.value_coded is not null
+                        ) as A
+                            group by A.person_id,A.ObsDate
+                    ) as B
+                where
+                /*Checking the AC
+                1. If only Syphilis RPR is ordered for a patient then it should have a positive value to increment the count.
+                2. If only Syphilis Anti-TP is ordered for a patient then it should have a positive value to increment the count.
+                3. If both Syphilis Anti-TP AND Syphilis RPR then both have results then count should be incremented only if Syphilis RPR
+                is having positive value.
+                4. If both Syphilis Anti-TP AND Syphilis RPR are ordered but Syphilis RPR does not have value
+                then count should be incremented only if Syphilis Anti-TP is having positive value.
+                */
+                Case when AntiTPValue is NULL AND RPRValue = 'Positive' then 1
+                when RPRValue is NULL AND AntiTPValue = 'Positive' then 1
+                When AntiTPValue is NOT NULL AND RPRValue = 'Positive' then 1
+                end = 1
          ) AS F4TotalNumberOfSTIclientsWhoTestedPositiveForSyphilisThisMonth
            INNER JOIN person p ON p.person_id = F4TotalNumberOfSTIclientsWhoTestedPositiveForSyphilisThisMonth.person_id
            GROUP BY
