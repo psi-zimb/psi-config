@@ -354,7 +354,7 @@ SELECT/*Pivoting the table*/
                                                       )
             and obsForSTIRegister.value_coded is not null
             and obsForSTIRegister.voided=0
-            and obsForSTIRegister.obs_datetime between date('#startDate#') and date('#endDate#')
+            and date(obsForSTIRegister.obs_datetime) between date('#startDate#') and date('#endDate#')
          ) AS F3TotalNumberOfSTIclientsWhoWereTestedForSyphilisThisMonth
            INNER JOIN person p ON p.person_id = F3TotalNumberOfSTIclientsWhoWereTestedForSyphilisThisMonth.person_id
            GROUP BY
