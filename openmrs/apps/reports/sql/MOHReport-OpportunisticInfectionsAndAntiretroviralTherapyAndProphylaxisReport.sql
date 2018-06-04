@@ -2663,6 +2663,7 @@ SELECT/*Pivoting the table*/
                                                         where name = 'PREP/OI Identifier'
                                                         and retired = 0
                                                     )
+                    AND artNumber.identifier like '%-A-%'
                                                         and artNumber.voided = 0
                     LEfT JOIN obs artProgramCheck
                     On artProgramCheck.person_id = obsForDiagnosis.person_id
@@ -2673,7 +2674,6 @@ SELECT/*Pivoting the table*/
                                                         WHERE concept_full_name = 'PR, Start date of ART program'
                                                         AND retired=0 
                                                     )
-                    AND artNumber.identifier like '%-A-%'
                                                         AND artProgramCheck.voided = 0
                     where obsForDiagnosis.concept_id = 
                                                     (  /*Concept id for Coded Diagnosis*/
