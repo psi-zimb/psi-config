@@ -147,7 +147,7 @@
     }
   },
             "fieldValidation" : {
-                "Telephone" : {"pattern" : "[0-9]{0,9}", "errorMessage" : "Phone number can only be numerals"},
+                "Telephone" : {"pattern" : "[0-9]{0,}", "errorMessage" : "Phone number can only be numerals"},
                 "familyName" : {"pattern" : "[a-zA-Z]{0,}", "errorMessage" : "Should only contain characters"},
                 "givenName" : {"pattern" : "[a-zA-Z]{0,}", "errorMessage" : "Should only contain characters"},
                 "middleName" : {"pattern" : "[a-zA-Z]{2,}", "errorMessage" : "Should only contain characters"},
