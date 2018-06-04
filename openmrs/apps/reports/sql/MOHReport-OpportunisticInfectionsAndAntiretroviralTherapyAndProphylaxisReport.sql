@@ -2855,7 +2855,7 @@ SELECT/*Pivoting the table*/
                                                                                 and retired = 0
                                                                                 and uniqueness_behavior = 'UNIQUE'
                                                                     )
-                                     
+            AND artNumber.identifier like '%-A-%'              
                                     and artNumber.voided = 0
             LEfT JOIN obs artProgramCheck
                                     On artProgramCheck.person_id = obsForDiagnosis.person_id
@@ -2887,7 +2887,6 @@ SELECT/*Pivoting the table*/
                     COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) < date(obsForDiagnosis.obs_datetime)/*Checking if patient have ART number before marking deceased*/
                  )
             AND ( artNumber.identifier is not Null OR artProgramCheck.value_datetime IS Not Null ) /*Checking if ART OI number is present or patient is enrolled into ART program*/
-            AND artNumber.identifier like '%-A-%'
             AND obsForDiagnosis.person_id in (/*Fluconazole medicine is  in stopped state*/
                                                 Select patient_id
                                                  from orders
