@@ -473,97 +473,38 @@ SELECT/*Pivoting the table*/
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM (
-                Select
-                 distinct person_id
-                from
-                    (
-                        /*Pivoting the values based on the grouping on person id and obsdate so that lab test ordered on the same date are grouped together.*/
-                        Select
-                            person_id,
-                            MAX(antiTP),
-                            MAX(RPR),
-                            ObsDate,
-                            (Select concept_full_name from concept_view where concept_id = MAX(antiTPValue) and retired = 0) as 'AntiTPValue',
-                            (Select concept_full_name from concept_view where concept_id = MAX(RPRValue) and retired = 0) as 'RPRValue'
-                        from
-                        /*Union all result of patient with Anti TP and RPR lab tests*/
-                        (
-                            /*Getting all the patients for whome Syphilis Anti TP have lab test value*/
-                            Select
-                                obsForSTIRegister.person_id,
-                                obsForSTIRegister.obs_id,
-                                obsForSTIRegister.concept_id as 'antiTP',
-                                Null as 'RPR',
-                                Date(obsForSTIRegister.obs_datetime) 'ObsDate',
-                                obsForSTIRegister.value_coded AS'antiTPValue',
-                                NULL as 'RPRValue'
-                            from obs obsForSTIRegister
-                            where obsForSTIRegister.concept_id in
-                                                                  (
-                                                                       select
-                                                                        concept_id
-                                                                       from concept_view
-                                                                       where concept_full_name in
-                                                                         ('Syphilis Anti-TP (Baseline)',
-                                                                         'Syphilis Anti-TP (Yearly)',
-                                                                          'Syphilis Anti-TP (24 Weeks)',
-                                                                         'Syphilis Anti-TP (1st Visit)',
-                                                                         'Syphilis Anti-TP (48 Weeks)',
-                                                                         'Syphilis Anti-TP (Syp)',
-                                                                         'Syphilis Anti-TP (6 Monthly)'
-                                                                         )
-                                                                       and retired=0
-                                                                  )
-
-                            and obsForSTIRegister.voided=0
-                            and date(obsForSTIRegister.obs_datetime) between date('#startDate#') and date('#endDate#')
-                            AND obsForSTIRegister.value_coded is not null
-                            Union all
-                            /*Getting all the patients for whome Syphilis RPR have lab test value*/
-                            Select
-                                obsForSTIRegister.person_id,
-                                obsForSTIRegister.obs_id,
-                                Null as 'antiTP',
-                                obsForSTIRegister.concept_id as 'RPR',
-                                Date(obsForSTIRegister.obs_datetime) 'RPRObsDate',
-                                Null as 'antiTPValue',
-                                obsForSTIRegister.value_coded as 'RPRValue'
-                            from obs obsForSTIRegister
-                            where obsForSTIRegister.concept_id in
-                                                                  (
-                                                                       select concept_id
-                                                                       from concept_view
-                                                                       where concept_full_name in
-                                                                         (
-                                                                         'Syphilis RPR (Syp)',
-                                                                         'Syphilis RPR (Baseline)',
-                                                                         'Syphilis RPR (1st Visit)',
-                                                                         'Syphilis RPR (Yearly)',
-                                                                         'Syphilis RPR (48 Weeks)',
-                                                                         'Syphilis RPR (6 Monthly)',
-                                                                         'Syphilis RPR (24 Weeks)')
-                                                                       and retired=0
-                                                                   )
-
-                            and obsForSTIRegister.voided=0
-                            and date(obsForSTIRegister.obs_datetime) between date('#startDate#') and date('#endDate#')
-                            AND obsForSTIRegister.value_coded is not null
-                        ) as A
-                            group by A.person_id,A.ObsDate
-                    ) as B
-                where
-                /*Checking the AC
-                1. If only Syphilis RPR is ordered for a patient then it should have a positive value to increment the count.
-                2. If only Syphilis Anti-TP is ordered for a patient then it should have a positive value to increment the count.
-                3. If both Syphilis Anti-TP AND Syphilis RPR then both have results then count should be incremented only if Syphilis RPR
-                is having positive value.
-                4. If both Syphilis Anti-TP AND Syphilis RPR are ordered but Syphilis RPR does not have value
-                then count should be incremented only if Syphilis Anti-TP is having positive value.
-                */
-                Case when AntiTPValue is NULL AND RPRValue = 'Positive' then 1
-                when RPRValue is NULL AND AntiTPValue = 'Positive' then 1
-                When AntiTPValue is NOT NULL AND RPRValue = 'Positive' then 1
-                end = 1
+            select obsForSTIRegister.person_id
+            from obs obsForSTIRegister
+            where obsForSTIRegister.concept_id in 
+                                                  (
+                                                   select concept_id 
+                                                   from concept_view
+                                                   where concept_full_name in 
+                                                     ('Syphilis Anti-TP (Baseline)',
+                                                     'Syphilis Anti-TP (Yearly)', 
+                                                      'Syphilis Anti-TP (24 Weeks)', 
+                                                     'Syphilis Anti-TP (1st Visit)', 
+                                                     'Syphilis Anti-TP (48 Weeks)', 
+                                                     'Syphilis Anti-TP (Syp)', 
+                                                     'Syphilis Anti-TP (6 Monthly)', 
+                                                     'Syphilis RPR (Syp)', 
+                                                     'Syphilis RPR (Baseline)',
+                                                     'Syphilis RPR (1st Visit)', 
+                                                     'Syphilis RPR (Yearly)', 
+                                                     'Syphilis RPR (48 Weeks)', 
+                                                     'Syphilis RPR (6 Monthly)', 
+                                                     'Syphilis RPR (24 Weeks)')
+                                                   and retired=0
+                                                      )
+            and obsForSTIRegister.value_coded=   (
+                                                      select concept_id 
+                                                      from concept_view 
+                                                      where concept_full_name='Positive'
+                                                      and retired=0  
+                                                 )
+            and obsForSTIRegister.voided=0
+            and obsForSTIRegister.obs_datetime between date('#startDate#') and date('#endDate#')            
+                        
          ) AS F4TotalNumberOfSTIclientsWhoTestedPositiveForSyphilisThisMonth
            INNER JOIN person p ON p.person_id = F4TotalNumberOfSTIclientsWhoTestedPositiveForSyphilisThisMonth.person_id
            GROUP BY
@@ -991,8 +932,8 @@ SELECT/*Pivoting the table*/
          THEN COUNT(1)  END AS 'GrtThan50YrsMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
-    FROM (
-             select distinct obsForSTIDiagnosedPatients.person_id
+    FROM ( 
+            select   distinct obsForSTIDiagnosedPatients.person_id
              from obs obsForSTIDiagnosedPatients
                         INNER JOIN concept_set forSTIListOfDiagnosis
                                     on obsForSTIDiagnosedPatients.value_coded=forSTIListOfDiagnosis.concept_id
@@ -1004,22 +945,136 @@ SELECT/*Pivoting the table*/
                                                                            )
                                     and date(obsForSTIDiagnosedPatients.obs_datetime) between date('#startDate#') and date('#endDate#')
                                     and obsForSTIDiagnosedPatients.voided=0
-                        where obsForSTIDiagnosedPatients.person_id in ( 
+                                    And obsForSTIDiagnosedPatients.concept_id = 15
+                        where obsForSTIDiagnosedPatients.person_id in ( /*Checking for ART patients*/
                                                                          select person_id 
-                                                                         from obs
-                                                                         where concept_id in 
+                                                                         from obs obsForARTProg
+                                                                         where obsForARTProg.concept_id in 
                                                                                             (
                                                                                              SELECT concept_id
                                                                                              FROM concept_view
                                                                                              WHERE concept_full_name in (
-                                                                                                                           'PR, Start date of PrEP program',
                                                                                                                            'PR, Start date of ART program'
                                                                                                                          )
                                                                                              AND retired=0 /*Concept id for ART Program start date
                                                                                                              and PReP Program*/
-                                                                                )
-                                                                          and voided=0
-                                                                          and date(value_datetime)<date(obsForSTIDiagnosedPatients.obs_datetime)
+                                                                                            )
+                                                                          and obsForARTProg.voided=0
+                                                                          and date(obsForARTProg.value_datetime)<
+                                                                          (
+                                                                              select max(obs_datetime)
+                                                                              from obs obsForSTIDiagnosedPatients
+                                                                              INNER JOIN concept_set forSTIListOfDiagnosis
+                                                                                on obsForSTIDiagnosedPatients.value_coded=forSTIListOfDiagnosis.concept_id
+                                                                                where forSTIListOfDiagnosis.concept_set=(    /*list of Coded Diagnosis*/
+                                                                                                                         select concept_id 
+                                                                                                                         from concept_view 
+                                                                                                                         where concept_full_name='Sexually Transmitted Infections'
+                                                                                                                         AND retired=0
+                                                                                                                        )
+                                                                                And obsForSTIDiagnosedPatients.voided = 0
+                                                                                And obsForSTIDiagnosedPatients.concept_id = 15
+                                                                                And obsForSTIDiagnosedPatients.person_id = obsForARTProg.person_id 
+                                                                                group by person_id
+                                                                            )
+                                                                          
+
+                                                                          And obsForARTProg.person_id not in 
+                                                                          (/*Removing the patient if the ART prog is stopped before Diagnosis date*/
+                                                                              Select person_id from obs obsARTProgramStop
+                                                                              Where obsARTProgramStop.voided = 0
+                                                                              AND obsARTProgramStop.person_id = obsForARTProg.person_id
+                                                                              AND obsARTProgramStop.concept_id = (
+                                                                                                                        Select concept_id
+                                                                                                                        from concept_name
+                                                                                                                        where
+                                                                                                                        name ='PR, ART Program Stop Date'
+                                                                                                                        AND concept_name_type = 'FULLY_SPECIFIED'
+                                                                                                                        and voided = 0
+                                                                                                                   )
+                                                                              AND date(obsARTProgramStop.value_datetime)<
+                                                                              (
+                                                                                  select max(obs_datetime)
+                                                                                  from obs obsForSTIDiagnosedPatients
+                                                                                  INNER JOIN concept_set forSTIListOfDiagnosis
+                                                                                    on obsForSTIDiagnosedPatients.value_coded=forSTIListOfDiagnosis.concept_id
+                                                                                    where forSTIListOfDiagnosis.concept_set=(    /*list of Coded Diagnosis*/
+                                                                                                                             select concept_id 
+                                                                                                                             from concept_view 
+                                                                                                                             where concept_full_name='Sexually Transmitted Infections'
+                                                                                                                             AND retired=0
+                                                                                                                            )
+                                                                                    And obsForSTIDiagnosedPatients.voided = 0
+                                                                                    And obsForSTIDiagnosedPatients.concept_id = 15
+                                                                                    And obsForSTIDiagnosedPatients.person_id = obsARTProgramStop.person_id 
+                                                                                    group by person_id
+                                                                            )
+                                                                          
+                                                                          )
+                                                                      )
+                                OR obsForSTIDiagnosedPatients.person_id in ( /*Checking for ART patients*/
+                                                                         select person_id 
+                                                                         from obs obsForPrepProg
+                                                                         where obsForPrepProg.concept_id in 
+                                                                                            (
+                                                                                             SELECT concept_id
+                                                                                             FROM concept_view
+                                                                                             WHERE concept_full_name in (
+                                                                                                                           'PR, Start date of PrEP program'
+                                                                                                                         )
+                                                                                             AND retired=0 /*Concept id for ART Program start date
+                                                                                                             and PReP Program*/
+                                                                                            )
+                                                                          and obsForPrepProg.voided=0
+                                                                          and date(obsForPrepProg.value_datetime)<
+                                                                          (
+                                                                                  select max(obs_datetime)
+                                                                                  from obs obsForSTIDiagnosedPatients
+                                                                                  INNER JOIN concept_set forSTIListOfDiagnosis
+                                                                                    on obsForSTIDiagnosedPatients.value_coded=forSTIListOfDiagnosis.concept_id
+                                                                                    where forSTIListOfDiagnosis.concept_set=(    /*list of Coded Diagnosis*/
+                                                                                                                             select concept_id 
+                                                                                                                             from concept_view 
+                                                                                                                             where concept_full_name='Sexually Transmitted Infections'
+                                                                                                                             AND retired=0
+                                                                                                                            )
+                                                                                    And obsForSTIDiagnosedPatients.voided = 0
+                                                                                    And obsForSTIDiagnosedPatients.concept_id = 15
+                                                                                    And obsForSTIDiagnosedPatients.person_id = obsForPrepProg.person_id 
+                                                                                    group by person_id
+                                                                            )
+                                                                          And obsForPrepProg.person_id not in 
+                                                                          (/*Removing the patient if the ART prog is stopped before Diagnosis date*/
+                                                                              Select person_id from obs obsPrepProgramStop
+                                                                              Where obsPrepProgramStop.voided = 0
+                                                                              AND obsPrepProgramStop.person_id = obsForPrepProg.person_id
+                                                                              AND obsPrepProgramStop.concept_id = (
+                                                                                                                        Select concept_id
+                                                                                                                        from concept_name
+                                                                                                                        where
+                                                                                                                        name ='PR, PrEP Program Stop Date'
+                                                                                                                        AND concept_name_type = 'FULLY_SPECIFIED'
+                                                                                                                        and voided = 0
+                                                                                                                   )
+                                                                              AND date(obsPrepProgramStop.value_datetime)<
+                                                                              (
+                                                                                  select max(obs_datetime)
+                                                                                  from obs obsForSTIDiagnosedPatients
+                                                                                  INNER JOIN concept_set forSTIListOfDiagnosis
+                                                                                    on obsForSTIDiagnosedPatients.value_coded=forSTIListOfDiagnosis.concept_id
+                                                                                    where forSTIListOfDiagnosis.concept_set=(    /*list of Coded Diagnosis*/
+                                                                                                                             select concept_id 
+                                                                                                                             from concept_view 
+                                                                                                                             where concept_full_name='Sexually Transmitted Infections'
+                                                                                                                             AND retired=0
+                                                                                                                            )
+                                                                                    And obsForSTIDiagnosedPatients.voided = 0
+                                                                                    And obsForSTIDiagnosedPatients.concept_id = 15
+                                                                                    And obsForSTIDiagnosedPatients.person_id = obsPrepProgramStop.person_id 
+                                                                                    group by person_id
+                                                                            )
+                                                                          
+                                                                          )
                                                                       )
                           or obsForSTIDiagnosedPatients.person_id in (
                                                                         select patientHavingOINumber.patient_id 
@@ -1028,6 +1083,7 @@ SELECT/*Pivoting the table*/
                                                                                                                         select 
                                                                                                                         patient_identifier_type_id
                                                                                                                         from patient_identifier_type
+                                           
                                                                                                                         where
                                                                                                                         name = 'PREP/OI Identifier'
                                                                                                                         and retired = 0
@@ -1036,7 +1092,7 @@ SELECT/*Pivoting the table*/
                                                                          and date(patientHavingOINumber.date_created)<date(obsForSTIDiagnosedPatients.obs_datetime)
                                                                          and patientHavingOINumber.voided=0
                                                                       )
-         ) AS F7TotalNumberOfSTIClientsWithKnownHIVPositiveStatusThisMonth
+            ) AS F7TotalNumberOfSTIClientsWithKnownHIVPositiveStatusThisMonth 
            INNER JOIN person p ON p.person_id = F7TotalNumberOfSTIClientsWithKnownHIVPositiveStatusThisMonth.person_id
            GROUP BY
            CASE
