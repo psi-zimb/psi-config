@@ -2287,6 +2287,7 @@ SELECT/*Pivoting the table*/
                                               and retired = 0
                                               and uniqueness_behavior = 'UNIQUE'
                                               )
+              AND artNumber.identifier like '%-A-%'
               and artNumber.voided = 0
       LEFT JOIN obs artProgramCheck
               On artProgramCheck.person_id = obsForTransferIn.person_id
