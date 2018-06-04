@@ -2672,6 +2672,7 @@ SELECT/*Pivoting the table*/
                                                         WHERE concept_full_name = 'PR, Start date of ART program'
                                                         AND retired=0 
                                                     )
+                    AND artNumber.identifier like '%-A-%'
                                                         AND artProgramCheck.voided = 0
                     where obsForDiagnosis.concept_id = 
                                                     (  /*Concept id for Coded Diagnosis*/
