@@ -1421,18 +1421,16 @@ SELECT/*Pivoting the table*/
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM
 (
-  SELECT DISTINCT pat.patient_id
-        from patient pat
-     join obs obsARTProgram on pat.patient_id = obsARTProgram.person_id
+  SELECT DISTINCT obsARTProgram.person_id
+        from 
+      obs obsARTProgram 
      join concept_view cv on obsARTProgram.concept_id = cv.concept_id
-     join obs obsTBProgramOrTBDiagnosis on obsARTProgram.person_id = obsTBProgramOrTBDiagnosis.person_id
-     JOIN person p on obsTBProgramOrTBDiagnosis.person_id = p.person_id
      where cv.concept_full_name = 'PR, Start date of ART program' and cv.retired = 0
        and  (/*Either Patient enrolled in TB Program or Patient having TB Diagnosis*/
-                 obsTBProgramOrTBDiagnosis.person_id IN ( /*IF Patient is given TB Diagnosis*/
-                                                           select obsDiagnosisList.person_id from obs obsDiagnosisList
-                                                           join concept con on obsDiagnosisList.value_coded = con.concept_id
-                                                           where obsDiagnosisList.value_coded IN ( 
+                 obsARTProgram.person_id IN ( /*IF Patient is given TB Diagnosis*/
+                                                select obsDiagnosisList.person_id from obs obsDiagnosisList
+                                                where obsDiagnosisList.concept_id = 15
+                                                and obsDiagnosisList.value_coded IN ( 
                                                                                       select concept_id 
                                                                                         from concept_view 
                                                                                           where concept_full_name IN
@@ -1449,28 +1447,26 @@ SELECT/*Pivoting the table*/
                                                                                                                  'TB of the liver'
                                                                                                             )
                                                                                                              AND retired=0 
-                                                                                      ) 
-                                                             and obsDiagnosisList.voided = 0
-                                                             and obsDiagnosisList.person_id = obsTBProgramOrTBDiagnosis.person_id
-                                                             and con.class_id = 4
-                                                             and con.retired = 0
+                                                                                                ) 
+                                               and obsDiagnosisList.voided = 0
+                                               and obsDiagnosisList.person_id = obsARTProgram.person_id
                                          and obsDiagnosisList.obs_group_id not in
                                                 (/*Removing diagnosis group if there are any revisions*/
                                                 Select obs_group_id from obs WHERE concept_id = 51 AND  value_coded = 1 AND voided=0 AND obs_group_id is not null
-                                                AND obs.person_id = obsTBProgramOrTBDiagnosis.person_id
+                                                AND obs.person_id = obsDiagnosisList.person_id
                                                 AND date(obs.date_created) <= date('#endDate#')
                                                 )
                                         AND obsDiagnosisList.obs_group_id not in 
                                                 (/*Removing ruled out diagnosis*/
                                                 Select obs_group_id from obs WHERE concept_id = 49 AND  value_coded = 48 AND voided=0 AND obs_group_id is not null
-                                                AND obs.person_id = obsTBProgramOrTBDiagnosis.person_id
-                                                AND obs.obs_group_id = obsTBProgramOrTBDiagnosis.obs_group_id
+                                                AND obs.person_id = obsDiagnosisList.person_id
+                                                AND obs.obs_group_id = obsDiagnosisList.obs_group_id
                                                 AND date(obs.obs_datetime) <= date('#endDate#')
                                                 )
                                          and date(obsARTProgram.value_datetime) > date(obsDiagnosisList.obs_datetime)
                                                         )
                 or  
-                  obsTBProgramOrTBDiagnosis.person_id IN ( /*IF Patient is enrolled into TB Program*/
+                  obsARTProgram.person_id IN ( /*IF Patient is enrolled into TB Program*/
                                                             select person_id from obs
                                                                 where concept_id IN ( 
                                                                                         select concept_id 
@@ -1480,7 +1476,7 @@ SELECT/*Pivoting the table*/
                                                             
                                                                                     )
                                                               and voided = 0
-                                                              and obs.person_id = obsTBProgramOrTBDiagnosis.person_id
+                                                              and obs.person_id = obsARTProgram.person_id
                                          AND obs.person_id not in
                                              (/*Patient with TB stop date <= report end date then remove the patient else show the patient for the past period.*/
                                              SELECT obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id
@@ -1490,10 +1486,10 @@ SELECT/*Pivoting the table*/
                                         and date(obsARTProgram.value_datetime) > date(obs.value_datetime)
                                                         )
           )
-    and date(obsARTProgram.value_datetime) between ('#startDate#') and date('#endDate#')
+    and date(obsARTProgram.value_datetime) between DATE('#startDate#') and date('#endDate#')
     and obsARTProgram.voided = 0
 ) as numberOfPLHIVInCareWithTBStartedOnARTThisMonth
-INNER JOIN person p ON p.person_id = numberOfPLHIVInCareWithTBStartedOnARTThisMonth.patient_id
+INNER JOIN person p ON p.person_id = numberOfPLHIVInCareWithTBStartedOnARTThisMonth.person_id
 GROUP BY
            CASE
                WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
