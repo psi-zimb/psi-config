@@ -72,20 +72,20 @@ SELECT/*Pivoting the table*/
             join obs obsCodedDiagnosis on p.person_id = obsCodedDiagnosis.person_id
             join concept_name cnCodedDiagnosis on obsCodedDiagnosis.concept_id = cnCodedDiagnosis.concept_id
             join concept_name cnCodedDiagnosisVC on obsCodedDiagnosis.value_coded = cnCodedDiagnosisVC.concept_id
-            join obs obsARTProgram on p.person_id = obsARTProgram.person_id
-            join concept_name cnARTProgram on obsARTProgram.concept_id = cnARTProgram.concept_id
-            Left join obs obsARTProgramStop on p.person_id = obsARTProgramStop.person_id
-        AND obsARTProgramStop.voided = 0
-        AND obsARTProgramStop.concept_id = (
-                                                Select concept_id
-                                                from concept_name
-                                                where
-                                                name ='PR, ART Program Stop Date'
-                                                AND concept_name_type = 'FULLY_SPECIFIED'
-                                                and voided = 0
-                                           )
+            join patient_identifier artNumber on artNumber.patient_id = obsCodedDiagnosis.person_id
             where
-            cnCodedDiagnosis.name = 'Coded Diagnosis' and cnCodedDiagnosis.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosis.voided = 0
+            artNumber.identifier_type = (
+                                                        select
+                                                        patient_identifier_type_id
+                                                        from patient_identifier_type
+                                                        where
+                                                        name = 'PREP/OI Identifier'
+                                                        and retired = 0
+                                                        and uniqueness_behavior = 'UNIQUE'
+                                                        )
+            AND artNumber.identifier like '%-A-%'
+            and artNumber.voided = 0
+            and cnCodedDiagnosis.name = 'Coded Diagnosis' and cnCodedDiagnosis.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosis.voided = 0
             and cnCodedDiagnosisVC.name IN
             (
                 'WHO stage IV','P-WHO stage IV (Peads Stage IV)',
@@ -95,17 +95,8 @@ SELECT/*Pivoting the table*/
             )
             and cnCodedDiagnosisVC.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosisVC.voided = 0
             and obsCodedDiagnosis.voided = 0
-            and obsARTProgram.voided = 0
-            and cnARTProgram.name = 'PR, Start date of ART program'
-            and cnARTProgram.concept_name_type = 'FULLY_SPECIFIED'
-            and cnARTProgram.voided = 0
             and date(obsCodedDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
-            and date(obsARTProgram.value_datetime ) between date('#startDate#') and date('#endDate#')
-            AND (   /*ART program stop date should not be there OR ART program stop date
-                should be greater or equal to Diagnosis date*/
-                date(obsARTProgramStop.value_datetime) >= date(obsCodedDiagnosis.obs_datetime)
-                OR date(obsARTProgramStop.value_datetime) is null
-            )
+            and date(artNumber.date_created) between date('#startDate#') and date('#endDate#')
         )
         AS numberofnewlydiagnosedPLHIVregisteredintoCarethisMonth
            INNER JOIN person p ON p.person_id = numberofnewlydiagnosedPLHIVregisteredintoCarethisMonth.person_id
