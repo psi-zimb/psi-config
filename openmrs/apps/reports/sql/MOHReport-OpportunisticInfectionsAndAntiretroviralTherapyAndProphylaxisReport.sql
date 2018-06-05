@@ -407,33 +407,27 @@ select
         join obs obsCodedDiagnosis on p.person_id = obsCodedDiagnosis.person_id
         join concept_name cnCodedDiagnosis on obsCodedDiagnosis.concept_id = cnCodedDiagnosis.concept_id
         join concept_name cnCodedDiagnosisVC on obsCodedDiagnosis.value_coded = cnCodedDiagnosisVC.concept_id
-        join obs obsARTProgram on p.person_id = obsARTProgram.person_id
-        join concept_name cnARTProgram on obsARTProgram.concept_id = cnARTProgram.concept_id
-        Left join obs obsARTProgramStop on p.person_id = obsARTProgramStop.person_id
-        AND obsARTProgramStop.voided = 0
-        AND obsARTProgramStop.concept_id = (
-                                                Select concept_id
-                                                from concept_name
-                                                where
-                                                name ='PR, ART Program Stop Date'
-                                                AND concept_name_type = 'FULLY_SPECIFIED'
-                                                and voided = 0
-                                           )
+        INNER join patient_identifier artNumber
+                        on artNumber.patient_id = obsCodedDiagnosis.person_id
+                        And artNumber.identifier_type = (
+                                                        select
+                                                        patient_identifier_type_id
+                                                        from patient_identifier_type
+                                                        where
+                                                        name = 'PREP/OI Identifier'
+                                                        and retired = 0
+                                                        and uniqueness_behavior = 'UNIQUE'
+                                                        )  
         where
         cnCodedDiagnosis.name = 'Coded Diagnosis' and cnCodedDiagnosis.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosis.voided = 0
         and cnCodedDiagnosisVC.name IN ('WHO stage II','P-WHO stage II (Peads Stage II)') and cnCodedDiagnosisVC.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosisVC.voided = 0
         and obsCodedDiagnosis.voided = 0
-        and obsARTProgram.voided = 0
-        and cnARTProgram.name = 'PR, Start date of ART program'
-        and cnARTProgram.concept_name_type = 'FULLY_SPECIFIED'
-        and cnARTProgram.voided = 0
+        AND artNumber.identifier like '%-A-%'
+        and artNumber.voided = 0
+        and date(artNumber.date_created) between date('#startDate#') and date('#endDate#')
         and date(obsCodedDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
-        and date(obsARTProgram.value_datetime ) between date('#startDate#') and date('#endDate#')
-        AND (   /*ART program stop date should not be there OR ART program stop date
-                should be greater or equal to Diagnosis date*/
-                date(obsARTProgramStop.value_datetime) >= date(obsCodedDiagnosis.obs_datetime)
-                OR date(obsARTProgramStop.value_datetime) is null
-            )
+        
+        
         group by obsCodedDiagnosis.value_coded,
                    CASE
                  WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
