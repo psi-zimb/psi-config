@@ -2868,7 +2868,7 @@ SELECT/*Pivoting the table*/
                                                  where drugRegime.name  IN ('Fluconazole')
                                                  AND orders.order_action = 'DISCONTINUE'
                                                  And orders.voided = 0
-                                                 AND date(obsForDiagnosis.obs_datetime) < date(orders.date_activated) /*Date of daignosis < date of meds*/
+                                                 AND date(obsForDiagnosis.obs_datetime) <= date(orders.date_activated) /*Date of daignosis <= date of meds*/
                                                  AND date(orders.date_activated) between date('#startDate#') AND date('#endDate#')
                                                )
                          

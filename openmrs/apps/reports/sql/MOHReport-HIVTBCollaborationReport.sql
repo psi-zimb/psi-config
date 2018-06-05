@@ -1421,48 +1421,77 @@ SELECT/*Pivoting the table*/
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM
 (
-  SELECT DISTINCT patient_id from patient
-     JOIN obs obsForARTProg on obsForARTProg.person_id = patient.patient_id
-     WHERE obsForARTProg.person_id in (
-     SELECT person_id FROM obs obsHIVTest
-     WHERE concept_id = (SELECT concept_id from concept_view WHERE concept_full_name = 'HIV test results' and voided =0)
-     AND value_coded = (SELECT concept_id from concept_view WHERE concept_full_name = 'Positive' and voided =0)
-     and obsHIVTest.obs_datetime < obsForARTProg.value_datetime
-     and obsHIVTest.voided = 0
-     )
-     and obsForARTProg.person_id in
-     (
-     SELECT
-     person_id
-     from
-     obs obsForTBProg
-     WHERE concept_id = (
-                            SELECT
-                            concept_id
-                            from concept_view
-                            WHERE concept_full_name = "PR, Start date of TB program" and voided =0
-                        )
-              and obsForTBProg.value_datetime < obsForARTProg.value_datetime
-              And obsForTBProg.voided = 0
-              AND 1 =
-               (/*Patient with TB stop date <= report end date then remove the patient else show the patient for the past period.*/
-                     SELECT case when Ifnull( max(obs.value_datetime),1) = 1 then 1 else 0 end
-                     from obs
-                     INNER JOIN concept_view on obs.concept_id=concept_view.concept_id
-                     and concept_view.concept_full_name = "PR, TB Program Stop Date"
-                     and obs.voided=0
-                     Where date(obs.value_datetime) <= Date('#endDate#')
-                     And  obs.person_id = obsForTBProg.person_id
-                     AND date(obs.value_datetime) >= date(obsForTBProg.value_datetime)
-                )
-  )
-     AND date(obsForARTProg.value_datetime)  between date('#startDate#') and date('#endDate#')
-     AND obsForARTProg.person_id not in
-           (/*Patient with ART stop date <= report end date then remove the patient else show the patient for the past period.*/
-           SELECT obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id
-           and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0
-           Where date(obs.value_datetime) <= Date('#endDate#'))
-     AND obsForARTProg.voided = 0
+  SELECT DISTINCT pat.patient_id
+        from patient pat
+     join obs obsARTProgram on pat.patient_id = obsARTProgram.person_id
+     join concept_view cv on obsARTProgram.concept_id = cv.concept_id
+     join obs obsTBProgramOrTBDiagnosis on obsARTProgram.person_id = obsTBProgramOrTBDiagnosis.person_id
+     JOIN person p on obsTBProgramOrTBDiagnosis.person_id = p.person_id
+     where cv.concept_full_name = 'PR, Start date of ART program' and cv.retired = 0
+       and  (/*Either Patient enrolled in TB Program or Patient having TB Diagnosis*/
+                 obsTBProgramOrTBDiagnosis.person_id IN ( /*IF Patient is given TB Diagnosis*/
+                                                           select obsDiagnosisList.person_id from obs obsDiagnosisList
+                                                           join concept con on obsDiagnosisList.value_coded = con.concept_id
+                                                           where obsDiagnosisList.value_coded IN ( 
+                                                                                      select concept_id 
+                                                                                        from concept_view 
+                                                                                          where concept_full_name IN
+                                                                                                            (    'TB exposure',
+                                                                                                                 'TB meningitis',
+                                                                                                                 'TB MDR',
+                                                                                                                 'TB MDR, presumptive',
+                                                                                                                 'TB, pulmonary (WHO 3)',
+                                                                                                                 'TB peritonitis',
+                                                                                                                 'TB pericarditis',
+                                                                                                                 'TB lymphadenitis',
+                                                                                                                 'TB of bones and joints',
+                                                                                                                 'Gastrointestinal TB',
+                                                                                                                 'TB of the liver'
+                                                                                                            )
+                                                                                                             AND retired=0 
+                                                                                      ) 
+                                                             and obsDiagnosisList.voided = 0
+                                                             and obsDiagnosisList.person_id = obsTBProgramOrTBDiagnosis.person_id
+                                                             and con.class_id = 4
+                                                             and con.retired = 0
+                                         and obsDiagnosisList.obs_group_id not in
+                                                (/*Removing diagnosis group if there are any revisions*/
+                                                Select obs_group_id from obs WHERE concept_id = 51 AND  value_coded = 1 AND voided=0 AND obs_group_id is not null
+                                                AND obs.person_id = obsTBProgramOrTBDiagnosis.person_id
+                                                AND date(obs.date_created) <= date('#endDate#')
+                                                )
+                                        AND obsDiagnosisList.obs_group_id not in 
+                                                (/*Removing ruled out diagnosis*/
+                                                Select obs_group_id from obs WHERE concept_id = 49 AND  value_coded = 48 AND voided=0 AND obs_group_id is not null
+                                                AND obs.person_id = obsTBProgramOrTBDiagnosis.person_id
+                                                AND obs.obs_group_id = obsTBProgramOrTBDiagnosis.obs_group_id
+                                                AND date(obs.obs_datetime) <= date('#endDate#')
+                                                )
+                                         and date(obsARTProgram.value_datetime) > date(obsDiagnosisList.obs_datetime)
+                                                        )
+                or  
+                  obsTBProgramOrTBDiagnosis.person_id IN ( /*IF Patient is enrolled into TB Program*/
+                                                            select person_id from obs
+                                                                where concept_id IN ( 
+                                                                                        select concept_id 
+                                                                                        from concept_view where 
+                                                                                        concept_full_name = 'PR, Start date of TB program'
+                                                                                        and retired = 0
+                                                            
+                                                                                    )
+                                                              and voided = 0
+                                                              and obs.person_id = obsTBProgramOrTBDiagnosis.person_id
+                                         AND obs.person_id not in
+                                             (/*Patient with TB stop date <= report end date then remove the patient else show the patient for the past period.*/
+                                             SELECT obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id
+                                             AND concept_view.concept_full_name = "PR, TB Program Stop Date" AND obs.voided=0
+                                             Where date(obs.value_datetime) <= Date('#endDate#')
+                                             )
+                                        and date(obsARTProgram.value_datetime) > date(obs.value_datetime)
+                                                        )
+          )
+    and date(obsARTProgram.value_datetime) between ('#startDate#') and date('#endDate#')
+    and obsARTProgram.voided = 0
 ) as numberOfPLHIVInCareWithTBStartedOnARTThisMonth
 INNER JOIN person p ON p.person_id = numberOfPLHIVInCareWithTBStartedOnARTThisMonth.patient_id
 GROUP BY
