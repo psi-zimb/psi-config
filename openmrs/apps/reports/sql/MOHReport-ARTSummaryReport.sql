@@ -3877,7 +3877,7 @@ SELECT/*Pivoting the table*/
                                                    )
                AND obsForARTStopDate.voided = 0
                AND obsForARTStopDate.obs_group_id in (
-                                             /*Reason for stopping ART program as Treatment Failure*/
+                                             /*Reason for stopping ART program as Hold / Interrupt Or Patient’s Decision*/
                                                          SELECT obs_group_id
                                                          from obs reasonAsTreatmentFailureForStoppingART
                                                          WHERE reasonAsTreatmentFailureForStoppingART.concept_id = (
@@ -3888,12 +3888,12 @@ SELECT/*Pivoting the table*/
                                                                                                               concept_full_name = 'PR, Reason for Stopping ART Program'
                                                                                                               AND retired=0
                                                                                                             )
-                                                         AND reasonAsTreatmentFailureForStoppingART.value_coded = (
+                                                         AND reasonAsTreatmentFailureForStoppingART.value_coded IN (
                                                                                                               SELECT
                                                                                                               concept_id
                                                                                                               FROM concept_view
                                                                                                               WHERE
-                                                                                                              concept_full_name = 'PR, Treatment failure'
+                                                                                                              concept_full_name IN ("PR, Hold / interrupt","PR, Patient's decision")
                                                                                                               AND retired=0
                                                                                                            )
                                                          And obsForARTStopDate.person_id = reasonAsTreatmentFailureForStoppingART.person_id
@@ -5452,7 +5452,7 @@ from obs obsToGetLastARTStageChangeDate
                                                    )
                AND obsForARTStopDate.voided = 0
                AND obsForARTStopDate.obs_group_id in (
-                                             /*Reason for stopping ART program as Treatment Failure*/
+                                             /*Reason for stopping ART program as Hold / Interrupt Or Patient’s Decision*/
                                                          SELECT obs_group_id
                                                          from obs reasonAsTreatmentFailureForStoppingART
                                                          WHERE reasonAsTreatmentFailureForStoppingART.concept_id = (
@@ -5463,12 +5463,12 @@ from obs obsToGetLastARTStageChangeDate
                                                                                                               concept_full_name = 'PR, Reason for Stopping ART Program'
                                                                                                               AND retired=0
                                                                                                             )
-                                                         AND reasonAsTreatmentFailureForStoppingART.value_coded = (
+                                                         AND reasonAsTreatmentFailureForStoppingART.value_coded IN (
                                                                                                               SELECT
                                                                                                               concept_id
                                                                                                               FROM concept_view
                                                                                                               WHERE
-                                                                                                              concept_full_name = 'PR, Treatment failure'
+                                                                                                              concept_full_name IN ("PR, Hold / interrupt","PR, Patient's decision") 
                                                                                                               AND retired=0
                                                                                                            )
                                                          And obsForARTStopDate.person_id = reasonAsTreatmentFailureForStoppingART.person_id
@@ -9656,7 +9656,7 @@ from obs obsToGetLastARTStageChangeDate
                                                    )
                AND obsForARTStopDate.voided = 0
                AND obsForARTStopDate.obs_group_id in (
-                                             /*Reason for stopping ART program as Treatment Failure*/
+                                             /*Reason for stopping ART program as Hold / Interrupt Or Patient’s Decision*/
                                                          SELECT obs_group_id
                                                          from obs reasonAsTreatmentFailureForStoppingART
                                                          WHERE reasonAsTreatmentFailureForStoppingART.concept_id = (
@@ -9667,12 +9667,12 @@ from obs obsToGetLastARTStageChangeDate
                                                                                                               concept_full_name = 'PR, Reason for Stopping ART Program'
                                                                                                               AND retired=0
                                                                                                             )
-                                                         AND reasonAsTreatmentFailureForStoppingART.value_coded = (
+                                                         AND reasonAsTreatmentFailureForStoppingART.value_coded IN (
                                                                                                               SELECT
                                                                                                               concept_id
                                                                                                               FROM concept_view
                                                                                                               WHERE
-                                                                                                              concept_full_name = 'PR, Treatment failure'
+                                                                                                              concept_full_name IN ("PR, Hold / interrupt","PR, Patient's decision")
                                                                                                               AND retired=0
                                                                                                            )
                                                          And obsForARTStopDate.person_id = reasonAsTreatmentFailureForStoppingART.person_id
