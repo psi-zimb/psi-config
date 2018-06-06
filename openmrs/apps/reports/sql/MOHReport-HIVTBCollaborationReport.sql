@@ -1172,7 +1172,7 @@ SELECT/*Pivoting the table*/
                     "Gastrointestinal TB",
                     "TB of the liver"
                       )
-        AND date(obsActiveDiagnosis.obs_datetime) > date(obsActiveARTProgram.value_datetime)
+        AND date(obsActiveDiagnosis.obs_datetime) < date(obsActiveARTProgram.value_datetime)
         ANd obsActiveDiagnosis.obs_group_id not in
         (/*Removing diagnosis group if there are any revisions*/
             Select obs_group_id from obs WHERE concept_id = 51 AND  value_coded = 1 AND voided=0 AND obs_group_id is not null
