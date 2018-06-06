@@ -999,12 +999,12 @@ SELECT/*Pivoting the table*/
                                                                                                               concept_full_name = 'PR, Reason for Stopping ART Program'
                                                                                                               AND retired=0
                                                                                                             )
-                                                         AND reasonAsTreatmentFailureForStoppingART.value_coded = (
+                                                         AND reasonAsTreatmentFailureForStoppingART.value_coded IN (
                                                                                                               SELECT
                                                                                                               concept_id
                                                                                                               FROM concept_view
                                                                                                               WHERE
-                                                                                                              concept_full_name = 'PR, Treatment failure'
+                                                                                                              concept_full_name IN ("PR, Hold / interrupt","PR, Patient's decision")
                                                                                                               AND retired=0
                                                                                                            )
                                                          And obsForARTStopDate.person_id = reasonAsTreatmentFailureForStoppingART.person_id
