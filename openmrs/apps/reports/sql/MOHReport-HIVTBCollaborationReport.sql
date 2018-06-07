@@ -204,94 +204,79 @@ SELECT/*Pivoting the table*/
     FROM
 (
 SELECT 
-DISTINCT obsForTBProgram.person_id
-from 
-      obs obsForTBProgram 
-      
-      JOIN orders ordersRapidHIV
-      ON obsForTBProgram.person_id = ordersRapidHIV.patient_id
-      AND ordersRapidHIV.concept_id =
-                                    (
-                                    SELECT concept_id 
-                                    FROM concept_view 
-                                    WHERE concept_full_name = 'Rapid HIV Test'  
-                                    AND retired = 0
-                                    )
-      And ordersRapidHIV.date_stopped is NULL
-      AND ordersRapidHIV.order_action in ('NEW','REVISE')
-      INNER JOIN obs obsRapidHIVResults
-      ON obsRapidHIVResults.order_id = ordersRapidHIV.order_id
-      AND obsRapidHIVResults.value_coded = 
-                                          (
-                                          SELECT concept_id 
-                                          FROM concept_view 
-                                          WHERE concept_full_name IN ('Positive') 
-                                          AND retired=0)
-      AND obsRapidHIVResults.voided = 0
-      and ordersRapidHIV.voided=0
-      AND DATE(obsRapidHIVResults.obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
-       where  (/*Either Patient enrolled in TB Program or Patient having TB Diagnosis*/
-                 obsForTBProgram.person_id IN ( /*IF Patient is given TB Diagnosis*/
-                                                select obsDiagnosisList.person_id from obs obsDiagnosisList
-                                                where obsDiagnosisList.concept_id = 15
-                                                and obsDiagnosisList.value_coded IN ( 
-                                                                                      select concept_id 
-                                                                                        from concept_view 
-                                                                                          where concept_full_name IN
-                                                                                                                    (    'TB exposure',
-                                                                                                                         'TB meningitis',
-                                                                                                                         'TB MDR',
-                                                                                                                         'TB MDR, presumptive',
-                                                                                                                         'TB, pulmonary (WHO 3)',
-                                                                                                                         'TB peritonitis',
-                                                                                                                         'TB pericarditis',
-                                                                                                                         'TB lymphadenitis',
-                                                                                                                         'TB of bones and joints',
-                                                                                                                         'Gastrointestinal TB',
-                                                                                                                         'TB of the liver'
-                                                                                                                    )
-                                                                                                                     AND retired=0 
-                                                                                     ) 
-                                               and obsDiagnosisList.voided = 0
-                                               and obsDiagnosisList.person_id = obsForTBProgram.person_id 
-                                         and obsDiagnosisList.obs_group_id not in
-                                                (/*Removing diagnosis group if there are any revisions*/
-                                                    Select obs_group_id from obs WHERE concept_id = 51 AND  value_coded = 1 AND voided=0 AND obs_group_id is not null
-                                                    AND obs.person_id = obsDiagnosisList.person_id 
-                                                    AND date(obs.date_created) <= date(obsRapidHIVResults.obs_datetime)
-                                                )
-                                        AND obsDiagnosisList.obs_group_id not in 
-                                                (/*Removing ruled out diagnosis*/
-                                                    Select obs_group_id from obs WHERE concept_id = 49 AND  value_coded = 48 AND voided=0 AND obs_group_id is not null
-                                                    AND obs.person_id = obsDiagnosisList.person_id 
-                                                    AND obs.obs_group_id = obsDiagnosisList.obs_group_id 
-                                                    AND date(obs.obs_datetime) <= date(obsRapidHIVResults.obs_datetime)
-                                                ) 
-                                       AND date(obsRapidHIVResults.obs_datetime) > date(obsDiagnosisList.obs_datetime) 
-                                                   )
-                    or  obsForTBProgram.person_id IN ( /*IF Patient is enrolled into TB Program*/
-                                                            select person_id from obs
+DISTINCT obsRapidHIVResults.person_id
+from obs obsRapidHIVResults 
+          where obsRapidHIVResults.concept_id =
+                                        (
+                                            SELECT concept_id 
+                                            FROM concept_view 
+                                            WHERE concept_full_name = 'Rapid HIV Test'  
+                                            AND retired = 0
+                                        )
+          AND obsRapidHIVResults.value_coded = 
+                                              (
+                                                  SELECT concept_id 
+                                                  FROM concept_view 
+                                                  WHERE concept_full_name = 'Positive' 
+                                                  AND retired=0
+                                              )
+          AND DATE(obsRapidHIVResults.obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
+          and  (/*Either Patient enrolled in TB Program or Patient having TB Diagnosis*/
+                     obsRapidHIVResults.person_id IN ( /*IF Patient is given TB Diagnosis*/
+                                                    select obsDiagnosisList.person_id from obs obsDiagnosisList
+                                                    where obsDiagnosisList.concept_id = 15
+                                                    and obsDiagnosisList.value_coded IN ( 
+                                                                                          select concept_id 
+                                                                                          from concept_set 
+                                                                                          where concept_set in ( 
+                                                                                                                select concept_id 
+                                                                                                                from concept_view 
+                                                                                                                where concept_full_name in (
+                                                                                                                                            'TB, extrapulmonary (WHO 4)',
+                                                                                                                                            'Types of TB related Diagnosis'
+                                                                                                                                            )
+                                                                                                                AND retired=0
+                                                                                                                )
+                                                                                         ) 
+                                                   and obsDiagnosisList.voided = 0
+                                                   and obsDiagnosisList.person_id = obsRapidHIVResults.person_id 
+                                                   AND date(obsRapidHIVResults.obs_datetime) > date(obsDiagnosisList.obs_datetime)
+                                             and obsDiagnosisList.obs_group_id not in
+                                                    (/*Removing diagnosis group if there are any revisions*/
+                                                        Select obs_group_id from obs WHERE concept_id = 51 AND  value_coded = 1 AND voided=0 AND obs_group_id is not null
+                                                        AND obs.person_id = obsDiagnosisList.person_id 
+                                                        AND date(obs.date_created) <= date(obsRapidHIVResults.obs_datetime)
+                                                    )
+                                            AND obsDiagnosisList.obs_group_id not in 
+                                                    (/*Removing ruled out diagnosis*/
+                                                        Select obs_group_id from obs WHERE concept_id = 49 AND  value_coded = 48 AND voided=0 AND obs_group_id is not null
+                                                        AND obs.person_id = obsDiagnosisList.person_id 
+                                                        AND obs.obs_group_id = obsDiagnosisList.obs_group_id 
+                                                        AND date(obs.obs_datetime) <= date(obsRapidHIVResults.obs_datetime)
+                                                    ) 
+                                                       )
+                        or  obsRapidHIVResults.person_id IN ( /*IF Patient is enrolled into TB Program*/
+                                                                select person_id 
+                                                                from obs
                                                                 where concept_id IN ( 
                                                                                         select concept_id 
                                                                                         from concept_view where 
                                                                                         concept_full_name = 'PR, Start date of TB program'
                                                                                         and retired = 0
-                                                            
-                                                                                    )
-                                                              and voided = 0
-                                                              and obs.person_id = obsForTBProgram.person_id
-                                         AND obs.person_id not in 
-                                             (/*Patient with TB stop date <= rapid HIV test result date*/
-                                             SELECT obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id
-                                             AND concept_view.concept_full_name = "PR, TB Program Stop Date" AND obs.voided=0
-                                             Where date(obs.value_datetime) <= Date(obsRapidHIVResults.obs_datetime)
-                                             )
-                                        AND date(obsRapidHIVResults.obs_datetime) > date(obs.value_datetime)
-                                                         )
-          
-    and obsForTBProgram.voided = 0 
-    )
-
+                                                                
+                                                                                     )
+                                                                  and voided = 0
+                                                                  and obs.person_id = obsRapidHIVResults.person_id
+                                             AND obs.person_id not in 
+                                                 (/*Patient with TB stop date <= rapid HIV test result date*/
+                                                 SELECT obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id
+                                                 AND concept_view.concept_full_name = "PR, TB Program Stop Date" AND obs.voided=0
+                                                 Where date(obs.value_datetime) <= Date(obsRapidHIVResults.obs_datetime)
+                                                 )
+                                            AND date(obsRapidHIVResults.obs_datetime) > date(obs.value_datetime)
+                                                             )              
+                                                      )
+                                            and obsRapidHIVResults.voided = 0 
 ) as numberOfTBPatientsInCareTestedPositiveForHIVThisMonth
 INNER JOIN person p ON p.person_id = numberOfTBPatientsInCareTestedPositiveForHIVThisMonth.person_id
 
