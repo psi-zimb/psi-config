@@ -97,6 +97,7 @@ SELECT/*Pivoting the table*/
             and obsCodedDiagnosis.voided = 0
             and date(obsCodedDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
             and date(artNumber.date_created) between date('#startDate#') and date('#endDate#')
+            and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) <= date(obsCodedDiagnosis.obs_datetime)
         )
         AS numberofnewlydiagnosedPLHIVregisteredintoCarethisMonth
            INNER JOIN person p ON p.person_id = numberofnewlydiagnosedPLHIVregisteredintoCarethisMonth.person_id
@@ -252,7 +253,7 @@ select
         and artNumber.voided = 0
         and date(artNumber.date_created) between date('#startDate#') and date('#endDate#')
         and date(obsCodedDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
-        
+        and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) <= date(obsCodedDiagnosis.obs_datetime)
         group by obsCodedDiagnosis.value_coded,
                    CASE
                  WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
@@ -410,8 +411,7 @@ select
         and artNumber.voided = 0
         and date(artNumber.date_created) between date('#startDate#') and date('#endDate#')
         and date(obsCodedDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
-        
-        
+        and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) <= date(obsCodedDiagnosis.obs_datetime)
         group by obsCodedDiagnosis.value_coded,
                    CASE
                  WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
@@ -568,6 +568,7 @@ select
                     and artNumber.voided = 0
                     and date(artNumber.date_created) between date('#startDate#') and date('#endDate#')
                     and date(obsCodedDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
+                    and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) <= date(obsCodedDiagnosis.obs_datetime)
         group by obsCodedDiagnosis.value_coded,
                    CASE
                  WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
@@ -724,7 +725,7 @@ select
         and artNumber.voided = 0
         and date(artNumber.date_created) between date('#startDate#') and date('#endDate#')
         and date(obsCodedDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
-       
+        and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) <= date(obsCodedDiagnosis.obs_datetime)
         group by obsCodedDiagnosis.value_coded,
                    CASE
                  WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
@@ -1430,9 +1431,9 @@ SELECT/*Pivoting the table*/
             And date(obsForDeceased.obs_datetime) BETWEEN ('#startDate#') AND ('#endDate#')
             AND
                 (
-                    date(artProgramCheck.value_datetime) < date(obsForDeceased.obs_datetime)/*Checking if patient was enrolled before marking deceased*/
+                    date(artProgramCheck.value_datetime) <= date(obsForDeceased.obs_datetime)/*Checking if patient was enrolled on or before marking deceased*/
                     OR
-                    COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) < date(obsForDeceased.obs_datetime)/*Checking if patient have ART number before marking deceased*/
+                    COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) <= date(obsForDeceased.obs_datetime)/*Checking if patient have ART number on or before marking deceased*/
                 )
             AND ( artNumber.identifier is not Null OR artProgramCheck.value_datetime IS Not Null ) /*Checking if ART OI number is present or patient is enrolled into ART program*/
             AND obsForDeceased.person_id NOT IN
@@ -1644,9 +1645,9 @@ SELECT/*Pivoting the table*/
       And date(obsForDeceased.obs_datetime) BETWEEN ('#startDate#') AND ('#endDate#')
       AND
       (
-        date(artProgramCheck.value_datetime) < date(obsForDeceased.obs_datetime)/*Checking if patient was enrolled before marking lost to follow up*/
+        date(artProgramCheck.value_datetime) <= date(obsForDeceased.obs_datetime)/*Checking if patient was enrolled on or before marking lost to follow up*/
         OR
-        COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) < date(obsForDeceased.obs_datetime)/*Checking if patient have ART number before marking lost to follow up*/
+        COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) <= date(obsForDeceased.obs_datetime)/*Checking if patient have ART number on or before marking lost to follow up*/
       )
       AND ( artNumber.identifier is not Null OR artProgramCheck.value_datetime IS Not Null ) /*Checking if ART OI number is present or patient is enrolled into ART program*/
       AND obsForDeceased.person_id NOT IN
@@ -1857,9 +1858,9 @@ SELECT/*Pivoting the table*/
             And date(obsForTransferOut.obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
             AND
                 (
-                    date(artProgramCheck.value_datetime) < date(obsForTransferOut.obs_datetime)/*Checking if patient was enrolled before marking deceased*/
+                    date(artProgramCheck.value_datetime) <= date(obsForTransferOut.obs_datetime)/*Checking if patient was enrolled on or before marking Transfer out*/
                     OR
-                    COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) < date(obsForTransferOut.obs_datetime)/*Checking if patient have ART number before marking deceased*/
+                    COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) <= date(obsForTransferOut.obs_datetime)/*Checking if patient have ART number before marking Transfer out*/
                 )
             AND ( artNumber.identifier is not Null OR artProgramCheck.value_datetime IS Not Null ) /*Checking if ART OI number is present or patient is enrolled into ART program*/
             AND obsForTransferOut.person_id NOT IN
@@ -2680,11 +2681,11 @@ SELECT/*Pivoting the table*/
                                                         AND date(obs.obs_datetime) <= date('#endDate#')
                                                      )
                                     AND 
-                                                    (/*Checking if patient was enrolled before giving diagnosis*/
-                                                        date(artProgramCheck.value_datetime) < date(obsForDiagnosis.obs_datetime)
+                                                    (/*Checking if patient was enrolled on or before giving diagnosis*/
+                                                        date(artProgramCheck.value_datetime) <= date(obsForDiagnosis.obs_datetime)
                                               OR
-                                                     /*Checking if patient have ART number before giving diagnosis*/
-                                                        COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) < date(obsForDiagnosis.obs_datetime)
+                                                     /*Checking if patient have ART number on or before giving diagnosis*/
+                                                        COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) <= date(obsForDiagnosis.obs_datetime)
                                                      )
                                     and   date(obsForDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
 ) AS numberOfNewlDiagnosedCryptococcalMeningitisCasesCommencedOnFluconazole
@@ -2846,9 +2847,9 @@ SELECT/*Pivoting the table*/
             AND date(obsForDiagnosis.obs_datetime) between date('#startDate#') AND date('#endDate#')
             AND obsForDiagnosis.voided = 0
             AND (
-                    date(artProgramCheck.value_datetime) < date(obsForDiagnosis.obs_datetime)/*Checking if patient was enrolled before marking deceased*/
+                    date(artProgramCheck.value_datetime) <= date(obsForDiagnosis.obs_datetime)/*Checking if patient was enrolled on or before diagnosis given */
                     OR
-                    COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) < date(obsForDiagnosis.obs_datetime)/*Checking if patient have ART number before marking deceased*/
+                    COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) <= date(obsForDiagnosis.obs_datetime)/*Checking if patient have ART number on or before diagnosis given*/
                  )
             AND ( artNumber.identifier is not Null OR artProgramCheck.value_datetime IS Not Null ) /*Checking if ART OI number is present or patient is enrolled into ART program*/
             AND obsForDiagnosis.person_id in (/*Fluconazole medicine is  in stopped state*/

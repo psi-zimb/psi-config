@@ -1350,7 +1350,7 @@ SELECT/*Pivoting the table*/
                                                              and obs.person_id = obsTBProgramOrTBDiagnosis.person_id
                                                              and con.class_id = 4
                                                              and con.retired = 0
-                                         and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) < date(obs.obs_datetime)
+                                         and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) <= date(obs.obs_datetime)
                                          and date(obs.obs_datetime) between Date('#startDate#') and date('#endDate#') 
                                                         )
                 or  
@@ -1365,7 +1365,7 @@ SELECT/*Pivoting the table*/
                                                                                     )
                                                               and voided = 0
                                                               and obs.person_id = obsTBProgramOrTBDiagnosis.person_id
-                                        and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) < date(obs.value_datetime)
+                                        and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) <= date(obs.value_datetime)
                                         and date(obs.value_datetime) between Date('#startDate#') and date('#endDate#')
                                                         )
     )
