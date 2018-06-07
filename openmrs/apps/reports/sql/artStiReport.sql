@@ -57,7 +57,6 @@ from
   patient pat
 
   join obs obsActiveArtProgram ON pat.patient_id = obsActiveArtProgram.person_id
-  join concept_name cnDateofARTProgram on obsActiveArtProgram.concept_id = cnDateofARTProgram.concept_id
   join (/*Query to return patients with STI in the reporting period*/
         Select person_id,
         Case when cv.concept_short_name is null then cv.concept_full_name else cv.concept_short_name end as 'Diagnosis',
@@ -71,37 +70,15 @@ from
         and cv.retired = 0
         And o.concept_id = 15
         and value_coded in ( /* Patients for whom STI Diagnosis recorded between the reporting date range */
-            select
-              concept_name.concept_id
-            from
-              concept_name
-              inner join concept on concept.concept_id=concept_name.concept_id
-            where
-            concept.class_id=4
-            and
-              concept_name.name IN (
-                "Balanitis",
-                "Candidiasis, vaginal",
-                "Chancroid",
-                "Chancroid contact",
-                "Chlamydia",
-                "Epididymo-orchotis",
-                "Genital ulcer disease",
-                "Genital warts",
-                "Gonorrhea",
-                "Gonorrhea Contact",
-                "Granuloma inguinale",
-                "Pelvic Inflammatory disease",
-                "Syphilis STI",
-                "Syphilis contact",
-                "Trichomoniasis",
-                "Trichomoniasis contact",
-                "Urethral Discharge Syndrome",
-                "Vaginal discharge syndrome",
-                "Vaginosis, bacterial"
-              )
-              and concept_name_type = 'FULLY_SPECIFIED'
-          )
+                            select concept_id 
+                            from concept_set 
+                            where concept_set= (
+                                                select concept_id 
+                                                from concept_view 
+                                                where concept_full_name='Sexually Transmitted Infections'
+                                                AND retired=0
+                                                )
+                            )
 ) AS patientWithSTIDiag
 on patientWithSTIDiag.person_id = pat.patient_id
 
@@ -131,18 +108,7 @@ on patientWithSTIDiag.person_id = pat.patient_id
   )
   LEFT JOIN person_attribute personAttributesonRegistration on pat.patient_id = personAttributesonRegistration.person_id
   LEFT JOIN person_attribute_type personAttributeTypeonRegistration on personAttributesonRegistration.person_attribute_type_id = personAttributeTypeonRegistration.person_attribute_type_id
-  left jOIN concept_view cv on personAttributesonRegistration.value = cv.concept_id
-  AND cv.retired = 0
-where
-
-   cnDateofARTProgram.name = 'PR, Start date of ART program'
-  and cnDateofARTProgram.concept_name_type = 'FULLY_SPECIFIED'
-  and cnDateofARTProgram.voided = 0
-  and obsActiveArtProgram.voided = 0
-  and obsActiveArtProgram.person_id not in
-         (/*Patient with ART stop date <= report end date then remove the patient else show the patient for the past period.*/
-         select obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0
-         Where obs.value_datetime <= Date('#endDate#'))
+  left jOIN concept_view cv on personAttributesonRegistration.value = cv.concept_id 
 group by
   pat.patient_id,patientWithSTIDiag.Diagnosis,patientWithSTIDiag.obs_datetime
 order by patientWithSTIDiag.obs_datetime;
