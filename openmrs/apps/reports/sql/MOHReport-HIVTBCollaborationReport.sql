@@ -229,7 +229,6 @@ from
                                           AND retired=0)
       AND obsRapidHIVResults.voided = 0
       and ordersRapidHIV.voided=0
-      and obsForTBProgram.voided=0
       AND DATE(obsRapidHIVResults.obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
        where  (/*Either Patient enrolled in TB Program or Patient having TB Diagnosis*/
                  obsForTBProgram.person_id IN ( /*IF Patient is given TB Diagnosis*/
@@ -476,7 +475,6 @@ SELECT/*Pivoting the table*/
         ) AS MOHReportC3NumberOfPLHIVInCareScreenedForTBDuringTheirLastVisitThisMonth
 
 UNION ALL
-
 /*C4. Number of PLHIV in care screened for TB and had signs of active TB disease (Presumptive Cases)*/
 SELECT/*Pivoting the table*/
     "C4. Number of PLHIV in care screened for TB and had signs of active TB disease (Presumptive Cases)" AS '-',
@@ -548,6 +546,17 @@ SELECT/*Pivoting the table*/
 (
   SELECT  Distinct person_id,obsTBQuestion.obs_datetime,concept_id,obs_id,encounter_id
   FROM obs obsTBQuestion
+  INNER join patient_identifier artNumber
+                        on artNumber.patient_id = obsTBQuestion.person_id
+                        And artNumber.identifier_type = (
+                                                        select
+                                                        patient_identifier_type_id
+                                                        from patient_identifier_type
+                                                        where
+                                                        name = 'PREP/OI Identifier'
+                                                        and retired = 0
+                                                        and uniqueness_behavior = 'UNIQUE'
+                                                        )  
   WHERE value_coded in (SELECT concept_id FROM concept_view WHERE concept_full_name IN ('Yes') AND retired=0)
      AND DATE(obsTBQuestion.obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
      AND obsTBQuestion.voided =0
@@ -556,17 +565,10 @@ SELECT/*Pivoting the table*/
          OR concept_id in (SELECT concept_id FROM concept_view WHERE concept_full_name = 'GQRRH, Do you have weight loss?' AND retired=0)
          OR concept_id in  (SELECT concept_id FROM concept_view WHERE concept_full_name = 'GQRRH, Do you have shortness of breath?' AND retired=0)
      )
-     AND person_id in
-  (
-     SELECT person_id FROM obs obsART WHERE concept_id  IN
-          (SELECT concept_id FROM concept_view WHERE concept_full_name
-              IN ('Art initial Visit compulsory Question 1 of 2','Art initial Visit compulsory Question 2 of 2')
-              AND retired=0)
-     AND voided=0
-     AND obsTBQuestion.obs_datetime > obsART.obs_datetime
-     AND obsTBQuestion.person_id = obsART.person_id
-     AND DATE(obsART.obs_datetime) <= DATE('#endDate#')
-     )
+     AND artNumber.identifier like '%-A-%'
+     and artNumber.voided = 0
+     and date(artNumber.date_created) <= DATE(obsTBQuestion.obs_datetime)
+
      GROUP BY person_id,DATE(obs_datetime)
 
 ) as numberOfPLHIVInCareScreenedForTBAndHadSignsOfActiveTBDiseasePresumptiveCases
@@ -616,6 +618,7 @@ GROUP BY
                THEN '> 50 Yrs F'
             END
     ) AS MOHReportC4NumberOfPLHIVInCareScreenedForTBAndHadSignsOfActiveTBDiseasePresumptiveCases
+
 
 UNION ALL
 
