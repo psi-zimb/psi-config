@@ -488,6 +488,7 @@ and  (
         ) AS MOHReportC3NumberOfPLHIVInCareScreenedForTBDuringTheirLastVisitThisMonth
 
 UNION ALL
+
 /*C4. Number of PLHIV in care screened for TB and had signs of active TB disease (Presumptive Cases)*/
 SELECT/*Pivoting the table*/
     "C4. Number of PLHIV in care screened for TB and had signs of active TB disease (Presumptive Cases)" AS '-',
@@ -557,7 +558,7 @@ SELECT/*Pivoting the table*/
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM
 (
-  SELECT  Distinct person_id,obsTBQuestion.obs_datetime,concept_id,obs_id,encounter_id
+  SELECT  Distinct obsTBQuestion.person_id,obsTBQuestion.obs_datetime
   FROM obs obsTBQuestion
   INNER join patient_identifier artNumber
                         on artNumber.patient_id = obsTBQuestion.person_id
@@ -570,7 +571,7 @@ SELECT/*Pivoting the table*/
                                                         and retired = 0
                                                         and uniqueness_behavior = 'UNIQUE'
                                                         )  
-  WHERE value_coded in (SELECT concept_id FROM concept_view WHERE concept_full_name IN ('Yes') AND retired=0)
+  WHERE obsTBQuestion.value_coded in (SELECT concept_id FROM concept_view WHERE concept_full_name IN ('Yes') AND retired=0)
      AND DATE(obsTBQuestion.obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
      AND obsTBQuestion.voided =0
      AND ( concept_id in (SELECT concept_id FROM concept_view WHERE concept_full_name = 'GQRRH, Did you have fever recently?' AND retired=0)
@@ -582,7 +583,7 @@ SELECT/*Pivoting the table*/
      and artNumber.voided = 0
      and date(artNumber.date_created) <= DATE(obsTBQuestion.obs_datetime)
 
-     GROUP BY person_id,DATE(obs_datetime)
+     GROUP BY obsTBQuestion.person_id,DATE(obsTBQuestion.obs_datetime)
 
 ) as numberOfPLHIVInCareScreenedForTBAndHadSignsOfActiveTBDiseasePresumptiveCases
 INNER JOIN person p ON p.person_id = numberOfPLHIVInCareScreenedForTBAndHadSignsOfActiveTBDiseasePresumptiveCases.person_id
@@ -631,7 +632,6 @@ GROUP BY
                THEN '> 50 Yrs F'
             END
     ) AS MOHReportC4NumberOfPLHIVInCareScreenedForTBAndHadSignsOfActiveTBDiseasePresumptiveCases
-
 
 UNION ALL
 
