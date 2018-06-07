@@ -230,7 +230,7 @@ from
       AND obsRapidHIVResults.voided = 0
       and ordersRapidHIV.voided=0
       and obsForTBProgram.voided=0
-      AND DATE(ordersRapidHIV.date_activated) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
+      AND DATE(obsRapidHIVResults.obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
        where  (/*Either Patient enrolled in TB Program or Patient having TB Diagnosis*/
                  obsForTBProgram.person_id IN ( /*IF Patient is given TB Diagnosis*/
                                                 select obsDiagnosisList.person_id from obs obsDiagnosisList
@@ -259,17 +259,16 @@ from
                                                 (/*Removing diagnosis group if there are any revisions*/
                                                     Select obs_group_id from obs WHERE concept_id = 51 AND  value_coded = 1 AND voided=0 AND obs_group_id is not null
                                                     AND obs.person_id = obsDiagnosisList.person_id 
-                                                    AND date(obs.date_created) <= date('#endDate#')
+                                                    AND date(obs.date_created) <= date(obsRapidHIVResults.obs_datetime)
                                                 )
                                         AND obsDiagnosisList.obs_group_id not in 
                                                 (/*Removing ruled out diagnosis*/
                                                     Select obs_group_id from obs WHERE concept_id = 49 AND  value_coded = 48 AND voided=0 AND obs_group_id is not null
                                                     AND obs.person_id = obsDiagnosisList.person_id 
                                                     AND obs.obs_group_id = obsDiagnosisList.obs_group_id 
-                                                    AND date(obs.obs_datetime) <= date('#endDate#')
-                                                )
-                                       and date(obsForTBProgram.obs_datetime) > date(obsDiagnosisList.obs_datetime) 
-                                       AND date(ordersRapidHIV.date_activated) > date(obsDiagnosisList.obs_datetime) 
+                                                    AND date(obs.obs_datetime) <= date(obsRapidHIVResults.obs_datetime)
+                                                ) 
+                                       AND date(obsRapidHIVResults.obs_datetime) > date(obsDiagnosisList.obs_datetime) 
                                                    )
                     or  obsForTBProgram.person_id IN ( /*IF Patient is enrolled into TB Program*/
                                                             select person_id from obs
@@ -283,13 +282,12 @@ from
                                                               and voided = 0
                                                               and obs.person_id = obsForTBProgram.person_id
                                          AND obs.person_id not in 
-                                             (/*Patient with TB stop date <= report end date then remove the patient else show the patient for the past period.*/
+                                             (/*Patient with TB stop date <= rapid HIV test result date*/
                                              SELECT obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id
                                              AND concept_view.concept_full_name = "PR, TB Program Stop Date" AND obs.voided=0
-                                             Where date(obs.value_datetime) <= Date('#endDate#')
+                                             Where date(obs.value_datetime) <= Date(obsRapidHIVResults.obs_datetime)
                                              )
-                                        and date(obsForTBProgram.obs_datetime) > date(obs.value_datetime)
-                                        AND date(ordersRapidHIV.date_activated) > date(obs.value_datetime)
+                                        AND date(obsRapidHIVResults.obs_datetime) > date(obs.value_datetime)
                                                          )
           
     and obsForTBProgram.voided = 0 
