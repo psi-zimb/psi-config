@@ -396,22 +396,50 @@ SELECT/*Pivoting the table*/
              THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
         FROM
     (
-        SELECT o.person_id
-                from person per
-                    JOIN obs o on per.person_id = o.person_id
-                    JOIN concept_name cn on o.concept_id = cn.concept_id
-                    WHERE cn.name = 'TB Screening'
-                    and o.voided = 0 AND cn.concept_name_type = 'FULLY_SPECIFIED' AND cn.voided = 0
-                    AND o.person_id IN (SELECT person_id from obs WHERE concept_id IN (SELECT concept_id from concept_name
-                    WHERE name IN ('Art initial Visit compulsory Question 1 of 2','Art initial Visit compulsory Question 2 of 2')
-                    AND concept_name_type = 'FULLY_SPECIFIED' AND concept_name.voided = 0
-                    AND voided = 0) AND voided = 0
-                    AND date(obs.obs_datetime) < date(o.obs_datetime)
-                    )
-                    AND date(o.obs_datetime) between date('#startDate#') AND date('#endDate#')
-                    group by o.obs_id
-
-    ) as numberOfPLHIVInCareScreenedForTBDuringTheirLastVisitThisMonth
+      select distinct obsTBScreeningOrARTInitialVisitCompulsaryQuestion.person_id from patient_identifier artNumber
+join obs obsTBScreeningOrARTInitialVisitCompulsaryQuestion on artNumber.patient_id = obsTBScreeningOrARTInitialVisitCompulsaryQuestion.person_id
+where 
+artNumber.identifier_type = (
+                                select
+                                patient_identifier_type_id
+                                from patient_identifier_type
+                                where
+                                name = 'PREP/OI Identifier'
+                                and retired = 0
+                                and uniqueness_behavior = 'UNIQUE'
+                             )
+AND artNumber.identifier like '%-A-%'
+and artNumber.voided = 0
+and  (
+     obsTBScreeningOrARTInitialVisitCompulsaryQuestion.person_id IN ( /*IF Patient is recorded for any or both of the ART initial visit compulsory question forms*/
+                                                                      SELECT person_id from obs 
+                                                                      join concept_view cv on obs.concept_id = cv.concept_id
+                                                                      WHERE cv.concept_full_name IN 
+                                                                                                    (
+                                                                                                     'Art initial Visit compulsory Question 1 of 2',
+                                                                                                     'Art initial Visit compulsory Question 2 of 2'
+                                                                                                    )
+                                                                      AND cv.retired = 0
+                                                                      AND voided = 0
+                                                                      and obsTBScreeningOrARTInitialVisitCompulsaryQuestion.person_id = obs.person_id
+                                                                      and date(obs.obs_datetime) between date('#startDate#') and date('#endDate#')
+                                                                      and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) <= date(obs.obs_datetime)
+                                                                     )          
+    or  
+     obsTBScreeningOrARTInitialVisitCompulsaryQuestion.person_id IN ( /*IF Patient is recorded for TB Screening*/
+                                  select person_id from obs
+                                  join concept_view cv2 on obs.concept_id = cv2.concept_id
+                                  WHERE cv2.concept_full_name = ( 
+                                                                  'TB Screening' 
+                                                                )
+                                  and cv2.retired = 0                               
+                                  and voided = 0
+                                  and obsTBScreeningOrARTInitialVisitCompulsaryQuestion.person_id = obs.person_id
+                                  and date(obs.obs_datetime) between date('#startDate#') and date('#endDate#')
+                                  and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) <= date(obs.obs_datetime)
+                                                                    )
+     )
+  )  as numberOfPLHIVInCareScreenedForTBDuringTheirLastVisitThisMonth
     INNER JOIN person p ON p.person_id = numberOfPLHIVInCareScreenedForTBDuringTheirLastVisitThisMonth.person_id
 
     GROUP BY
