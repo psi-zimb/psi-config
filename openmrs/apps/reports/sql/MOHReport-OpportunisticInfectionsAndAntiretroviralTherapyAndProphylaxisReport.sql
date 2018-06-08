@@ -876,7 +876,6 @@ SELECT/*Pivoting the table*/
                                 AND DATE(o.date_activated)  < ('#startDate#')
                                 AND d.retired = 0
                                 AND o.voided = 0
-                                AND o.date_stopped IS NULL
                              )
         and artNumber.voided = 0
         and date(artNumber.date_created) <=DATE(o.date_activated)
