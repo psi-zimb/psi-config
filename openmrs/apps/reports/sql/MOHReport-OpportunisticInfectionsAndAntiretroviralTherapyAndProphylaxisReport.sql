@@ -1000,44 +1000,25 @@ SELECT/*Pivoting the table*/
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM
     (
-        select distinct
-        obsForDiagnosis.person_id
+        select distinct obsForDiagnosis.person_id      
         from obs obsForDiagnosis
         INNER join patient_identifier artNumber
                         on artNumber.patient_id = obsForDiagnosis.person_id
-                        And artNumber.identifier_type = (
-                                                        select
-                                                        patient_identifier_type_id
-                                                        from patient_identifier_type
-                                                        where
-                                                        name = 'PREP/OI Identifier'
-                                                        and retired = 0
-                                                        and uniqueness_behavior = 'UNIQUE'
+                        And artNumber.identifier_type = 
+                                                        (
+                                                            select
+                                                            patient_identifier_type_id
+                                                            from patient_identifier_type
+                                                            where
+                                                            name = 'PREP/OI Identifier'
+                                                            and retired = 0
+                                                            and uniqueness_behavior = 'UNIQUE'
                                                         ) 
                          AND artNumber.identifier like '%-A-%' 
-                         where obsForDiagnosis.concept_id=
-                                                        (
-                                                            select concept_id
-                                                            from concept_name
-                                                            where concept_name.name='Coded Diagnosis'
-                                                            and concept_name_type='FULLY_SPECIFIED' 
-                                                        )
-                        and obsForDiagnosis.value_coded in
-                                                          (
-                                                               select concept_id
-                                                               from concept_name    
-                                                               where concept_name.name in (
-                                                                                               'SJS (cotrimoxazole)',
-                                                                                               'Skin (cotrimoxazole)',
-                                                                                               'Haematological (cotrimoxazole)',
-                                                                                               'Hypersensitivity (cotrimoxazole)'
-                                                                                           )
-                                                               and concept_name_type='FULLY_SPECIFIED' 
-                                                           )
-                        and obsForDiagnosis.voided = 0
-                        and date(obsForDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
-                        and artNumber.voided = 0
-                        and date(artNumber.date_created)<=(select max(obsForMaxDate.obs_datetime)  
+                         where obsForDiagnosis.voided = 0
+                         and date(obsForDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
+                         and artNumber.voided = 0
+                         and date(artNumber.date_created)<=(select max(obsForMaxDate.obs_datetime)  
                                                            from obs obsForMaxDate
                                                                 where obsForMaxDate.concept_id=
                                                                                                (
@@ -1059,6 +1040,7 @@ SELECT/*Pivoting the table*/
                                                                                                        and concept_name_type='FULLY_SPECIFIED' 
                                                                                                    )
                                                                 and obsForMaxDate.voided=0
+                                                                and date(obsForMaxDate.obs_datetime) between date('#startDate#') and date('#endDate#')
                                                                 and obsForMaxDate.person_id=obsForDiagnosis.person_id
                                                                 )
        
