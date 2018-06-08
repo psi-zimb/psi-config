@@ -850,6 +850,18 @@ SELECT/*Pivoting the table*/
       FROM orders o
       JOIN drug_order dro on o.order_id = dro.order_id
       JOIN drug d on d.drug_id = dro.drug_inventory_id
+      INNER join patient_identifier artNumber
+                        on artNumber.patient_id = o.patient_id
+                        And artNumber.identifier_type = (
+                                                        select
+                                                        patient_identifier_type_id
+                                                        from patient_identifier_type
+                                                        where
+                                                        name = 'PREP/OI Identifier'
+                                                        and retired = 0
+                                                        and uniqueness_behavior = 'UNIQUE'
+                                                        ) 
+                         AND artNumber.identifier like '%-A-%' 
       WHERE d.name = "Cotrimoxazole(prophylaxis)"
       AND DATE(o.date_activated)  BETWEEN DATE('#startDate#') AND DATE('#endDate#')
       AND d.retired = 0
@@ -866,6 +878,8 @@ SELECT/*Pivoting the table*/
                                 AND o.voided = 0
                                 AND o.date_stopped IS NULL
                              )
+        and artNumber.voided = 0
+        and date(artNumber.date_created) <=DATE(o.date_activated)
     ) AS totalNumberOfPLHIVInCareStartedOnCTXprophylaxisIncludingTBPatientsThisMonth
   INNER JOIN person p ON p.person_id = totalNumberOfPLHIVInCareStartedOnCTXprophylaxisIncludingTBPatientsThisMonth.patient_id
 
