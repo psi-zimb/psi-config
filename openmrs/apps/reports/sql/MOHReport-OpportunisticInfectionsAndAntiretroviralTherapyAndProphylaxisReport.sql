@@ -1167,6 +1167,19 @@ SELECT/*Pivoting the table*/
             FROM drug drugForDrugname
             JOIN drug_order drugOrder on drugOrder.drug_inventory_id = drugForDrugname.drug_id
             JOIN orders ordersForDrugname on drugOrder.order_id = ordersForDrugname.order_id
+            INNER join patient_identifier artNumber
+                        on artNumber.patient_id = ordersForDrugname.patient_id
+                        And artNumber.identifier_type = 
+                                                        (
+                                                            select
+                                                            patient_identifier_type_id
+                                                            from patient_identifier_type
+                                                            where
+                                                            name = 'PREP/OI Identifier'
+                                                            and retired = 0
+                                                            and uniqueness_behavior = 'UNIQUE'
+                                                        ) 
+                         AND artNumber.identifier like '%-A-%' 
             Where drugForDrugname.name = 'Cotrimoxazole(prophylaxis)'
             AND ordersForDrugname.order_reason =
                                                 (
@@ -1178,6 +1191,8 @@ SELECT/*Pivoting the table*/
             AND ordersForDrugname.order_action = ('DISCONTINUE')
             AND ordersForDrugname.voided = 0
             AND DATE(ordersForDrugname.date_activated)  BETWEEN ('#startDate#') AND ('#endDate#')
+            and artNumber.voided = 0
+            and date(artNumber.date_created)<=DATE(ordersForDrugname.date_activated)
 
     ) AS numberOfPLHIVInCareStoppingCotrimoxazoleProphylaxisDueToAdverseEventsThisMonth
   INNER JOIN person p ON p.person_id = numberOfPLHIVInCareStoppingCotrimoxazoleProphylaxisDueToAdverseEventsThisMonth.patient_id
