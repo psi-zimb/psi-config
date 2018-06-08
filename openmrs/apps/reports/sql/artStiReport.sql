@@ -29,7 +29,9 @@ select
   (select obs.value_datetime from obs
   INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0
   where obs.person_id = pat.patient_id)
-  END, obsActiveArtProgram.value_datetime) / 7, 0) as "Wks on ART",
+  END, (select obs.value_datetime from obs
+  INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, Start date of ART program" and obs.voided=0
+  where obs.person_id = pat.patient_id)) / 7, 0) as "Wks on ART",
   piUIC.identifier as "UIC",
   GROUP_CONCAT(
     distinct (
@@ -56,7 +58,7 @@ select
 from
   patient pat
 
-  join obs obsActiveArtProgram ON pat.patient_id = obsActiveArtProgram.person_id
+
   join (/*Query to return patients with STI in the reporting period*/
         Select person_id,
         Case when cv.concept_short_name is null then cv.concept_full_name else cv.concept_short_name end as 'Diagnosis',
@@ -65,7 +67,7 @@ from
         inner join concept_view cv
         on cv.concept_id = o.value_coded
         where
-        obs_datetime between date('#startDate#') and Date('#endDate#')
+        date(obs_datetime) between date('#startDate#') and Date('#endDate#')
         and o.voided = 0
         and cv.retired = 0
         And o.concept_id = 15
