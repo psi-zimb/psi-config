@@ -24,7 +24,7 @@ select
   ROUND(DATEDIFF(
   case when (select obs.value_datetime from obs
   INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0
-  where obs.person_id = pat.patient_id) is null then date('2018-06-30')
+  where obs.person_id = pat.patient_id) is null then date('#endDate#')
   else
   (select obs.value_datetime from obs
   INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0
@@ -67,7 +67,7 @@ from
         inner join concept_view cv
         on cv.concept_id = o.value_coded
         where
-        date(obs_datetime) between date('2018-06-01') and Date('2018-06-30')
+        date(obs_datetime) between date('#startDate#') and Date('#endDate#')
         and o.voided = 0
         and cv.retired = 0
         And o.concept_id = 15
