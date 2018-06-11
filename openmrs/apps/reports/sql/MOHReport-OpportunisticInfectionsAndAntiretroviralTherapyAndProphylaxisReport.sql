@@ -2518,55 +2518,78 @@ SELECT/*Pivoting the table*/
          THEN COUNT(1)  END AS 'GrtThan50YrsMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
-    FROM (   select distinct person_id from obs where
-                             (
-                            concept_id =
-                                          (
-                                             select concept_id from concept_name
-                                             where concept_name.name='Coded Diagnosis' and concept_name_type='FULLY_SPECIFIED'
-                                          )
-                            and value_coded in
-                                              (
-                                                  select concept_id from concept_name
-                                                  where concept_name.name
-                                                  in (
-                                                       'Menngitis, cryptococcal (WHO 4)'
-                                                     )
-                                                  and concept_name_type='FULLY_SPECIFIED'
-                                               )
-                             and date(obs_datetime) between date('#startDate#') and date('#endDate#')
-                               )
-                 and voided=0
-                 and person_id not in
-                                (select person_id from obs where
-                                concept_id =
-                                                  (
-                                                     select concept_id from concept_name
-                                                     where concept_name.name='Coded Diagnosis' and concept_name_type='FULLY_SPECIFIED'
-                                                  )
-                                and value_coded in
-                                                  (
-                                                      select concept_id from concept_name
-                                                      where concept_name.name
-                                                      in  (
-                                                           'Menngitis, cryptococcal (WHO 4)'
-                                                          )
-                                                      and concept_name_type='FULLY_SPECIFIED'
+    FROM (   
+            select distinct person_id 
+            from obs obsForDiagnosis
+            INNER join patient_identifier artNumber
+                        on artNumber.patient_id = obsForDiagnosis.person_id
+                        And artNumber.identifier_type = 
+                                                        (
+                                                            select
+                                                            patient_identifier_type_id
+                                                            from patient_identifier_type
+                                                            where
+                                                            name = 'PREP/OI Identifier'
+                                                            and retired = 0
+                                                            and uniqueness_behavior = 'UNIQUE'
+                                                        ) 
+                        AND artNumber.identifier like '%-A-%' 
+            where
+                 (
+                    obsForDiagnosis.concept_id =
+                                                  ( 
+                                                     SELECT concept_id
+                                                     FROM concept_view
+                                                     WHERE concept_full_name = 'Coded Diagnosis'
+                                                     AND retired=0
                                                    )
-                                 and date(obs_datetime) < date('#startDate#')
-                                 and voided = 0
-                                  )
-                 and person_id in
-                                  (
-                                     Select orders.patient_id from drug drugs
-                                     inner join drug_order drugsOrder
-                                     on drugs.drug_id = drugsOrder.drug_inventory_id
-                                     Inner join orders
-                                     on orders.order_id  = drugsOrder.order_id
-                                        and orders.order_type_id = 2
-                                        where drugs.name = 'Fluconazole'
-                                        and orders.date_activated between date('#startDate#') and date('#endDate#')
-                                  )
+                and obsForDiagnosis.value_coded in
+                                                  (
+                                                      select concept_id 
+                                                      from concept_name
+                                                      where concept_name.name ='Menngitis, cryptococcal (WHO 4)'
+                                                      and concept_name_type='FULLY_SPECIFIED'
+                                                      and voided=0
+                                                   )
+                 and date(obsForDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
+               )
+            and obsForDiagnosis.voided=0
+            and obsForDiagnosis.person_id not in
+                                                (
+                                                    select person_id 
+                                                    from obs 
+                                                    where concept_id =
+                                                                      (
+                                                                         SELECT concept_id
+                                                                         FROM concept_view
+                                                                         WHERE concept_full_name = 'Coded Diagnosis'
+                                                                         AND retired=0
+                                                                      )
+                                                    and value_coded in
+                                                                      (
+                                                                          select concept_id 
+                                                                          from concept_name
+                                                                          where concept_name.name ='Menngitis, cryptococcal (WHO 4)'
+                                                                          and concept_name_type='FULLY_SPECIFIED'
+                                                                          and voided=0
+                                                                       )
+                                                     and date(obs_datetime) < date('#startDate#')
+                                                     and voided = 0
+                                                  )
+             and obsForDiagnosis.person_id in
+                                              (
+                                                 Select orders.patient_id from drug drugs
+                                                 inner join drug_order drugsOrder
+                                                 on drugs.drug_id = drugsOrder.drug_inventory_id
+                                                 Inner join orders
+                                                 on orders.order_id  = drugsOrder.order_id
+                                                    and orders.order_type_id = 2
+                                                    where drugs.name = 'Fluconazole'
+                                                    and orders.date_activated between date('#startDate#') and date('#endDate#')
+                                              )
+             and artNumber.voided = 0
+             and date(artNumber.date_created)<=DATE(obsForDiagnosis.obs_datetime)
+             
 ) AS numberOfNewlDiagnosedCryptococcalMeningitisCasesCommencedOnFluconazole
            INNER JOIN person p ON p.person_id = numberOfNewlDiagnosedCryptococcalMeningitisCasesCommencedOnFluconazole.person_id
            GROUP BY
