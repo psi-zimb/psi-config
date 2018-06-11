@@ -215,7 +215,7 @@ from obs obsRapidHIVResults
                                         )
           AND obsRapidHIVResults.value_coded = 
                                               (
-                                                  SELECT concept_id 
+                                                  SELECT concept_id q
                                                   FROM concept_view 
                                                   WHERE concept_full_name = 'Positive' 
                                                   AND retired=0
@@ -256,27 +256,50 @@ from obs obsRapidHIVResults
                                                     ) 
                                                        )
                         or  obsRapidHIVResults.person_id IN ( /*IF Patient is enrolled into TB Program*/
-                                                                select person_id 
-                                                                from obs
-                                                                where concept_id IN ( 
-                                                                                        select concept_id 
-                                                                                        from concept_view where 
-                                                                                        concept_full_name = 'PR, Start date of TB program'
-                                                                                        and retired = 0
-                                                                
-                                                                                     )
-                                                                  and voided = 0
-                                                                  and obs.person_id = obsRapidHIVResults.person_id
-                                             AND obs.person_id not in 
-                                                 (/*Patient with TB stop date <= rapid HIV test result date*/
-                                                 SELECT obs.person_id from obs INNER JOIN concept_view on obs.concept_id=concept_view.concept_id
-                                                 AND concept_view.concept_full_name = "PR, TB Program Stop Date" AND obs.voided=0
-                                                 Where date(obs.value_datetime) <= Date(obsRapidHIVResults.obs_datetime)
-                                                 )
-                                            AND date(obsRapidHIVResults.obs_datetime) > date(obs.value_datetime)
-                                                             )              
-                                                      )
-                                            and obsRapidHIVResults.voided = 0 
+                                                select obsForMaxDate.person_id 
+                                                from obs obsForMaxDate
+                                                join concept_name cnTBStartDate on obsForMaxDate.concept_id = cnTBStartDate.concept_id
+                                                where cnTBStartDate.name = 'PR, Start date of TB program' and cnTBStartDate.concept_name_type='FULLY_SPECIFIED'
+                                                and obsForMaxDate.voided = 0
+                                                and obsForMaxDate.person_id = obsRapidHIVResults.person_id 
+                                             AND obsForMaxDate.person_id not in 
+                                                                            ( /*To select the latest TB Program enrollment*/
+                                                                                select person_id 
+                                                                                from obs obsStopDate
+                                                                                where
+                                                                                     (
+                                                                                     concept_id=(
+                                                                                                     select concept_id from concept_name
+                                                                                                     where (concept_name.name='PR, TB Program Stop Date')
+                                                                                                     and concept_name_type='FULLY_SPECIFIED'
+                                                                                                 )
+                                                                                      )
+                                                                             and date(obsStopDate.value_datetime) < date('#endDate#')
+                                                                             and
+                                                                             date(obsStopDate.value_datetime) >
+                                                                              (
+                                                                                 select max(date(obsMaxStartDate.value_datetime)) 
+                                                                                 from obs obsMaxStartDate
+                                                                                 where obsMaxStartDate.concept_id =
+                                                                                                                  ( 
+                                                                                                                    select concept_id 
+                                                                                                                    from concept_name
+                                                                                                                    where concept_name.name='PR, Start date of TB program'
+                                                                                                                    and concept_name_type='FULLY_SPECIFIED'
+                                                                                                                  )
+                                                                                 and obsStopDate.person_id = obsMaxStartDate.person_id 
+                                                                                 and obsMaxStartDate.voided =0
+                                                                             )
+                                                                             and obsForMaxDate.person_id = obsStopDate.person_id
+                                                                             and obsStopDate.voided=0
+                                                                             )
+                                        AND date(obsRapidHIVResults.obs_datetime) > date(obsForMaxDate.value_datetime)
+                                                         )              
+                                                  
+                                        and obsRapidHIVResults.voided = 0 
+                                        )
+                                        
+
 ) as numberOfTBPatientsInCareTestedPositiveForHIVThisMonth
 INNER JOIN person p ON p.person_id = numberOfTBPatientsInCareTestedPositiveForHIVThisMonth.person_id
 
@@ -324,7 +347,6 @@ GROUP BY
                THEN '> 50 Yrs F'
             END
     ) AS MOHReportC2NumberOfTBPatientsInCareTestedPositiveForHIVThisMonth
-
 UNION ALL
 
 /*C3. Number of PLHIV in care screened for TB during their last visit this month*/
