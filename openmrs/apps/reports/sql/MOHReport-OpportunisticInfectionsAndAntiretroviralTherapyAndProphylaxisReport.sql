@@ -1312,14 +1312,29 @@ SELECT/*Pivoting the table*/
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM
   (
-        select
-        distinct ord.patient_id
+        select distinct ord.patient_id
         from orders ord
-        join drug_order dro on ord.order_id = dro.order_id
-        join drug on dro.drug_inventory_id = drug.drug_id
-        where
-        drug.name = 'Cotrimoxazole(prophylaxis)' and drug.retired = 0
-        and date(ord.date_activated) <= date('#endDate#')
+                join drug_order dro 
+                on ord.order_id = dro.order_id
+                join drug 
+                on dro.drug_inventory_id = drug.drug_id
+                INNER join patient_identifier artNumber
+                        on artNumber.patient_id = ord.patient_id
+                        And artNumber.identifier_type = (
+                                                        select
+                                                        patient_identifier_type_id
+                                                        from patient_identifier_type
+                                                        where
+                                                        name = 'PREP/OI Identifier'
+                                                        and retired = 0
+                                                        and uniqueness_behavior = 'UNIQUE'
+                                                        ) 
+                         AND artNumber.identifier like '%-A-%' 
+                             where drug.name = 'Cotrimoxazole(prophylaxis)' 
+                             and drug.retired = 0
+                             and date(ord.date_activated) <= date('#endDate#')
+                             and artNumber.voided = 0
+                             and date(artNumber.date_created) <=date(ord.date_activated)
  ) AS totalnumberofPLHIVincarecurrentlyreceivingCTXprophylaxisincludingTBpatients
            INNER JOIN person p ON p.person_id = totalnumberofPLHIVincarecurrentlyreceivingCTXprophylaxisincludingTBpatients.patient_id
            GROUP BY
