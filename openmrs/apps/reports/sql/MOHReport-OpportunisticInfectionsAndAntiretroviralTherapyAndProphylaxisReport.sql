@@ -845,41 +845,42 @@ SELECT/*Pivoting the table*/
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM
-    (
-      SELECT  DISTINCT o.patient_id
-      FROM orders o
-      JOIN drug_order dro on o.order_id = dro.order_id
-      JOIN drug d on d.drug_id = dro.drug_inventory_id
-      INNER join patient_identifier artNumber
-                        on artNumber.patient_id = o.patient_id
-                        And artNumber.identifier_type = (
-                                                        select
-                                                        patient_identifier_type_id
-                                                        from patient_identifier_type
-                                                        where
-                                                        name = 'PREP/OI Identifier'
-                                                        and retired = 0
-                                                        and uniqueness_behavior = 'UNIQUE'
-                                                        ) 
-                         AND artNumber.identifier like '%-A-%' 
-      WHERE d.name = "Cotrimoxazole(prophylaxis)"
-      AND DATE(o.date_activated)  BETWEEN DATE('#startDate#') AND DATE('#endDate#')
-      AND d.retired = 0
-      AND o.voided = 0
-      AND o.date_stopped IS NULL
-      AND o.patient_id NOT IN (/*To remove the patient which have the drug before starting date*/
-                                SELECT  o.patient_id
-                                FROM orders o
-                                JOIN drug_order dro on o.order_id = dro.order_id
-                                JOIN drug d on d.drug_id = dro.drug_inventory_id
-                                WHERE d.name = "Cotrimoxazole(prophylaxis)"
-                                AND DATE(o.date_activated)  < ('#startDate#')
-                                AND d.retired = 0
-                                AND o.voided = 0
-                             )
-        and artNumber.voided = 0
-        and date(artNumber.date_created) <=DATE(o.date_activated)
-    ) AS totalNumberOfPLHIVInCareStartedOnCTXprophylaxisIncludingTBPatientsThisMonth
+        (
+             SELECT  DISTINCT o.patient_id
+              FROM orders o
+              JOIN drug_order dro on o.order_id = dro.order_id
+              JOIN drug d on d.drug_id = dro.drug_inventory_id
+              INNER join patient_identifier artNumber
+                                on artNumber.patient_id = o.patient_id
+                                And artNumber.identifier_type = (
+                                                                    select
+                                                                    patient_identifier_type_id
+                                                                    from patient_identifier_type
+                                                                    where
+                                                                    name = 'PREP/OI Identifier'
+                                                                    and retired = 0
+                                                                    and uniqueness_behavior = 'UNIQUE'
+                                                                ) 
+                                 AND artNumber.identifier like '%-A-%' 
+              WHERE d.name = "Cotrimoxazole(prophylaxis)"
+              AND DATE(o.scheduled_date)  BETWEEN DATE('#startDate#') AND DATE('#endDate#')
+              AND d.retired = 0
+              AND o.voided = 0
+              AND o.date_stopped IS NULL
+              AND o.patient_id NOT IN (/*To remove the patient which have the drug before starting date*/
+                                        SELECT  o.patient_id
+                                        FROM orders o
+                                        JOIN drug_order dro on o.order_id = dro.order_id
+                                        JOIN drug d on d.drug_id = dro.drug_inventory_id
+                                        WHERE d.name = "Cotrimoxazole(prophylaxis)"
+                                        AND DATE(o.scheduled_date)  < ('#startDate#')
+                                        AND d.retired = 0
+                                        AND o.voided = 0
+                                     )
+                and artNumber.voided = 0
+                and date(artNumber.date_created) <=DATE(o.scheduled_date)
+
+        ) AS totalNumberOfPLHIVInCareStartedOnCTXprophylaxisIncludingTBPatientsThisMonth
   INNER JOIN person p ON p.person_id = totalNumberOfPLHIVInCareStartedOnCTXprophylaxisIncludingTBPatientsThisMonth.patient_id
 
   GROUP BY
