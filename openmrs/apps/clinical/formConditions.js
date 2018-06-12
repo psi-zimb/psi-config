@@ -7382,7 +7382,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['AIVC, Have you had CD4 count lab test ?'];
         if (conditionConcept == "Yes") {
-            conditions.enable.push("AIVC, CD4 count results"); 
+            conditions.enable.push("AIVC, CD4 count results");
 
         }
         else
@@ -7983,6 +7983,21 @@ Bahmni.ConceptSet.FormConditions.rules = {
                       }
                       return conditions;
                   },
+
+                  "AIVC, Have you experienced loss of vision?": function(formName, formFieldValues) {
+                      var conditions = {
+                          enable: [],
+                          disable: []
+                      };
+                      var conditionConcept = formFieldValues["AIVC, Have you experienced loss of vision?"];
+                      if (conditionConcept == "Yes") {
+                          conditions.enable.push("AIVC, HEENT If yes, specify details");
+                      } else {
+                          conditions.disable.push("AIVC, HEENT If yes, specify details");
+                      }
+                      return conditions;
+                  },
+
                   "PR, Program": function (formName, formFieldValues) {
                       var conditions = {
                           show: [],

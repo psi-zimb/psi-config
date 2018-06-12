@@ -276,9 +276,6 @@
             "Programs": {
                 "allowAddMore": true
             },
-            "AIVC, Have you experienced loss of vision?":{
-                "multiSelect":true
-            },
             "AIVC, TB Dates of previous episodes":{
                 "allowAddMore":true
             },
@@ -292,6 +289,9 @@
                 "multiSelect":true
             },
             "AIVC, if yes, Specify details":{
+                "multiSelect":true
+            },
+            "AIVC, HEENT If yes, specify details":{
                 "multiSelect":true
             },
             "AIVC, Male, If yes on penis discharge, specify type":{
