@@ -873,12 +873,12 @@ SELECT/*Pivoting the table*/
                                         JOIN drug_order dro on o.order_id = dro.order_id
                                         JOIN drug d on d.drug_id = dro.drug_inventory_id
                                         WHERE d.name = "Cotrimoxazole(prophylaxis)"
-                                        AND DATE(o.scheduled_date)  < ('#startDate#')
+                                        AND DATE(o.scheduled_date)  < DATE('#startDate#')
                                         AND d.retired = 0
                                         AND o.voided = 0
                                      )
                 and artNumber.voided = 0
-                and date(artNumber.date_created) <=DATE(o.scheduled_date)
+                and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) <=DATE(o.scheduled_date)
 
         ) AS totalNumberOfPLHIVInCareStartedOnCTXprophylaxisIncludingTBPatientsThisMonth
   INNER JOIN person p ON p.person_id = totalNumberOfPLHIVInCareStartedOnCTXprophylaxisIncludingTBPatientsThisMonth.patient_id
