@@ -141,7 +141,9 @@
                   "STI",
                   "FP",
                   "VMMC",
-                  "CD4"
+                  "CD4",
+                  "ART",
+                  "PReP"
                ],
                "applyDateRangeFor":"obsDate",
                "excludeColumns":[
@@ -341,7 +343,12 @@
                   "VMMC",
                   "VMMC Internal Referral Completed",
                   "CD4",
-                  "CD4 Internal Referral Completed"
+                  "CD4 Internal Referral Completed",
+                  "ART",
+                  "ART Internal Referral Completed",
+                  "PReP",
+                  "PReP Internal Referral Completed"
+
                ],
                "applyDateRangeFor":"obsDate",
                "excludeColumns":[
