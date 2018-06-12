@@ -7378,19 +7378,20 @@ Bahmni.ConceptSet.FormConditions.rules = {
           }
           return conditions;
       },
-      "AIVC, Have you had Other positive HIV test?": function(formName, formFieldValues) {
-          var conditions = {
-              enable: [],
-              disable: []
-          };
-          var conditionConcept = formFieldValues["AIVC, Have you had Other positive HIV test?"];
-          if (conditionConcept == "Yes") {
-              conditions.enable.push("AIVC, HIV Test Results");
-          } else {
-              conditions.disable.push("AIVC, HIV Test Results");
-          }
-          return conditions;
-      },
+      "AIVC, Have you had CD4 count lab test ?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['AIVC, Have you had CD4 count lab test ?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("AIVC, CD4 count results"); 
+
+        }
+        else
+        {
+            conditions.disable.push("AIVC, CD4 count results");
+        }
+        return conditions;
+
+    },
       "AIVC, Did you have fever recently?": function(formName, formFieldValues) {
           var conditions = {
               enable: [],
