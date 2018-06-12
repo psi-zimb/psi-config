@@ -134,17 +134,6 @@
                "conceptNamesToFilter":[
                   "IR, Referred to"
                ],
-               "conceptValuesToFilter":[
-                  "HTS",
-                  "TB-Screening",
-                  "VIAC",
-                  "STI",
-                  "FP",
-                  "VMMC",
-                  "CD4",
-                  "ART",
-                  "PReP"
-               ],
                "applyDateRangeFor":"obsDate",
                "excludeColumns":[
                   "Patient Name",
@@ -328,27 +317,6 @@
                "conceptNamesToFilter":[
                   "IR, Referred to",
                   "Referred From,internal referral completion form"
-               ],
-               "conceptValuesToFilter":[
-                  "HTS",
-                  "HTS Internal Referral Completed",
-                  "TB-Screening",
-                  "TB-Screening Internal Referral Completed",
-                  "VIAC",
-                  "VIAC Internal Referral Completed",
-                  "STI",
-                  "STI Internal Referral Completed",
-                  "FP",
-                  "FP Internal Referral Completed",
-                  "VMMC",
-                  "VMMC Internal Referral Completed",
-                  "CD4",
-                  "CD4 Internal Referral Completed",
-                  "ART",
-                  "ART Internal Referral Completed",
-                  "PReP",
-                  "PReP Internal Referral Completed"
-
                ],
                "applyDateRangeFor":"obsDate",
                "excludeColumns":[
