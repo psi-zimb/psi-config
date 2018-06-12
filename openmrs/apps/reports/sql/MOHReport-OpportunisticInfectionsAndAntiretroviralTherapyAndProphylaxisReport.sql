@@ -244,7 +244,7 @@ select
                                                         name = 'PREP/OI Identifier'
                                                         and retired = 0
                                                         and uniqueness_behavior = 'UNIQUE'
-                                                        )  
+                                                        )
         where
         cnCodedDiagnosis.name = 'Coded Diagnosis' and cnCodedDiagnosis.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosis.voided = 0
         and cnCodedDiagnosisVC.name IN ('WHO stage I','P-WHO stage I (Peads Stage I)') and cnCodedDiagnosisVC.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosisVC.voided = 0
@@ -402,7 +402,7 @@ select
                                                         name = 'PREP/OI Identifier'
                                                         and retired = 0
                                                         and uniqueness_behavior = 'UNIQUE'
-                                                        )  
+                                                        )
         where
         cnCodedDiagnosis.name = 'Coded Diagnosis' and cnCodedDiagnosis.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosis.voided = 0
         and cnCodedDiagnosisVC.name IN ('WHO stage II','P-WHO stage II (Peads Stage II)') and cnCodedDiagnosisVC.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosisVC.voided = 0
@@ -559,7 +559,7 @@ select
                                                                     name = 'PREP/OI Identifier'
                                                                     and retired = 0
                                                                     and uniqueness_behavior = 'UNIQUE'
-                                                                    )  
+                                                                    )
                     where
                     cnCodedDiagnosis.name = 'Coded Diagnosis' and cnCodedDiagnosis.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosis.voided = 0
                     and cnCodedDiagnosisVC.name IN ('WHO stage III','P-WHO stage III (Peads Stage III)') and cnCodedDiagnosisVC.concept_name_type = 'FULLY_SPECIFIED' and                         cnCodedDiagnosisVC.voided = 0
@@ -716,7 +716,7 @@ select
                                                         name = 'PREP/OI Identifier'
                                                         and retired = 0
                                                         and uniqueness_behavior = 'UNIQUE'
-                                                        )  
+                                                        )
         where
         cnCodedDiagnosis.name = 'Coded Diagnosis' and cnCodedDiagnosis.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosis.voided = 0
         and cnCodedDiagnosisVC.name IN ('WHO stage IV','P-WHO stage IV (Peads Stage IV)') and cnCodedDiagnosisVC.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosisVC.voided = 0
@@ -860,8 +860,8 @@ SELECT/*Pivoting the table*/
                                                                     name = 'PREP/OI Identifier'
                                                                     and retired = 0
                                                                     and uniqueness_behavior = 'UNIQUE'
-                                                                ) 
-                                 AND artNumber.identifier like '%-A-%' 
+                                                                )
+                                 AND artNumber.identifier like '%-A-%'
               WHERE d.name = "Cotrimoxazole(prophylaxis)"
               AND DATE(o.scheduled_date)  BETWEEN DATE('#startDate#') AND DATE('#endDate#')
               AND d.retired = 0
@@ -1000,11 +1000,11 @@ SELECT/*Pivoting the table*/
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM
     (
-        select distinct obsForDiagnosis.person_id      
+        select distinct obsForDiagnosis.person_id
         from obs obsForDiagnosis
         INNER join patient_identifier artNumber
                         on artNumber.patient_id = obsForDiagnosis.person_id
-                        And artNumber.identifier_type = 
+                        And artNumber.identifier_type =
                                                         (
                                                             select
                                                             patient_identifier_type_id
@@ -1013,37 +1013,37 @@ SELECT/*Pivoting the table*/
                                                             name = 'PREP/OI Identifier'
                                                             and retired = 0
                                                             and uniqueness_behavior = 'UNIQUE'
-                                                        ) 
-                         AND artNumber.identifier like '%-A-%' 
+                                                        )
+                         AND artNumber.identifier like '%-A-%'
                          where obsForDiagnosis.voided = 0
                          and date(obsForDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
                          and artNumber.voided = 0
-                         and date(artNumber.date_created)<=(select max(obsForMaxDate.obs_datetime)  
+                         and date(artNumber.date_created)<=(select max(obsForMaxDate.obs_datetime)
                                                            from obs obsForMaxDate
                                                                 where obsForMaxDate.concept_id=
                                                                                                (
                                                                                                     select concept_id
                                                                                                     from concept_name
                                                                                                     where concept_name.name='Coded Diagnosis'
-                                                                                                    and concept_name_type='FULLY_SPECIFIED' 
+                                                                                                    and concept_name_type='FULLY_SPECIFIED'
                                                                                                 )
                                                                 and obsForMaxDate.value_coded in
                                                                                                   (
                                                                                                        select concept_id
-                                                                                                       from concept_name    
+                                                                                                       from concept_name
                                                                                                        where concept_name.name in (
                                                                                                                                        'SJS (cotrimoxazole)',
                                                                                                                                        'Skin (cotrimoxazole)',
                                                                                                                                        'Haematological (cotrimoxazole)',
                                                                                                                                        'Hypersensitivity (cotrimoxazole)'
                                                                                                                                    )
-                                                                                                       and concept_name_type='FULLY_SPECIFIED' 
+                                                                                                       and concept_name_type='FULLY_SPECIFIED'
                                                                                                    )
                                                                 and obsForMaxDate.voided=0
                                                                 and date(obsForMaxDate.obs_datetime) between date('#startDate#') and date('#endDate#')
                                                                 and obsForMaxDate.person_id=obsForDiagnosis.person_id
                                                                 )
-       
+
     ) AS numberOfPLHIVInCareOnCTXDevelopedAdverseEventsThisMonth
   INNER JOIN person p ON p.person_id = numberOfPLHIVInCareOnCTXDevelopedAdverseEventsThisMonth.person_id
   GROUP BY
@@ -1170,7 +1170,7 @@ SELECT/*Pivoting the table*/
             JOIN orders ordersForDrugname on drugOrder.order_id = ordersForDrugname.order_id
             INNER join patient_identifier artNumber
                         on artNumber.patient_id = ordersForDrugname.patient_id
-                        And artNumber.identifier_type = 
+                        And artNumber.identifier_type =
                                                         (
                                                             select
                                                             patient_identifier_type_id
@@ -1179,8 +1179,8 @@ SELECT/*Pivoting the table*/
                                                             name = 'PREP/OI Identifier'
                                                             and retired = 0
                                                             and uniqueness_behavior = 'UNIQUE'
-                                                        ) 
-                         AND artNumber.identifier like '%-A-%' 
+                                                        )
+                         AND artNumber.identifier like '%-A-%'
             Where drugForDrugname.name = 'Cotrimoxazole(prophylaxis)'
             AND ordersForDrugname.order_reason =
                                                 (
@@ -1315,9 +1315,9 @@ SELECT/*Pivoting the table*/
   (
         select distinct ord.patient_id
         from orders ord
-                join drug_order dro 
+                join drug_order dro
                 on ord.order_id = dro.order_id
-                join drug 
+                join drug
                 on dro.drug_inventory_id = drug.drug_id
                 INNER join patient_identifier artNumber
                         on artNumber.patient_id = ord.patient_id
@@ -1329,9 +1329,9 @@ SELECT/*Pivoting the table*/
                                                         name = 'PREP/OI Identifier'
                                                         and retired = 0
                                                         and uniqueness_behavior = 'UNIQUE'
-                                                        ) 
-                         AND artNumber.identifier like '%-A-%' 
-                             where drug.name = 'Cotrimoxazole(prophylaxis)' 
+                                                        )
+                         AND artNumber.identifier like '%-A-%'
+                             where drug.name = 'Cotrimoxazole(prophylaxis)'
                              and drug.retired = 0
                              and date(ord.date_activated) <= date('#endDate#')
                              and artNumber.voided = 0
@@ -2519,12 +2519,12 @@ SELECT/*Pivoting the table*/
          THEN COUNT(1)  END AS 'GrtThan50YrsMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
-    FROM (   
-            select distinct person_id 
+    FROM (
+            select distinct person_id
             from obs obsForDiagnosis
             INNER join patient_identifier artNumber
                         on artNumber.patient_id = obsForDiagnosis.person_id
-                        And artNumber.identifier_type = 
+                        And artNumber.identifier_type =
                                                         (
                                                             select
                                                             patient_identifier_type_id
@@ -2533,12 +2533,12 @@ SELECT/*Pivoting the table*/
                                                             name = 'PREP/OI Identifier'
                                                             and retired = 0
                                                             and uniqueness_behavior = 'UNIQUE'
-                                                        ) 
-                        AND artNumber.identifier like '%-A-%' 
+                                                        )
+                        AND artNumber.identifier like '%-A-%'
             where
                  (
                     obsForDiagnosis.concept_id =
-                                                  ( 
+                                                  (
                                                      SELECT concept_id
                                                      FROM concept_view
                                                      WHERE concept_full_name = 'Coded Diagnosis'
@@ -2546,7 +2546,7 @@ SELECT/*Pivoting the table*/
                                                    )
                 and obsForDiagnosis.value_coded in
                                                   (
-                                                      select concept_id 
+                                                      select concept_id
                                                       from concept_name
                                                       where concept_name.name ='Menngitis, cryptococcal (WHO 4)'
                                                       and concept_name_type='FULLY_SPECIFIED'
@@ -2557,8 +2557,8 @@ SELECT/*Pivoting the table*/
             and obsForDiagnosis.voided=0
             and obsForDiagnosis.person_id not in
                                                 (
-                                                    select person_id 
-                                                    from obs 
+                                                    select person_id
+                                                    from obs
                                                     where concept_id =
                                                                       (
                                                                          SELECT concept_id
@@ -2568,7 +2568,7 @@ SELECT/*Pivoting the table*/
                                                                       )
                                                     and value_coded in
                                                                       (
-                                                                          select concept_id 
+                                                                          select concept_id
                                                                           from concept_name
                                                                           where concept_name.name ='Menngitis, cryptococcal (WHO 4)'
                                                                           and concept_name_type='FULLY_SPECIFIED'
@@ -2586,11 +2586,11 @@ SELECT/*Pivoting the table*/
                                                  on orders.order_id  = drugsOrder.order_id
                                                     and orders.order_type_id = 2
                                                     where drugs.name = 'Fluconazole'
-                                                    and orders.date_activated between date('#startDate#') and date('#endDate#')
+                                                    and DATE(orders.scheduled_date) between date('#startDate#') and date('#endDate#')
                                               )
              and artNumber.voided = 0
              and date(artNumber.date_created)<=DATE(obsForDiagnosis.obs_datetime)
-             
+
 ) AS numberOfNewlDiagnosedCryptococcalMeningitisCasesCommencedOnFluconazole
            INNER JOIN person p ON p.person_id = numberOfNewlDiagnosedCryptococcalMeningitisCasesCommencedOnFluconazole.person_id
            GROUP BY
@@ -2729,49 +2729,49 @@ SELECT/*Pivoting the table*/
                                                         SELECT concept_id
                                                         FROM concept_view
                                                         WHERE concept_full_name = 'PR, Start date of ART program'
-                                                        AND retired=0 
+                                                        AND retired=0
                                                     )
                                                         AND artProgramCheck.voided = 0
-                    where obsForDiagnosis.concept_id = 
+                    where obsForDiagnosis.concept_id =
                                                     (  /*Concept id for Coded Diagnosis*/
                                                         SELECT concept_id
                                                         FROM concept_view
                                                         WHERE concept_full_name = 'Coded Diagnosis'
-                                                        AND retired=0 
+                                                        AND retired=0
                                                     )
-                    AND obsForDiagnosis.value_coded = 
+                    AND obsForDiagnosis.value_coded =
                                                     (  /*Concept id for Liver (Fluconazole - high dose)*/
                                                         SELECT concept_id
                                                         FROM concept_view
                                                         WHERE concept_full_name = 'Liver (Fluconazole - high dose)'
-                                                        AND retired=0 
+                                                        AND retired=0
                                                     )
                                                         AND obsForDiagnosis.voided = 0
                     ANd obsForDiagnosis.obs_group_id not in
                                                     (/*Removing diagnosis group if there are any revisions*/
-                                                                    
-                                                        Select obs_group_id 
-                                                        from obs WHERE concept_id = 51 
-                                                        AND  value_coded = 1 
-                                                        AND voided=0 
+
+                                                        Select obs_group_id
+                                                        from obs WHERE concept_id = 51
+                                                        AND  value_coded = 1
+                                                        AND voided=0
                                                         AND obs_group_id is not null
                                                         AND obs.person_id = obsForDiagnosis.person_id
                                                         AND date(obs.date_created) <= date('#endDate#')
                                                      )
-                    AND obsForDiagnosis.obs_group_id not in 
+                    AND obsForDiagnosis.obs_group_id not in
                                                      ( /*Removing ruled out diagnosis*/
-                                                                      
-                                                        Select obs_group_id 
-                                                        from obs 
-                                                        WHERE concept_id = 49 
-                                                        AND  value_coded = 48 
-                                                        AND voided=0 
+
+                                                        Select obs_group_id
+                                                        from obs
+                                                        WHERE concept_id = 49
+                                                        AND  value_coded = 48
+                                                        AND voided=0
                                                         AND obs_group_id is not null
                                                         AND obs.person_id = obsForDiagnosis.person_id
                                                         AND obs.obs_group_id = obsForDiagnosis.obs_group_id
                                                         AND date(obs.obs_datetime) <= date('#endDate#')
                                                      )
-                                    AND 
+                                    AND
                                                     (/*Checking if patient was enrolled on or before giving diagnosis*/
                                                         date(artProgramCheck.value_datetime) <= date(obsForDiagnosis.obs_datetime)
                                               OR
@@ -2826,7 +2826,7 @@ SELECT/*Pivoting the table*/
             END
     ) AS D16NumberOfPLHIVinCareWithCryptococcalMeningitisOnFluconazoleTreatmentDevelopedAdverseEventsThisMonth
 
-UNION ALL 
+UNION ALL
 
 /*D17. Number of PLHIV in care with Cryptococcal Meningitis on Fluconazole treatment who stopped treatment due to severe adverse events this month*/
 SELECT/*Pivoting the table*/
@@ -2895,11 +2895,11 @@ SELECT/*Pivoting the table*/
          THEN COUNT(1)  END AS 'GrtThan50YrsMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
-    FROM (  
+    FROM (
 
-           Select 
+           Select
             DISTINCT obsForDiagnosis.person_id
-            from 
+            from
             obs obsForDiagnosis
             Left join patient_identifier artNumber
                                     on artNumber.patient_id = obsForDiagnosis.person_id
@@ -2911,7 +2911,7 @@ SELECT/*Pivoting the table*/
                                                                                 and retired = 0
                                                                                 and uniqueness_behavior = 'UNIQUE'
                                                                     )
-            AND artNumber.identifier like '%-A-%'              
+            AND artNumber.identifier like '%-A-%'
                                     and artNumber.voided = 0
             LEfT JOIN obs artProgramCheck
                                     On artProgramCheck.person_id = obsForDiagnosis.person_id
@@ -2920,20 +2920,20 @@ SELECT/*Pivoting the table*/
                                                                                 SELECT concept_id
                                                                                 FROM concept_view
                                                                                 WHERE concept_full_name = 'PR, Start date of ART program'
-                                                                                AND retired=0 
+                                                                                AND retired=0
                                                                     )
                                     AND artProgramCheck.voided = 0
             where obsForDiagnosis.concept_id = (  /*Concept id for Coded Diagnosis*/
                                                                     SELECT concept_id
                                                                     FROM concept_view
                                                                     WHERE concept_full_name = 'Coded Diagnosis'
-                                                                    AND retired=0 
+                                                                    AND retired=0
                                                )
             AND obsForDiagnosis.value_coded = (  /*Concept id for Liver (Fluconazole - high dose)*/
                                                                     SELECT concept_id
                                                                     FROM concept_view
                                                                     WHERE concept_full_name = 'Liver (Fluconazole - high dose)'
-                                                                    AND retired=0 
+                                                                    AND retired=0
                                               )
             AND date(obsForDiagnosis.obs_datetime) between date('#startDate#') AND date('#endDate#')
             AND obsForDiagnosis.voided = 0
@@ -2954,7 +2954,7 @@ SELECT/*Pivoting the table*/
                                                  AND date(obsForDiagnosis.obs_datetime) <= date(orders.date_activated) /*Date of daignosis <= date of meds*/
                                                  AND date(orders.date_activated) between date('#startDate#') AND date('#endDate#')
                                                )
-                         
+
 ) AS numberOfNewlDiagnosedCryptococcalMeningitisCasesCommencedOnFluconazole
            INNER JOIN person p ON p.person_id = numberOfNewlDiagnosedCryptococcalMeningitisCasesCommencedOnFluconazole.person_id
            GROUP BY
