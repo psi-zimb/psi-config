@@ -603,7 +603,7 @@ SELECT/*Pivoting the table*/
      )
      AND artNumber.identifier like '%-A-%'
      and artNumber.voided = 0
-     and date(artNumber.date_created) <= DATE(obsTBQuestion.obs_datetime)
+     and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) <= DATE(obsTBQuestion.obs_datetime)
 
      GROUP BY obsTBQuestion.person_id,DATE(obsTBQuestion.obs_datetime)
 
