@@ -6807,7 +6807,7 @@ SELECT/*Pivoting the table*/
                                     And obsForCheckingTransferIn.voided = 0
                                     And obsToCheckARTStageValue.voided = 0
                                     And obsToGetLastARTStageChangeDate.voided = 0
-                                    And date(obsForCheckingTransferIn.obs_datetime) = date(obsToGetLastARTStageChangeDate.value_datetime)
+                                    And date(obsToGetLastARTStageChangeDate.value_datetime) <= date(obsForCheckingTransferIn.obs_datetime)
                                     And date(obsForCheckingTransferIn.obs_datetime) between date('#startDate#') AND date('#endDate#')
             ) AS D49numberPLHIVinCareTransferredInOnThirdLineRegimenThisMonth 
            INNER JOIN person p ON p.person_id = D49numberPLHIVinCareTransferredInOnThirdLineRegimenThisMonth.person_id
@@ -7673,7 +7673,7 @@ from obs obsToGetLastARTStageChangeDate
                                     And obsForCheckingTransferIn.voided = 0
                                     And obsToCheckARTStageValue.voided = 0
                                     And obsToGetLastARTStageChangeDate.voided = 0
-                                    And date(obsForCheckingTransferIn.obs_datetime) = date(obsToGetLastARTStageChangeDate.value_datetime)
+                                    And date(obsToGetLastARTStageChangeDate.value_datetime) <= date(obsForCheckingTransferIn.obs_datetime)
                                     And date(obsForCheckingTransferIn.obs_datetime) between date('#startDate#') AND date('#endDate#')
    
             ) AS D52totalNumberOfPLHIVinCareCurrentlyReceivingThirdLineART 
@@ -10151,7 +10151,7 @@ from obs obsToGetLastARTStageChangeDate
                                     And obsForCheckingTransferIn.voided = 0
                                     And obsToCheckARTStageValue.voided = 0
                                     And obsToGetLastARTStageChangeDate.voided = 0
-                                    And date(obsForCheckingTransferIn.obs_datetime) = date(obsToGetLastARTStageChangeDate.value_datetime)
+                                    And date(obsToGetLastARTStageChangeDate.value_datetime) <= date(obsForCheckingTransferIn.obs_datetime)
                                     And date(obsForCheckingTransferIn.obs_datetime) between date('#startDate#') AND date('#endDate#')
    
             ) AS D52totalNumberOfPLHIVinCareCurrentlyReceivingThirdLineART 
