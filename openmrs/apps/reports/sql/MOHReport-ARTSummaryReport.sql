@@ -1364,7 +1364,7 @@ SELECT/*Pivoting the table*/
                                     And obsForCheckingTransferIn.voided = 0
                                     And obsToCheckARTStageValue.voided = 0
                                     And obsToGetLastARTStageChangeDate.voided = 0
-                                    And date(obsForCheckingTransferIn.obs_datetime) = date(obsToGetLastARTStageChangeDate.value_datetime)
+                                    And date(obsToGetLastARTStageChangeDate.value_datetime) <= date(obsForCheckingTransferIn.obs_datetime)  
                                     And date(obsForCheckingTransferIn.obs_datetime) between date('#startDate#') AND date('#endDate#')
                                 
             ) AS numberOfPLHIVinCareWhoHaveTransferredIn 
@@ -2435,7 +2435,7 @@ SELECT/*Pivoting the table*/
                                     And obsForCheckingTransferIn.voided = 0
                                     And obsToCheckARTStageValue.voided = 0
                                     And obsToGetLastARTStageChangeDate.voided = 0
-                                    And date(obsForCheckingTransferIn.obs_datetime) = date(obsToGetLastARTStageChangeDate.value_datetime)
+                                    And date(obsToGetLastARTStageChangeDate.value_datetime) <= date(obsForCheckingTransferIn.obs_datetime)  
                                     And date(obsForCheckingTransferIn.obs_datetime) between date('#startDate#') AND date('#endDate#')
                              
                                    UNION ALL
@@ -8362,7 +8362,7 @@ SELECT/*Pivoting the table*/
                                     And obsForCheckingTransferIn.voided = 0
                                     And obsToCheckARTStageValue.voided = 0
                                     And obsToGetLastARTStageChangeDate.voided = 0
-                                    And date(obsForCheckingTransferIn.obs_datetime) = date(obsToGetLastARTStageChangeDate.value_datetime)
+                                    And date(obsToGetLastARTStageChangeDate.value_datetime) <= date(obsForCheckingTransferIn.obs_datetime)  
                                     And date(obsForCheckingTransferIn.obs_datetime) between date('#startDate#') AND date('#endDate#')
                              
                                    UNION ALL
