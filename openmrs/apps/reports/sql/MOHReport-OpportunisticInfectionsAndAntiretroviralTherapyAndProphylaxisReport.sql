@@ -595,9 +595,8 @@ SELECT/*Pivoting the table*/
 UNION ALL
 
 /*D5. Number of new PLHIV in care in WHO Stage 4 at registration this month*/
-SELECT * FROM
-(SELECT/*Pivoting the table*/
-    Diagnosis as '-',
+SELECT/*Pivoting the table*/
+    'D5. Number of new PLHIV in care in WHO Stage 4 at registration this month' AS '-',
     SUM(lessThan1yrMale) AS '<1 M',
     SUM(lessThan1yrFemale) AS '<1 F',
     SUM(1To9yrMale) AS '1-9 M',
@@ -618,135 +617,129 @@ SELECT * FROM
     SUM(40To49YrsFemale) AS '40-49 F',
     SUM(GrtThan50YrsMale) AS '>50 M',
     SUM(GrtThan50YrsFemale) AS '>50 F'
-FROM
-
-(
-Select "D5. Number of new PLHIV in care in WHO Stage 4 at registration this month" as 'Diagnosis' ,null AS 'lessThan1yrMale',null as 'lessThan1yrFemale',
-null as '1To9yrMale',null as '1To9yrFemale',null as '10To14yrMale',null as '10To14yrFemale',null as '15To19yrMale',null as '15To19yrFemale',null AS '20To24yrMale',
-null AS '20To24yrFemale',null AS '25To29yrMale',null AS '25To29yrFemale',null AS '30To34yrMale',null AS '30To34yrFemale',null AS '35To39yrMale',null AS '35To39yrFemale',
-null AS '40To49YrsMale',null AS '40To49YrsFemale',null AS 'GrtThan50YrsMale',null AS 'GrtThan50YrsFemale'
-Union ALL
-Select "D5. Number of new PLHIV in care in P WHO Stage 4 at registration this month" as 'Diagnosis' ,null AS 'lessThan1yrMale',null as 'lessThan1yrFemale',
-null as '1To9yrMale',null as '1To9yrFemale',null as '10To14yrMale',null as '10To14yrFemale',null as '15To19yrMale',null as '15To19yrFemale',null AS '20To24yrMale',
-null AS '20To24yrFemale',null AS '25To29yrMale',null AS '25To29yrFemale',null AS '30To34yrMale',null AS '30To34yrFemale',null AS '35To39yrMale',null AS '35To39yrFemale',
-null AS '40To49YrsMale',null AS '40To49YrsFemale',null AS 'GrtThan50YrsMale',null AS 'GrtThan50YrsFemale'
-Union all
-select
-         CASE
-         when cnCodedDiagnosisVC.name = 'WHO stage IV' then "D5. Number of new PLHIV in care in WHO Stage 4 at registration this month"
-         when cnCodedDiagnosisVC.name = 'P-WHO stage IV (Peads Stage IV)' then "D5. Number of new PLHIV in care in P WHO Stage 4 at registration this month" end as 'Diagnosis',
+    FROM
+    (
+    SELECT
+         'D5. Number of new PLHIV in care in WHO Stage 4 at registration this month',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
-         THEN COUNT(distinct p.person_id)  END AS 'lessThan1yrMale',
+         THEN COUNT(1)  END AS 'lessThan1yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
-         THEN COUNT(distinct p.person_id)  END AS 'lessThan1yrFemale',
+         THEN COUNT(1)  END AS 'lessThan1yrFemale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'M'
-         THEN COUNT(distinct p.person_id)  END AS '1To9yrMale',
+         THEN COUNT(1)  END AS '1To9yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'F'
-         THEN COUNT(distinct p.person_id)  END AS '1To9yrFemale',
+         THEN COUNT(1)  END AS '1To9yrFemale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'M'
-         THEN COUNT(distinct p.person_id)  END AS '10To14yrMale',
+         THEN COUNT(1)  END AS '10To14yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'F'
-         THEN COUNT(distinct p.person_id)  END AS '10To14yrFemale',
+         THEN COUNT(1)  END AS '10To14yrFemale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'M'
-         THEN COUNT(distinct p.person_id)  END AS '15To19yrMale',
+         THEN COUNT(1)  END AS '15To19yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'F'
-         THEN COUNT(distinct p.person_id)  END AS '15To19yrFemale',
+         THEN COUNT(1)  END AS '15To19yrFemale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
-         THEN COUNT(distinct p.person_id)  END AS '20To24yrMale',
+         THEN COUNT(1)  END AS '20To24yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'F'
-         THEN COUNT(distinct p.person_id)  END AS '20To24yrFemale',
+         THEN COUNT(1)  END AS '20To24yrFemale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'M'
-         THEN COUNT(distinct p.person_id)  END AS '25To29yrMale',
+         THEN COUNT(1)  END AS '25To29yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'F'
-         THEN COUNT(distinct p.person_id)  END AS '25To29yrFemale',
+         THEN COUNT(1)  END AS '25To29yrFemale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'M'
-         THEN COUNT(distinct p.person_id)  END AS '30To34yrMale',
+         THEN COUNT(1)  END AS '30To34yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'F'
-         THEN COUNT(distinct p.person_id)  END AS '30To34yrFemale',
+         THEN COUNT(1)  END AS '30To34yrFemale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'M'
-         THEN COUNT(distinct p.person_id)  END AS '35To39yrMale',
+         THEN COUNT(1)  END AS '35To39yrMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'F'
-         THEN COUNT(distinct p.person_id)  END AS '35To39yrFemale',
+         THEN COUNT(1)  END AS '35To39yrFemale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'M'
-         THEN COUNT(distinct p.person_id)  END AS '40To49YrsMale',
+         THEN COUNT(1)  END AS '40To49YrsMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'F'
-         THEN COUNT(distinct p.person_id)  END AS '40To49YrsFemale',
+         THEN COUNT(1)  END AS '40To49YrsFemale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'M'
-         THEN COUNT(distinct p.person_id)  END AS 'GrtThan50YrsMale',
+         THEN COUNT(1)  END AS 'GrtThan50YrsMale',
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
-         THEN COUNT(distinct p.person_id)  END AS 'GrtThan50YrsFemale'
-        from person p
-        join obs obsCodedDiagnosis on p.person_id = obsCodedDiagnosis.person_id
-        join concept_name cnCodedDiagnosis on obsCodedDiagnosis.concept_id = cnCodedDiagnosis.concept_id
-        join concept_name cnCodedDiagnosisVC on obsCodedDiagnosis.value_coded = cnCodedDiagnosisVC.concept_id
-        INNER join patient_identifier artNumber
-                        on artNumber.patient_id = obsCodedDiagnosis.person_id
-                        And artNumber.identifier_type = (
-                                                        select
-                                                        patient_identifier_type_id
-                                                        from patient_identifier_type
-                                                        where
-                                                        name = 'PREP/OI Identifier'
-                                                        and retired = 0
-                                                        and uniqueness_behavior = 'UNIQUE'
-                                                        )
-        where
-        cnCodedDiagnosis.name = 'Coded Diagnosis' and cnCodedDiagnosis.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosis.voided = 0
-        and cnCodedDiagnosisVC.name IN ('WHO stage IV','P-WHO stage IV (Peads Stage IV)') and cnCodedDiagnosisVC.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosisVC.voided = 0
-        and obsCodedDiagnosis.voided = 0
-        AND artNumber.identifier like '%-A-%'
-        and artNumber.voided = 0
-        and date(artNumber.date_created) between date('#startDate#') and date('#endDate#')
-        and date(obsCodedDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
-        and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) <= date(obsCodedDiagnosis.obs_datetime)
-        group by obsCodedDiagnosis.value_coded,
-                   CASE
-                 WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
-                 THEN '< 1 Yr M'
-                 WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
-                 THEN '< 1 Yr F'
-                 WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'M'
-                 THEN '1-9 Yrs M'
-                 WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'F'
-                 THEN '1-9 Yrs F'
-                 WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'M'
-                 THEN '10-14 Yrs M'
-                 WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'F'
-                 THEN '10-14 Yrs F'
-                 WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'M'
-                 THEN '15-19 Yrs M'
-                 WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'F'
-                 THEN '15-19 Yrs F'
-                 WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
-                 THEN '20-24 Yrs M'
-                 WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
-                 THEN '20-24 Yrs F'
-                 WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'M'
-                 THEN '25-29 Yrs M'
-                 WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'F'
-                 THEN '25-29 Yrs F'
-                 WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'M'
-                 THEN '30-34 Yrs M'
-                 WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'F'
-                 THEN '30-34 Yrs F'
-                 WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'M'
-                 THEN '35-39 Yrs M'
-                 WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'F'
-                 THEN '35-39 Yrs F'
-                 WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'M'
-                 THEN '40-49 Yrs M'
-                 WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'F'
-                 THEN '40-49 Yrs F'
-                 WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'M'
-                 THEN '> 50 Yrs M'
-                 WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
-                 THEN '> 50 Yrs F'
-              END
-)
-              AS D5NumberofNewPLHIVinCareinWHOStage4atRegistrationthisMonth
-              group by Diagnosis
-              order by Diagnosis desc
-) AS D5
+         THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
+    FROM
+        (
+            select distinct p.person_id
+            from person p
+            join obs obsCodedDiagnosis on p.person_id = obsCodedDiagnosis.person_id
+            join concept_name cnCodedDiagnosis on obsCodedDiagnosis.concept_id = cnCodedDiagnosis.concept_id
+            join concept_name cnCodedDiagnosisVC on obsCodedDiagnosis.value_coded = cnCodedDiagnosisVC.concept_id
+            join patient_identifier artNumber on artNumber.patient_id = obsCodedDiagnosis.person_id
+            where
+            artNumber.identifier_type = (
+                                            select
+                                            patient_identifier_type_id
+                                            from patient_identifier_type
+                                            where
+                                            name = 'PREP/OI Identifier'
+                                            and retired = 0
+                                            and uniqueness_behavior = 'UNIQUE'
+                                        )
+            AND artNumber.identifier like '%-A-%'
+            and artNumber.voided = 0
+            and cnCodedDiagnosis.name = 'Coded Diagnosis' and cnCodedDiagnosis.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosis.voided = 0
+            and cnCodedDiagnosisVC.name IN
+            (
+                'WHO stage IV',
+                'P-WHO stage IV (Peads Stage IV)'
+            )
+            and cnCodedDiagnosisVC.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosisVC.voided = 0
+            and obsCodedDiagnosis.voided = 0
+            and date(obsCodedDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
+            and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) between date('#startDate#') and date('#endDate#')
+            and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) <= date(obsCodedDiagnosis.obs_datetime)
+        )
+        AS D5NumberOfNewPLHIVinCareInWHOStage4AtRegistrationThisMonth
+           INNER JOIN person p ON p.person_id = D5NumberOfNewPLHIVinCareInWHOStage4AtRegistrationThisMonth.person_id
+           GROUP BY
+           CASE
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
+               THEN '< 1 Yr M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'F'
+               THEN '< 1 Yr F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'M'
+               THEN '1-9 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 1 AND 9 AND p.gender = 'F'
+               THEN '1-9 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'M'
+               THEN '10-14 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 10 AND 14 AND p.gender = 'F'
+               THEN '10-14 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'M'
+               THEN '15-19 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 15 AND 19 AND p.gender = 'F'
+               THEN '15-19 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
+               THEN '20-24 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 20 AND 24 AND p.gender = 'M'
+               THEN '20-24 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'M'
+               THEN '25-29 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 25 AND 29 AND p.gender = 'F'
+               THEN '25-29 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'M'
+               THEN '30-34 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 30 AND 34 AND p.gender = 'F'
+               THEN '30-34 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'M'
+               THEN '35-39 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 35 AND 39 AND p.gender = 'F'
+               THEN '35-39 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'M'
+               THEN '40-49 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') BETWEEN 40 AND 49 AND p.gender = 'F'
+               THEN '40-49 Yrs F'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'M'
+               THEN '> 50 Yrs M'
+               WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
+               THEN '> 50 Yrs F'
+            END
+    ) AS D5NumberOfNewPLHIVinCareInWHOStage4AtRegistrationThisMonth
+
 UNION ALL
 
 /*D6. Total number of PLHIV in care started on CTX prophylaxis (including TB patients) this month*/
