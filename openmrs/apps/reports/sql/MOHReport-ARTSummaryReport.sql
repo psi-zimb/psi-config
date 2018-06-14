@@ -4247,54 +4247,72 @@ SELECT/*Pivoting the table*/
          CASE WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM (
-            Select
-    distinct (obsToGetLastARTStageChangeDate.person_id)
-    from obs obsToGetLastARTStageChangeDate
-                                    Inner Join obs obsToCheckARTStageValue
-                                    on obsToGetLastARTStageChangeDate.obs_group_id = obsToCheckARTStageValue.obs_group_id
-                                    and obsToGetLastARTStageChangeDate.concept_id = (
-                                                                                         SELECT
-                                                                                         concept_id
-                                                                                         FROM concept_view
-                                                                                         WHERE
-                                                                                         concept_full_name = 'PR, Start date of ART Stage'
-                                                                                         AND retired=0
-                                                                                    )
-                                    and date(obsToGetLastARTStageChangeDate.value_datetime) <= date('#endDate#')
-                                    And obsToCheckARTStageValue.concept_id =
-                                                                            (
-                                                                                SELECT
-                                                                                concept_id
-                                                                                FROM concept_view
-                                                                                WHERE
-                                                                                concept_full_name = 'PR, ART Stage'
-                                                                                AND retired=0
-                                                                            )
-                                    Inner join obs obsForCheckingTransferIn
-                                    on obsForCheckingTransferIn.person_id = obsToCheckARTStageValue.person_id
-                                    Where obsToCheckARTStageValue.value_coded =
-                                                                                (
-                                                                                    SELECT
-                                                                                    concept_id
-                                                                                    FROM concept_view
-                                                                                    WHERE
-                                                                                    concept_full_name = 'PR, 2nd Line'
-                                                                                    AND retired=0
-                                                                                )
-                                    And obsForCheckingTransferIn.value_coded = (
-                                                                                    SELECT
-                                                                                    concept_id
-                                                                                    FROM concept_view
-                                                                                    WHERE
-                                                                                    concept_full_name = 'Transfer in'
-                                                                                    AND retired=0
-                                                                               )
+        Select
+        distinct (obsToGetLastARTStageChangeDate.person_id)
+        from obs obsToGetLastARTStageChangeDate
+        Inner Join
+        (/*Max ART program stage date per person before the end of reporting period*/
+                     Select person_id, max(value_datetime) lastARTStageDateTime
+                     from obs
+                     where concept_id = (
+                                       SELECT
+                                       concept_id
+                                       FROM concept_view
+                                       WHERE
+                                       concept_full_name = 'PR, Start date of ART Stage'
+                                       AND retired=0
+                                      )
+                     and date(value_datetime) <= date('#endDate#')
+                     And voided = 0
+                     group by person_id
+        ) as lastARTStageDate on obsToGetLastARTStageChangeDate.person_id = lastARTStageDate.person_id
+                               ANd obsToGetLastARTStageChangeDate.value_datetime = lastARTStageDate.lastARTStageDateTime
 
-                                    And obsForCheckingTransferIn.voided = 0
-                                    And obsToCheckARTStageValue.voided = 0
-                                    And obsToGetLastARTStageChangeDate.voided = 0
-                                    And date(obsForCheckingTransferIn.obs_datetime) = date(obsToGetLastARTStageChangeDate.value_datetime)
-                                    And date(obsForCheckingTransferIn.obs_datetime) between date('#startDate#') AND date('#endDate#')
+        Inner Join obs obsToCheckARTStageValue
+        on obsToGetLastARTStageChangeDate.obs_group_id = obsToCheckARTStageValue.obs_group_id
+        and obsToGetLastARTStageChangeDate.concept_id = (
+                                                           SELECT
+                                                           concept_id
+                                                           FROM concept_view
+                                                           WHERE
+                                                           concept_full_name = 'PR, Start date of ART Stage'
+                                                           AND retired=0
+                                                      )
+        and date(obsToGetLastARTStageChangeDate.value_datetime) <= date('#endDate#')
+        And obsToCheckARTStageValue.concept_id =
+                                              (
+                                                  SELECT
+                                                  concept_id
+                                                  FROM concept_view
+                                                  WHERE
+                                                  concept_full_name = 'PR, ART Stage'
+                                                  AND retired=0
+                                              )
+        Inner join obs obsForCheckingTransferIn
+        on obsForCheckingTransferIn.person_id = obsToCheckARTStageValue.person_id
+        Where obsToCheckARTStageValue.value_coded =
+                                                  (
+                                                      SELECT
+                                                      concept_id
+                                                      FROM concept_view
+                                                      WHERE
+                                                      concept_full_name = 'PR, 2nd Line'
+                                                      AND retired=0
+                                                  )
+        And obsForCheckingTransferIn.value_coded = (
+                                                      SELECT
+                                                      concept_id
+                                                      FROM concept_view
+                                                      WHERE
+                                                      concept_full_name = 'Transfer in'
+                                                      AND retired=0
+                                                 )
+
+        And obsForCheckingTransferIn.voided = 0
+        And obsToCheckARTStageValue.voided = 0
+        And obsToGetLastARTStageChangeDate.voided = 0
+        And date(obsForCheckingTransferIn.obs_datetime) >= date(obsToGetLastARTStageChangeDate.value_datetime)
+        And date(obsForCheckingTransferIn.obs_datetime) between date('#startDate#') AND date('#endDate#')
 
             ) AS D40numberOfPLHIVinCareTransferredInOnSecondLineRegimenThisMonth
            INNER JOIN person p ON p.person_id = D40numberOfPLHIVinCareTransferredInOnSecondLineRegimenThisMonth.person_id
@@ -5112,56 +5130,75 @@ from obs obsToGetLastARTStageChangeDate
                                ANd obsToGetLastARTStageChangeDate.voided = 0
                                and obsToCheckARTStageValue.voided = 0
 
-        UNION ALL
-                /*D40. Number PLHIV in care transferred in on second line regimen this month*/
-                Select
-                distinct (obsToGetLastARTStageChangeDate.person_id)
-                from obs obsToGetLastARTStageChangeDate
-                                    Inner Join obs obsToCheckARTStageValue
-                                    on obsToGetLastARTStageChangeDate.obs_group_id = obsToCheckARTStageValue.obs_group_id
-                                    and obsToGetLastARTStageChangeDate.concept_id = (
-                                                                                         SELECT
-                                                                                         concept_id
-                                                                                         FROM concept_view
-                                                                                         WHERE
-                                                                                         concept_full_name = 'PR, Start date of ART Stage'
-                                                                                         AND retired=0
-                                                                                    )
-                                    and date(obsToGetLastARTStageChangeDate.value_datetime) <= date('#endDate#')
-                                    And obsToCheckARTStageValue.concept_id =
-                                                                            (
-                                                                                SELECT
-                                                                                concept_id
-                                                                                FROM concept_view
-                                                                                WHERE
-                                                                                concept_full_name = 'PR, ART Stage'
-                                                                                AND retired=0
-                                                                            )
-                                    Inner join obs obsForCheckingTransferIn
-                                    on obsForCheckingTransferIn.person_id = obsToCheckARTStageValue.person_id
-                                    Where obsToCheckARTStageValue.value_coded =
-                                                                                (
-                                                                                    SELECT
-                                                                                    concept_id
-                                                                                    FROM concept_view
-                                                                                    WHERE
-                                                                                    concept_full_name = 'PR, 2nd Line'
-                                                                                    AND retired=0
-                                                                                )
-                                    And obsForCheckingTransferIn.value_coded = (
-                                                                                    SELECT
-                                                                                    concept_id
-                                                                                    FROM concept_view
-                                                                                    WHERE
-                                                                                    concept_full_name = 'Transfer in'
-                                                                                    AND retired=0
-                                                                               )
+    UNION ALL
 
-                                    And obsForCheckingTransferIn.voided = 0
-                                    And obsToCheckARTStageValue.voided = 0
-                                    And obsToGetLastARTStageChangeDate.voided = 0
-                                    And date(obsForCheckingTransferIn.obs_datetime) = date(obsToGetLastARTStageChangeDate.value_datetime)
-                                    And date(obsForCheckingTransferIn.obs_datetime) between date('#startDate#') AND date('#endDate#')
+    /*D40. Number PLHIV in care transferred in on second line regimen this month*/
+    Select
+    distinct (obsToGetLastARTStageChangeDate.person_id)
+    from obs obsToGetLastARTStageChangeDate
+    Inner Join
+    (/*Max ART program stage date per person before the end of reporting period*/
+                   Select person_id, max(value_datetime) lastARTStageDateTime
+                   from obs
+                   where concept_id = (
+                                     SELECT
+                                     concept_id
+                                     FROM concept_view
+                                     WHERE
+                                     concept_full_name = 'PR, Start date of ART Stage'
+                                     AND retired=0
+                                    )
+                   and date(value_datetime) <= date('#endDate#')
+                   And voided = 0
+                   group by person_id
+    ) as lastARTStageDate on obsToGetLastARTStageChangeDate.person_id = lastARTStageDate.person_id
+                             ANd obsToGetLastARTStageChangeDate.value_datetime = lastARTStageDate.lastARTStageDateTime
+
+    Inner Join obs obsToCheckARTStageValue
+    on obsToGetLastARTStageChangeDate.obs_group_id = obsToCheckARTStageValue.obs_group_id
+    and obsToGetLastARTStageChangeDate.concept_id = (
+                                                         SELECT
+                                                         concept_id
+                                                         FROM concept_view
+                                                         WHERE
+                                                         concept_full_name = 'PR, Start date of ART Stage'
+                                                         AND retired=0
+                                                    )
+    and date(obsToGetLastARTStageChangeDate.value_datetime) <= date('#endDate#')
+    And obsToCheckARTStageValue.concept_id =
+                                            (
+                                                SELECT
+                                                concept_id
+                                                FROM concept_view
+                                                WHERE
+                                                concept_full_name = 'PR, ART Stage'
+                                                AND retired=0
+                                            )
+    Inner join obs obsForCheckingTransferIn
+    on obsForCheckingTransferIn.person_id = obsToCheckARTStageValue.person_id
+    Where obsToCheckARTStageValue.value_coded =
+                                                (
+                                                    SELECT
+                                                    concept_id
+                                                    FROM concept_view
+                                                    WHERE
+                                                    concept_full_name = 'PR, 2nd Line'
+                                                    AND retired=0
+                                                )
+    And obsForCheckingTransferIn.value_coded = (
+                                                    SELECT
+                                                    concept_id
+                                                    FROM concept_view
+                                                    WHERE
+                                                    concept_full_name = 'Transfer in'
+                                                    AND retired=0
+                                               )
+
+    And obsForCheckingTransferIn.voided = 0
+    And obsToCheckARTStageValue.voided = 0
+    And obsToGetLastARTStageChangeDate.voided = 0
+    And date(obsForCheckingTransferIn.obs_datetime) >= date(obsToGetLastARTStageChangeDate.value_datetime)
+    And date(obsForCheckingTransferIn.obs_datetime) between date('#startDate#') AND date('#endDate#')
         ) as D43TotalnumberofPLHIVincarecurrentlyreceivingSecondlineARTincludingthoseswitchedduringthecurrentmonth
         JOIN person p ON p.person_id = D43TotalnumberofPLHIVincarecurrentlyreceivingSecondlineARTincludingthoseswitchedduringthecurrentmonth.person_id
            GROUP BY
@@ -9335,55 +9372,74 @@ from obs obsToGetLastARTStageChangeDate
                                and obsToCheckARTStageValue.voided = 0
 
         UNION ALL
-                /*D40. Number PLHIV in care transferred in on second line regimen this month*/
-                Select
-                distinct (obsToGetLastARTStageChangeDate.person_id)
-                from obs obsToGetLastARTStageChangeDate
-                                    Inner Join obs obsToCheckARTStageValue
-                                    on obsToGetLastARTStageChangeDate.obs_group_id = obsToCheckARTStageValue.obs_group_id
-                                    and obsToGetLastARTStageChangeDate.concept_id = (
-                                                                                         SELECT
-                                                                                         concept_id
-                                                                                         FROM concept_view
-                                                                                         WHERE
-                                                                                         concept_full_name = 'PR, Start date of ART Stage'
-                                                                                         AND retired=0
-                                                                                    )
-                                    and date(obsToGetLastARTStageChangeDate.value_datetime) <= date('#endDate#')
-                                    And obsToCheckARTStageValue.concept_id =
-                                                                            (
-                                                                                SELECT
-                                                                                concept_id
-                                                                                FROM concept_view
-                                                                                WHERE
-                                                                                concept_full_name = 'PR, ART Stage'
-                                                                                AND retired=0
-                                                                            )
-                                    Inner join obs obsForCheckingTransferIn
-                                    on obsForCheckingTransferIn.person_id = obsToCheckARTStageValue.person_id
-                                    Where obsToCheckARTStageValue.value_coded =
-                                                                                (
-                                                                                    SELECT
-                                                                                    concept_id
-                                                                                    FROM concept_view
-                                                                                    WHERE
-                                                                                    concept_full_name = 'PR, 2nd Line'
-                                                                                    AND retired=0
-                                                                                )
-                                    And obsForCheckingTransferIn.value_coded = (
-                                                                                    SELECT
-                                                                                    concept_id
-                                                                                    FROM concept_view
-                                                                                    WHERE
-                                                                                    concept_full_name = 'Transfer in'
-                                                                                    AND retired=0
-                                                                               )
+            /*D40. Number PLHIV in care transferred in on second line regimen this month*/
+            Select
+            distinct (obsToGetLastARTStageChangeDate.person_id)
+            from obs obsToGetLastARTStageChangeDate
+            Inner Join
+            (/*Max ART program stage date per person before the end of reporting period*/
+                           Select person_id, max(value_datetime) lastARTStageDateTime
+                           from obs
+                           where concept_id = (
+                                             SELECT
+                                             concept_id
+                                             FROM concept_view
+                                             WHERE
+                                             concept_full_name = 'PR, Start date of ART Stage'
+                                             AND retired=0
+                                            )
+                           and date(value_datetime) <= date('#endDate#')
+                           And voided = 0
+                           group by person_id
+            ) as lastARTStageDate on obsToGetLastARTStageChangeDate.person_id = lastARTStageDate.person_id
+                                     ANd obsToGetLastARTStageChangeDate.value_datetime = lastARTStageDate.lastARTStageDateTime
 
-                                    And obsForCheckingTransferIn.voided = 0
-                                    And obsToCheckARTStageValue.voided = 0
-                                    And obsToGetLastARTStageChangeDate.voided = 0
-                                    And date(obsForCheckingTransferIn.obs_datetime) = date(obsToGetLastARTStageChangeDate.value_datetime)
-                                    And date(obsForCheckingTransferIn.obs_datetime) between date('#startDate#') AND date('#endDate#')
+            Inner Join obs obsToCheckARTStageValue
+            on obsToGetLastARTStageChangeDate.obs_group_id = obsToCheckARTStageValue.obs_group_id
+            and obsToGetLastARTStageChangeDate.concept_id = (
+                                                                 SELECT
+                                                                 concept_id
+                                                                 FROM concept_view
+                                                                 WHERE
+                                                                 concept_full_name = 'PR, Start date of ART Stage'
+                                                                 AND retired=0
+                                                            )
+            and date(obsToGetLastARTStageChangeDate.value_datetime) <= date('#endDate#')
+            And obsToCheckARTStageValue.concept_id =
+                                                    (
+                                                        SELECT
+                                                        concept_id
+                                                        FROM concept_view
+                                                        WHERE
+                                                        concept_full_name = 'PR, ART Stage'
+                                                        AND retired=0
+                                                    )
+            Inner join obs obsForCheckingTransferIn
+            on obsForCheckingTransferIn.person_id = obsToCheckARTStageValue.person_id
+            Where obsToCheckARTStageValue.value_coded =
+                                                        (
+                                                            SELECT
+                                                            concept_id
+                                                            FROM concept_view
+                                                            WHERE
+                                                            concept_full_name = 'PR, 2nd Line'
+                                                            AND retired=0
+                                                        )
+            And obsForCheckingTransferIn.value_coded = (
+                                                            SELECT
+                                                            concept_id
+                                                            FROM concept_view
+                                                            WHERE
+                                                            concept_full_name = 'Transfer in'
+                                                            AND retired=0
+                                                       )
+
+            And obsForCheckingTransferIn.voided = 0
+            And obsToCheckARTStageValue.voided = 0
+            And obsToGetLastARTStageChangeDate.voided = 0
+            And date(obsForCheckingTransferIn.obs_datetime) >= date(obsToGetLastARTStageChangeDate.value_datetime)
+            And date(obsForCheckingTransferIn.obs_datetime) between date('#startDate#') AND date('#endDate#')
+
         ) as D43TotalnumberofPLHIVincarecurrentlyreceivingSecondlineARTincludingthoseswitchedduringthecurrentmonth
         JOIN person p ON p.person_id = D43TotalnumberofPLHIVincarecurrentlyreceivingSecondlineARTincludingthoseswitchedduringthecurrentmonth.person_id
            GROUP BY
