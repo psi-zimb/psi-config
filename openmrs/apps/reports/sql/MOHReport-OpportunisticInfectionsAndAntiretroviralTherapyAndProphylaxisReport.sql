@@ -67,7 +67,7 @@ SELECT/*Pivoting the table*/
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM
         (
-            select distinct cnCodedDiagnosisVC.name, p.person_id
+            select distinct p.person_id
             from person p
             join obs obsCodedDiagnosis on p.person_id = obsCodedDiagnosis.person_id
             join concept_name cnCodedDiagnosis on obsCodedDiagnosis.concept_id = cnCodedDiagnosis.concept_id
@@ -75,14 +75,14 @@ SELECT/*Pivoting the table*/
             join patient_identifier artNumber on artNumber.patient_id = obsCodedDiagnosis.person_id
             where
             artNumber.identifier_type = (
-                                                        select
-                                                        patient_identifier_type_id
-                                                        from patient_identifier_type
-                                                        where
-                                                        name = 'PREP/OI Identifier'
-                                                        and retired = 0
-                                                        and uniqueness_behavior = 'UNIQUE'
-                                                        )
+                                            select
+                                            patient_identifier_type_id
+                                            from patient_identifier_type
+                                            where
+                                            name = 'PREP/OI Identifier'
+                                            and retired = 0
+                                            and uniqueness_behavior = 'UNIQUE'
+                                        )
             AND artNumber.identifier like '%-A-%'
             and artNumber.voided = 0
             and cnCodedDiagnosis.name = 'Coded Diagnosis' and cnCodedDiagnosis.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosis.voided = 0
@@ -96,11 +96,11 @@ SELECT/*Pivoting the table*/
             and cnCodedDiagnosisVC.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosisVC.voided = 0
             and obsCodedDiagnosis.voided = 0
             and date(obsCodedDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
-            and date(artNumber.date_created) between date('#startDate#') and date('#endDate#')
+            and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) between date('#startDate#') and date('#endDate#')
             and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) <= date(obsCodedDiagnosis.obs_datetime)
         )
-        AS numberofnewlydiagnosedPLHIVregisteredintoCarethisMonth
-           INNER JOIN person p ON p.person_id = numberofnewlydiagnosedPLHIVregisteredintoCarethisMonth.person_id
+        AS D1NumberOfNewlyDiagnosedPLHIVRegisteredIntoCareThisMonth
+           INNER JOIN person p ON p.person_id = D1NumberOfNewlyDiagnosedPLHIVRegisteredIntoCareThisMonth.person_id
            GROUP BY
            CASE
                WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
@@ -144,7 +144,7 @@ SELECT/*Pivoting the table*/
                WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
                THEN '> 50 Yrs F'
             END
-    ) AS MOHReportD1NumberofnewlydiagnosedPLHIVregisteredintoCarethisMonth
+    ) AS D1NumberOfNewlyDiagnosedPLHIVRegisteredIntoCareThisMonth
 
 UNION ALL
 
