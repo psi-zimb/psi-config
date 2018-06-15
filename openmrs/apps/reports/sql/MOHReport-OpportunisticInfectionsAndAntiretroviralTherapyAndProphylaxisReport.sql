@@ -984,7 +984,7 @@ SELECT/*Pivoting the table*/
                          where obsForDiagnosis.voided = 0
                          and date(obsForDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
                          and artNumber.voided = 0
-                         and date(artNumber.date_created)<=(select max(obsForMaxDate.obs_datetime)
+                         and COALESCE(date(artNumber.date_changed),date(artNumber.date_created))<=(select max(obsForMaxDate.obs_datetime)
                                                            from obs obsForMaxDate
                                                                 where obsForMaxDate.concept_id=
                                                                                                (
@@ -1159,7 +1159,7 @@ SELECT/*Pivoting the table*/
             AND ordersForDrugname.voided = 0
             AND DATE(ordersForDrugname.date_activated)  BETWEEN ('#startDate#') AND ('#endDate#')
             and artNumber.voided = 0
-            and date(artNumber.date_created)<=DATE(ordersForDrugname.date_activated)
+            and COALESCE(date(artNumber.date_changed),date(artNumber.date_created))<=DATE(ordersForDrugname.date_activated)
 
     ) AS numberOfPLHIVInCareStoppingCotrimoxazoleProphylaxisDueToAdverseEventsThisMonth
   INNER JOIN person p ON p.person_id = numberOfPLHIVInCareStoppingCotrimoxazoleProphylaxisDueToAdverseEventsThisMonth.patient_id
@@ -2555,7 +2555,7 @@ SELECT/*Pivoting the table*/
                                                     and DATE(orders.scheduled_date) between date('#startDate#') and date('#endDate#')
                                               )
              and artNumber.voided = 0
-             and date(artNumber.date_created)<=DATE(obsForDiagnosis.obs_datetime)
+             and COALESCE(date(artNumber.date_changed),date(artNumber.date_created))<=DATE(obsForDiagnosis.obs_datetime)
 
 ) AS numberOfNewlDiagnosedCryptococcalMeningitisCasesCommencedOnFluconazole
            INNER JOIN person p ON p.person_id = numberOfNewlDiagnosedCryptococcalMeningitisCasesCommencedOnFluconazole.person_id
