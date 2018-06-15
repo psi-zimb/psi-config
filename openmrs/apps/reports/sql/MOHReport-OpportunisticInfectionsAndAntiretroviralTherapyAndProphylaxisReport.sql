@@ -1,4 +1,3 @@
-/*D1. Number of newly diagnosed PLHIV registered into care this month*/
 SELECT/*Pivoting the table*/
     'D1. Number of newly diagnosed PLHIV registered into care this month' AS '-',
     SUM(lessThan1yrMale) AS '<1 M',
@@ -67,6 +66,72 @@ SELECT/*Pivoting the table*/
          THEN COUNT(1)  END AS 'GrtThan50YrsFemale'
     FROM
         (
+            ( /*D2. Number of new PLHIV in care in WHO Stage 1 at registration this month*/
+            select distinct p.person_id
+            from person p
+            join obs obsCodedDiagnosis on p.person_id = obsCodedDiagnosis.person_id
+            join concept_name cnCodedDiagnosis on obsCodedDiagnosis.concept_id = cnCodedDiagnosis.concept_id
+            join concept_name cnCodedDiagnosisVC on obsCodedDiagnosis.value_coded = cnCodedDiagnosisVC.concept_id
+            join patient_identifier artNumber on artNumber.patient_id = obsCodedDiagnosis.person_id
+            where
+            artNumber.identifier_type = (
+                                                        select
+                                                        patient_identifier_type_id
+                                                        from patient_identifier_type
+                                                        where
+                                                        name = 'PREP/OI Identifier'
+                                                        and retired = 0
+                                                        and uniqueness_behavior = 'UNIQUE'
+                                                        )
+            AND artNumber.identifier like '%-A-%'
+            and artNumber.voided = 0
+            and cnCodedDiagnosis.name = 'Coded Diagnosis' and cnCodedDiagnosis.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosis.voided = 0
+            and cnCodedDiagnosisVC.name IN
+            (
+                'WHO stage I',
+                'P-WHO stage I (Peads Stage I)'
+            )
+            and cnCodedDiagnosisVC.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosisVC.voided = 0
+            and obsCodedDiagnosis.voided = 0
+            and date(obsCodedDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
+            and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) between date('#startDate#') and date('#endDate#')
+            and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) <= date(obsCodedDiagnosis.obs_datetime)
+            )
+            UNION ALL
+            (/*D3. Number of new PLHIV in care in WHO Stage 2 at registration this month*/
+            select distinct p.person_id
+            from person p
+            join obs obsCodedDiagnosis on p.person_id = obsCodedDiagnosis.person_id
+            join concept_name cnCodedDiagnosis on obsCodedDiagnosis.concept_id = cnCodedDiagnosis.concept_id
+            join concept_name cnCodedDiagnosisVC on obsCodedDiagnosis.value_coded = cnCodedDiagnosisVC.concept_id
+            join patient_identifier artNumber on artNumber.patient_id = obsCodedDiagnosis.person_id
+            where
+            artNumber.identifier_type = (
+                                                        select
+                                                        patient_identifier_type_id
+                                                        from patient_identifier_type
+                                                        where
+                                                        name = 'PREP/OI Identifier'
+                                                        and retired = 0
+                                                        and uniqueness_behavior = 'UNIQUE'
+                                                        )
+            AND artNumber.identifier like '%-A-%'
+            and artNumber.voided = 0
+            and cnCodedDiagnosis.name = 'Coded Diagnosis' and cnCodedDiagnosis.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosis.voided = 0
+            and cnCodedDiagnosisVC.name IN
+            (
+                'WHO stage II',
+                'P-WHO stage II (Peads Stage II)'
+            )
+            and cnCodedDiagnosisVC.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosisVC.voided = 0
+            and obsCodedDiagnosis.voided = 0
+            and date(obsCodedDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
+            and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) between date('#startDate#') and date('#endDate#')
+            and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) <= date(obsCodedDiagnosis.obs_datetime)
+            )
+            UNION ALL
+            
+            (/*D4. Number of new PLHIV in care in WHO Stage 3 at registration this month*/
             select distinct p.person_id
             from person p
             join obs obsCodedDiagnosis on p.person_id = obsCodedDiagnosis.person_id
@@ -88,19 +153,52 @@ SELECT/*Pivoting the table*/
             and cnCodedDiagnosis.name = 'Coded Diagnosis' and cnCodedDiagnosis.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosis.voided = 0
             and cnCodedDiagnosisVC.name IN
             (
-                'WHO stage IV','P-WHO stage IV (Peads Stage IV)',
-                'WHO stage III','P-WHO stage III (Peads Stage III)',
-                'WHO stage II','P-WHO stage II (Peads Stage II)',
-                'WHO stage I','P-WHO stage I (Peads Stage I)'
+                'WHO stage III',
+                'P-WHO stage III (Peads Stage III)'
             )
             and cnCodedDiagnosisVC.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosisVC.voided = 0
             and obsCodedDiagnosis.voided = 0
             and date(obsCodedDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
             and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) between date('#startDate#') and date('#endDate#')
             and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) <= date(obsCodedDiagnosis.obs_datetime)
+            )
+            UNION ALL
+            (/*D5. Number of new PLHIV in care in WHO Stage 4 at registration this month*/
+            select distinct p.person_id
+            from person p
+            join obs obsCodedDiagnosis on p.person_id = obsCodedDiagnosis.person_id
+            join concept_name cnCodedDiagnosis on obsCodedDiagnosis.concept_id = cnCodedDiagnosis.concept_id
+            join concept_name cnCodedDiagnosisVC on obsCodedDiagnosis.value_coded = cnCodedDiagnosisVC.concept_id
+            join patient_identifier artNumber on artNumber.patient_id = obsCodedDiagnosis.person_id
+            where
+            artNumber.identifier_type = (
+                                            select
+                                            patient_identifier_type_id
+                                            from patient_identifier_type
+                                            where
+                                            name = 'PREP/OI Identifier'
+                                            and retired = 0
+                                            and uniqueness_behavior = 'UNIQUE'
+                                        )
+            AND artNumber.identifier like '%-A-%'
+            and artNumber.voided = 0
+            and cnCodedDiagnosis.name = 'Coded Diagnosis' and cnCodedDiagnosis.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosis.voided = 0
+            and cnCodedDiagnosisVC.name IN
+            (
+                'WHO stage IV',
+                'P-WHO stage IV (Peads Stage IV)'
+            )
+            and cnCodedDiagnosisVC.concept_name_type = 'FULLY_SPECIFIED' and cnCodedDiagnosisVC.voided = 0
+            and obsCodedDiagnosis.voided = 0
+            and date(obsCodedDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
+            and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) between date('#startDate#') and date('#endDate#')
+            and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) <= date(obsCodedDiagnosis.obs_datetime)
+            )
+            
+           
         )
-        AS D1NumberOfNewlyDiagnosedPLHIVRegisteredIntoCareThisMonth
-           INNER JOIN person p ON p.person_id = D1NumberOfNewlyDiagnosedPLHIVRegisteredIntoCareThisMonth.person_id
+        AS numberofnewlydiagnosedPLHIVregisteredintoCarethisMonth
+           INNER JOIN person p ON p.person_id = numberofnewlydiagnosedPLHIVregisteredintoCarethisMonth.person_id
            GROUP BY
            CASE
                WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') < 1 AND p.gender = 'M'
@@ -144,7 +242,7 @@ SELECT/*Pivoting the table*/
                WHEN timestampdiff(YEAR,p.birthdate,'#endDate#') >= 50 AND p.gender = 'F'
                THEN '> 50 Yrs F'
             END
-    ) AS D1NumberOfNewlyDiagnosedPLHIVRegisteredIntoCareThisMonth
+    ) AS MOHReportD1NumberofnewlydiagnosedPLHIVregisteredintoCarethisMonth  
 
 UNION ALL
 
