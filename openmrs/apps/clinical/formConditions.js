@@ -39,11 +39,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
 			           conditions.hide.push("Provider name for Pick up drugs (Only)");
 			         }
 
-			if (obj.indexOf('Review by MD/Doctor')>=0 ) {
-			         conditions.show.push("Provider name for Review by MD/Doctor");
-			         } else {
-			           conditions.hide.push("Provider name for Review by MD/Doctor");
-			         }
+
 
 			if (obj.indexOf('Review by Nurse')>=0 ) {
 			         conditions.show.push("Provider name for Review by Nurse");
@@ -69,18 +65,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
 			         conditions.show.push("Provider name for Phone Call");
 			         } else {
 			           conditions.hide.push("Provider name for Phone Call");
-			         }
-
-			if (obj.indexOf('Home visit')>=0 ) {
-			         conditions.show.push("Provider name for Home Visit");
-			         } else {
-			           conditions.hide.push("Provider name for Home Visit");
-			         }
-
-			if (obj.indexOf('Hospital Visit')>=0 ) {
-			         conditions.show.push("Provider name for Hospital Visit");
-			         } else {
-			           conditions.hide.push("Provider name for Hospital Visit");
 			         }
 
 			if (obj.indexOf('Adherence Counselling')>=0 ) {

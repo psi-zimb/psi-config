@@ -105,10 +105,7 @@
       "dropdown": true,
       "disableAddNotes":true
     },
-    "Provider name for Review by MD/Doctor":{
-      "dropdown": true,
-      "disableAddNotes":true
-    },
+
     "Provider name for Review by Nurse":{
       "dropdown": true,
       "disableAddNotes":true
@@ -122,14 +119,6 @@
       "disableAddNotes":true
     },
     "Provider name for Phone Call":{
-      "dropdown": true,
-      "disableAddNotes":true
-    },
-    "Provider name for Home Visit":{
-      "dropdown": true,
-      "disableAddNotes":true
-    },
-    "Provider name for Hospital Visit":{
       "dropdown": true,
       "disableAddNotes":true
     },

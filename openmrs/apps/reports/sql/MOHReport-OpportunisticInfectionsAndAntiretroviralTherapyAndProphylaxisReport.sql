@@ -1255,7 +1255,7 @@ SELECT/*Pivoting the table*/
                                                 )
             AND ordersForDrugname.order_action = ('DISCONTINUE')
             AND ordersForDrugname.voided = 0
-            AND DATE(ordersForDrugname.date_activated)  BETWEEN ('#startDate#') AND ('#endDate#')
+            AND DATE(ordersForDrugname.date_activated)  BETWEEN DATE('#startDate#') AND DATE('#endDate#')
             and artNumber.voided = 0
             and COALESCE(date(artNumber.date_changed),date(artNumber.date_created))<=DATE(ordersForDrugname.date_activated)
 
