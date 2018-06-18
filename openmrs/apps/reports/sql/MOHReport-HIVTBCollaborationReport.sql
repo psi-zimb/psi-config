@@ -1189,36 +1189,39 @@ SELECT/*Pivoting the table*/
                                                                     and uniqueness_behavior = 'UNIQUE'
                                                                 )
                                  AND artNumber.identifier like '%-A-%'
-            where obsActiveDiagnosis.person_id in ( /*IF Patient is given TB Diagnosis*/
-                                                    select obsDiagnosisList.person_id from obs obsDiagnosisList
-                                                    where obsDiagnosisList.concept_id = 15
-                                                    and obsDiagnosisList.value_coded IN ( 
-                                                                                          select concept_id 
-                                                                                          from concept_set 
-                                                                                          where concept_set in ( 
-                                                                                                                select concept_id 
-                                                                                                                from concept_view 
-                                                                                                                where concept_full_name in (
-                                                                                                                                            'TB, extrapulmonary (WHO 4)',
-                                                                                                                                            'Types of TB related Diagnosis'
-                                                                                                                                            )
-                                                                                                                AND retired=0
-                                                                                                                )
-                                                                                         ) 
-                                                     and obsDiagnosisList.voided = 0
-                                                     and obsDiagnosisList.obs_group_id not in
-                                                    (/*Removing diagnosis group if there are any revisions*/
-                                                        Select obs_group_id from obs WHERE concept_id = 51 AND  value_coded = 1 AND voided=0 AND obs_group_id is not null
-                                                        AND obs.person_id = obsDiagnosisList.person_id 
-                                                    )
-                                                     AND obsDiagnosisList.obs_group_id not in 
-                                                    (/*Removing ruled out diagnosis*/
-                                                        Select obs_group_id from obs WHERE concept_id = 49 AND  value_coded = 48 AND voided=0 AND obs_group_id is not null
-                                                        AND obs.person_id = obsDiagnosisList.person_id 
-                                                        AND obs.obs_group_id = obsDiagnosisList.obs_group_id 
-                                                    ) 
-                                                                   )
-                                 and artNumber.voided = 0
+             
+                                 where 
+                                      ( obsActiveDiagnosis.concept_id = 15
+                                        and obsActiveDiagnosis.value_coded IN ( 
+                                                                                select concept_id 
+                                                                                from concept_set 
+                                                                                where concept_set in ( 
+                                                                                                      select concept_id 
+                                                                                                      from concept_view 
+                                                                                                      where concept_full_name in (
+                                                                                                                                  'TB, extrapulmonary (WHO 4)',
+                                                                                                                                  'Types of TB related Diagnosis'
+                                                                                                                                  )
+                                                                                                      AND retired=0
+                                                                                                      )
+                                                                           ) 
+                                                                     )
+                                    
+                                     and obsActiveDiagnosis.obs_group_id not in
+                                    (/*Removing diagnosis group if there are any revisions*/
+                                        Select obs_group_id from obs WHERE concept_id = 51 AND  value_coded = 1 AND voided=0 AND obs_group_id is not null
+                                        AND obs.person_id = obsActiveDiagnosis.person_id 
+                                        AND date(obs.date_created) <= date('#endDate#')
+                                    )
+                                     AND obsActiveDiagnosis.obs_group_id not in 
+                                    (/*Removing ruled out diagnosis*/
+                                        Select obs_group_id from obs WHERE concept_id = 49 AND  value_coded = 48 AND voided=0 AND obs_group_id is not null
+                                        AND obs.person_id = obsActiveDiagnosis.person_id 
+                                        AND obs.obs_group_id = obsActiveDiagnosis.obs_group_id 
+                                        AND date(obs.obs_datetime) <= date('#endDate#')
+                                    ) 
+                                                   
+                                 and artNumber.voided = 0 
                                  and obsActiveDiagnosis.voided=0
                                  and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) > DATE(obsActiveDiagnosis.obs_datetime)
                                  and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) between DATE('#startDate#') AND DATE('#endDate#')
@@ -1270,7 +1273,6 @@ GROUP BY
                THEN '> 50 Yrs F'
             END
     ) AS MOHReportC8numberOfPLHIVInCareNewlyDiagnosedWithTBBeforeARTInitiation
-
 
 UNION ALL
 
