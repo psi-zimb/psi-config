@@ -2524,45 +2524,36 @@ SELECT/*Pivoting the table*/
                                                       and concept_name_type='FULLY_SPECIFIED'
                                                       and voided=0
                                                    )
-                 and date(obsForDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
+                 and date(obsForDiagnosis.obs_datetime) <= date('#endDate#')
                )
             and obsForDiagnosis.voided=0
-            and obsForDiagnosis.person_id not in
-                                                (
-                                                    select person_id
-                                                    from obs
-                                                    where concept_id =
-                                                                      (
-                                                                         SELECT concept_id
-                                                                         FROM concept_view
-                                                                         WHERE concept_full_name = 'Coded Diagnosis'
-                                                                         AND retired=0
-                                                                      )
-                                                    and value_coded in
-                                                                      (
-                                                                          select concept_id
-                                                                          from concept_name
-                                                                          where concept_name.name ='Menngitis, cryptococcal (WHO 4)'
-                                                                          and concept_name_type='FULLY_SPECIFIED'
-                                                                          and voided=0
-                                                                       )
-                                                     and date(obs_datetime) < date('#startDate#')
-                                                     and voided = 0
-                                                  )
-             and obsForDiagnosis.person_id in
+            and obsForDiagnosis.person_id in
                                               (
                                                  Select orders.patient_id from drug drugs
                                                  inner join drug_order drugsOrder
                                                  on drugs.drug_id = drugsOrder.drug_inventory_id
                                                  Inner join orders
                                                  on orders.order_id  = drugsOrder.order_id
-                                                    and orders.order_type_id = 2
-                                                    where drugs.name = 'Fluconazole'
-                                                    and DATE(orders.scheduled_date) between date('#startDate#') and date('#endDate#')
+                                                 and orders.order_type_id = 2
+                                                 where drugs.name = 'Fluconazole'
+                                                 and DATE(orders.scheduled_date) between date('#startDate#') and date('#endDate#')
+                                                 and DATE(orders.scheduled_date) >= DATE(obsForDiagnosis.obs_datetime)
+                                                 and orders.patient_id = obsForDiagnosis.person_id
                                               )
+            and obsForDiagnosis.person_id not in
+                                                (
+                                                 Select orders.patient_id from drug drugs
+                                                 inner join drug_order drugsOrder
+                                                 on drugs.drug_id = drugsOrder.drug_inventory_id
+                                                 Inner join orders
+                                                 on orders.order_id  = drugsOrder.order_id
+                                                 and orders.order_type_id = 2
+                                                 where drugs.name = 'Fluconazole'
+                                                 and DATE(orders.scheduled_date) < Date('#startDate#')
+                                                 and orders.patient_id = obsForDiagnosis.person_id
+                                                )
              and artNumber.voided = 0
              and COALESCE(date(artNumber.date_changed),date(artNumber.date_created))<=DATE(obsForDiagnosis.obs_datetime)
-
 ) AS numberOfNewlDiagnosedCryptococcalMeningitisCasesCommencedOnFluconazole
            INNER JOIN person p ON p.person_id = numberOfNewlDiagnosedCryptococcalMeningitisCasesCommencedOnFluconazole.person_id
            GROUP BY
