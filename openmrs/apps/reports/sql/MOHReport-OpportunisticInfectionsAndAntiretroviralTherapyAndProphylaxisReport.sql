@@ -1305,9 +1305,15 @@ SELECT/*Pivoting the table*/
                          AND artNumber.identifier like '%-A-%'
                              where drug.name = 'Cotrimoxazole(prophylaxis)'
                              and drug.retired = 0
-                             and date(ord.date_activated) <= date('#endDate#')
+                             and date(ord.scheduled_date) between date('#startDate#') and date('#endDate#')
                              and artNumber.voided = 0
-                             and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) <=date(ord.date_activated)
+                             and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) <=date(ord.scheduled_date)
+                             and (
+                                  date(ord.date_stopped) is NULL 
+                                  OR 
+                                  date(ord.date_stopped) > date('#endDate#')
+                                 )
+                             and ord.order_action != 'DISCONTINUE'
  ) AS totalnumberofPLHIVincarecurrentlyreceivingCTXprophylaxisincludingTBpatients
            INNER JOIN person p ON p.person_id = totalnumberofPLHIVincarecurrentlyreceivingCTXprophylaxisincludingTBpatients.patient_id
            GROUP BY
