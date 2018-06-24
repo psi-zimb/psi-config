@@ -596,14 +596,19 @@ SELECT/*Pivoting the table*/
   WHERE obsTBQuestion.value_coded in (SELECT concept_id FROM concept_view WHERE concept_full_name IN ('Yes') AND retired=0)
      AND DATE(obsTBQuestion.obs_datetime) BETWEEN DATE('#startDate#') AND DATE('#endDate#')
      AND obsTBQuestion.voided =0
-     AND ( 
-             concept_id in (SELECT concept_id FROM concept_view WHERE concept_full_name = 'TB Screening, Have you had a cough?' AND retired=0)
-          OR concept_id in (SELECT concept_id FROM concept_view WHERE concept_full_name = 'TB Screening, Have you had chest pain?' AND retired=0)
-          OR concept_id in (SELECT concept_id FROM concept_view WHERE concept_full_name = 'TB Screening, Have you had shortness of breath?' AND retired=0)
-          OR concept_id in (SELECT concept_id FROM concept_view WHERE concept_full_name = 'TB Screening, Did you have fever recently?' AND retired=0)
-          OR concept_id in (SELECT concept_id FROM concept_view WHERE concept_full_name = 'TB Screening, Did you have night sweats?' AND retired=0)
-          OR concept_id in (SELECT concept_id FROM concept_view WHERE concept_full_name = 'TB Screening, Do you have weight loss?' AND retired=0)
-         )
+     AND  
+        obsTBQuestion.concept_id in 
+          ( SELECT concept_id FROM concept_view WHERE concept_full_name IN 
+            (
+            "TB Screening, Have you had a cough?",
+            "TB Screening, Have you had chest pain?",
+            "TB Screening, Have you had shortness of breath?",
+            "TB Screening, Did you have fever recently?",
+            "TB Screening, Did you have night sweats?",
+            "TB Screening, Do you have weight loss?"
+            )
+           AND retired=0
+          )   
      AND artNumber.identifier like '%-A-%'
      and artNumber.voided = 0
      and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) <= DATE(obsTBQuestion.obs_datetime)
