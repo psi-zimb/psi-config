@@ -1195,24 +1195,21 @@ SELECT/*Pivoting the table*/
                                                                     and uniqueness_behavior = 'UNIQUE'
                                                                 )
                                  AND artNumber.identifier like '%-A-%'
-             
-                                 where 
-                                      ( obsActiveDiagnosis.concept_id = 15
-                                        and obsActiveDiagnosis.value_coded IN ( 
-                                                                                select concept_id 
-                                                                                from concept_set 
-                                                                                where concept_set in ( 
-                                                                                                      select concept_id 
-                                                                                                      from concept_view 
-                                                                                                      where concept_full_name in (
-                                                                                                                                  'TB, extrapulmonary (WHO 4)',
-                                                                                                                                  'Types of TB related Diagnosis'
-                                                                                                                                  )
-                                                                                                      AND retired=0
-                                                                                                      )
-                                                                           ) 
-                                                                     )
-                                    
+         INNER JOIN concept_name cnDiagnosisName on obsActiveDiagnosis.value_coded = cnDiagnosisName.concept_id
+         INNER JOIN concept on concept.concept_id=cnDiagnosisName.concept_id
+                                 where
+                    cnDiagnosisName.name IN (
+                                              "TB MDR",
+                                              "TB, pulmonary (WHO 3)",
+                                              "TB meningitis",
+                                              "TB peritonitis",
+                                              "TB pericarditis",
+                                              "TB lymphadenitis",
+                                              "TB of bones and joints",
+                                              "Gastrointestinal TB",
+                                              "TB of the liver"
+                                            )
+                    and concept.class_id=4
                                      and obsActiveDiagnosis.obs_group_id not in
                                     (/*Removing diagnosis group if there are any revisions*/
                                         Select obs_group_id from obs WHERE concept_id = 51 AND  value_coded = 1 AND voided=0 AND obs_group_id is not null
