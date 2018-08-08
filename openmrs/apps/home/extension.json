@@ -58,5 +58,15 @@
      "icon": "fa fa-pencil-square-o",
      "order": 6,
      "requiredPrivilege": "app:implementer-interface"
+  },
+  "dhis2sync": {
+     "id": "bahmni.dhis2.sync",
+     "extensionPointId": "org.bahmni.home.dashboard",
+     "type": "link",
+     "translationKey": "MODULE_LABEL_DHIS2_SYNC_KEY",
+     "url": "/dhis-integration",
+     "icon": "fa fa-book",
+     "order": 7,
+     "requiredPrivilege": "app:dhis2sync"
   }
 }
