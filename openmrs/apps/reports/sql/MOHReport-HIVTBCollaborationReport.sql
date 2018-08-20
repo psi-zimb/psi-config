@@ -1226,7 +1226,6 @@ SELECT/*Pivoting the table*/
                                                    
                                  and artNumber.voided = 0 
                                  and obsActiveDiagnosis.voided=0
-                                 and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) > DATE(obsActiveDiagnosis.obs_datetime)
                                  and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) between DATE('#startDate#') AND DATE('#endDate#')
 
 ) as numberOfPLHIVInCareNewlyDiagnosedWithTBBeforeARTInitiation
