@@ -8057,6 +8057,20 @@ Bahmni.ConceptSet.FormConditions.rules = {
          }
          return conditions;
        },
+    "PHTC-TB Screening, Have you had a cough?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['PHTC-TB Screening, Have you had a cough?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("PHTC-TB Screening, Type of cough","PHTC-TB Screening, Cough Duration");
+
+        }
+        else
+        {
+            conditions.disable.push("PHTC-TB Screening, Type of cough","PHTC-TB Screening, Cough Duration");
+        }
+        return conditions;
+
+    },
     "PHTC-TB Screening, Have you had chest pain?": function(formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['PHTC-TB Screening, Have you had chest pain?'];
