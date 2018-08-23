@@ -51,7 +51,7 @@
   "MODULE_LABEL_LOGOUT_KEY": "Logout",
   "MODULE_LABEL_LOGIN_KEY": "Login",
   "OPEN_DHIS_SYNC_APP_MESSAGE": "User {{userId}} accessed DHIS sync dashboard",
-  "OPEN_DHIS_MANAGE_MAPPING_MESSAGE": "Manage mapping",
+  "OPEN_DHIS_MANAGE_MAPPING_MESSAGE": "User {{userId}} accessed Manage mapping",
   "SAVE_DHIS_MAPPING_MESSAGE": "User {{userId}} saved mapping information",
   "OPEN_SYNC_TO_DHIS_MESSAGE": "Sync to DHIS app",
   "OPEN_DHIS_LOG_MESSAGE": "Log app",
