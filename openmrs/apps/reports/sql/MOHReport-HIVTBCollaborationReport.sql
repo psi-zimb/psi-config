@@ -1241,7 +1241,7 @@ SELECT/*Pivoting the table*/
                                                                 "Indinavir 400mg",
                                                                 "Saquinavir 200mg"
                                                                 )
-                                     And date(orders.scheduled_date) < date(obsActiveDiagnosis.obs_datetime)
+                                     And date(orders.scheduled_date) <= date(obsActiveDiagnosis.obs_datetime)
                                      )
                     and 
                     cnDiagnosisName.name IN (
