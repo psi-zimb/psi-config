@@ -1197,7 +1197,53 @@ SELECT/*Pivoting the table*/
                                  AND artNumber.identifier like '%-A-%'
          INNER JOIN concept_name cnDiagnosisName on obsActiveDiagnosis.value_coded = cnDiagnosisName.concept_id
          INNER JOIN concept on concept.concept_id=cnDiagnosisName.concept_id
-                                 where
+         where obsActiveDiagnosis.person_id NOT IN
+                                     (/*Excluding the patients having ARV drugs given before TB Diagnosis*/
+                                     Select patient_id
+                                     from orders
+                                     inner JOIN drug_order dord on dord.order_id = orders.order_id
+                                     inner JOIN drug drugRegime on dord.drug_inventory_id = drugRegime.drug_id
+                                     where drugRegime.name  IN (
+                                                                "Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Efavirenz (EFV) 600mg",
+                                                                "Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Efavirenz (EFV) 400mg",
+                                                                "Zidovudine (AZT) 300mg + Lamivudine (3TC) 150mg + Nevirapine (NVP) 200mg",
+                                                                "Zidovudine (AZT) 60mg + Lamivudine (3TC) 30mg + Nevirapine (NVP) 50mg",
+                                                                "Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg",
+                                                                "Tenofovir (TDF) 300mg + Emtricitabine 200mg",
+                                                                "Zidovudine (AZT) 300mg + Lamivudine (3TC) 150mg",
+                                                                "Zidovudine (AZT) 60mg + Lamivudine (3TC) 30mg",
+                                                                "Abacavir 600mg / Lamivudine 300mg",
+                                                                "Abacavir 60mg / Lamivudine 30mg",
+                                                                "Atazanavir / Rtv 300 / 100 mg",
+                                                                "Lopinavir / Rtv 80 / 20 mg / ml",
+                                                                "Lopinavir / Rtv 100 / 25 mg",
+                                                                "Lopinavir / Rtv 200 / 50 mg",
+                                                                "Lamivudine (3TC) 150 mg",
+                                                                "Lamivudine (3TC) 50mg / 5ml",
+                                                                "Efavirenz (EFV) 50 mg",
+                                                                "Efavirenz (EFV) 200 mg",
+                                                                "Efavirenz (EFV) 600 mg",
+                                                                "Zidovudine (AZT) 300 mg",
+                                                                "Zidovudine (AZT) 100mg",
+                                                                "Zidovudine (AZT) 50mg / 5ml",
+                                                                "Abacavir (ABC) 20mg / ml",
+                                                                "Abacavir (ABC) 300 mg",
+                                                                "Abacavir (ABC) 60mg",
+                                                                "Nevirapine (NVP) 50mg / 5ml",
+                                                                "Nevirapine (NVP) 200mg",
+                                                                "Didanosine (ddl) 125mg",
+                                                                "Didanosine (ddl) 200mg",
+                                                                "Didanosine (ddl) 250mg",
+                                                                "Didanosine (ddl) 25mg",
+                                                                "Didanosine (ddl) 400mg",
+                                                                "Emitricitabine 200mg",
+                                                                "Tenofovir 300mg",
+                                                                "Indinavir 400mg",
+                                                                "Saquinavir 200mg"
+                                                                )
+                                     And date(orders.scheduled_date) < date(obsActiveDiagnosis.obs_datetime)
+                                     )
+                    and 
                     cnDiagnosisName.name IN (
                                               "TB MDR",
                                               "TB, pulmonary (WHO 3)",
@@ -1222,11 +1268,10 @@ SELECT/*Pivoting the table*/
                                         AND obs.person_id = obsActiveDiagnosis.person_id 
                                         AND obs.obs_group_id = obsActiveDiagnosis.obs_group_id 
                                         AND date(obs.obs_datetime) <= date('#endDate#')
-                                    ) 
-                                                   
+                                    )               
                                  and artNumber.voided = 0 
                                  and obsActiveDiagnosis.voided=0
-                                 and COALESCE(date(artNumber.date_changed),date(artNumber.date_created)) between DATE('#startDate#') AND DATE('#endDate#')
+                                 and date(obsActiveDiagnosis.obs_datetime) between date('#startDate#') and date('#endDate#')
 
 ) as numberOfPLHIVInCareNewlyDiagnosedWithTBBeforeARTInitiation
 INNER JOIN person p ON p.person_id = numberOfPLHIVInCareNewlyDiagnosedWithTBBeforeARTInitiation.person_id
