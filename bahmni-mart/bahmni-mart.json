@@ -163,7 +163,7 @@
                     per.gender as \"Gender\",
                     TIMESTAMPDIFF(YEAR, per.birthdate, CURDATE()) as \"Age\",
                     pi.identifier as \"Patient Identifier\",
-                    date(pat.date_created) as \"Date Created\",
+                    pat.date_created as \"date_created\",
                     (case when patientSitetype.siteType = (select concept_id from concept_view where concept_full_name = 'Outreach' and retired = 0)
                     AND perAdd.city_village not like 'Other%'
                     then concat('ZWNSC-OU-',perAdd.address2,'-',upper(perAdd.city_village))
