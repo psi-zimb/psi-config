@@ -153,6 +153,39 @@
         "eventCategory": "Encounter",
         "openmrsTableName": "encounter"
       }
+    },
+    {
+      "name": "HTS_instance_table_creation",
+      "type": "customSql",
+      "readerSql": "select pi.patient_id as \"Patient ID\",
+                    piUIC.identifier as \"UIC\",
+                    per.birthdate as \"Date of Birth\",
+                    per.gender as \"Gender\",
+                    TIMESTAMPDIFF(YEAR, per.birthdate, CURDATE()) as \"Age\",
+                    pi.identifier as \"Patient Identifier\",
+                    date(pat.date_created) as \"Date Created\",
+                    (case when patientSitetype.siteType = (select concept_id from concept_view where concept_full_name = 'Outreach' and retired = 0)
+                    AND perAdd.city_village not like 'Other%'
+                    then concat('ZWNSC-OU-',perAdd.address2,'-',upper(perAdd.city_village))
+                    ELSE concat('ZWNSC-',perAdd.address2) 
+                    end) as \"OrgUnit\"
+                    from patient_identifier pi
+                    inner join person per on pi.patient_id = per.person_id
+                    and pi.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'Patient Identifier' and retired=0)
+                    inner join patient pat on pi.patient_id = pat.patient_id
+                    inner join patient_identifier piUIC on pat.patient_id = piUIC.patient_id
+                    inner join person_address perAdd on pi.patient_id = perAdd.person_id
+                    LEFT JOIN (/*Patient id along with the site type value*/
+                                Select perAtt.person_id,perAtt.value as 'siteType' from person_attribute perAtt 
+                                inner JOIN person_attribute_type perAtttype on perAtt.person_attribute_type_id = perAtttype.person_attribute_type_id
+                                where  perAtttype.name = 'Site Type'
+                              ) as patientSitetype
+                    on patientSitetype.person_id = pi.patient_id
+                    and piUIC.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'UIC' and retired=0)
+                    group by pi.patient_id",
+      "tableName": "HTS_instance_table",
+      "chunkSizeToRead": "500",
+      "columnsToIgnore": []
     }
   ],
   "procedures":[
@@ -217,15 +250,6 @@
     {
       "name": "patient_bed_tags_history_view",
       "sourceFilePath": "classpath:viewSql/patientBedTagView.sql"
-    },
-    {
-      "name": "HTS_instance_table",
-      "sql":    "select
-                pdd.person_id as \"Patient ID\",
-                pi.\"UIC\",
-                pdd.birthdate as \"Date of Birth\",
-                pdd.gender as \"Gender\"
-                from person_details_default pdd join patient_identifier pi on pdd.person_id = pi.patient_id"
     }
   ]
 }
