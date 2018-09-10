@@ -55,5 +55,6 @@
   "SAVE_DHIS_MAPPING_MESSAGE": "User {{userId}} saved mapping information",
   "OPEN_SYNC_TO_DHIS_MESSAGE": "User {{userId}} accessed Sync to DHIS app",
   "OPEN_DHIS_LOG_MESSAGE": "User {{userId}} accessed Log app",
-  "MODULE_LABEL_DHIS_SYNC_KEY": "DHIS2 Sync"
+  "MODULE_LABEL_DHIS_SYNC_KEY": "DHIS2 Sync",
+  "SEND_DATA_TO_DHIS_MESSAGE": "User {{userId}} triggered data sync to DHIS server"
 }
