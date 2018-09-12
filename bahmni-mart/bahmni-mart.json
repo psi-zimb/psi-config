@@ -157,22 +157,46 @@
     {
       "name": "HTS_instance_table_creation",
       "type": "customSql",
-      "readerSql": "select pi.patient_id as \"Patient ID\",
+      "readerSql": "select 
+                    pi.patient_id as \"Patient ID\",
                     piUIC.identifier as \"UIC\",
                     per.birthdate as \"Date of Birth\",
                     per.gender as \"Gender\",
                     TIMESTAMPDIFF(YEAR, per.birthdate, CURDATE()) as \"Age\",
-                    pi.identifier as \"Patient Identifier\",
-                    pat.date_created as \"date_created\",
                     (case when patientSitetype.siteType = (select concept_id from concept_view where concept_full_name = 'Outreach' and retired = 0)
                     AND perAdd.city_village not like 'Other%'
                     then concat('ZWNSC-OU-',perAdd.address2,'-',upper(perAdd.city_village))
                     ELSE concat('ZWNSC-',perAdd.address2) 
-                    end) as \"OrgUnit\"
+                    end) as \"OrgUnit\",
+                    pi.identifier as \"Patient Identifier\",
+                    personInstanceDateChanged.dateChanged as \"date_created\"
                     from patient_identifier pi
                     inner join person per on pi.patient_id = per.person_id
                     and pi.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'Patient Identifier' and retired=0)
                     inner join patient pat on pi.patient_id = pat.patient_id
+                    Inner Join (/*To get the max changed date for a person instance*/
+                                    Select 
+                                        pid as person_id,
+                                        max(DateChanged) as dateChanged 
+                                    from (
+                                        /*Person name max date created*/
+                                        Select person_id as pid, max(coalesce(date_changed,date_created)) dateChanged from person_name group by person_id
+                                        Union All
+                                        /*Person max date created*/
+                                        Select person_id as pid, max(coalesce(date_changed,date_created)) dateChanged from person group by person_id
+                                        Union All
+                                        /*Person identifier max date created*/
+                                        Select patient_id as pid, max(coalesce(date_changed,date_created)) dateChanged from patient_identifier group by patient_id
+                                        Union All
+                                        /*Person address max date created*/
+                                        Select person_id as pid, max(coalesce(date_changed,date_created)) dateChanged from person_address group by person_id
+                                        Union All
+                                        /*Person attribute max date created*/
+                                        Select person_id as pid, max(coalesce(date_changed,date_created)) dateChanged from person_attribute group by person_id
+                                    ) as personInstanceDateChanged
+                                     group by pid
+                                ) as personInstanceDateChanged
+                    On personInstanceDateChanged.person_id = pat.patient_id
                     inner join patient_identifier piUIC on pat.patient_id = piUIC.patient_id
                     inner join person_address perAdd on pi.patient_id = perAdd.person_id
                     LEFT JOIN (/*Patient id along with the site type value*/
