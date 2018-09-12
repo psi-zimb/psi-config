@@ -207,7 +207,7 @@
                     on patientSitetype.person_id = pi.patient_id
                     and piUIC.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'UIC' and retired=0)
                     group by pi.patient_id",
-      "tableName": "HTS_instance_table",
+      "tableName": "hts_instance_table",
       "chunkSizeToRead": "500",
       "columnsToIgnore": []
     }
