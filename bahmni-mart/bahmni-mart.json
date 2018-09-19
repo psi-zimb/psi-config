@@ -157,7 +157,7 @@
     {
       "name": "HTS_instance_table_creation",
       "type": "customSql",
-      "readerSql": "select 
+      "readerSql": "select              
                     pi.patient_id as \"Patient ID\",
                     piUIC.identifier as \"UIC\",
                     per.birthdate as \"Date of Birth\",
@@ -206,7 +206,24 @@
                               ) as patientSitetype
                     on patientSitetype.person_id = pi.patient_id
                     and piUIC.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'UIC' and retired=0)
-                    group by pi.patient_id",
+                    where pi.patient_id in ( /*Filtering the HTS patients using type of visit*/
+                                                Select person_id from obs htsObs where htsObs.concept_id in (
+                                                    Select concept_id from 
+                                                    concept_name 
+                                                    where name ='Reason for visit' 
+                                                    and concept_name_type='FULLY_SPECIFIED'
+                                                    and voided=0
+                                                )
+                                                and htsObs.value_coded in (
+                                                Select concept_id from
+                                                concept_name 
+                                                where name in ('HIV Self Testing','Provider Testing and Counseling','Confirmatory HIV testing and Counseling') 
+                                                and concept_name_type='FULLY_SPECIFIED'
+                                                and voided=0
+                                               )
+                                               and htsObs.voided = 0
+                                          )
+                   group by pi.patient_id",
       "tableName": "hts_instance_table",
       "chunkSizeToRead": "500",
       "columnsToIgnore": []
