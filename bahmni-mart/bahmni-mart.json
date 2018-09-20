@@ -193,6 +193,21 @@
                                         Union All
                                         /*Person attribute max date created*/
                                         Select person_id as pid, max(coalesce(date_changed,date_created)) dateChanged from person_attribute group by person_id
+                                        union all
+                                        /*HTS Type of visit with min obs date time*/
+                                        select person_id as pid, min(obs_datetime) dateChanged from obs 
+                                                    where concept_id = (Select concept_id from 
+                                                    concept_name 
+                                                    where name ='Reason for visit' 
+                                                    and concept_name_type='FULLY_SPECIFIED'
+                                                    and voided=0) 
+                                                    and value_coded IN (Select concept_id from
+                                                concept_name 
+                                                where name in ('HIV Self Testing','Provider Testing and Counseling','Confirmatory HIV testing and Counseling') 
+                                                and concept_name_type='FULLY_SPECIFIED'
+                                                and voided=0)
+                                                and voided = 0
+                                                    group by person_id
                                     ) as personInstanceDateChanged
                                      group by pid
                                 ) as personInstanceDateChanged
