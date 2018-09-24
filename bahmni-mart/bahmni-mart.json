@@ -256,6 +256,7 @@
                     'HTSDeId' as program,
                     min(date(htsObs.obs_datetime)) as \"enrollment_date\",
                     min(date(htsObs.obs_datetime)) as \"incident_date\",
+                    min(htsObs.date_created) as \"date_created\",
                     'ACTIVE' as status
                         from obs htsObs/*obs for the patients for whom the HTS visit type was selected*/
                         inner join person_address perAdd on htsObs.person_id = perAdd.person_id
