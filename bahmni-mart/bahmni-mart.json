@@ -257,6 +257,7 @@
                     min(date(htsObs.obs_datetime)) as \"enrollment_date\",
                     min(date(htsObs.obs_datetime)) as \"incident_date\",
                     min(htsObs.date_created) as \"date_created\",
+                    min(v.visit_id) as \"prog_unique_id\", 
                     'ACTIVE' as status
                         from obs htsObs/*obs for the patients for whom the HTS visit type was selected*/
                         inner join person_address perAdd on htsObs.person_id = perAdd.person_id
@@ -267,6 +268,8 @@
                                         where name = 'Patient Identifier' 
                                         and retired=0
                                               )
+                  INNER JOIN encounter e on htsObs.encounter_id = e.encounter_id                           
+                  INNER JOIN visit v on e.visit_id = v.visit_id
                   LEFT JOIN (/*Patient id along with the site type value*/
                   Select perAtt.person_id,
                   perAtt.value as 'siteType' 
