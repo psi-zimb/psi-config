@@ -298,6 +298,71 @@
       "tableName": "hts_program_enrollment_table",
       "chunkSizeToRead": "500",
       "columnsToIgnore": []
+    },
+    {
+      "name": "HTS_event_table_creation",
+      "type": "customSql",
+      "readerSql":  "Select 
+                    pi.identifier as \"Patient_Identifier\",
+                    'HTSDeId' as program,
+                    'HTSDeId' as program_stage,
+                    case when patientSitetype.siteType = (select concept_id from concept_view where concept_full_name = 'Outreach' and retired = 0)
+                    AND perAdd.city_village not like 'Other%'
+                    then concat('ZWNSC-OU-',perAdd.address2,'-',upper(perAdd.city_village))
+                    ELSE concat('ZWNSC-',perAdd.address2) 
+                    end as \"OrgUnit\",
+                    max(date(obsPHTC.obs_datetime)) as \"event_date\",
+                    'ACTIVE' as status,
+                    \"\" as \"program_unique_id\",
+                    min(date(htsObs.obs_datetime)) as \"program_start_date\",
+                    max(obsPHTC.date_created) as \"date_created\",
+                    (select concept_full_name from concept_view where concept_id = obsPHTC.value_coded) as \"phtc\"
+                        from obs htsObs/*obs for the patients for whom the HTS visit type was selected*/
+                        inner join person_address perAdd on htsObs.person_id = perAdd.person_id
+                        Inner Join patient_identifier pi on htsObs.person_id = pi.patient_id
+                        INNER JOIN obs obsPHTC on pi.patient_id = obsPHTC.person_id
+                    and pi.identifier_type in (
+                                        select patient_identifier_type_id 
+                                        from patient_identifier_type 
+                                        where name = 'Patient Identifier' 
+                                        and retired=0
+                                              )
+                  LEFT JOIN (/*Patient id along with the site type value*/
+                  Select perAtt.person_id,
+                  perAtt.value as 'siteType' 
+                  from person_attribute perAtt 
+                  inner JOIN person_attribute_type perAtttype 
+                  on perAtt.person_attribute_type_id = perAtttype.person_attribute_type_id
+                  where  perAtttype.name = 'Site Type'
+                ) as patientSitetype
+                      On patientSitetype.person_id = htsObs.person_id
+                      where htsObs.concept_id in (
+                        Select concept_id from 
+                        concept_name 
+                        where name ='Reason for visit' 
+                        and concept_name_type='FULLY_SPECIFIED'
+                        and voided=0
+                                                  )
+                and htsObs.value_coded in (
+                    Select concept_id from
+                    concept_name 
+                    where name in ('HIV Self Testing','Provider Testing and Counseling','Confirmatory HIV testing and Counseling') 
+                    and concept_name_type='FULLY_SPECIFIED'
+                    and voided=0
+                   )
+                   and obsPHTC.concept_id = (
+                        Select concept_id from 
+                        concept_name 
+                        where name ='PHTC, Client received post test counseling?'
+                        and concept_name_type='FULLY_SPECIFIED'
+                        and voided=0
+                               )
+                and obsPHTC.voided = 0   
+                and htsObs.voided=0
+                group by htsObs.person_id,date(obsPHTC.date_created),date(obsPHTC.obs_datetime)",
+      "tableName": "hts_program_events_table",
+      "chunkSizeToRead": "500",
+      "columnsToIgnore": []
     }
   ],
   "procedures":[
