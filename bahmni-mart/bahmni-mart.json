@@ -313,14 +313,15 @@
                     end as \"OrgUnit\",
                     max(date(obsPHTC.obs_datetime)) as \"event_date\",
                     'ACTIVE' as status,
-                    \"\" as \"program_unique_id\",
-                    min(date(htsObs.obs_datetime)) as \"program_start_date\",
+                    v.visit_id as \"program_unique_id\",
                     max(obsPHTC.date_created) as \"date_created\",
                     (select concept_full_name from concept_view where concept_id = obsPHTC.value_coded) as \"phtc\"
                         from obs htsObs/*obs for the patients for whom the HTS visit type was selected*/
                         inner join person_address perAdd on htsObs.person_id = perAdd.person_id
                         Inner Join patient_identifier pi on htsObs.person_id = pi.patient_id
                         INNER JOIN obs obsPHTC on pi.patient_id = obsPHTC.person_id
+                        INNER JOIN encounter e on obsPHTC.encounter_id = e.encounter_id                 
+                        INNER JOIN visit v on e.visit_id = v.visit_id
                     and pi.identifier_type in (
                                         select patient_identifier_type_id 
                                         from patient_identifier_type 
@@ -359,7 +360,7 @@
                                )
                 and obsPHTC.voided = 0   
                 and htsObs.voided=0
-                group by htsObs.person_id,date(obsPHTC.date_created),date(obsPHTC.obs_datetime)",
+                group by htsObs.person_id,date(obsPHTC.date_created),date(obsPHTC.obs_datetime),v.visit_id",
       "tableName": "hts_program_events_table",
       "chunkSizeToRead": "500",
       "columnsToIgnore": []
