@@ -314,6 +314,7 @@
                     max(date(obsPHTC.obs_datetime)) as \"event_date\",
                     'ACTIVE' as status,
                     v.visit_id as \"event_unique_id\",
+                    min(date(htsObs.obs_datetime)) as \"enrollment_date\",
                     max(obsPHTC.date_created) as \"date_created\",
                     (select concept_full_name from concept_view where concept_id = obsPHTC.value_coded) as \"phtc\"
                         from obs htsObs/*obs for the patients for whom the HTS visit type was selected*/
