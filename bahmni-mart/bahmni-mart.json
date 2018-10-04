@@ -316,7 +316,10 @@
                     v.visit_id as \"event_unique_id\",
                     min(date(htsObs.obs_datetime)) as \"enrollment_date\",
                     max(obsPHTC.date_created) as \"date_created\",
-                    (select concept_full_name from concept_view where concept_id = obsPHTC.value_coded) as \"phtc\"
+                    case
+                            when obsPHTC.value_coded = (select concept_id from concept_view where concept_full_name = 'Yes' and retired = 0) then 'true'
+                            when obsPHTC.value_coded = (select concept_id from concept_view where concept_full_name = 'No' and retired = 0) THEN 'false'
+                            end as \"phtc\"
                         from obs htsObs/*obs for the patients for whom the HTS visit type was selected*/
                         inner join person_address perAdd on htsObs.person_id = perAdd.person_id
                         Inner Join patient_identifier pi on htsObs.person_id = pi.patient_id
