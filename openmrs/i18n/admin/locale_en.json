@@ -57,5 +57,6 @@
   "OPEN_DHIS_LOG_MESSAGE": "User {{userId}} accessed Log app",
   "MODULE_LABEL_DHIS_SYNC_KEY": "DHIS2 Sync",
   "SEND_DATA_TO_DHIS_MESSAGE": "User {{userId}} triggered data sync to DHIS server",
-  "IMPORT_MAPPING_SERVICE_MESSAGE": "User {{userId}} imported Mapping Service(s)"
+  "IMPORT_MAPPING_SERVICE_MESSAGE": "User {{userId}} imported Mapping Service(s)",
+  "EXPORT_ALL_MAPPINGS_MESSAGE": "User {{userId}} exported all Mapping Service(s)"
 }
