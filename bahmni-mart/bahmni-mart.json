@@ -178,7 +178,8 @@
                     then concat('ZWNSC-OU-',perAdd.address2,'-',upper(perAdd.city_village))
                     ELSE concat('ZWNSC-',perAdd.address2) 
                     end) as \"OrgUnit\",
-                    personInstanceDateChanged.dateChanged as \"date_created\"
+                    personInstanceDateChanged.dateChanged as \"date_created\",
+                    pi.identifier as \"Patient_Identifier\"
                     from patient_identifier pi
                     inner join person per on pi.patient_id = per.person_id
                     and pi.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'Patient Identifier' and retired=0)
