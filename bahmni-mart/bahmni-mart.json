@@ -158,17 +158,26 @@
       "name": "HTS_instance_table_creation",
       "type": "customSql",
       "readerSql": "select              
-                    pi.patient_id as \"Patient ID\",
+                    'New Africa House' as \"NSC site name\",
+                    GROUP_CONCAT(distinct (case when pat1.name = 'Outreach site name' Then pac.value else null end)) as \"Outreach site name\",
+                    GROUP_CONCAT(DISTINCT (case when pat1.name = 'Outreach Classification' then cv.concept_full_name else null end)) as \"Outreach type\",
+                    (case when patientSitetype.siteType = (select concept_id from concept_view where concept_full_name = 'Static' and retired = 0)
+                    then \"Fixed\"
+                    ELSE
+                    (Select concept_full_name from concept_view where concept_id = patientSitetype.siteType)
+                    end) as \"Channel Type\",
                     piUIC.identifier as \"UIC\",
-                    per.birthdate as \"Date of Birth\",
+                    pi.identifier as \"Client Code\",
                     per.gender as \"Gender\",
-                    TIMESTAMPDIFF(YEAR, per.birthdate, CURDATE()) as \"Age\",
+                    TIMESTAMPDIFF(YEAR, per.birthdate, CURDATE()) as \"Age at last birth day\",
+                    GROUP_CONCAT(DISTINCT (case when pat1.name = 'Client Resident' then cv.concept_full_name else null end)) as \"Residence\",
+                    GROUP_CONCAT(DISTINCT (case when pat1.name = 'Marital Status' then cv.concept_full_name else null end)) as \"Marital Status\",
+                    GROUP_CONCAT(DISTINCT (case when pat1.name = 'occupation' then cv.concept_full_name else null end)) as \"Occupation\",
                     (case when patientSitetype.siteType = (select concept_id from concept_view where concept_full_name = 'Outreach' and retired = 0)
                     AND perAdd.city_village not like 'Other%'
                     then concat('ZWNSC-OU-',perAdd.address2,'-',upper(perAdd.city_village))
                     ELSE concat('ZWNSC-',perAdd.address2) 
                     end) as \"OrgUnit\",
-                    pi.identifier as \"Patient Identifier\",
                     personInstanceDateChanged.dateChanged as \"date_created\"
                     from patient_identifier pi
                     inner join person per on pi.patient_id = per.person_id
@@ -218,8 +227,12 @@
                                 Select perAtt.person_id,perAtt.value as 'siteType' from person_attribute perAtt 
                                 inner JOIN person_attribute_type perAtttype on perAtt.person_attribute_type_id = perAtttype.person_attribute_type_id
                                 where  perAtttype.name = 'Site Type'
+                                and perAtt.voided=0
                               ) as patientSitetype
                     on patientSitetype.person_id = pi.patient_id
+                    LEFT JOIN person_attribute pac on pi.patient_id = pac.person_id and pac.voided = 0
+                    LEFT JOIN person_attribute_type pat1 on pac.person_attribute_type_id = pat1.person_attribute_type_id
+                    LEFT jOIN concept_view cv on pac.value = cv.concept_id AND cv.retired = 0
                     and piUIC.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'UIC' and retired=0)
                     where pi.patient_id in ( /*Filtering the HTS patients using type of visit*/
                                                 Select person_id from obs htsObs where htsObs.concept_id in (
