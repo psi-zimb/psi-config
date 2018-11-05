@@ -8170,6 +8170,20 @@ Bahmni.ConceptSet.FormConditions.rules = {
         }
         return conditions;
 
+    },
+        "PHTC, Late read result?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['PHTC, Late read result?'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("PHTC-Late Read result If yes, specify the result");
+
+        }
+        else
+        {
+            conditions.disable.push("PHTC-Late Read result If yes, specify the result");
+        }
+        return conditions;
+
     }
 
  };

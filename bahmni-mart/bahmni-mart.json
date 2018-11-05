@@ -120,7 +120,7 @@
         "openmrsTableName": "encounter"
       },
       "separateTableConfig": {
-        "enableForAddMoreAndMultiSelect": true,
+        "enableForAddMoreAndMultiSelect": false,
         "separateTables": [
         ]
       },
@@ -312,76 +312,6 @@
       "tableName": "hts_program_enrollment_table",
       "chunkSizeToRead": "500",
       "columnsToIgnore": []
-    },
-    {
-      "name": "HTS_event_table_creation",
-      "type": "customSql",
-      "readerSql":  "Select 
-                    pi.identifier as \"Patient_Identifier\",
-                    'HTSDeId' as program,
-                    'HTSDeId' as program_stage,
-                    case when patientSitetype.siteType = (select concept_id from concept_view where concept_full_name = 'Outreach' and retired = 0)
-                    AND perAdd.city_village not like 'Other%'
-                    then concat('ZWNSC-OU-',perAdd.address2,'-',upper(perAdd.city_village))
-                    ELSE concat('ZWNSC-',perAdd.address2) 
-                    end as \"OrgUnit\",
-                    max(date(obsPHTC.obs_datetime)) as \"event_date\",
-                    'ACTIVE' as status,
-                    v.visit_id as \"event_unique_id\",
-                    min(date(htsObs.obs_datetime)) as \"enrollment_date\",
-                    max(obsPHTC.date_created) as \"date_created\",
-                    case
-                            when obsPHTC.value_coded = (select concept_id from concept_view where concept_full_name = 'Yes' and retired = 0) then 'true'
-                            when obsPHTC.value_coded = (select concept_id from concept_view where concept_full_name = 'No' and retired = 0) THEN 'false'
-                            end as \"phtc\"
-                        from obs htsObs/*obs for the patients for whom the HTS visit type was selected*/
-                        inner join person_address perAdd on htsObs.person_id = perAdd.person_id
-                        Inner Join patient_identifier pi on htsObs.person_id = pi.patient_id
-                        INNER JOIN obs obsPHTC on pi.patient_id = obsPHTC.person_id
-                        INNER JOIN encounter e on obsPHTC.encounter_id = e.encounter_id                 
-                        INNER JOIN visit v on e.visit_id = v.visit_id
-                    and pi.identifier_type in (
-                                        select patient_identifier_type_id 
-                                        from patient_identifier_type 
-                                        where name = 'Patient Identifier' 
-                                        and retired=0
-                                              )
-                  LEFT JOIN (/*Patient id along with the site type value*/
-                  Select perAtt.person_id,
-                  perAtt.value as 'siteType' 
-                  from person_attribute perAtt 
-                  inner JOIN person_attribute_type perAtttype 
-                  on perAtt.person_attribute_type_id = perAtttype.person_attribute_type_id
-                  where  perAtttype.name = 'Site Type'
-                ) as patientSitetype
-                      On patientSitetype.person_id = htsObs.person_id
-                      where htsObs.concept_id in (
-                        Select concept_id from 
-                        concept_name 
-                        where name ='Reason for visit' 
-                        and concept_name_type='FULLY_SPECIFIED'
-                        and voided=0
-                                                  )
-                and htsObs.value_coded in (
-                    Select concept_id from
-                    concept_name 
-                    where name in ('HIV Self Testing','Provider Testing and Counseling','Confirmatory HIV testing and Counseling') 
-                    and concept_name_type='FULLY_SPECIFIED'
-                    and voided=0
-                   )
-                   and obsPHTC.concept_id = (
-                        Select concept_id from 
-                        concept_name 
-                        where name ='PHTC, Client received post test counseling?'
-                        and concept_name_type='FULLY_SPECIFIED'
-                        and voided=0
-                               )
-                and obsPHTC.voided = 0   
-                and htsObs.voided=0
-                group by htsObs.person_id,date(obsPHTC.date_created),date(obsPHTC.obs_datetime),v.visit_id",
-      "tableName": "hts_program_events_table",
-      "chunkSizeToRead": "500",
-      "columnsToIgnore": []
     }
   ],
   "procedures":[
@@ -395,6 +325,7 @@
     }
   ],
   "views": [
+
     {
       "name": "patient_program_view",
       "sourceFilePath":"classpath:viewSql/patientProgramView.sql"
@@ -407,6 +338,7 @@
       "name": "appointment_admin_panel_view",
       "sql": "SELECT * FROM appointment_service_default LEFT OUTER JOIN service_availability_default USING (appointment_service_id, service_name)"
     },
+
     {
       "name": "patient_details_view",
       "sourceFilePath": "classpath:viewSql/patientDetailsView.sql"
@@ -446,6 +378,214 @@
     {
       "name": "patient_bed_tags_history_view",
       "sourceFilePath": "classpath:viewSql/patientBedTagView.sql"
-    }
+    },
+
+        {
+ "name": "hts_program_events_table",
+ "sql": "select  distinct
+        personDetails.\"Patient_Identifier\",
+        'HTSDeId' as program,
+        'HTSDeId' as program_stage,
+        personDetails.\"OrgUnit\",
+        COALESCE(phtc.\"event_date\",hst.\"event_date\") as \"event_date\",
+        'ACTIVE' as status,
+        COALESCE(phtc.\"event_unique_id\",hst.\"event_unique_id\") as \"event_unique_id\",
+        regSecondPage.\"enrollment_date\",
+        COALESCE(phtc.\"date_created\",hst.\"date_created\") as \"date_created\",
+        personDetails.\"client number used at the previous visit\",
+        phtc.\"Client's HIV test result\",
+        personDetails.\"Couples test\",
+        case when coupleHTSResult.self_test_outcome = patientHTSResult.self_test_outcome then 'Yes' 
+        When coupleHTSResult.self_test_outcome is null OR patientHTSResult.self_test_outcome is null then NULL
+        else 'No' end \"Concordan test result\",
+        phtc.\"Client received post test counseling?\",
+        phtc.\"Client advised to return for re-testing\",
+        personDetails.\"Have you ever been tested for HIV\",
+        phtc.\"Result last time you were tested for HIV?\",
+        phtc.\"Screened for TB\",
+        phtc.\"Past 12 months exc. money/goods for sex?\",
+case when COALESCE(phtc.\"phtcAntenatal\",hst.\"hstAntenatal\") is null then 'No' else COALESCE(phtc.\"phtcAntenatal\",hst.\"hstAntenatal\") end as \"Referred to Antenatal/ PMTCT\",
+case when COALESCE(phtc.\"phtcFamilyPlanning\",hst.\"hstFamilyPlanning\") is null then 'No' else COALESCE(phtc.\"phtcFamilyPlanning\",hst.\"hstFamilyPlanning\") end as \"Referred to Family planning\",
+case when COALESCE(phtc.\"phtcMaleCircumcision\",hst.\"hstMaleCircumcision\") is null then 'No' else COALESCE(phtc.\"phtcMaleCircumcision\",hst.\"hstMaleCircumcision\") end as \"Referred to Male circumcision\",
+case when COALESCE(phtc. \"phtcNutritionalInformation\",hst.\"hstNutritionalInformation\") is null then 'No' else COALESCE(phtc.\"phtcNutritionalInformation\",hst.\"hstNutritionalInformation\") end as \"Referred to Nutritional information\",
+case when COALESCE(phtc.\"phtcOtherMedicalServices\",hst.\"hstOtherMedicalServices\") is null then 'No' else COALESCE(phtc.\"phtcOtherMedicalServices\",hst.\"hstOtherMedicalServices\") end as \"Referred to Other medical services\",
+case when COALESCE(phtc.\"phtcOtherPyschoSocialSupportServices\",hst.\"hstOtherPyschoSocialSupportServices\") is null then 'No' else COALESCE(phtc.\"phtcOtherPyschoSocialSupportServices\",hst.\"hstOtherPyschoSocialSupportServices\") end as \"Referred to Other psycho-social support services\",
+case when COALESCE(phtc.\"phtcSocialWelfare\",hst.\"hstSocialWelfare\") is null then 'No' else COALESCE(phtc.\"phtcSocialWelfare\",hst.\"hstSocialWelfare\") end as \"Referred to Social Welfare\",
+case when COALESCE(phtc.\"phtcSTITreatmentCentre\",hst.\"hstSTITreatmentCentre\") is null then 'No' else COALESCE(phtc.\"phtcSTITreatmentCentre\",hst.\"hstSTITreatmentCentre\") end as \"Referred to STI treatment centre\",
+case when COALESCE(phtc.\"phtcTBDagnosticCenter\",hst.\"hstTBDiagnosticCente\") is null then 'No' else COALESCE(phtc.\"phtcTBDagnosticCenter\",hst.\"hstTBDiagnosticCente\") end as \"Referred to TB Diagnostic center\", 
+case when COALESCE(phtc.\"phtcOI-ARTclinic\",hst.\"hstOI-ARTClinic\") is null then 'No' else COALESCE(phtc.\"phtcOI-ARTclinic\",hst.\"hstOI-ARTClinic\") end as \"Referred to OI/ART clinic\",
+personDetails.\"Education\",
+phtc.\"Family Planning Counseling provided\",
+phtc.\"Partner been tested in last 3 months\",
+phtc.\"Talked about T&C w/ your partner/spouse?\",
+phtc.\"History of sexual abuse?\",
+phtc.\"How many months since you tested for HIV?\",
+phtc.\"Male circumcision counseling provided\",
+phtc.\"Place where last tested for HIV\",
+phtc.\"Referral source\",
+regSecondPage.\"Services\",
+phtc.\"Are you currently pregnant?\",
+personDetails.\"Contact tracing\",
+hst.\"Consent to follow up\",
+personDetails.\"Dreams activity\",
+personDetails.\"Index client code\",
+personDetails.\"Moonlight testing\",
+personDetails.\"Target population\",
+personDetails.\"Date index client tested\",
+phtc.\"Counsellor code\",
+hst.\"Assisted ST\",
+phtc.\"Late read result\"
+  from (
+                select pi.patient_id,
+                pi.\"Patient_Identifier\", 
+                pi.\"Patient_Identifier\" as \"client number used at the previous visit\",
+                pa.\"Couple_testing\" as \"Couples test\",
+                pa.\"Have_you_ever_been_tested_for_HIV\" as \"Have you ever been tested for HIV\",
+                pa.education as \"Education\",
+                pa.\"Contact_Tracing\" as \"Contact tracing\",
+                pa.\"Dreams_Activity\" as \"Dreams activity\",
+                pa.\"Index_Client_Code\" as \"Index client code\",
+                pa.\"Moonlight_Testing\" as \"Moonlight testing\",
+                pa.\"Population\" as \"Target population\",
+                date(pa.\"Date_index_client_tested\") as \"Date index client tested\",
+                pa.\"If_couple_testing_yes_capture_the_registration_no\",
+                (case when pa.\"Site_Type\" = 'Outreach'
+                    AND pad.\"city_village\" not like 'Other%'
+                    then concat('ZWNSC-OU-',pad.address2,'-',upper(pad.\"city_village\"))
+                    ELSE concat('ZWNSC-',pad.address2) 
+                    end) as \"OrgUnit\"
+                from patient_identifier pi 
+                join person_attributes pa on pi.patient_id = pa.person_id
+                join person_address_default pad on pa.person_id = pad.person_id
+              ) as personDetails
+              
+          inner join
+          
+            (
+                Select 
+                rspv.patient_id,
+                max(rspv.date_created) as \"date_created\", 
+                max(date(rspv.obs_datetime)) as \"obsdate\",
+                min(date(rspv.obs_datetime)) as \"enrollment_date\",
+                string_agg(rspv.reason_for_visit,', ') as \"Services\",
+                pvev.visit_id
+                from reg_visit rspv
+                join patient_encounter_details_default pvev on rspv.encounter_id = pvev.encounter_id
+                where rspv.reason_for_visit IN ('HIV Self Testing','Provider Testing and Counseling','Confirmatory HIV testing and Counseling')
+                group by rspv.patient_id, 
+                         pvev.visit_id
+                        
+            ) as regSecondPage
+           on personDetails.patient_id = regSecondPage.patient_id 
+              
+          left join
+          (
+              Select 
+              phtc.patient_id, 
+              pedd.visit_id,
+              max(date(phtc.obs_datetime)) as \"event_date\",
+              max(phtc.date_created) as \"date_created\",
+              max(phtc.hiv_test_results) as \"Client's HIV test result\",
+              max(phtc.phtc_client_received_post_test_counseling) as \"Client received post test counseling?\",
+              max(phtc.\"phtc_if_client_advised_to_return_for_re_testing_indicate_ti\")  as \"Client advised to return for re-testing\",
+              max(phtc.what_were_the_results_the_last_time_you_were_tested) as \"Result last time you were tested for HIV?\",
+              max(phtc.phtc_in_the_last_twelve_month_exchanged_money_or_goods_for_) as \"Past 12 months exc. money/goods for sex?\",
+              max(phtc.phtc_family_planning_counselling) as \"Family Planning Counseling provided\",
+              max(phtc.has_your_most_recent_sex_partner_been_tested_in_the_last_3_) as \"Partner been tested in last 3 months\",
+              max(phtc.phtc_have_you_ever_talked_about_t_c_with_your_partner_spous) as \"Talked about T&C w/ your partner/spouse?\",
+              max(phtc.phtc_history_of_sexual_abuse) as \"History of sexual abuse?\",
+              max(phtc.how_long_ago_were_you_last_tested_months) as \"How many months since you tested for HIV?\",
+              max(phtc.phtc_mc_counselling_provided) as \"Male circumcision counseling provided\",
+              max(phtc.if_yes_where_were_you_last_tested) as \"Place where last tested for HIV\",
+              max(phtc.how_did_you_learn_about_this_t_c_site) as \"Referral source\",
+              max(phtc.you_partner_currently_pregnant) as \"Are you currently pregnant?\",
+              max(phtc.phtc_late_read_result_if_yes_specify_the_result) as \"Late read result\",
+              max(pedd.\"provider_name\") as \"Counsellor code\",
+              max(pedd.\"visit_id\") as \"event_unique_id\",
+                case when string_agg(phtc_was_referred_to_multiple_responses_possible,', ') like '%Antenatal PMTCT%' then 'Yes' 
+                when string_agg(phtc_was_referred_to_multiple_responses_possible,', ') is null then null else 'No' End  as \"phtcAntenatal\",
+                case when string_agg(phtc_was_referred_to_multiple_responses_possible,', ') like '%Family Planning%' then 'Yes' 
+                when string_agg(phtc_was_referred_to_multiple_responses_possible,', ') is null then null else 'No' End  as \"phtcFamilyPlanning\",
+                case when string_agg(phtc_was_referred_to_multiple_responses_possible,', ') like '%Male circumcision%' then 'Yes' 
+                when string_agg(phtc_was_referred_to_multiple_responses_possible,', ') is null then null else 'No' End  as \"phtcMaleCircumcision\",
+                case when string_agg(phtc_was_referred_to_multiple_responses_possible,', ') like '%Nutritional information%' then 'Yes' 
+                when string_agg(phtc_was_referred_to_multiple_responses_possible,', ') is null then null else 'No' End  as \"phtcNutritionalInformation\",
+                case when string_agg(phtc_was_referred_to_multiple_responses_possible,', ') like '%Other medical services%' then 'Yes' 
+                when string_agg(phtc_was_referred_to_multiple_responses_possible,', ') is null then null else 'No' End  as \"phtcOtherMedicalServices\",
+                case when string_agg(phtc_was_referred_to_multiple_responses_possible,', ') like '%Other pyscho social support services%' then 'Yes' 
+                when string_agg(phtc_was_referred_to_multiple_responses_possible,', ') is null then null else 'No' End  as \"phtcOtherPyschoSocialSupportServices\",
+                case when string_agg(phtc_was_referred_to_multiple_responses_possible,', ') like '%Social welfare%' then 'Yes' 
+                when string_agg(phtc_was_referred_to_multiple_responses_possible,', ') is null then null else 'No' End  as \"phtcSocialWelfare\",
+                case when string_agg(phtc_was_referred_to_multiple_responses_possible,', ') like '%STI treatment centre%' then 'Yes' 
+                when string_agg(phtc_was_referred_to_multiple_responses_possible,', ') is null then null else 'No' End  as \"phtcSTITreatmentCentre\",
+                case when string_agg(phtc_was_referred_to_multiple_responses_possible,', ') like '%TB diagnostic center%' then 'Yes' 
+                when string_agg(phtc_was_referred_to_multiple_responses_possible,', ') is null then null else 'No' End  as \"phtcTBDagnosticCenter\",
+                case when string_agg(phtc_was_referred_to_multiple_responses_possible,', ') like '%OI-ART clinic%' then 'Yes' 
+                when string_agg(phtc_was_referred_to_multiple_responses_possible,', ') is null then null else 'No' End  as \"phtcOI-ARTclinic\",
+                Case when Coalesce(string_agg(phtc_tb_screening_have_you_had_a_cough,','),
+                                   string_agg(phtc_tb_screening_have_you_had_chest_pain,','),
+                                   string_agg(phtc_tb_screening_have_you_had_shortness_of_breath,','),
+                                   string_agg(phtc_tb_screening_did_you_have_fever_recently,','),
+                                   string_agg(phtc_tb_screening_did_you_have_night_sweats,','),
+                                   string_agg(phtc_tb_screening_do_you_have_weight_loss,','),
+                                   string_agg(phtc_tb_screening_have_you_lived_with_someone_who_has_been_,',')
+                                   ) 
+                                   is not null then 'Yes' else 'No' end as \"Screened for TB\"
+              from provider_hiv_test_counselling phtc
+              join patient_encounter_details_default pedd on phtc.encounter_id = pedd.encounter_id
+              group by phtc.patient_id, 
+                       pedd.visit_id
+          ) as phtc
+          
+          on regSecondPage.patient_id = phtc.patient_id
+          and regSecondPage.visit_id = phtc.visit_id
+          
+          
+          left join 
+          
+          (
+              Select 
+              hst.patient_id,
+              pvev1.visit_id,
+              max(hst.date_created) as \"date_created\", 
+              max(hst.hst_consent_to_follow_up) as \"Consent to follow up\",
+              max(hst.hst_assisted_st) as \"Assisted ST\",
+              max(date(hst.obs_datetime)) as \"event_date\",
+              max(pvev1.\"visit_id\") as \"event_unique_id\",
+              case when string_agg(hst_external_referral_to_multiple_responses_possible,', ') like '%Antenatal PMTCT%' then 'Yes' 
+              when string_agg(hst_external_referral_to_multiple_responses_possible,', ') is null then null else 'No' End as \"hstAntenatal\",
+              case when string_agg(hst_external_referral_to_multiple_responses_possible,', ') like '%Family Planning%' then 'Yes' 
+              when string_agg(hst_external_referral_to_multiple_responses_possible,', ') is null then null else 'No' End as \"hstFamilyPlanning\",
+              case when string_agg(hst_external_referral_to_multiple_responses_possible,', ') like '%Male circumcision%' then 'Yes' 
+              when string_agg(hst_external_referral_to_multiple_responses_possible,', ') is null then null else 'No' End as \"hstMaleCircumcision\",
+              case when string_agg(hst_external_referral_to_multiple_responses_possible,', ') like '%Nutritional information%' then 'Yes' 
+              when string_agg(hst_external_referral_to_multiple_responses_possible,', ') is null then null else 'No' End as \"hstNutritionalInformation\",
+              case when string_agg(hst_external_referral_to_multiple_responses_possible,', ') like '%Other medical services%' then 'Yes' 
+              when string_agg(hst_external_referral_to_multiple_responses_possible,', ') is null then null else 'No' End as \"hstOtherMedicalServices\",
+              case when string_agg(hst_external_referral_to_multiple_responses_possible,', ') like '%Other pyscho social support services%' then 'Yes' 
+              when string_agg(hst_external_referral_to_multiple_responses_possible,', ') is null then null else 'No' End as \"hstOtherPyschoSocialSupportServices\",
+              case when string_agg(hst_external_referral_to_multiple_responses_possible,', ') like '%Social welfare%' then 'Yes' 
+              when string_agg(hst_external_referral_to_multiple_responses_possible,', ') is null then null else 'No' End as \"hstSocialWelfare\",
+              case when string_agg(hst_external_referral_to_multiple_responses_possible,', ') like '%STI treatment centre%' then 'Yes' 
+              when string_agg(hst_external_referral_to_multiple_responses_possible,', ') is null then null else 'No' End as \"hstSTITreatmentCentre\",
+              case when string_agg(hst_external_referral_to_multiple_responses_possible,', ') like '%TB diagnostic center%' then 'Yes' 
+              when string_agg(hst_external_referral_to_multiple_responses_possible,', ') is null then null else 'No' End as \"hstTBDiagnosticCente\",
+              case when string_agg(hst_external_referral_to_multiple_responses_possible,', ') like '%OI-ART clinic%' then 'Yes' 
+              when string_agg(hst_external_referral_to_multiple_responses_possible,', ') is null then null else 'No' End as \"hstOI-ARTClinic\"
+              from hiv_self_testing hst
+              join patient_encounter_details_default pvev1 on hst.encounter_id = pvev1.encounter_id
+              group by hst.patient_id,
+                       pvev1.visit_id
+     
+          )
+          as hst
+          on regSecondPage.patient_id = hst.patient_id
+          and regSecondPage.visit_id = hst.visit_id
+          LEFT Join patient_identifier pi on pi.\"Patient_Identifier\" = personDetails.\"If_couple_testing_yes_capture_the_registration_no\"
+          Left Join hiv_self_testing coupleHTSResult on pi.patient_id = coupleHTSResult.patient_id
+              and coupleHTSResult.date_created = (Select max(date_created) from hiv_self_testing where patient_id =pi.patient_id)
+          Left Join hiv_self_testing patientHTSResult on personDetails.patient_id = patientHTSResult.patient_id
+              and patientHTSResult.date_created =(Select max(date_created) from hiv_self_testing where patient_id =personDetails.patient_id)"
+}
   ]
 }
