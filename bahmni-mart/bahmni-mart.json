@@ -155,6 +155,20 @@
       }
     },
     {
+      "name": "patient_encounter_table_creation",
+      "type": "customSql",
+      "readerSql": "Select e.*,concat(pName.given_name,' ',pName.family_name) as 'counsellorCode'  from encounter e 
+                    inner join encounter_provider eProvider
+                    on e.encounter_id = eProvider.encounter_id
+                    Inner Join provider p
+                    on p.provider_id = eProvider.provider_id
+                    Inner Join person_name pName
+                    on pName.person_id = p.person_id",
+      "tableName": "patient_encounter_table",
+      "chunkSizeToRead": "500",
+      "columnsToIgnore": []
+      },
+    {
       "name": "HTS_instance_table_creation",
       "type": "customSql",
       "readerSql": "select              
@@ -470,7 +484,7 @@ phtc.\"Late read result\"
                 string_agg(rspv.reason_for_visit,', ') as \"Services\",
                 pvev.visit_id
                 from reg_visit rspv
-                join patient_encounter_details_default pvev on rspv.encounter_id = pvev.encounter_id
+                join patient_encounter_table pvev on rspv.encounter_id = pvev.encounter_id
                 where rspv.reason_for_visit IN ('HIV Self Testing','Provider Testing and Counseling','Confirmatory HIV testing and Counseling')
                 group by rspv.patient_id, 
                          pvev.visit_id
@@ -500,7 +514,7 @@ phtc.\"Late read result\"
               max(phtc.how_did_you_learn_about_this_t_c_site) as \"Referral source\",
               max(phtc.you_partner_currently_pregnant) as \"Are you currently pregnant?\",
               max(phtc.phtc_late_read_result_if_yes_specify_the_result) as \"Late read result\",
-              max(pedd.\"provider_name\") as \"Counsellor code\",
+              max(pedd.\"counsellorCode\") as \"Counsellor code\",
               max(pedd.\"visit_id\") as \"event_unique_id\",
                 case when string_agg(phtc_was_referred_to_multiple_responses_possible,', ') like '%Antenatal PMTCT%' then 'Yes' 
                 when string_agg(phtc_was_referred_to_multiple_responses_possible,', ') is null then null else 'No' End  as \"phtcAntenatal\",
@@ -532,7 +546,7 @@ phtc.\"Late read result\"
                                    ) 
                                    is not null then 'Yes' else 'No' end as \"Screened for TB\"
               from provider_hiv_test_counselling phtc
-              join patient_encounter_details_default pedd on phtc.encounter_id = pedd.encounter_id
+              join patient_encounter_table pedd on phtc.encounter_id = pedd.encounter_id
               group by phtc.patient_id, 
                        pedd.visit_id
           ) as phtc
@@ -573,7 +587,7 @@ phtc.\"Late read result\"
               case when string_agg(hst_external_referral_to_multiple_responses_possible,', ') like '%OI-ART clinic%' then 'Yes' 
               when string_agg(hst_external_referral_to_multiple_responses_possible,', ') is null then null else 'No' End as \"hstOI-ARTClinic\"
               from hiv_self_testing hst
-              join patient_encounter_details_default pvev1 on hst.encounter_id = pvev1.encounter_id
+              join patient_encounter_table pvev1 on hst.encounter_id = pvev1.encounter_id
               group by hst.patient_id,
                        pvev1.visit_id
      
@@ -585,7 +599,8 @@ phtc.\"Late read result\"
           Left Join hiv_self_testing coupleHTSResult on pi.patient_id = coupleHTSResult.patient_id
               and coupleHTSResult.date_created = (Select max(date_created) from hiv_self_testing where patient_id =pi.patient_id)
           Left Join hiv_self_testing patientHTSResult on personDetails.patient_id = patientHTSResult.patient_id
-              and patientHTSResult.date_created =(Select max(date_created) from hiv_self_testing where patient_id =personDetails.patient_id)"
+              and patientHTSResult.date_created =(Select max(date_created) from hiv_self_testing where patient_id =personDetails.patient_id)
+          Where COALESCE(phtc.patient_id,hst.patient_id) is not null"
 }
   ]
 }
