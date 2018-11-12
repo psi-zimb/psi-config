@@ -23,5 +23,6 @@
   "FEE_INFORMATION_LOCALE_KEY": "Fee Information",
   "NUTRITIONAL_VALUES_LOCALE_KEY": "Nutritional Values",
   "REGISTRATION_PRINT_WITH_BARCODE": "Bar<u>c</u>ode Print",
-  "REGISTRATION_VISIT_KEY": "Visit"
+  "REGISTRATION_VISIT_KEY": "Visit",
+  "REGISTRATION_FPS_INFORMATION":"Family Planning Service"
 }

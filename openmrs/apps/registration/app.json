@@ -37,6 +37,18 @@
     "Contact Tracing"
 	],
             "patientInformation": {
+              "additionalInformation":{
+                "title":"Family_Planning_Service",
+                "translationKey":"REGISTRATION_FPS_INFORMATION",
+                "attributes":[
+                  "Is client accompanied by her Partner",
+                  "Reason for Family planning",
+                  "Occasion",
+                  "How did you hear about the FP services at sites?",
+                  "If other, specify details"
+                ],
+                "expanded": true
+              },
                 "hidden": {
                     "attributes": ["addressCode"
                     ]
@@ -44,6 +56,7 @@
                 "defaults":  {
 
                 }
+
             },
             "addressHierarchy": {
                 "showAddressFieldsTopDown": true
