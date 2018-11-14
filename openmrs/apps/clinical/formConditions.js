@@ -8432,21 +8432,16 @@ Bahmni.ConceptSet.FormConditions.rules = {
 "FPS FORM,Condoms given" : function (formName, formFieldValues) {
       var conditions = {enable: [], disable: []};
       var obj = formFieldValues['FPS FORM,Condoms given'];
-      if (obj ==='Male') {
-          conditions.enable.push("FPS FORM,Specify the quantity for male condoms");
-          conditions.enable.push("FPS FORM,If given, specify HTE Number");
-              }
-      else {
-          conditions.disable.push("FPS FORM,Specify the quantity for male condoms");
-          conditions.disable.push("FPS FORM,If given, specify HTE Number");
-           }
-       if (obj ==='Female') {
-          conditions.enable.push("FPS FORM,Specify the quantity for female condoms");
-          conditions.enable.push("FPS FORM,If given, specify HTE Number");
-                     }
-      else {
+      if (obj =='Male') {
+          conditions.enable.push("FPS FORM,Specify the quantity for male condoms","FPS FORM,If given, specify HTE Number");
           conditions.disable.push("FPS FORM,Specify the quantity for female condoms");
-          conditions.disable.push("FPS FORM,If given, specify HTE Number");
+              }
+      else if (obj =='Female') {
+          conditions.enable.push("FPS FORM,Specify the quantity for female condoms","FPS FORM,If given, specify HTE Number");
+          conditions.disable.push("FPS FORM,Specify the quantity for male condoms");
+           }
+      else {
+          conditions.disable.push("FPS FORM,Specify the quantity for male condoms","FPS FORM,Specify the quantity for female condoms","FPS FORM,If given, specify HTE Number");
                   }
           return conditions;
      },

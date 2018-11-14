@@ -479,6 +479,59 @@
      "config" : {
         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/MOHReport-SexuallyTransmittedInfections(STI)report.sql"
      }
+   },
+   "fpsReferredInReport": {
+      "name": "FPS Register Referred In Report",
+      "type": "aggregation",
+      "config": {
+         "report":{
+            "type": "observations",
+            "config": {
+               "visitAttributes": ["Visit Status", "Admission Status"],
+               "conceptNamesToFilter": ["FPS FORM,Referred in for"],
+               "conceptValuesToFilter":[],
+               "applyDateRangeFor": "obsDate",
+               "encounterPerRow": false,
+               "ignoreEmptyValues": false,
+               "forDataAnalysis": true,
+               "showVisitInfo": true,
+               "conceptNameDisplayFormat": "shortNamePreferred"
+            }
+         },
+         "rowGroups": [
+            "Value"
+         ],
+         "distinctGroups": [
+            "Obs Id"
+         ],
+         "showTotalRow":true
+      }
+   },
+   "fpsReferredInReport": {
+      "name": "FPS Register Referred Out Report",
+      "type": "aggregation",
+      "config": {
+         "report":{
+            "type": "observations",
+            "config": {
+               "visitAttributes": ["Visit Status", "Admission Status"],
+               "conceptNamesToFilter": ["FPS FORM,Indicate where client was referred to"],
+               "conceptValuesToFilter":[],
+               "applyDateRangeFor": "obsDate",
+               "encounterPerRow": false,
+               "ignoreEmptyValues": false,
+               "forDataAnalysis": true,
+               "showVisitInfo": true,
+               "conceptNameDisplayFormat": "shortNamePreferred"
+            }
+         },
+         "rowGroups": [
+            "Value"
+         ],
+         "distinctGroups": [
+            "Obs Id"
+         ],
+         "showTotalRow":true
+      }
    }
-
 }
