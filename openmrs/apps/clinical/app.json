@@ -327,7 +327,33 @@
             "Body, Referral letter form":{
                 "required":true
             },
-            "defaults": {
+          "FPS FORM,General clinical examination, Any clinical abnormality":{
+            "multiSelect":true
+          },
+          "FPS FORM,If complication is Yes":{
+            "dropdown":true
+          },
+          "FPS FORM,If yes, select the adverse event":{
+            "dropdown":true
+          },
+          "FPS FORM,Have you ever used any contraception before (tick all that apply)":{
+            "multiSelect":true
+          },
+          "FPS FORM,Expiry Date":
+          {
+            "allowFutureDates": true
+          },
+          "FPS FORM,State review date": {
+            "allowFutureDates": true
+          },
+          "FPS FORM,Genital examination: Does the client have any of the following conditions?":{
+            "multiSelect": true
+          },
+          "FPS FORM,Does the client have a history of any of the following?":
+          {
+            "multiSelect":true
+          },
+          "defaults": {
                 "HIV testing and counselling service": "Requested",
                 "Numeric concept": 1,
                 "Multiselect concept": [
