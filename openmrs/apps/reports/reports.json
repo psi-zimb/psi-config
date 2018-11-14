@@ -507,7 +507,7 @@
          "showTotalRow":true
       }
    },
-   "fpsReferredInReport": {
+   "fpsReferredOutReport": {
       "name": "FPS Register Referred Out Report",
       "type": "aggregation",
       "config": {
