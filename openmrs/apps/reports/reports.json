@@ -533,5 +533,12 @@
          ],
          "showTotalRow":true
       }
+   },
+   "FPSRegisterReport-NumberofDeviceRemovalReport" :{
+     "name" : "FP Register - Number of Device Removal report",
+     "type" : "MRSGeneric",
+     "config" : {
+        "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/fpsNumberofDeviceRemoval.sql"
+     }
    }
 }
