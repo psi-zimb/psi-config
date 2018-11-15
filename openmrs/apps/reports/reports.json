@@ -540,5 +540,12 @@
      "config" : {
         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/fpsNumberofDeviceRemoval.sql"
      }
+   },
+   "FPSRegisterReport-RemovalReasonReport" :{
+     "name" : "FP Register - Removal reason report",
+     "type" : "MRSGeneric",
+     "config" : {
+        "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/fpsRemovalReport.sql"
+     }
    }
 }
