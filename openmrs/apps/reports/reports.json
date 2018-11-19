@@ -547,5 +547,19 @@
      "config" : {
         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/fpsRemovalReport.sql"
      }
+   },
+   "FPSRegisterReport-FPMethodSwitchingReport" :{
+     "name" : "FP Register - FP Method switching report",
+     "type" : "MRSGeneric",
+     "config" : {
+        "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/fpsFPMethodSwitching.sql"
+     }
+   },
+      "FPSRegisterReport-FPNewLarcsUserReport" :{
+     "name" : "FP Register - New LARCs user report",
+     "type" : "MRSGeneric",
+     "config" : {
+        "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/fpsNewLarcsUser.sql"
+     }
    }
 }
