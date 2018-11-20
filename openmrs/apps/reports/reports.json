@@ -503,8 +503,7 @@
          ],
          "distinctGroups": [
             "Obs Id"
-         ],
-         "showTotalRow":true
+         ]
       }
    },
    "fpsReferredOutReport": {
@@ -530,8 +529,7 @@
          ],
          "distinctGroups": [
             "Obs Id"
-         ],
-         "showTotalRow":true
+         ]
       }
    },
    "FPSRegisterReport-NumberofDeviceRemovalReport" :{
