@@ -34,9 +34,21 @@
 	"Next-of-kin Telephone Number",
 	"Next-of-kin Address",
 	"Mother's name",
-  "Contact Tracing"
+    "Contact Tracing"
 	],
             "patientInformation": {
+              "additionalInformation":{
+                "title":"Family_Planning_Service",
+                "translationKey":"REGISTRATION_FPS_INFORMATION",
+                "attributes":[
+                  "Is client accompanied by her Partner",
+                  "Reason for Family planning",
+                  "Occasion",
+                  "How did you hear about the FP services at sites?",
+                  "If other, specify details"
+                ],
+                "expanded": true
+              },
                 "hidden": {
                     "attributes": ["addressCode"
                     ]
@@ -44,17 +56,18 @@
                 "defaults":  {
 
                 }
+
             },
             "addressHierarchy": {
                 "showAddressFieldsTopDown": true
             },
-            "defaultVisitType": "FIELD",
             "relationshipTypeMap": {
                 "Parent":"patient",
                 "Partner": "patient"
             },
             "autoCompleteFields":[],
             "defaultIdentifierPrefix": "NAH",
+            "defaultVisitType": "OPD",
             "searchByIdForwardUrl": "/patient/{{patientUuid}}",
             "showMiddleName": true,
             "showLastName": true,
@@ -86,67 +99,56 @@
     "defaults":{
         "FHS": "Present"
       },
-              "Provider name for ART Initial":{
-                "dropdown": true,
-                "disableAddNotes":true
-              },
-              "Provider name for ART Routine":{
-                "dropdown": true,
-                "disableAddNotes":true
-              },
-              "Provider name for Unplanned or Walk in Visit":{
-                "dropdown": true,
-                "disableAddNotes":true
-              },
-              "Provider name for Urgent":{
-                "dropdown": true,
-                "disableAddNotes":true
-              },
-              "Provider name for Pick up drugs (Only)":{
-                "dropdown": true,
-                "disableAddNotes":true
-              },
-              "Provider name for Review by MD/Doctor":{
-                "dropdown": true,
-                "disableAddNotes":true
-              },
-              "Provider name for Review by Nurse":{
-                "dropdown": true,
-                "disableAddNotes":true
-              },
-              "Provider name for Lab Test (Only)":{
-                "dropdown": true,
-                "disableAddNotes":true
-              },
-              "Provider name for Basic 1 and ART 1":{
-                "dropdown": true,
-                "disableAddNotes":true
-              },
-              "Provider name for Phone Call":{
-                "dropdown": true,
-                "disableAddNotes":true
-              },
-              "Provider name for Home Visit":{
-                "dropdown": true,
-                "disableAddNotes":true
-              },
-              "Provider name for Hospital Visit":{
-                "dropdown": true,
-                "disableAddNotes":true
-              },
-              "Provider name for Adherence counseling":{
-                "dropdown": true,
-                "disableAddNotes":true
-              },
-              "Provider name for PrEP Initial":{
-                "dropdown": true,
-                "disableAddNotes":true
-              },
-              "Provider name for Prep Continuation":{
-                "dropdown": true,
-                "disableAddNotes":true
-              }
-            },
+    "Provider name for ART Initial":{
+      "dropdown": true,
+      "disableAddNotes":true
+    },
+    "Provider name for ART Routine":{
+      "dropdown": true,
+      "disableAddNotes":true
+    },
+    "Provider name for Unplanned or Walk in Visit":{
+      "dropdown": true,
+      "disableAddNotes":true
+    },
+    "Provider name for Urgent":{
+       "dropdown": true,
+       "disableAddNotes":true
+    },
+    "Provider name for Pick up drugs (Only)":{
+      "dropdown": true,
+      "disableAddNotes":true
+    },
+
+    "Provider name for Review by Nurse":{
+      "dropdown": true,
+      "disableAddNotes":true
+    },
+    "Provider name for Lab Test (Only)":{
+      "dropdown": true,
+      "disableAddNotes":true
+    },
+    "Provider name for Basic 1 and ART 1":{
+      "dropdown": true,
+      "disableAddNotes":true
+    },
+    "Provider name for Phone Call":{
+      "dropdown": true,
+      "disableAddNotes":true
+    },
+    "Provider name for Adherence counseling":{
+      "dropdown": true,
+      "disableAddNotes":true
+    },
+    "Provider name for PrEP Initial":{
+      "dropdown": true,
+      "disableAddNotes":true
+    },
+    "Provider name for Prep Continuation":{
+      "dropdown": true,
+      "disableAddNotes":true
+    }
+  },
             "fieldValidation" : {
                 "Telephone" : {"pattern" : "[0-9]{0,}", "errorMessage" : "Phone number can only be numerals"},
                 "familyName" : {"pattern" : "[a-zA-Z]{0,}", "errorMessage" : "Should only contain characters"},
