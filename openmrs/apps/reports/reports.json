@@ -480,112 +480,6 @@
          "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/MOHReport-SexuallyTransmittedInfections(STI)report.sql"
       }
    },
-   "fpsReferredInReport": {
-      "name": "FPS Register Referred In Report",
-      "type": "aggregation",
-      "config": {
-         "report": {
-            "type": "observations",
-            "config": {
-               "visitAttributes": [
-                  "Visit Status",
-                  "Admission Status"
-               ],
-               "conceptNamesToFilter": [
-                  "FPS FORM,Referred in for"
-               ],
-               "conceptValuesToFilter": [],
-               "applyDateRangeFor": "obsDate",
-               "encounterPerRow": false,
-               "ignoreEmptyValues": false,
-               "forDataAnalysis": true,
-               "showVisitInfo": true,
-               "conceptNameDisplayFormat": "shortNamePreferred"
-            }
-         },
-         "rowGroups": [
-            "Value"
-         ],
-         "distinctGroups": [
-            "Obs Id"
-         ],
-         "showTotalRow": true
-      }
-   },
-   "fpsReferredOutReport": {
-      "name": "FPS Register Referred Out Report",
-      "type": "aggregation",
-      "config": {
-         "report": {
-            "type": "observations",
-            "config": {
-               "visitAttributes": [
-                  "Visit Status",
-                  "Admission Status"
-               ],
-               "conceptNamesToFilter": [
-                  "FPS FORM,Indicate where client was referred to"
-               ],
-               "conceptValuesToFilter": [],
-               "applyDateRangeFor": "obsDate",
-               "encounterPerRow": false,
-               "ignoreEmptyValues": false,
-               "forDataAnalysis": true,
-               "showVisitInfo": true,
-               "conceptNameDisplayFormat": "shortNamePreferred"
-            }
-         },
-         "rowGroups": [
-            "Value"
-         ],
-         "distinctGroups": [
-            "Obs Id"
-         ],
-         "showTotalRow": true
-      }
-   },
-   "FPSRegisterReport-NumberofDeviceRemovalReport": {
-      "name": "FP Register - Number of Device Removal report",
-      "type": "MRSGeneric",
-      "config": {
-         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/fpsNumberofDeviceRemoval.sql"
-      }
-   },
-   "FPSRegisterReport-RemovalReasonReport": {
-      "name": "FP Register - Removal reason report",
-      "type": "MRSGeneric",
-      "config": {
-         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/fpsRemovalReport.sql"
-      }
-   },
-   "FPSRegisterReport-FPMethodSwitchingReport": {
-      "name": "FP Register - FP Method switching report",
-      "type": "MRSGeneric",
-      "config": {
-         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/fpsFPMethodSwitching.sql"
-      }
-   },
-   "FPSRegisterReport-FPNewLarcsUserReport": {
-      "name": "FP Register - New LARCs user report",
-      "type": "MRSGeneric",
-      "config": {
-         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/fpsNewLarcsUser.sql"
-      }
-   },
-   "FPSRegisterReport-FPFirstTimeUser": {
-      "name": "FP Register - First time User",
-      "type": "MRSGeneric",
-      "config": {
-         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/fpFirsttimeuser.sql"
-      }
-   },
-   "FPSRegisterReport-FPRepeatUser": {
-      "name": "FP Register - Repeat User",
-      "type": "MRSGeneric",
-      "config": {
-         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/fpRepeatuser.sql"
-      }
-   },
    "FPSMergerReport": {
       "name": "FPS Register Report",
       "type": "concatenated",
@@ -688,6 +582,13 @@
                      "Obs Id"
                   ],
                   "showTotalRow": true
+               }
+            },
+            {
+               "name": "FP Method switching report",
+               "type": "MRSGeneric",
+               "config": {
+                  "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/fpsFPMethodSwitching.sql"
                }
             }
 
