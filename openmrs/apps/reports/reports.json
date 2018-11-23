@@ -596,7 +596,7 @@
       }
    },
    "FPSContraceptiveDistributionReport": {
-      "name": "FPS contraceptive distribution repor",
+      "name": "FPS contraceptive distribution report",
       "type": "MRSGeneric",
       "config": {
          "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/fpsContraceptiveDistribution.sql"
