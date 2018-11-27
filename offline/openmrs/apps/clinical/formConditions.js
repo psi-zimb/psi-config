@@ -8429,22 +8429,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
       }
   return ruleActions;
 },
-"FPS FORM,Condoms given" : function (formName, formFieldValues) {
-      var conditions = {enable: [], disable: []};
-      var obj = formFieldValues['FPS FORM,Condoms given'];
-      if (obj =='Male') {
-          conditions.enable.push("FPS FORM,Specify the quantity for male condoms","FPS FORM,If given, specify HTE Number");
-          conditions.disable.push("FPS FORM,Specify the quantity for female condoms");
-              }
-      else if (obj =='Female') {
-          conditions.enable.push("FPS FORM,Specify the quantity for female condoms","FPS FORM,If given, specify HTE Number");
-          conditions.disable.push("FPS FORM,Specify the quantity for male condoms");
-           }
-      else {
-          conditions.disable.push("FPS FORM,Specify the quantity for male condoms","FPS FORM,Specify the quantity for female condoms","FPS FORM,If given, specify HTE Number");
-                  }
-          return conditions;
-     },
  "FPS FORM,Referred out ?": function(formName, formFieldValues) {
    var conditions = {enable: [], disable: [],show: [], hide: []};
    var questionThatTriggersRule = "FPS FORM,Referred out ?";
@@ -8478,5 +8462,22 @@ Bahmni.ConceptSet.FormConditions.rules = {
           conditions.disable.push("FPS FORM,Other referal");
      }
           return conditions;
-  }
+  },
+  "FPS FORM,Condoms given" : function (formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var obj = formFieldValues['FPS FORM,Condoms given'];
+     if (obj.includes('Male')) {
+         conditions.enable.push("FPS FORM,Specify the quantity for male condoms");
+         }
+     else {
+         conditions.disable.push("FPS FORM,Specify the quantity for male condoms");
+          }
+     if (obj.includes('Female')) {
+         conditions.enable.push("FPS FORM,Specify the quantity for female condoms");
+     }
+     else {
+         conditions.disable.push("FPS FORM,Specify the quantity for female condoms");
+          }
+         return conditions;
+     }
 }
