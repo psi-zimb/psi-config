@@ -1,4 +1,4 @@
- /*  Classification as first time user*/
+ /*  Classification as repeat user*/
                 Select
                   case 
                   when cvMethodIssuedAnswer.concept_full_name IN (
@@ -36,7 +36,7 @@
                 when cvMethodIssuedAnswer.concept_full_name = "FPS FORM,Vasectomy" then "Vasectomy"
                 end
                 as "FP Method",
-                count(distinct obsForFirsttimeUser.encounter_id) as "REPEAT VISIT"
+                count(distinct obsForFirsttimeUser.encounter_id) as "Count"
                 from obs obsForFirsttimeUser
                 join concept_view cvforQuestion on obsForFirsttimeUser.concept_id = cvforQuestion.concept_id
                 join concept_view cvforQuestionAnswer on obsForFirsttimeUser.value_coded = cvforQuestionAnswer.concept_id
@@ -65,6 +65,7 @@
                 and obsMethodIssued.voided = 0
                 and cvMethodIssued.retired = 0
                 and cvMethodIssuedAnswer.retired = 0
+                and date(obsForFirsttimeUser.obs_datetime) between date('#startDate#') and date('#endDate#')
                 group by cvMethodIssuedAnswer.concept_full_name
             
             UNION ALL
@@ -109,4 +110,5 @@
                     and cvForQuestionAnswercdm.retired = 0   
                     and cvforQuestion.retired =0  
                     and cvForQuestionAnswercdm.retired =0
+                    and date(obsForCDM.obs_datetime) between date('#startDate#') and date('#endDate#')
                     GROUP BY cvForQuestionAnswercdm.concept_full_name

@@ -608,21 +608,21 @@
       "config": {
          "reports": [
             {
-            "name": "FPS Service Statics First Visit Report",
+            "name": "FPS Service Statics - New Visit Report",
             "type": "MRSGeneric",
             "config": {
             "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/fpsServiceStasticsFirstVisit.sql"
             }
          },
             {
-            "name": "FPS Service Statics Repeat Visit Report",
+            "name": "FPS Service Statics - Repeat Visit Report",
             "type": "MRSGeneric",
             "config": {
             "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/fpsServiceStasticsRepeatVisit.sql"
             }
             },
             {
-            "name": "FPS Service Statics Quantity Issued to Clients Report",
+            "name": "FPS Service Statics - Quantity Issued to Clients Report",
             "type": "MRSGeneric",
             "config": {
             "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/fpsServiceStasticsQuantityIssue.sql"

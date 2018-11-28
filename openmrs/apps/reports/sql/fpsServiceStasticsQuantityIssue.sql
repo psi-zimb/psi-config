@@ -23,7 +23,7 @@
                 when cvMethodIssuedAnswer.concept_full_name = "FPS FORM,LNG-IUS IUCD" then "IUS5 (Same as LNG IUS)"
                 end
                 as "FP Method",
-                count(distinct  obsForFirsttimeUser.obs_id) as "Quantities Issued to Clients"
+                count(distinct  obsForFirsttimeUser.encounter_id) as "Quantities Issued to Clients"
                 from obs obsForFirsttimeUser
                 join concept_view cvforQuestion on obsForFirsttimeUser.concept_id = cvforQuestion.concept_id
                 join obs obsMethodIssued on obsForFirsttimeUser.encounter_id = obsMethodIssued.encounter_id
@@ -45,43 +45,85 @@
                 and obsMethodIssued.voided = 0
                 and cvMethodIssued.retired = 0
                 and cvMethodIssuedAnswer.retired = 0
+                and date(obsForFirsttimeUser.obs_datetime) between date('#startDate#') and date('#endDate#')
                 group by cvMethodIssuedAnswer.concept_full_name
 
                 UNION ALL
-            /* Condoms given */
-                    Select
-                    Case 
-                    when cvForQuestionAnswercdm.concept_full_name 
-                      IN ("Male",
-                          "Female"
-                        )
-                    then "SHORT TERM METHODS"
-                    END AS "Category"
-                    ,
-                    case
-                    when cvForQuestionAnswercdm.concept_full_name = "Male" then "Male Condoms"
-                    when cvForQuestionAnswercdm.concept_full_name = "Female" then "Female Condoms"
-                    end
-                    as "FP Method",
-                    count(distinct obsForCDM.obs_id) as "Quantities Issued to Clients"
+            /* Quantity of Condoms given */
+                Select 
+                  Category,
+                  FPMethod as 'FP Method',
+                  sum(QuantitiesIssuedToClients) as 'Quantities Issued To Clients' from 
+                (
+                    select          
+                            "SHORT TERM METHODS" as "Category",
+                            case
+                            when cvForQuestioncdm.concept_full_name = "FPS FORM,Specify the quantity for male condoms" then "Male Condoms"
+                            when cvForQuestioncdm.concept_full_name = "FPS FORM,Specify the quantity for female condoms" then "Female Condoms"
+                            end
+                            as "FPMethod",
+                         case 
+                            when cvForQuestioncdm.concept_full_name = "FPS FORM,Specify the quantity for male condoms" then obsForCDM.value_numeric 
+                            when cvForQuestioncdm.concept_full_name = "FPS FORM,Specify the quantity for female condoms" then obsForCDM.value_numeric 
+                            end as "QuantitiesIssuedToClients"                     
                     from
-                    obs obsForFirsttimeUser
-                    join concept_view cvforQuestion on obsForFirsttimeUser.concept_id = cvforQuestion.concept_id
-                    Join person p on obsForFirsttimeUser.person_id = p.person_id
-                    JOIN obs obsForCDM on obsForCDM.encounter_id=obsForFirsttimeUser.encounter_id
-                    join concept_view cvForQuestioncdm on obsForCDM.concept_id = cvForQuestioncdm.concept_id
-                    join concept_view cvForQuestionAnswercdm on obsForCDM.value_coded = cvForQuestionAnswercdm.concept_id
-                    where 
-                    cvforQuestion.concept_full_name = "FPS FORM,Have you ever used any contraception before (tick all that apply)" 
-                    AND 
-                    cvForQuestioncdm.concept_full_name = "FPS FORM,Condoms given"
-                    and cvForQuestionAnswercdm.concept_full_name In (
-                                                  "Male",
-                                                  "Female"
-                                                 )
-                    and obsForCDM.voided =   0
-                    and obsForFirsttimeUser.voided=0
-                    and cvForQuestioncdm.retired = 0 
-                    and cvforQuestion.retired =0  
-                    and cvForQuestionAnswercdm.retired =0
-                    GROUP BY cvForQuestionAnswercdm.concept_full_name
+                            obs obsForFirsttimeUser
+                            join concept_view cvforContraceptiveQuestion on obsForFirsttimeUser.concept_id = cvforContraceptiveQuestion.concept_id
+                            JOIN obs obsForCDM on obsForCDM.encounter_id=obsForFirsttimeUser.encounter_id
+                            join concept_view cvForQuestioncdm on obsForCDM.concept_id = cvForQuestioncdm.concept_id
+                            where 
+                            cvforContraceptiveQuestion.concept_full_name = "FPS FORM,Have you ever used any contraception before (tick all that apply)" 
+                            AND 
+                            cvForQuestioncdm.concept_full_name IN (
+                                                                    "FPS FORM,Specify the quantity for male condoms",
+                                                                    "FPS FORM,Specify the quantity for female condoms"
+                                                                  )
+                            and obsForCDM.voided = 0
+                            and obsForFirsttimeUser.voided=0
+                            and cvForQuestioncdm.retired = 0 
+                            and cvforContraceptiveQuestion.retired =0  
+                            and date(obsForCDM.obs_datetime) between date('#startDate#') and date('#endDate#')
+                            group by obsForCDM.encounter_id,cvForQuestioncdm.concept_full_name
+                )               
+                as quantitiesOfCondom
+                group by quantitiesOfCondom.Category,quantitiesOfCondom.FPMethod
+
+                UNION ALL
+/* State Cycles */
+                  Select 
+                  Category,
+                  FPMethod as 'FP Method',
+                  sum(QuantitiesIssuedToClients) as 'Quantities Issued To Clients' from 
+                (
+                    select          
+                            "SHORT TERM METHODS" as "Category",
+                            case
+                            when cvForQuestionCycles.concept_full_name = "FPS FORM,State COC Cycles" then "COC"
+                            when cvForQuestionCycles.concept_full_name = "FPS FORM, State POP Cycles" then "POP"
+                            end
+                            as "FPMethod",
+                         case 
+                            when cvForQuestionCycles.concept_full_name = "FPS FORM,State COC Cycles" then obsForCycles.value_numeric 
+                            when cvForQuestionCycles.concept_full_name = "FPS FORM, State POP Cycles" then obsForCycles.value_numeric 
+                            end as "QuantitiesIssuedToClients"                     
+                    from
+                            obs obsForFirsttimeUser
+                            join concept_view cvforContraceptiveQuestion on obsForFirsttimeUser.concept_id = cvforContraceptiveQuestion.concept_id
+                            JOIN obs obsForCycles on obsForCycles.encounter_id=obsForFirsttimeUser.encounter_id
+                            join concept_view cvForQuestionCycles on obsForCycles.concept_id = cvForQuestionCycles.concept_id
+                            where 
+                            cvforContraceptiveQuestion.concept_full_name = "FPS FORM,Have you ever used any contraception before (tick all that apply)" 
+                            AND 
+                            cvForQuestionCycles.concept_full_name IN (
+                                                                    "FPS FORM,State COC Cycles",
+                                                                    "FPS FORM, State POP Cycles"
+                                                                  )
+                            and obsForCycles.voided = 0
+                            and obsForFirsttimeUser.voided=0
+                            and cvForQuestionCycles.retired = 0 
+                            and cvforContraceptiveQuestion.retired =0
+                            and date(obsForCycles.obs_datetime) between date('#startDate#') and date('#endDate#')
+                            group by obsForCycles.encounter_id,cvForQuestionCycles.concept_full_name
+                )               
+                as stateCycles
+                group by stateCycles.Category,stateCycles.FPMethod
