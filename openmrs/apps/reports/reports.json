@@ -601,8 +601,40 @@
       "config": {
          "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/fpsContraceptiveDistribution.sql"
       }
-   }
+   },
+   "FPSServiceStastics": {
+      "name": "FPS Service Statistics Report",
+      "type": "concatenated",
+      "config": {
+         "reports": [
+            {
+            "name": "FPS Service Statics First Visit Report",
+            "type": "MRSGeneric",
+            "config": {
+            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/fpsServiceStasticsFirstVisit.sql"
+            }
+         },
+            {
+            "name": "FPS Service Statics Repeat Visit Report",
+            "type": "MRSGeneric",
+            "config": {
+            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/fpsServiceStasticsRepeatVisit.sql"
+            }
+            },
+            {
+            "name": "FPS Service Statics Quantity Issued to Clients Report",
+            "type": "MRSGeneric",
+            "config": {
+            "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/fpsServiceStasticsQuantityIssue.sql"
+            }
+            }
+
+
+
+            ]
+
+         }
 
 
 }
-
+}
