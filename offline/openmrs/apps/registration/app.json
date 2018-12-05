@@ -42,7 +42,8 @@
                 "translationKey":"REGISTRATION_FPS_INFORMATION",
                 "attributes":[
                   "Is client accompanied by her Partner",
-                  "Reason for Family planning",
+                  "Reason for the visit",
+                  "Reason for family planning",
                   "Occasion",
                   "How did you hear about the FP services at sites?",
                   "If other, specify details"
