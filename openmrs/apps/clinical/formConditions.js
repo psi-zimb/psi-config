@@ -8399,8 +8399,31 @@ Bahmni.ConceptSet.FormConditions.rules = {
          {
               conditions.disable.push("FPS FORM,State removal If other");
              }
+
+         if (conditionConcept == "FPS FORM,Health concerns" || conditionConcept == "FPS FORM,Complications")
+         {
+              conditions.enable.push("FPS Form, State the health concerns and complications");
+
+         }
+         else
+         {
+              conditions.disable.push("FPS Form, State the health concerns and complications");
+             }
               return conditions;
       },
+"FPS Form, State the health concerns and complications": function(formName, formFieldValues) {
+         var conditions = {enable: [], disable: []};
+         var conditionConcept = formFieldValues['FPS Form, State the health concerns and complications'];
+         if (conditionConcept == "Side effects") {
+              conditions.enable.push("FPS Form If side effects, specify details");
+
+         }
+         else
+         {
+              conditions.disable.push("FPS Form If side effects, specify details");
+         }
+          return conditions;
+},
  "FPS FORM,Complications during insertions": function(formName, formFieldValues) {
         var conditions = {enable: [], disable: [],show: [], hide: []};
  		var questionThatTriggersRule = "FPS FORM,Complications during insertions";
@@ -8415,6 +8438,19 @@ Bahmni.ConceptSet.FormConditions.rules = {
          }
          return ruleActions;
  	   },
+ "FPS FORM,If complication is Yes": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['FPS FORM,If complication is Yes'];
+     if (conditionConcept == "Other") {
+          conditions.enable.push("FPS Form, If Yes for other complication");
+
+     }
+     else
+     {
+          conditions.disable.push("FPS Form, If Yes for other complication");
+     }
+          return conditions;
+  },
  "FPS FORM,Adverse Event": function(formName, formFieldValues) {
         var conditions = {enable: [], disable: [],show: [], hide: []};
   		var questionThatTriggersRule = "FPS FORM,Adverse Event";
@@ -8429,6 +8465,19 @@ Bahmni.ConceptSet.FormConditions.rules = {
       }
   return ruleActions;
 },
+ "FPS FORM,If yes, select the adverse event": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['FPS FORM,If yes, select the adverse event'];
+     if (conditionConcept == "Other") {
+          conditions.enable.push("FPS Form, If Yes for other adverse event");
+
+     }
+     else
+     {
+          conditions.disable.push("FPS Form, If Yes for other adverse event");
+     }
+          return conditions;
+  },
  "FPS FORM,Referred out ?": function(formName, formFieldValues) {
    var conditions = {enable: [], disable: [],show: [], hide: []};
    var questionThatTriggersRule = "FPS FORM,Referred out ?";
@@ -8453,13 +8502,37 @@ Bahmni.ConceptSet.FormConditions.rules = {
  "FPS FORM,Indicate where client was referred to": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
      var conditionConcept = formFieldValues['FPS FORM,Indicate where client was referred to'];
-     if (conditionConcept == "Other") {
+     if (conditionConcept.indexOf("Other") >= 0)  {
           conditions.enable.push("FPS FORM,Other referal");
 
      }
      else
      {
           conditions.disable.push("FPS FORM,Other referal");
+     }
+     if (conditionConcept.indexOf("Surgical (state the problem)") >= 0){
+          conditions.enable.push("FPS Form, State the surgical problem");
+
+     }
+     else
+     {
+          conditions.disable.push("FPS Form, State the surgical problem");
+     }
+     if (conditionConcept.indexOf("Medical (state the problem)") >= 0){
+          conditions.enable.push("FPS Form, State the medical problem");
+
+     }
+     else
+     {
+          conditions.disable.push("FPS Form, State the medical problem");
+     }
+      if (conditionConcept.indexOf("Gynaecological problem (state the problem)") >= 0){
+          conditions.enable.push("FPS Form, State the gynaecological problem");
+
+     }
+     else
+     {
+          conditions.disable.push("FPS Form, State the gynaecological problem");
      }
           return conditions;
   },

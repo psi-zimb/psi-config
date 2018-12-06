@@ -357,6 +357,17 @@
           {
             "multiSelect": true
           },
+          "FPS BP, Systolic": {
+                "hideAbnormalButton" : true
+            },
+          "FPS BP, Diastolic": {
+                "hideAbnormalButton" : true
+            },
+        "FPS FORM,Indicate where client was referred to":
+        {
+             "multiSelect":true   
+            },
+
           "defaults": {
                 "HIV testing and counselling service": "Requested",
                 "Numeric concept": 1,

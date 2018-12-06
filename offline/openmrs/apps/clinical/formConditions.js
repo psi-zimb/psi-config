@@ -3,81 +3,81 @@ Bahmni.ConceptSet.FormConditions.rules = {
             var conditions = {show: [], hide: [],enable: [], disable: []};
             var obj = formFieldValues['Reason for visit'];
 
-			if (obj.indexOf('Initial ART service')>=0 ) {
-			         conditions.show.push("Provider name for ART Initial");
-			         } else {
-			           conditions.hide.push("Provider name for ART Initial");
-			         }
+            if (obj.indexOf('Initial ART service')>=0 ) {
+                     conditions.show.push("Provider name for ART Initial");
+                     } else {
+                       conditions.hide.push("Provider name for ART Initial");
+                     }
 
-			if (obj.indexOf('ART Routine Service')>=0 ) {
-			         conditions.show.push("Provider name for ART Routine");
-			         } else {
-			           conditions.hide.push("Provider name for ART Routine");
-			         }
+            if (obj.indexOf('ART Routine Service')>=0 ) {
+                     conditions.show.push("Provider name for ART Routine");
+                     } else {
+                       conditions.hide.push("Provider name for ART Routine");
+                     }
 
-			if (obj.indexOf('PrEP Initial')>=0 ) {
-			         conditions.show.push("Provider name for PrEP Initial");
-			         } else {
-			           conditions.hide.push("Provider name for PrEP Initial");
-			         }
+            if (obj.indexOf('PrEP Initial')>=0 ) {
+                     conditions.show.push("Provider name for PrEP Initial");
+                     } else {
+                       conditions.hide.push("Provider name for PrEP Initial");
+                     }
 
-			if (obj.indexOf('Unplanned or walk in visit')>=0 ) {
-			         conditions.show.push("Provider name for Unplanned or Walk in Visit");
-			         } else {
-			           conditions.hide.push("Provider name for Unplanned or Walk in Visit");
-			         }
+            if (obj.indexOf('Unplanned or walk in visit')>=0 ) {
+                     conditions.show.push("Provider name for Unplanned or Walk in Visit");
+                     } else {
+                       conditions.hide.push("Provider name for Unplanned or Walk in Visit");
+                     }
 
-			if (obj.indexOf('Urgent')>=0 ) {
-			         conditions.show.push("Provider name for Urgent");
-			         } else {
-			           conditions.hide.push("Provider name for Urgent");
-			         }
+            if (obj.indexOf('Urgent')>=0 ) {
+                     conditions.show.push("Provider name for Urgent");
+                     } else {
+                       conditions.hide.push("Provider name for Urgent");
+                     }
 
-			if (obj.indexOf('Pick up Drugs (only)')>=0 ) {
-			         conditions.show.push("Provider name for Pick up drugs (Only)");
-			         } else {
-			           conditions.hide.push("Provider name for Pick up drugs (Only)");
-			         }
-
-
-
-			if (obj.indexOf('Review by Nurse')>=0 ) {
-			         conditions.show.push("Provider name for Review by Nurse");
-			         } else {
-			           conditions.hide.push("Provider name for Review by Nurse");
-			         }
-
-			if (obj.indexOf('Lab test (only)')>=0 ) {
-			         conditions.show.push("Provider name for Lab Test (Only)");
-			         } else {
-			           conditions.hide.push("Provider name for Lab Test (Only)");
-			         }
+            if (obj.indexOf('Pick up Drugs (only)')>=0 ) {
+                     conditions.show.push("Provider name for Pick up drugs (Only)");
+                     } else {
+                       conditions.hide.push("Provider name for Pick up drugs (Only)");
+                     }
 
 
-			if (obj.indexOf('Basic 1 and ART 1 service')>=0 ) {
-			         conditions.show.push("Provider name for Basic 1 and ART 1");
-			         } else {
-			           conditions.hide.push("Provider name for Basic 1 and ART 1");
-			         }
+
+            if (obj.indexOf('Review by Nurse')>=0 ) {
+                     conditions.show.push("Provider name for Review by Nurse");
+                     } else {
+                       conditions.hide.push("Provider name for Review by Nurse");
+                     }
+
+            if (obj.indexOf('Lab test (only)')>=0 ) {
+                     conditions.show.push("Provider name for Lab Test (Only)");
+                     } else {
+                       conditions.hide.push("Provider name for Lab Test (Only)");
+                     }
 
 
-			if (obj.indexOf('Phone Call')>=0 ) {
-			         conditions.show.push("Provider name for Phone Call");
-			         } else {
-			           conditions.hide.push("Provider name for Phone Call");
-			         }
+            if (obj.indexOf('Basic 1 and ART 1 service')>=0 ) {
+                     conditions.show.push("Provider name for Basic 1 and ART 1");
+                     } else {
+                       conditions.hide.push("Provider name for Basic 1 and ART 1");
+                     }
 
-			if (obj.indexOf('Adherence Counselling')>=0 ) {
-			         conditions.show.push("Provider name for Adherence counseling");
-			         } else {
-			           conditions.hide.push("Provider name for Adherence counseling");
-			         }
 
-			if (obj.indexOf('PrEP Continuation')>=0 ) {
-			         conditions.show.push("Provider name for Prep Continuation");
-			         } else {
-			           conditions.hide.push("Provider name for Prep Continuation");
-			         }
+            if (obj.indexOf('Phone Call')>=0 ) {
+                     conditions.show.push("Provider name for Phone Call");
+                     } else {
+                       conditions.hide.push("Provider name for Phone Call");
+                     }
+
+            if (obj.indexOf('Adherence Counselling')>=0 ) {
+                     conditions.show.push("Provider name for Adherence counseling");
+                     } else {
+                       conditions.hide.push("Provider name for Adherence counseling");
+                     }
+
+            if (obj.indexOf('PrEP Continuation')>=0 ) {
+                     conditions.show.push("Provider name for Prep Continuation");
+                     } else {
+                       conditions.hide.push("Provider name for Prep Continuation");
+                     }
 
       return conditions;
 },
@@ -447,80 +447,80 @@ Bahmni.ConceptSet.FormConditions.rules = {
         return conditions;
 
     },
-	"Partner/Self Currently on F/P": function(formName, formFieldValues) {
-		var questionThatTriggersRule = "Partner/Self Currently on F/P";
+    "Partner/Self Currently on F/P": function(formName, formFieldValues) {
+        var questionThatTriggersRule = "Partner/Self Currently on F/P";
         var selectedResponses = formFieldValues[questionThatTriggersRule];
-		var question1AffectedByRule = "If yes, which method are you/partner using? (Multiple responses possible)";
+        var question1AffectedByRule = "If yes, which method are you/partner using? (Multiple responses possible)";
         var conditionTrue = selectedResponses == 'Yes';
-    	var ruleActions = {enable: [], disable: []};
+        var ruleActions = {enable: [], disable: []};
         if(conditionTrue) {
             ruleActions.enable.push(question1AffectedByRule);
         } else {
             ruleActions.disable.push(question1AffectedByRule);
         }
         return ruleActions;
-	    },
-	"If married/having a partner and individual T&C, Reasons for not  bringing partner  (Multiple responses possible)": function(formName, formFieldValues) {
-		var questionThatTriggersRule = "If married/having a partner and individual T&C, Reasons for not  bringing partner  (Multiple responses possible)";
+        },
+    "If married/having a partner and individual T&C, Reasons for not  bringing partner  (Multiple responses possible)": function(formName, formFieldValues) {
+        var questionThatTriggersRule = "If married/having a partner and individual T&C, Reasons for not  bringing partner  (Multiple responses possible)";
         var selectedResponses = formFieldValues[questionThatTriggersRule];
-		var question1AffectedByRule = "Other specific (reasons for not bringing partner)";
+        var question1AffectedByRule = "Other specific (reasons for not bringing partner)";
         var conditionTrue = selectedResponses.indexOf('Other (specify)') >= 0;
-    	var ruleActions = {enable: [], disable: []};
+        var ruleActions = {enable: [], disable: []};
         if(conditionTrue) {
             ruleActions.enable.push(question1AffectedByRule);
         } else {
             ruleActions.disable.push(question1AffectedByRule);
         }
         return ruleActions;
-	    },
-	"Are you currently coughing?": function(formName, formFieldValues) {
-		var questionThatTriggersRule = "Are you currently coughing?";
+        },
+    "Are you currently coughing?": function(formName, formFieldValues) {
+        var questionThatTriggersRule = "Are you currently coughing?";
         var selectedResponses = formFieldValues[questionThatTriggersRule];
-		var question1AffectedByRule = "For how long are you been coughing (weeks)?";
+        var question1AffectedByRule = "For how long are you been coughing (weeks)?";
         var conditionTrue = selectedResponses == 'Yes' || selectedResponses == 'Not Sure';
-    	var ruleActions = {enable: [], disable: []};
+        var ruleActions = {enable: [], disable: []};
         if(conditionTrue) {
             ruleActions.enable.push(question1AffectedByRule);
         } else {
             ruleActions.disable.push(question1AffectedByRule);
         }
         return ruleActions;
-	    },
-	"Why are you worried/ curious about learning your HIV status?  (Multiple responses possible)": function(formName, formFieldValues) {
-		var questionThatTriggersRule = "Why are you worried/ curious about learning your HIV status?  (Multiple responses possible)";
+        },
+    "Why are you worried/ curious about learning your HIV status?  (Multiple responses possible)": function(formName, formFieldValues) {
+        var questionThatTriggersRule = "Why are you worried/ curious about learning your HIV status?  (Multiple responses possible)";
         var selectedResponses = formFieldValues[questionThatTriggersRule];
-		var question1AffectedByRule = "Other specific (why worried/curious about HIV status)";
+        var question1AffectedByRule = "Other specific (why worried/curious about HIV status)";
         var conditionTrue = selectedResponses.indexOf('Other (specify)') >= 0;
-    	var ruleActions = {enable: [], disable: []};
+        var ruleActions = {enable: [], disable: []};
         if(conditionTrue) {
             ruleActions.enable.push(question1AffectedByRule);
         } else {
             ruleActions.disable.push(question1AffectedByRule);
         }
         return ruleActions;
-	    },
-	"How did you learn about this T&C site?": function(formName, formFieldValues) {
-		var questionThatTriggersRule = "How did you learn about this T&C site?";
+        },
+    "How did you learn about this T&C site?": function(formName, formFieldValues) {
+        var questionThatTriggersRule = "How did you learn about this T&C site?";
         var selectedResponses = formFieldValues[questionThatTriggersRule];
-		var question1AffectedByRule = "Other specific (how learned about this T&C site)";
-    	var ruleActions = {enable: [], disable: []};
+        var question1AffectedByRule = "Other specific (how learned about this T&C site)";
+        var ruleActions = {enable: [], disable: []};
         if(selectedResponses == "Other (specify)") {
             ruleActions.enable.push(question1AffectedByRule);
         } else {
             ruleActions.disable.push(question1AffectedByRule);
         }
         return ruleActions;
-	    },
-	"Ever been tested": function(formName, formFieldValues) {
-		var questionThatTriggersRule = "Ever been tested";
+        },
+    "Ever been tested": function(formName, formFieldValues) {
+        var questionThatTriggersRule = "Ever been tested";
         var selectedResponses = formFieldValues[questionThatTriggersRule];
-		var question1AffectedByRule = "If yes, where were you last tested?";
-		var question2AffectedByRule = "If ever been tested, how many times have you been tested for HIV before?";
-		var question3AffectedByRule = "How long ago were you last tested (months)?";
-		var question4AffectedByRule = "What were the results the last time you were tested?";
-		var question5AffectedByRule = "Has your most recent sex partner been tested in the last 3 months?";
+        var question1AffectedByRule = "If yes, where were you last tested?";
+        var question2AffectedByRule = "If ever been tested, how many times have you been tested for HIV before?";
+        var question3AffectedByRule = "How long ago were you last tested (months)?";
+        var question4AffectedByRule = "What were the results the last time you were tested?";
+        var question5AffectedByRule = "Has your most recent sex partner been tested in the last 3 months?";
         var conditionTrue = selectedResponses == 'Yes';
-    	var ruleActions = {enable: [], disable: []};
+        var ruleActions = {enable: [], disable: []};
         if(conditionTrue) {
             ruleActions.enable.push(question1AffectedByRule);
             ruleActions.enable.push(question2AffectedByRule);
@@ -535,46 +535,46 @@ Bahmni.ConceptSet.FormConditions.rules = {
             ruleActions.disable.push(question5AffectedByRule);
         }
         return ruleActions;
-	    },
-	"If client advised to return for re-testing indicate timeline (2 weeks, 4 weeks, 3months, 6 months, other)": function(formName, formFieldValues) {
-		var questionThatTriggersRule = "If client advised to return for re-testing indicate timeline (2 weeks, 4 weeks, 3months, 6 months, other)";
+        },
+    "If client advised to return for re-testing indicate timeline (2 weeks, 4 weeks, 3months, 6 months, other)": function(formName, formFieldValues) {
+        var questionThatTriggersRule = "If client advised to return for re-testing indicate timeline (2 weeks, 4 weeks, 3months, 6 months, other)";
         var selectedResponses = formFieldValues[questionThatTriggersRule];
-		var question1AffectedByRule = "Other specific (timeline advised to return for re-testing)";
+        var question1AffectedByRule = "Other specific (timeline advised to return for re-testing)";
         var conditionTrue = selectedResponses == 'Other (specify)';
-    	var ruleActions = {enable: [], disable: []};
+        var ruleActions = {enable: [], disable: []};
         if(conditionTrue) {
             ruleActions.enable.push(question1AffectedByRule);
         } else {
             ruleActions.disable.push(question1AffectedByRule);
         }
         return ruleActions;
-	    },
-	"Disclosure planned to:  (Multiple responses possible)": function(formName, formFieldValues) {
-		var questionThatTriggersRule = "Disclosure planned to:  (Multiple responses possible)";
+        },
+    "Disclosure planned to:  (Multiple responses possible)": function(formName, formFieldValues) {
+        var questionThatTriggersRule = "Disclosure planned to:  (Multiple responses possible)";
         var selectedResponses = formFieldValues[questionThatTriggersRule];
-		var question1AffectedByRule = "Other specific (disclosure planned to)";
+        var question1AffectedByRule = "Other specific (disclosure planned to)";
         var conditionTrue = selectedResponses.indexOf('Other (specify)') >= 0;
-    	var ruleActions = {enable: [], disable: []};
+        var ruleActions = {enable: [], disable: []};
         if(conditionTrue) {
             ruleActions.enable.push(question1AffectedByRule);
         } else {
             ruleActions.disable.push(question1AffectedByRule);
         }
         return ruleActions;
-	    },
-	"Risk reduction plan  (Multiple responses possible)": function(formName, formFieldValues) {
-		var questionThatTriggersRule = "Risk reduction plan  (Multiple responses possible)";
+        },
+    "Risk reduction plan  (Multiple responses possible)": function(formName, formFieldValues) {
+        var questionThatTriggersRule = "Risk reduction plan  (Multiple responses possible)";
         var selectedResponses = formFieldValues[questionThatTriggersRule];
-		var question1AffectedByRule = "Other specific (risk reduction plan)";
+        var question1AffectedByRule = "Other specific (risk reduction plan)";
         var conditionTrue = selectedResponses.indexOf('Other (specify)') >= 0;
-    	var ruleActions = {enable: [], disable: []};
+        var ruleActions = {enable: [], disable: []};
         if(conditionTrue) {
             ruleActions.enable.push(question1AffectedByRule);
         } else {
             ruleActions.disable.push(question1AffectedByRule);
         }
         return ruleActions;
-	    },
+        },
         "HEENT, Are you hard on hearing?": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['HEENT, Are you hard on hearing?'];
@@ -2046,7 +2046,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         }
         return conditions;
         },
-	"PHTC, Ever had sexual intercourse": function(formName, formFieldValues) {
+    "PHTC, Ever had sexual intercourse": function(formName, formFieldValues) {
                 var questionThatTriggersRule = "PHTC, Ever had sexual intercourse";
                 var selectedResponses = formFieldValues[questionThatTriggersRule];
                 var question1AffectedByRule = "PHTC, Age of first penetrative sex";
@@ -2100,7 +2100,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         }
         return conditions;
         },
-	"HST, External referral to:(Multiple responses possible)": function (formName, formFieldValues) {
+    "HST, External referral to:(Multiple responses possible)": function (formName, formFieldValues) {
                 var conditions = {enable: [], disable: []};
                 var conditionConcept = formFieldValues['HST, External referral to:(Multiple responses possible)'];
                 if (conditionConcept.indexOf("Other") >= 0) {
@@ -8357,13 +8357,13 @@ Bahmni.ConceptSet.FormConditions.rules = {
      },
 "FPS FORM,Device removal": function(formName, formFieldValues) {
         var conditions = {enable: [], disable: [],show: [], hide: []};
- 		var questionThatTriggersRule = "FPS FORM,Device removal";
+        var questionThatTriggersRule = "FPS FORM,Device removal";
         var selectedResponses = formFieldValues[questionThatTriggersRule];
- 		var aboveQuestionAnswer = "FPS FORM,FP type";
- 		var secondAnswer = "FPS FORM,State reason for removal"
- 		var thirdAnswer = "FPS FORM,Device Inserted by"
+        var aboveQuestionAnswer = "FPS FORM,FP type";
+        var secondAnswer = "FPS FORM,State reason for removal"
+        var thirdAnswer = "FPS FORM,Device Inserted by"
         var conditionTrue = selectedResponses == 'Yes';
-     	var ruleActions = {enable: [], disable: []};
+        var ruleActions = {enable: [], disable: []};
          if(conditionTrue) {
              ruleActions.enable.push(aboveQuestionAnswer);
              ruleActions.enable.push(secondAnswer);
@@ -8374,7 +8374,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
              ruleActions.disable.push(thirdAnswer);
          }
          return ruleActions;
- 	    },
+        },
  "FPS FORM,Device Inserted by": function(formName, formFieldValues) {
          var conditions = {enable: [], disable: []};
          var conditionConcept = formFieldValues['FPS FORM,Device Inserted by'];
@@ -8399,29 +8399,65 @@ Bahmni.ConceptSet.FormConditions.rules = {
          {
               conditions.disable.push("FPS FORM,State removal If other");
              }
+
+         if (conditionConcept == "FPS FORM,Health concerns" || conditionConcept == "FPS FORM,Complications")
+         {
+              conditions.enable.push("FPS Form, State the health concerns and complications");
+
+         }
+         else
+         {
+              conditions.disable.push("FPS Form, State the health concerns and complications");
+             }
               return conditions;
       },
+"FPS Form, State the health concerns and complications": function(formName, formFieldValues) {
+         var conditions = {enable: [], disable: []};
+         var conditionConcept = formFieldValues['FPS Form, State the health concerns and complications'];
+         if (conditionConcept == "Side effects") {
+              conditions.enable.push("FPS Form If side effects, specify details");
+
+         }
+         else
+         {
+              conditions.disable.push("FPS Form If side effects, specify details");
+         }
+          return conditions;
+},
  "FPS FORM,Complications during insertions": function(formName, formFieldValues) {
         var conditions = {enable: [], disable: [],show: [], hide: []};
- 		var questionThatTriggersRule = "FPS FORM,Complications during insertions";
+        var questionThatTriggersRule = "FPS FORM,Complications during insertions";
         var selectedResponses = formFieldValues[questionThatTriggersRule];
- 		var aboveQuestionEffected = "FPS FORM,If complication is Yes";
+        var aboveQuestionEffected = "FPS FORM,If complication is Yes";
         var conditionTrue = selectedResponses == 'Yes';
-     	var ruleActions = {enable: [], disable: []};
+        var ruleActions = {enable: [], disable: []};
          if(conditionTrue) {
              ruleActions.enable.push(aboveQuestionEffected);
          } else {
              ruleActions.disable.push(aboveQuestionEffected);
          }
          return ruleActions;
- 	   },
+       },
+ "FPS FORM,If complication is Yes": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['FPS FORM,If complication is Yes'];
+     if (conditionConcept == "Other") {
+          conditions.enable.push("FPS Form, If Yes for other complication");
+
+     }
+     else
+     {
+          conditions.disable.push("FPS Form, If Yes for other complication");
+     }
+          return conditions;
+  },
  "FPS FORM,Adverse Event": function(formName, formFieldValues) {
         var conditions = {enable: [], disable: [],show: [], hide: []};
-  		var questionThatTriggersRule = "FPS FORM,Adverse Event";
+        var questionThatTriggersRule = "FPS FORM,Adverse Event";
         var selectedResponses = formFieldValues[questionThatTriggersRule];
-  		var aboveQuestionEffected = "FPS FORM,If yes, select the adverse event";
+        var aboveQuestionEffected = "FPS FORM,If yes, select the adverse event";
         var conditionTrue = selectedResponses == 'Yes';
-      	var ruleActions = {enable: [], disable: []};
+        var ruleActions = {enable: [], disable: []};
           if(conditionTrue) {
               ruleActions.enable.push(aboveQuestionEffected);
       } else {
@@ -8429,6 +8465,19 @@ Bahmni.ConceptSet.FormConditions.rules = {
       }
   return ruleActions;
 },
+ "FPS FORM,If yes, select the adverse event": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['FPS FORM,If yes, select the adverse event'];
+     if (conditionConcept == "Other") {
+          conditions.enable.push("FPS Form, If Yes for other adverse event");
+
+     }
+     else
+     {
+          conditions.disable.push("FPS Form, If Yes for other adverse event");
+     }
+          return conditions;
+  },
  "FPS FORM,Referred out ?": function(formName, formFieldValues) {
    var conditions = {enable: [], disable: [],show: [], hide: []};
    var questionThatTriggersRule = "FPS FORM,Referred out ?";
@@ -8453,13 +8502,37 @@ Bahmni.ConceptSet.FormConditions.rules = {
  "FPS FORM,Indicate where client was referred to": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
      var conditionConcept = formFieldValues['FPS FORM,Indicate where client was referred to'];
-     if (conditionConcept == "Other") {
+     if (conditionConcept.indexOf("Other") >= 0)  {
           conditions.enable.push("FPS FORM,Other referal");
 
      }
      else
      {
           conditions.disable.push("FPS FORM,Other referal");
+     }
+     if (conditionConcept.indexOf("Surgical (state the problem)") >= 0){
+          conditions.enable.push("FPS Form, State the surgical problem");
+
+     }
+     else
+     {
+          conditions.disable.push("FPS Form, State the surgical problem");
+     }
+     if (conditionConcept.indexOf("Medical (state the problem)") >= 0){
+          conditions.enable.push("FPS Form, State the medical problem");
+
+     }
+     else
+     {
+          conditions.disable.push("FPS Form, State the medical problem");
+     }
+      if (conditionConcept.indexOf("Gynaecological problem (state the problem)") >= 0){
+          conditions.enable.push("FPS Form, State the gynaecological problem");
+
+     }
+     else
+     {
+          conditions.disable.push("FPS Form, State the gynaecological problem");
      }
           return conditions;
   },
