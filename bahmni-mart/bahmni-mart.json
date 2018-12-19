@@ -404,7 +404,7 @@
         COALESCE(phtc.\"event_date\",hst.\"event_date\") as \"event_date\",
         'ACTIVE' as status,
         COALESCE(phtc.\"event_unique_id\",hst.\"event_unique_id\") as \"event_unique_id\",
-        regSecondPage.\"enrollment_date\",
+        regSecPageEnrollmentDate.\"enrollment_date\",
         COALESCE(phtc.\"date_created\",hst.\"date_created\") as \"date_created\",
         personDetails.\"client number used at the previous visit\",
         phtc.\"Client's HIV test result\",
@@ -477,20 +477,28 @@ phtc.\"Late read result\"
           
             (
                 Select 
-                rspv.patient_id,
-                max(rspv.date_created) as \"date_created\", 
-                max(date(rspv.obs_datetime)) as \"obsdate\",
-                min(date(rspv.obs_datetime)) as \"enrollment_date\",
                 string_agg(rspv.reason_for_visit,', ') as \"Services\",
-                pvev.visit_id
+                pvev.visit_id,
+                rspv.patient_id
                 from reg_visit rspv
                 join patient_encounter_table pvev on rspv.encounter_id = pvev.encounter_id
                 where rspv.reason_for_visit IN ('HIV Self Testing','Provider Testing and Counseling','Confirmatory HIV testing and Counseling')
                 group by rspv.patient_id, 
-                         pvev.visit_id
-                        
+                         pvev.visit_id            
             ) as regSecondPage
            on personDetails.patient_id = regSecondPage.patient_id 
+          
+          inner join
+          
+            (
+                Select 
+                min(date(rspv.obs_datetime)) as \"enrollment_date\",
+                rspv.patient_id
+                from reg_visit rspv
+                where rspv.reason_for_visit IN ('HIV Self Testing','Provider Testing and Counseling','Confirmatory HIV testing and Counseling')
+                group by rspv.patient_id                
+            ) as regSecPageEnrollmentDate
+           on personDetails.patient_id = regSecPageEnrollmentDate.patient_id 
               
           left join
           (
