@@ -402,7 +402,7 @@
         'HTSDeId' as program_stage,
         personDetails.\"OrgUnit\",
         COALESCE(phtc.\"event_date\",hst.\"event_date\") as \"event_date\",
-        'ACTIVE' as status,
+        'COMPLETED' as status,
         COALESCE(phtc.\"event_unique_id\",hst.\"event_unique_id\") as \"event_unique_id\",
         regSecPageEnrollmentDate.\"enrollment_date\",
         COALESCE(phtc.\"date_created\",hst.\"date_created\") as \"date_created\",
