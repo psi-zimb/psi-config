@@ -169,6 +169,25 @@
       "columnsToIgnore": []
       },
     {
+      "name": "patient_registration_second_page_creation",
+      "type": "customSql",
+      "readerSql": "select obsRegSecondPage.obs_id, 
+                           obsRegSecondPage.encounter_id,
+                           obsRegSecondPage.obs_datetime,
+                           obsRegSecondPage.person_id as 'patient_id',
+                           cv1.concept_full_name as 'reason_for_visit',
+                           obsRegSecondPage.date_created
+                            from obs obsRegSecondPage
+                    join concept_view cv on obsRegSecondPage.concept_id = cv.concept_id
+                    join concept_view cv1 on obsRegSecondPage.value_coded = cv1.concept_id
+                    where cv.concept_full_name IN (\"Reason for visit\")
+      and cv.retired = 0
+      and obsRegSecondPage.voided = 0",
+      "tableName": "patient_registration_second_page",
+      "chunkSizeToRead": "500",
+      "columnsToIgnore": []
+      },
+    {
       "name": "HTS_instance_table_creation",
       "type": "customSql",
       "readerSql": "select              
@@ -480,7 +499,7 @@ phtc.\"Late read result\"
                 string_agg(rspv.reason_for_visit,', ') as \"Services\",
                 pvev.visit_id,
                 rspv.patient_id
-                from reg_visit rspv
+                from patient_registration_second_page rspv
                 join patient_encounter_table pvev on rspv.encounter_id = pvev.encounter_id
                 where rspv.reason_for_visit IN ('HIV Self Testing','Provider Testing and Counseling','Confirmatory HIV testing and Counseling')
                 group by rspv.patient_id, 
@@ -494,7 +513,7 @@ phtc.\"Late read result\"
                 Select 
                 min(date(rspv.obs_datetime)) as \"enrollment_date\",
                 rspv.patient_id
-                from reg_visit rspv
+                from patient_registration_second_page rspv
                 where rspv.reason_for_visit IN ('HIV Self Testing','Provider Testing and Counseling','Confirmatory HIV testing and Counseling')
                 group by rspv.patient_id                
             ) as regSecPageEnrollmentDate
