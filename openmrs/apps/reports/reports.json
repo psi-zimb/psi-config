@@ -439,7 +439,7 @@
       }
    },
    "MOHReport-HIVTestingServices(includingVCT,PICT,TB,OI/ART,INPATIENTSandPMTCT)Report": {
-      "name": "MOH Report - HIV testing services (including VCT, PICT, TB, OI/ART, INPATIENTS and PMTCT) Report",
+      "name": "MOH Report - HIV testing services (including VCT PICT TB OI/ART INPATIENTS and PMTCT) Report",
       "type": "MRSGeneric",
       "config": {
          "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/MOHReportHIVTestingServices.sql"
