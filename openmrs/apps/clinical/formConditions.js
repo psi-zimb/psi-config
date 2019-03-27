@@ -8234,6 +8234,8 @@ Bahmni.ConceptSet.FormConditions.rules = {
    }
    return conditions;
 },
+
+
 "FPS FORM,Currently receiving ART?": function(formName, formFieldValues) {
       var conditions = {enable: [], disable: []};
       var conditionConcept = formFieldValues['FPS FORM,Currently receiving ART?'];
@@ -8552,5 +8554,788 @@ Bahmni.ConceptSet.FormConditions.rules = {
          conditions.disable.push("FPS FORM,Specify the quantity for female condoms");
           }
          return conditions;
+     },
+    "FPS REG,Reason for the visit": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['FPS REG,Reason for the visit'];
+        if (conditionConcept == "Method") {
+            conditions.enable.push("FPS REG,Reason for family planning");
+
+        }
+        else
+        {
+            conditions.disable.push("FPS REG,Reason for family planning");
+        }
+        return conditions;
+
+    },
+    "FPS REG,How did you hear about the FP services at sites?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['FPS REG,How did you hear about the FP services at sites?'];
+        if (conditionConcept == "FPS REG,Other site") {
+            conditions.enable.push("FPS FORM, Other for How did you hear about the FP services at sites?");
+
+        }
+        else
+        {
+            conditions.disable.push("FPS FORM, Other for How did you hear about the FP services at sites?");
+        }
+        return conditions;
+
+    },
+    "FPS FORM,Current Method": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['FPS FORM,Current Method'];
+     if (conditionConcept.indexOf("Others") >=0) {
+          conditions.enable.push("FPS Form, IF Current method others, then specify");
+
      }
+     else
+     {
+          conditions.disable.push("FPS Form, IF Current method others, then specify");
+     }
+          return conditions;
+  },
+      "FPS FORM,Pregnancy test": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['FPS FORM,Pregnancy test'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("FPS Form, If Yes for pregnancy test");
+
+        }
+        else
+        {
+            conditions.disable.push("FPS Form, If Yes for pregnancy test");
+        }
+        return conditions;
+
+    },
+    "FP Counselling Only, Current Method": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['FP Counselling Only, Current Method'];
+     if (conditionConcept.indexOf("Others") >=0) {
+          conditions.enable.push("FPS Counselling, IF Current method others, then specify");
+
+     }
+     else
+     {
+          conditions.disable.push("FPS Counselling, IF Current method others, then specify");
+     }
+          return conditions;
+  },
+
+"FP Counselling Only,Device removal": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: [],show: [], hide: []};
+        var questionThatTriggersRule = "FP Counselling Only,Device removal";
+        var selectedResponses = formFieldValues[questionThatTriggersRule];
+        var aboveQuestionAnswer = "FP Counselling Only,FP type";
+        var secondAnswer = "FP Counselling Only,State reason for removal"
+        var thirdAnswer = "FP Counselling Only,Device Inserted by"
+        var forthAnswer = "FP Counselling Only, End of procedure, indicate time"
+        var fifthAnswer = "FPS Counselling Only, Complications during insertions"
+        var sixthAnswer = "FPS Counselling Only, Adverse Event"
+        var seventhAnswer = "FPS Counselling Only, Procedure done by (Name of counsellor)"
+        var conditionTrue = selectedResponses == 'Yes';
+        var ruleActions = {enable: [], disable: []};
+         if(conditionTrue) {
+             ruleActions.enable.push(aboveQuestionAnswer);
+             ruleActions.enable.push(secondAnswer);
+             ruleActions.enable.push(thirdAnswer);
+             ruleActions.enable.push(forthAnswer);
+             ruleActions.enable.push(fifthAnswer);
+             ruleActions.enable.push(sixthAnswer);
+             ruleActions.enable.push(seventhAnswer);
+         } else {
+             ruleActions.disable.push(aboveQuestionAnswer);
+             ruleActions.disable.push(secondAnswer);
+             ruleActions.disable.push(thirdAnswer);
+             ruleActions.disable.push(forthAnswer);
+             ruleActions.disable.push(fifthAnswer);
+             ruleActions.disable.push(sixthAnswer);
+             ruleActions.disable.push(seventhAnswer);
+         }
+         return ruleActions;
+        },
+ "FP Counselling Only,Device Inserted by": function(formName, formFieldValues) {
+         var conditions = {enable: [], disable: []};
+         var conditionConcept = formFieldValues['FP Counselling Only,Device Inserted by'];
+         if (conditionConcept == "Other") {
+              conditions.enable.push("FP Counselling Only,Other Device");
+
+         }
+         else
+         {
+              conditions.disable.push("FP Counselling Only,Other Device");
+         }
+          return conditions;
+},
+ "FP Counselling Only,State reason for removal": function(formName, formFieldValues) {
+         var conditions = {enable: [], disable: []};
+         var conditionConcept = formFieldValues['FP Counselling Only,State reason for removal'];
+         if (conditionConcept == "Other") {
+              conditions.enable.push("FP Counselling Only,State removal If other");
+
+         }
+         else
+         {
+              conditions.disable.push("FP Counselling Only,State removal If other");
+             }
+
+         if (conditionConcept == "FP Counselling Only,Health concerns" || conditionConcept == "FP Counselling Only,Complications")
+         {
+              conditions.enable.push("FP Counselling Only, State the health concerns and complications");
+
+         }
+         else
+         {
+              conditions.disable.push("FP Counselling Only, State the health concerns and complications");
+             }
+              return conditions;
+      },
+"FP Counselling Only, State the health concerns and complications": function(formName, formFieldValues) {
+         var conditions = {enable: [], disable: []};
+         var conditionConcept = formFieldValues['FP Counselling Only, State the health concerns and complications'];
+         if (conditionConcept == "Side effects") {
+              conditions.enable.push("FP Counselling Only If side effects, specify details");
+
+         }
+         else
+         {
+              conditions.disable.push("FP Counselling Only If side effects, specify details");
+         }
+          return conditions;
+},
+ "FPS Counselling Only, Complications during insertions": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: [],show: [], hide: []};
+        var questionThatTriggersRule = "FPS Counselling Only, Complications during insertions";
+        var selectedResponses = formFieldValues[questionThatTriggersRule];
+        var aboveQuestionEffected = "FPS Counselling Only,If complication is Yes";
+        var conditionTrue = selectedResponses == 'Yes';
+        var ruleActions = {enable: [], disable: []};
+         if(conditionTrue) {
+             ruleActions.enable.push(aboveQuestionEffected);
+         } else {
+             ruleActions.disable.push(aboveQuestionEffected);
+         }
+         return ruleActions;
+       },
+ "FPS Counselling Only,If complication is Yes": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['FPS Counselling Only,If complication is Yes'];
+     if (conditionConcept == "Other") {
+          conditions.enable.push("FPS Counselling Only, If Yes for other complication");
+
+     }
+     else
+     {
+          conditions.disable.push("FPS Counselling Only, If Yes for other complication");
+     }
+          return conditions;
+  },
+   "FPS Counselling Only, Adverse Event": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: [],show: [], hide: []};
+        var questionThatTriggersRule = "FPS Counselling Only, Adverse Event";
+        var selectedResponses = formFieldValues[questionThatTriggersRule];
+        var aboveQuestionEffected = "FPS Counselling Only, If yes, select the adverse event";
+        var conditionTrue = selectedResponses == 'Yes';
+        var ruleActions = {enable: [], disable: []};
+          if(conditionTrue) {
+              ruleActions.enable.push(aboveQuestionEffected);
+      } else {
+          ruleActions.disable.push(aboveQuestionEffected);
+      }
+  return ruleActions;
+},
+ "FPS Counselling Only, If yes, select the adverse event": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['FPS Counselling Only, If yes, select the adverse event'];
+     if (conditionConcept == "Other") {
+          conditions.enable.push("FPS Counselling Only, If Yes for other adverse event");
+
+     }
+     else
+     {
+          conditions.disable.push("FPS Counselling Only, If Yes for other adverse event");
+     }
+          return conditions;
+  },
+  "FPS Counselling Only, Referred out ?": function(formName, formFieldValues) {
+   var conditions = {enable: [], disable: [],show: [], hide: []};
+   var questionThatTriggersRule = "FPS Counselling Only, Referred out ?";
+   var selectedResponses = formFieldValues[questionThatTriggersRule];
+   var aboveQuestionEffected = ["FPS Counselling Only, Indicate where client was referred to"];
+   var otherQuestionEffected = ["FPS Counselling Only, Referral slip and instructions to leave slip at the clinic given"];
+   var thirdQuestionEffected = ['FPS Counselling Only, State reason for referral'];
+
+   var conditionTrue = selectedResponses == 'Yes';
+   var ruleActions = {enable: [], disable: []};
+      if(conditionTrue) {
+            ruleActions.enable.push(aboveQuestionEffected);
+            ruleActions.enable.push(thirdQuestionEffected);
+            ruleActions.enable.push(otherQuestionEffected);
+   } else {
+        ruleActions.disable.push(aboveQuestionEffected);
+        ruleActions.disable.push(thirdQuestionEffected);
+        ruleActions.disable.push(otherQuestionEffected);
+     }
+   return ruleActions;
+ },
+ "FPS Counselling Only, Indicate where client was referred to": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['FPS Counselling Only, Indicate where client was referred to'];
+     if (conditionConcept.indexOf("Other") >= 0)  {
+          conditions.enable.push("FPS Counselling Only, Other referal");
+
+     }
+     else
+     {
+          conditions.disable.push("FPS Counselling Only, Other referal");
+     }
+     if (conditionConcept.indexOf("Surgical (state the problem)") >= 0){
+          conditions.enable.push("FPS Counselling Only, State the surgical problem");
+
+     }
+     else
+     {
+          conditions.disable.push("FPS Counselling Only, State the surgical problem");
+     }
+     if (conditionConcept.indexOf("Medical (state the problem)") >= 0){
+          conditions.enable.push("FPS Counselling Only, State the medical problem");
+
+     }
+     else
+     {
+          conditions.disable.push("FPS Counselling Only, State the medical problem");
+     }
+      if (conditionConcept.indexOf("Gynaecological problem (state the problem)") >= 0){
+          conditions.enable.push("FPS Counselling Only, State the gynaecological problem");
+
+     }
+     else
+     {
+          conditions.disable.push("FPS Counselling Only, State the gynaecological problem");
+     }
+          return conditions;
+  },
+    "FP Continuation, Current Method": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['FP Continuation, Current Method'];
+     if (conditionConcept.indexOf("Others") >=0) {
+          conditions.enable.push("FP Continuation, IF Current method others, then specify");
+
+     }
+     else
+     {
+          conditions.disable.push("FP Continuation, IF Current method others, then specify");
+     }
+          return conditions;
+  },
+    "FPS Continuation, Method Administered": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['FPS Continuation, Method Administered'];
+     if (conditionConcept.indexOf("Others") >=0) {
+          conditions.enable.push("FPS Continuation, IF Method Administered others, then specify");
+
+     }
+     else
+     {
+          conditions.disable.push("FPS Continuation, IF Method Administered others, then specify");
+     }
+          return conditions;
+  },
+    "FPS Continuation, Insertion Method": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['FPS Continuation, Insertion Method'];
+     if (conditionConcept =="Others") {
+          conditions.show.push("FP Continuation, IF Insertion method others, then specify");
+
+     }
+     else
+     {
+          conditions.hide.push("FP Continuation, IF Insertion method others, then specify");
+     }
+          return conditions;
+  },
+    "FPS Continuation, Removal Method": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['FPS Continuation, Removal Method'];
+     if (conditionConcept =="Others") {
+          conditions.show.push("FP Continuation, IF Removal method others, then specify");
+
+     }
+     else
+     {
+          conditions.hide.push("FP Continuation, IF Removal method others, then specify");
+     }
+          return conditions;
+  },
+    "FP Continuation, Insertion/Removal Method": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['FP Continuation, Insertion/Removal Method'];
+     if (conditionConcept =="Others") {
+          conditions.show.push("FP Continuation, IF Insertion/Removal methods others, then specify");
+
+     }
+     else
+     {
+          conditions.hide.push("FP Continuation, IF Insertion/Removal methods others, then specify");
+     }
+          return conditions;
+  },
+    "FP Continuation,Referred out ?": function(formName, formFieldValues) {
+   var conditions = {enable: [], disable: [],show: [], hide: []};
+   var questionThatTriggersRule = "FP Continuation,Referred out ?";
+   var selectedResponses = formFieldValues[questionThatTriggersRule];
+   var aboveQuestionEffected = ["FP Continuation,Indicate where client was referred to"];
+   var otherQuestionEffected = ["FP Continuation,Referral slip and instructions to leave slip at the clinic given"];
+   var thirdQuestionEffected = ["FP Continuation,State reason for referral"];
+
+   var conditionTrue = selectedResponses == 'Yes';
+   var ruleActions = {enable: [], disable: []};
+      if(conditionTrue) {
+            ruleActions.enable.push(aboveQuestionEffected);
+            ruleActions.enable.push(thirdQuestionEffected);
+            ruleActions.enable.push(otherQuestionEffected);
+   } else {
+        ruleActions.disable.push(aboveQuestionEffected);
+        ruleActions.disable.push(thirdQuestionEffected);
+        ruleActions.disable.push(otherQuestionEffected);
+     }
+   return ruleActions;
+ },
+ "FP Continuation,Indicate where client was referred to": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['FP Continuation,Indicate where client was referred to'];
+     if (conditionConcept.indexOf("Other") >= 0)  {
+          conditions.enable.push("FP Continuation,Other referal");
+
+     }
+     else
+     {
+          conditions.disable.push("FP Continuation,Other referal");
+     }
+     if (conditionConcept.indexOf("Surgical (state the problem)") >= 0){
+          conditions.enable.push("FP Continuation, State the surgical problem");
+
+     }
+     else
+     {
+          conditions.disable.push("FP Continuation, State the surgical problem");
+     }
+     if (conditionConcept.indexOf("Medical (state the problem)") >= 0){
+          conditions.enable.push("FP Continuation, State the medical problem");
+
+     }
+     else
+     {
+          conditions.disable.push("FP Continuation, State the medical problem");
+     }
+      if (conditionConcept.indexOf("Gynaecological problem (state the problem)") >= 0){
+          conditions.enable.push("FP Continuation, State the gynaecological problem");
+
+     }
+     else
+     {
+          conditions.disable.push("FP Continuation, State the gynaecological problem");
+     }
+          return conditions;
+  },
+  "FPS Continuation, Procedure Done": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: [],show: [], hide: []};
+        var questionThatTriggersRule = "FPS Continuation, Procedure Done";
+        var selectedResponses = formFieldValues[questionThatTriggersRule];
+        var aboveQuestionAnswer = "FPS Continuation, State Procedure";
+        var secondAnswer = "FP Continuation, Date of Procedure indicate"
+        var thirdAnswer = "FP Continuation, Pre-Procedure counseling and assessment conducted?"
+        var forthAnswer = "FP Continuation, Indicate name of Counselor"
+        var fifthAnswer = "FP Continuation, Start of procedure indicate time"
+        var sixthAnswer = "FP Continuation, End of procedure, indicate time"
+        var seventhAnswer = "FP Continuation, Complications during insertions"
+        var eighthAnswer = "FP Continuation, Adverse Event"
+        var ninethAnswer = "FP Continuation, Procedure done by (Name of counsellor)"
+        var tenthAnswer = "FP Continuation, Batch number of the method given"
+        var eleventhAnswer = "FP Continuation, Expiry date of the method given"
+        var twelvethAnswer = "FP Continuation, Manufacturer of the method given"
+        var conditionTrue = selectedResponses == 'Yes';
+        var ruleActions = {enable: [], disable: []};
+         if(conditionTrue) {
+             ruleActions.enable.push(aboveQuestionAnswer);
+             ruleActions.enable.push(secondAnswer);
+             ruleActions.enable.push(thirdAnswer);
+             ruleActions.enable.push(forthAnswer);
+             ruleActions.enable.push(fifthAnswer);
+             ruleActions.enable.push(sixthAnswer);
+             ruleActions.enable.push(seventhAnswer);
+             ruleActions.enable.push(eighthAnswer);
+             ruleActions.enable.push(ninethAnswer);
+             ruleActions.enable.push(tenthAnswer);
+             ruleActions.enable.push(eleventhAnswer);
+             ruleActions.enable.push(twelvethAnswer);
+         } else {
+             ruleActions.disable.push(aboveQuestionAnswer);
+             ruleActions.disable.push(secondAnswer);
+             ruleActions.disable.push(thirdAnswer);
+             ruleActions.disable.push(forthAnswer);
+             ruleActions.disable.push(fifthAnswer);
+             ruleActions.disable.push(sixthAnswer);
+             ruleActions.disable.push(seventhAnswer);
+             ruleActions.disable.push(eighthAnswer);
+             ruleActions.disable.push(ninethAnswer);
+             ruleActions.disable.push(tenthAnswer);
+             ruleActions.disable.push(eleventhAnswer);
+             ruleActions.disable.push(twelvethAnswer);
+         }
+         return ruleActions;
+        },
+  "FP Continuation, Complications during insertions": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: [],show: [], hide: []};
+        var questionThatTriggersRule = "FP Continuation, Complications during insertions";
+        var selectedResponses = formFieldValues[questionThatTriggersRule];
+        var aboveQuestionEffected = "FPS Continuation, If Yes select the complications";
+        var conditionTrue = selectedResponses == 'Yes';
+        var ruleActions = {enable: [], disable: []};
+         if(conditionTrue) {
+             ruleActions.enable.push(aboveQuestionEffected);
+         } else {
+             ruleActions.disable.push(aboveQuestionEffected);
+         }
+         return ruleActions;
+       },
+ "FPS Continuation, If Yes select the complications": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['FPS Continuation, If Yes select the complications'];
+     if (conditionConcept.indexOf("Other") >=0) {
+          conditions.enable.push("FPS Continuation, If other for yes as complication");
+
+     }
+     else
+     {
+          conditions.disable.push("FPS Continuation, If other for yes as complication");
+     }
+          return conditions;
+  },
+"FP Continuation, Adverse Event": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: [],show: [], hide: []};
+        var questionThatTriggersRule = "FP Continuation, Adverse Event";
+        var selectedResponses = formFieldValues[questionThatTriggersRule];
+        var aboveQuestionEffected = "FP Continuation, If yes, select the adverse event";
+        var conditionTrue = selectedResponses == 'Yes';
+        var ruleActions = {enable: [], disable: []};
+          if(conditionTrue) {
+              ruleActions.enable.push(aboveQuestionEffected);
+      } else {
+          ruleActions.disable.push(aboveQuestionEffected);
+      }
+  return ruleActions;
+},
+ "FP Continuation, If yes, select the adverse event": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['FP Continuation, If yes, select the adverse event'];
+     if (conditionConcept.indexOf("Other") >=0) {
+          conditions.enable.push("FP Continuation, If Yes for other adverse event");
+
+     }
+     else
+     {
+          conditions.disable.push("FP Continuation, If Yes for other adverse event");
+     }
+          return conditions;
+  },
+  "FPS Continuation, State Procedure": function (formName, formFieldValues) {
+        var conditions = {show: [], hide: []};
+        var conditionConcept = formFieldValues['FPS Continuation, State Procedure'];
+        var OtherForInsertionMethod = formFieldValues['FPS Continuation, Insertion Method'];
+        if (conditionConcept == "Insertion") {
+            conditions.show.push("FPS Continuation, Insertion Method");
+            conditions.hide.push("FPS Continuation, Removal Method");
+            conditions.hide.push("FP Continuation, Insertion/Removal Method");
+
+        }
+        else if (conditionConcept == "Removal") {
+            conditions.show.push("FPS Continuation, Removal Method");
+            conditions.hide.push("FPS Continuation, Insertion Method");
+            conditions.hide.push("FP Continuation, Insertion/Removal Method");
+ 
+        }
+        else if (conditionConcept == "Insertion/Removal") {
+            conditions.show.push("FP Continuation, Insertion/Removal Method");
+            conditions.hide.push("FPS Continuation, Removal Method");
+            conditions.hide.push("FPS Continuation, Insertion Method");
+            
+ 
+        }
+        else {
+            conditions.hide.push("FPS Continuation, Insertion Method","FPS Continuation, Removal Method","FP Continuation, Insertion/Removal Method");
+        }
+        return conditions;
+    },
+      "FPS FORM,HIV infection?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: [],show: [], hide: []};
+        var questionThatTriggersRule = "FPS FORM,HIV infection?";
+        var selectedResponses = formFieldValues[questionThatTriggersRule];
+        var aboveQuestionAnswer = "FPS FORM,Diagnosed when?";
+        var secondAnswer = "FPS FORM,Recent CD4 cell count"
+        var thirdAnswer = "FPS FORM,Currently receiving ART?"
+        var forthAnswer = "FPS FORM,In the past included in PMTCT program?"
+        var fifthAnswer = "FPS FORM,Is the client taking any medications"
+        var sixthAnswer = "FPS FORM,Did the client have any surgical operation?"
+        var conditionTrue = selectedResponses == 'Positive';
+        var ruleActions = {enable: [], disable: []};
+         if(conditionTrue) {
+             ruleActions.enable.push(aboveQuestionAnswer);
+             ruleActions.enable.push(secondAnswer);
+             ruleActions.enable.push(thirdAnswer);
+             ruleActions.enable.push(forthAnswer);
+             ruleActions.enable.push(fifthAnswer);
+             ruleActions.enable.push(sixthAnswer);
+         } else {
+             ruleActions.disable.push(aboveQuestionAnswer);
+             ruleActions.disable.push(secondAnswer);
+             ruleActions.disable.push(thirdAnswer);
+             ruleActions.disable.push(forthAnswer);
+             ruleActions.disable.push(fifthAnswer);
+             ruleActions.disable.push(sixthAnswer);
+         }
+         return ruleActions;
+        },
+    "COSD Form, Current ART Regimen": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['COSD Form, Current ART Regimen'];
+     if (conditionConcept =="Adult 1st line ART Regimens") {
+          conditions.enable.push("COSD Form, Specify Adult 1st line ART Regimen");
+          conditions.disable.push("COSD Form, Specify Adult 2nd line ART Regimen");
+
+     }
+     else if (conditionConcept =="Adult 2nd line ART Regimens")
+     {
+          conditions.enable.push("COSD Form, Specify Adult 2nd line ART Regimen");
+          conditions.disable.push("COSD Form, Specify Adult 1st line ART Regimen");
+     }
+     else
+     {
+          conditions.disable.push("COSD Form, Specify Adult 1st line ART Regimen","COSD Form, Specify Adult 2nd line ART Regimen");
+     }
+          return conditions;
+  },
+    "COSD Form, Previous ART Regimens (allow for multiple entries)": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['COSD Form, Previous ART Regimens (allow for multiple entries)'];
+    if (conditionConcept.indexOf("Adult 1st line ART Regimens") >= 0)
+     {
+          conditions.enable.push("COSD FORM, Previous Regimen Specify Adult 1st line ART Regimen");
+        
+     }
+     if (conditionConcept.indexOf("Adult 2nd line ART Regimens") >= 0 )
+     {
+          conditions.enable.push("COSD Form, Previous Regimen Specify Adult 2nd line ART Regimen");
+        
+     }
+    if (conditionConcept.indexOf("Adult 2nd line ART Regimens") >= 0 && conditionConcept.indexOf("Adult 1st line ART Regimens") >= 0)
+     {
+          conditions.enable.push("COSD Form, Previous Regimen Specify Adult 2nd line ART Regimen","COSD FORM, Previous Regimen Specify Adult 1st line ART Regimen");
+        
+     }
+     else
+     {
+          conditions.disable.push("COSD FORM, Previous Regimen Specify Adult 1st line ART Regimen","COSD Form, Previous Regimen Specify Adult 2nd line ART Regimen");
+     }
+          return conditions;
+  },
+    "COSD Form, Visit Type": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['COSD Form, Visit Type'];
+     if (conditionConcept =="D = Community ART refill group member (CARG)") {
+          conditions.enable.push("COSD Form, Name of CARG","COSD Form, Name of CARG Leader");
+
+     }
+     else
+     {
+          conditions.disable.push("COSD Form, Name of CARG","COSD Form, Name of CARG Leader");
+     }
+          return conditions;
+  },
+    "COSD, Disclosure Done": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['COSD, Disclosure Done'];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("COSD, If Yes for Disclosure Done");
+
+     }
+     else
+     {
+          conditions.disable.push("COSD, If Yes for Disclosure Done");
+     }
+          return conditions;
+  },
+    "COSD, If Yes for Disclosure Done": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['COSD, If Yes for Disclosure Done'];
+     if (conditionConcept.indexOf("Other (specify)") >=0) {
+          conditions.enable.push("COSD, If others for Yes for Disclosure Done");
+
+     }
+     else
+     {
+          conditions.disable.push("COSD, If others for Yes for Disclosure Done");
+     }
+          return conditions;
+  },
+    "COSD, Are you a member of any support group?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['COSD, Are you a member of any support group?'];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("COSD, Name of support group","COSD, Support group leader","COSD, How many times did you meet in the last 3 months?","COSD, Do you have the HIV Literacy Manual to guide the discussions in the support group?");
+          conditions.disable.push("COSD, Why Not?","COSD, Would you like to be linked to any support group?");
+
+     }
+     else if (conditionConcept =="No")
+     {
+          conditions.enable.push("COSD, Why Not?","COSD, Would you like to be linked to any support group?");
+          conditions.disable.push("COSD, Name of support group","COSD, Support group leader","COSD, How many times did you meet in the last 3 months?","COSD, Do you have the HIV Literacy Manual to guide the discussions in the support group?");
+     }
+     else {
+        conditions.disable.push("COSD, Name of support group","COSD, Support group leader","COSD, How many times did you meet in the last 3 months?","COSD, Do you have the HIV Literacy Manual to guide the discussions in the support group?","COSD, Why Not?","COSD, Would you like to be linked to any support group?");
+     }
+          return conditions;
+  },
+    "COSD, Why Not?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['COSD, Why Not?'];
+     if (conditionConcept =="Others") {
+          conditions.enable.push("COSD, Others for why not");
+
+     }
+     else
+     {
+          conditions.disable.push("COSD, Others for why not");
+     }
+          return conditions;
+  },
+    "COSD, Would you like to be linked to any support group?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['COSD, Would you like to be linked to any support group?'];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("COSD, If Yes for linked to any support group");
+
+     }
+     else
+     {
+          conditions.disable.push("COSD, If Yes for linked to any support group");
+     }
+          return conditions;
+  },
+    "COSD, Do you have any health problems today?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['COSD, Do you have any health problems today?'];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("COSD, If yes for any health problems");
+
+     }
+     else
+     {
+          conditions.disable.push("COSD, If yes for any health problems");
+     }
+          return conditions;
+  },
+    "COSD, Any health problems since the last ART refill?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['COSD, Any health problems since the last ART refill?'];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("COSD, If yes for any health problems since the last ART refill");
+
+     }
+     else
+     {
+          conditions.disable.push("COSD, If yes for any health problems since the last ART refill");
+     }
+          return conditions;
+  },
+    "COSD, Are you coughing?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['COSD, Are you coughing?'];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("COSD, If yes for coughing then how long?");
+
+     }
+     else
+     {
+          conditions.disable.push("COSD, If yes for coughing then how long?");
+     }
+          return conditions;
+  },
+    "COSD, Have you lost weight?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['COSD, Have you lost weight?'];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("COSD, If yes for lost weight then select");
+
+     }
+     else
+     {
+          conditions.disable.push("COSD, If yes for lost weight then select");
+     }
+          return conditions;
+  },
+    "COSD, Any other chronic illnesses (NCDs)": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['COSD, Any other chronic illnesses (NCDs)'];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("COSD, If yes for any other chronic illnessess");
+
+     }
+     else
+     {
+          conditions.disable.push("COSD, If yes for any other chronic illnessess");
+     }
+          return conditions;
+  },
+    "COSD, If yes for any other chronic illnessess": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['COSD, If yes for any other chronic illnessess'];
+        if (conditionConcept.indexOf("Others") >=0) {
+            conditions.enable.push("COSD, If others for yes for any other chronic illnessess");
+        } else {
+            conditions.disable.push("COSD, If others for yes for any other chronic illnessess");
+        }
+        return conditions;
+        },
+    "COSD, Have you ever been screened for cervical cancer?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['COSD, Have you ever been screened for cervical cancer?'];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("COSD, If yes for even been screened for cervical cancer then when was last screening done");
+
+     }
+     else
+     {
+          conditions.disable.push("COSD, If yes for even been screened for cervical cancer then when was last screening done");
+     }
+          return conditions;
+  },
+    "COSD, Referred to health facility": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['COSD, Referred to health facility'];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("COSD, If yes for referred to health facility then specify");
+
+     }
+     else
+     {
+          conditions.disable.push("COSD, If yes for referred to health facility then specify");
+     }
+          return conditions;
+  },
+    "COSD, If yes for referred to health facility then specify": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['COSD, If yes for referred to health facility then specify'];
+     if (conditionConcept =="Others") {
+          conditions.enable.push("COSD, If others for yes for referred to health facility");
+
+     }
+     else
+     {
+          conditions.disable.push("COSD, If others for yes for referred to health facility");
+     }
+          return conditions;
+  }
 }

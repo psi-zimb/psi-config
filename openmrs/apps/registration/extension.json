@@ -56,5 +56,19 @@
         },
         "order": 2,
         "requiredPrivilege": "Edit Visits"
+    },
+        "nutritionalValues":{
+        "id": "bahmni.registration.conceptSetGroup.nutritionalLevels",
+        "extensionPointId": "org.bahmni.registration.conceptSetGroup.observations",
+        "type": "config",
+        "extensionParams": {
+            "conceptName": "Reg Page, Vital Signs",
+            "translationKey": "NUTRITIONAL_VALUES_LOCALE_KEY",
+            "conceptNames": ["Reg Page, Vital Signs"],
+            "required":true,
+            "showLatest": true
+        },
+        "order": 1,
+        "requiredPrivilege": "Edit Visits"
     }
 }

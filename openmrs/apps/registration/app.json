@@ -26,7 +26,6 @@
 	"Marital Status",
 	"Telephone",
 	"Ethnicity",
-	"Workplace",
 	"Client Resident",
 	"Referral source",
 	"District of Birth",
@@ -38,17 +37,6 @@
 	],
             "patientInformation": {
               "additionalInformation":{
-                "title":"Family_Planning_Service",
-                "translationKey":"REGISTRATION_FPS_INFORMATION",
-                "attributes":[
-                  "Is client accompanied by her Partner",
-                  "Reason for the visit",
-                  "Reason for family planning",
-                  "Occasion",
-                  "How did you hear about the FP services at sites?",
-                  "If other, specify details"
-                ],
-                "expanded": true
               },
                 "hidden": {
                     "attributes": ["addressCode"
@@ -148,7 +136,13 @@
     "Provider name for Prep Continuation":{
       "dropdown": true,
       "disableAddNotes":true
-    }
+    },
+            "Vital Signs, Temperature Data": {
+              "hideAbnormalButton" : true
+            },
+            "Vital Signs, Blood Pressure": {
+              "hideAbnormalButton" : true
+            }
   },
             "fieldValidation" : {
                 "Telephone" : {"pattern" : "[0-9]{0,}", "errorMessage" : "Phone number can only be numerals"},

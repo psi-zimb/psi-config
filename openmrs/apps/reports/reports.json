@@ -166,7 +166,7 @@
             "value"
          ],
          "distinctGroups": [
-            "Observation Datetime"
+            "obs_id"
          ],
          "showTotalRow": true,
          "showTotalColumn": true

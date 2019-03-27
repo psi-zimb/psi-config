@@ -222,9 +222,6 @@
             "If yes, which method are you/partner using? (Multiple responses possible)":{
                 "multiSelect":true
             },
-            "PHTC, Why were you worried/curious about your HIV status":{
-                "multiSelect":true
-            },
             "PHTC, Risk reduction plan":{
                 "multiSelect":true
             },
@@ -367,6 +364,140 @@
         {
              "multiSelect":true   
             },
+        "FPS REG,Reason for the visit":{
+            "dropdown":true
+          },
+          "HST, District":{
+            "dropdown":true
+          },
+          "PHTC, District":{
+            "dropdown":true
+          },
+          "AIVC, District":{
+            "dropdown":true
+          },
+          "FPS, District":{
+            "dropdown":true
+          },
+          "FP Counselling Only, Temperature":{
+            "hideAbnormalButton":true
+          },
+          "FP Continuation, Temperature":{
+            "hideAbnormalButton":true
+          },
+          "FPS Counselling Only BP, Systolic": {
+                "hideAbnormalButton" : true
+            },
+         "FPS Counselling Only BP, Diastolic": {
+                "hideAbnormalButton" : true
+            },
+            "FP Continuation BP, Systolic": {
+                "hideAbnormalButton" : true
+            },
+            "FP Continuation BP, Diastolic": {
+                "hideAbnormalButton" : true
+            },
+            "FPS FORM,Current Method":
+            {
+             "multiSelect":true   
+            },
+            "IR, Referred to":
+            {
+             "multiSelect":true   
+            },
+            "FP Counselling Only, Current Method":
+            {
+             "multiSelect":true   
+            },
+            "FPS Counselling Only, Indicate where client was referred to":
+        {
+             "multiSelect":true   
+            },
+            "FPS Counselling Only, State review date": {
+            "allowFutureDates": true
+          },
+          "FP Continuation, Current Method":
+            {
+             "multiSelect":true   
+            },
+            "FPS Continuation, Method Administered":
+            {
+             "multiSelect":true   
+            },
+            "FP Continuation,Indicate where client was referred to":
+            {
+             "multiSelect":true   
+            },
+            "FP Continuation, State review date": {
+            "allowFutureDates": true
+          },
+          "FPS Continuation, If Yes select the complications":
+            {
+             "multiSelect":true   
+            },
+            "FP Continuation, If yes, select the adverse event":
+            {
+             "multiSelect":true   
+            },
+            "FP Continuation, Expiry date of the method given":
+          {
+            "allowFutureDates": true
+          },
+          "COSD Form, Ward": {
+                "autocomplete":true
+            },
+            "COSD Form, Date of Next Viral Load":
+          {
+            "allowFutureDates": true
+          },
+          "COSD Form, Specify Adult 1st line ART Regimen":{
+            "dropdown":true
+          },
+          "COSD Form, Specify Adult 2nd line ART Regimen":{
+            "dropdown":true
+          },
+          "COSD FORM, Previous Regimen Specify Adult 1st line ART Regimen":{
+            "dropdown":true
+          },
+          "COSD Form, Previous Regimen Specify Adult 2nd line ART Regimen":{
+            "dropdown":true
+          },
+          "COSD Form, Previous ART Regimens (allow for multiple entries)":{
+            "multiSelect":true
+          },
+          "COSD Form, Visit Type":{
+            "dropdown":true
+          },
+          "COSD, If Yes for Disclosure Done":{
+            "multiSelect":true
+          },
+          "COSD, Temperature Data": {
+                "hideAbnormalButton" : true
+            },
+         "COSD, Systolic Data": {
+                "hideAbnormalButton" : true
+            },
+        "COSD, Diastolic Data": {
+                "hideAbnormalButton" : true
+            },
+        "COSD, If yes for any other chronic illnessess":{
+            "multiSelect":true
+          },
+          "COSD, Number of months supplied":{
+            "dropdown":true
+          },
+          "COSD, If yes for referred to health facility then specify":{
+            "dropdown":true
+          },
+           "COSD, Next refill date":
+          {
+            "allowFutureDates": true
+          },
+          "COSD, Next scheduled clinical visit":
+          {
+            "allowFutureDates": true
+          },
+
           "defaults": {
                 "HIV testing and counselling service": "Requested",
                 "Numeric concept": 1,

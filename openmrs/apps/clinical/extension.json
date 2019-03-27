@@ -272,28 +272,64 @@
     "order": 19,
     "requiredPrivilege": "app:clinical"
   },
-    "bahmniClinicalPatientsSearchVIACPatients": {
-    "id": "bahmni.clinical.patients.search.VIACPatients",
+    "bahmniClinicalPatientsSearchVIACInitialPatients": {
+    "id": "bahmni.clinical.patients.search.VIACInitialPatients",
     "extensionPointId": "org.bahmni.patient.search",
     "type": "config",
     "extensionParams": {
-      "searchHandler": "emrapi.sqlSearch.vIACPatients",
-      "translationKey": "MODULE_LABEL_VIAC",
+      "searchHandler": "emrapi.sqlSearch.vIACInitialPatients",
+      "translationKey": "MODULE_LABEL_VIAC_Initial",
       "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
     },
     "order": 20,
     "requiredPrivilege": "app:clinical"
   },
-    "bahmniClinicalPatientsSearchFamilyPlanningPatients": {
-    "id": "bahmni.clinical.patients.search.FamilyPlanningPatients",
+    "bahmniClinicalPatientsSearchVIACContinuationPatients": {
+    "id": "bahmni.clinical.patients.search.VIACContinuationPatients",
     "extensionPointId": "org.bahmni.patient.search",
     "type": "config",
     "extensionParams": {
-      "searchHandler": "emrapi.sqlSearch.familyPlanningPatients",
-      "translationKey": "MODULE_LABEL_FamilyPlanning",
+      "searchHandler": "emrapi.sqlSearch.vIACContinuationPatients",
+      "translationKey": "MODULE_LABEL_VIAC_Continuation",
       "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
     },
     "order": 21,
+    "requiredPrivilege": "app:clinical"
+  },
+    "bahmniClinicalPatientsSearchFamilyPlanningInitialPatients": {
+    "id": "bahmni.clinical.patients.search.FamilyPlanningInitialPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.familyPlanningInitialPatients",
+      "translationKey": "MODULE_LABEL_FamilyPlanningInitial",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "order": 22,
+    "requiredPrivilege": "app:clinical"
+  },
+    "bahmniClinicalPatientsSearchFamilyPlanningCounsellingOnlyPatients": {
+    "id": "bahmni.clinical.patients.search.FamilyPlanningCounsellingOnlyPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.familyPlanningCounsellingOnlyPatients",
+      "translationKey": "MODULE_LABEL_FamilyPlanningCounsellingOnly",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "order": 23,
+    "requiredPrivilege": "app:clinical"
+  },
+    "bahmniClinicalPatientsSearchFamilyPlanningContinuationPatients": {
+    "id": "bahmni.clinical.patients.search.FamilyPlanningContinuationPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.familyPlanningContinuationPatients",
+      "translationKey": "MODULE_LABEL_FamilyPlanningContinuation",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "order": 24,
     "requiredPrivilege": "app:clinical"
   },
 
@@ -306,7 +342,7 @@
       "translationKey": "MODULE_LABEL_VMMC",
       "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
     },
-    "order": 22,
+    "order": 25,
     "requiredPrivilege": "app:clinical"
   },
   "bahmniClinicalPatientsSearchAllPatients": {
@@ -317,7 +353,7 @@
       "translationKey": "MODULE_LABEL_ALL_KEY",
       "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
     },
-    "order": 23,
+    "order": 26,
     "requiredPrivilege": "app:clinical"
   },
   "bahmniClinicalConceptSetGroupObservationsHistory": {

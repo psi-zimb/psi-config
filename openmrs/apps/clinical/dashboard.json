@@ -123,7 +123,7 @@
 
           }
         }
-      },
+      }, 
       "treatments":{
         "translationKey":"DASHBOARD_TITLE_TREATMENTS_KEY",
         "type":"treatment",
@@ -329,6 +329,30 @@
           "numberOfVisits": 20,
           "showDetailsButton": true,
           "pivotTable": {}
+        }
+      },
+        "vitalSigns":{
+        "translationKey":"Registration Vital Signs",
+        "type":"vitals",
+        "isObservation":true,
+        "displayOrder":15,
+        "hideEmptyDisplayControl":true,
+        "dashboardConfig":{
+          "showDetailsButton":true,
+          "conceptNames":[
+            "Reg Page, Vital Signs"
+          ],
+          "scope": "latest"
+        },
+        "expandedViewConfig":{
+          "conceptNames":[
+            "Reg Page, Vital Signs"
+          ],
+          "numberOfVisits":20,
+          "showDetailsButton":true,
+          "pivotTable":{
+
+          }
         }
       }
     }
