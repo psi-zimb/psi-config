@@ -214,9 +214,15 @@ public class BahmniObsValueCalculator implements ObsValueCalculator {
     void run(BahmniEncounterTransaction bahmniEncounterTransaction) {
         Collection<BahmniObservation> observations = bahmniEncounterTransaction.getObservations()
         BahmniObservation baselineVitalsForm = find("ART Observations Form Template", observations, null)
+        BahmniObservation cosdForm = find("Community Operational and Service deliver form", observations, null)
         if (baselineVitalsForm != null) {
-            calculateBMIAndSave(baselineVitalsForm)
+            calculateBMIAndSave(baselineVitalsForm, "HEIGHT", "WEIGHT", "BMI Data", "BMI")
         }
+        if (cosdForm != null) {
+            calculateBMIAndSave(cosdForm, "COSD, Height", "COSD, Weight", "COSD, BMI Data", "COSD, BMI")
+        }
+        
+        println("hello");
         calculateScores(observations)
         voidExistingObservationWithoutValue(observations)
     }
@@ -345,12 +351,12 @@ public class BahmniObsValueCalculator implements ObsValueCalculator {
         return groupMembers
     }
 
-    static def calculateBMIAndSave(BahmniObservation baselineForm) {
+    static def calculateBMIAndSave(BahmniObservation baselineForm, String heightConcept, String weightConcept, String bmiDataConcept, String bmiConcept) {
         Collection<BahmniObservation> observations = baselineForm.getGroupMembers()
-        BahmniObservation heightObservation = find("HEIGHT", observations, null)
-        BahmniObservation weightObservation = find("WEIGHT", observations, null)
-        BahmniObservation bmiDataObservation = find("BMI Data", observations, null)
-        BahmniObservation bmiObservation = bmiDataObservation ? find("BMI", bmiDataObservation.getGroupMembers(), null) : null
+        BahmniObservation heightObservation = find(heightConcept, observations, null)
+        BahmniObservation weightObservation = find(weightConcept, observations, null)
+        BahmniObservation bmiDataObservation = find(bmiDataConcept, observations, null)
+        BahmniObservation bmiObservation = bmiDataObservation ? find(bmiConcept, bmiDataObservation.getGroupMembers(), null) : null
 
         if ((heightObservation && heightObservation.voided) || (weightObservation && weightObservation.voided)) {
             voidObs(bmiDataObservation)
@@ -362,8 +368,8 @@ public class BahmniObsValueCalculator implements ObsValueCalculator {
             Double weight = weightObservation.getValue() as Double
             Date obsDatetime = getDate(weightObservation) != null ? getDate(weightObservation) : getDate(heightObservation)
 
-            bmiDataObservation = bmiDataObservation ?: createObs("BMI Data", baselineForm, null, obsDatetime) as BahmniObservation
-            bmiObservation = bmiObservation ?: createObs("BMI", bmiDataObservation, null, obsDatetime) as BahmniObservation;
+            bmiDataObservation = bmiDataObservation ?: createObs(bmiDataConcept, baselineForm, null, obsDatetime) as BahmniObservation
+            bmiObservation = bmiObservation ?: createObs(bmiConcept, bmiDataObservation, null, obsDatetime) as BahmniObservation;
             def bmi = calculateBMI(height, weight)
             bmiObservation.setValue(bmi);
         }

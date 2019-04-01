@@ -644,5 +644,4 @@
          "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/clientsPerService.sql"
       }
    }
-
 }

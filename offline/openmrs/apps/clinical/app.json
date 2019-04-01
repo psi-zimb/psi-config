@@ -457,10 +457,10 @@
             "dropdown":true
           },
           "COSD FORM, Previous Regimen Specify Adult 1st line ART Regimen":{
-            "dropdown":true
+            "multiSelect":true
           },
           "COSD Form, Previous Regimen Specify Adult 2nd line ART Regimen":{
-            "dropdown":true
+            "multiSelect":true
           },
           "COSD Form, Previous ART Regimens (allow for multiple entries)":{
             "multiSelect":true
@@ -496,6 +496,10 @@
           "COSD, Next scheduled clinical visit":
           {
             "allowFutureDates": true
+          },
+          "FP Counselling Only, Treatment given":
+          {
+            "multiSelect": true
           },
           "defaults": {
                 "HIV testing and counselling service": "Requested",

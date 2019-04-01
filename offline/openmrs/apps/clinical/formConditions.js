@@ -9044,15 +9044,17 @@ Bahmni.ConceptSet.FormConditions.rules = {
   "FPS Continuation, State Procedure": function (formName, formFieldValues) {
         var conditions = {show: [], hide: []};
         var conditionConcept = formFieldValues['FPS Continuation, State Procedure'];
-        var OtherForInsertionMethod = formFieldValues['FPS Continuation, Insertion Method'];
+
         if (conditionConcept == "Insertion") {
             conditions.show.push("FPS Continuation, Insertion Method");
             conditions.hide.push("FPS Continuation, Removal Method");
             conditions.hide.push("FP Continuation, Insertion/Removal Method");
+            conditions.hide.push("FP Continuation, State reason for removal");
 
         }
         else if (conditionConcept == "Removal") {
             conditions.show.push("FPS Continuation, Removal Method");
+            conditions.show.push("FP Continuation, State reason for removal");
             conditions.hide.push("FPS Continuation, Insertion Method");
             conditions.hide.push("FP Continuation, Insertion/Removal Method");
  
@@ -9061,11 +9063,12 @@ Bahmni.ConceptSet.FormConditions.rules = {
             conditions.show.push("FP Continuation, Insertion/Removal Method");
             conditions.hide.push("FPS Continuation, Removal Method");
             conditions.hide.push("FPS Continuation, Insertion Method");
-            
+            conditions.hide.push("FP Continuation, State reason for removal");
  
         }
         else {
-            conditions.hide.push("FPS Continuation, Insertion Method","FPS Continuation, Removal Method","FP Continuation, Insertion/Removal Method");
+            conditions.hide.push("FPS Continuation, Insertion Method","FPS Continuation, Removal Method","FP Continuation, Insertion/Removal Method",
+                "FP Continuation, State reason for removal");
         }
         return conditions;
     },
@@ -9120,24 +9123,27 @@ Bahmni.ConceptSet.FormConditions.rules = {
     "COSD Form, Previous ART Regimens (allow for multiple entries)": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
      var conditionConcept = formFieldValues['COSD Form, Previous ART Regimens (allow for multiple entries)'];
-    if (conditionConcept.indexOf("Adult 1st line ART Regimens") >= 0)
-     {
+     if (conditionConcept.indexOf("Adult 1st line ART Regimens") >=0 && !(conditionConcept.indexOf("Adult 2nd line ART Regimens") >=0)) 
+        {
           conditions.enable.push("COSD FORM, Previous Regimen Specify Adult 1st line ART Regimen");
+          conditions.disable.push("COSD Form, Previous Regimen Specify Adult 2nd line ART Regimen");
+          
+        }
+     else if (conditionConcept.indexOf("Adult 2nd line ART Regimens") >=0 && !(conditionConcept.indexOf("Adult 1st line ART Regimens") >=0) )
+        {
+        conditions.enable.push("COSD Form, Previous Regimen Specify Adult 2nd line ART Regimen");
+        conditions.disable.push("COSD FORM, Previous Regimen Specify Adult 1st line ART Regimen");
         
-     }
-     if (conditionConcept.indexOf("Adult 2nd line ART Regimens") >= 0 )
+        }
+
+    else if (conditionConcept.indexOf("Adult 1st line ART Regimens") >=0 && conditionConcept.indexOf("Adult 2nd line ART Regimens") >=0)
      {
-          conditions.enable.push("COSD Form, Previous Regimen Specify Adult 2nd line ART Regimen");
-        
+        conditions.enable.push("COSD FORM, Previous Regimen Specify Adult 1st line ART Regimen","COSD Form, Previous Regimen Specify Adult 2nd line ART Regimen"); 
      }
-    if (conditionConcept.indexOf("Adult 2nd line ART Regimens") >= 0 && conditionConcept.indexOf("Adult 1st line ART Regimens") >= 0)
-     {
-          conditions.enable.push("COSD Form, Previous Regimen Specify Adult 2nd line ART Regimen","COSD FORM, Previous Regimen Specify Adult 1st line ART Regimen");
-        
-     }
+     
      else
      {
-          conditions.disable.push("COSD FORM, Previous Regimen Specify Adult 1st line ART Regimen","COSD Form, Previous Regimen Specify Adult 2nd line ART Regimen");
+       conditions.disable.push("COSD FORM, Previous Regimen Specify Adult 1st line ART Regimen","COSD Form, Previous Regimen Specify Adult 2nd line ART Regimen");
      }
           return conditions;
   },
@@ -9337,5 +9343,41 @@ Bahmni.ConceptSet.FormConditions.rules = {
           conditions.disable.push("COSD, If others for yes for referred to health facility");
      }
           return conditions;
-  }
+  },
+     "FP Continuation, State reason for removal": function(formName, formFieldValues) {
+         var conditions = {enable: [], disable: [], show: [], hide: []};
+         var conditionConcept = formFieldValues['FP Continuation, State reason for removal'];
+         if (conditionConcept == "Other") {
+              conditions.show.push("FP Continuation, State removal If other");
+
+         }
+         else
+         {
+              conditions.hide.push("FP Continuation, State removal If other");
+             }
+
+         if (conditionConcept == "FPS FORM,Health concerns" || conditionConcept == "FPS FORM,Complications")
+         {
+              conditions.show.push("FP Continuation, State the health concerns and complications");
+
+         }
+         else
+         {
+              conditions.hide.push("FP Continuation, State the health concerns and complications");
+             }
+              return conditions;
+      },
+      "FP Continuation, State the health concerns and complications": function(formName, formFieldValues) {
+         var conditions = {show: [], hide: []};
+         var conditionConcept = formFieldValues['FP Continuation, State the health concerns and complications'];
+         if (conditionConcept == "Side effects") {
+              conditions.show.push("FP Continuation If side effects, specify details");
+
+         }
+         else
+         {
+              conditions.hide.push("FP Continuation If side effects, specify details");
+         }
+          return conditions;
+}
 }
