@@ -643,5 +643,12 @@
       "config": {
          "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/clientsPerService.sql"
       }
+   },
+      "fpsFieldVisitPatients": {
+      "name": "FPS Program Field Visit Patients",
+      "type": "MRSGeneric",
+      "config": {
+         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/fpsFieldVisitPatients.sql"
+      }
    }
 }

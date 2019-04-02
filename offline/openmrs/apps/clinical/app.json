@@ -487,7 +487,7 @@
             "dropdown":true
           },
           "COSD, If yes for referred to health facility then specify":{
-            "dropdown":true
+            "multiSelect":true
           },
            "COSD, Next refill date":
           {

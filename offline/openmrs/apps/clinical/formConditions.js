@@ -9334,7 +9334,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
     "COSD, If yes for referred to health facility then specify": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
      var conditionConcept = formFieldValues['COSD, If yes for referred to health facility then specify'];
-     if (conditionConcept =="Others") {
+     if (conditionConcept.indexOf("Others") >=0) {
           conditions.enable.push("COSD, If others for yes for referred to health facility");
 
      }

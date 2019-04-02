@@ -68,5 +68,15 @@
      "icon": "fa fa-book",
      "order": 7,
      "requiredPrivilege": "app:dhis2sync"
+  },
+    "programs": {
+    "id": "bahmni.programs",
+    "extensionPointId": "org.bahmni.home.dashboard",
+    "type": "link",
+    "translationKey": "MODULE_LABEL_PROGRAMS_KEY",
+    "url": "../clinical/#/programs/patient/search",
+    "icon": "icon-bahmni-program",
+    "order": 8,
+    "requiredPrivilege": "app:clinical"
   }
 }
