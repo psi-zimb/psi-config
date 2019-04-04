@@ -125,7 +125,7 @@
         ]
       },
       "conceptReferenceSource": "",
-      "ignoreAllFreeTextConcepts": true,
+      "ignoreAllFreeTextConcepts": false,
       "columnsToIgnore": [
         "Image"
       ]
@@ -168,6 +168,27 @@
       "chunkSizeToRead": "500",
       "columnsToIgnore": []
       },
+    {
+      "name": "PSI Patient program data",
+      "type": "customSql",
+      "readerSql": "SELECT  pp.patient_id, pp.program_id, pp.patient_program_id, pp.date_enrolled,
+                            FORMAT((DATEDIFF(pp.date_enrolled, p.birthdate) / 365), 0) AS \"age_during_enrollment\", 
+                            pp.date_completed, FORMAT((DATEDIFF(pp.date_completed, p.birthdate) / 365), 0) 
+                            AS \"age_during_completion\", pp.location_id, l.name AS \"location_name\", 
+                            cn_outcome.concept_full_name AS \"program_outcome\", pp.creator AS \"creator_id\", 
+                            creator_details.name AS \"creator_name\", pp.date_created, pp.date_changed, 
+                            pp.changed_by AS \"changed_by_id\", changer_details.name AS \"changed_by_name\" 
+                            FROM patient_program pp INNER JOIN person p ON p.person_id = pp.patient_id 
+                            INNER JOIN (SELECT users.user_id, concat_ws(' ', ifnull(pn.given_name, ''), ifnull(pn.family_name, '')) 
+                            AS name FROM users INNER JOIN person_name pn ON users.person_id = pn.person_id) creator_details ON creator_details.user_id = pp.creator 
+                            LEFT OUTER JOIN (SELECT users.user_id, concat_ws(' ', ifnull(pn.given_name, ''), ifnull(pn.family_name, '')) AS name FROM users INNER JOIN person_name pn ON users.person_id = pn.person_id) 
+                            changer_details ON changer_details.user_id = pp.changed_by 
+                            LEFT OUTER JOIN concept_view cn_outcome ON cn_outcome.concept_id = pp.outcome_concept_id AND cn_outcome.retired = FALSE 
+                            LEFT OUTER JOIN location l ON l.location_id = pp.location_id AND l.retired = FALSE where pp.voided = 0",
+      "tableName": "psi_patient_program_data",
+      "chunkSizeToRead": "500",
+      "columnsToIgnore": []
+    },
     {
       "name": "patient_registration_second_page_creation",
       "type": "customSql",
@@ -755,6 +776,186 @@ phtc.\"Late read result\"
           Left Join hiv_self_testing patientHTSResult on personDetails.patient_id = patientHTSResult.patient_id
               and patientHTSResult.date_created =(Select max(date_created) from hiv_self_testing where patient_id =personDetails.patient_id)
           Where COALESCE(phtc.patient_id,hst.patient_id) is not null"
-}
+},
+{
+ "name": "fps_program_events_table",
+ "sql": "select 
+        'FPSDeId' as program,
+        max(case when pa.\"Site_Type\" = 'Outreach'
+                  AND pad.\"city_village\" not like 'Other%'
+                  then concat('ZWNSC-OU-',pad.address2,'-',upper(pad.\"city_village\"))
+                  ELSE concat('ZWNSC-',pad.address2) 
+                  end ) as \"OrgUnit\",
+        max(date(fpsform.obs_datetime)) as \"event_date\",
+        'COMPLETED' as status,
+        max(pedd.\"visit_id\") as \"event_unique_id\",
+        max(ppv.\"date_enrolled\") as \"program_date_enrolled\",
+        max(fpsform.\"date_created\") as \"date_created\",       
+        max(pi.\"Patient_Identifier\") as \"Patient Identifier\",
+        max(pdd.age) as \"Age\",
+        max(fpsform.\"fps_reg_is_client_accompanied_by_her_partner\") as \"Is client accompanied by her Partner\",
+        max(fpsform.\"fps_reg_reason_for_the_visit\") as \"Reason for the visit\",
+        max(fpsform.\"fps_reg_reason_for_family_planning\") as \"Reason for family planning\",
+        string_agg(case when fpsform.\"fps_reg_occasion\" = 'FPS REG,Post Partum' then 'Post Partum' 
+                        when fpsform.\"fps_reg_occasion\" = 'FPS REG,Post abortion' then 'Post abortion'
+                        when fpsform.\"fps_reg_occasion\" = 'FPS REG,Interval' then 'Interval' 
+                        end ,', ') as \"Occasion\",
+        string_agg(case when fpsform.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,Friend/Relative' then 'Friend/Relative' 
+                        when fpsform.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,Other FP client' then 'Other FP client'
+                        when fpsform.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,Partner/Spouse' then 'Partner/Spouse'
+                        when fpsform.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,Health worker' then 'Health worker'
+                        when fpsform.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,Poster/Leaflet/Brochure' then 'Poster/Leaflet/Brochure'
+                        when fpsform.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,Community Mobilizer' then 'Community Mobilizer'
+                        when fpsform.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,TV' then 'TV'
+                        when fpsform.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,Radio' then 'Radio'
+                        when fpsform.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,New Start T&C/New Life' then 'New Start T&C/New Life'
+                        when fpsform.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,Other T&C service provider' then 'Other T&C service provider'
+                        when fpsform.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,Other site' then 'Other site'
+                        end ,', ') as \"How did you hear about the FP services at sites?\",
+        max(fpsform.\"fps_form_other_for_how_did_you_hear_about_the_fp_services_a\") as \"If other, specify details\",
+        max(fpsform.\"fps_form_referred_in_for\") as \"Referred in for\",
+        max(fpsform.\"fps_form_menarche\") as \"Menarche\",
+        max(fpsform.\"fps_form_lnmp\") as \"LNMP\",
+        max(fpsform.\"fps_form_no_of_bleeding_days_length_of_cycle\") as \"Menstrual cycle\",
+        max(fpsform.\"fps_form_number_of_living_children_indicate_number_and_ages\") as \"Number of Living\",
+        max(fpsform.\"fps_form_date_of_last_delivery\") as \"Date of last delivery\",
+        max(fpsform.\"fps_form_used_checklist_to_exclude_pregnancy\") as \"Used checklist to exclude pregnancy\",
+        string_agg(case when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Vasectomy' then 'Vasecotomy' 
+                when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Projesterone only pill (POP)' then 'Projesterone only pill (POP)'
+                when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Combined oral contaceptive (COC)' then 'Combined oral contaceptive (COC)'                when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Injectable (Petogen)' then 'Injectable'
+                when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Implanon Implants' then 'Implanon Implants'
+                when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Emergency contraception' then 'Emergency contraception'
+                when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Jadelle Implants' then 'Jadelle Implants'
+                when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Copper T IUCD' then 'Copper T IUCD'
+                when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,LNG-IUS IUCD' then 'LNG-IUS IUCD'
+                when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Tuberligation' then 'Tuberligation'
+                when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'None' then 'None'
+                end ,', ') as \"Ever used contraception before\",
+                string_agg(case when fpsform.\"fps_form_current_method\" = 'New' then 'New' 
+                when fpsform.\"fps_form_current_method\" = 'Lapsed' then 'Lapsed'
+                when fpsform.\"fps_form_current_method\" = 'FPS FORM,Projesterone only pill (POP)' then 'Projesterone only pill (POP)'
+                when fpsform.\"fps_form_current_method\" = 'FPS FORM,Combined oral contaceptive (COC)' then 'Combined oral contaceptive (COC)'
+                when fpsform.\"fps_form_current_method\" = 'FPS FORM,Jadelle Implants' then 'Jadelle Implants'
+                when fpsform.\"fps_form_current_method\" = 'FPS FORM,Implanon Implants' then 'Implanon Implants'
+                when fpsform.\"fps_form_current_method\" = 'Injectables' then 'Injectables'
+                when fpsform.\"fps_form_current_method\" = 'IUCD' then 'IUCD'
+                when fpsform.\"fps_form_current_method\" = 'FPS FORM,LNG-IUS' then 'LNG-IUS'
+                when fpsform.\"fps_form_current_method\" = 'TUBAL LIGATION' then 'TUBAL LIGATION'
+                when fpsform.\"fps_form_current_method\" = 'FPS FORM,Emergency contraception' then 'Emergency contraception'
+                when fpsform.\"fps_form_current_method\" = 'Condoms' then 'Condoms'
+                when fpsform.\"fps_form_current_method\" = 'Others' then 'Others'
+                end ,', ') as \"Current Method\",
+                max(fpsform.\"fps_form_p_v_loss\") as \"P.V. Loss\",
+                max(fpsform.\"fps_form_post_coital_bleeding\") as \"Post coital bleeding\",
+                max(fpsform.\"fps_form_pain_during_intercourse_dyspareunia\") as \"Pain during intercourse\",
+                max(fpsform.\"fps_form_any_discharge\") as \"Any Discharge\",
+                max(fpsform.\"fps_form_pain_during_micturation\") as \"Pain during micturation\",
+                max(fpsform.\"fps_form_allergies_state_below_if_any\") as \"Allergies (state below if any)\",
+                string_agg(case when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Varicose Veins' then 'Varicose Veins' 
+                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Anemia' then 'Anemia'
+                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'Diabetes Mellitus' then 'Diabetes Mellitus'
+                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Thromboplebitis' then 'Thromboplebitis'
+                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Heart condition' then 'Heart condition'
+                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Liver problems' then 'Liver problems'
+                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Epilepsy' then 'Epilepsy'
+                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Cancer of the breast' then 'Cancer of the breast'
+                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'N/A' then 'N/A'
+                end ,', ') as \"Does the client have a history\",
+                max(fpsform.\"fps_form_any_other_illness\") as \"Any other illness?\",
+                max(fpsform.\"fps_form_clinical_history\") as \"Clinical History\",
+                max(fpsform.\"fps_form_hiv_infection\") as \"HIV infection?\",
+                max(fpsform.\"fps_form_diagnosed_when\") as \"Diagnosed when?\",
+                max(fpsform.\"fps_form_recent_cd4_cell_count\") as \"Recent CD4 cell count\",
+                max(fpsform.\"fps_form_currently_receiving_art\") as \"Currently receiving ART?\",
+                max(fpsform.\"fps_form_in_the_past_included_in_pmtct_program\") as \"In the past included in PMTCT program?\",
+                max(fpsform.\"fps_form_is_the_client_taking_any_medications\") as \"Is the client taking any medications\",
+                max(fpsform.\"fps_form_did_the_client_have_any_surgical_operation\") as \"Did the client have any surgical operation?\",
+                string_agg(case when fpsform.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Heart' then 'Heart' 
+                                when fpsform.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Lung' then 'Lung'
+                                when fpsform.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Abdomen' then 'Abdomen'
+                                when fpsform.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Head, neck, mouth, throat, ears' then 'Head, neck, mouth, throat, ears'
+                                when fpsform.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Limbs' then 'Limbs'
+                                when fpsform.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Breasts' then 'Breasts'
+                                when fpsform.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Skin' then 'Skin'
+                end ,', ') as \"General clinical examination\",
+                max(fpsform.\"fps_form_weight\") as \"Weight\",
+                max(fpsform.\"fps_bp_systolic\") as \"BP Systolic\",
+                max(fpsform.\"fps_bp_diastolic\") as \"BP Diastolic\",
+                max(fpsform.\"fps_form_temp\") as \"Temp\",
+                max(fpsform.\"fps_form_p\") as \"P\",
+                max(fpsform.\"fps_form_r\") as \"R\",
+                string_agg(case when fpsform.\"fps_form_genital_examination_does_the_client_have_any_of_th\" = 'FPS FORM,Vulvar warts' then 'Vulvar warts' 
+                                when fpsform.\"fps_form_genital_examination_does_the_client_have_any_of_th\" = 'FPS FORM,Genital ulcer' then 'Genital ulcer'
+                                when fpsform.\"fps_form_genital_examination_does_the_client_have_any_of_th\" = 'FPS FORM,lesions syndrome' then 'lesions syndrome'
+                                when fpsform.\"fps_form_genital_examination_does_the_client_have_any_of_th\" = 'FPS FORM,Vaginal Discharge syndrome' then 'Vaginal Discharge syndrome'
+                                when fpsform.\"fps_form_genital_examination_does_the_client_have_any_of_th\" = 'FPS FORM,PID' then 'PID'
+                                when fpsform.\"fps_form_genital_examination_does_the_client_have_any_of_th\" = 'Other' then 'Other'
+                end ,', ') as \"Genital examination: Does the client have any of the following conditions?\",
+                max(fpsform.\"fps_form_uterus_size\") as \"Uterus Size\",
+                max(fpsform.\"fps_form_uterus_position\") as \"Uterus Position\",
+                max(fpsform.\"fps_form_adnexae_comment\") as \"Adnexae (comment)\",
+                string_agg(case when fpsform.\"fps_form_preferred_method_state\" = 'FPS FORM,Projesterone only pill (POP)' then 'Projesterone only pill (POP)'
+                                when fpsform.\"fps_form_preferred_method_state\" = 'FPS FORM,Combined oral contaceptive (COC)' then 'Combined oral contaceptive (COC)'
+                                when fpsform.\"fps_form_preferred_method_state\" = 'FPS FORM,Jadelle Implants' then 'Jadelle Implants'
+                                when fpsform.\"fps_form_preferred_method_state\" = 'FPS FORM,Implanon Implants' then 'Implanon Implants'
+                                when fpsform.\"fps_form_preferred_method_state\" = 'FPS FORM,Injectable (Petogen)' then 'Injectables'
+                                when fpsform.\"fps_form_preferred_method_state\" = 'FPS FORM,Copper T IUCD' then 'Copper T IUCD'
+                                when fpsform.\"fps_form_preferred_method_state\" = 'FPS FORM,LNG-IUS IUCD' then 'LNG-IUS IUCD'
+                                when fpsform.\"fps_form_preferred_method_state\" = 'FPS FORM,Vasectomy' then 'Vasectomy'
+                                when fpsform.\"fps_form_preferred_method_state\" = 'FPS FORM,Emergency contraception' then 'Emergency contraception'
+                                when fpsform.\"fps_form_preferred_method_state\" = 'FPS FORM,Tuberligation' then 'Tuberligation'
+                end ,', ') as \"Preferred method (state)\",
+                max(fpsform.\"fps_form_changing_state\") as \"Changing State\",
+                max(fpsform.\"fps_form_medically_eligible\") as \"Medically eligible\",
+                max(fpsform.\"fps_form_pregnancy_test\") as \"Pregnancy test (Negative/positive)\",
+                string_agg(case when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM,Projesterone only pill (POP)' then 'Projesterone only pill (POP)'
+                                when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM,Combined oral contaceptive (COC)' then 'Combined oral contaceptive (COC)'
+                                when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM,Jadelle Implants' then 'Jadelle Implants'
+                                when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM,Implanon Implants' then 'Implanon Implants'
+                                when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM,Injectable (Petogen)' then 'Injectables'
+                                when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM,Copper T IUCD' then 'Copper T IUCD'
+                                when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM,LNG-IUS IUCD' then 'LNG-IUS IUCD'
+                                when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM,Vasectomy' then 'Vasectomy'
+                                when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM,Emergency contraception' then 'Emergency contraception'
+                                when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM,Tuberligation' then 'Tuberligation'
+                                when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM, Other Methods' then 'Other Methods'
+                end ,', ') as \"Method issued and/or administered\",
+                max(fpsform.\"fps_form_dual_protection_discussed\") as \"Dual Protection discussed\",
+                max(fpsform.\"fps_form_name_of_counselor\") as \"Name of Counselor\",
+                max(fpsform.\"fps_form_device_removal\") as \"Device removal\",
+                max(fpsform.\"fps_form_state_reason_for_removal\") as \"State reason for removal\",
+                max(fpsform.\"fps_form_device_inserted_by\") as \"Device Inserted by\",
+                max(fpsform.\"fps_form_state_procedure\") as \"State Procedure\",
+                max(fpsform.\"fps_form_date_of_procedure_indicate\") as \"Date of Procedure indicate\",
+                max(fpsform.\"fps_form_pre_procedure_counseling_and_assessment_conducted\") as \"Pre-Procedure counseling\",
+                max(fpsform.\"fps_form_indicate_name_of_counselor\") as \"Indicate name of Counselor\",
+                max(fpsform.\"fps_form_start_of_procedure_indicate_time\") as \"Start of procedure indicate time\",
+                max(fpsform.\"fps_form_end_of_procedure_indicate_time\") as \"End of procedure, indicate time\",
+                max(fpsform.\"fps_form_complications_during_insertions\") as \"Complications during insertions\",
+                max(fpsform.\"fps_form_adverse_event\") as \"Adverse Events\",
+                max(fpsform.\"fps_form_procedure_done_by\") as \"Procedure done by\",
+                string_agg(case when fpsform.\"fps_form_condoms_given\" = ' Male' then 'Male' 
+                                when fpsform.\"fps_form_condoms_given\" = 'Female' then 'Female'
+                                when fpsform.\"fps_form_condoms_given\" = 'FPS FORM,Not Given' then 'Not Given'
+                end ,', ') as \"Condoms given\",
+                max(fpsform.\"fps_form_batch_number\") as \"Batch Number\",
+                max(fpsform.\"fps_form_expiry_date\") as \"Expiry Date\",
+                max(fpsform.\"fps_form_manufacture\") as \"Manufacture\",
+                string_agg(fpsform.\"fps_form_indicate_where_client_was_referred_to\",', ') as \"Indicate where the client was referred to\",
+                max(fpsform.\"fps_form_referred_out\") as \"Referred out ?\",
+                max(fpsform.\"fps_form_state_reason_for_referral\") as \"State reason for referral\",
+                max(\"fps_form_referral_slip_and_instructions_to_leave_slip_at_th\") as \"Referral slip and instructions\",
+                max(fpsform.\"fps_form_state_review_date\") as \"State review date\"
+                from psi_patient_program_data ppv
+                join fps_family_planning_service fpsform on ppv.patient_id = fpsform.patient_id
+                join patient_identifier pi on ppv.patient_id = pi.patient_id
+                join person_details_default pdd on ppv.patient_id = pdd.person_id
+                join person_attributes pa on ppv.patient_id = pa.person_id
+                join person_address_default pad on pa.person_id = pad.person_id
+                join patient_encounter_table pedd on fpsform.encounter_id = pedd.encounter_id
+                where ppv.program_id = (select program_id from programs_default where program_name = 'FPS Program')
+                group by fpsform.id_fps_family_planning_service,fpsform.patient_id
+                order by fpsform.id_fps_family_planning_service desc"
+ }
   ]
 }
