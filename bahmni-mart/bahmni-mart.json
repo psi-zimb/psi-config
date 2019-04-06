@@ -380,7 +380,6 @@
                     (Select concept_full_name from concept_view where concept_id = patientSitetype.siteType)
                     end) as \"Channel Type\",
                     piUIC.identifier as \"UIC\",
-                    pi.identifier as \"Client Code\",
                     per.gender as \"Gender\",
                     per.birthdate as \"Date of Birth\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Client Resident' then cv.concept_full_name else null end)) as \"Residence\",
@@ -457,7 +456,7 @@
                     then concat('ZWNSC-OU-',perAdd.address2,'-',upper(perAdd.city_village))
                     ELSE concat('ZWNSC-',perAdd.address2) 
                     end as \"OrgUnit\",
-                    'HTSDeId' as program,
+                    'FPSDeId' as program,
                     min(date(pp.date_enrolled)) as \"enrollment_date\",
                     min(date(pp.date_enrolled)) as \"incident_date\",
                     min(pp.date_created) as \"date_created\",
@@ -781,6 +780,7 @@ phtc.\"Late read result\"
  "name": "fps_program_events_table",
  "sql": "select 
         'FPSDeId' as program,
+         '' as program_stage,
         max(case when pa.\"Site_Type\" = 'Outreach'
                   AND pad.\"city_village\" not like 'Other%'
                   then concat('ZWNSC-OU-',pad.address2,'-',upper(pad.\"city_village\"))
@@ -789,7 +789,7 @@ phtc.\"Late read result\"
         max(date(fpsform.obs_datetime)) as \"event_date\",
         'COMPLETED' as status,
         max(pedd.\"visit_id\") as \"event_unique_id\",
-        max(ppv.\"date_enrolled\") as \"program_date_enrolled\",
+        max(DATE(ppv.\"date_enrolled\")) as \"enrollment_date\",
         max(fpsform.\"date_created\") as \"date_created\",       
         max(pi.\"Patient_Identifier\") as \"Patient Identifier\",
         max(pdd.age) as \"Age\",
@@ -816,8 +816,8 @@ phtc.\"Late read result\"
         max(fpsform.\"fps_form_referred_in_for\") as \"Referred in for\",
         max(fpsform.\"fps_form_menarche\") as \"Menarche\",
         max(fpsform.\"fps_form_lnmp\") as \"LNMP\",
-        max(fpsform.\"fps_form_no_of_bleeding_days_length_of_cycle\") as \"Menstrual cycle\",
-        max(fpsform.\"fps_form_number_of_living_children_indicate_number_and_ages\") as \"Number of Living\",
+        max(fpsform.\"fps_form_no_of_bleeding_days_length_of_cycle\") as \"Number of bleeding days\",
+        max(fpsform.\"fps_form_number_of_living_children_indicate_number_and_ages\") as \"Number of Children and ages\",
         max(fpsform.\"fps_form_date_of_last_delivery\") as \"Date of last delivery\",
         max(fpsform.\"fps_form_used_checklist_to_exclude_pregnancy\") as \"Used checklist to exclude pregnancy\",
         string_agg(case when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Vasectomy' then 'Vasecotomy' 
@@ -923,8 +923,16 @@ phtc.\"Late read result\"
                 max(fpsform.\"fps_form_dual_protection_discussed\") as \"Dual Protection discussed\",
                 max(fpsform.\"fps_form_name_of_counselor\") as \"Name of Counselor\",
                 max(fpsform.\"fps_form_device_removal\") as \"Device removal\",
-                max(fpsform.\"fps_form_state_reason_for_removal\") as \"State reason for removal\",
-                max(fpsform.\"fps_form_device_inserted_by\") as \"Device Inserted by\",
+                string_agg(case when fpsform.\"fps_form_state_reason_for_removal\" = 'FPS FORM,Expired' then 'Expired' 
+                                when fpsform.\"fps_form_state_reason_for_removal\" = 'FPS FORM,Desire to be pregnant' then 'Desire to be pregnant'
+                                when fpsform.\"fps_form_state_reason_for_removal\" = 'FPS FORM,Health concerns' then 'Health concerns'
+                                when fpsform.\"fps_form_state_reason_for_removal\" = 'FPS FORM,Complications' then 'Complications'
+                                when fpsform.\"fps_form_state_reason_for_removal\" = 'Other' then 'Other'
+                end ,', ') as \"State reason for removal\",
+                string_agg(case when fpsform.\"fps_form_device_inserted_by\" = 'FPS FORM,PSI/PSF' then 'PSI/PSF' 
+                                when fpsform.\"fps_form_device_inserted_by\" = 'Other' then 'Other'
+                                when fpsform.\"fps_form_device_inserted_by\" = 'Unknown' then 'Unknown'
+                end ,', ') as \"Device Inserted by\",
                 max(fpsform.\"fps_form_state_procedure\") as \"State Procedure\",
                 max(fpsform.\"fps_form_date_of_procedure_indicate\") as \"Date of Procedure indicate\",
                 max(fpsform.\"fps_form_pre_procedure_counseling_and_assessment_conducted\") as \"Pre-Procedure counseling\",
@@ -934,7 +942,7 @@ phtc.\"Late read result\"
                 max(fpsform.\"fps_form_complications_during_insertions\") as \"Complications during insertions\",
                 max(fpsform.\"fps_form_adverse_event\") as \"Adverse Events\",
                 max(fpsform.\"fps_form_procedure_done_by\") as \"Procedure done by\",
-                string_agg(case when fpsform.\"fps_form_condoms_given\" = ' Male' then 'Male' 
+                string_agg(case when fpsform.\"fps_form_condoms_given\" = 'Male' then 'Male' 
                                 when fpsform.\"fps_form_condoms_given\" = 'Female' then 'Female'
                                 when fpsform.\"fps_form_condoms_given\" = 'FPS FORM,Not Given' then 'Not Given'
                 end ,', ') as \"Condoms given\",
