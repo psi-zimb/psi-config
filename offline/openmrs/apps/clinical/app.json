@@ -501,6 +501,9 @@
           {
             "multiSelect": true
           },
+          "COSD, Blood Sugar Data": {
+                "hideAbnormalButton" : true
+            },
           "defaults": {
                 "HIV testing and counselling service": "Requested",
                 "Numeric concept": 1,
