@@ -791,7 +791,7 @@ phtc.\"Late read result\"
         max(pedd.\"visit_id\") as \"event_unique_id\",
         max(DATE(ppv.\"date_enrolled\")) as \"enrollment_date\",
         max(fpsform.\"date_created\") as \"date_created\",       
-        max(pi.\"Patient_Identifier\") as \"Patient Identifier\",
+        max(pi.\"Patient_Identifier\") as \"Patient_Identifier\",
         max(pdd.age) as \"Age\",
         max(fpsform.\"fps_reg_is_client_accompanied_by_her_partner\") as \"Is client accompanied by her Partner\",
         max(fpsform.\"fps_reg_reason_for_the_visit\") as \"Reason for the visit\",
