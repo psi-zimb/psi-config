@@ -8484,9 +8484,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
    var conditions = {enable: [], disable: [],show: [], hide: []};
    var questionThatTriggersRule = "FPS FORM,Referred out ?";
    var selectedResponses = formFieldValues[questionThatTriggersRule];
-   var aboveQuestionEffected = ["FPS FORM,Indicate where client was referred to"];
-   var otherQuestionEffected = ["FPS FORM,Referral slip and instructions to leave slip at the clinic given"];
-   var thirdQuestionEffected = ['FPS FORM,State reason for referral'];
+   var aboveQuestionEffected = "FPS FORM,Indicate where client was referred to";
+   var otherQuestionEffected = "FPS FORM,Referral slip and instructions to leave slip at the clinic given";
+   var thirdQuestionEffected = "FPS FORM,State reason for referral";
 
    var conditionTrue = selectedResponses == 'Yes';
    var ruleActions = {enable: [], disable: []};
@@ -8763,9 +8763,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
    var conditions = {enable: [], disable: [],show: [], hide: []};
    var questionThatTriggersRule = "FPS Counselling Only, Referred out ?";
    var selectedResponses = formFieldValues[questionThatTriggersRule];
-   var aboveQuestionEffected = ["FPS Counselling Only, Indicate where client was referred to"];
-   var otherQuestionEffected = ["FPS Counselling Only, Referral slip and instructions to leave slip at the clinic given"];
-   var thirdQuestionEffected = ['FPS Counselling Only, State reason for referral'];
+   var aboveQuestionEffected = "FPS Counselling Only, Indicate where client was referred to";
+   var otherQuestionEffected = "FPS Counselling Only, Referral slip and instructions to leave slip at the clinic given";
+   var thirdQuestionEffected = 'FPS Counselling Only, State reason for referral';
 
    var conditionTrue = selectedResponses == 'Yes';
    var ruleActions = {enable: [], disable: []};
@@ -8886,9 +8886,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
    var conditions = {enable: [], disable: [],show: [], hide: []};
    var questionThatTriggersRule = "FP Continuation,Referred out ?";
    var selectedResponses = formFieldValues[questionThatTriggersRule];
-   var aboveQuestionEffected = ["FP Continuation,Indicate where client was referred to"];
-   var otherQuestionEffected = ["FP Continuation,Referral slip and instructions to leave slip at the clinic given"];
-   var thirdQuestionEffected = ["FP Continuation,State reason for referral"];
+   var aboveQuestionEffected = "FP Continuation,Indicate where client was referred to";
+   var otherQuestionEffected = "FP Continuation,Referral slip and instructions to leave slip at the clinic given";
+   var thirdQuestionEffected = "FP Continuation,State reason for referral";
 
    var conditionTrue = selectedResponses == 'Yes';
    var ruleActions = {enable: [], disable: []};
