@@ -8629,12 +8629,12 @@ Bahmni.ConceptSet.FormConditions.rules = {
         var questionThatTriggersRule = "FP Counselling Only,Device removal";
         var selectedResponses = formFieldValues[questionThatTriggersRule];
         var aboveQuestionAnswer = "FP Counselling Only,FP type";
-        var secondAnswer = "FP Counselling Only,State reason for removal"
-        var thirdAnswer = "FP Counselling Only,Device Inserted by"
-        var forthAnswer = "FP Counselling Only, End of procedure, indicate time"
-        var fifthAnswer = "FPS Counselling Only, Complications during insertions"
-        var sixthAnswer = "FPS Counselling Only, Adverse Event"
-        var seventhAnswer = "FPS Counselling Only, Procedure done by (Name of counsellor)"
+        var secondAnswer = "FP Counselling Only,State reason for removal";
+        var thirdAnswer = "FP Counselling Only,Device Inserted by";
+        var forthAnswer = "FP Counselling Only, End of procedure, indicate time";
+        var fifthAnswer = "FPS Counselling Only, Complications during insertions";
+        var sixthAnswer = "FPS Counselling Only, Adverse Event";
+        var seventhAnswer = "FPS Counselling Only, Procedure done by (Name of counsellor)";
         var conditionTrue = selectedResponses == 'Yes';
         var ruleActions = {enable: [], disable: []};
          if(conditionTrue) {
@@ -8945,17 +8945,17 @@ Bahmni.ConceptSet.FormConditions.rules = {
         var questionThatTriggersRule = "FPS Continuation, Procedure Done";
         var selectedResponses = formFieldValues[questionThatTriggersRule];
         var aboveQuestionAnswer = "FPS Continuation, State Procedure";
-        var secondAnswer = "FP Continuation, Date of Procedure indicate"
-        var thirdAnswer = "FP Continuation, Pre-Procedure counseling and assessment conducted?"
-        var forthAnswer = "FP Continuation, Indicate name of Counselor"
-        var fifthAnswer = "FP Continuation, Start of procedure indicate time"
-        var sixthAnswer = "FP Continuation, End of procedure, indicate time"
-        var seventhAnswer = "FP Continuation, Complications during insertions"
-        var eighthAnswer = "FP Continuation, Adverse Event"
-        var ninethAnswer = "FP Continuation, Procedure done by (Name of counsellor)"
-        var tenthAnswer = "FP Continuation, Batch number of the method given"
-        var eleventhAnswer = "FP Continuation, Expiry date of the method given"
-        var twelvethAnswer = "FP Continuation, Manufacturer of the method given"
+        var secondAnswer = "FP Continuation, Date of Procedure indicate";
+        var thirdAnswer = "FP Continuation, Pre-Procedure counseling and assessment conducted?";
+        var forthAnswer = "FP Continuation, Indicate name of Counselor";
+        var fifthAnswer = "FP Continuation, Start of procedure indicate time";
+        var sixthAnswer = "FP Continuation, End of procedure, indicate time";
+        var seventhAnswer = "FP Continuation, Complications during insertions";
+        var eighthAnswer = "FP Continuation, Adverse Event";
+        var ninethAnswer = "FP Continuation, Procedure done by (Name of counsellor)";
+        var tenthAnswer = "FP Continuation, Batch number of the method given";
+        var eleventhAnswer = "FP Continuation, Expiry date of the method given";
+        var twelvethAnswer = "FP Continuation, Manufacturer of the method given";
         var conditionTrue = selectedResponses == 'Yes';
         var ruleActions = {enable: [], disable: []};
          if(conditionTrue) {
