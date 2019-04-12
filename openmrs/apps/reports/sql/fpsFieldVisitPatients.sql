@@ -14,7 +14,7 @@ join person per on obsforFPInitial.person_id = per.person_id
 join person_name pn2 on per.person_id = pn2.person_id
 where vt.name = "FIELD"
 and cv.concept_full_name IN ("FPS FORM,Method issued and/or administered","FPS Continuation, Method Administered")
-And v.patient_id Not in (select patient_id from patient_program where program_id In (select program_id from program where name ="FPS Program"))
+And v.patient_id Not in (select patient_id from patient_program where program_id In (select program_id from program where name ="FPS Program") and voided = 0)
 and pi.identifier_type = (select patient_identifier_type_id from patient_identifier_type where name = 'Patient Identifier')
 and date(obsforFPInitial.obs_datetime) between date('#startDate#') and date('#endDate#')
 and obsforFPInitial.voided = 0
