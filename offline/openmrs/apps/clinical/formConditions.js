@@ -8362,8 +8362,8 @@ Bahmni.ConceptSet.FormConditions.rules = {
         var questionThatTriggersRule = "FPS FORM,Device removal";
         var selectedResponses = formFieldValues[questionThatTriggersRule];
         var aboveQuestionAnswer = "FPS FORM,FP type";
-        var secondAnswer = "FPS FORM,State reason for removal"
-        var thirdAnswer = "FPS FORM,Device Inserted by"
+        var secondAnswer = "FPS FORM,State reason for removal";
+        var thirdAnswer = "FPS FORM,Device Inserted by";
         var conditionTrue = selectedResponses == 'Yes';
         var ruleActions = {enable: [], disable: []};
          if(conditionTrue) {
@@ -9077,11 +9077,11 @@ Bahmni.ConceptSet.FormConditions.rules = {
         var questionThatTriggersRule = "FPS FORM,HIV infection?";
         var selectedResponses = formFieldValues[questionThatTriggersRule];
         var aboveQuestionAnswer = "FPS FORM,Diagnosed when?";
-        var secondAnswer = "FPS FORM,Recent CD4 cell count"
-        var thirdAnswer = "FPS FORM,Currently receiving ART?"
-        var forthAnswer = "FPS FORM,In the past included in PMTCT program?"
-        var fifthAnswer = "FPS FORM,Is the client taking any medications"
-        var sixthAnswer = "FPS FORM,Did the client have any surgical operation?"
+        var secondAnswer = "FPS FORM,Recent CD4 cell count";
+        var thirdAnswer = "FPS FORM,Currently receiving ART?";
+        var forthAnswer = "FPS FORM,In the past included in PMTCT program?";
+        var fifthAnswer = "FPS FORM,Is the client taking any medications";
+        var sixthAnswer = "FPS FORM,Did the client have any surgical operation?";
         var conditionTrue = selectedResponses == 'Positive';
         var ruleActions = {enable: [], disable: []};
          if(conditionTrue) {
