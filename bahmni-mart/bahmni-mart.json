@@ -789,7 +789,7 @@ phtc.\"Late read result\"
         max(date(fpsform.obs_datetime)) as \"event_date\",
         'COMPLETED' as status,
         max(pedd.\"visit_id\") as \"event_unique_id\",
-        max(DATE(ppv.\"date_enrolled\")) as \"enrollment_date\",
+        max(DATE(ppv.\"date_enrolled\")) :: text as \"enrollment_date\",
         max(fpsform.\"date_created\") as \"date_created\",       
         max(pi.\"Patient_Identifier\") as \"Patient_Identifier\",
         max(pdd.age) as \"Age\",
