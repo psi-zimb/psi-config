@@ -377,7 +377,8 @@
             "dropdown":true
           },
           "FPS, District":{
-            "dropdown":true
+            "dropdown":true,
+            "required":true
           },
           "FP Counselling Only, Temperature":{
             "hideAbnormalButton":true
@@ -504,6 +505,13 @@
           "COSD, Blood Sugar Data": {
                 "hideAbnormalButton" : true
             },
+            "FPS Form, Facility":{
+            "dropdown":true,
+            "required":true
+          },
+          "FPS Form,Site Type":{
+            "required":true
+          },
           "defaults": {
                 "HIV testing and counselling service": "Requested",
                 "Numeric concept": 1,

@@ -9379,5 +9379,18 @@ Bahmni.ConceptSet.FormConditions.rules = {
               conditions.hide.push("FP Continuation If side effects, specify details");
          }
           return conditions;
-}
+},
+    "FPS Form,Site Type": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['FPS Form,Site Type'];
+     if (conditionConcept =="Outreach") {
+          conditions.show.push("FPS, District");
+
+     }
+     else
+     {
+          conditions.hide.push("FPS, District");
+     }
+          return conditions;
+  }
 }

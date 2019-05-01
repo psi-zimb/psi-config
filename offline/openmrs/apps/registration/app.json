@@ -55,7 +55,6 @@
                 "Partner": "patient"
             },
             "autoCompleteFields":[],
-            "defaultIdentifierPrefix": "NAH",
             "defaultVisitType": "FIELD",
             "searchByIdForwardUrl": "/patient/{{patientUuid}}",
             "showMiddleName": true,

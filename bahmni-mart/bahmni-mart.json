@@ -781,11 +781,10 @@ phtc.\"Late read result\"
  "sql": "select 
         'FPSDeId' as program,
          '' as program_stage,
-        max(case when pa.\"Site_Type\" = 'Outreach'
-                  AND pad.\"city_village\" not like 'Other%'
-                  then concat('ZWNSC-OU-',pad.address2,'-',upper(pad.\"city_village\"))
-                  ELSE concat('ZWNSC-',pad.address2) 
-                  end ) as \"OrgUnit\",
+        max(case when fpsform.\"fps_form_site_type\" = 'Outreach'
+                    then concat('ZWNSC-OU-',upper(fpsform.\"fps_form_facility\"),'-',upper(fpsform.\"fps_district\"))
+                    ELSE concat('ZWNSC-',upper(fpsform.\"fps_form_facility\"))
+                    end) as \"OrgUnit\",
         max(date(fpsform.obs_datetime)) as \"event_date\",
         'COMPLETED' as status,
         max(pedd.\"visit_id\") as \"event_unique_id\",
