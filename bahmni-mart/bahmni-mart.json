@@ -385,11 +385,10 @@
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Client Resident' then cv.concept_full_name else null end)) as \"Residence\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Marital Status' then cv.concept_full_name else null end)) as \"Marital Status\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'occupation' then cv.concept_full_name else null end)) as \"Occupation\",
-                    (case when patientSitetype.siteType = (select concept_id from concept_view where concept_full_name = 'Outreach' and retired = 0)
-                    AND perAdd.city_village not like 'Other%'
-                    then concat('ZWNSC-OU-',perAdd.address2,'-',upper(perAdd.city_village))
-                    ELSE concat('ZWNSC-',perAdd.address2) 
-                    end) as \"OrgUnit\",
+                    case when OrgUnitLogic.sitetype = 'Outreach'
+                    then concat('ZWNSC-OU-',upper(OrgUnitLogic.facility),'-',upper(OrgUnitLogic.district))
+                    ELSE concat('ZWNSC-',upper(OrgUnitLogic.facility))
+                    end as \"OrgUnit\",
                     personInstanceDateChanged.dateChanged as \"date_created\",
                     pi.identifier as \"Patient_Identifier\"
                     from patient_identifier pi
@@ -432,6 +431,30 @@
                     LEFT JOIN person_attribute_type pat1 on pac.person_attribute_type_id = pat1.person_attribute_type_id
                     LEFT jOIN concept_view cv on pac.value = cv.concept_id AND cv.retired = 0
                     and piUIC.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'UIC' and retired=0)
+                    inner join  
+                    (Select 
+            facilityObs.person_id,
+            (select concept_full_name from concept_view where retired = 0 and concept_id= facilityObs.value_coded) as facility,
+            (select concept_full_name from concept_view where retired = 0 and concept_id= siteTypeObs.value_coded) as sitetype,
+            (select concept_full_name from concept_view where retired = 0 and concept_id= districtObs.value_coded) as district
+            from obs facilityObs
+            Inner Join
+            (Select concept_id,person_id,max(obs_datetime) as facilityObsDateTime from obs 
+            where concept_id=(select concept_id from concept_view where retired = 0 and concept_full_name='FPS Form, Facility')
+            and voided=0
+            group by person_id) as facilityObsDateTimePerPerson
+            on facilityObsDateTimePerPerson.concept_id = facilityObs.concept_id
+            And facilityObsDateTimePerPerson.person_id = facilityObs.person_id
+            And facilityObsDateTimePerPerson.facilityObsDateTime = facilityObs.obs_datetime
+            and facilityObs.voided = 0
+            Inner join obs siteTypeObs
+            on siteTypeObs.encounter_id = facilityObs.encounter_id
+            and siteTypeObs.voided = 0 and siteTypeObs.concept_id=(select concept_id from concept_view where retired = 0 and concept_full_name='FPS Form,Site Type')
+            Left join obs districtObs
+            on districtObs.encounter_id = siteTypeObs.encounter_id
+            and  districtObs.voided = 0 and districtObs.concept_id=(select concept_id from concept_view where retired = 0 and concept_full_name='FPS, District')
+          ) as OrgUnitLogic
+            on OrgUnitLogic.person_id = pi.patient_id
                     where pi.patient_id in ( /*Filtering the FPS Program patients using Program name*/
                                                 Select patient_id from patient_program pp where program_id in (
                                                     Select program_id from 
@@ -451,10 +474,9 @@
       "type": "customSql",
       "readerSql":  "Select 
                     pi.identifier as \"Patient_Identifier\",
-                    case when patientSitetype.siteType = (select concept_id from concept_view where concept_full_name = 'Outreach' and retired = 0)
-                    AND perAdd.city_village not like 'Other%'
-                    then concat('ZWNSC-OU-',perAdd.address2,'-',upper(perAdd.city_village))
-                    ELSE concat('ZWNSC-',perAdd.address2) 
+                    case when OrgUnitLogic.sitetype = 'Outreach'
+                    then concat('ZWNSC-OU-',upper(OrgUnitLogic.facility),'-',upper(OrgUnitLogic.district))
+                    ELSE concat('ZWNSC-',upper(OrgUnitLogic.facility))
                     end as \"OrgUnit\",
                     'FPSDeId' as program,
                     min(date(pp.date_enrolled)) as \"enrollment_date\",
@@ -463,7 +485,6 @@
                     min(pp.patient_program_id) as \"program_unique_id\", 
                     'ACTIVE' as status
                         from patient_program pp /*patient_program for the patients enrolled in FPS Program*/
-                        inner join person_address perAdd on pp.patient_id = perAdd.person_id
                         Inner Join patient_identifier pi on pp.patient_id = pi.patient_id
                     and pi.identifier_type in (
                                         select patient_identifier_type_id 
@@ -471,22 +492,36 @@
                                         where name = 'Patient Identifier' 
                                         and retired=0
                                               )
-                  LEFT JOIN (/*Patient id along with the site type value*/
-                  Select perAtt.person_id,
-                  perAtt.value as 'siteType' 
-                  from person_attribute perAtt 
-                  inner JOIN person_attribute_type perAtttype 
-                  on perAtt.person_attribute_type_id = perAtttype.person_attribute_type_id
-                  where  perAtttype.name = 'Site Type'
-                ) as patientSitetype
-                      On patientSitetype.person_id = pp.patient_id
+                  inner join  
+                    (Select 
+            facilityObs.person_id,
+            (select concept_full_name from concept_view where retired = 0 and concept_id= facilityObs.value_coded) as facility,
+            (select concept_full_name from concept_view where retired = 0 and concept_id= siteTypeObs.value_coded) as sitetype,
+            (select concept_full_name from concept_view where retired = 0 and concept_id= districtObs.value_coded) as district
+            from obs facilityObs
+            Inner Join
+            (Select concept_id,person_id,max(obs_datetime) as facilityObsDateTime from obs 
+            where concept_id=(select concept_id from concept_view where retired = 0 and concept_full_name='FPS Form, Facility')
+            and voided=0
+            group by person_id) as facilityObsDateTimePerPerson
+            on facilityObsDateTimePerPerson.concept_id = facilityObs.concept_id
+            And facilityObsDateTimePerPerson.person_id = facilityObs.person_id
+            And facilityObsDateTimePerPerson.facilityObsDateTime = facilityObs.obs_datetime
+            and facilityObs.voided = 0
+            Inner join obs siteTypeObs
+            on siteTypeObs.encounter_id = facilityObs.encounter_id
+            and siteTypeObs.voided = 0 and siteTypeObs.concept_id=(select concept_id from concept_view where retired = 0 and concept_full_name='FPS Form,Site Type')
+            Left join obs districtObs
+            on districtObs.encounter_id = siteTypeObs.encounter_id
+            and  districtObs.voided = 0 and districtObs.concept_id=(select concept_id from concept_view where retired = 0 and concept_full_name='FPS, District')
+          ) as OrgUnitLogic
+            on OrgUnitLogic.person_id = pi.patient_id
                       where pp.program_id in (
                         Select program_id from 
                         program 
                         where name ='FPS Program'
                         and retired=0
-                                             )
-                                                  
+                                             )    
                 and pp.voided=0
                 group by pp.patient_id",
       "tableName": "fps_program_enrollment_table",
