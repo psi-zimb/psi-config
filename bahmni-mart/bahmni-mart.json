@@ -479,7 +479,7 @@
                     ELSE concat('ZWNSC-',upper(OrgUnitLogic.facility))
                     end as \"OrgUnit\",
                     'FPSDeId' as program,
-                    min(date(pp.date_enrolled)) as \"enrollment_date\",
+                    CAST(min(date(pp.date_enrolled)) AS CHAR(50)) as \"enrollment_date\",
                     min(date(pp.date_enrolled)) as \"incident_date\",
                     min(pp.date_created) as \"date_created\",
                     min(pp.patient_program_id) as \"program_unique_id\", 
