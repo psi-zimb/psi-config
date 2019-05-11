@@ -939,14 +939,15 @@ phtc.\"Late read result\"
                 max(case when fpsform.\"fps_form_did_the_client_have_any_surgical_operation\" = 'Yes' then 1
                 when fpsform.\"fps_form_did_the_client_have_any_surgical_operation\" = 'No' THEN 0
                     else null end) :: BOOLEAN as \"Did the client have any surgical operation?\",
-                string_agg(case when fpsform.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Heart' then 'Heart' 
+                case when string_agg(case when fpsform.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Heart' then 'Heart' 
                                 when fpsform.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Lung' then 'Lung'
                                 when fpsform.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Abdomen' then 'Abdomen'
                                 when fpsform.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Head, neck, mouth, throat, ears' then 'Head, neck, mouth, throat, ears'
                                 when fpsform.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Limbs' then 'Limbs'
                                 when fpsform.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Breasts' then 'Breasts'
                                 when fpsform.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Skin' then 'Skin'
-                end ,', ') as \"General clinical examination\",
+                end ,', ') is not null then 1
+                else 0 end :: BOOLEAN as \"General clinical examination\",
                 max(fpsform.\"fps_form_weight\") as \"Weight\",
                 max(fpsform.\"fps_bp_systolic\") as \"BP Systolic\",
                 max(fpsform.\"fps_bp_diastolic\") as \"BP Diastolic\",
@@ -1027,14 +1028,14 @@ phtc.\"Late read result\"
                 when fpsform.\"fps_form_adverse_event\" = 'No' THEN 0
                     else null end) :: BOOLEAN as \"Adverse Events\",
                 max(fpsform.\"fps_form_procedure_done_by\") as \"Procedure done by\",
-                string_agg(case when fpsform.\"fps_form_condoms_given\" = 'Male' then 'Male' 
-                                when fpsform.\"fps_form_condoms_given\" = 'Female' then 'Female'
-                                when fpsform.\"fps_form_condoms_given\" = 'FPS FORM,Not Given' then 'Not Given'
-                end ,', ') as \"Condoms given\",
+                case when max(fpsform.\"fps_form_condoms_given\") IN ('Male', 'Female') then 1 
+                when max(fpsform.\"fps_form_condoms_given\") ='FPS FORM,Not Given' then 0
+                else null end :: Boolean as \"Condoms given\",
                 max(fpsform.\"fps_form_batch_number\") as \"Batch Number\",
                 max(fpsform.\"fps_form_expiry_date\") as \"Expiry Date\",
                 max(fpsform.\"fps_form_manufacture\") as \"Manufacture\",
-                string_agg(fpsform.\"fps_form_indicate_where_client_was_referred_to\",', ') as \"Indicate where the client was referred to\",
+                case when string_agg(fpsform.\"fps_form_indicate_where_client_was_referred_to\",', ') is not Null then 1
+                else null end :: BOOLEAN as \"Indicate where the client was referred to\",
                 max(case when fpsform.\"fps_form_referred_out\" = 'Yes' then 1
                 when fpsform.\"fps_form_referred_out\" = 'No' THEN 0
                     else null end) :: BOOLEAN as \"Referred out ?\",
