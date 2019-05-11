@@ -821,13 +821,15 @@ phtc.\"Late read result\"
                     ELSE concat('ZWNSC-',upper(fpsform.\"fps_form_facility\"))
                     end) as \"OrgUnit\",
         max(date(fpsform.obs_datetime)) as \"event_date\",
-        'COMPLETED' as status,
+        'COMPLETED' :: TEXT as status,
         max(pedd.\"visit_id\") as \"event_unique_id\",
         max(DATE(ppv.\"date_enrolled\"))  as \"enrollment_date\",
         max(fpsform.\"date_created\") as \"date_created\",       
         max(pi.\"Patient_Identifier\") as \"Patient_Identifier\",
         max(pdd.age) as \"Age\",
-        max(fpsform.\"fps_reg_is_client_accompanied_by_her_partner\") as \"Is client accompanied by her Partner\",
+        max(case when fpsform.\"fps_reg_is_client_accompanied_by_her_partner\" = 'Yes' then 1
+                when fpsform.\"fps_reg_is_client_accompanied_by_her_partner\" = 'No' THEN 0
+                    else null end) :: BOOLEAN as \"Is client accompanied by her Partner\",
         max(fpsform.\"fps_reg_reason_for_the_visit\") as \"Reason for the visit\",
         max(fpsform.\"fps_reg_reason_for_family_planning\") as \"Reason for family planning\",
         string_agg(case when fpsform.\"fps_reg_occasion\" = 'FPS REG,Post Partum' then 'Post Partum' 
@@ -853,7 +855,9 @@ phtc.\"Late read result\"
         max(fpsform.\"fps_form_no_of_bleeding_days_length_of_cycle\") as \"Number of bleeding days\",
         max(fpsform.\"fps_form_number_of_living_children_indicate_number_and_ages\") as \"Number of Children and ages\",
         max(fpsform.\"fps_form_date_of_last_delivery\") as \"Date of last delivery\",
-        max(fpsform.\"fps_form_used_checklist_to_exclude_pregnancy\") as \"Used checklist to exclude pregnancy\",
+        max(case when fpsform.\"fps_form_used_checklist_to_exclude_pregnancy\" = 'Yes' then 1
+                when fpsform.\"fps_form_used_checklist_to_exclude_pregnancy\" = 'No' THEN 0
+                    else null end) :: BOOLEAN as \"Used checklist to exclude pregnancy\",
         string_agg(case when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Vasectomy' then 'Vasecotomy' 
                 when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Projesterone only pill (POP)' then 'Projesterone only pill (POP)'
                 when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Combined oral contaceptive (COC)' then 'Combined oral contaceptive (COC)'                when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Injectable (Petogen)' then 'Injectable'
@@ -880,12 +884,22 @@ phtc.\"Late read result\"
                 when fpsform.\"fps_form_current_method\" = 'Others' then 'Others'
                 end ,', ') as \"Current Method\",
                 max(fpsform.\"fps_form_p_v_loss\") as \"P.V. Loss\",
-                max(fpsform.\"fps_form_post_coital_bleeding\") as \"Post coital bleeding\",
-                max(fpsform.\"fps_form_pain_during_intercourse_dyspareunia\") as \"Pain during intercourse\",
-                max(fpsform.\"fps_form_any_discharge\") as \"Any Discharge\",
-                max(fpsform.\"fps_form_pain_during_micturation\") as \"Pain during micturation\",
-                max(fpsform.\"fps_form_allergies_state_below_if_any\") as \"Allergies (state below if any)\",
-                string_agg(case when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Varicose Veins' then 'Varicose Veins' 
+                max(case when fpsform.\"fps_form_post_coital_bleeding\" = 'Yes' then 1
+                when fpsform.\"fps_form_post_coital_bleeding\" = 'No' THEN 0
+                    else null end) :: BOOLEAN as \"Post coital bleeding\",
+                case when max(fpsform.\"fps_form_pain_during_intercourse_dyspareunia\") ='Yes' then 1 
+                when max(fpsform.\"fps_form_pain_during_intercourse_dyspareunia\") ='No' then 0
+                else null end :: Boolean as \"Pain during intercourse\",
+                max(case when fpsform.\"fps_form_any_discharge\" = 'Yes' then 1
+                when fpsform.\"fps_form_any_discharge\" = 'No' THEN 0
+                    else null end) :: BOOLEAN as \"Any Discharge\",
+                max(case when fpsform.\"fps_form_pain_during_micturation\" = 'Yes' then 1
+                when fpsform.\"fps_form_pain_during_micturation\" = 'No' THEN 0
+                    else null end) :: BOOLEAN as \"Pain during micturation\",
+                max(case when fpsform.\"fps_form_allergies_state_below_if_any\" = 'Yes' then 1
+                when fpsform.\"fps_form_allergies_state_below_if_any\" = 'No' THEN 0
+                    else null end) :: BOOLEAN as \"Allergies (state below if any)\",
+              Case when string_agg(case when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Varicose Veins' then 'Varicose Veins' 
                                 when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Anemia' then 'Anemia'
                                 when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'Diabetes Mellitus' then 'Diabetes Mellitus'
                                 when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Thromboplebitis' then 'Thromboplebitis'
@@ -894,16 +908,37 @@ phtc.\"Late read result\"
                                 when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Epilepsy' then 'Epilepsy'
                                 when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Cancer of the breast' then 'Cancer of the breast'
                                 when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'N/A' then 'N/A'
-                end ,', ') as \"Does the client have a history\",
-                max(fpsform.\"fps_form_any_other_illness\") as \"Any other illness?\",
+                end ,', ') != 'N/A' AND
+                 string_agg(case when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Varicose Veins' then 'Varicose Veins' 
+                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Anemia' then 'Anemia'
+                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'Diabetes Mellitus' then 'Diabetes Mellitus'
+                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Thromboplebitis' then 'Thromboplebitis'
+                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Heart condition' then 'Heart condition'
+                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Liver problems' then 'Liver problems'
+                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Epilepsy' then 'Epilepsy'
+                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Cancer of the breast' then 'Cancer of the breast'
+                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'N/A' then 'N/A'
+                end ,', ') is not null then  1
+                else Null end :: BOOLEAN as \"Does the client have a history\",
+                 max(case when fpsform.\"fps_form_any_other_illness\" = 'Yes' then 1
+                when fpsform.\"fps_form_any_other_illness\" = 'No' THEN 0
+                    else null end) :: BOOLEAN as \"Any other illness?\",
                 max(fpsform.\"fps_form_clinical_history\") as \"Clinical History\",
                 max(fpsform.\"fps_form_hiv_infection\") as \"HIV infection?\",
                 max(fpsform.\"fps_form_diagnosed_when\") as \"Diagnosed when?\",
                 max(fpsform.\"fps_form_recent_cd4_cell_count\") as \"Recent CD4 cell count\",
-                max(fpsform.\"fps_form_currently_receiving_art\") as \"Currently receiving ART?\",
-                max(fpsform.\"fps_form_in_the_past_included_in_pmtct_program\") as \"In the past included in PMTCT program?\",
-                max(fpsform.\"fps_form_is_the_client_taking_any_medications\") as \"Is the client taking any medications\",
-                max(fpsform.\"fps_form_did_the_client_have_any_surgical_operation\") as \"Did the client have any surgical operation?\",
+                max(case when fpsform.\"fps_form_currently_receiving_art\" = 'Yes' then 1
+                when fpsform.\"fps_form_currently_receiving_art\" = 'No' THEN 0
+                    else null end) :: BOOLEAN as \"Currently receiving ART?\",
+                max(case when fpsform.\"fps_form_in_the_past_included_in_pmtct_program\" = 'Yes' then 1
+                when fpsform.\"fps_form_in_the_past_included_in_pmtct_program\" = 'No' THEN 0
+                    else null end) :: BOOLEAN as \"In the past included in PMTCT program?\",
+                max(case when fpsform.\"fps_form_is_the_client_taking_any_medications\" = 'Yes' then 1
+                when fpsform.\"fps_form_is_the_client_taking_any_medications\" = 'No' THEN 0
+                    else null end) :: BOOLEAN as \"Is the client taking any medications\",
+                max(case when fpsform.\"fps_form_did_the_client_have_any_surgical_operation\" = 'Yes' then 1
+                when fpsform.\"fps_form_did_the_client_have_any_surgical_operation\" = 'No' THEN 0
+                    else null end) :: BOOLEAN as \"Did the client have any surgical operation?\",
                 string_agg(case when fpsform.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Heart' then 'Heart' 
                                 when fpsform.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Lung' then 'Lung'
                                 when fpsform.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Abdomen' then 'Abdomen'
@@ -939,9 +974,15 @@ phtc.\"Late read result\"
                                 when fpsform.\"fps_form_preferred_method_state\" = 'FPS FORM,Emergency contraception' then 'Emergency contraception'
                                 when fpsform.\"fps_form_preferred_method_state\" = 'FPS FORM,Tuberligation' then 'Tuberligation'
                 end ,', ') as \"Preferred method (state)\",
-                max(fpsform.\"fps_form_changing_state\") as \"Changing State\",
-                max(fpsform.\"fps_form_medically_eligible\") as \"Medically eligible\",
-                max(fpsform.\"fps_form_pregnancy_test\") as \"Pregnancy test (Negative/positive)\",
+                max(case when fpsform.\"fps_form_changing_state\" = 'Yes' then 1
+                when fpsform.\"fps_form_changing_state\" = 'No' THEN 0
+                    else null end) :: BOOLEAN as \"Changing State\",
+                max(case when fpsform.\"fps_form_medically_eligible\" = 'Yes' then 1
+                when fpsform.\"fps_form_medically_eligible\" = 'No' THEN 0
+                    else null end) :: BOOLEAN as \"Medically eligible\",
+                case when max(fpsform.\"fps_form_pregnancy_test\") ='Yes' then 1 
+                when max(fpsform.\"fps_form_pregnancy_test\") ='No' then 0
+                else null end :: Boolean as \"Pregnancy test (Negative/positive)\",
                 string_agg(case when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM,Projesterone only pill (POP)' then 'Projesterone only pill (POP)'
                                 when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM,Combined oral contaceptive (COC)' then 'Combined oral contaceptive (COC)'
                                 when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM,Jadelle Implants' then 'Jadelle Implants'
@@ -954,9 +995,13 @@ phtc.\"Late read result\"
                                 when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM,Tuberligation' then 'Tuberligation'
                                 when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM, Other Methods' then 'Other Methods'
                 end ,', ') as \"Method issued and/or administered\",
-                max(fpsform.\"fps_form_dual_protection_discussed\") as \"Dual Protection discussed\",
+                max(case when fpsform.\"fps_form_dual_protection_discussed\" = 'Yes' then 1
+                when fpsform.\"fps_form_dual_protection_discussed\" = 'No' THEN 0
+                    else null end) :: BOOLEAN as \"Dual Protection discussed\",
                 max(fpsform.\"fps_form_name_of_counselor\") as \"Name of Counselor\",
-                max(fpsform.\"fps_form_device_removal\") as \"Device removal\",
+                max(case when fpsform.\"fps_form_device_removal\" = 'Yes' then 1
+                when fpsform.\"fps_form_device_removal\" = 'No' THEN 0
+                    else null end) :: BOOLEAN as \"Device removal\",
                 string_agg(case when fpsform.\"fps_form_state_reason_for_removal\" = 'FPS FORM,Expired' then 'Expired' 
                                 when fpsform.\"fps_form_state_reason_for_removal\" = 'FPS FORM,Desire to be pregnant' then 'Desire to be pregnant'
                                 when fpsform.\"fps_form_state_reason_for_removal\" = 'FPS FORM,Health concerns' then 'Health concerns'
@@ -969,12 +1014,18 @@ phtc.\"Late read result\"
                 end ,', ') as \"Device Inserted by\",
                 max(fpsform.\"fps_form_state_procedure\") as \"State Procedure\",
                 max(fpsform.\"fps_form_date_of_procedure_indicate\") as \"Date of Procedure indicate\",
-                max(fpsform.\"fps_form_pre_procedure_counseling_and_assessment_conducted\") as \"Pre-Procedure counseling\",
+                max(case when fpsform.\"fps_form_pre_procedure_counseling_and_assessment_conducted\" = 'Yes' then 1
+                when fpsform.\"fps_form_pre_procedure_counseling_and_assessment_conducted\" = 'No' THEN 0
+                    else null end) :: BOOLEAN as \"Pre-Procedure counseling\",
                 max(fpsform.\"fps_form_indicate_name_of_counselor\") as \"Indicate name of Counselor\",
                 max(fpsform.\"fps_form_start_of_procedure_indicate_time\") as \"Start of procedure indicate time\",
                 max(fpsform.\"fps_form_end_of_procedure_indicate_time\") as \"End of procedure, indicate time\",
-                max(fpsform.\"fps_form_complications_during_insertions\") as \"Complications during insertions\",
-                max(fpsform.\"fps_form_adverse_event\") as \"Adverse Events\",
+                max(case when fpsform.\"fps_form_complications_during_insertions\" = 'Yes' then 1
+                when fpsform.\"fps_form_complications_during_insertions\" = 'No' THEN 0
+                    else null end) :: BOOLEAN as \"Complications during insertions\",
+                max(case when fpsform.\"fps_form_adverse_event\" = 'Yes' then 1
+                when fpsform.\"fps_form_adverse_event\" = 'No' THEN 0
+                    else null end) :: BOOLEAN as \"Adverse Events\",
                 max(fpsform.\"fps_form_procedure_done_by\") as \"Procedure done by\",
                 string_agg(case when fpsform.\"fps_form_condoms_given\" = 'Male' then 'Male' 
                                 when fpsform.\"fps_form_condoms_given\" = 'Female' then 'Female'
@@ -984,9 +1035,13 @@ phtc.\"Late read result\"
                 max(fpsform.\"fps_form_expiry_date\") as \"Expiry Date\",
                 max(fpsform.\"fps_form_manufacture\") as \"Manufacture\",
                 string_agg(fpsform.\"fps_form_indicate_where_client_was_referred_to\",', ') as \"Indicate where the client was referred to\",
-                max(fpsform.\"fps_form_referred_out\") as \"Referred out ?\",
+                max(case when fpsform.\"fps_form_referred_out\" = 'Yes' then 1
+                when fpsform.\"fps_form_referred_out\" = 'No' THEN 0
+                    else null end) :: BOOLEAN as \"Referred out ?\",
                 max(fpsform.\"fps_form_state_reason_for_referral\") as \"State reason for referral\",
-                max(\"fps_form_referral_slip_and_instructions_to_leave_slip_at_th\") as \"Referral slip and instructions\",
+                max(case when fpsform.\"fps_form_referral_slip_and_instructions_to_leave_slip_at_th\" = 'Yes' then 1
+                when fpsform.\"fps_form_referral_slip_and_instructions_to_leave_slip_at_th\" = 'No' THEN 0
+                    else null end) :: BOOLEAN as \"Referral slip and instructions\",
                 max(fpsform.\"fps_form_state_review_date\") as \"State review date\"
                 from psi_patient_program_data ppv
                 join fps_family_planning_service fpsform on ppv.patient_id = fpsform.patient_id
