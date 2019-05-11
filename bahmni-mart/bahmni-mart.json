@@ -478,9 +478,9 @@
                     then concat('ZWNSC-OU-',upper(OrgUnitLogic.facility),'-',upper(OrgUnitLogic.district))
                     ELSE concat('ZWNSC-',upper(OrgUnitLogic.facility))
                     end as \"OrgUnit\",
-                    'FPSDeId' as program,
-                    CAST(min(date(pp.date_enrolled)) AS CHAR(50)) as \"enrollment_date\",
-                    min(date(pp.date_enrolled)) as \"incident_date\",
+                    'VIzgvIg5KoM' as program,
+                    CAST(min(date(pp.date_enrolled)) AS DATE) as \"enrollment_date\",
+                    CAST(min(date(pp.date_enrolled)) AS DATE) as \"incident_date\",
                     min(pp.date_created) as \"date_created\",
                     min(pp.patient_program_id) as \"program_unique_id\", 
                     'ACTIVE' as status
@@ -814,8 +814,8 @@ phtc.\"Late read result\"
 {
  "name": "fps_program_events_table",
  "sql": "select 
-        'FPSDeId' as program,
-         '' as program_stage,
+        'VIzgvIg5KoM':: TEXT as program,
+        'E902dZ0lvoX':: TEXT as program_stage,
         max(case when fpsform.\"fps_form_site_type\" = 'Outreach'
                     then concat('ZWNSC-OU-',upper(fpsform.\"fps_form_facility\"),'-',upper(fpsform.\"fps_district\"))
                     ELSE concat('ZWNSC-',upper(fpsform.\"fps_form_facility\"))
@@ -823,7 +823,7 @@ phtc.\"Late read result\"
         max(date(fpsform.obs_datetime)) as \"event_date\",
         'COMPLETED' as status,
         max(pedd.\"visit_id\") as \"event_unique_id\",
-        max(DATE(ppv.\"date_enrolled\")) :: text as \"enrollment_date\",
+        max(DATE(ppv.\"date_enrolled\"))  as \"enrollment_date\",
         max(fpsform.\"date_created\") as \"date_created\",       
         max(pi.\"Patient_Identifier\") as \"Patient_Identifier\",
         max(pdd.age) as \"Age\",
