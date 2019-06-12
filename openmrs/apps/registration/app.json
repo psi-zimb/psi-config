@@ -32,14 +32,14 @@
 	"Next-of-kin Contact Name",
 	"Next-of-kin Telephone Number",
 	"Next-of-kin Address",
-	"Mother's name",
+	 "Mother's name",
     "Contact Tracing"
 	],
             "patientInformation": {
               "additionalInformation":{
               },
                 "hidden": {
-                    "attributes": ["addressCode"
+                    "attributes": [
                     ]
                 },
                 "defaults":  {

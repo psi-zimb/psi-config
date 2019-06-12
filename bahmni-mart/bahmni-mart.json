@@ -478,7 +478,7 @@
                     then concat('ZWNSC-OU-',upper(OrgUnitLogic.facility),'-',upper(OrgUnitLogic.district))
                     ELSE concat('ZWNSC-',upper(OrgUnitLogic.facility))
                     end as \"OrgUnit\",
-                    'VIzgvIg5KoM' as program,
+                    'vatFxlZR2lj' as program,
                     CAST(min(date(pp.date_enrolled)) AS DATE) as \"enrollment_date\",
                     CAST(min(date(pp.date_enrolled)) AS DATE) as \"incident_date\",
                     min(pp.date_created) as \"date_created\",
@@ -814,8 +814,8 @@ phtc.\"Late read result\"
 {
  "name": "fps_program_events_table",
  "sql": "select 
-        'VIzgvIg5KoM':: TEXT as program,
-        'E902dZ0lvoX':: TEXT as program_stage,
+        'vatFxlZR2lj':: TEXT as program,
+        'KeomfqRdu8Q':: TEXT as program_stage,
         max(case when fpsform.\"fps_form_site_type\" = 'Outreach'
                     then concat('ZWNSC-OU-',upper(fpsform.\"fps_form_facility\"),'-',upper(fpsform.\"fps_district\"))
                     ELSE concat('ZWNSC-',upper(fpsform.\"fps_form_facility\"))
