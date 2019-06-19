@@ -9392,5 +9392,436 @@ Bahmni.ConceptSet.FormConditions.rules = {
           conditions.hide.push("FPS, District");
      }
           return conditions;
+  },
+    "Prep Init Form, Have you had an HIV test in the past 1 week?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Prep Init Form, Have you had an HIV test in the past 1 week?'];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Init Form, When was the test done?","Prep Init Form, What was the result?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, When was the test done?","Prep Init Form, What was the result?");
+     }
+          return conditions;
+  },
+    "Prep Init Form, Do you have any heath related problems today?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Prep Init Form, Do you have any heath related problems today?'];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Init Form, If Yes for health related problems today");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, If Yes for health related problems today");
+     }
+          return conditions;
+  },
+    "Prep Init Form, Have you been diagnosed of any chronic illness?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Prep Init Form, Have you been diagnosed of any chronic illness?'];
+     if (conditionConcept.indexOf("Other") >=0) {
+          conditions.enable.push("Prep Init Form, If other for diagnosed for any clinic illness");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, If other for diagnosed for any clinic illness");
+     }
+          return conditions;
+  },
+    "Prep Init Form, Pregnacy test done?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Prep Init Form, Pregnacy test done?'];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Init Form, Pregnancy test What was the result?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, Pregnancy test What was the result?");
+     }
+          return conditions;
+  },
+    "Prep Init Form, Are you or your partner using any contraception?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Prep Init Form, Are you or your partner using any contraception?'];
+     if (conditionConcept.indexOf("Other") >=0) {
+          conditions.enable.push("Prep Init Form, If Other for Are you or your partner using any contraception?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, If Other for Are you or your partner using any contraception?");
+     }
+          return conditions;
+  },
+    "Prep Init Form, Are you taking any drugs or medications?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Prep Init Form, Are you taking any drugs or medications?'];
+     if (conditionConcept.indexOf("Other") >=0) {
+          conditions.enable.push("Prep Init Form, If other for taking any drugs or medications?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, If other for taking any drugs or medications?");
+     }
+          return conditions;
+  },
+    "Prep Init Form, Are you sexually active?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Prep Init Form, Are you sexually active?'];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Init Form, Are you married or in a stable relationship for the past 6 months and above?","Prep Init Form, Do you have more than 1 sexual partner?","Prep Init Form, Are you single or not in a stable relationship?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, Are you married or in a stable relationship for the past 6 months and above?","Prep Init Form, Do you have more than 1 sexual partner?","Prep Init Form, Are you single or not in a stable relationship?");
+     }
+          return conditions;
+  },
+
+    "Prep Init Form, Are you married or in a stable relationship for the past 6 months and above?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Prep Init Form, Are you married or in a stable relationship for the past 6 months and above?'];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Init Form, Do you know your partner's HIV status?","Prep Init Form, Do you use condoms every time you have sex with your partner?","Prep Init Form, Have you had any other sexual partners in the last 6 months?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, Do you know your partner's HIV status?","Prep Init Form, Do you use condoms every time you have sex with your partner?","Prep Init Form, Have you had any other sexual partners in the last 6 months?");
+     }
+          return conditions;
+  },
+   "Prep Init Form, Do you know your partner's HIV status?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Init Form, Do you know your partner's HIV status?"];
+     if (conditionConcept =="Positive") {
+          conditions.enable.push("Prep Init Form, Is your partner on ART?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, Is your partner on ART?");
+     }
+          return conditions;
+  },
+    "Prep Init Form, Is your partner on ART?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Init Form, Is your partner on ART?"];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Init Form, Do you know your partner's adherence to ART?","Prep Init Form, Has your partner had a viral load test done in the last 12 months?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, Do you know your partner's adherence to ART?","Prep Init Form, Has your partner had a viral load test done in the last 12 months?");
+     }
+          return conditions;
+  },
+    "Prep Init Form, Has your partner had a viral load test done in the last 12 months?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Init Form, Has your partner had a viral load test done in the last 12 months?"];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Init Form, If yes for partner had a viral load test done in the last 12 months?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, If yes for partner had a viral load test done in the last 12 months?");
+     }
+          return conditions;
+  },
+    "Prep Init Form, Have you had any other sexual partners in the last 6 months?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Init Form, Have you had any other sexual partners in the last 6 months?"];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Init Form, If yes for had any other sexual partners in the last 6 months?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, If yes for had any other sexual partners in the last 6 months?");
+     }
+          return conditions;
+  },
+    "Prep Init Form, Do you have more than 1 sexual partner?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Init Form, Do you have more than 1 sexual partner?"];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Init Form, Do you know your non-regular partner(s) HIV status?","Prep Init Form, Do you use condoms every time you have sex with your non-regular partner?","Prep Init Form, Have you been treated for an STI in the last 3 months?","Prep Init Form, Have you exchanged sex for money, goods or services?","Prep Init Form, Do you have a history of sexual abuse/gender based violence?","Prep Init Form, Have you used emergency contraception in the last 6 months?","Prep Init Form, Have you used PEP in the last 6 months?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, Do you know your non-regular partner(s) HIV status?","Prep Init Form, Do you use condoms every time you have sex with your non-regular partner?","Prep Init Form, Have you been treated for an STI in the last 3 months?","Prep Init Form, Have you exchanged sex for money, goods or services?","Prep Init Form, Do you have a history of sexual abuse/gender based violence?","Prep Init Form, Have you used emergency contraception in the last 6 months?","Prep Init Form, Have you used PEP in the last 6 months?");
+     }
+          return conditions;
+  },
+    "Prep Init Form, Do you know your non-regular partner(s) HIV status?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Init Form, Do you know your non-regular partner(s) HIV status?"];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Init Form, Specify HIV status of partner");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, Specify HIV status of partner");
+     }
+          return conditions;
+  },
+    "Prep Init Form, Have you used PEP in the last 6 months?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Init Form, Have you used PEP in the last 6 months?"];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Init Form, What was the reason for taking PEP?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, What was the reason for taking PEP?");
+     }
+          return conditions;
+  },
+    "Prep Init Form, What was the reason for taking PEP?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Prep Init Form, What was the reason for taking PEP?'];
+     if (conditionConcept.indexOf("Other") >=0) {
+          conditions.enable.push("Prep Init Form, If Other for reason for taking PEP?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, If Other for reason for taking PEP?");
+     }
+          return conditions;
+  },
+    "Prep Init Form, Are you single or not in a stable relationship?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Init Form, Are you single or not in a stable relationship?"];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Init Form, Have you had sexual partner(s) in the last 6 months?","Prep Init Form, Do you use condoms every time you have vaginal or anal sex?","Prep Init Form, In a Single relationship Have you been treated for an STI in the last 3 months?","Prep Init Form, Have you had sex whilst indoxicated with alcohol or drugs?","Prep Init Form, Have you or your partner used emergency contraception in the last 6 months?","Prep Init Form, Single or Stable relationship, Have you used PEP in the last 6 months?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, Have you had sexual partner(s) in the last 6 months?","Prep Init Form, Do you use condoms every time you have vaginal or anal sex?","Prep Init Form, In a Single relationship Have you been treated for an STI in the last 3 months?","Prep Init Form, Have you had sex whilst indoxicated with alcohol or drugs?","Prep Init Form, Have you or your partner used emergency contraception in the last 6 months?","Prep Init Form, Single or Stable relationship, Have you used PEP in the last 6 months?");
+     }
+          return conditions;
+  },
+  "Prep Init Form, Have you had sexual partner(s) in the last 6 months?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Init Form, Have you had sexual partner(s) in the last 6 months?"];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Init Form, If Yes, How many?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, If Yes, How many?");
+     }
+          return conditions;
+  },
+"Prep Init Form, Do you use condoms every time you have vaginal or anal sex?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Init Form, Do you use condoms every time you have vaginal or anal sex?"];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Init Form, Have you had a condom burst in the last 3 month?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, Have you had a condom burst in the last 3 month?");
+     }
+          return conditions;
+  },
+  "Prep Init Form, Have you had a condom burst in the last 3 month?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Init Form, Have you had a condom burst in the last 3 month?"];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Init Form, If Yes for condorm burst, How many times?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, If Yes for condorm burst, How many times?");
+     }
+          return conditions;
+  },
+  "Prep Init Form, In a Single relationship Have you been treated for an STI in the last 3 months?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Init Form, In a Single relationship Have you been treated for an STI in the last 3 months?"];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Init Form, Females","Prep Init Form, Males");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, Females","Prep Init Form, Males");
+     }
+          return conditions;
+  },
+  "Prep Init Form, Females": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Prep Init Form, Females'];
+     if (conditionConcept.indexOf("Other") >=0) {
+          conditions.enable.push("Prep Init Form, If other for Females");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, If other for Females");
+     }
+          return conditions;
+  },
+  "Prep Init Form, Males": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Prep Init Form, Males'];
+     if (conditionConcept.indexOf("Other") >=0) {
+          conditions.enable.push("Prep Init Form, If other for Males");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, If other for Males");
+     }
+          return conditions;
+  },
+ "Prep Init Form, Have you or your partner used emergency contraception in the last 6 months?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Init Form, Have you or your partner used emergency contraception in the last 6 months?"];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Init Form, If Yes for emergency contraception, How many times?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, If Yes for emergency contraception, How many times?");
+     }
+          return conditions;
+  },
+   "Prep Init Form, Single or Stable relationship, Have you used PEP in the last 6 months?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Init Form, Single or Stable relationship, Have you used PEP in the last 6 months?"];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Init Form, Single or Stable relationship, What was the reason for taking PEP?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, Single or Stable relationship, What was the reason for taking PEP?");
+     }
+          return conditions;
+  },
+  "Prep Init Form, Single or Stable relationship, What was the reason for taking PEP?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Prep Init Form, Single or Stable relationship, What was the reason for taking PEP?'];
+     if (conditionConcept.indexOf("Other") >=0) {
+          conditions.enable.push("Prep Init Form, Single or Stable relationship, If Other, Specify");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, Single or Stable relationship, If Other, Specify");
+     }
+          return conditions;
+  },
+  "Prep Init Form, Any signs of primary infection?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Init Form, Any signs of primary infection?"];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Init Form, If Yes for Any signs of primary infection?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, If Yes for Any signs of primary infection?");
+     }
+          return conditions;
+  },
+  "Prep Init Form, If Yes for Any signs of primary infection?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Prep Init Form, If Yes for Any signs of primary infection?'];
+     if (conditionConcept.indexOf("Other") >=0) {
+          conditions.enable.push("Prep Init Form, If yes for other primary infection");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, If yes for other primary infection");
+     }
+          return conditions;
+  },
+  "Prep Init Form, Are you ready to start Prep?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Init Form, Are you ready to start Prep?"];
+     if (conditionConcept =="No") {
+          conditions.enable.push("Prep Init Form, If yes for ready to start Prep?, Specify Reason");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, If yes for ready to start Prep?, Specify Reason");
+     }
+          return conditions;
+  },
+  "Prep Init Form, If yes for ready to start Prep?, Specify Reason": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Prep Init Form, If yes for ready to start Prep?, Specify Reason'];
+     if (conditionConcept.indexOf("Other") >=0) {
+          conditions.enable.push("Prep Init Form, If Other for specify reason for ready to start PrEP");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, If Other for specify reason for ready to start PrEP");
+     }
+          return conditions;
+  },
+  "Prep Init Form, Is the client Eligible to take PrEP?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Init Form, Is the client Eligible to take PrEP?"];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Init Form, Is the client Eligible to take PrEP?, Males","Prep Init Form, Is the client Eligible to take PrEP?, Females");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, Is the client Eligible to take PrEP?, Males","Prep Init Form, Is the client Eligible to take PrEP?, Females");
+     }
+          return conditions;
+  },
+   "Prep Init Form, Is the client Eligible to take PrEP?, Males": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Prep Init Form, Is the client Eligible to take PrEP?, Males'];
+     if (conditionConcept =="Other") {
+          conditions.enable.push("Prep Init Form, Is the client Eligible to take PrEP?, Males Other");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, Is the client Eligible to take PrEP?, Males Other");
+     }
+          return conditions;
+  },
+  "Prep Init Form, Is the client Eligible to take PrEP?, Females": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Prep Init Form, Is the client Eligible to take PrEP?, Females'];
+     if (conditionConcept =="Other") {
+          conditions.enable.push("Prep Init Form, Is the client Eligible to take PrEP?, Females Other");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Init Form, Is the client Eligible to take PrEP?, Females Other");
+     }
+          return conditions;
   }
+
 }

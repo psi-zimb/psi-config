@@ -512,6 +512,42 @@
           "FPS Form,Site Type":{
             "required":true
           },
+          "Prep Init Form, Have you been diagnosed of any chronic illness?":
+          {
+            "multiSelect": true
+          },
+          "Prep Init Form, Are you or your partner using any contraception?":
+          {
+            "multiSelect": true
+          },
+          "Prep Init Form, Are you taking any drugs or medications?":
+          {
+            "multiSelect": true
+          },
+          "Prep Init Form, What was the reason for taking PEP?":
+          {
+            "multiSelect": true
+          },
+          "Prep Init Form, Females":
+          {
+            "multiSelect": true
+          },
+          "Prep Init Form, Males":
+          {
+            "multiSelect": true
+          },
+          "Prep Init Form, Single or Stable relationship, What was the reason for taking PEP?":
+          {
+            "multiSelect": true
+          },
+          "Prep Init Form, If Yes for Any signs of primary infection?":
+          {
+            "multiSelect": true
+          },
+          "Prep Init Form, If yes for ready to start Prep?, Specify Reason":
+          {
+            "multiSelect": true
+          },
           "defaults": {
                 "HIV testing and counselling service": "Requested",
                 "Numeric concept": 1,
