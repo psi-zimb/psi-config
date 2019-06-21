@@ -860,7 +860,8 @@ phtc.\"Late read result\"
                     else null end) :: BOOLEAN as \"Used checklist to exclude pregnancy\",
         string_agg(case when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Vasectomy' then 'Vasecotomy' 
                 when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Projesterone only pill (POP)' then 'Projesterone only pill (POP)'
-                when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Combined oral contaceptive (COC)' then 'Combined oral contaceptive (COC)'                when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Injectable (Petogen)' then 'Injectable'
+                when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Combined oral contaceptive (COC)' then 'Combined oral contaceptive (COC)'
+                when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Injectable (Petogen)' then 'Injectable'
                 when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Implanon Implants' then 'Implanon Implants'
                 when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Emergency contraception' then 'Emergency contraception'
                 when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Jadelle Implants' then 'Jadelle Implants'

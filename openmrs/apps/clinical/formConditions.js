@@ -9822,6 +9822,292 @@ Bahmni.ConceptSet.FormConditions.rules = {
           conditions.disable.push("Prep Init Form, Is the client Eligible to take PrEP?, Females Other");
      }
           return conditions;
-  }
+  },
+  "Prep Cont Form, Do you have any heath related problems today?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Prep Cont Form, Do you have any heath related problems today?'];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Cont Form, If Yes for health related problems today");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Cont Form, If Yes for health related problems today");
+     }
+          return conditions;
+  },
+  "Prep Cont Form, Are you using any family planning method?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Prep Cont Form, Are you using any family planning method?'];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Cont Form, If yes for are you using any family planning method?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Cont Form, If yes for are you using any family planning method?");
+     }
+          return conditions;
+  },
+  "Prep Cont Form, If yes for are you using any family planning method?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Prep Cont Form, If yes for are you using any family planning method?'];
+     if (conditionConcept.indexOf("Other") >=0) {
+          conditions.enable.push("Prep Cont Form, If Other for using any family planning method");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Cont Form, If Other for using any family planning method");
+     }
+          return conditions;
+  },
+  "Prep Cont Form, Are you using any other medications?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Prep Cont Form, Are you using any other medications?'];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Cont Form, If Yes for Are you using any other medications?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Cont Form, If Yes for Are you using any other medications?");
+     }
+          return conditions;
+  },
+  "Prep Cont Form, If Yes for Are you using any other medications?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Prep Cont Form, If Yes for Are you using any other medications?'];
+     if (conditionConcept.indexOf("Other") >=0) {
+          conditions.enable.push("Prep Cont Form, If other for using any other medications");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Cont Form, If other for using any other medications");
+     }
+          return conditions;
+  },
+  "Prep Cont Form, Do you know your partner's HIV status?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Cont Form, Do you know your partner's HIV status?"];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Cont Form, If Yes for Do you know your partner's HIV status?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Cont Form, If Yes for Do you know your partner's HIV status?");
+     }
+          return conditions;
+  },
+  "Prep Cont Form, If Yes for Do you know your partner's HIV status?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Cont Form, If Yes for Do you know your partner's HIV status?"];
+     if (conditionConcept =="Positive") {
+          conditions.enable.push("Prep Cont Form, Is your partner on ART?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Cont Form, Is your partner on ART?");
+     }
+          return conditions;
+  },
+  "Prep Cont Form, Is your partner on ART?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Cont Form, Is your partner on ART?"];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Cont Form, Do you know your partner's viral load?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Cont Form, Do you know your partner's viral load?");
+     }
+          return conditions;
+  },
+  "Prep Cont Form, Do you know your partner's viral load?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Cont Form, Do you know your partner's viral load?"];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Cont Form, If Yes for Do you know your partner's viral load");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Cont Form, If Yes for Do you know your partner's viral load");
+     }
+          return conditions;
+  },
+  "Prep Cont Form, Are you using condoms every time you are having sex?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Cont Form, Are you using condoms every time you are having sex?"];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Cont Form, Have you had a condom burst since the last visit?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Cont Form, Have you had a condom burst since the last visit?");
+     }
+          return conditions;
+  },
+  "Prep Cont Form, Have you had a condom burst since the last visit?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Cont Form, Have you had a condom burst since the last visit?"];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Cont Form, If yes for condom burst since the last visit?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Cont Form, If yes for condom burst since the last visit?");
+     }
+          return conditions;
+  },
+  "Prep Cont Form, Have you been treated for an STI since the last visit?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Cont Form, Have you been treated for an STI since the last visit?"];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Cont Form, Treated for STI since last visit Females","Prep Cont Form, Treated for STI since last visit Males");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Cont Form, Treated for STI since last visit Females","Prep Cont Form, Treated for STI since last visit Males");
+     }
+          return conditions;
+  },
+  "Prep Cont Form, Treated for STI since last visit Females": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Prep Cont Form, Treated for STI since last visit Females'];
+     if (conditionConcept.indexOf("Other") >=0) {
+          conditions.enable.push("Prep Cont Form, If other for Treated for STI since last visit Females");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Cont Form, If other for Treated for STI since last visit Females");
+     }
+          return conditions;
+  },
+  "Prep Cont Form, Treated for STI since last visit Males": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Prep Cont Form, Treated for STI since last visit Males'];
+     if (conditionConcept.indexOf("Other") >=0) {
+          conditions.enable.push("Prep Cont Form, If other for Treated for STI since last visit Males");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Cont Form, If other for Treated for STI since last visit Males");
+     }
+          return conditions;
+  },
+  "Prep Cont Form, Have you used emergency contraception since the last visit?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Cont Form, Have you used emergency contraception since the last visit?"];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Cont Form, If Yes for used emergency contraception since the last visit?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Cont Form, If Yes for used emergency contraception since the last visit?");
+     }
+          return conditions;
+  },
+  "Prep Cont Form, Does the client have any sings of primary infection?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Cont Form, Does the client have any sings of primary infection?"];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Cont Form, If Yes for client have any sings of primary infection?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Cont Form, If Yes for client have any sings of primary infection?");
+     }
+          return conditions;
+  },
+  "Prep Cont Form, If Yes for client have any sings of primary infection?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Prep Cont Form, If Yes for client have any sings of primary infection?'];
+     if (conditionConcept.indexOf("Other") >=0) {
+          conditions.enable.push("Prep Cont Form, If Other for yes for client have any sings of primary infection?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Cont Form, If Other for yes for client have any sings of primary infection?");
+     }
+          return conditions;
+  },
+  "Prep Cont Form, Are you ready to continue PrEP?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Cont Form, Are you ready to continue PrEP?"];
+     if (conditionConcept =="No") {
+          conditions.enable.push("Prep Cont Form, If No for Are you ready to continue PrEP?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Cont Form, If No for Are you ready to continue PrEP?");
+     }
+          return conditions;
+  },
+  "Prep Cont Form, If No for Are you ready to continue PrEP?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Prep Cont Form, If No for Are you ready to continue PrEP?'];
+     if (conditionConcept.indexOf("Other") >=0) {
+          conditions.enable.push("Prep Cont Form, If Other for No for Are you ready to continue PrEP?");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Cont Form, If Other for No for Are you ready to continue PrEP?");
+     }
+          return conditions;
+  },
+  "Prep Cont Form, Is the client eligible to continue PrEP?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Cont Form, Is the client eligible to continue PrEP?"];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Cont Form, If Yes for the client eligible to continue PrEP? Males","Prep Cont Form, If Yes for the client eligible to continue PrEP? Females");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Cont Form, If Yes for the client eligible to continue PrEP? Males","Prep Cont Form, If Yes for the client eligible to continue PrEP? Females");
+     }
+          return conditions;
+  },
+  "Prep Cont Form, If Yes for the client eligible to continue PrEP? Males": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Cont Form, If Yes for the client eligible to continue PrEP? Males"];
+     if (conditionConcept =="Other") {
+          conditions.enable.push("Prep Cont Form, If Other for client eligible to continue PrEP? Males");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Cont Form, If Other for client eligible to continue PrEP? Males");
+     }
+          return conditions;
+  },
+  "Prep Cont Form, If Yes for the client eligible to continue PrEP? Females": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues["Prep Cont Form, If Yes for the client eligible to continue PrEP? Females"];
+     if (conditionConcept =="Other") {
+          conditions.enable.push("Prep Cont Form, If Other for client eligible to continue PrEP? Females");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Cont Form, If Other for client eligible to continue PrEP? Females");
+     }
+          return conditions;
+  },
 
 }

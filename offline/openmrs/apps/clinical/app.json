@@ -548,6 +548,30 @@
           {
             "multiSelect": true
           },
+          "Prep Cont Form, If yes for are you using any family planning method?":
+          {
+            "multiSelect": true
+          },
+          "Prep Cont Form, If Yes for Are you using any other medications?":
+          {
+            "multiSelect": true
+          },
+          "Prep Cont Form, Treated for STI since last visit Females":
+          {
+            "multiSelect": true
+          },
+          "Prep Cont Form, Treated for STI since last visit Males":
+          {
+            "multiSelect": true
+          },
+          "Prep Cont Form, If Yes for client have any sings of primary infection?":
+          {
+            "multiSelect": true
+          },
+          "Prep Cont Form, If No for Are you ready to continue PrEP?":
+          {
+            "multiSelect": true
+          },
           "defaults": {
                 "HIV testing and counselling service": "Requested",
                 "Numeric concept": 1,
