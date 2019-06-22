@@ -9,10 +9,10 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Yes",'Yes',
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"No",'No','N/A','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, When was the test done?",'When was the test done?','Date','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, What was the result?",'What was the result?','Coded','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Negative ",'Negative ','N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Positive ",'Positive','N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Unknown ",'Unknown','N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Inconclusive ",'Inconclusive','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Negative",'Negative','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Positive",'Positive','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Unknown",'Unknown','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Inconclusive",'Inconclusive','N/A','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, Do you have any heath related problems today?",'Do you have any heath related problems today?','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, If Yes for health related problems today",'Indicate the problem','Text','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, Have you been diagnosed of any chronic illness?",'Have you been diagnosed of any chronic illness?','Coded','Misc',false);
