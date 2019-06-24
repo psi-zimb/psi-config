@@ -10108,6 +10108,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
           conditions.disable.push("Prep Cont Form, If Other for client eligible to continue PrEP? Females");
      }
           return conditions;
-  },
+  }
 
 }
