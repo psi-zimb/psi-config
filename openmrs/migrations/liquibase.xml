@@ -71,4 +71,11 @@
         </sql>
     </changeSet>
 
+    <changeSet id="PSI-CONFIG-2019062405" author="Yash">
+        <comment>Adding All Obs Concepts</comment>
+        <sqlFile path="ART_Program_Concepts.sql"/>
+    </changeSet>
+
+    <include file ="ART_Program.xml"/>
+
 </databaseChangeLog>

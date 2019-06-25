@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet id="PSI-CONFIG-2019062403" author="Yash">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from program where name='ART Program';
+            </sqlCheck>
+        </preConditions>
+        <comment>Adding ART program to Program table</comment>
+        <sql>
+        INSERT INTO program(concept_id,outcomes_concept_id,creator,date_created,name,description,uuid)
+  		VALUES (
+  				   (
+					select concept_id from concept_name where name = 'ART Program'
+					and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0
+				   ),
+				   (
+				   	select concept_id from concept_name where name = 'ART Program Outcomes'
+					and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0
+				   ),
+				   (
+				   select user_id from users where username='superman'
+				   ),
+				   now(),'ART Program','ART Program',uuid()
+   			   );
+   </sql>
+   </changeSet>
+
+   <changeSet id="PSI-CONFIG-2019062404" author="Yash">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select COUNT(*) from concept_set cs
+                join concept_name cn
+                on cs.concept_id = cn.concept_id
+                where cs.concept_id IN (select concept_id from concept_name where name in
+                (
+                "Adjust",
+				"Adverse effect / event",
+				"Better alternative",
+				"Course Completed",
+				"Deceased",
+				"Doctor's Decision",
+				"Dosing Problems",
+				"Drug not affordable",
+				"Drug not available",
+				"Drug to drug interaction",
+				"End of intensive phase (TB)",
+				"End of Continuation phase (TB)",
+				"End of induction phase (CM)",
+				"End of consolidation phase (CM)",
+				"Hold / interrupt",
+				"Lost to follow up",
+				"Moved to FDC",
+				"Patient's decision",
+				"Step up",
+				"Transfer out",
+				"Treatment failure"
+                ) 
+                AND concept_name_type = "FULLY_SPECIFIED")
+                and cs.concept_set IN (select concept_id from concept_name where name = 'ART Program Outcomes');
+            </sqlCheck>
+        </preConditions>
+        <comment>Adding set members for ART Program Outcomes concept</comment>
+        <sql>
+            set @concept_id = 0;
+            set @member1_concept_id = 0;
+            set @member2_concept_id = 0;
+            set @member3_concept_id = 0;
+            set @member4_concept_id = 0;
+            set @member5_concept_id = 0;
+            set @member6_concept_id = 0;
+            set @member7_concept_id = 0;
+            set @member8_concept_id = 0;
+            set @member9_concept_id = 0;
+            set @member10_concept_id = 0;
+            set @member11_concept_id = 0;
+            set @member12_concept_id = 0;
+            set @member13_concept_id = 0;
+            set @member14_concept_id = 0;
+            set @member15_concept_id = 0;
+            set @member16_concept_id = 0;
+            set @member17_concept_id = 0;
+            set @member18_concept_id = 0;
+            set @member19_concept_id = 0;
+            set @member20_concept_id = 0;
+            set @member21_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = 'ART Program Outcomes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @member1_concept_id from concept_name where name = "Adjust" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member2_concept_id from concept_name where name = "Adverse effect / event" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member3_concept_id from concept_name where name = "Better alternative" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member4_concept_id from concept_name where name = "Course Completed" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member5_concept_id from concept_name where name = "Deceased" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member6_concept_id from concept_name where name = "Doctor's Decision" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member7_concept_id from concept_name where name = "Dosing Problems" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member8_concept_id from concept_name where name = "Drug not affordable" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member9_concept_id from concept_name where name = "Drug not available" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member10_concept_id from concept_name where name = "Drug to drug interaction" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member11_concept_id from concept_name where name = "End of intensive phase (TB)" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member12_concept_id from concept_name where name = "End of Continuation phase (TB)" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member13_concept_id from concept_name where name = "End of consolidation phase (CM)" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member14_concept_id from concept_name where name = "Hold / interrupt" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member15_concept_id from concept_name where name = "Lost to follow up" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member16_concept_id from concept_name where name = "Moved to FDC" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member17_concept_id from concept_name where name = "Patient's decision" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member18_concept_id from concept_name where name = "Step up" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member19_concept_id from concept_name where name = "Transfer out" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member20_concept_id from concept_name where name = "Treatment failure" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member21_concept_id from concept_name where name = "End of induction phase (CM)" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_set_members (@concept_id, @member1_concept_id, 1);
+            call add_concept_set_members (@concept_id, @member2_concept_id, 2);
+            call add_concept_set_members (@concept_id, @member3_concept_id, 3);
+            call add_concept_set_members (@concept_id, @member4_concept_id, 4);
+            call add_concept_set_members (@concept_id, @member5_concept_id, 5);
+            call add_concept_set_members (@concept_id, @member6_concept_id, 6);
+            call add_concept_set_members (@concept_id, @member7_concept_id, 7);
+            call add_concept_set_members (@concept_id, @member8_concept_id, 8);
+            call add_concept_set_members (@concept_id, @member9_concept_id, 9);
+            call add_concept_set_members (@concept_id, @member10_concept_id, 10);
+            call add_concept_set_members (@concept_id, @member11_concept_id, 11);
+            call add_concept_set_members (@concept_id, @member12_concept_id, 12);
+            call add_concept_set_members (@concept_id, @member13_concept_id, 13);
+            call add_concept_set_members (@concept_id, @member14_concept_id, 14);
+            call add_concept_set_members (@concept_id, @member15_concept_id, 15);
+            call add_concept_set_members (@concept_id, @member16_concept_id, 16);
+            call add_concept_set_members (@concept_id, @member17_concept_id, 17);
+            call add_concept_set_members (@concept_id, @member18_concept_id, 18);
+            call add_concept_set_members (@concept_id, @member19_concept_id, 19);
+            call add_concept_set_members (@concept_id, @member20_concept_id, 20);
+            call add_concept_set_members (@concept_id, @member21_concept_id, 21);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-2019062406" author="Yash">
+		    <comment>Adding Program Workflow for ART</comment>
+		    <sql>
+		        insert into program_workflow (program_id , concept_id , creator , date_created , retired , uuid) values
+		        ((select program_id from program where name='ART Program'), (select concept_id from concept_name where name = "ART Program Workflow" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0), 1, now(),0, uuid());
+		    </sql>
+	</changeSet>
+
+    <changeSet id="PSI-CONFIG-2019062407" author="Yash">
+        <comment>Adding Program states for ART Workflow</comment>
+        <sql>
+            select concept_id into @concept_id from concept_name where name = "ART Program Workflow" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            insert into program_workflow_state (program_workflow_id,concept_id,initial,terminal,creator,date_created,retired ,uuid) values
+            ((select program_workflow_id from program_workflow where concept_id=@concept_id),(select concept_id from concept_name where name = "1st Line" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),0,0,1,now(),0,uuid()),
+            ((select program_workflow_id from program_workflow where concept_id=@concept_id),(select concept_id from concept_name where name = "2nd Line" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),0,0,1,now(),0,uuid()),
+            ((select program_workflow_id from program_workflow where concept_id=@concept_id),(select concept_id from concept_name where name = "3rd Line" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),0,0,1,now(),0,uuid());
+        </sql>
+    </changeSet>
+
+     <changeSet id="PSI-CONFIG-2019062408" author="Yash">
+		    <comment>Mapping ART Program to Encounter Type</comment>
+		    <sql>
+		        insert into entity_mapping(uuid, entity_mapping_type_id, entity1_uuid, entity2_uuid, date_created) 
+				values 
+				(uuid(), (select id from entity_mapping_type where name = 'program_encountertype'), (select uuid from program where name = 'ART Program'), (select uuid from entity_mapping_type where name = 'program_encountertype'), now());
+		    </sql>
+	</changeSet>
+
+	<changeSet id="PSI-CONFIG-2019062411" author="Yash">
+       <preConditions onFail="MARK_RAN">
+           <sqlCheck expectedResult= "0">
+               select count(*) from global_property where property='emrapi.sqlSearch.activeARTPatients';
+           </sqlCheck>
+       </preConditions>
+       <comment>Creating Global Property emrapi.sqlSearch.admissionsWithoutCD4</comment>
+       <sql>
+           INSERT INTO global_property (property, property_value, uuid)
+           VALUES ('emrapi.sqlSearch.activeARTPatients', '', uuid());
+       </sql>
+</changeSet>
+
+       <changeSet id="PSI-CONFIG-2019062409" author="Yash">
+        <comment>Updating Global Property For ART Patients Queue </comment>
+        <sql>
+            update global_property set property_value =
+        	"SELECT DISTINCT concat(pn.given_name, ' ', Ifnull(pn.family_name, '')) AS name,
+            pi.identifier                                          AS
+            identifier,
+            concat('', p.uuid)                                     AS uuid,
+            concat('', v.uuid)                                     AS
+            activeVisitUuid,
+            IF(va.value_reference = 'admitted', 'true', 'false')   AS
+            hasBeenAdmitted
+            FROM   visit v
+            join person_name pn
+            ON v.patient_id = pn.person_id
+            AND pn.voided = 0
+            join patient_identifier pi
+            ON v.patient_id = pi.patient_id
+            join patient_identifier_type pit
+            ON pi.identifier_type = pit.patient_identifier_type_id
+            join global_property gp
+            ON gp.property = 'bahmni.primaryidentifiertype'
+            AND gp.property_value = pit.uuid
+            join person p
+            ON p.person_id = v.patient_id
+            join patient_program pg
+            ON pg.patient_id = pi.patient_id
+            join program pgg
+            ON pgg.program_id = pg.program_id
+            join location l
+            ON l.uuid = ${visit_location_uuid}
+            AND v.location_id = l.location_id
+            left outer join visit_attribute va
+            ON va.visit_id = v.visit_id
+            AND va.attribute_type_id =
+            (SELECT
+            visit_attribute_type_id
+            FROM   visit_attribute_type WHERE  name =
+            'admission status'
+            )
+            AND va.voided = 0
+            WHERE  v.date_stopped IS NULL
+            AND v.voided = 0
+            AND pgg.name = 'ART Program'
+            and pg.outcome_concept_id is NULL
+            and pg.voided =0;"
+        where property= 'emrapi.sqlSearch.activeARTPatients';
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

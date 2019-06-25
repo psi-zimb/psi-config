@@ -1,4 +1,17 @@
  {
+    "bahmniClinicalPatientsSearchActivePatientsForARTPrograms": {
+    "id": "bahmni.clinical.patients.search.activePatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.activeARTPatients",
+      "display": "ART Programs",
+      "forwardUrl": "#/programs/patient/{{patientUuid}}/consultationContext"
+    },
+    "label": "ART",
+    "order": 1,
+    "requiredPrivilege": "app:clinical"
+  },
     "bahmniClinicalPatientsSearchAllPatients": {
         "id": "bahmni.clinical.patients.search.allPatients",
         "extensionPointId": "org.bahmni.patient.search",
@@ -8,7 +21,7 @@
             "forwardUrl": "#/programs/patient/{{patientUuid}}/consultationContext"
         },
         "label": "All",
-        "order": 1,
+        "order": 2,
         "requiredPrivilege": "app:clinical"
     },
     "observations": {
