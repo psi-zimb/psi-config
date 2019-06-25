@@ -78,4 +78,6 @@
 
     <include file ="ART_Program.xml"/>
 
+    <include file ="FPS_Program.xml"/>
+
 </databaseChangeLog>

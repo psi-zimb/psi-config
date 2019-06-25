@@ -5,11 +5,24 @@
     "type": "config",
     "extensionParams": {
       "searchHandler": "emrapi.sqlSearch.activeARTPatients",
-      "display": "ART Programs",
+      "display": "ART Program",
       "forwardUrl": "#/programs/patient/{{patientUuid}}/consultationContext"
     },
     "label": "ART",
     "order": 1,
+    "requiredPrivilege": "app:clinical"
+  },
+    "bahmniClinicalPatientsSearchActivePatientsForFPPrograms": {
+    "id": "bahmni.clinical.patients.search.activePatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.activeFPPatients",
+      "display": "FP Program",
+      "forwardUrl": "#/programs/patient/{{patientUuid}}/consultationContext"
+    },
+    "label": "FP",
+    "order": 2,
     "requiredPrivilege": "app:clinical"
   },
     "bahmniClinicalPatientsSearchAllPatients": {
