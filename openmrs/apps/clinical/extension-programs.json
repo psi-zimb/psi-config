@@ -12,13 +12,13 @@
     "order": 1,
     "requiredPrivilege": "app:clinical"
   },
-    "bahmniClinicalPatientsSearchActivePatientsForFPPrograms": {
+    "bahmniClinicalPatientsSearchActivePatientsForFPSPrograms": {
     "id": "bahmni.clinical.patients.search.activePatients",
     "extensionPointId": "org.bahmni.patient.search",
     "type": "config",
     "extensionParams": {
-      "searchHandler": "emrapi.sqlSearch.activeFPPatients",
-      "display": "FP Program",
+      "searchHandler": "emrapi.sqlSearch.activeFPSPatients",
+      "display": "FPS Program",
       "forwardUrl": "#/programs/patient/{{patientUuid}}/consultationContext"
     },
     "label": "FP",
