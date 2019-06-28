@@ -40,27 +40,18 @@
                 on cs.concept_id = cn.concept_id
                 where cs.concept_id IN (select concept_id from concept_name where name in
                 (
-                "Adjust",
-				"Adverse effect / event",
-				"Better alternative",
-				"Course Completed",
-				"Deceased",
-				"Doctor's Decision",
-				"Dosing Problems",
-				"Drug not affordable",
-				"Drug not available",
-				"Drug to drug interaction",
-				"End of intensive phase (TB)",
-				"End of Continuation phase (TB)",
-				"End of induction phase (CM)",
-				"End of consolidation phase (CM)",
-				"Hold / interrupt",
-				"Lost to follow up",
-				"Moved to FDC",
-				"Patient's decision",
-				"Step up",
-				"Transfer out",
-				"Treatment failure"
+                "Lost to follow up",
+                "Course completed",
+                "Stopped",
+                "Opted Out",
+                "Deceased",
+                "Transferred Out - Doctor's Decision",
+                "Transferred Out - Dosing Problems",
+                "Transferred Out - Drug not available",
+                "Transferred Out - Patient's decision",
+                "Transferred Out - Treatment failure",
+                "Transferred Out - Relocation",
+                "Transferred Out - GP/Treat all"
                 ) 
                 AND concept_name_type = "FULLY_SPECIFIED")
                 and cs.concept_set IN (select concept_id from concept_name where name = 'IPT Program Outcomes');
@@ -81,39 +72,21 @@
             set @member10_concept_id = 0;
             set @member11_concept_id = 0;
             set @member12_concept_id = 0;
-            set @member13_concept_id = 0;
-            set @member14_concept_id = 0;
-            set @member15_concept_id = 0;
-            set @member16_concept_id = 0;
-            set @member17_concept_id = 0;
-            set @member18_concept_id = 0;
-            set @member19_concept_id = 0;
-            set @member20_concept_id = 0;
-            set @member21_concept_id = 0;
 
             select concept_id into @concept_id from concept_name where name = 'IPT Program Outcomes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            select concept_id into @member1_concept_id from concept_name where name = "Adjust" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @member2_concept_id from concept_name where name = "Adverse effect / event" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @member3_concept_id from concept_name where name = "Better alternative" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @member4_concept_id from concept_name where name = "Course Completed" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @member5_concept_id from concept_name where name = "Deceased" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @member6_concept_id from concept_name where name = "Doctor's Decision" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @member7_concept_id from concept_name where name = "Dosing Problems" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @member8_concept_id from concept_name where name = "Drug not affordable" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @member9_concept_id from concept_name where name = "Drug not available" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @member10_concept_id from concept_name where name = "Drug to drug interaction" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @member11_concept_id from concept_name where name = "End of intensive phase (TB)" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @member12_concept_id from concept_name where name = "End of Continuation phase (TB)" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @member13_concept_id from concept_name where name = "End of consolidation phase (CM)" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @member14_concept_id from concept_name where name = "Hold / interrupt" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @member15_concept_id from concept_name where name = "Lost to follow up" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @member16_concept_id from concept_name where name = "Moved to FDC" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @member17_concept_id from concept_name where name = "Patient's decision" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @member18_concept_id from concept_name where name = "Step up" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @member19_concept_id from concept_name where name = "Transfer out" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @member20_concept_id from concept_name where name = "Treatment failure" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @member21_concept_id from concept_name where name = "End of induction phase (CM)" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member1_concept_id from concept_name where name = "Course completed" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member2_concept_id from concept_name where name = "Stopped" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member3_concept_id from concept_name where name = "Opted Out" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member4_concept_id from concept_name where name = "Deceased" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member5_concept_id from concept_name where name = "Lost to follow up" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member6_concept_id from concept_name where name = "Transferred Out - Doctor's Decision" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member7_concept_id from concept_name where name = "Transferred Out - Dosing Problems" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member8_concept_id from concept_name where name = "Transferred Out - Drug not available" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member9_concept_id from concept_name where name = "Transferred Out - Patient's decision" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member10_concept_id from concept_name where name = "Transferred Out - Treatment failure" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member11_concept_id from concept_name where name = "Transferred Out - Relocation" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member12_concept_id from concept_name where name = "Transferred Out - GP/Treat all" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
             call add_concept_set_members (@concept_id, @member1_concept_id, 1);
             call add_concept_set_members (@concept_id, @member2_concept_id, 2);
@@ -127,15 +100,6 @@
             call add_concept_set_members (@concept_id, @member10_concept_id, 10);
             call add_concept_set_members (@concept_id, @member11_concept_id, 11);
             call add_concept_set_members (@concept_id, @member12_concept_id, 12);
-            call add_concept_set_members (@concept_id, @member13_concept_id, 13);
-            call add_concept_set_members (@concept_id, @member14_concept_id, 14);
-            call add_concept_set_members (@concept_id, @member15_concept_id, 15);
-            call add_concept_set_members (@concept_id, @member16_concept_id, 16);
-            call add_concept_set_members (@concept_id, @member17_concept_id, 17);
-            call add_concept_set_members (@concept_id, @member18_concept_id, 18);
-            call add_concept_set_members (@concept_id, @member19_concept_id, 19);
-            call add_concept_set_members (@concept_id, @member20_concept_id, 20);
-            call add_concept_set_members (@concept_id, @member21_concept_id, 21);
         </sql>
     </changeSet>
 

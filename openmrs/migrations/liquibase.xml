@@ -85,6 +85,27 @@
         </sql>
     </changeSet>
 
+    <changeSet id="PSI-CONFIG-2019062811" author="Yash">
+            <comment>Void old TB Program Outcome Concept</comment>
+            <sql>
+                update concept_view set retired = 1 where concept_full_name = 'TB Program Outcomes' and retired = 0;
+            </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-2019062704" author="Yash">
+            <comment>Retire old TB Workflow State </comment>
+            <sql>
+                update program_workflow_state set retired = 1 where program_workflow_id = (select program_workflow_id from program_workflow where program_id = 2 and retired = 1);
+            </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-2019062702" author="Yash">
+            <comment>Retire old TB Workflow </comment>
+            <sql>
+                update program_workflow set retired = 1 where program_id = (select program_id from program where name = 'TB Program' and retired = 1);
+            </sql>
+    </changeSet>
+
     <changeSet id="PSI-CONFIG-2019062405" author="Yash">
         <comment>Adding ART Program Concepts Concepts</comment>
         <sqlFile path="ART_Program_Concepts.sql"/>

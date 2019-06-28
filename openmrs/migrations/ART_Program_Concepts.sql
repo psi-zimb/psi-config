@@ -10,24 +10,16 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"1st Line",'
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"2nd Line",'2nd Line','N/A','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"3rd Line",'3rd Line','N/A','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"ART Program Outcomes",'ART Program Outcomes','N/A','Misc',true);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Adjust",'Adjust','N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Adverse effect / event","Adverse effect / event",'N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Better alternative",'Better alternative','N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Course Completed",'Course Completed','N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Deceased",'Deceased','N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Doctor's Decision","Doctor's Decision",'N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Dosing Problems",'Dosing Problems','N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Drug not affordable",'Drug not affordable','N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Drug not available",'Drug not available','N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Drug to drug interaction",'Drug to drug interaction','N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"End of intensive phase (TB)","End of intensive phase (TB)",'N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"End of Continuation phase (TB)","End of Continuation phase (TB)",'N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"End of induction phase (CM)","End of induction phase (CM)",'N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"End of consolidation phase (CM)","End of consolidation phase (CM)",'N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Hold / interrupt","Hold / interrupt",'N/A','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Lost to follow up","Lost to follow up",'N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Moved to FDC",'Moved to FDC','N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Patient's decision","Patient's decision",'N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Step up",'Step up','N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Transfer out",'Transfer out','N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Treatment failure",'Treatment failure','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Deceased",'Deceased','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Opted Out",'Opted Out','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Double Entry",'Double Entry','N/A','Misc',false);	
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Transferred Out - Doctor's Decision","Transferred Out - Doctor's Decision",'N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Transferred Out - Dosing Problems",'Transferred Out - Dosing Problems','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Transferred Out - Drug not available",'Transferred Out - Drug not available','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Transferred Out - Patient's decision","Transferred Out - Patient's decision",'N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Transferred Out - Treatment failure",'Transferred Out - Treatment failure','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Transferred Out - Relocation",'Transferred Out - Relocation','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Transferred Out - GP/Treat all","Transferred Out - GP/Treat all",'N/A','Misc',false);
+
+
