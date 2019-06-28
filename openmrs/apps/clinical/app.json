@@ -411,7 +411,7 @@
              "multiSelect":true   
             },
             "FPS Counselling Only, Indicate where client was referred to":
-        {
+            {
              "multiSelect":true   
             },
             "FPS Counselling Only, State review date": {
@@ -571,6 +571,17 @@
           "Prep Cont Form, If No for Are you ready to continue PrEP?":
           {
             "multiSelect": true
+          },
+          "Prep Init Form, Facility":{
+            "dropdown":true,
+            "required":true
+          },
+          "Prep Init Form, Site Type":{
+            "required":true
+          },
+          "Prep Init Form, District":{
+            "dropdown":true,
+            "required":true
           },
           "defaults": {
                 "HIV testing and counselling service": "Requested",

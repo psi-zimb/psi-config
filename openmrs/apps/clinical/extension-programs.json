@@ -1,6 +1,6 @@
  {
-    "bahmniClinicalPatientsSearchActivePatientsForARTPrograms": {
-    "id": "bahmni.clinical.patients.search.activePatients",
+    "bahmniProgramPatientsSearchActivePatientsForARTPrograms": {
+    "id": "bahmni.clinical.patients.search.activeARTPatients",
     "extensionPointId": "org.bahmni.patient.search",
     "type": "config",
     "extensionParams": {
@@ -12,8 +12,73 @@
     "order": 1,
     "requiredPrivilege": "app:clinical"
   },
-    "bahmniClinicalPatientsSearchActivePatientsForFPSPrograms": {
-    "id": "bahmni.clinical.patients.search.activePatients",
+    "bahmniProgramPatientsSearchActivePatientsForPrEPPrograms": {
+    "id": "bahmni.clinical.patients.search.activePrEPPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.activePrEPPatients",
+      "display": "PrEP Program",
+      "forwardUrl": "#/programs/patient/{{patientUuid}}/consultationContext"
+    },
+    "label": "PrEP",
+    "order": 2,
+    "requiredPrivilege": "app:clinical"
+  },
+  "bahmniProgramPatientsSearchActivePatientsForBreastFeedingPrograms": {
+    "id": "bahmni.clinical.patients.search.activeBreastFeedingPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.activeBreastFeedingPatients",
+      "display": "Breast Feeding Program",
+      "forwardUrl": "#/programs/patient/{{patientUuid}}/consultationContext"
+    },
+    "label": "Breast Feeding",
+    "order": 3,
+    "requiredPrivilege": "app:clinical"
+  },
+    "bahmniProgramPatientsSearchActivePatientsForPregnancyPrograms": {
+    "id": "bahmni.clinical.patients.search.activePregnancyPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.activePregnancyPatients",
+      "display": "Pregnancy Program",
+      "forwardUrl": "#/programs/patient/{{patientUuid}}/consultationContext"
+    },
+    "label": "Pregnancy",
+    "order": 4,
+    "requiredPrivilege": "app:clinical"
+  },
+  "bahmniProgramPatientsSearchActivePatientsForTBPrograms": {
+    "id": "bahmni.clinical.patients.search.activeTBPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.activeTBPatients",
+      "display": "TB Program",
+      "forwardUrl": "#/programs/patient/{{patientUuid}}/consultationContext"
+    },
+    "label": "TB",
+    "order": 5,
+    "requiredPrivilege": "app:clinical"
+  },
+  "bahmniProgramPatientsSearchActivePatientsForIPTPrograms": {
+    "id": "bahmni.clinical.patients.search.activeIPTPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.activeIPTPatients",
+      "display": "IPT Program",
+      "forwardUrl": "#/programs/patient/{{patientUuid}}/consultationContext"
+    },
+    "label": "IPT",
+    "order": 6,
+    "requiredPrivilege": "app:clinical"
+  },
+    "bahmniProgramPatientsSearchActivePatientsForFPSPrograms": {
+    "id": "bahmni.clinical.patients.search.activeFPSPatients",
     "extensionPointId": "org.bahmni.patient.search",
     "type": "config",
     "extensionParams": {
@@ -21,8 +86,8 @@
       "display": "FPS Program",
       "forwardUrl": "#/programs/patient/{{patientUuid}}/consultationContext"
     },
-    "label": "FP",
-    "order": 2,
+    "label": "FPS",
+    "order": 7,
     "requiredPrivilege": "app:clinical"
   },
     "bahmniClinicalPatientsSearchAllPatients": {
@@ -34,7 +99,7 @@
             "forwardUrl": "#/programs/patient/{{patientUuid}}/consultationContext"
         },
         "label": "All",
-        "order": 2,
+        "order": 8,
         "requiredPrivilege": "app:clinical"
     },
     "observations": {

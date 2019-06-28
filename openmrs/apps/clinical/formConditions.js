@@ -10108,6 +10108,19 @@ Bahmni.ConceptSet.FormConditions.rules = {
           conditions.disable.push("Prep Cont Form, If Other for client eligible to continue PrEP? Females");
      }
           return conditions;
-  }
+  },
+  "Prep Init Form, Site Type": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['Prep Init Form, Site Type'];
+     if (conditionConcept =="Outreach") {
+          conditions.show.push("Prep Init Form, District");
+
+     }
+     else
+     {
+          conditions.hide.push("Prep Init Form, District");
+     }
+          return conditions;
+  },
 
 }

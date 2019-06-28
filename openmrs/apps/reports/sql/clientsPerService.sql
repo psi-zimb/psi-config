@@ -49,9 +49,12 @@ from patient p
             "Adherence Counselling",
             "PrEP Initial",
             "PrEP Continuation",
-            "VIAC",
-            "Family Planning",
-            "VMMC"       
+            "Viac Initial",
+            "Viac Continuation",
+            "VMMC",
+            "FP Initial",
+            "FP Counselling Only",
+            "FP Continuation"      
     )
 
 where date(v.date_started) BETWEEN date('#startDate#') and date('#endDate#')

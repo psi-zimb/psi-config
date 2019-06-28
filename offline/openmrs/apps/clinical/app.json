@@ -572,6 +572,17 @@
           {
             "multiSelect": true
           },
+          "Prep Init Form, Facility":{
+            "dropdown":true,
+            "required":true
+          },
+          "Prep Init Form, Site Type":{
+            "required":true
+          },
+          "Prep Init Form, District":{
+            "dropdown":true,
+            "required":true
+          },
           "defaults": {
                 "HIV testing and counselling service": "Requested",
                 "Numeric concept": 1,

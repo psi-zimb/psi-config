@@ -9,30 +9,30 @@
 	<changeSet id="PSI-CONFIG-2019062403" author="Yash">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
-                select count(*) from program where name='ART Program';
+                select count(*) from program where name='Pregnancy Program';
             </sqlCheck>
         </preConditions>
-        <comment>Adding ART program to Program table</comment>
+        <comment>Adding Pregnancy program to Program table</comment>
         <sql>
         INSERT INTO program(concept_id,outcomes_concept_id,creator,date_created,name,description,uuid)
   		VALUES (
   				   (
-					select concept_id from concept_name where name = 'ART Program'
+					select concept_id from concept_name where name = 'Pregnancy Program'
 					and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0
 				   ),
 				   (
-				   	select concept_id from concept_name where name = 'ART Program Outcomes'
+				   	select concept_id from concept_name where name = 'Pregnancy Program Outcomes'
 					and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0
 				   ),
 				   (
 				   select user_id from users where username='superman'
 				   ),
-				   now(),'ART Program','ART Program',uuid()
+				   now(),'Pregnancy Program','Pregnancy Program',uuid()
    			   );
    </sql>
    </changeSet>
 
-   <changeSet id="PSI-CONFIG-2019062404" author="Yash">
+   <changeSet id="PSI-CONFIG-2019062655" author="Yash">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
                 select COUNT(*) from concept_set cs
@@ -63,10 +63,10 @@
 				"Treatment failure"
                 ) 
                 AND concept_name_type = "FULLY_SPECIFIED")
-                and cs.concept_set IN (select concept_id from concept_name where name = 'ART Program Outcomes');
+                and cs.concept_set IN (select concept_id from concept_name where name = 'Pregnancy Program Outcomes');
             </sqlCheck>
         </preConditions>
-        <comment>Adding set members for ART Program Outcomes concept</comment>
+        <comment>Adding set members for Pregnancy Program Outcomes concept</comment>
         <sql>
             set @concept_id = 0;
             set @member1_concept_id = 0;
@@ -91,7 +91,7 @@
             set @member20_concept_id = 0;
             set @member21_concept_id = 0;
 
-            select concept_id into @concept_id from concept_name where name = 'ART Program Outcomes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @concept_id from concept_name where name = 'Pregnancy Program Outcomes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
             select concept_id into @member1_concept_id from concept_name where name = "Adjust" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
             select concept_id into @member2_concept_id from concept_name where name = "Adverse effect / event" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
@@ -139,49 +139,49 @@
         </sql>
     </changeSet>
 
-    <changeSet id="PSI-CONFIG-2019062406" author="Yash">
-		    <comment>Adding Program Workflow for ART</comment>
+    <changeSet id="PSI-CONFIG-2019062656" author="Yash">
+		    <comment>Adding Program Workflow for Pregnancy</comment>
 		    <sql>
 		        insert into program_workflow (program_id , concept_id , creator , date_created , retired , uuid) values
-		        ((select program_id from program where name='ART Program'), (select concept_id from concept_name where name = "ART Program Workflow" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0), 1, now(),0, uuid());
+		        ((select program_id from program where name='Pregnancy Program'), (select concept_id from concept_name where name = "Pregnancy Program Workflow" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0), 1, now(),0, uuid());
 		    </sql>
 	</changeSet>
 
-    <changeSet id="PSI-CONFIG-2019062407" author="Yash">
-        <comment>Adding Program states for ART Workflow</comment>
+    <changeSet id="PSI-CONFIG-2019062657" author="Yash">
+        <comment>Adding Program states for Pregnancy Workflow</comment>
         <sql>
-            select concept_id into @concept_id from concept_name where name = "ART Program Workflow" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @concept_id from concept_name where name = "Pregnancy Program Workflow" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
             insert into program_workflow_state (program_workflow_id,concept_id,initial,terminal,creator,date_created,retired ,uuid) values
-            ((select program_workflow_id from program_workflow where concept_id=@concept_id),(select concept_id from concept_name where name = "1st Line" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),0,0,1,now(),0,uuid()),
-            ((select program_workflow_id from program_workflow where concept_id=@concept_id),(select concept_id from concept_name where name = "2nd Line" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),0,0,1,now(),0,uuid()),
-            ((select program_workflow_id from program_workflow where concept_id=@concept_id),(select concept_id from concept_name where name = "3rd Line" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),0,0,1,now(),0,uuid());
+            ((select program_workflow_id from program_workflow where concept_id=@concept_id),(select concept_id from concept_name where name = "1st Trimester" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),0,0,1,now(),0,uuid()),
+            ((select program_workflow_id from program_workflow where concept_id=@concept_id),(select concept_id from concept_name where name = "2nd Trimester" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),0,0,1,now(),0,uuid()),
+            ((select program_workflow_id from program_workflow where concept_id=@concept_id),(select concept_id from concept_name where name = "3rd Trimester" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),0,0,1,now(),0,uuid());
         </sql>
     </changeSet>
 
-     <changeSet id="PSI-CONFIG-2019062408" author="Yash">
-		    <comment>Mapping ART Program to Encounter Type</comment>
+     <changeSet id="PSI-CONFIG-2019062658" author="Yash">
+		    <comment>Mapping Pregnancy Program to Encounter Type</comment>
 		    <sql>
 		        insert into entity_mapping(uuid, entity_mapping_type_id, entity1_uuid, entity2_uuid, date_created) 
 				values 
-				(uuid(), (select id from entity_mapping_type where name = 'program_encountertype'), (select uuid from program where name = 'ART Program'), (select uuid from entity_mapping_type where name = 'program_encountertype'), now());
+				(uuid(), (select id from entity_mapping_type where name = 'program_encountertype'), (select uuid from program where name = 'Pregnancy Program'), (select uuid from entity_mapping_type where name = 'program_encountertype'), now());
 		    </sql>
 	</changeSet>
 
-	<changeSet id="PSI-CONFIG-2019062411" author="Yash">
+	<changeSet id="PSI-CONFIG-2019062659" author="Yash">
        <preConditions onFail="MARK_RAN">
            <sqlCheck expectedResult= "0">
-               select count(*) from global_property where property='emrapi.sqlSearch.activeARTPatients';
+               select count(*) from global_property where property='emrapi.sqlSearch.activePregnancyPatients';
            </sqlCheck>
        </preConditions>
-       <comment>Creating Global Property for ART Program Queue</comment>
+       <comment>Creating Global Property for Pregnancy Program Queue</comment>
        <sql>
            INSERT INTO global_property (property, property_value, uuid)
-           VALUES ('emrapi.sqlSearch.activeARTPatients', '', uuid());
+           VALUES ('emrapi.sqlSearch.activePregnancyPatients', '', uuid());
        </sql>
 </changeSet>
 
-       <changeSet id="PSI-CONFIG-2019062409" author="Yash">
-        <comment>Updating Global Property For ART Patients Queue </comment>
+       <changeSet id="PSI-CONFIG-2019062660" author="Yash">
+        <comment>Updating Global Property For Pregnancy Patients Queue </comment>
         <sql>
             update global_property set property_value =
         	"SELECT DISTINCT concat(pn.given_name, ' ', Ifnull(pn.family_name, '')) AS name,
@@ -223,10 +223,10 @@
             AND va.voided = 0
             WHERE  v.date_stopped IS NULL
             AND v.voided = 0
-            AND pgg.name = 'ART Program'
+            AND pgg.name = 'Pregnancy Program'
             and pg.outcome_concept_id is NULL
             and pg.voided =0;"
-        where property= 'emrapi.sqlSearch.activeARTPatients';
+        where property= 'emrapi.sqlSearch.activePregnancyPatients';
         </sql>
     </changeSet>
 

@@ -77,7 +77,7 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init F
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, If Yes, How many?",'How many?','Numeric','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, Do you use condoms every time you have vaginal or anal sex?",'Do you use condoms every time you have vaginal or anal sex?','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, Have you had a condom burst in the last 3 month?",'Have you had a condom burst in the last 3 month?','Coded','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, If Yes for condorm burst, How many times?",'How many times?','Text','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, If Yes for condorm burst, How many times?",'How many times?','Numeric','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, In a Single relationship Have you been treated for an STI in the last 3 months?",'Have you been treated for an STI in the last 3 months?','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, Females",'Females','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, Males",'Males','Coded','Misc',false);
@@ -91,7 +91,7 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init F
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, If other for Females","If Other for Females, Specify",'Text','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, Have you had sex whilst indoxicated with alcohol or drugs?",'Have you had sex whilst indoxicated with alcohol or drugs?','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, Have you or your partner used emergency contraception in the last 6 months?",'Have you or your partner used emergency contraception in the last 6 months?','Coded','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, If Yes for emergency contraception, How many times?",'How many times?','Text','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, If Yes for emergency contraception, How many times?",'How many times?','Numeric','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, Single or Stable relationship, Have you used PEP in the last 6 months?",'Have you used PEP in the last 6 months?','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, Single or Stable relationship, What was the reason for taking PEP?",'What was the reason for taking PEP?','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, Single or Stable relationship, If Other, Specify","If Other, Specify",'Text','Misc',false);
@@ -125,6 +125,21 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"FSW",'FSW',
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"TSW",'TSW','N/A','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, Is the client Eligible to take PrEP?, Males Other","If Other for Males, Specify",'Text','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, Is the client Eligible to take PrEP?, Females Other","If Other for Females, Specify",'Text','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, Facility",'Facility','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, Site Type",'Site Type','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, District",'District','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, Setting",'Setting','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form, Service Provided",'Service Provided','N/A','Misc',true);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, Facility",'Facility','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, Site Type",'Site Type','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, District",'District','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, Setting",'Setting','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, Service Provided",'Service Provided','N/A','Misc',true);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Viac Form, Facility",'Facility','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Viac Form, Site Type",'Site Type','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Viac Form, District",'District','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Viac Form, Setting",'Setting','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Viac Form, Service Provided",'Service Provided','N/A','Misc',true);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form Template",'PrEP Initial','N/A','Misc',true);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, Do you have any heath related problems today?",'Do you have any heath related problems today?','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, If Yes for health related problems today",'Indicate the problem','Text','Misc',false);
@@ -136,7 +151,7 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont F
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, Are you using any other medications?",'Are you using any other medications?','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, If Yes for Are you using any other medications?",'Specify medications','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, If other for using any other medications",'If Other Specify details','Text','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, How many sexual partners have you had since the last visit?",'How many sexual partners have you had since the last visit?','Text','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, How many sexual partners have you had since the last visit?",'How many sexual partners have you had since the last visit?','Numeric','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, Do you know your partner's HIV status?","Do you know your partner's HIV status?",'Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, If Yes for Do you know your partner's HIV status?","If Yes then specify",'Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, Is your partner on ART?",'Is your partner on ART?','Coded','Misc',false);
@@ -154,7 +169,7 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont F
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, Have you exchanged sex for money, goods or services?","Have you exchanged sex for money, goods or services?",'Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, Have you been sexually abused or had gender based violence since the last visit?","Have you been sexually abused or had gender based violence since the last visit?",'Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, Have you used emergency contraception since the last visit?",'Have you used emergency contraception since the last visit?','Coded','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, If Yes for used emergency contraception since the last visit?","How many times?",'Text','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, If Yes for used emergency contraception since the last visit?","How many times?",'Numeric','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, Does the client have any sings of primary infection?",'Does the client have any sings of primary infection?','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, If Yes for client have any sings of primary infection?",'Specify details','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, If Other for yes for client have any sings of primary infection?",'If Other Specify details','Text','Misc',false);

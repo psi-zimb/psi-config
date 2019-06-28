@@ -13,11 +13,25 @@
     </changeSet>
 
       <changeSet id="PSI-CONFIG-2019061901" author="Yash">
-       <comment>Allowing decimal values to newly created concept</comment>
+       <comment>Allowing decimal values to newly created numeric concept</comment>
        <sql>
          INSERT INTO concept_numeric (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision) VALUES ((select concept_id from concept_name where name = "Prep Init Form, If yes for partner had a viral load test done in the last 12 months?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
 
          INSERT INTO concept_numeric (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision) VALUES ((select concept_id from concept_name where name = "Prep Cont Form, If Yes for Do you know your partner's viral load" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
+
+         INSERT INTO concept_numeric (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision) VALUES ((select concept_id from concept_name where name = "Prep Init Form, If Yes for condorm burst, How many times?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
+
+         INSERT INTO concept_numeric (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision) VALUES ((select concept_id from concept_name where name = "Prep Init Form, If Yes for emergency contraception, How many times?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
+
+         INSERT INTO concept_numeric (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision) VALUES ((select concept_id from concept_name where name = "Prep Cont Form, How many sexual partners have you had since the last visit?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
+
+         INSERT INTO concept_numeric (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision) VALUES ((select concept_id from concept_name where name = "Prep Cont Form, If Yes for used emergency contraception since the last visit?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
+
+         INSERT INTO concept_numeric (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision) VALUES ((select concept_id from concept_name where name = "Prep Init Form, If yes for had any other sexual partners in the last 6 months?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
+
+         INSERT INTO concept_numeric (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision) VALUES ((select concept_id from concept_name where name = "Prep Init Form, If Yes, How many?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
+
+         INSERT INTO concept_numeric (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision) VALUES ((select concept_id from concept_name where name = "Prep Cont Form, If yes for condom burst since the last visit?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
 
        </sql>
   </changeSet>
@@ -72,11 +86,46 @@
     </changeSet>
 
     <changeSet id="PSI-CONFIG-2019062405" author="Yash">
-        <comment>Adding All Obs Concepts</comment>
+        <comment>Adding ART Program Concepts Concepts</comment>
         <sqlFile path="ART_Program_Concepts.sql"/>
     </changeSet>
 
+    <changeSet id="PSI-CONFIG-2019062601" author="Yash">
+        <comment>Adding PrEP Program Concepts Concepts</comment>
+        <sqlFile path="PrEP_Program_Concepts.sql"/>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-2019062615" author="Yash">
+        <comment>Adding Breast Feeding Program Concepts Concepts</comment>
+        <sqlFile path="Breast_Feeding_Program_Concepts.sql"/>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-2019062699" author="Yash">
+        <comment>Adding Pregnancy Program Concepts Concepts</comment>
+        <sqlFile path="Pregnancy_Program_Concepts.sql"/>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-2019062675" author="Yash">
+        <comment>Adding TB Program Concepts Concepts</comment>
+        <sqlFile path="TB_Program_Concepts.sql"/>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-2019062690" author="Yash">
+        <comment>Adding IPT Program Concepts Concepts</comment>
+        <sqlFile path="IPT_Program_Concepts.sql"/>
+    </changeSet>
+
     <include file ="ART_Program.xml"/>
+
+    <include file ="PrEP_Program.xml"/>
+
+    <include file ="Breast_Feeding_Program.xml"/>
+
+    <include file ="Pregnancy_Program.xml"/>
+
+    <include file ="TB_Program.xml"/>
+
+    <include file ="IPT_Program.xml"/>
 
     <include file ="FPS_Program.xml"/>
 
