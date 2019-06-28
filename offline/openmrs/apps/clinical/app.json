@@ -583,6 +583,17 @@
             "dropdown":true,
             "required":true
           },
+          "Prep Cont Form, Facility":{
+            "dropdown":true,
+            "required":true
+          },
+          "Prep Cont Form, Site Type":{
+            "required":true
+          },
+          "Prep Cont Form, District":{
+            "dropdown":true,
+            "required":true
+          },
           "defaults": {
                 "HIV testing and counselling service": "Requested",
                 "Numeric concept": 1,

@@ -10122,5 +10122,18 @@ Bahmni.ConceptSet.FormConditions.rules = {
      }
           return conditions;
   },
+  "Prep Cont Form, Site Type": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['Prep Cont Form, Site Type'];
+     if (conditionConcept =="Outreach") {
+          conditions.show.push("Prep Cont Form, District");
+
+     }
+     else
+     {
+          conditions.hide.push("Prep Cont Form, District");
+     }
+          return conditions;
+  }
 
 }

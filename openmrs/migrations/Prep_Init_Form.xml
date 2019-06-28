@@ -1959,6 +1959,7 @@
                    on cs.concept_id = cn.concept_id
                    where cs.concept_id IN (select concept_id from concept_name where name IN
                    (
+                   "Prep Init Form, Service Provided",
                    "Prep Init Form, Have you had an HIV test in the past 1 week?",
                    "Prep Init Form, When was the test done?",
                    "Prep Init Form, What was the result?",
