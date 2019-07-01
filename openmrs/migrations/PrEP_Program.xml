@@ -99,6 +99,23 @@
         </sql>
     </changeSet>
 
+    <changeSet id="PSI-CONFIG-2019062901" author="Yash">
+            <comment>Adding Program Workflow for PrEP</comment>
+            <sql>
+                insert into program_workflow (program_id , concept_id , creator , date_created , retired , uuid) values
+                ((select program_id from program where name='PrEP Program'), (select concept_id from concept_name where name = "PrEP Program Workflow" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0), 1, now(),0, uuid());
+            </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-2019062902" author="Yash">
+        <comment>Adding Program states for PrEP Workflow</comment>
+        <sql>
+            select concept_id into @concept_id from concept_name where name = "PrEP Program Workflow" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            insert into program_workflow_state (program_workflow_id,concept_id,initial,terminal,creator,date_created,retired ,uuid) values
+            ((select program_workflow_id from program_workflow where concept_id=@concept_id),(select concept_id from concept_name where name = "Initiated" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),0,0,1,now(),0,uuid());
+        </sql>
+    </changeSet>
+
      <changeSet id="PSI-CONFIG-2019062682" author="Yash">
 		    <comment>Mapping PrEP Program to Encounter Type</comment>
 		    <sql>

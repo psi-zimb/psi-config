@@ -150,4 +150,6 @@
 
     <include file ="FPS_Program.xml"/>
 
+    <include file ="CHITUNGWIZA_Location.xml"/>
+
 </databaseChangeLog>

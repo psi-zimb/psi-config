@@ -135,11 +135,6 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont F
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, District",'District','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, Setting",'Setting','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, Service Provided",'Service Provided','N/A','Misc',true);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Viac Form, Facility",'Facility','Coded','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Viac Form, Site Type",'Site Type','Coded','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Viac Form, District",'District','Coded','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Viac Form, Setting",'Setting','Coded','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Viac Form, Service Provided",'Service Provided','N/A','Misc',true);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Init Form Template",'PrEP Initial','N/A','Misc',true);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, Do you have any heath related problems today?",'Do you have any heath related problems today?','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Prep Cont Form, If Yes for health related problems today",'Indicate the problem','Text','Misc',false);
