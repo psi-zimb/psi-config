@@ -152,4 +152,26 @@
 
     <include file ="CHITUNGWIZA_Location.xml"/>
 
+    <include file ="BAMBANANI_Location.xml"/>
+
+    <include file ="NAH_Location.xml"/>
+
+    <include file ="GWERU_Location.xml"/>
+
+    <include file ="MUTARE_Location.xml"/>
+
+    <include file ="NEMC_Location.xml"/>
+
+    <include file ="NKULUMANE_Location.xml"/>
+
+    <include file ="TRIANGLE_Location.xml"/>
+
+    <include file ="CHIPINGE_Location.xml"/>
+
+    <include file ="CHIREDZI_Location.xml"/>
+
+    <include file ="MAC_Location.xml"/>
+
+    <include file ="MASVINGO_Location.xml"/>
+
 </databaseChangeLog>

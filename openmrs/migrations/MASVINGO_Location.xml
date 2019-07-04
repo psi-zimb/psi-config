@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+
+	<changeSet id="PSI-CONFIG-20190706" author="Yash">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">
+                select COUNT(*) from location where name = 'Masvingo Clinic'
+            </sqlCheck>
+        </preConditions>
+        <comment>Mapping Identifier source name to Masvingo Location</comment>
+        <sql>
+            INSERT INTO location_attribute (location_id,attribute_type_id,value_reference,uuid,creator,date_created,changed_by,date_changed,voided,voided_by,date_voided,void_reason) VALUES 
+			((select location_id from location where name = 'Masvingo Clinic'),1,(select name from idgen_identifier_source where name = 'MSVA1' and retired = 0),uuid(),1,now(),NULL,NULL,0,NULL,NULL,NULL);
+        </sql>
+    </changeSet>
+
+	<changeSet id="PSI-CONFIG-20190707" author="Yash">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from location where name in 
+                ('MSVA2','MSVA3','MSVA4','MSVA5','MSVA6','MSVA7','MSVA8','MSVA9','MSVA10','MSVA11','MSVA12','MSVA13','MSVA14','MSVA15'
+                );
+            </sqlCheck>
+      </preConditions>
+      <comment>Adding Locations to Masvingo Clinic</comment>
+      <sql>
+        INSERT INTO location (name,description,address1,address2,city_village,state_province,postal_code,country,latitude,longitude,creator,date_created,county_district,address3,address4,address5,address6,retired,retired_by,date_retired,retire_reason,parent_location,uuid,changed_by,date_changed,address7,address8,address9,address10,address11,address12,address13,address14,address15) 
+		VALUES ('MSVA2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,now(),NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,17,uuid(),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+		INSERT INTO location (name,description,address1,address2,city_village,state_province,postal_code,country,latitude,longitude,creator,date_created,county_district,address3,address4,address5,address6,retired,retired_by,date_retired,retire_reason,parent_location,uuid,changed_by,date_changed,address7,address8,address9,address10,address11,address12,address13,address14,address15) 
+		VALUES ('MSVA3',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,now(),NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,17,uuid(),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+		INSERT INTO location (name,description,address1,address2,city_village,state_province,postal_code,country,latitude,longitude,creator,date_created,county_district,address3,address4,address5,address6,retired,retired_by,date_retired,retire_reason,parent_location,uuid,changed_by,date_changed,address7,address8,address9,address10,address11,address12,address13,address14,address15) 
+		VALUES ('MSVA4',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,now(),NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,17,uuid(),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+		INSERT INTO location (name,description,address1,address2,city_village,state_province,postal_code,country,latitude,longitude,creator,date_created,county_district,address3,address4,address5,address6,retired,retired_by,date_retired,retire_reason,parent_location,uuid,changed_by,date_changed,address7,address8,address9,address10,address11,address12,address13,address14,address15) 
+		VALUES ('MSVA5',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,now(),NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,17,uuid(),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+		INSERT INTO location (name,description,address1,address2,city_village,state_province,postal_code,country,latitude,longitude,creator,date_created,county_district,address3,address4,address5,address6,retired,retired_by,date_retired,retire_reason,parent_location,uuid,changed_by,date_changed,address7,address8,address9,address10,address11,address12,address13,address14,address15) 
+		VALUES ('MSVA6',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,now(),NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,17,uuid(),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+		INSERT INTO location (name,description,address1,address2,city_village,state_province,postal_code,country,latitude,longitude,creator,date_created,county_district,address3,address4,address5,address6,retired,retired_by,date_retired,retire_reason,parent_location,uuid,changed_by,date_changed,address7,address8,address9,address10,address11,address12,address13,address14,address15) 
+		VALUES ('MSVA7',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,now(),NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,17,uuid(),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+		INSERT INTO location (name,description,address1,address2,city_village,state_province,postal_code,country,latitude,longitude,creator,date_created,county_district,address3,address4,address5,address6,retired,retired_by,date_retired,retire_reason,parent_location,uuid,changed_by,date_changed,address7,address8,address9,address10,address11,address12,address13,address14,address15) 
+		VALUES ('MSVA8',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,now(),NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,17,uuid(),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+		INSERT INTO location (name,description,address1,address2,city_village,state_province,postal_code,country,latitude,longitude,creator,date_created,county_district,address3,address4,address5,address6,retired,retired_by,date_retired,retire_reason,parent_location,uuid,changed_by,date_changed,address7,address8,address9,address10,address11,address12,address13,address14,address15) 
+		VALUES ('MSVA9',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,now(),NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,17,uuid(),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+		INSERT INTO location (name,description,address1,address2,city_village,state_province,postal_code,country,latitude,longitude,creator,date_created,county_district,address3,address4,address5,address6,retired,retired_by,date_retired,retire_reason,parent_location,uuid,changed_by,date_changed,address7,address8,address9,address10,address11,address12,address13,address14,address15) 
+		VALUES ('MSVA10',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,now(),NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,17,uuid(),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+		INSERT INTO location (name,description,address1,address2,city_village,state_province,postal_code,country,latitude,longitude,creator,date_created,county_district,address3,address4,address5,address6,retired,retired_by,date_retired,retire_reason,parent_location,uuid,changed_by,date_changed,address7,address8,address9,address10,address11,address12,address13,address14,address15) 
+		VALUES ('MSVA11',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,now(),NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,17,uuid(),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+		INSERT INTO location (name,description,address1,address2,city_village,state_province,postal_code,country,latitude,longitude,creator,date_created,county_district,address3,address4,address5,address6,retired,retired_by,date_retired,retire_reason,parent_location,uuid,changed_by,date_changed,address7,address8,address9,address10,address11,address12,address13,address14,address15) 
+		VALUES ('MSVA12',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,now(),NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,17,uuid(),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+		INSERT INTO location (name,description,address1,address2,city_village,state_province,postal_code,country,latitude,longitude,creator,date_created,county_district,address3,address4,address5,address6,retired,retired_by,date_retired,retire_reason,parent_location,uuid,changed_by,date_changed,address7,address8,address9,address10,address11,address12,address13,address14,address15) 
+		VALUES ('MSVA13',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,now(),NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,17,uuid(),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+		INSERT INTO location (name,description,address1,address2,city_village,state_province,postal_code,country,latitude,longitude,creator,date_created,county_district,address3,address4,address5,address6,retired,retired_by,date_retired,retire_reason,parent_location,uuid,changed_by,date_changed,address7,address8,address9,address10,address11,address12,address13,address14,address15) 
+		VALUES ('MSVA14',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,now(),NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,17,uuid(),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+		INSERT INTO location (name,description,address1,address2,city_village,state_province,postal_code,country,latitude,longitude,creator,date_created,county_district,address3,address4,address5,address6,retired,retired_by,date_retired,retire_reason,parent_location,uuid,changed_by,date_changed,address7,address8,address9,address10,address11,address12,address13,address14,address15) 
+		VALUES ('MSVA15',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,now(),NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,17,uuid(),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-20190708" author="Yash">
+        <comment>Mapping Identifier source name to Location</comment>
+        <sql>
+            INSERT INTO location_attribute (location_id,attribute_type_id,value_reference,uuid,creator,date_created,changed_by,date_changed,voided,voided_by,date_voided,void_reason) VALUES 
+			((select location_id from location where name = 'MSVA2' and retired = 0),1,(select name from idgen_identifier_source where name = 'MSVA2' and retired = 0),uuid(),1,now(),NULL,NULL,0,NULL,NULL,NULL);
+			INSERT INTO location_attribute (location_id,attribute_type_id,value_reference,uuid,creator,date_created,changed_by,date_changed,voided,voided_by,date_voided,void_reason) VALUES 
+			((select location_id from location where name = 'MSVA3' and retired = 0),1,(select name from idgen_identifier_source where name = 'MSVA3' and retired = 0),uuid(),1,now(),NULL,NULL,0,NULL,NULL,NULL);
+			INSERT INTO location_attribute (location_id,attribute_type_id,value_reference,uuid,creator,date_created,changed_by,date_changed,voided,voided_by,date_voided,void_reason) VALUES 
+			((select location_id from location where name = 'MSVA4' and retired = 0),1,(select name from idgen_identifier_source where name = 'MSVA4' and retired = 0),uuid(),1,now(),NULL,NULL,0,NULL,NULL,NULL);
+			INSERT INTO location_attribute (location_id,attribute_type_id,value_reference,uuid,creator,date_created,changed_by,date_changed,voided,voided_by,date_voided,void_reason) VALUES 
+			((select location_id from location where name = 'MSVA5' and retired = 0),1,(select name from idgen_identifier_source where name = 'MSVA5' and retired = 0),uuid(),1,now(),NULL,NULL,0,NULL,NULL,NULL);
+			INSERT INTO location_attribute (location_id,attribute_type_id,value_reference,uuid,creator,date_created,changed_by,date_changed,voided,voided_by,date_voided,void_reason) VALUES 
+			((select location_id from location where name = 'MSVA6' and retired = 0),1,(select name from idgen_identifier_source where name = 'MSVA6' and retired = 0),uuid(),1,now(),NULL,NULL,0,NULL,NULL,NULL);
+			INSERT INTO location_attribute (location_id,attribute_type_id,value_reference,uuid,creator,date_created,changed_by,date_changed,voided,voided_by,date_voided,void_reason) VALUES 
+			((select location_id from location where name = 'MSVA7' and retired = 0),1,(select name from idgen_identifier_source where name = 'MSVA7' and retired = 0),uuid(),1,now(),NULL,NULL,0,NULL,NULL,NULL);
+			INSERT INTO location_attribute (location_id,attribute_type_id,value_reference,uuid,creator,date_created,changed_by,date_changed,voided,voided_by,date_voided,void_reason) VALUES 
+			((select location_id from location where name = 'MSVA8' and retired = 0),1,(select name from idgen_identifier_source where name = 'MSVA8' and retired = 0),uuid(),1,now(),NULL,NULL,0,NULL,NULL,NULL);
+			INSERT INTO location_attribute (location_id,attribute_type_id,value_reference,uuid,creator,date_created,changed_by,date_changed,voided,voided_by,date_voided,void_reason) VALUES 
+			((select location_id from location where name = 'MSVA9' and retired = 0),1,(select name from idgen_identifier_source where name = 'MSVA9' and retired = 0),uuid(),1,now(),NULL,NULL,0,NULL,NULL,NULL);
+			INSERT INTO location_attribute (location_id,attribute_type_id,value_reference,uuid,creator,date_created,changed_by,date_changed,voided,voided_by,date_voided,void_reason) VALUES 
+			((select location_id from location where name = 'MSVA10' and retired = 0),1,(select name from idgen_identifier_source where name = 'MSVA10' and retired = 0),uuid(),1,now(),NULL,NULL,0,NULL,NULL,NULL);
+			INSERT INTO location_attribute (location_id,attribute_type_id,value_reference,uuid,creator,date_created,changed_by,date_changed,voided,voided_by,date_voided,void_reason) VALUES 
+			((select location_id from location where name = 'MSVA11' and retired = 0),1,(select name from idgen_identifier_source where name = 'MSVA11' and retired = 0),uuid(),1,now(),NULL,NULL,0,NULL,NULL,NULL);
+			INSERT INTO location_attribute (location_id,attribute_type_id,value_reference,uuid,creator,date_created,changed_by,date_changed,voided,voided_by,date_voided,void_reason) VALUES 
+			((select location_id from location where name = 'MSVA12' and retired = 0),1,(select name from idgen_identifier_source where name = 'MSVA12' and retired = 0),uuid(),1,now(),NULL,NULL,0,NULL,NULL,NULL);
+			INSERT INTO location_attribute (location_id,attribute_type_id,value_reference,uuid,creator,date_created,changed_by,date_changed,voided,voided_by,date_voided,void_reason) VALUES 
+			((select location_id from location where name = 'MSVA13' and retired = 0),1,(select name from idgen_identifier_source where name = 'MSVA13' and retired = 0),uuid(),1,now(),NULL,NULL,0,NULL,NULL,NULL);
+			INSERT INTO location_attribute (location_id,attribute_type_id,value_reference,uuid,creator,date_created,changed_by,date_changed,voided,voided_by,date_voided,void_reason) VALUES 
+			((select location_id from location where name = 'MSVA14' and retired = 0),1,(select name from idgen_identifier_source where name = 'MSVA14' and retired = 0),uuid(),1,now(),NULL,NULL,0,NULL,NULL,NULL);
+			INSERT INTO location_attribute (location_id,attribute_type_id,value_reference,uuid,creator,date_created,changed_by,date_changed,voided,voided_by,date_voided,void_reason) VALUES 
+			((select location_id from location where name = 'MSVA15' and retired = 0),1,(select name from idgen_identifier_source where name = 'MSVA15' and retired = 0),uuid(),1,now(),NULL,NULL,0,NULL,NULL,NULL);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-20190745" author="Yash">
+        <comment>Marking Location as Visit and Login location</comment>
+        <sql>
+            INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA2' and retired = 0),(select location_tag_id from location_tag where name = 'Login Location'));
+			INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA2' and retired = 0),(select location_tag_id from location_tag where name = 'Visit Location'));
+			INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA3' and retired = 0),(select location_tag_id from location_tag where name = 'Login Location'));
+			INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA3' and retired = 0),(select location_tag_id from location_tag where name = 'Visit Location'));
+			INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA4' and retired = 0),(select location_tag_id from location_tag where name = 'Login Location'));
+			INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA4' and retired = 0),(select location_tag_id from location_tag where name = 'Visit Location'));
+			INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA5' and retired = 0),(select location_tag_id from location_tag where name = 'Login Location'));
+			INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA5' and retired = 0),(select location_tag_id from location_tag where name = 'Visit Location'));
+			INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA6' and retired = 0),(select location_tag_id from location_tag where name = 'Login Location'));
+			INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA6' and retired = 0),(select location_tag_id from location_tag where name = 'Visit Location'));
+			INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA7' and retired = 0),(select location_tag_id from location_tag where name = 'Login Location'));
+			INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA7' and retired = 0),(select location_tag_id from location_tag where name = 'Visit Location'));
+			INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA8' and retired = 0),(select location_tag_id from location_tag where name = 'Login Location'));
+			INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA8' and retired = 0),(select location_tag_id from location_tag where name = 'Visit Location'));
+			INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA9' and retired = 0),(select location_tag_id from location_tag where name = 'Login Location'));
+			INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA9' and retired = 0),(select location_tag_id from location_tag where name = 'Visit Location'));
+			INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA10' and retired = 0),(select location_tag_id from location_tag where name = 'Login Location'));
+			INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA10' and retired = 0),(select location_tag_id from location_tag where name = 'Visit Location'));
+			INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA11' and retired = 0),(select location_tag_id from location_tag where name = 'Login Location'));
+			INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA11' and retired = 0),(select location_tag_id from location_tag where name = 'Visit Location'));
+			INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA12' and retired = 0),(select location_tag_id from location_tag where name = 'Login Location'));
+			INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA12' and retired = 0),(select location_tag_id from location_tag where name = 'Visit Location'));
+			INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA13' and retired = 0),(select location_tag_id from location_tag where name = 'Login Location'));
+			INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA13' and retired = 0),(select location_tag_id from location_tag where name = 'Visit Location'));
+			INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA14' and retired = 0),(select location_tag_id from location_tag where name = 'Login Location'));
+			INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA14' and retired = 0),(select location_tag_id from location_tag where name = 'Visit Location'));
+			INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA15' and retired = 0),(select location_tag_id from location_tag where name = 'Login Location'));
+			INSERT INTO location_tag_map (location_id,location_tag_id) VALUES ((select location_id from location where name = 'MSVA15' and retired = 0),(select location_tag_id from location_tag where name = 'Visit Location'));
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

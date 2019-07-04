@@ -25,7 +25,7 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
                 select count(*) from location where name in 
-                ('ChitungwizaA2','ChitungwizaA3','ChitungwizaA4','ChitungwizaA5','ChitungwizaA6','ChitungwizaA7','ChitungwizaA8','ChitungwizaA9','ChitungwizaA10','ChitungwizaA11','ChitungwizaA12','ChitungwizaA13','ChitungwizaA14','Chitungwiza15'
+                ('ChitungwizaA2','ChitungwizaA3','ChitungwizaA4','ChitungwizaA5','ChitungwizaA6','ChitungwizaA7','ChitungwizaA8','ChitungwizaA9','ChitungwizaA10','ChitungwizaA11','ChitungwizaA12','ChitungwizaA13','ChitungwizaA14','ChitungwizaA15'
                 );
             </sqlCheck>
       </preConditions>

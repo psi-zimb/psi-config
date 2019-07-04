@@ -25,7 +25,7 @@
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
                 select count(*) from location where name in 
-                ('NAHA2','NAHA3','NAHA4','NAHA5','NAHA6','NAHA7','NAHA8','NAHA9','NAHA10','NAHA11','NAHA12','NAHA13','NAHA14','NAH15'
+                ('NAHA2','NAHA3','NAHA4','NAHA5','NAHA6','NAHA7','NAHA8','NAHA9','NAHA10','NAHA11','NAHA12','NAHA13','NAHA14','NAHA15'
                 );
             </sqlCheck>
       </preConditions>
