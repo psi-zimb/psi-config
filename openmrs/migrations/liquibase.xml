@@ -136,6 +136,11 @@
         <sqlFile path="IPT_Program_Concepts.sql"/>
     </changeSet>
 
+    <changeSet id="PSI-CONFIG-20190745" author="Yash">
+        <comment>Adding IPT Program Concepts Concepts</comment>
+        <sqlFile path="HTS_Program_Concepts.sql"/>
+    </changeSet>
+
     <include file ="ART_Program.xml"/>
 
     <include file ="PrEP_Program.xml"/>
@@ -150,28 +155,8 @@
 
     <include file ="FPS_Program.xml"/>
 
+    <include file ="HTS_Program.xml"/>
+
     <include file ="CHITUNGWIZA_Location.xml"/>
-
-    <include file ="BAMBANANI_Location.xml"/>
-
-    <include file ="NAH_Location.xml"/>
-
-    <include file ="GWERU_Location.xml"/>
-
-    <include file ="MUTARE_Location.xml"/>
-
-    <include file ="NEMC_Location.xml"/>
-
-    <include file ="NKULUMANE_Location.xml"/>
-
-    <include file ="TRIANGLE_Location.xml"/>
-
-    <include file ="CHIPINGE_Location.xml"/>
-
-    <include file ="CHIREDZI_Location.xml"/>
-
-    <include file ="MAC_Location.xml"/>
-
-    <include file ="MASVINGO_Location.xml"/>
 
 </databaseChangeLog>

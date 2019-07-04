@@ -77,7 +77,7 @@
     "order": 6,
     "requiredPrivilege": "app:clinical"
   },
-    "bahmniProgramPatientsSearchActivePatientsForFPSPrograms": {
+  "bahmniProgramPatientsSearchActivePatientsForFPSPrograms": {
     "id": "bahmni.clinical.patients.search.activeFPSPatients",
     "extensionPointId": "org.bahmni.patient.search",
     "type": "config",
@@ -90,6 +90,19 @@
     "order": 7,
     "requiredPrivilege": "app:clinical"
   },
+  "bahmniProgramPatientsSearchActivePatientsForHTSPrograms": {
+    "id": "bahmni.clinical.patients.search.activeHTSPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.activeHTSPatients",
+      "display": "HTS Program",
+      "forwardUrl": "#/programs/patient/{{patientUuid}}/consultationContext"
+    },
+    "label": "HTS",
+    "order": 8,
+    "requiredPrivilege": "app:clinical"
+  },
     "bahmniClinicalPatientsSearchAllPatients": {
         "id": "bahmni.clinical.patients.search.allPatients",
         "extensionPointId": "org.bahmni.patient.search",
@@ -99,7 +112,7 @@
             "forwardUrl": "#/programs/patient/{{patientUuid}}/consultationContext"
         },
         "label": "All",
-        "order": 8,
+        "order": 9,
         "requiredPrivilege": "app:clinical"
     },
     "observations": {
