@@ -10134,6 +10134,331 @@ Bahmni.ConceptSet.FormConditions.rules = {
           conditions.hide.push("Prep Cont Form, District");
      }
           return conditions;
-  }
+  },
+    "Viac Form, Site Type": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['Viac Form, Site Type'];
+     if (conditionConcept =="Outreach") {
+          conditions.show.push("Viac Form, District");
+     }
+     else
+     {
+          conditions.hide.push("Viac Form, District");
+     }
+      return conditions;
+   },
+
+    "Viac Form, TYPE OF VISIT": function (formName, formFieldValues) {
+      var conditions = {enable: [], disable: []};
+      var conditionConcept = formFieldValues['Viac Form, TYPE OF VISIT'];
+      if (conditionConcept == "Repeat") {
+
+          conditions.disable.push("Viac Form, Review after Specify details");
+          conditions.disable.push("Viac Form, Treatment Specify treatment");
+          conditions.enable.push("Viac Form, Repeat Specify period");
+      }
+      else if (conditionConcept == "Treatment")
+      {
+          conditions.enable.push("Viac Form, Treatment Specify treatment");
+          conditions.disable.push("Viac Form, Review after Specify details");
+          conditions.disable.push("Viac Form, Repeat Specify period");
+      }
+      else if (conditionConcept == "Review after")
+      {
+        conditions.enable.push("Viac Form, Review after Specify details");
+        conditions.disable.push("Viac Form, Treatment Specify treatment");
+        conditions.disable.push("Viac Form, Repeat Specify period");
+      }
+      else
+      {
+          conditions.disable.push("Viac Form, Repeat Specify period","Viac Form, Treatment Specify treatment","Viac Form, Review after Specify details");
+      }
+      return conditions;
+    },
+    "Viac Form, PRESENTING COMPLAINTS": function(formName, formFieldValues) {
+       var conditions = {enable: [], disable: []};
+       var conditionConcept = formFieldValues['Viac Form, PRESENTING COMPLAINTS'];
+       if (conditionConcept =="Yes") {
+            conditions.enable.push("Viac Form, PRESENTING COMPLAINTS Specify details");
+
+       }
+       else
+       {
+            conditions.disable.push("Viac Form, PRESENTING COMPLAINTS Specify details");
+       }
+            return conditions;
+       },
+      "Viac Form, PRESENTING COMPLAINTS Specify details": function(formName, formFieldValues) {
+         var conditions = {enable: [], disable: []};
+         var conditionConcept = formFieldValues['Viac Form, PRESENTING COMPLAINTS Specify details'];
+         if (conditionConcept.indexOf("Other") >=0) {
+              conditions.enable.push("Viac Form, PRESENTING COMPLAINTS If Other Specify details");
+
+         }
+         else
+         {
+              conditions.disable.push("Viac Form, PRESENTING COMPLAINTS If Other Specify details");
+         }
+              return conditions;
+      },
+    "Viac Form, EVER TREATED FOR STIS": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Viac Form, EVER TREATED FOR STIS'];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Viac Form, EVER TREATED FOR STIS Specify details");
+
+     }
+     else
+     {
+          conditions.disable.push("Viac Form, EVER TREATED FOR STIS Specify details");
+     }
+          return conditions;
+     },
+     "Viac Form, EVER TREATED FOR STIS Specify details": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['Viac Form, EVER TREATED FOR STIS Specify details'];
+        if (conditionConcept.indexOf("Other") >=0) {
+             conditions.enable.push("Viac Form, EVER TREATED FOR STIS If Other Specify details");
+
+        }
+        else
+        {
+             conditions.disable.push("Viac Form, EVER TREATED FOR STIS If Other Specify details");
+        }
+             return conditions;
+      },
+      "Viac Form, Have you ever used COC": function(formName, formFieldValues) {
+       var conditions = {enable: [], disable: []};
+       var conditionConcept = formFieldValues['Viac Form, Have you ever used COC'];
+       if (conditionConcept == "Yes") {
+            conditions.enable.push("Viac Form, COC For how many years?");
+       }
+       else
+       {
+            conditions.disable.push("Viac Form, COC For how many years?");
+       }
+            return conditions;
+       },
+       "Viac Form, History of smoking": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['Viac Form, History of smoking'];
+        if (conditionConcept == "Yes") {
+             conditions.enable.push("Viac Form, Smoking For how many years");
+        }
+        else
+        {
+             conditions.disable.push("Viac Form, Smoking For how many years");
+        }
+             return conditions;
+        },
+        "Viac Form, Current Medication for Chronic conditions" : function (formName, formFieldValues) {
+          var conditions = {enable: [], disable: []};
+          var statusProphylaxieType = formFieldValues["Viac Form, Current Medication for Chronic conditions"];
+
+        if (statusProphylaxieType == "Yes") {
+                // show: ["Viac Form, Chronic conditions Specify details"]
+                conditions.enable.push("Viac Form, Chronic conditions Specify details");
+            }
+        else {
+                // hide: ["Viac Form, Chronic conditions Specify details"]
+                conditions.disable.push("Viac Form, Chronic conditions Specify details");
+             }
+             return conditions;
+       },
+       "Viac Form, Chronic conditions Specify details": function(formName, formFieldValues) {
+          var conditions = {enable: [], disable: []};
+          var conditionConcept = formFieldValues['Viac Form, Chronic conditions Specify details'];
+          if (conditionConcept.indexOf("Other") >=0) {
+               conditions.enable.push("Viac Form, Chronic conditions If Other Specify details");
+
+          }
+          else
+          {
+               conditions.disable.push("Viac Form, Chronic conditions If Other Specify details");
+          }
+               return conditions;
+        },
+      "Viac Form, PRIOR CA CERVIX SCREENING IN LIFETIME": function(formName, formFieldValues) {
+         var conditions = {enable: [], disable: []};
+         var conditionConcept = formFieldValues['Viac Form, PRIOR CA CERVIX SCREENING IN LIFETIME'];
+         if (conditionConcept =="Yes") {
+              conditions.enable.push("Viac Form, When were you last screened?","Viac Form, Method used in your last screen");
+         }
+         else
+         {
+              conditions.disable.push("Viac Form, When were you last screened?","Viac Form, Method used in your last screen");
+         }
+              return conditions;
+         },
+         "Viac Form, SCREENING METHOD USED On This Visit": function(formName, formFieldValues) {
+            var conditions = {enable: [], disable: []};
+            var conditionConcept = formFieldValues['Viac Form, SCREENING METHOD USED On This Visit'];
+            if (conditionConcept =="Viac Form, HPV DNA") {
+                 conditions.enable.push("Viac Form, Specimen collected by");
+            }
+            else
+            {
+                 conditions.disable.push("Viac Form, Specimen collected by");
+            }
+                 return conditions;
+          },
+          "Viac Form, RESULT": function(formName, formFieldValues) {
+             var conditions = {enable: [], disable: []};
+             var conditionConcept = formFieldValues['Viac Form, RESULT'];
+             if (conditionConcept =="Positive") {
+                  conditions.enable.push("Viac Form, Intervention");
+             }
+             else
+             {
+                  conditions.disable.push("Viac Form, Intervention");
+             }
+                  return conditions;
+           },
+           "Viac Form, OTHER PATHOLOGICAL LESIONS SEEN": function(formName, formFieldValues) {
+              var conditions = {enable: [], disable: []};
+              var conditionConcept = formFieldValues['Viac Form, OTHER PATHOLOGICAL LESIONS SEEN'];
+              if (conditionConcept.indexOf("Other") >=0) {
+                   conditions.enable.push("Viac Form, PATHOLOGICAL LESIONS SEEN If Other Specify details");
+
+              }
+              else
+              {
+                   conditions.disable.push("Viac Form, PATHOLOGICAL LESIONS SEEN If Other Specify details");
+              }
+                   return conditions;
+            },
+           "Viac Form, TREATMENT GIVEN": function(formName, formFieldValues) {
+              var conditions = {enable: [], disable: []};
+              var conditionConcept = formFieldValues['Viac Form, TREATMENT GIVEN'];
+              if (conditionConcept =="Yes") {
+                   conditions.enable.push("Viac Form, TREATMENT GIVEN Specify details");
+              }
+              else
+              {
+                   conditions.disable.push("Viac Form, TREATMENT GIVEN Specify details");
+              }
+                   return conditions;
+            },
+            "Viac Form, Client Referred": function(formName, formFieldValues) {
+               var conditions = {enable: [], disable: []};
+               var conditionConcept = formFieldValues['Viac Form, Client Referred'];
+               if (conditionConcept =="Yes") {
+                    conditions.enable.push("Viac Form, Referred to");
+                    conditions.enable.push("Viac Form, referred for Public Sector");
+                    conditions.enable.push("Viac Form, referred for PVT sector");
+                    conditions.enable.push("Viac Form, referred for Other NSC");
+               }
+               else
+               {
+                 conditions.disable.push("Viac Form, Referred to");
+                 conditions.disable.push("Viac Form, referred for Public Sector");
+                 conditions.disable.push("Viac Form, referred for PVT sector");
+                 conditions.disable.push("Viac Form, referred for Other NSC");
+               }
+                    return conditions;
+             },
+             "Viac Form, referred for Public Sector": function(formName, formFieldValues) {
+                var conditions = {enable: [], disable: []};
+                var conditionConcept = formFieldValues['Viac Form, referred for Public Sector'];
+                if (conditionConcept.indexOf("Other") >=0) {
+                     conditions.enable.push("Viac Form, Referred for If Other Specify details");
+                }
+                else
+                {
+                     conditions.disable.push("Viac Form, Referred for If Other Specify details");
+                }
+                     return conditions;
+              },
+              "Viac Form, referred for PVT sector": function(formName, formFieldValues) {
+                var conditions = {enable: [], disable: []};
+                var conditionConcept = formFieldValues['Viac Form, referred for PVT sector'];
+                if (conditionConcept.indexOf("Other") >=0) {
+                     conditions.enable.push("Viac Form, Referred for If Other Specify details PVT Sector");
+                }
+                else
+                {
+                     conditions.disable.push("Viac Form, Referred for If Other Specify details PVT Sector");
+                }
+                     return conditions;
+              },
+              "Viac Form, referred for Other NSC": function(formName, formFieldValues) {
+                var conditions = {enable: [], disable: []};
+                var conditionConcept = formFieldValues['Viac Form, referred for Other NSC'];
+                if (conditionConcept.indexOf("Other") >=0) {
+                     conditions.enable.push("Viac Form, Referred for If Other Specify details Other NSC");
+                }
+                else
+                {
+                     conditions.disable.push("Viac Form, Referred for If Other Specify details Other NSC");
+                }
+                     return conditions;
+              },
+              "Viac Form, Complications/ Adverse events during procedure": function(formName, formFieldValues) {
+                 var conditions = {enable: [], disable: []};
+                 var conditionConcept = formFieldValues['Viac Form, Complications/ Adverse events during procedure'];
+                 if (conditionConcept =="Yes") {
+                      conditions.enable.push("Viac Form, Adverse events during procedure Specify details");
+                 }
+                 else
+                 {
+                      conditions.disable.push("Viac Form, Adverse events during procedure Specify details");
+                 }
+                      return conditions;
+               },
+               "Viac Form, Adverse events during procedure Specify details": function(formName, formFieldValues) {
+                  var conditions = {enable: [], disable: []};
+                  var conditionConcept = formFieldValues['Viac Form, Adverse events during procedure Specify details'];
+                  if (conditionConcept.indexOf("Other") >=0) {
+                       conditions.enable.push("Viac Form, Complications/ Adverse events during procedure , If Other Specify details");
+                  }
+                  else
+                  {
+                       conditions.disable.push("Viac Form, Complications/ Adverse events during procedure , If Other Specify details");
+                  }
+                       return conditions;
+                },
+                "Viac Form, Next appointment": function (formName, formFieldValues) {
+                  var conditions = {enable: [], disable: []};
+                  var conditionConcept = formFieldValues['Viac Form, Next appointment'];
+                  if (conditionConcept == "Viac Form, REPEAT Screening")
+                  {
+                      conditions.disable.push("Viac Form, Answer REVIEW");
+                      conditions.enable.push("Viac Form, Answer REPEAT Screening");
+                  }
+                  else if (conditionConcept == "Viac Form, REVIEW")
+                  {
+                      conditions.enable.push("Viac Form, Answer REVIEW");
+                      conditions.disable.push("Viac Form, Answer REPEAT Screening");
+                  }
+                  else
+                  {
+                      conditions.disable.push("Viac Form, Answer REVIEW","Viac Form, Answer REPEAT Screening");
+                  }
+                  return conditions;
+                },
+                "Viac Form, Answer REPEAT Screening": function(formName, formFieldValues) {
+                   var conditions = {enable: [], disable: []};
+                   var conditionConcept = formFieldValues['Viac Form, Answer REPEAT Screening'];
+                   if (conditionConcept=="Other") {
+                        conditions.enable.push("Viac Form, Repeat Screening If Other Specify details");
+                   }
+                   else
+                   {
+                        conditions.disable.push("Viac Form, Repeat Screening If Other Specify details");
+                   }
+                        return conditions;
+                 },
+                 "Viac Form, Answer REVIEW": function(formName, formFieldValues) {
+                    var conditions = {enable: [], disable: []};
+                    var conditionConcept = formFieldValues['Viac Form, Answer REVIEW'];
+                    if (conditionConcept=="Other") {
+                         conditions.enable.push("Viac Form, REVIEW If Other Specify details");
+                    }
+                    else
+                    {
+                         conditions.disable.push("Viac Form, REVIEW If Other Specify details");
+                    }
+                         return conditions;
+                  }
 
 }

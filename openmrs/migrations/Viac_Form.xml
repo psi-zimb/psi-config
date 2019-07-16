@@ -1,0 +1,2137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet id="PSI-CONFIG-201907022026" author="Pritam">
+          <comment>Adding VIAC form  Concepts</comment>
+          <sqlFile path="Viac_Form_Concepts.sql"/>
+  </changeSet>
+  <changeSet id="PSI-CONFIG-201907030329" author="Pritam">
+      <sql>
+        INSERT INTO concept_numeric
+        (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision)
+        VALUES ((select concept_id from concept_name where name = 'Viac Form, Gravida'
+        and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
+        INSERT INTO concept_numeric
+        (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision)
+        VALUES ((select concept_id from concept_name where name = 'Viac Form, Parity'
+        and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
+        INSERT INTO concept_numeric
+        (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision)
+        VALUES ((select concept_id from concept_name where name = 'Viac Form, Wgt'
+        and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
+        INSERT INTO concept_numeric
+        (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision)
+        VALUES ((select concept_id from concept_name where name = 'Viac Form, T'
+        and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
+        INSERT INTO concept_numeric
+        (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision)
+        VALUES ((select concept_id from concept_name where name = 'Viac Form, BP'
+        and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
+        INSERT INTO concept_numeric
+        (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision)
+        VALUES ((select concept_id from concept_name where name = 'Viac Form, P'
+        and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
+        INSERT INTO concept_numeric
+        (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision)
+        VALUES ((select concept_id from concept_name where name = 'Viac Form, AGE AT SEXUAL DEBUT'
+        and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
+        INSERT INTO concept_numeric
+        (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision)
+        VALUES ((select concept_id from concept_name where name = 'Viac Form, NO.OF LIFETIME PARTNERS'
+        and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
+        INSERT INTO concept_numeric
+        (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision)
+        VALUES ((select concept_id from concept_name where name = 'Viac Form, Systolic'
+        and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,140.0,NULL,NULL,110.0,'mm Hg',1,NULL);
+        INSERT INTO concept_numeric
+        (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision)
+        VALUES ((select concept_id from concept_name where name = 'Viac Form, Diastolic'
+        and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,90.0,NULL,NULL,70.0,'mm Hg',1,NULL);
+      </sql>
+  </changeSet>
+  <changeSet id="PSI-CONFIG-201907022027" author="Pritam">
+          <preConditions onFail="MARK_RAN">
+              <sqlCheck expectedResult="0">
+                     select count(*) from concept_answer ca
+                     join
+                     concept_name cn
+                     on ca.concept_id = cn.concept_id
+                     where ca.answer_concept IN (select concept_id from concept_name where name IN
+                     (
+                     'BAMBANANI',
+                      'MAC',
+                      'GWERU',
+                      'NKULUMANE',
+                      'CHITUNGWIZA',
+                      'NAH',
+                      'CHIPINGE',
+                      'MUTARE',
+                      'CONCESSION',
+                      'CHIREDZI',
+                      'TRIANGLE',
+                      'MASVINGO'
+                      ) and concept_name_type = "FULLY_SPECIFIED")
+                     AND
+                     cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, Facility");
+             </sqlCheck>
+          </preConditions>
+          <comment>Adding Answers to Viac Form, Facility Question</comment>
+          <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+            set @child6_concept_id = 0;
+            set @child7_concept_id = 0;
+            set @child8_concept_id = 0;
+            set @child9_concept_id = 0;
+            set @child10_concept_id = 0;
+            set @child11_concept_id = 0;
+            set @child12_concept_id = 0;
+
+          select concept_id into @concept_id from concept_name where name = "Viac Form, Facility" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+          select concept_id into @child1_concept_id from concept_name where name = 'BAMBANANI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child2_concept_id from concept_name where name = 'MAC' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child3_concept_id from concept_name where name = 'GWERU' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child4_concept_id from concept_name where name = 'NKULUMANE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child5_concept_id from concept_name where name = 'CHITUNGWIZA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child6_concept_id from concept_name where name = 'NAH' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child7_concept_id from concept_name where name = 'CHIPINGE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child8_concept_id from concept_name where name = 'MUTARE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child9_concept_id from concept_name where name = 'CONCESSION' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child10_concept_id from concept_name where name = 'CHIREDZI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child11_concept_id from concept_name where name = 'TRIANGLE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child12_concept_id from concept_name where name = 'MASVINGO' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+          call add_concept_answer(@concept_id, @child1_concept_id, 1);
+          call add_concept_answer(@concept_id, @child2_concept_id, 2);
+          call add_concept_answer(@concept_id, @child3_concept_id, 3);
+          call add_concept_answer(@concept_id, @child4_concept_id, 4);
+          call add_concept_answer(@concept_id, @child5_concept_id, 5);
+          call add_concept_answer(@concept_id, @child6_concept_id, 6);
+          call add_concept_answer(@concept_id, @child7_concept_id, 7);
+          call add_concept_answer(@concept_id, @child8_concept_id, 8);
+          call add_concept_answer(@concept_id, @child9_concept_id, 9);
+          call add_concept_answer(@concept_id, @child10_concept_id, 10);
+          call add_concept_answer(@concept_id, @child11_concept_id, 11);
+          call add_concept_answer(@concept_id, @child12_concept_id, 12);
+
+          </sql>
+  </changeSet>
+  <changeSet id="PSI-CONFIG-201907022028" author="Pritam">
+      <preConditions onFail="MARK_RAN">
+          <sqlCheck expectedResult="0">
+                 select count(*) from concept_answer ca
+                 join
+                 concept_name cn
+                 on ca.concept_id = cn.concept_id
+                 where ca.answer_concept IN (select concept_id from concept_name where name IN
+                 (
+                 'BEITBRIDGE', 'BIKITA', 'BINDURA', 'BINGA', 'BUBI', 'BUHERA', 'BULAWAYO', 'BULILIMA', 'CENTENARY', 'CHEGUTU', 'CHIKOMBA', 'CHIMANIMANI', 'CHIPINGE', 'CHIREDZI', 'CHIRUMHANZU', 'CHIVI', 'GOKWE NORTH', 'GOKWE SOUTH', 'GOROMONZI', 'GURUVE', 'GUTU', 'GWANDA', 'GWERU', 'HARARE', 'HURUNGWE', 'HWANGE', 'HWEDZA', 'INSIZA', 'KADOMA', 'KARIBA', 'KWEKWE', 'LUPANE', 'MAKONDE', 'MAKONI', 'MANGWE', 'MARONDERA', 'MASVINGO', 'MATOBO', 'MAZOWE', 'MBERENGWA', 'MBIRE', 'MT.DARWIN', 'MUDZI', 'MUREWA', 'MUTARE', 'MUTASA', 'MUTOKO', 'MWENEZI', 'NKAYI', 'NYANGA', 'OUT', 'RUSHINGA', 'SEKE', 'SHAMVA', 'SHURUGWI', 'TSHOLOTSHO', 'U.B.H.', 'U.M.P', 'UMGUZA', 'UMZINGWANE', 'ZAKA', 'ZVIMBA', 'ZVISHAVANE'
+                  ) and concept_name_type = "FULLY_SPECIFIED")
+                 AND
+                 cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, District");
+              </sqlCheck>
+      </preConditions>
+      <comment>Adding Answers to Viac Form, District Question</comment>
+      <sql>
+          set @concept_id = 0;
+          set @child1_concept_id = 0;
+          set @child2_concept_id = 0;
+          set @child3_concept_id = 0;
+          set @child4_concept_id = 0;
+          set @child5_concept_id = 0;
+          set @child6_concept_id = 0;
+          set @child7_concept_id = 0;
+          set @child8_concept_id = 0;
+          set @child9_concept_id = 0;
+          set @child10_concept_id = 0;
+          set @child11_concept_id = 0;
+          set @child12_concept_id = 0;
+          set @child13_concept_id = 0;
+          set @child14_concept_id = 0;
+          set @child15_concept_id = 0;
+          set @child16_concept_id = 0;
+          set @child17_concept_id = 0;
+          set @child18_concept_id = 0;
+          set @child19_concept_id = 0;
+          set @child20_concept_id = 0;
+          set @child21_concept_id = 0;
+          set @child22_concept_id = 0;
+          set @child23_concept_id = 0;
+          set @child24_concept_id = 0;
+          set @child25_concept_id = 0;
+          set @child26_concept_id = 0;
+          set @child27_concept_id = 0;
+          set @child28_concept_id = 0;
+          set @child29_concept_id = 0;
+          set @child30_concept_id = 0;
+          set @child31_concept_id = 0;
+          set @child32_concept_id = 0;
+          set @child33_concept_id = 0;
+          set @child34_concept_id = 0;
+          set @child35_concept_id = 0;
+          set @child36_concept_id = 0;
+          set @child37_concept_id = 0;
+          set @child38_concept_id = 0;
+          set @child39_concept_id = 0;
+          set @child40_concept_id = 0;
+          set @child41_concept_id = 0;
+          set @child42_concept_id = 0;
+          set @child43_concept_id = 0;
+          set @child44_concept_id = 0;
+          set @child45_concept_id = 0;
+          set @child46_concept_id = 0;
+          set @child47_concept_id = 0;
+          set @child48_concept_id = 0;
+          set @child49_concept_id = 0;
+          set @child50_concept_id = 0;
+          set @child51_concept_id = 0;
+          set @child52_concept_id = 0;
+          set @child53_concept_id = 0;
+          set @child54_concept_id = 0;
+          set @child55_concept_id = 0;
+          set @child56_concept_id = 0;
+          set @child57_concept_id = 0;
+          set @child58_concept_id = 0;
+          set @child59_concept_id = 0;
+          set @child60_concept_id = 0;
+          set @child61_concept_id = 0;
+          set @child61_concept_id = 0;
+          set @child63_concept_id = 0;
+
+          select concept_id into @concept_id from concept_name where name = "Viac Form, District" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+          select concept_id into @child1_concept_id from concept_name where name = 'BEITBRIDGE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child2_concept_id from concept_name where name = 'BIKITA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child3_concept_id from concept_name where name = 'BINDURA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child4_concept_id from concept_name where name = 'BINGA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child5_concept_id from concept_name where name = 'BUBI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child6_concept_id from concept_name where name = 'BUHERA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child7_concept_id from concept_name where name = 'BULAWAYO' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child8_concept_id from concept_name where name = 'BULILIMA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child9_concept_id from concept_name where name = 'CENTENARY' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child10_concept_id from concept_name where name = 'CHEGUTU' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child11_concept_id from concept_name where name = 'CHIKOMBA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child12_concept_id from concept_name where name = 'CHIMANIMANI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child13_concept_id from concept_name where name = 'CHIPINGE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child14_concept_id from concept_name where name = 'CHIREDZI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child15_concept_id from concept_name where name = 'CHIRUMHANZU' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child16_concept_id from concept_name where name = 'CHIVI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child17_concept_id from concept_name where name = 'GOKWE NORTH' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child18_concept_id from concept_name where name = 'GOKWE SOUTH' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child19_concept_id from concept_name where name = 'GOROMONZI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child20_concept_id from concept_name where name = 'GURUVE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child21_concept_id from concept_name where name = 'GUTU' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child22_concept_id from concept_name where name = 'GWANDA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child23_concept_id from concept_name where name = 'GWERU' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child24_concept_id from concept_name where name = 'HARARE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child25_concept_id from concept_name where name = 'HURUNGWE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child26_concept_id from concept_name where name = 'HWANGE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child27_concept_id from concept_name where name = 'HWEDZA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child28_concept_id from concept_name where name = 'INSIZA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child29_concept_id from concept_name where name = 'KADOMA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child30_concept_id from concept_name where name = 'KARIBA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child31_concept_id from concept_name where name = 'KWEKWE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child32_concept_id from concept_name where name = 'LUPANE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child33_concept_id from concept_name where name = 'MAKONDE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child34_concept_id from concept_name where name = 'MAKONI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child35_concept_id from concept_name where name = 'MANGWE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child36_concept_id from concept_name where name = 'MARONDERA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child37_concept_id from concept_name where name = 'MASVINGO' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child38_concept_id from concept_name where name = 'MATOBO' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child39_concept_id from concept_name where name = 'MAZOWE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child40_concept_id from concept_name where name = 'MBERENGWA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child41_concept_id from concept_name where name = 'MBIRE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child42_concept_id from concept_name where name = 'MT.DARWIN' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child43_concept_id from concept_name where name = 'MUDZI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child44_concept_id from concept_name where name = 'MUREWA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child45_concept_id from concept_name where name = 'MUTARE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child46_concept_id from concept_name where name = 'MUTASA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child47_concept_id from concept_name where name = 'MUTOKO' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child48_concept_id from concept_name where name = 'MWENEZI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child49_concept_id from concept_name where name = 'NKAYI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child50_concept_id from concept_name where name = 'NYANGA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child51_concept_id from concept_name where name = 'OUT' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child52_concept_id from concept_name where name = 'RUSHINGA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child53_concept_id from concept_name where name = 'SEKE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child54_concept_id from concept_name where name = 'SHAMVA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child55_concept_id from concept_name where name = 'SHURUGWI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child56_concept_id from concept_name where name = 'TSHOLOTSHO' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child57_concept_id from concept_name where name = 'U.B.H.' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child58_concept_id from concept_name where name = 'U.M.P' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child59_concept_id from concept_name where name = 'UMGUZA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child60_concept_id from concept_name where name = 'UMZINGWANE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child61_concept_id from concept_name where name = 'ZAKA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child62_concept_id from concept_name where name = 'ZVIMBA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child63_concept_id from concept_name where name = 'ZVISHAVANE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+          call add_concept_answer(@concept_id, @child1_concept_id, 1);
+          call add_concept_answer(@concept_id, @child2_concept_id, 2);
+          call add_concept_answer(@concept_id, @child3_concept_id, 3);
+          call add_concept_answer(@concept_id, @child4_concept_id, 4);
+          call add_concept_answer(@concept_id, @child5_concept_id, 5);
+          call add_concept_answer(@concept_id, @child6_concept_id, 6);
+          call add_concept_answer(@concept_id, @child7_concept_id, 7);
+          call add_concept_answer(@concept_id, @child8_concept_id, 8);
+          call add_concept_answer(@concept_id, @child9_concept_id, 9);
+          call add_concept_answer(@concept_id, @child10_concept_id, 10);
+          call add_concept_answer(@concept_id, @child11_concept_id, 11);
+          call add_concept_answer(@concept_id, @child12_concept_id, 12);
+          call add_concept_answer(@concept_id, @child13_concept_id, 13);
+          call add_concept_answer(@concept_id, @child14_concept_id, 14);
+          call add_concept_answer(@concept_id, @child15_concept_id, 15);
+          call add_concept_answer(@concept_id, @child16_concept_id, 16);
+          call add_concept_answer(@concept_id, @child17_concept_id, 17);
+          call add_concept_answer(@concept_id, @child18_concept_id, 18);
+          call add_concept_answer(@concept_id, @child19_concept_id, 19);
+          call add_concept_answer(@concept_id, @child20_concept_id, 20);
+          call add_concept_answer(@concept_id, @child21_concept_id, 21);
+          call add_concept_answer(@concept_id, @child22_concept_id, 22);
+          call add_concept_answer(@concept_id, @child23_concept_id, 23);
+          call add_concept_answer(@concept_id, @child24_concept_id, 24);
+          call add_concept_answer(@concept_id, @child25_concept_id, 25);
+          call add_concept_answer(@concept_id, @child26_concept_id, 26);
+          call add_concept_answer(@concept_id, @child27_concept_id, 27);
+          call add_concept_answer(@concept_id, @child28_concept_id, 28);
+          call add_concept_answer(@concept_id, @child29_concept_id, 29);
+          call add_concept_answer(@concept_id, @child30_concept_id, 30);
+          call add_concept_answer(@concept_id, @child31_concept_id, 31);
+          call add_concept_answer(@concept_id, @child32_concept_id, 32);
+          call add_concept_answer(@concept_id, @child33_concept_id, 33);
+          call add_concept_answer(@concept_id, @child34_concept_id, 34);
+          call add_concept_answer(@concept_id, @child35_concept_id, 35);
+          call add_concept_answer(@concept_id, @child36_concept_id, 36);
+          call add_concept_answer(@concept_id, @child37_concept_id, 37);
+          call add_concept_answer(@concept_id, @child38_concept_id, 38);
+          call add_concept_answer(@concept_id, @child39_concept_id, 39);
+          call add_concept_answer(@concept_id, @child40_concept_id, 40);
+          call add_concept_answer(@concept_id, @child41_concept_id, 41);
+          call add_concept_answer(@concept_id, @child42_concept_id, 42);
+          call add_concept_answer(@concept_id, @child43_concept_id, 43);
+          call add_concept_answer(@concept_id, @child44_concept_id, 44);
+          call add_concept_answer(@concept_id, @child45_concept_id, 45);
+          call add_concept_answer(@concept_id, @child46_concept_id, 46);
+          call add_concept_answer(@concept_id, @child47_concept_id, 47);
+          call add_concept_answer(@concept_id, @child48_concept_id, 48);
+          call add_concept_answer(@concept_id, @child49_concept_id, 49);
+          call add_concept_answer(@concept_id, @child50_concept_id, 50);
+          call add_concept_answer(@concept_id, @child51_concept_id, 51);
+          call add_concept_answer(@concept_id, @child52_concept_id, 52);
+          call add_concept_answer(@concept_id, @child53_concept_id, 53);
+          call add_concept_answer(@concept_id, @child54_concept_id, 54);
+          call add_concept_answer(@concept_id, @child55_concept_id, 55);
+          call add_concept_answer(@concept_id, @child56_concept_id, 56);
+          call add_concept_answer(@concept_id, @child57_concept_id, 57);
+          call add_concept_answer(@concept_id, @child58_concept_id, 58);
+          call add_concept_answer(@concept_id, @child59_concept_id, 59);
+          call add_concept_answer(@concept_id, @child60_concept_id, 60);
+          call add_concept_answer(@concept_id, @child61_concept_id, 61);
+          call add_concept_answer(@concept_id, @child62_concept_id, 62);
+          call add_concept_answer(@concept_id, @child63_concept_id, 63);
+
+      </sql>
+  </changeSet>
+  <changeSet id="PSI-CONFIG-201907022029" author="Pritam">
+      <preConditions onFail="MARK_RAN">
+          <sqlCheck expectedResult="0">
+                 select count(*) from concept_answer ca
+                 join
+                 concept_name cn
+                 on ca.concept_id = cn.concept_id
+                 where ca.answer_concept IN (select concept_id from concept_name where name IN ('Static','Outreach') and concept_name_type = "FULLY_SPECIFIED")
+                 AND
+                 cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, Site Type");
+              </sqlCheck>
+      </preConditions>
+      <comment>Adding Answers to Viac Form, Site Type Question</comment>
+      <sql>
+          set @concept_id = 0;
+          set @child1_concept_id = 0;
+          set @child2_concept_id = 0;
+
+          select concept_id into @concept_id from concept_name where name = "Viac Form, Site Type" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child1_concept_id from concept_name where name = 'Static' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child2_concept_id from concept_name where name = 'Outreach' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+          call add_concept_answer(@concept_id, @child1_concept_id, 1);
+          call add_concept_answer(@concept_id, @child2_concept_id, 2);
+      </sql>
+  </changeSet>
+  <changeSet id="PSI-CONFIG-201907022030" author="Pritam">
+      <preConditions onFail="MARK_RAN">
+          <sqlCheck expectedResult="0">
+                 select count(*) from concept_answer ca
+                 join
+                 concept_name cn
+                 on ca.concept_id = cn.concept_id
+                 where ca.answer_concept IN (select concept_id from concept_name where name IN ('Urban','Rural') and concept_name_type = "FULLY_SPECIFIED")
+                 AND
+                 cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, Setting");
+              </sqlCheck>
+      </preConditions>
+      <comment>Adding Answers to Viac Form, Setting Question</comment>
+      <sql>
+          set @concept_id = 0;
+          set @child1_concept_id = 0;
+          set @child2_concept_id = 0;
+
+          select concept_id into @concept_id from concept_name where name = "Viac Form, Setting" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child1_concept_id from concept_name where name = 'Urban' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child2_concept_id from concept_name where name = 'Rural' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+          call add_concept_answer(@concept_id, @child1_concept_id, 1);
+          call add_concept_answer(@concept_id, @child2_concept_id, 2);
+      </sql>
+  </changeSet>
+  <changeSet id="PSI-CONFIG-201907022031" author="Pritam">
+      <preConditions onFail="MARK_RAN">
+          <sqlCheck expectedResult="0">
+                 select COUNT(*) from concept_set cs
+                 join concept_name cn
+                 on cs.concept_id = cn.concept_id
+                 where cs.concept_id IN (select concept_id from concept_name where name IN
+                 (
+                 "Viac Form, Facility",
+                 "Viac Form, Site Type",
+                 "Viac Form, District",
+                 "Viac Form, Setting"
+                 )
+                 AND concept_name_type = "FULLY_SPECIFIED")
+                 and cs.concept_set IN (select concept_id from concept_name where name = "Viac Form, Service Provided");
+              </sqlCheck>
+      </preConditions>
+      <comment>Adding set members to Viac Form, Service Provided Form</comment>
+      <sql>
+          set @concept_id = 0;
+          select concept_id into @concept_id from concept_name where name = "Viac Form, Service Provided" and concept_name_type = 'FULLY_SPECIFIED' and voided = 0;
+
+          SELECT concept_id INTO @concept_id1 FROM concept_name WHERE name = 'Viac Form, Facility' AND concept_name_type="FULLY_SPECIFIED";
+          INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id1,@concept_id,1,1,now(),uuid());
+
+          SELECT concept_id INTO @concept_id2 FROM concept_name WHERE name = 'Viac Form, Site Type' AND concept_name_type="FULLY_SPECIFIED";
+          INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id2,@concept_id,2,1,now(),uuid());
+
+          SELECT concept_id INTO @concept_id3 FROM concept_name WHERE name = 'Viac Form, District' AND concept_name_type="FULLY_SPECIFIED";
+          INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id3,@concept_id,3,1,now(),uuid());
+
+          SELECT concept_id INTO @concept_id4 FROM concept_name WHERE name = 'Viac Form, Setting' AND concept_name_type="FULLY_SPECIFIED";
+          INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id4,@concept_id,4,1,now(),uuid());
+
+      </sql>
+   </changeSet>
+
+
+       <changeSet id="PSI-CONFIG-2019071234" author="Yash">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                   select COUNT(*) from concept_set cs
+                   join concept_name cn
+                   on cs.concept_id = cn.concept_id
+                   where cs.concept_id IN (select concept_id from concept_name where name IN
+                   (
+                   "Viac Form, Systolic",
+                   "Viac Form, Systolic Abnormal"
+                   )
+                   AND concept_name_type = "FULLY_SPECIFIED")
+                   and cs.concept_set IN (select concept_id from concept_name where name = "Viac Form, Blood Pressure Systolic Data");
+                </sqlCheck>
+        </preConditions>
+        <comment>Adding set members to Viac Form, Systolic Data</comment>
+        <sql>
+            set @concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "Viac Form, Blood Pressure Systolic Data" and concept_name_type = 'FULLY_SPECIFIED' and voided = 0;
+
+            SELECT concept_id INTO @concept_id1 FROM concept_name WHERE name = 'Viac Form, Systolic' AND concept_name_type="FULLY_SPECIFIED";
+            INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id1,@concept_id,1,1,now(),uuid());
+
+            SELECT concept_id INTO @concept_id2 FROM concept_name WHERE name = 'Viac Form, Systolic Abnormal' AND concept_name_type="FULLY_SPECIFIED";
+            INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id2,@concept_id,2,1,now(),uuid());
+        </sql>
+     </changeSet>
+
+     <changeSet id="PSI-CONFIG-2019071235" author="Yash">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                   select COUNT(*) from concept_set cs
+                   join concept_name cn
+                   on cs.concept_id = cn.concept_id
+                   where cs.concept_id IN (select concept_id from concept_name where name IN
+                   (
+                   "Viac Form, Diastolic",
+                   "Viac Form, Diastolic Abnormal"
+                   )
+                   AND concept_name_type = "FULLY_SPECIFIED")
+                   and cs.concept_set IN (select concept_id from concept_name where name = "Viac Form, Blood Pressure Diastolic Data");
+                </sqlCheck>
+        </preConditions>
+        <comment>Adding set members to Viac Form, Systolic Data</comment>
+        <sql>
+            set @concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "Viac Form, Blood Pressure Diastolic Data" and concept_name_type = 'FULLY_SPECIFIED' and voided = 0;
+
+            SELECT concept_id INTO @concept_id1 FROM concept_name WHERE name = 'Viac Form, Diastolic' AND concept_name_type="FULLY_SPECIFIED";
+            INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id1,@concept_id,1,1,now(),uuid());
+
+            SELECT concept_id INTO @concept_id2 FROM concept_name WHERE name = 'Viac Form, Diastolic Abnormal' AND concept_name_type="FULLY_SPECIFIED";
+            INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id2,@concept_id,2,1,now(),uuid());
+        </sql>
+     </changeSet>
+
+     <changeSet id="PSI-CONFIG-2019071236" author="Yash">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                   select COUNT(*) from concept_set cs
+                   join concept_name cn
+                   on cs.concept_id = cn.concept_id
+                   where cs.concept_id IN (select concept_id from concept_name where name IN
+                   (
+                   "Viac Form, Blood Pressure Systolic Data",
+                   "Viac Form, Blood Pressure Diastolic Data"
+                   )
+                   AND concept_name_type = "FULLY_SPECIFIED")
+                   and cs.concept_set IN (select concept_id from concept_name where name = "Viac Form, BP");
+                </sqlCheck>
+        </preConditions>
+        <comment>Adding set members to Viac Form, Systolic Data</comment>
+        <sql>
+            set @concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "Viac Form, BP" and concept_name_type = 'FULLY_SPECIFIED' and voided = 0;
+
+            SELECT concept_id INTO @concept_id1 FROM concept_name WHERE name = 'Viac Form, Blood Pressure Systolic Data' AND concept_name_type="FULLY_SPECIFIED";
+            INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id1,@concept_id,1,1,now(),uuid());
+
+            SELECT concept_id INTO @concept_id2 FROM concept_name WHERE name = 'Viac Form, Blood Pressure Diastolic Data' AND concept_name_type="FULLY_SPECIFIED";
+            INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id2,@concept_id,2,1,now(),uuid());
+        </sql>
+     </changeSet>
+
+
+
+    <changeSet id="PSI-CONFIG-201907022328" author="Pritam">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                   select COUNT(*) from concept_set cs
+                   join concept_name cn
+                   on cs.concept_id = cn.concept_id
+                   where cs.concept_id IN (select concept_id from concept_name where name IN
+                   (
+                   "Viac Form, Wgt",
+                   "Viac Form, T",
+                   "Viac Form, BP",
+                   "Viac Form, P"
+                   )
+                   AND concept_name_type = "FULLY_SPECIFIED")
+                   and cs.concept_set IN (select concept_id from concept_name where name = "Viac Form, Observations");
+                </sqlCheck>
+        </preConditions>
+        <comment>Adding set members to Viac Form, Observation section</comment>
+        <sql>
+            set @concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "Viac Form, Observations" and concept_name_type = 'FULLY_SPECIFIED' and voided = 0;
+
+            SELECT concept_id INTO @concept_id1 FROM concept_name WHERE name = 'Viac Form, Wgt' AND concept_name_type="FULLY_SPECIFIED";
+            INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id1,@concept_id,1,1,now(),uuid());
+
+            SELECT concept_id INTO @concept_id2 FROM concept_name WHERE name = 'Viac Form, T' AND concept_name_type="FULLY_SPECIFIED";
+            INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id2,@concept_id,2,1,now(),uuid());
+
+            SELECT concept_id INTO @concept_id3 FROM concept_name WHERE name = 'Viac Form, BP' AND concept_name_type="FULLY_SPECIFIED";
+            INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id3,@concept_id,3,1,now(),uuid());
+
+            SELECT concept_id INTO @concept_id4 FROM concept_name WHERE name = 'Viac Form, P' AND concept_name_type="FULLY_SPECIFIED";
+            INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id4,@concept_id,4,1,now(),uuid());
+        </sql>
+     </changeSet>
+
+   <changeSet id="PSI-CONFIG-201907022329" author="Pritam">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN ("1 year", "Viac Form, 2 Years", "Viac Form, 3 Years", "Viac Form, 4 Years", "Viac Form, 5 Years", "Viac Form, >5 Years") and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, Repeat Specify period");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to Viac Form, Repeat Specify period Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+               set @child3_concept_id = 0;
+               set @child4_concept_id = 0;
+               set @child5_concept_id = 0;
+               set @child6_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "Viac Form, Repeat Specify period" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               select concept_id into @child1_concept_id from concept_name where name = '1 year' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'Viac Form, 2 Years' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child3_concept_id from concept_name where name = 'Viac Form, 3 Years' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child4_concept_id from concept_name where name = 'Viac Form, 4 Years' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child5_concept_id from concept_name where name = 'Viac Form, 5 Years' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child6_concept_id from concept_name where name = 'Viac Form, >5 Years' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+               call add_concept_answer(@concept_id, @child3_concept_id, 3);
+               call add_concept_answer(@concept_id, @child4_concept_id, 4);
+               call add_concept_answer(@concept_id, @child5_concept_id, 5);
+               call add_concept_answer(@concept_id, @child6_concept_id, 6);
+           </sql>
+   </changeSet>
+   <changeSet id="PSI-CONFIG-201907022330" author="Pritam">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN ("Viac Form, Cryotherapy","Viac Form, Thermocoagulation","Viac Form, Treatment LEEP") and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, Treatment Specify treatment");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to Viac Form, Treatment Specify treatment Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+               set @child3_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "Viac Form, Treatment Specify treatment" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               select concept_id into @child1_concept_id from concept_name where name = 'Viac Form, Cryotherapy' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'Viac Form, Thermocoagulation' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child3_concept_id from concept_name where name = 'Viac Form, Treatment LEEP' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+               call add_concept_answer(@concept_id, @child3_concept_id, 3);
+           </sql>
+   </changeSet>
+   <changeSet id="PSI-CONFIG-201907022331" author="Pritam">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN ("Viac Form, Cryotherapy", "Viac Form, Thermocoagulation", "Viac Form, Review after LEEP", "Viac Form, Antibiotics", "Other") and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, Review after Specify details");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to Viac Form, Review after Specify details Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+               set @child3_concept_id = 0;
+               set @child4_concept_id = 0;
+               set @child5_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "Viac Form, Review after Specify details" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               select concept_id into @child1_concept_id from concept_name where name = 'Viac Form, Cryotherapy' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'Viac Form, Thermocoagulation' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child3_concept_id from concept_name where name = 'Viac Form, Review after LEEP' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child4_concept_id from concept_name where name = 'Viac Form, Antibiotics' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child5_concept_id from concept_name where name = 'Other' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+               call add_concept_answer(@concept_id, @child3_concept_id, 3);
+               call add_concept_answer(@concept_id, @child4_concept_id, 4);
+               call add_concept_answer(@concept_id, @child5_concept_id, 5);
+           </sql>
+   </changeSet>
+   <changeSet id="PSI-CONFIG-201907022332" author="Pritam">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN ("Viac Form, Initial (never been screened before for CaCx)", "Viac Form, Repeat", "Viac Form, Treatment", "Viac Form, Review after", "Viac Form, VIAC after Positive HPV DNA Test", "Viac Form, Counseling Only") and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, TYPE OF VISIT");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to Viac Form, TYPE OF VISIT  Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+               set @child3_concept_id = 0;
+               set @child4_concept_id = 0;
+               set @child5_concept_id = 0;
+               set @child6_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "Viac Form, TYPE OF VISIT" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               select concept_id into @child1_concept_id from concept_name where name = 'Viac Form, Initial (never been screened before for CaCx)' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'Viac Form, Repeat' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child3_concept_id from concept_name where name = 'Viac Form, Treatment' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child4_concept_id from concept_name where name = 'Viac Form, Review after' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child5_concept_id from concept_name where name = 'Viac Form, VIAC after Positive HPV DNA Test' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child6_concept_id from concept_name where name = 'Viac Form, Counseling Only' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+               call add_concept_answer(@concept_id, @child3_concept_id, 3);
+               call add_concept_answer(@concept_id, @child4_concept_id, 4);
+               call add_concept_answer(@concept_id, @child5_concept_id, 5);
+               call add_concept_answer(@concept_id, @child6_concept_id, 6);
+           </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-201907022333" author="Pritam">
+            <preConditions onFail="MARK_RAN">
+                <sqlCheck expectedResult="0">
+                       select count(*) from concept_answer ca
+                       join
+                       concept_name cn
+                       on ca.concept_id = cn.concept_id
+                       where ca.answer_concept IN (select concept_id from concept_name where name IN ("Negative","Positive","Unknown") and concept_name_type = "FULLY_SPECIFIED")
+                       AND
+                       cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, HIV STATUS");
+                    </sqlCheck>
+            </preConditions>
+            <comment>Adding Answers to Viac Form, HIV STATUS Question</comment>
+            <sql>
+                set @concept_id = 0;
+                set @child1_concept_id = 0;
+                set @child2_concept_id = 0;
+                set @child3_concept_id = 0;
+
+                select concept_id into @concept_id from concept_name where name = "Viac Form, HIV STATUS" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                select concept_id into @child1_concept_id from concept_name where name = 'Negative' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @child2_concept_id from concept_name where name = 'Positive' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @child3_concept_id from concept_name where name = 'Unknown' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                call add_concept_answer(@concept_id, @child1_concept_id, 1);
+                call add_concept_answer(@concept_id, @child2_concept_id, 2);
+                call add_concept_answer(@concept_id, @child3_concept_id, 3);
+            </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-201907022334" author="Pritam">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN ("Viac Form, Lower Abdominal Pain", "Viac Form, Lower Back Pain", "Viac Form, PV Discharge", "Viac Form, PV Bleeding", "Other") and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, PRESENTING COMPLAINTS Specify details");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to Viac Form, PRESENTING COMPLAINTS Specify details Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+               set @child3_concept_id = 0;
+               set @child4_concept_id = 0;
+               set @child5_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "Viac Form, PRESENTING COMPLAINTS Specify details" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               select concept_id into @child1_concept_id from concept_name where name = 'Viac Form, Lower Abdominal Pain' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'Viac Form, Lower Back Pain' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child3_concept_id from concept_name where name = 'Viac Form, PV Discharge' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child4_concept_id from concept_name where name = 'Viac Form, PV Bleeding' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child5_concept_id from concept_name where name = 'Other' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+               call add_concept_answer(@concept_id, @child3_concept_id, 3);
+               call add_concept_answer(@concept_id, @child4_concept_id, 4);
+               call add_concept_answer(@concept_id, @child5_concept_id, 5);
+           </sql>
+     </changeSet>
+     <changeSet id="PSI-CONFIG-201907022335" author="Pritam">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN ('Yes','No') and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, PRESENTING COMPLAINTS");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to Viac Form, PRESENTING COMPLAINTS Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "Viac Form, PRESENTING COMPLAINTS" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+           </sql>
+      </changeSet>
+      <changeSet id="PSI-CONFIG-201907022336" author="Pritam">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN ("Viac Form, Genital Ulcer Disease", "Viac Form, Vaginal Discharge Syndrome",
+                      "Viac Form, Pelvic Inflamatory Disease", "Viac Form, Genital Herpes", "Viac Form, Genital warts", "Other") and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, EVER TREATED FOR STIS Specify details");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to Viac Form, EVER TREATED FOR STIS Specify details  Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+               set @child3_concept_id = 0;
+               set @child4_concept_id = 0;
+               set @child5_concept_id = 0;
+               set @child6_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "Viac Form, EVER TREATED FOR STIS Specify details" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               select concept_id into @child1_concept_id from concept_name where name = 'Viac Form, Genital Ulcer Disease' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'Viac Form, Vaginal Discharge Syndrome' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child3_concept_id from concept_name where name = 'Viac Form, Pelvic Inflamatory Disease' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child4_concept_id from concept_name where name = 'Viac Form, Genital Herpes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child5_concept_id from concept_name where name = 'Viac Form, Genital warts' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child6_concept_id from concept_name where name = 'Other' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+               call add_concept_answer(@concept_id, @child3_concept_id, 3);
+               call add_concept_answer(@concept_id, @child4_concept_id, 4);
+               call add_concept_answer(@concept_id, @child5_concept_id, 5);
+               call add_concept_answer(@concept_id, @child6_concept_id, 6);
+           </sql>
+	    </changeSet>
+      <changeSet id="PSI-CONFIG-201907022337" author="Pritam">
+            <preConditions onFail="MARK_RAN">
+                <sqlCheck expectedResult="0">
+                       select count(*) from concept_answer ca
+                       join
+                       concept_name cn
+                       on ca.concept_id = cn.concept_id
+                       where ca.answer_concept IN (select concept_id from concept_name where name IN ('Yes','No') and concept_name_type = "FULLY_SPECIFIED")
+                       AND
+                       cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, EVER TREATED FOR STIS");
+                    </sqlCheck>
+            </preConditions>
+            <comment>Adding Answers to Viac Form, EVER TREATED FOR STIS Question</comment>
+            <sql>
+                set @concept_id = 0;
+                set @child1_concept_id = 0;
+                set @child2_concept_id = 0;
+
+                select concept_id into @concept_id from concept_name where name = "Viac Form, EVER TREATED FOR STIS" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                call add_concept_answer(@concept_id, @child1_concept_id, 1);
+                call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            </sql>
+       </changeSet>
+       <changeSet id="PSI-CONFIG-201907022338" author="Pritam">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN ("Always","Sometimes","Never","Viac Form, Abstinent") and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, CONDOM USE WITH REGULAR/NON REGULAR PARTNER");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to Viac Form, CONDOM USE WITH REGULAR/NON REGULAR PARTNER Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+               set @child3_concept_id = 0;
+               set @child4_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "Viac Form, CONDOM USE WITH REGULAR/NON REGULAR PARTNER" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               select concept_id into @child1_concept_id from concept_name where name = 'Always' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'Sometimes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child3_concept_id from concept_name where name = 'Never' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child4_concept_id from concept_name where name = 'Viac Form, Abstinent' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+               call add_concept_answer(@concept_id, @child3_concept_id, 3);
+               call add_concept_answer(@concept_id, @child4_concept_id, 4);
+           </sql>
+	     </changeSet>
+       <changeSet id="PSI-CONFIG-201907022339" author="Pritam">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN
+                      (
+                      "Viac Form, Emergency contraception", "Viac Form, Projesterone only pill (POP)", "Viac Form, Combined oral contaceptive (COC)",
+                      "Viac Form, Injectable (Petogen)", "Viac Form, Implanon Implants", "Viac Form, Jadelle Implants", "Viac Form, Copper T IUCD",
+                      "Viac Form, LNG-IUS IUCD", "Viac Form, Vasectomy", "Viac Form, Tuberligation", "Viac Form, Condoms", "None", "Other"
+                      ) and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, PRIOR FAMILY PLANNING PREDOMINANTLY USED");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to Viac Form, PRIOR FAMILY PLANNING PREDOMINANTLY USED Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+               set @child3_concept_id = 0;
+               set @child4_concept_id = 0;
+               set @child5_concept_id = 0;
+               set @child6_concept_id = 0;
+               set @child7_concept_id = 0;
+               set @child8_concept_id = 0;
+               set @child9_concept_id = 0;
+               set @child10_concept_id = 0;
+               set @child11_concept_id = 0;
+               set @child12_concept_id = 0;
+               set @child13_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "Viac Form, PRIOR FAMILY PLANNING PREDOMINANTLY USED" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               select concept_id into @child1_concept_id from concept_name where name = 'Viac Form, Emergency contraception' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'Viac Form, Projesterone only pill (POP)' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child3_concept_id from concept_name where name = 'Viac Form, Combined oral contaceptive (COC)' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child4_concept_id from concept_name where name = 'Viac Form, Injectable (Petogen)' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child5_concept_id from concept_name where name = 'Viac Form, Implanon Implants' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child6_concept_id from concept_name where name = 'Viac Form, Jadelle Implants' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child7_concept_id from concept_name where name = 'Viac Form, Copper T IUCD' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child8_concept_id from concept_name where name = 'Viac Form, LNG-IUS IUCD' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child9_concept_id from concept_name where name = 'Viac Form, Vasectomy' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child10_concept_id from concept_name where name = 'Viac Form, Tuberligation' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child11_concept_id from concept_name where name = 'Viac Form, Condoms' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child12_concept_id from concept_name where name = 'None' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child13_concept_id from concept_name where name = 'Other' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+               call add_concept_answer(@concept_id, @child3_concept_id, 3);
+               call add_concept_answer(@concept_id, @child4_concept_id, 4);
+               call add_concept_answer(@concept_id, @child5_concept_id, 5);
+               call add_concept_answer(@concept_id, @child6_concept_id, 6);
+               call add_concept_answer(@concept_id, @child7_concept_id, 7);
+               call add_concept_answer(@concept_id, @child8_concept_id, 8);
+               call add_concept_answer(@concept_id, @child9_concept_id, 9);
+               call add_concept_answer(@concept_id, @child10_concept_id, 10);
+               call add_concept_answer(@concept_id, @child11_concept_id, 11);
+               call add_concept_answer(@concept_id, @child12_concept_id, 12);
+               call add_concept_answer(@concept_id, @child13_concept_id, 13);
+           </sql>
+	    </changeSet>
+      <changeSet id="PSI-CONFIG-20190702240" author="Pritam">
+              <preConditions onFail="MARK_RAN">
+                  <sqlCheck expectedResult="0">
+                         select count(*) from concept_answer ca
+                         join
+                         concept_name cn
+                         on ca.concept_id = cn.concept_id
+                         where ca.answer_concept IN (select concept_id from concept_name where name IN ("Viac Form, less than 1","1 year", "Viac Form, 2 Years", "Viac Form, 3 Years", "Viac Form, 4 Years", "Viac Form, 5 Years", "Viac Form, >5 Years") and concept_name_type = "FULLY_SPECIFIED")
+                         AND
+                         cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, COC For how many years? ");
+                      </sqlCheck>
+              </preConditions>
+              <comment>Adding Answers to Viac Form, COC For how many years? Question</comment>
+              <sql>
+                  set @concept_id = 0;
+                  set @child1_concept_id = 0;
+                  set @child2_concept_id = 0;
+                  set @child3_concept_id = 0;
+                  set @child4_concept_id = 0;
+                  set @child5_concept_id = 0;
+                  set @child6_concept_id = 0;
+                  set @child7_concept_id = 0;
+
+                  select concept_id into @concept_id from concept_name where name = "Viac Form, COC For how many years?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                  select concept_id into @child1_concept_id from concept_name where name = 'Viac Form, less than 1' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child2_concept_id from concept_name where name = '1 year' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child3_concept_id from concept_name where name = 'Viac Form, 2 Years' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child4_concept_id from concept_name where name = 'Viac Form, 3 Years' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child5_concept_id from concept_name where name = 'Viac Form, 4 Years' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child6_concept_id from concept_name where name = 'Viac Form, 5 Years' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child7_concept_id from concept_name where name = 'Viac Form, >5 Years' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                  call add_concept_answer(@concept_id, @child1_concept_id, 1);
+                  call add_concept_answer(@concept_id, @child2_concept_id, 2);
+                  call add_concept_answer(@concept_id, @child3_concept_id, 3);
+                  call add_concept_answer(@concept_id, @child4_concept_id, 4);
+                  call add_concept_answer(@concept_id, @child5_concept_id, 5);
+                  call add_concept_answer(@concept_id, @child6_concept_id, 6);
+                  call add_concept_answer(@concept_id, @child7_concept_id, 7);
+              </sql>
+      </changeSet>
+      <changeSet id="PSI-CONFIG-201907022341" author="Pritam">
+            <preConditions onFail="MARK_RAN">
+                <sqlCheck expectedResult="0">
+                       select count(*) from concept_answer ca
+                       join
+                       concept_name cn
+                       on ca.concept_id = cn.concept_id
+                       where ca.answer_concept IN (select concept_id from concept_name where name IN ('Yes','No') and concept_name_type = "FULLY_SPECIFIED")
+                       AND
+                       cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, Have you ever used COC");
+                    </sqlCheck>
+            </preConditions>
+            <comment>Adding Answers to Viac Form, Have you ever used COC Question</comment>
+            <sql>
+                set @concept_id = 0;
+                set @child1_concept_id = 0;
+                set @child2_concept_id = 0;
+
+                select concept_id into @concept_id from concept_name where name = "Viac Form, Have you ever used COC" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                call add_concept_answer(@concept_id, @child1_concept_id, 1);
+                call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            </sql>
+       </changeSet>
+       <changeSet id="PSI-CONFIG-20190702242" author="Pritam">
+               <preConditions onFail="MARK_RAN">
+                   <sqlCheck expectedResult="0">
+                          select count(*) from concept_answer ca
+                          join
+                          concept_name cn
+                          on ca.concept_id = cn.concept_id
+                          where ca.answer_concept IN (select concept_id from concept_name where name IN ("Viac Form, less than 1","1 year", "Viac Form, 2 Years", "Viac Form, 3 Years", "Viac Form, 4 Years", "Viac Form, 5 Years", "Viac Form, >5 Years") and concept_name_type = "FULLY_SPECIFIED")
+                          AND
+                          cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, Smoking For how many years");
+                       </sqlCheck>
+               </preConditions>
+               <comment>Adding Answers to Viac Form, COC For how many years? Question</comment>
+               <sql>
+                   set @concept_id = 0;
+                   set @child1_concept_id = 0;
+                   set @child2_concept_id = 0;
+                   set @child3_concept_id = 0;
+                   set @child4_concept_id = 0;
+                   set @child5_concept_id = 0;
+                   set @child6_concept_id = 0;
+                   set @child7_concept_id = 0;
+
+                   select concept_id into @concept_id from concept_name where name = "Viac Form, Smoking For how many years" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                   select concept_id into @child1_concept_id from concept_name where name = 'Viac Form, less than 1' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                   select concept_id into @child2_concept_id from concept_name where name = '1 year' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                   select concept_id into @child3_concept_id from concept_name where name = 'Viac Form, 2 Years' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                   select concept_id into @child4_concept_id from concept_name where name = 'Viac Form, 3 Years' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                   select concept_id into @child5_concept_id from concept_name where name = 'Viac Form, 4 Years' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                   select concept_id into @child6_concept_id from concept_name where name = 'Viac Form, 5 Years' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                   select concept_id into @child7_concept_id from concept_name where name = 'Viac Form, >5 Years' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                   call add_concept_answer(@concept_id, @child1_concept_id, 1);
+                   call add_concept_answer(@concept_id, @child2_concept_id, 2);
+                   call add_concept_answer(@concept_id, @child3_concept_id, 3);
+                   call add_concept_answer(@concept_id, @child4_concept_id, 4);
+                   call add_concept_answer(@concept_id, @child5_concept_id, 5);
+                   call add_concept_answer(@concept_id, @child6_concept_id, 6);
+                   call add_concept_answer(@concept_id, @child7_concept_id, 7);
+               </sql>
+       </changeSet>
+       <changeSet id="PSI-CONFIG-201907022343" author="Pritam">
+             <preConditions onFail="MARK_RAN">
+                 <sqlCheck expectedResult="0">
+                        select count(*) from concept_answer ca
+                        join
+                        concept_name cn
+                        on ca.concept_id = cn.concept_id
+                        where ca.answer_concept IN (select concept_id from concept_name where name IN ('Yes','No') and concept_name_type = "FULLY_SPECIFIED")
+                        AND
+                        cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, History of smoking");
+                     </sqlCheck>
+             </preConditions>
+             <comment>Adding Answers to Viac Form, History of smoking Question</comment>
+             <sql>
+                 set @concept_id = 0;
+                 set @child1_concept_id = 0;
+                 set @child2_concept_id = 0;
+
+                 select concept_id into @concept_id from concept_name where name = "Viac Form, History of smoking" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                 select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                 select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                 call add_concept_answer(@concept_id, @child1_concept_id, 1);
+                 call add_concept_answer(@concept_id, @child2_concept_id, 2);
+             </sql>
+      </changeSet>
+      <changeSet id="PSI-CONFIG-20190702244" author="Pritam">
+              <preConditions onFail="MARK_RAN">
+                  <sqlCheck expectedResult="0">
+                         select count(*) from concept_answer ca
+                         join
+                         concept_name cn
+                         on ca.concept_id = cn.concept_id
+                         where ca.answer_concept IN (select concept_id from concept_name where name IN
+                         (
+                         "Viac Form, Anti-retrovirals", "Viac Form, Anti-hypertensives", "Viac Form, Diabetics",
+                         "Viac Form, Anti-Epleptics", "Viac Form, Chemotherapy", "Viac Form, Anti-Asthmatics", "Other"
+                         ) and concept_name_type = "FULLY_SPECIFIED")
+                         AND
+                         cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, Chronic conditions Specify details");
+                      </sqlCheck>
+              </preConditions>
+              <comment>Adding Answers to Viac Form, Chronic conditions Specify details  Question</comment>
+              <sql>
+                  set @concept_id = 0;
+                  set @child1_concept_id = 0;
+                  set @child2_concept_id = 0;
+                  set @child3_concept_id = 0;
+                  set @child4_concept_id = 0;
+                  set @child5_concept_id = 0;
+                  set @child6_concept_id = 0;
+                  set @child7_concept_id = 0;
+
+                  select concept_id into @concept_id from concept_name where name = "Viac Form, Chronic conditions Specify details" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                  select concept_id into @child1_concept_id from concept_name where name = 'Viac Form, Anti-retrovirals' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child2_concept_id from concept_name where name = 'Viac Form, Anti-hypertensives' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child3_concept_id from concept_name where name = 'Viac Form, Diabetics' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child4_concept_id from concept_name where name = 'Viac Form, Anti-Epleptics' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child5_concept_id from concept_name where name = 'Viac Form, Chemotherapy' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child6_concept_id from concept_name where name = 'Viac Form, Anti-Asthmatics' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child7_concept_id from concept_name where name = 'Other' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                  call add_concept_answer(@concept_id, @child1_concept_id, 1);
+                  call add_concept_answer(@concept_id, @child2_concept_id, 2);
+                  call add_concept_answer(@concept_id, @child3_concept_id, 3);
+                  call add_concept_answer(@concept_id, @child4_concept_id, 4);
+                  call add_concept_answer(@concept_id, @child5_concept_id, 5);
+                  call add_concept_answer(@concept_id, @child6_concept_id, 6);
+                  call add_concept_answer(@concept_id, @child7_concept_id, 7);
+              </sql>
+      </changeSet>
+      <changeSet id="PSI-CONFIG-201907022345" author="Pritam">
+            <preConditions onFail="MARK_RAN">
+                <sqlCheck expectedResult="0">
+                       select count(*) from concept_answer ca
+                       join
+                       concept_name cn
+                       on ca.concept_id = cn.concept_id
+                       where ca.answer_concept IN (select concept_id from concept_name where name IN ('Yes','No') and concept_name_type = "FULLY_SPECIFIED")
+                       AND
+                       cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, Current Medication for Chronic conditions");
+                    </sqlCheck>
+            </preConditions>
+            <comment>Adding Answers to Viac Form, Current Medication for Chronic conditions  Question</comment>
+            <sql>
+                set @concept_id = 0;
+                set @child1_concept_id = 0;
+                set @child2_concept_id = 0;
+
+                select concept_id into @concept_id from concept_name where name = "Viac Form, Current Medication for Chronic conditions" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                call add_concept_answer(@concept_id, @child1_concept_id, 1);
+                call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            </sql>
+     </changeSet>
+     <changeSet id="PSI-CONFIG-20190702246" author="Pritam">
+             <preConditions onFail="MARK_RAN">
+                 <sqlCheck expectedResult="0">
+                        select count(*) from concept_answer ca
+                        join
+                        concept_name cn
+                        on ca.concept_id = cn.concept_id
+                        where ca.answer_concept IN (select concept_id from concept_name where name IN ("Viac Form, less than 1","1 year", "Viac Form, 2 Years", "Viac Form, 3 Years", "Viac Form, 4 Years", "Viac Form, 5 Years", "Viac Form, >5 Years") and concept_name_type = "FULLY_SPECIFIED")
+                        AND
+                        cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, When were you last screened?");
+                     </sqlCheck>
+             </preConditions>
+             <comment>Adding Answers to Viac Form, When were you last screened?  Question</comment>
+             <sql>
+                 set @concept_id = 0;
+                 set @child1_concept_id = 0;
+                 set @child2_concept_id = 0;
+                 set @child3_concept_id = 0;
+                 set @child4_concept_id = 0;
+                 set @child5_concept_id = 0;
+                 set @child6_concept_id = 0;
+                 set @child7_concept_id = 0;
+
+                 select concept_id into @concept_id from concept_name where name = "Viac Form, When were you last screened?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                 select concept_id into @child1_concept_id from concept_name where name = 'Viac Form, less than 1' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                 select concept_id into @child2_concept_id from concept_name where name = '1 year' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                 select concept_id into @child3_concept_id from concept_name where name = 'Viac Form, 2 Years' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                 select concept_id into @child4_concept_id from concept_name where name = 'Viac Form, 3 Years' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                 select concept_id into @child5_concept_id from concept_name where name = 'Viac Form, 4 Years' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                 select concept_id into @child6_concept_id from concept_name where name = 'Viac Form, 5 Years' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                 select concept_id into @child7_concept_id from concept_name where name = 'Viac Form, >5 Years' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                 call add_concept_answer(@concept_id, @child1_concept_id, 1);
+                 call add_concept_answer(@concept_id, @child2_concept_id, 2);
+                 call add_concept_answer(@concept_id, @child3_concept_id, 3);
+                 call add_concept_answer(@concept_id, @child4_concept_id, 4);
+                 call add_concept_answer(@concept_id, @child5_concept_id, 5);
+                 call add_concept_answer(@concept_id, @child6_concept_id, 6);
+                 call add_concept_answer(@concept_id, @child7_concept_id, 7);
+             </sql>
+     </changeSet>
+     <changeSet id="PSI-CONFIG-201907030118" author="Pritam">
+             <preConditions onFail="MARK_RAN">
+                 <sqlCheck expectedResult="0">
+                        select count(*) from concept_answer ca
+                        join
+                        concept_name cn
+                        on ca.concept_id = cn.concept_id
+                        where ca.answer_concept IN (select concept_id from concept_name where name IN ("Viac Form, PAP SMEAR","Viac Form, VIAC","Viac Form, HPV DNA Testing") and concept_name_type = "FULLY_SPECIFIED")
+                        AND
+                        cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, Method used in your last screen");
+                     </sqlCheck>
+             </preConditions>
+             <comment>Adding Answers to Viac Form, Method used in your last screen  Question</comment>
+             <sql>
+                 set @concept_id = 0;
+                 set @child1_concept_id = 0;
+                 set @child2_concept_id = 0;
+                 set @child3_concept_id = 0;
+
+                 select concept_id into @concept_id from concept_name where name = "Viac Form, Method used in your last screen" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                 select concept_id into @child1_concept_id from concept_name where name = 'Viac Form, PAP SMEAR' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                 select concept_id into @child2_concept_id from concept_name where name = 'Viac Form, VIAC' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                 select concept_id into @child3_concept_id from concept_name where name = 'Viac Form, HPV DNA Testing' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                 call add_concept_answer(@concept_id, @child1_concept_id, 1);
+                 call add_concept_answer(@concept_id, @child2_concept_id, 2);
+                 call add_concept_answer(@concept_id, @child3_concept_id, 3);
+             </sql>
+     </changeSet>
+     <changeSet id="PSI-CONFIG-201907030119" author="Pritam">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN ('Yes','No') and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, PRIOR CA CERVIX SCREENING IN LIFETIME");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to Viac Form, PRIOR CA CERVIX SCREENING IN LIFETIME  Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "Viac Form, PRIOR CA CERVIX SCREENING IN LIFETIME" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+           </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-201907030120" author="Pritam">
+          <preConditions onFail="MARK_RAN">
+              <sqlCheck expectedResult="0">
+                     select count(*) from concept_answer ca
+                     join
+                     concept_name cn
+                     on ca.concept_id = cn.concept_id
+                     where ca.answer_concept IN (select concept_id from concept_name where name IN ('Viac Form, Self-collected specimen','Viac Form, Provider-collected specimen') and concept_name_type = "FULLY_SPECIFIED")
+                     AND
+                     cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, Specimen collected by");
+                  </sqlCheck>
+          </preConditions>
+          <comment>Adding Answers to Viac Form, Specimen collected by  Question</comment>
+          <sql>
+              set @concept_id = 0;
+              set @child1_concept_id = 0;
+              set @child2_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "Viac Form, Specimen collected by" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @child1_concept_id from concept_name where name = 'Viac Form, Self-collected specimen' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @child2_concept_id from concept_name where name = 'Viac Form, Provider-collected specimen' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_answer(@concept_id, @child1_concept_id, 1);
+              call add_concept_answer(@concept_id, @child2_concept_id, 2);
+          </sql>
+   </changeSet>
+   <changeSet id="PSI-CONFIG-201907030121" author="Pritam">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN
+                      (
+                      "Viac Form, VIAC/ VIA","Viac Form, HPV DNA","Viac Form, Pap smear"
+                      ) and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, SCREENING METHOD USED On This Visit");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to Viac Form, SCREENING METHOD USED On This Visit  Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+               set @child3_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "Viac Form, SCREENING METHOD USED On This Visit" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               select concept_id into @child1_concept_id from concept_name where name = 'Viac Form, VIAC/ VIA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'Viac Form, HPV DNA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child3_concept_id from concept_name where name = 'Viac Form, Pap smear' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+               call add_concept_answer(@concept_id, @child3_concept_id, 3);
+           </sql>
+   </changeSet>
+   <changeSet id="PSI-CONFIG-201907030122" author="Pritam">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN
+                      (
+                      "Viac Form, Eligible for Cryotherapy/thermocoagulation","Viac Form, Eligible for LEEP","Viac Form, Extensive Lesion"
+                      ) and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, Intervention");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to Viac Form, Intervention  Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+               set @child3_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "Viac Form, Intervention" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               select concept_id into @child1_concept_id from concept_name where name = 'Viac Form, Eligible for Cryotherapy/thermocoagulation' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'Viac Form, Eligible for LEEP' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child3_concept_id from concept_name where name = 'Viac Form, Extensive Lesion' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+               call add_concept_answer(@concept_id, @child3_concept_id, 3);
+           </sql>
+   </changeSet>
+   <changeSet id="PSI-CONFIG-201907030123" author="Pritam">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN ("Negative","Positive","Viac Form, Suspicious of Cancer") and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, RESULT");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to Viac Form, RESULT Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+               set @child3_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "Viac Form, RESULT" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               select concept_id into @child1_concept_id from concept_name where name = 'Negative' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'Positive' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child3_concept_id from concept_name where name = 'Viac Form, Suspicious of Cancer' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+               call add_concept_answer(@concept_id, @child3_concept_id, 3);
+           </sql>
+   </changeSet>
+   <changeSet id="PSI-CONFIG-201907030124" author="Pritam">
+          <preConditions onFail="MARK_RAN">
+              <sqlCheck expectedResult="0">
+                     select count(*) from concept_answer ca
+                     join
+                     concept_name cn
+                     on ca.concept_id = cn.concept_id
+                     where ca.answer_concept IN (select concept_id from concept_name where name IN
+                     (
+                     "Viac Form, Polyps", "Viac Form, Uterine Prolapse", "Viac Form, Nabothian Cysts",
+                     "Viac Form, Strawberry Lesions", "Other"
+                     ) and concept_name_type = "FULLY_SPECIFIED")
+                     AND
+                     cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, OTHER PATHOLOGICAL LESIONS SEEN");
+                  </sqlCheck>
+          </preConditions>
+          <comment>Adding Answers to Viac Form, OTHER PATHOLOGICAL LESIONS SEEN Question</comment>
+          <sql>
+              set @concept_id = 0;
+              set @child1_concept_id = 0;
+              set @child2_concept_id = 0;
+              set @child3_concept_id = 0;
+              set @child4_concept_id = 0;
+              set @child5_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "Viac Form, OTHER PATHOLOGICAL LESIONS SEEN" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              select concept_id into @child1_concept_id from concept_name where name = 'Viac Form, Polyps' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @child2_concept_id from concept_name where name = 'Viac Form, Uterine Prolapse' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @child3_concept_id from concept_name where name = 'Viac Form, Nabothian Cysts' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @child4_concept_id from concept_name where name = 'Viac Form, Strawberry Lesions' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @child5_concept_id from concept_name where name = 'Other' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_answer(@concept_id, @child1_concept_id, 1);
+              call add_concept_answer(@concept_id, @child2_concept_id, 2);
+              call add_concept_answer(@concept_id, @child3_concept_id, 3);
+              call add_concept_answer(@concept_id, @child4_concept_id, 4);
+              call add_concept_answer(@concept_id, @child5_concept_id, 5);
+          </sql>
+    </changeSet>
+
+
+    <changeSet id="PSI-CONFIG-20190712347" author="Yash">
+      <sql>
+        INSERT INTO concept_complex (concept_id,handler) VALUES 
+        ((select concept_id from concept_view where concept_full_name = 'Viac Form, Image One' and retired = 0),'ImageUrlHandler');
+        INSERT INTO concept_complex (concept_id,handler) VALUES 
+        ((select concept_id from concept_view where concept_full_name = 'Viac Form, Image Two' and retired = 0),'ImageUrlHandler');
+        INSERT INTO concept_complex (concept_id,handler) VALUES 
+        ((select concept_id from concept_view where concept_full_name = 'Viac Form, Image Three' and retired = 0),'ImageUrlHandler');
+        INSERT INTO concept_complex (concept_id,handler) VALUES 
+        ((select concept_id from concept_view where concept_full_name = 'Viac Form, Image Four' and retired = 0),'ImageUrlHandler');
+        INSERT INTO concept_complex (concept_id,handler) VALUES 
+        ((select concept_id from concept_view where concept_full_name = 'Viac Form, Image Five' and retired = 0),'ImageUrlHandler');
+      </sql>
+    </changeSet>
+
+         <changeSet id="PSI-CONFIG-201907072252" author="Pritam">
+      <sql>
+        INSERT INTO concept_description (concept_id,description,locale,creator,date_created,changed_by,date_changed,uuid) VALUES ((select concept_id from concept_name where name = 'Viac Form, Image One' and concept_name_type = 'FULLY_SPECIFIED' and voided = 0),'Image One','en',1,now(),NULL,NULL,uuid());
+        INSERT INTO concept_description (concept_id,description,locale,creator,date_created,changed_by,date_changed,uuid) VALUES ((select concept_id from concept_name where name = 'Viac Form, Image Two' and concept_name_type = 'FULLY_SPECIFIED' and voided = 0),'Image Two','en',1,now(),NULL,NULL,uuid());
+        INSERT INTO concept_description (concept_id,description,locale,creator,date_created,changed_by,date_changed,uuid) VALUES ((select concept_id from concept_name where name = 'Viac Form, Image Three' and concept_name_type = 'FULLY_SPECIFIED' and voided = 0),'Image Three','en',1,now(),NULL,NULL,uuid());
+        INSERT INTO concept_description (concept_id,description,locale,creator,date_created,changed_by,date_changed,uuid) VALUES ((select concept_id from concept_name where name = 'Viac Form, Image Four' and concept_name_type = 'FULLY_SPECIFIED' and voided = 0),'Image Four','en',1,now(),NULL,NULL,uuid());
+        INSERT INTO concept_description (concept_id,description,locale,creator,date_created,changed_by,date_changed,uuid) VALUES ((select concept_id from concept_name where name = 'Viac Form, Image Five' and concept_name_type = 'FULLY_SPECIFIED' and voided = 0),'Image Five','en',1,now(),NULL,NULL,uuid());
+      </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201907030125" author="Pritam">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN
+                      (
+                      "Viac Form, Image One", "Viac Form, Image Two", "Viac Form, Image Three",
+                      "Viac Form, Image Four", "Viac Form, Image Five"
+                      ) and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, Picture Files");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to Viac Form, Picture Files Question</comment>
+           <sql>
+               set @concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "Viac Form, Picture Files" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               SELECT concept_id INTO @concept_id1 FROM concept_name WHERE name = 'Viac Form, Image One' AND concept_name_type="FULLY_SPECIFIED";
+               INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id1,@concept_id,1,1,now(),uuid());
+
+               SELECT concept_id INTO @concept_id2 FROM concept_name WHERE name = 'Viac Form, Image Two' AND concept_name_type="FULLY_SPECIFIED";
+               INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id2,@concept_id,2,1,now(),uuid());
+
+               SELECT concept_id INTO @concept_id3 FROM concept_name WHERE name = 'Viac Form, Image Three' AND concept_name_type="FULLY_SPECIFIED";
+               INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id3,@concept_id,3,1,now(),uuid());
+
+               SELECT concept_id INTO @concept_id4 FROM concept_name WHERE name = 'Viac Form, Image Four' AND concept_name_type="FULLY_SPECIFIED";
+               INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id4,@concept_id,4,1,now(),uuid());
+
+               SELECT concept_id INTO @concept_id5 FROM concept_name WHERE name = 'Viac Form, Image Five' AND concept_name_type="FULLY_SPECIFIED";
+               INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id5,@concept_id,5,1,now(),uuid());
+           </sql>
+     </changeSet>
+
+     <changeSet id="PSI-CONFIG-201907030126" author="Pritam">
+            <preConditions onFail="MARK_RAN">
+                <sqlCheck expectedResult="0">
+                       select count(*) from concept_answer ca
+                       join
+                       concept_name cn
+                       on ca.concept_id = cn.concept_id
+                       where ca.answer_concept IN (select concept_id from concept_name where name IN
+                       (
+                       "Viac Form, Antibiotics", "Viac Form, Cryotherapy", "Viac Form, Thermocoagulation",
+                       "Viac Form, TREATMENT GIVEN LEEP"
+                       ) and concept_name_type = "FULLY_SPECIFIED")
+                       AND
+                       cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, TREATMENT GIVEN Specify details");
+                    </sqlCheck>
+            </preConditions>
+            <comment>Adding Answers to Viac Form, Picture Files Question</comment>
+            <sql>
+                set @concept_id = 0;
+                set @child1_concept_id = 0;
+                set @child2_concept_id = 0;
+                set @child3_concept_id = 0;
+                set @child4_concept_id = 0;
+
+                select concept_id into @concept_id from concept_name where name = "Viac Form, TREATMENT GIVEN Specify details" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                select concept_id into @child1_concept_id from concept_name where name = 'Viac Form, Antibiotics' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @child2_concept_id from concept_name where name = 'Viac Form, Cryotherapy' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @child3_concept_id from concept_name where name = 'Viac Form, Thermocoagulation' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @child4_concept_id from concept_name where name = 'Viac Form, TREATMENT GIVEN LEEP' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+
+                call add_concept_answer(@concept_id, @child1_concept_id, 1);
+                call add_concept_answer(@concept_id, @child2_concept_id, 2);
+                call add_concept_answer(@concept_id, @child3_concept_id, 3);
+                call add_concept_answer(@concept_id, @child4_concept_id, 4);
+            </sql>
+      </changeSet>
+      <changeSet id="PSI-CONFIG-201907072146" author="Pritam">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                   select COUNT(*) from concept_set cs
+                   join concept_name cn
+                   on cs.concept_id = cn.concept_id
+                   where cs.concept_id IN (select concept_id from concept_name where name IN
+                   (
+                   "Viac Form, Public Sector",
+                   "Viac Form, PVT sector",
+                   "Viac Form, Other NSC"
+                   )
+                   AND concept_name_type = "FULLY_SPECIFIED")
+                   and cs.concept_set IN (select concept_id from concept_name where name = "Viac Form, Referred to");
+                </sqlCheck>
+        </preConditions>
+        <comment>Adding set members to Viac Form, Referred to Form</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "Viac Form, Referred to" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child1_concept_id from concept_name where name = 'Viac Form, Public Sector' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'Viac Form, PVT sector' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'Viac Form, Other NSC' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+            call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            call add_concept_answer(@concept_id, @child3_concept_id, 3);
+        </sql>
+      </changeSet>
+      <changeSet id="PSI-CONFIG-201907030127" author="Pritam">
+            <preConditions onFail="MARK_RAN">
+                <sqlCheck expectedResult="0">
+                       select count(*) from concept_answer ca
+                       join
+                       concept_name cn
+                       on ca.concept_id = cn.concept_id
+                       where ca.answer_concept IN (select concept_id from concept_name where name IN ('Yes','No') and concept_name_type = "FULLY_SPECIFIED")
+                       AND
+                       cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, TREATMENT GIVEN");
+                    </sqlCheck>
+            </preConditions>
+            <comment>Adding Answers to Viac Form, TREATMENT GIVEN  Question</comment>
+            <sql>
+                set @concept_id = 0;
+                set @child1_concept_id = 0;
+                set @child2_concept_id = 0;
+
+                select concept_id into @concept_id from concept_name where name = "Viac Form, TREATMENT GIVEN" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                call add_concept_answer(@concept_id, @child1_concept_id, 1);
+                call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            </sql>
+     </changeSet>
+     <changeSet id="PSI-CONFIG-201907030128" author="Pritam">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN
+                      (
+                      "Viac Form, Referred to Antibiotics","Viac Form, Referred to Cryotherapy","Viac Form, Referred to Thermocoagulation","Viac Form, Referred to LEEP","Viac Form, Referred to Gynae to see","Other"
+                      ) and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, referred for Public Sector");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to Viac Form, referred for Public Sector Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+               set @child3_concept_id = 0;
+               set @child4_concept_id = 0;
+               set @child5_concept_id = 0;
+               set @child6_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "Viac Form, referred for Public Sector" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               select concept_id into @child1_concept_id from concept_name where name = 'Viac Form, Referred to Antibiotics' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'Viac Form, Referred to Cryotherapy' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child3_concept_id from concept_name where name = 'Viac Form, Referred to Thermocoagulation' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child4_concept_id from concept_name where name = 'Viac Form, Referred to LEEP' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child5_concept_id from concept_name where name = 'Viac Form, Referred to Gynae to see' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child6_concept_id from concept_name where name = 'Other' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+               call add_concept_answer(@concept_id, @child3_concept_id, 3);
+               call add_concept_answer(@concept_id, @child4_concept_id, 4);
+               call add_concept_answer(@concept_id, @child5_concept_id, 5);
+               call add_concept_answer(@concept_id, @child6_concept_id, 6);
+           </sql>
+	</changeSet>
+
+  <changeSet id="PSI-CONFIG-201907164123" author="Yash">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN
+                      (
+                      "Viac Form, Referred to Antibiotics","Viac Form, Referred to Cryotherapy","Viac Form, Referred to Thermocoagulation","Viac Form, Referred to LEEP","Viac Form, Referred to Gynae to see","Other"
+                      ) and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, referred for PVT sector");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to Viac Form, PVT sector Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+               set @child3_concept_id = 0;
+               set @child4_concept_id = 0;
+               set @child5_concept_id = 0;
+               set @child6_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "Viac Form, referred for PVT sector" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               select concept_id into @child1_concept_id from concept_name where name = 'Viac Form, Referred to Antibiotics' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'Viac Form, Referred to Cryotherapy' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child3_concept_id from concept_name where name = 'Viac Form, Referred to Thermocoagulation' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child4_concept_id from concept_name where name = 'Viac Form, Referred to LEEP' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child5_concept_id from concept_name where name = 'Viac Form, Referred to Gynae to see' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child6_concept_id from concept_name where name = 'Other' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+               call add_concept_answer(@concept_id, @child3_concept_id, 3);
+               call add_concept_answer(@concept_id, @child4_concept_id, 4);
+               call add_concept_answer(@concept_id, @child5_concept_id, 5);
+               call add_concept_answer(@concept_id, @child6_concept_id, 6);
+           </sql>
+  </changeSet>
+
+  <changeSet id="PSI-CONFIG-201907164124" author="Yash">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN
+                      (
+                      "Viac Form, Referred to Antibiotics","Viac Form, Referred to Cryotherapy","Viac Form, Referred to Thermocoagulation","Viac Form, Referred to LEEP","Viac Form, Referred to Gynae to see","Other"
+                      ) and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, referred for Other NSC");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to Viac Form, Other NSC Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+               set @child3_concept_id = 0;
+               set @child4_concept_id = 0;
+               set @child5_concept_id = 0;
+               set @child6_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "Viac Form, referred for Other NSC" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               select concept_id into @child1_concept_id from concept_name where name = 'Viac Form, Referred to Antibiotics' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'Viac Form, Referred to Cryotherapy' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child3_concept_id from concept_name where name = 'Viac Form, Referred to Thermocoagulation' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child4_concept_id from concept_name where name = 'Viac Form, Referred to LEEP' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child5_concept_id from concept_name where name = 'Viac Form, Referred to Gynae to see' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child6_concept_id from concept_name where name = 'Other' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+               call add_concept_answer(@concept_id, @child3_concept_id, 3);
+               call add_concept_answer(@concept_id, @child4_concept_id, 4);
+               call add_concept_answer(@concept_id, @child5_concept_id, 5);
+               call add_concept_answer(@concept_id, @child6_concept_id, 6);
+           </sql>
+  </changeSet>
+
+     <changeSet id="PSI-CONFIG-201907030131" author="Pritam">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN ('Yes','No') and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, Client Referred");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to Viac Form, Client Referred   Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "Viac Form, Client Referred" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+           </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-201907030132" author="Pritam">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                   select COUNT(*) from concept_set cs
+                   join concept_name cn
+                   on cs.concept_id = cn.concept_id
+                   where cs.concept_id IN (select concept_id from concept_name where name IN
+                   (
+                   "Viac Form, TREATMENT GIVEN",
+                   "Viac Form, Client Referred",
+                   "Viac Form, TREATMENT GIVEN Specify details",
+                   "Viac Form, Referred to",
+                   "Viac Form, referred for Public Sector",
+                   "Viac Form, Referred for If Other Specify details",
+                   "Viac Form, referred for PVT sector",
+                   "Viac Form, Referred for If Other Specify details PVT Sector",
+                   "Viac Form, referred for Other NSC",
+                   "Viac Form, Referred for If Other Specify details Other NSC"
+
+                   )
+                   AND concept_name_type = "FULLY_SPECIFIED")
+                   and cs.concept_set IN (select concept_id from concept_name where name = "Viac Form, MANAGEMENT");
+                </sqlCheck>
+        </preConditions>
+        <comment>Adding set members to Viac Form, MANAGEMENT Section</comment>
+        <sql>
+            set @concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "Viac Form, MANAGEMENT" and concept_name_type = 'FULLY_SPECIFIED' and voided = 0;
+
+            SELECT concept_id INTO @concept_id1 FROM concept_name WHERE name = 'Viac Form, TREATMENT GIVEN' AND concept_name_type="FULLY_SPECIFIED";
+            INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id1,@concept_id,1,1,now(),uuid());
+
+            SELECT concept_id INTO @concept_id2 FROM concept_name WHERE name = 'Viac Form, TREATMENT GIVEN Specify details' AND concept_name_type="FULLY_SPECIFIED";
+            INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id2,@concept_id,2,1,now(),uuid());
+
+            SELECT concept_id INTO @concept_id3 FROM concept_name WHERE name = 'Viac Form, Client Referred' AND concept_name_type="FULLY_SPECIFIED";
+            INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id3,@concept_id,3,1,now(),uuid());
+
+            SELECT concept_id INTO @concept_id4 FROM concept_name WHERE name = 'Viac Form, Referred to' AND concept_name_type="FULLY_SPECIFIED";
+            INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id4,@concept_id,4,1,now(),uuid());
+
+            SELECT concept_id INTO @concept_id5 FROM concept_name WHERE name = 'Viac Form, referred for Public Sector' AND concept_name_type="FULLY_SPECIFIED";
+            INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id5,@concept_id,5,1,now(),uuid());
+
+            SELECT concept_id INTO @concept_id6 FROM concept_name WHERE name = 'Viac Form, Referred for If Other Specify details' AND concept_name_type="FULLY_SPECIFIED";
+            INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id6,@concept_id,6,1,now(),uuid());
+
+            SELECT concept_id INTO @concept_id7 FROM concept_name WHERE name = 'Viac Form, referred for PVT sector' AND concept_name_type="FULLY_SPECIFIED";
+            INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id7,@concept_id,7,1,now(),uuid());
+
+            SELECT concept_id INTO @concept_id8 FROM concept_name WHERE name = 'Viac Form, Referred for If Other Specify details PVT Sector' AND concept_name_type="FULLY_SPECIFIED";
+            INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id8,@concept_id,8,1,now(),uuid());
+
+            SELECT concept_id INTO @concept_id9 FROM concept_name WHERE name = 'Viac Form, referred for Other NSC' AND concept_name_type="FULLY_SPECIFIED";
+            INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id9,@concept_id,9,1,now(),uuid());
+
+            SELECT concept_id INTO @concept_id10 FROM concept_name WHERE name = 'Viac Form, Referred for If Other Specify details Other NSC' AND concept_name_type="FULLY_SPECIFIED";
+            INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id10,@concept_id,10,1,now(),uuid());
+        </sql>
+     </changeSet>
+     <changeSet id="PSI-CONFIG-201907030133" author="Pritam">
+             <preConditions onFail="MARK_RAN">
+                 <sqlCheck expectedResult="0">
+                        select count(*) from concept_answer ca
+                        join
+                        concept_name cn
+                        on ca.concept_id = cn.concept_id
+                        where ca.answer_concept IN (select concept_id from concept_name where name IN ("Viac Form, Bleeding","Viac Form, Trauma to vaginal wall","Other") and concept_name_type = "FULLY_SPECIFIED")
+                        AND
+                        cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, Adverse events during procedure Specify details");
+                     </sqlCheck>
+             </preConditions>
+             <comment>Adding Answers to Viac Form, Adverse events during procedure Specify details Question</comment>
+             <sql>
+                 set @concept_id = 0;
+                 set @child1_concept_id = 0;
+                 set @child2_concept_id = 0;
+                 set @child3_concept_id = 0;
+
+                 select concept_id into @concept_id from concept_name where name = "Viac Form, Adverse events during procedure Specify details" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                 select concept_id into @child1_concept_id from concept_name where name = 'Viac Form, Bleeding' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                 select concept_id into @child2_concept_id from concept_name where name = 'Viac Form, Trauma to vaginal wall' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                 select concept_id into @child3_concept_id from concept_name where name = 'Other' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                 call add_concept_answer(@concept_id, @child1_concept_id, 1);
+                 call add_concept_answer(@concept_id, @child2_concept_id, 2);
+                 call add_concept_answer(@concept_id, @child3_concept_id, 3);
+             </sql>
+     </changeSet>
+     <changeSet id="PSI-CONFIG-201907030134" author="Pritam">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN ('Yes','No') and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, Complications/ Adverse events during procedure ");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to Viac Form, Complications/ Adverse events during procedure  Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "Viac Form, Complications/ Adverse events during procedure " and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+           </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-201907082042" author="Pritam">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN ("Viac Form, REPEAT Screening","Viac Form, REVIEW","N/A") and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, Next appointment");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to Viac Form, Next appointment  Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+               set @child3_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "Viac Form, Next appointment" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               select concept_id into @child1_concept_id from concept_name where name = 'Viac Form, REPEAT Screening' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'Viac Form, REVIEW' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child3_concept_id from concept_name where name = 'N/A' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+               call add_concept_answer(@concept_id, @child3_concept_id, 3);
+           </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-201907030135" author="Pritam">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN ("1 year","Viac Form, 3 Years","Viac Form, 5 Years","Other") and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, Answer REPEAT Screening");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to Viac Form, REPEAT Screening  Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+               set @child3_concept_id = 0;
+               set @child4_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "Viac Form, Answer REPEAT Screening" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               select concept_id into @child1_concept_id from concept_name where name = '1 year' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'Viac Form, 3 Years' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child3_concept_id from concept_name where name = 'Viac Form, 5 Years' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child4_concept_id from concept_name where name = 'Other' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+               call add_concept_answer(@concept_id, @child3_concept_id, 3);
+               call add_concept_answer(@concept_id, @child4_concept_id, 4);
+           </sql>
+	</changeSet>
+  <changeSet id="PSI-CONFIG-2019070223361" author="Pritam">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN ("4 weeks","Viac Form, 6 Weeks","6 months","Other") and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "Viac Form, Answer REVIEW");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to  Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+               set @child3_concept_id = 0;
+               set @child4_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "Viac Form, Answer REVIEW" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               select concept_id into @child1_concept_id from concept_name where name = '4 weeks' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'Viac Form, 6 Weeks' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child3_concept_id from concept_name where name = '6 months' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child4_concept_id from concept_name where name = 'Other' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+               call add_concept_answer(@concept_id, @child3_concept_id, 3);
+               call add_concept_answer(@concept_id, @child4_concept_id, 4);
+           </sql>
+	</changeSet>
+  <changeSet id="PSI-CONFIG-2019070223376" author="Pritam">
+      <preConditions onFail="MARK_RAN">
+          <sqlCheck expectedResult="0">
+                 select COUNT(*) from concept_set cs
+                 join concept_name cn
+                 on cs.concept_id = cn.concept_id
+                 where cs.concept_id IN (select concept_id from concept_name where name IN
+                 (
+                 "Viac Form, Service Provided",
+                 "Viac Form, Gravida",
+                 "Viac Form, Parity",
+                 "Viac Form, Observations",
+                 "Viac Form, TYPE OF VISIT",
+                 "Viac Form, Repeat Specify period",
+                 "Viac Form, Treatment Specify treatment",
+                 "Viac Form, Review after Specify details",
+                 "Viac Form, HIV STATUS",
+                 "Viac Form, AGE AT SEXUAL DEBUT",
+                 "Viac Form, NO.OF LIFETIME PARTNERS",
+                 "Viac Form, PRESENTING COMPLAINTS",
+                 "Viac Form, PRESENTING COMPLAINTS Specify details",
+                 "Viac Form, PRESENTING COMPLAINTS If Other Specify details",
+                 "Viac Form, EVER TREATED FOR STIS",
+                 "Viac Form, EVER TREATED FOR STIS Specify details",
+                 "Viac Form, EVER TREATED FOR STIS If Other Specify details",
+                 "Viac Form, CONDOM USE WITH REGULAR/NON REGULAR PARTNER",
+                 "Viac Form, PRIOR FAMILY PLANNING PREDOMINANTLY USED",
+                 "Viac Form, Have you ever used COC",
+                 "Viac Form, COC For how many years?",
+                 "Viac Form, History of smoking",
+                 "Viac Form, Smoking For how many years",
+                 "Viac Form, Current Medication for Chronic conditions",
+                 "Viac Form, Chronic conditions Specify details",
+                 "Viac Form, Chronic conditions If Other Specify details",
+                 "Viac Form, PRIOR CA CERVIX SCREENING IN LIFETIME",
+                 "Viac Form, When were you last screened?",
+                 "Viac Form, Method used in your last screen",
+                 "Viac Form, SCREENING METHOD USED On This Visit",
+                 "Viac Form, Specimen collected by",
+                 "Viac Form, RESULT",
+                 "Viac Form, Intervention",
+                 "Viac Form, OTHER PATHOLOGICAL LESIONS SEEN",
+                 "Viac Form, PATHOLOGICAL LESIONS SEEN If Other Specify details",
+                 "Viac Form, Picture Files",
+                 "Viac Form, MANAGEMENT",
+                 "Viac Form, Complications/ Adverse events during procedure",
+                 "Viac Form, Adverse events during procedure Specify details",
+                 "Viac Form, Complications/ Adverse events during procedure , If Other Specify details",
+                 "Viac Form, Next appointment",
+                 "Viac Form, Answer REPEAT Screening",
+                 "Viac Form, Answer REVIEW",
+                 "Viac Form, Repeat Screening If Other Specify details",
+                 "Viac Form, REVIEW If Other Specify details"
+                 )
+                 AND concept_name_type = "FULLY_SPECIFIED")
+                 and cs.concept_set IN (select concept_id from concept_name where name = 'VIAC Form Template');
+              </sqlCheck>
+          </preConditions>
+          <comment>Adding set members to VIAC Form</comment>
+          <sql>
+                SELECT concept_id INTO @concept_id FROM concept_name WHERE name = 'VIAC Form Template' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+
+                SELECT concept_id INTO @concept_id1 FROM concept_name WHERE name = 'Viac Form, Service Provided' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id2 FROM concept_name WHERE name = 'Viac Form, Gravida' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id3 FROM concept_name WHERE name = 'Viac Form, Parity' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id4 FROM concept_name WHERE name = 'Viac Form, Observations' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id5 FROM concept_name WHERE name = 'Viac Form, TYPE OF VISIT' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id6 FROM concept_name WHERE name = 'Viac Form, Repeat Specify period' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id7 FROM concept_name WHERE name = 'Viac Form, Treatment Specify treatment' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id8 FROM concept_name WHERE name = 'Viac Form, Review after Specify details' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id9 FROM concept_name WHERE name = 'Viac Form, HIV STATUS' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id10 FROM concept_name WHERE name = 'Viac Form, AGE AT SEXUAL DEBUT' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id11 FROM concept_name WHERE name = 'Viac Form, NO.OF LIFETIME PARTNERS' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id12 FROM concept_name WHERE name = 'Viac Form, PRESENTING COMPLAINTS' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id13 FROM concept_name WHERE name = 'Viac Form, PRESENTING COMPLAINTS Specify details' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id14 FROM concept_name WHERE name = 'Viac Form, PRESENTING COMPLAINTS If Other Specify details' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id15 FROM concept_name WHERE name = 'Viac Form, EVER TREATED FOR STIS' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id16 FROM concept_name WHERE name = 'Viac Form, EVER TREATED FOR STIS Specify details' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id17 FROM concept_name WHERE name = 'Viac Form, EVER TREATED FOR STIS If Other Specify details' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id18 FROM concept_name WHERE name = 'Viac Form, CONDOM USE WITH REGULAR/NON REGULAR PARTNER' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id19 FROM concept_name WHERE name = 'Viac Form, PRIOR FAMILY PLANNING PREDOMINANTLY USED' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id20 FROM concept_name WHERE name = 'Viac Form, Have you ever used COC' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id21 FROM concept_name WHERE name = 'Viac Form, COC For how many years?' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id22 FROM concept_name WHERE name = 'Viac Form, History of smoking' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id23 FROM concept_name WHERE name = 'Viac Form, Smoking For how many years' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id24 FROM concept_name WHERE name = 'Viac Form, Current Medication for Chronic conditions' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id25 FROM concept_name WHERE name = 'Viac Form, Chronic conditions Specify details' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id26 FROM concept_name WHERE name = 'Viac Form, Chronic conditions If Other Specify details' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id27 FROM concept_name WHERE name = 'Viac Form, PRIOR CA CERVIX SCREENING IN LIFETIME' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id28 FROM concept_name WHERE name = 'Viac Form, When were you last screened?' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id29 FROM concept_name WHERE name = 'Viac Form, Method used in your last screen' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id30 FROM concept_name WHERE name = 'Viac Form, SCREENING METHOD USED On This Visit' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id31 FROM concept_name WHERE name = 'Viac Form, Specimen collected by' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id32 FROM concept_name WHERE name = 'Viac Form, RESULT' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id33 FROM concept_name WHERE name = 'Viac Form, Intervention' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id34 FROM concept_name WHERE name = 'Viac Form, OTHER PATHOLOGICAL LESIONS SEEN' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id35 FROM concept_name WHERE name = 'Viac Form, PATHOLOGICAL LESIONS SEEN If Other Specify details' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id36 FROM concept_name WHERE name = 'Viac Form, Picture Files' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id37 FROM concept_name WHERE name = 'Viac Form, MANAGEMENT' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id38 FROM concept_name WHERE name = 'Viac Form, Complications/ Adverse events during procedure' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id39 FROM concept_name WHERE name = 'Viac Form, Adverse events during procedure Specify details' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id40 FROM concept_name WHERE name = 'Viac Form, Complications/ Adverse events during procedure , If Other Specify details' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id41 FROM concept_name WHERE name = 'Viac Form, Next appointment' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id42 FROM concept_name WHERE name = 'Viac Form, Answer REPEAT Screening' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id43 FROM concept_name WHERE name = 'Viac Form, Repeat Screening If Other Specify details' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id44 FROM concept_name WHERE name = 'Viac Form, Answer REVIEW' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+                SELECT concept_id INTO @concept_id45 FROM concept_name WHERE name = 'Viac Form, REVIEW If Other Specify details' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+
+
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id1,@concept_id,1,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id2,@concept_id,2,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id3,@concept_id,3,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id4,@concept_id,4,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id5,@concept_id,5,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id6,@concept_id,6,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id7,@concept_id,7,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id8,@concept_id,8,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id9,@concept_id,9,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id10,@concept_id,10,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id11,@concept_id,11,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id12,@concept_id,12,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id13,@concept_id,13,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id14,@concept_id,14,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id15,@concept_id,15,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id16,@concept_id,16,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id17,@concept_id,17,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id18,@concept_id,18,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id19,@concept_id,19,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id20,@concept_id,20,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id21,@concept_id,21,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id22,@concept_id,22,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id23,@concept_id,23,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id24,@concept_id,24,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id25,@concept_id,25,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id26,@concept_id,26,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id27,@concept_id,27,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id28,@concept_id,28,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id29,@concept_id,29,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id30,@concept_id,30,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id31,@concept_id,31,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id32,@concept_id,32,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id33,@concept_id,33,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id34,@concept_id,34,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id35,@concept_id,35,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id36,@concept_id,36,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id37,@concept_id,37,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id38,@concept_id,38,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id39,@concept_id,39,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id40,@concept_id,40,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id41,@concept_id,41,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id42,@concept_id,42,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id43,@concept_id,43,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id44,@concept_id,44,1,now(),uuid());
+                INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id45,@concept_id,45,1,now(),uuid());
+          </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-201907071251" author="Pritam">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select COUNT(*) from concept_set cs
+                join concept_name cn
+                on cs.concept_id = cn.concept_id
+                where cs.concept_id IN (select concept_id from concept_name where name ='VIAC Form Template'  AND concept_name_type = "FULLY_SPECIFIED")
+                and cs.concept_set IN (select concept_id from concept_name where name = 'All Observation Templates');
+            </sqlCheck>
+        </preConditions>
+        <comment>Adding set members for to all observation templates</comment>
+        <sql>
+            set @concept_id = 0;
+            set @weight = 0;
+
+            SELECT concept_id INTO @concept_id FROM concept_name WHERE name = 'All Observation Templates' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+            SELECT max(sort_weight) into @weight from concept_set where concept_id = (select concept_id from concept_name where name = 'All Observation Templates' and concept_name_type = 'FULLY_SPECIFIED' and voided = 0);
+
+            SELECT concept_id INTO @concept_id43 FROM concept_name WHERE name = 'VIAC Form Template' AND concept_name_type="FULLY_SPECIFIED" and voided = 0;
+            INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id43,@concept_id,@weight,1,now(),uuid());
+        </sql>
+    </changeSet>
+</databaseChangeLog>

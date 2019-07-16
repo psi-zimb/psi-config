@@ -594,6 +594,83 @@
             "dropdown":true,
             "required":true
           },
+          "Viac Form, Facility":{
+            "dropdown":true,
+            "required":true
+          },
+          "Viac Form, Site Type":{
+            "required":true
+          },
+          "Viac Form, District":{
+            "dropdown":true,
+            "required":true
+          },
+          "Viac Form, TYPE OF VISIT":{
+            "dropdown":true
+          },
+          "Viac Form, Treatment Specify treatment":{
+            "multiSelect": true
+          },
+          "Viac Form, Review after Specify details":{
+            "multiSelect": true
+          },
+          "Viac Form, PRESENTING COMPLAINTS Specify details":{
+            "multiSelect": true
+          },
+          "Viac Form, EVER TREATED FOR STIS Specify details":{
+            "multiSelect": true
+          },
+          "Viac Form, Chronic conditions Specify details":{
+            "multiSelect": true
+          },
+          "Viac Form, Specimen collected by":{
+            "multiSelect": true
+          },
+          "Viac Form, TREATMENT GIVEN Specify details":{
+            "multiSelect": true
+          },
+          "Viac Form, When were you last screened?":{
+            "dropdown":true
+          },
+          "Viac Form, Method used in your last screen":{
+            "multiSelect": true
+          },
+          "Viac Form, Specimen collected by":{
+            "multiSelect": true
+          },
+          "Viac Form, Referred to":{
+            "multiSelect": true
+          },
+          "Viac Form, Repeat Specify period":{
+            "dropdown":true
+          },
+          "Viac Form, OTHER PATHOLOGICAL LESIONS SEEN":{
+            "multiSelect": true
+          },
+          "Viac Form, COC For how many years?":{
+            "dropdown":true
+          },
+          "Viac Form, Smoking For how many years":{
+            "dropdown":true
+          },
+          "Viac Form, Adverse events during procedure Specify details":{
+            "multiSelect": true
+          },
+          "Viac Form, referred for Public Sector":{
+            "multiSelect": true
+          },
+          "Viac Form, referred for PVT sector":{
+            "multiSelect": true
+          },
+          "Viac Form, referred for Other NSC":{
+            "multiSelect": true
+          },
+          "Viac Form, Systolic": {
+                "hideAbnormalButton" : true
+            },
+          "Viac Form, Diastolic": {
+                "hideAbnormalButton" : true
+            },
           "defaults": {
                 "HIV testing and counselling service": "Requested",
                 "Numeric concept": 1,

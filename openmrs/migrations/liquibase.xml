@@ -38,6 +38,7 @@
 
   <include file ="Prep_Init_Form.xml"/>
   <include file ="Prep_Cont_Form.xml"/>
+  <include file ="Viac_Form.xml"/>
 
   <changeSet id="PSI-CONFIG-2019062401" author="Yash">
         <preConditions onFail="MARK_RAN">
@@ -156,29 +157,5 @@
     <include file ="FPS_Program.xml"/>
 
     <include file ="HTS_Program.xml"/>
-
-    <include file ="CHITUNGWIZA_Location.xml"/>
-
-    <include file ="BAMBANANI_Location.xml"/>
-
-    <include file ="NAH_Location.xml"/>
-
-    <include file ="GWERU_Location.xml"/>
-
-    <include file ="MUTARE_Location.xml"/>
-
-    <include file ="NEMC_Location.xml"/>
-
-    <include file ="NKULUMANE_Location.xml"/>
-
-    <include file ="TRIANGLE_Location.xml"/>
-
-    <include file ="CHIPINGE_Location.xml"/>
-
-    <include file ="CHIREDZI_Location.xml"/>
-
-    <include file ="MAC_Location.xml"/>
-
-    <include file ="MASVINGO_Location.xml"/>
 
 </databaseChangeLog>
