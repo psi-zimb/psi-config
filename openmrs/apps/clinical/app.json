@@ -605,9 +605,6 @@
             "dropdown":true,
             "required":true
           },
-          "Viac Form, TYPE OF VISIT":{
-            "dropdown":true
-          },
           "Viac Form, Treatment Specify treatment":{
             "multiSelect": true
           },

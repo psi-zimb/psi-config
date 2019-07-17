@@ -10151,19 +10151,19 @@ Bahmni.ConceptSet.FormConditions.rules = {
     "Viac Form, TYPE OF VISIT": function (formName, formFieldValues) {
       var conditions = {enable: [], disable: []};
       var conditionConcept = formFieldValues['Viac Form, TYPE OF VISIT'];
-      if (conditionConcept == "Repeat") {
+      if (conditionConcept == "Viac Form, Repeat") {
 
           conditions.disable.push("Viac Form, Review after Specify details");
           conditions.disable.push("Viac Form, Treatment Specify treatment");
           conditions.enable.push("Viac Form, Repeat Specify period");
       }
-      else if (conditionConcept == "Treatment")
+      else if (conditionConcept == "Viac Form, Treatment")
       {
           conditions.enable.push("Viac Form, Treatment Specify treatment");
           conditions.disable.push("Viac Form, Review after Specify details");
           conditions.disable.push("Viac Form, Repeat Specify period");
       }
-      else if (conditionConcept == "Review after")
+      else if (conditionConcept == "Viac Form, Review after")
       {
         conditions.enable.push("Viac Form, Review after Specify details");
         conditions.disable.push("Viac Form, Treatment Specify treatment");
