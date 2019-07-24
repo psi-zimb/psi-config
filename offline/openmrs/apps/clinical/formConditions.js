@@ -6628,7 +6628,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         },
         "BCH, Is the fontanelle Normal": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
-        var conditionConcept = formFieldValues["BCH, Is the fontanelle Normal"];
+        var conditionConcept = formFieldValues['BCH, Is the fontanelle Normal'];
         if (conditionConcept == "No") {
             conditions.enable.push("BCH, If no for fontanelle normal");
         }
@@ -6639,7 +6639,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         },
         "BCH, Was the child part of a twin / multiple birth?": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
-        var conditionConcept = formFieldValues["BCH, Was the child part of a twin / multiple birth?"];
+        var conditionConcept = formFieldValues['BCH, Was the child part of a twin / multiple birth?'];
         if (conditionConcept == "Yes") {
             conditions.enable.push("BCH, If yes for child part of a twin / multiple birth");
         }
@@ -6650,7 +6650,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         },
         "BCH, Did the child receive ARVs at birth?": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
-        var conditionConcept = formFieldValues["BCH, Did the child receive ARVs at birth?"];
+        var conditionConcept = formFieldValues['BCH, Did the child receive ARVs at birth?'];
         if (conditionConcept == "Yes") {
             conditions.enable.push("BCH, If Yes for child received ARVs at birth");
         }
@@ -6661,7 +6661,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         },
         "BCH, If Yes for child received ARVs at birth": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
-        var conditionConcept = formFieldValues["BCH, If Yes for child received ARVs at birth"];
+        var conditionConcept = formFieldValues['BCH, If Yes for child received ARVs at birth'];
         if (conditionConcept == "BCH, Other ARVs received by child at birth") {
             conditions.enable.push("BCH, Specify Other ARVs received by child at birth");
         }
@@ -6683,7 +6683,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         },
         "BCH, Do you have a child health card?": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
-        var conditionConcept = formFieldValues["BCH, Do you have a child health card?"];
+        var conditionConcept = formFieldValues['BCH, Do you have a child health card?'];
         if (conditionConcept == "Yes") {
             conditions.enable.push("BCH, If Yes for child health card");
         }
@@ -6694,7 +6694,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         },
         "BCH, Do you have a child health card?": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
-        var conditionConcept = formFieldValues["BCH, Do you have a child health card?"];
+        var conditionConcept = formFieldValues['BCH, Do you have a child health card?'];
         if (conditionConcept == "Yes") {
             conditions.enable.push("BCH, If Yes for child health card");
         }
@@ -6705,7 +6705,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         },
         "BCH, If Yes for child health card": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
-        var conditionConcept = formFieldValues["BCH, If Yes for child health card"];
+        var conditionConcept = formFieldValues['BCH, If Yes for child health card'];
         if (conditionConcept == "No") {
             conditions.enable.push("BCH, If No for Is the child growing as per the child health card curve");
         }
@@ -6716,7 +6716,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         },
         "BCH, Is the child behaving like other children of the same age?": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
-        var conditionConcept = formFieldValues["BCH, Is the child behaving like other children of the same age?"];
+        var conditionConcept = formFieldValues['BCH, Is the child behaving like other children of the same age?'];
         if (conditionConcept == "No") {
             conditions.enable.push("BCH, If No for the child behaving like other children of the same age?");
         }
@@ -6727,7 +6727,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         },
         "BCH, If No for the child behaving like other children of the same age?": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
-        var conditionConcept = formFieldValues["BCH, If No for the child behaving like other children of the same age?"];
+        var conditionConcept = formFieldValues['BCH, If No for the child behaving like other children of the same age?'];
         if (conditionConcept == "BCH, Other for Child behaving like other children of the same age") {
             conditions.enable.push("BCH, If Other for No for Child behaving like other children of the same age");
         }
@@ -6738,7 +6738,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         },
         "BCH, Is the physical activity of the child normal?": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
-        var conditionConcept = formFieldValues["BCH, Is the physical activity of the child normal?"];
+        var conditionConcept = formFieldValues['BCH, Is the physical activity of the child normal?'];
         if (conditionConcept == "No") {
             conditions.enable.push("BCH, If No for the physical activity of the child normal?");
         }
@@ -6749,7 +6749,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         },
         "BCH, Did the child breast feed?": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
-        var conditionConcept = formFieldValues["BCH, Did the child breast feed?"];
+        var conditionConcept = formFieldValues['BCH, Did the child breast feed?'];
         if (conditionConcept == "Yes") {
             conditions.enable.push("BCH, Did the child exclusively breast feed?","BCH, If yes for the child exclusively breast feed?","BCH, Did the child suckle properly?","BCH, Did the child breast feed well?","BCH, For how long did the child breast feed? (in months)");
         }
@@ -6760,7 +6760,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         },
         "BCH, Did the child exclusively breast feed?": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
-        var conditionConcept = formFieldValues["BCH, Did the child exclusively breast feed?"];
+        var conditionConcept = formFieldValues['BCH, Did the child exclusively breast feed?'];
         if (conditionConcept == "Yes") {
             conditions.enable.push("BCH, If yes for the child exclusively breast feed?");
         }
@@ -6771,7 +6771,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         },
         "BCH, Did the child exclusively breast feed?": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
-        var conditionConcept = formFieldValues["BCH, Did the child exclusively breast feed?"];
+        var conditionConcept = formFieldValues['BCH, Did the child exclusively breast feed?'];
         if (conditionConcept == "Yes") {
             conditions.enable.push("BCH, If yes for the child exclusively breast feed?");
         }
@@ -6782,7 +6782,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         },
         "BCH, Was the child ever treated for malnutrition?": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
-        var conditionConcept = formFieldValues["BCH, Was the child ever treated for malnutrition?"];
+        var conditionConcept = formFieldValues['BCH, Was the child ever treated for malnutrition?'];
         if (conditionConcept == "Yes") {
             conditions.enable.push("BCH, Was the child admitted in hospital for malnutrition?","BCH, If Yes for the child admitted in hospital for malnutrition","BCH, What does the child's diet consist of? (free text)","BCH, Does the child eat well?","BCH, Does the child swallow well?");
         }
@@ -6793,7 +6793,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         },
         "BCH, Was the child admitted in hospital for malnutrition?": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
-        var conditionConcept = formFieldValues["BCH, Was the child admitted in hospital for malnutrition?"];
+        var conditionConcept = formFieldValues['BCH, Was the child admitted in hospital for malnutrition?'];
         if (conditionConcept == "Yes") {
             conditions.enable.push("BCH, If Yes for the child admitted in hospital for malnutrition");
         }
@@ -6804,7 +6804,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         },
         "BCH, Has the child been treated for worms?": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
-        var conditionConcept = formFieldValues["BCH, Has the child been treated for worms?"];
+        var conditionConcept = formFieldValues['BCH, Has the child been treated for worms?'];
         if (conditionConcept == "Yes") {
             conditions.enable.push("BCH, If yes for Has the child been treated for worms?");
         }
@@ -6815,7 +6815,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         },
         "BCH, Has the child ever attended school?": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
-        var conditionConcept = formFieldValues["BCH, Has the child ever attended school?"];
+        var conditionConcept = formFieldValues['BCH, Has the child ever attended school?'];
         if (conditionConcept == "Yes") {
             conditions.enable.push("BCH, How is the child's performance at school?","BCH, What is the child's latest school Grade?","BCH, Has the child missed school?");
         }
@@ -6827,7 +6827,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
 
         "GY, Have you experienced abnormal bleeding?": function (formName, formFieldValues) {
           var conditions = {enable: [], disable: []};
-          var conditionConcept = formFieldValues["GY, Have you experienced abnormal bleeding?"];
+          var conditionConcept = formFieldValues['GY, Have you experienced abnormal bleeding?'];
           if (conditionConcept == "Yes") {
               conditions.enable.push("GY, Have you experienced intermenstrual bleeding?",
               "GY, Have you experienced post menopausal bleeding?",
@@ -6842,7 +6842,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
           },
            "GY, Have you experienced intermenstrual bleeding?": function (formName, formFieldValues) {
            var conditions = {enable: [], disable: []};
-           var conditionConcept = formFieldValues["GY, Have you experienced intermenstrual bleeding?"];
+           var conditionConcept = formFieldValues['GY, Have you experienced intermenstrual bleeding?'];
            if (conditionConcept == "Yes") {
                conditions.enable.push("GY, Intensity of intermenstrual bleeding","GY, Duration of intermenstrual bleeding");
            }
@@ -6853,7 +6853,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
            },
             "GY, Duration of intermenstrual bleeding": function (formName, formFieldValues) {
              var conditions = {enable: [], disable: []};
-             var conditionConcept = formFieldValues["GY, Duration of intermenstrual bleeding"];
+             var conditionConcept = formFieldValues['GY, Duration of intermenstrual bleeding'];
              if (conditionConcept == "Several months") {
                  conditions.enable.push("GY, Number of intermenstrual bleeding months");
              }
@@ -6864,7 +6864,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
              },
             "GY, Have you experienced post menopausal bleeding?": function (formName, formFieldValues) {
             var conditions = {enable: [], disable: []};
-            var conditionConcept = formFieldValues["GY, Have you experienced post menopausal bleeding?"];
+            var conditionConcept = formFieldValues['GY, Have you experienced post menopausal bleeding?'];
             if (conditionConcept == "Yes") {
                 conditions.enable.push("GY, Intensity of post menopausal bleeding?","GY, Duration of post menopausal bleeding?");
             }
@@ -6875,7 +6875,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
             },
              "GY, Duration of post menopausal bleeding?": function (formName, formFieldValues) {
               var conditions = {enable: [], disable: []};
-              var conditionConcept = formFieldValues["GY, Duration of post menopausal bleeding?"];
+              var conditionConcept = formFieldValues['GY, Duration of post menopausal bleeding?'];
               if (conditionConcept == "Several months") {
                   conditions.enable.push("GY, Number of post menopausal bleeding months");
               }
@@ -6886,7 +6886,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               },
               "GY, Have you experienced Post-coital bleeding?": function (formName, formFieldValues) {
               var conditions = {enable: [], disable: []};
-              var conditionConcept = formFieldValues["GY, Have you experienced Post-coital bleeding?"];
+              var conditionConcept = formFieldValues['GY, Have you experienced Post-coital bleeding?'];
               if (conditionConcept == "Yes") {
                   conditions.enable.push("GY, Intensity of Post-coital bleeding?","GY, Duration of Post-coital bleeding?");
               }
@@ -6897,7 +6897,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               },
                "GY, Duration of Post-coital bleeding?": function (formName, formFieldValues) {
                 var conditions = {enable: [], disable: []};
-                var conditionConcept = formFieldValues["GY, Duration of Post-coital bleeding?"];
+                var conditionConcept = formFieldValues['GY, Duration of Post-coital bleeding?'];
                 if (conditionConcept == "Several months") {
                     conditions.enable.push("GY, Number of Post-coital bleeding months");
                 }
@@ -6908,7 +6908,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                 },
             "GY, Beginning of your last normal menstrual period": function (formName, formFieldValues) {
             var conditions = {enable: [], disable: []};
-            var conditionConcept = formFieldValues["GY, Beginning of your last normal menstrual period"];
+            var conditionConcept = formFieldValues['GY, Beginning of your last normal menstrual period'];
             if (conditionConcept) {
                 conditions.enable.push("GY, Period intensity","GY, Dymenorrhea intensity","GY, Are your periods irregular?");
                 conditions.disable.push("GY, If not applicable, why?");
@@ -6922,7 +6922,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
             },
              "GY, Have you been screened for cervical cancer?": function (formName, formFieldValues) {
              var conditions = {enable: [], disable: []};
-             var conditionConcept = formFieldValues["GY, Have you been screened for cervical cancer?"];
+             var conditionConcept = formFieldValues['GY, Have you been screened for cervical cancer?'];
              if (conditionConcept == "Yes") {
                  conditions.enable.push("GY, Date of screening","GY, What was the result?");
              }
@@ -6933,7 +6933,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
              },
               "GY, What was the result?": function (formName, formFieldValues) {
               var conditions = {enable: [], disable: []};
-              var conditionConcept = formFieldValues["GY, What was the result?"];
+              var conditionConcept = formFieldValues['GY, What was the result?'];
               if (conditionConcept =="Other") {
                   conditions.enable.push("GY, If Others, Specify");
               }
@@ -6944,7 +6944,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               },
                "GY, Have you observed a breast lump(s)?": function (formName, formFieldValues) {
                var conditions = {enable: [], disable: []};
-               var conditionConcept = formFieldValues["GY, Have you observed a breast lump(s)?"];
+               var conditionConcept = formFieldValues['GY, Have you observed a breast lump(s)?'];
                if (conditionConcept =="Yes") {
                    conditions.enable.push("GY, Duration of the lump","GY, Size of the breast lump (s)");
                }
@@ -6955,7 +6955,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                },
                 "GY, Do you have a discharge from the nipple(s)?": function (formName, formFieldValues) {
                 var conditions = {enable: [], disable: []};
-                var conditionConcept = formFieldValues["GY, Do you have a discharge from the nipple(s)?"];
+                var conditionConcept = formFieldValues['GY, Do you have a discharge from the nipple(s)?'];
                 if (conditionConcept =="Yes") {
                     conditions.enable.push("GY, Side of the nipple(s)");
                 }
@@ -6966,7 +6966,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                 },
                   "GY, Do you use contraceptives?": function (formName, formFieldValues) {
                   var conditions = {enable: [], disable: []};
-                  var conditionConcept = formFieldValues["GY, Do you use contraceptives?"];
+                  var conditionConcept = formFieldValues['GY, Do you use contraceptives?'];
                   if (conditionConcept =="Yes") {
                       conditions.enable.push("GY, Type of contraceptives");
                   }
@@ -6977,7 +6977,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                   },
                     "GY, Type of contraceptives": function (formName, formFieldValues) {
                     var conditions = {enable: [], disable: []};
-                    var conditionConcept = formFieldValues["GY, Type of contraceptives"];
+                    var conditionConcept = formFieldValues['GY, Type of contraceptives'];
                     if (conditionConcept =="Other") {
                         conditions.enable.push("GY, Other contraceptives");
                     }
@@ -7276,7 +7276,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, Sourse giving history"];
+          var conditionConcept = formFieldValues['AIVC, Sourse giving history'];
           if (conditionConcept == "Other (specify)") {
               conditions.enable.push("AIVC, Sourse giving history, Other");
           } else {
@@ -7289,7 +7289,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, Have you had a positive HIV test?"];
+          var conditionConcept = formFieldValues['AIVC, Have you had a positive HIV test?'];
           if (conditionConcept == "Yes") {
               conditions.enable.push("AIVC, Why were u tested?", "AIVC, When was the test done?", "AIVC, Do you have a partner?", "AIVC, Do you have any children?");
           } else {
@@ -7302,7 +7302,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, Why were u tested?"];
+          var conditionConcept = formFieldValues['AIVC, Why were u tested?'];
           if (conditionConcept == "Others") {
               conditions.enable.push("AIVC, Why were u tested, Other");
           } else {
@@ -7315,7 +7315,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, Do you have a partner?"];
+          var conditionConcept = formFieldValues['AIVC, Do you have a partner?'];
           if (conditionConcept == "Yes") {
               conditions.enable.push("AIVC, Is your (sexual) partner aware of your HIV status?", "AIVC, Has you partner been tested?");
           } else {
@@ -7328,7 +7328,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, Has you partner been tested?"];
+          var conditionConcept = formFieldValues['AIVC, Has you partner been tested?'];
           if (conditionConcept == "Yes") {
               conditions.enable.push("AIVC, Partners test result");
           } else {
@@ -7341,7 +7341,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, Do you have any children?"];
+          var conditionConcept = formFieldValues['AIVC, Do you have any children?'];
           if (conditionConcept == "Yes") {
               conditions.enable.push("AIVC, How many children do you have?", "AIVC, Have any of your children been tested for HIV?");
           } else {
@@ -7354,7 +7354,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, Have any of your children been tested for HIV?"];
+          var conditionConcept = formFieldValues['AIVC, Have any of your children been tested for HIV?'];
           if (conditionConcept == "Yes") {
               conditions.enable.push("AIVC, Test Results");
           } else {
@@ -7381,7 +7381,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, Did you have fever recently?"];
+          var conditionConcept = formFieldValues['AIVC, Did you have fever recently?'];
           if (conditionConcept == "Yes") {
               conditions.enable.push("AIVC, Duration of fever");
           } else {
@@ -7394,7 +7394,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, Did you have night sweats?"];
+          var conditionConcept = formFieldValues['AIVC, Did you have night sweats?'];
           if (conditionConcept == "Yes") {
               conditions.enable.push("AIVC, Duration of night sweats");
           } else {
@@ -7407,7 +7407,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, Do you have weight loss?"];
+          var conditionConcept = formFieldValues['AIVC, Do you have weight loss?'];
           if (conditionConcept == "Yes") {
               conditions.enable.push("AIVC, Duration of weight loss");
           } else {
@@ -7420,7 +7420,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, Do you have shortness of breath?"];
+          var conditionConcept = formFieldValues['AIVC, Do you have shortness of breath?'];
           if (conditionConcept == "Yes") {
               conditions.enable.push("AIVC, Duration of shortness of breath");
           } else {
@@ -7433,7 +7433,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, Have you ever had TB?"];
+          var conditionConcept = formFieldValues['AIVC, Have you ever had TB?'];
           if (conditionConcept == "Yes") {
               conditions.enable.push("AIVC, How many episodes of TB?", "AIVC, TB Dates of previous episodes");
           } else {
@@ -7446,7 +7446,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, Are you currently being treated for TB?"];
+          var conditionConcept = formFieldValues['AIVC, Are you currently being treated for TB?'];
           if (conditionConcept == "Yes") {
               conditions.enable.push("AIVC, How was it Diagnosed", "AIVC, Location of TB");
           } else {
@@ -7459,7 +7459,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, Do you have any skin problems"];
+          var conditionConcept = formFieldValues['AIVC, Do you have any skin problems'];
           if (conditionConcept == "Yes") {
               conditions.enable.push("AIVC, Have you had a skin rash recently?", "AIVC, Have you ever had Herpes zoster/shingles?", "AIVC, Did you experience ant itching?", "AIVC, Have you observed a lump growing?");
           } else {
@@ -7472,7 +7472,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, Have you had a skin rash recently?"];
+          var conditionConcept = formFieldValues['AIVC, Have you had a skin rash recently?'];
           if (conditionConcept == "Yes") {
               conditions.enable.push("AIVC, Duration of skin rash","AIVC, Location of skin rash details","AIVC, Location of skin rash Image","AIVC, Mophology","AIVC, Did the skin rash start after taking medications?");
           } else {
@@ -7485,7 +7485,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, Have you observed a lump growing?"];
+          var conditionConcept = formFieldValues['AIVC, Have you observed a lump growing?'];
           if (conditionConcept == "Yes") {
               conditions.enable.push("AIVC, Location Lump Image","AIVC, Location lump details");
           } else {
@@ -7498,7 +7498,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, Are you suffering from headaches?"];
+          var conditionConcept = formFieldValues['AIVC, Are you suffering from headaches?'];
           if (conditionConcept == "Yes") {
               conditions.enable.push("AIVC, Duration of Headache", "AIVC, Headache Severity", "AIVC, Headache Course", "AIVC, Headache association");
           } else {
@@ -7511,7 +7511,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, Have you noticed any changes in or around the mouth and neck?"];
+          var conditionConcept = formFieldValues['AIVC, Have you noticed any changes in or around the mouth and neck?'];
           if (conditionConcept == "Yes") {
               conditions.enable.push("AIVC, Have you had blisters or swelling on/around the lips?", "AIVC, Have you had oral thrush?");
           } else {
@@ -7524,7 +7524,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, Have you had a cough?"];
+          var conditionConcept = formFieldValues['AIVC, Have you had a cough?'];
           if (conditionConcept == "Yes") {
               conditions.enable.push("AIVC, Type of cough", "AIVC, Duration of the cough");
           } else {
@@ -7537,7 +7537,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, Have you had a chest pain?"];
+          var conditionConcept = formFieldValues['AIVC, Have you had a chest pain?'];
           if (conditionConcept == "Yes") {
               conditions.enable.push("AIVC, Location of the chest pain", "AIVC, When does chest pain occur", "AIVC, Duration of chest pains?");
           } else {
@@ -7550,7 +7550,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, Location of the chest pain"];
+          var conditionConcept = formFieldValues['AIVC, Location of the chest pain'];
           if (conditionConcept == "Other locations") {
               conditions.enable.push("AIVC, If other location of the chest pain, specify");
           } else {
@@ -7563,7 +7563,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, When does chest pain occur"];
+          var conditionConcept = formFieldValues['AIVC, When does chest pain occur'];
           if (conditionConcept == "Others") {
               conditions.enable.push("AIVC, chest pain occur Other");
           } else {
@@ -7576,7 +7576,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, Have you experienced shortness of breath?"];
+          var conditionConcept = formFieldValues['AIVC, Have you experienced shortness of breath?'];
           if (conditionConcept == "Yes") {
               conditions.enable.push("AIVC, When does the shortness of breath occur?", "AIVC, Duration of shortness of breath?");
           } else {
@@ -7589,7 +7589,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, Have you had more than one episodes of Pneumonia?"];
+          var conditionConcept = formFieldValues['AIVC, Have you had more than one episodes of Pneumonia?'];
           if (conditionConcept == "Yes") {
               conditions.enable.push("AIVC, How many episodes of Pneumonia?");
           } else {
@@ -7602,7 +7602,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, Do you have a high blood pressure"];
+          var conditionConcept = formFieldValues['AIVC, Do you have a high blood pressure'];
           if (conditionConcept == "Yes") {
               conditions.enable.push("AIVC, Are you on Hypertensive drugs?");
           } else {
@@ -7615,7 +7615,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, Are you on Hypertensive drugs?"];
+          var conditionConcept = formFieldValues['AIVC, Are you on Hypertensive drugs?'];
           if (conditionConcept == "Yes") {
               conditions.enable.push("AIVC, If yes on Hypertensive drugs, specify");
           } else {
@@ -7628,7 +7628,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
               enable: [],
               disable: []
           };
-          var conditionConcept = formFieldValues["AIVC, Do you have difficulty swallowing?"];
+          var conditionConcept = formFieldValues['AIVC, Do you have difficulty swallowing?'];
           if (conditionConcept == "Yes") {
               conditions.enable.push("AIVC, Is swallowing painful");
           } else {
@@ -7641,7 +7641,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                enable: [],
                disable: []
            };
-           var conditionConcept = formFieldValues["AIVC, Do you vomit frequently?"];
+           var conditionConcept = formFieldValues['AIVC, Do you vomit frequently?'];
            if (conditionConcept == "Yes") {
                conditions.enable.push("AIVC, When do you vomit?","AIVC, Vomit content");
            } else {
@@ -7654,7 +7654,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                enable: [],
                disable: []
            };
-           var conditionConcept = formFieldValues["AIVC, When do you vomit?"];
+           var conditionConcept = formFieldValues['AIVC, When do you vomit?'];
            if (conditionConcept == "Other (specify)") {
                conditions.enable.push("AIVC, If other on vomit, specify");
            } else {
@@ -7667,7 +7667,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                 enable: [],
                 disable: []
             };
-            var conditionConcept = formFieldValues["AIVC, Vomit content"];
+            var conditionConcept = formFieldValues['AIVC, Vomit content'];
             if (conditionConcept == "Other (specify)") {
                 conditions.enable.push("AIVC, Vommit Content Other");
             } else {
@@ -7680,7 +7680,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                 enable: [],
                 disable: []
             };
-            var conditionConcept = formFieldValues["AIVC, Do you have diarrhea?"];
+            var conditionConcept = formFieldValues['AIVC, Do you have diarrhea?'];
             if (conditionConcept == "Yes") {
                 conditions.enable.push("AIVC, Diarrhea duration","AIVC, Diarrhea Details");
             } else {
@@ -7693,7 +7693,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                 enable: [],
                 disable: []
             };
-            var conditionConcept = formFieldValues["AIVC, Do you have frequent abdominal pain?"];
+            var conditionConcept = formFieldValues['AIVC, Do you have frequent abdominal pain?'];
             if (conditionConcept == "Yes") {
                 conditions.enable.push("AIVC, Abdominal pain location","AIVC, Abdominal pain duration","AIVC, Does the abdominal pain occur during fasting?");
             } else {
@@ -7706,7 +7706,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                 enable: [],
                 disable: []
             };
-            var conditionConcept = formFieldValues["AIVC, Does the abdominal pain occur during fasting?"];
+            var conditionConcept = formFieldValues['AIVC, Does the abdominal pain occur during fasting?'];
             if (conditionConcept == "Yes") {
                 conditions.enable.push("AIVC, Do you have frequent epigastric pain?");
             } else {
@@ -7719,7 +7719,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                 enable: [],
                 disable: []
             };
-            var conditionConcept = formFieldValues["AIVC, Have you experienced joint pain?"];
+            var conditionConcept = formFieldValues['AIVC, Have you experienced joint pain?'];
             if (conditionConcept == "Yes") {
                 conditions.enable.push("AIVC, Joint pain duration","AIVC, Location of joint pain");
             } else {
@@ -7732,7 +7732,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                 enable: [],
                 disable: []
             };
-            var conditionConcept = formFieldValues["AIVC, Have you experienced joint swelling?"];
+            var conditionConcept = formFieldValues['AIVC, Have you experienced joint swelling?'];
             if (conditionConcept == "Yes") {
                 conditions.enable.push("AIVC, Joint swelling duration","AIVC, Location of joint swelling");
             } else {
@@ -7745,7 +7745,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                 enable: [],
                 disable: []
             };
-            var conditionConcept = formFieldValues["AIVC, Do you feel a burning sensation with micturation?"];
+            var conditionConcept = formFieldValues['AIVC, Do you feel a burning sensation with micturation?'];
             if (conditionConcept == "Yes") {
                 conditions.enable.push("AIVC, Did you have a fever rigors or chills with the burning sensation?");
             } else {
@@ -7758,7 +7758,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                  enable: [],
                  disable: []
              };
-             var conditionConcept = formFieldValues["AIVC, Do you feel a burning sensation with micturation?"];
+             var conditionConcept = formFieldValues['AIVC, Do you feel a burning sensation with micturation?'];
              if (conditionConcept == "Yes") {
                  conditions.enable.push("AIVC, Erectile dysfunction","AIVC, Dysparenuia (painful sexual intercourse)");
              } else {
@@ -7771,7 +7771,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                  enable: [],
                  disable: []
              };
-             var conditionConcept = formFieldValues["AIVC, Female, Have you observed a vaginal discharge?"];
+             var conditionConcept = formFieldValues['AIVC, Female, Have you observed a vaginal discharge?'];
              if (conditionConcept == "Yes") {
                  conditions.enable.push("AIVC, Female, If yes on vaginal discharge, specify type");
              } else {
@@ -7784,7 +7784,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                  enable: [],
                  disable: []
              };
-             var conditionConcept = formFieldValues["AIVC, Male, Have you observed a discharge from the penis?"];
+             var conditionConcept = formFieldValues['AIVC, Male, Have you observed a discharge from the penis?'];
              if (conditionConcept == "Yes") {
                  conditions.enable.push("AIVC, Male, If yes on penis discharge, specify type");
              } else {
@@ -7797,7 +7797,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                  enable: [],
                  disable: []
              };
-             var conditionConcept = formFieldValues["AIVC, Are you currently pregnant?"];
+             var conditionConcept = formFieldValues['AIVC, Are you currently pregnant?'];
              if (conditionConcept == "Yes") {
                  conditions.enable.push("AIVC, Are you booked for antenatal care?","AIVC, Is the client on triple therapy?");
 
@@ -7816,7 +7816,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                   enable: [],
                   disable: []
               };
-              var conditionConcept = formFieldValues["AIVC, Are you booked for antenatal care?"];
+              var conditionConcept = formFieldValues['AIVC, Are you booked for antenatal care?'];
               if (conditionConcept == "Yes") {
                   conditions.enable.push("AIVC, Do you know the EDD?");
               } else {
@@ -7829,7 +7829,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                   enable: [],
                   disable: []
               };
-              var conditionConcept = formFieldValues["AIVC, Do you know the EDD?"];
+              var conditionConcept = formFieldValues['AIVC, Do you know the EDD?'];
               if (conditionConcept == "Yes") {
                   conditions.enable.push("AIVC, Date");
               } else {
@@ -7842,7 +7842,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                    enable: [],
                    disable: []
                };
-               var conditionConcept = formFieldValues["AIVC, Have you experienced intermenstrual bleeding?"];
+               var conditionConcept = formFieldValues['AIVC, Have you experienced intermenstrual bleeding?'];
                if (conditionConcept == "Yes") {
                    conditions.enable.push("AIVC, Duration of intermenstrual bleeding");
                } else {
@@ -7855,7 +7855,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                     enable: [],
                     disable: []
                 };
-                var conditionConcept = formFieldValues["AIVC, Do you use contraceptives?"];
+                var conditionConcept = formFieldValues['AIVC, Do you use contraceptives?'];
                 if (conditionConcept == "Yes") {
                     conditions.enable.push("What types of contraceptives do you use?");
                 } else {
@@ -7868,7 +7868,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                     enable: [],
                     disable: []
                 };
-                var conditionConcept = formFieldValues["What types of contraceptives do you use?"];
+                var conditionConcept = formFieldValues['What types of contraceptives do you use?'];
                 if (conditionConcept == "AIVC, Other") {
                     conditions.enable.push("AIVC, Other contraceptives?");
                 } else {
@@ -7881,7 +7881,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                      enable: [],
                      disable: []
                  };
-                 var conditionConcept = formFieldValues["AIVC, Have you been screened for cervical cancer?"];
+                 var conditionConcept = formFieldValues['AIVC, Have you been screened for cervical cancer?'];
                  if (conditionConcept == "Yes") {
                      conditions.enable.push("AIVC, Date of screening","Screening result");
                  } else {
@@ -7894,7 +7894,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                       enable: [],
                       disable: []
                   };
-                  var conditionConcept = formFieldValues["AIVC, Have you observed a breast lump(s)?"];
+                  var conditionConcept = formFieldValues['AIVC, Have you observed a breast lump(s)?'];
                   if (conditionConcept == "Yes") {
                       conditions.enable.push("AIVC, Duration of breast lump","AIVC, Location of breast lump");
                   } else {
@@ -7907,7 +7907,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                       enable: [],
                       disable: []
                   };
-                  var conditionConcept = formFieldValues["AIVC, Have you been taking other medications or muti (herbs) within the past 2 months?"];
+                  var conditionConcept = formFieldValues['AIVC, Have you been taking other medications or muti (herbs) within the past 2 months?'];
                   if (conditionConcept == "Yes") {
                       conditions.enable.push("AIVC, Medication Notes");
                   } else {
@@ -7920,7 +7920,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                        enable: [],
                        disable: []
                    };
-                   var conditionConcept = formFieldValues["AIVC, Have you ever experienced  a drug allergy?"];
+                   var conditionConcept = formFieldValues['AIVC, Have you ever experienced  a drug allergy?'];
                    if (conditionConcept == "Yes") {
                        conditions.enable.push("AIVC, If yes, specify drug allergy details");
                    } else {
@@ -7933,7 +7933,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                         enable: [],
                         disable: []
                     };
-                    var conditionConcept = formFieldValues["AIVC, Have you been sexually abused?"];
+                    var conditionConcept = formFieldValues['AIVC, Have you been sexually abused?'];
                     if (conditionConcept == "Yes") {
                         conditions.enable.push("AIVC, Has a police report been filed?","AIVC, Did you receive any medical treatment afterwards?","AIVC, Did you receive counseling?");
                     } else {
@@ -7946,7 +7946,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                           enable: [],
                           disable: []
                       };
-                      var conditionConcept = formFieldValues["AIVC, Do you use illicit drugs?"];
+                      var conditionConcept = formFieldValues['AIVC, Do you use illicit drugs?'];
                       if (conditionConcept == "Yes") {
                           conditions.enable.push("AIVC, What types of illicit drugs do you use and how often?");
                       } else {
@@ -7959,7 +7959,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                           enable: [],
                           disable: []
                       };
-                      var conditionConcept = formFieldValues["AIVC, Have been treated for any of the following conditions?"];
+                      var conditionConcept = formFieldValues['AIVC, Have been treated for any of the following conditions?'];
                       if (conditionConcept == "Yes") {
                           conditions.enable.push("AIVC, if yes, Specify details","AIVC, Medical and Surigcal History Notes");
                       } else {
@@ -7973,7 +7973,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                           enable: [],
                           disable: []
                       };
-                      var conditionConcept = formFieldValues["AIVC, Have you experienced loss of vision?"];
+                      var conditionConcept = formFieldValues['AIVC, Have you experienced loss of vision?'];
                       if (conditionConcept == "Yes") {
                           conditions.enable.push("AIVC, HEENT If yes, specify details");
                       } else {
@@ -7987,7 +7987,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                           show: [],
                           hide: []
                       };
-                      var conditionConcept = formFieldValues["PR, Program"];
+                      var conditionConcept = formFieldValues['PR, Program'];
                       if (conditionConcept == "PR, ART") {
                           conditions.show.push("PR, Start date of ART program", "PR, ART Stage", "PR, Start date of ART Stage", "PR, ART Program Stop Date",
                           "PR, Reason for Stopping ART Program");
@@ -9513,7 +9513,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
   },
     "Prep Init Form, Is your partner on ART?": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues["Prep Init Form, Is your partner on ART?"];
+     var conditionConcept = formFieldValues['Prep Init Form, Is your partner on ART?'];
      if (conditionConcept =="Yes") {
           conditions.enable.push("Prep Init Form, Do you know your partner's adherence to ART?","Prep Init Form, Has your partner had a viral load test done in the last 12 months?");
 
@@ -9526,7 +9526,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
   },
     "Prep Init Form, Has your partner had a viral load test done in the last 12 months?": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues["Prep Init Form, Has your partner had a viral load test done in the last 12 months?"];
+     var conditionConcept = formFieldValues['Prep Init Form, Has your partner had a viral load test done in the last 12 months?'];
      if (conditionConcept =="Yes") {
           conditions.enable.push("Prep Init Form, If yes for partner had a viral load test done in the last 12 months?");
 
@@ -9539,7 +9539,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
   },
     "Prep Init Form, Have you had any other sexual partners in the last 6 months?": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues["Prep Init Form, Have you had any other sexual partners in the last 6 months?"];
+     var conditionConcept = formFieldValues['Prep Init Form, Have you had any other sexual partners in the last 6 months?'];
      if (conditionConcept =="Yes") {
           conditions.enable.push("Prep Init Form, If yes for had any other sexual partners in the last 6 months?");
 
@@ -9552,7 +9552,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
   },
     "Prep Init Form, Do you have more than 1 sexual partner?": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues["Prep Init Form, Do you have more than 1 sexual partner?"];
+     var conditionConcept = formFieldValues['Prep Init Form, Do you have more than 1 sexual partner?'];
      if (conditionConcept =="Yes") {
           conditions.enable.push("Prep Init Form, Do you know your non-regular partner(s) HIV status?","Prep Init Form, Do you use condoms every time you have sex with your non-regular partner?","Prep Init Form, Have you been treated for an STI in the last 3 months?","Prep Init Form, Have you exchanged sex for money, goods or services?","Prep Init Form, Do you have a history of sexual abuse/gender based violence?","Prep Init Form, Have you used emergency contraception in the last 6 months?","Prep Init Form, Have you used PEP in the last 6 months?");
 
@@ -9565,7 +9565,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
   },
     "Prep Init Form, Do you know your non-regular partner(s) HIV status?": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues["Prep Init Form, Do you know your non-regular partner(s) HIV status?"];
+     var conditionConcept = formFieldValues['Prep Init Form, Do you know your non-regular partner(s) HIV status?'];
      if (conditionConcept =="Yes") {
           conditions.enable.push("Prep Init Form, Specify HIV status of partner");
 
@@ -9578,7 +9578,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
   },
     "Prep Init Form, Have you used PEP in the last 6 months?": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues["Prep Init Form, Have you used PEP in the last 6 months?"];
+     var conditionConcept = formFieldValues['Prep Init Form, Have you used PEP in the last 6 months?'];
      if (conditionConcept =="Yes") {
           conditions.enable.push("Prep Init Form, What was the reason for taking PEP?");
 
@@ -9604,7 +9604,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
   },
     "Prep Init Form, Are you single or not in a stable relationship?": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues["Prep Init Form, Are you single or not in a stable relationship?"];
+     var conditionConcept = formFieldValues['Prep Init Form, Are you single or not in a stable relationship?'];
      if (conditionConcept =="Yes") {
           conditions.enable.push("Prep Init Form, Have you had sexual partner(s) in the last 6 months?","Prep Init Form, Do you use condoms every time you have vaginal or anal sex?","Prep Init Form, In a Single relationship Have you been treated for an STI in the last 3 months?","Prep Init Form, Have you had sex whilst indoxicated with alcohol or drugs?","Prep Init Form, Have you or your partner used emergency contraception in the last 6 months?","Prep Init Form, Single or Stable relationship, Have you used PEP in the last 6 months?");
 
@@ -9617,7 +9617,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
   },
   "Prep Init Form, Have you had sexual partner(s) in the last 6 months?": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues["Prep Init Form, Have you had sexual partner(s) in the last 6 months?"];
+     var conditionConcept = formFieldValues['Prep Init Form, Have you had sexual partner(s) in the last 6 months?'];
      if (conditionConcept =="Yes") {
           conditions.enable.push("Prep Init Form, If Yes, How many?");
 
@@ -9630,7 +9630,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
   },
 "Prep Init Form, Do you use condoms every time you have vaginal or anal sex?": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues["Prep Init Form, Do you use condoms every time you have vaginal or anal sex?"];
+     var conditionConcept = formFieldValues['Prep Init Form, Do you use condoms every time you have vaginal or anal sex?'];
      if (conditionConcept =="Yes") {
           conditions.enable.push("Prep Init Form, Have you had a condom burst in the last 3 month?");
 
@@ -9643,7 +9643,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
   },
   "Prep Init Form, Have you had a condom burst in the last 3 month?": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues["Prep Init Form, Have you had a condom burst in the last 3 month?"];
+     var conditionConcept = formFieldValues['Prep Init Form, Have you had a condom burst in the last 3 month?'];
      if (conditionConcept =="Yes") {
           conditions.enable.push("Prep Init Form, If Yes for condorm burst, How many times?");
 
@@ -9656,7 +9656,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
   },
   "Prep Init Form, In a Single relationship Have you been treated for an STI in the last 3 months?": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues["Prep Init Form, In a Single relationship Have you been treated for an STI in the last 3 months?"];
+     var conditionConcept = formFieldValues['Prep Init Form, In a Single relationship Have you been treated for an STI in the last 3 months?'];
      if (conditionConcept =="Yes") {
           conditions.enable.push("Prep Init Form, Females","Prep Init Form, Males");
 
@@ -9695,7 +9695,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
   },
  "Prep Init Form, Have you or your partner used emergency contraception in the last 6 months?": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues["Prep Init Form, Have you or your partner used emergency contraception in the last 6 months?"];
+     var conditionConcept = formFieldValues['Prep Init Form, Have you or your partner used emergency contraception in the last 6 months?'];
      if (conditionConcept =="Yes") {
           conditions.enable.push("Prep Init Form, If Yes for emergency contraception, How many times?");
 
@@ -9708,7 +9708,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
   },
    "Prep Init Form, Single or Stable relationship, Have you used PEP in the last 6 months?": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues["Prep Init Form, Single or Stable relationship, Have you used PEP in the last 6 months?"];
+     var conditionConcept = formFieldValues['Prep Init Form, Single or Stable relationship, Have you used PEP in the last 6 months?'];
      if (conditionConcept =="Yes") {
           conditions.enable.push("Prep Init Form, Single or Stable relationship, What was the reason for taking PEP?");
 
@@ -9734,7 +9734,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
   },
   "Prep Init Form, Any signs of primary infection?": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues["Prep Init Form, Any signs of primary infection?"];
+     var conditionConcept = formFieldValues['Prep Init Form, Any signs of primary infection?'];
      if (conditionConcept =="Yes") {
           conditions.enable.push("Prep Init Form, If Yes for Any signs of primary infection?");
 
@@ -9760,7 +9760,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
   },
   "Prep Init Form, Are you ready to start Prep?": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues["Prep Init Form, Are you ready to start Prep?"];
+     var conditionConcept = formFieldValues['Prep Init Form, Are you ready to start Prep?'];
      if (conditionConcept =="No") {
           conditions.enable.push("Prep Init Form, If yes for ready to start Prep?, Specify Reason");
 
@@ -9786,7 +9786,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
   },
   "Prep Init Form, Is the client Eligible to take PrEP?": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues["Prep Init Form, Is the client Eligible to take PrEP?"];
+     var conditionConcept = formFieldValues['Prep Init Form, Is the client Eligible to take PrEP?'];
      if (conditionConcept =="Yes") {
           conditions.enable.push("Prep Init Form, Is the client Eligible to take PrEP?, Males","Prep Init Form, Is the client Eligible to take PrEP?, Females");
 
@@ -9916,7 +9916,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
   },
   "Prep Cont Form, Is your partner on ART?": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues["Prep Cont Form, Is your partner on ART?"];
+     var conditionConcept = formFieldValues['Prep Cont Form, Is your partner on ART?'];
      if (conditionConcept =="Yes") {
           conditions.enable.push("Prep Cont Form, Do you know your partner's viral load?");
 
@@ -9942,7 +9942,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
   },
   "Prep Cont Form, Are you using condoms every time you are having sex?": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues["Prep Cont Form, Are you using condoms every time you are having sex?"];
+     var conditionConcept = formFieldValues['Prep Cont Form, Are you using condoms every time you are having sex?'];
      if (conditionConcept =="Yes") {
           conditions.enable.push("Prep Cont Form, Have you had a condom burst since the last visit?");
 
@@ -9955,7 +9955,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
   },
   "Prep Cont Form, Have you had a condom burst since the last visit?": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues["Prep Cont Form, Have you had a condom burst since the last visit?"];
+     var conditionConcept = formFieldValues['Prep Cont Form, Have you had a condom burst since the last visit?'];
      if (conditionConcept =="Yes") {
           conditions.enable.push("Prep Cont Form, If yes for condom burst since the last visit?");
 
@@ -9968,7 +9968,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
   },
   "Prep Cont Form, Have you been treated for an STI since the last visit?": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues["Prep Cont Form, Have you been treated for an STI since the last visit?"];
+     var conditionConcept = formFieldValues['Prep Cont Form, Have you been treated for an STI since the last visit?'];
      if (conditionConcept =="Yes") {
           conditions.enable.push("Prep Cont Form, Treated for STI since last visit Females","Prep Cont Form, Treated for STI since last visit Males");
 
@@ -10007,7 +10007,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
   },
   "Prep Cont Form, Have you used emergency contraception since the last visit?": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues["Prep Cont Form, Have you used emergency contraception since the last visit?"];
+     var conditionConcept = formFieldValues['Prep Cont Form, Have you used emergency contraception since the last visit?'];
      if (conditionConcept =="Yes") {
           conditions.enable.push("Prep Cont Form, If Yes for used emergency contraception since the last visit?");
 
@@ -10020,7 +10020,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
   },
   "Prep Cont Form, Does the client have any sings of primary infection?": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues["Prep Cont Form, Does the client have any sings of primary infection?"];
+     var conditionConcept = formFieldValues['Prep Cont Form, Does the client have any sings of primary infection?'];
      if (conditionConcept =="Yes") {
           conditions.enable.push("Prep Cont Form, If Yes for client have any sings of primary infection?");
 
@@ -10046,7 +10046,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
   },
   "Prep Cont Form, Are you ready to continue PrEP?": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues["Prep Cont Form, Are you ready to continue PrEP?"];
+     var conditionConcept = formFieldValues['Prep Cont Form, Are you ready to continue PrEP?'];
      if (conditionConcept =="No") {
           conditions.enable.push("Prep Cont Form, If No for Are you ready to continue PrEP?");
 
@@ -10072,7 +10072,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
   },
   "Prep Cont Form, Is the client eligible to continue PrEP?": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues["Prep Cont Form, Is the client eligible to continue PrEP?"];
+     var conditionConcept = formFieldValues['Prep Cont Form, Is the client eligible to continue PrEP?'];
      if (conditionConcept =="Yes") {
           conditions.enable.push("Prep Cont Form, If Yes for the client eligible to continue PrEP? Males","Prep Cont Form, If Yes for the client eligible to continue PrEP? Females");
 
@@ -10085,7 +10085,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
   },
   "Prep Cont Form, If Yes for the client eligible to continue PrEP? Males": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues["Prep Cont Form, If Yes for the client eligible to continue PrEP? Males"];
+     var conditionConcept = formFieldValues['Prep Cont Form, If Yes for the client eligible to continue PrEP? Males'];
      if (conditionConcept =="Other") {
           conditions.enable.push("Prep Cont Form, If Other for client eligible to continue PrEP? Males");
 
@@ -10098,7 +10098,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
   },
   "Prep Cont Form, If Yes for the client eligible to continue PrEP? Females": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues["Prep Cont Form, If Yes for the client eligible to continue PrEP? Females"];
+     var conditionConcept = formFieldValues['Prep Cont Form, If Yes for the client eligible to continue PrEP? Females'];
      if (conditionConcept =="Other") {
           conditions.enable.push("Prep Cont Form, If Other for client eligible to continue PrEP? Females");
 
@@ -10253,14 +10253,14 @@ Bahmni.ConceptSet.FormConditions.rules = {
         },
         "Viac Form, Current Medication for Chronic conditions" : function (formName, formFieldValues) {
           var conditions = {enable: [], disable: []};
-          var statusProphylaxieType = formFieldValues["Viac Form, Current Medication for Chronic conditions"];
+          var statusProphylaxieType = formFieldValues['Viac Form, Current Medication for Chronic conditions'];
 
         if (statusProphylaxieType == "Yes") {
-                // show: ["Viac Form, Chronic conditions Specify details"]
+
                 conditions.enable.push("Viac Form, Chronic conditions Specify details");
             }
         else {
-                // hide: ["Viac Form, Chronic conditions Specify details"]
+
                 conditions.disable.push("Viac Form, Chronic conditions Specify details");
              }
              return conditions;
