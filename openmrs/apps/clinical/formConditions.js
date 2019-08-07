@@ -39,8 +39,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
 			           conditions.hide.push("Provider name for Pick up drugs (Only)");
 			         }
 
-
-
 			if (obj.indexOf('Review by Nurse')>=0 ) {
 			         conditions.show.push("Provider name for Review by Nurse");
 			         } else {
@@ -78,6 +76,96 @@ Bahmni.ConceptSet.FormConditions.rules = {
 			         } else {
 			           conditions.hide.push("Provider name for Prep Continuation");
 			         }
+
+            if (obj.indexOf('HIV Self Testing')>=0 ) {
+                     conditions.show.push("Provider name for HIV Self Testing");
+                     } else {
+                       conditions.hide.push("Provider name for HIV Self Testing");
+                     }
+
+            if (obj.indexOf('Provider Testing and Counseling')>=0 ) {
+                     conditions.show.push("Provider name for Provider Testing and Counseling");
+                     } else {
+                       conditions.hide.push("Provider name for Provider Testing and Counseling");
+                     }  
+
+            if (obj.indexOf('Confirmatory HIV testing and Counseling')>=0 ) {
+                     conditions.show.push("Provider name for Confirmatory HIV testing and Counseling");
+                     } else {
+                       conditions.hide.push("Provider name for Confirmatory HIV testing and Counseling");
+                     }
+
+            if (obj.indexOf('Contact Tracing')>=0 ) {
+                     conditions.show.push("Provider name for Contact Tracing");
+                     } else {
+                       conditions.hide.push("Provider name for Contact Tracing");
+                     }
+
+            if (obj.indexOf('Review by MD/Doctor')>=0 ) {
+                     conditions.show.push("Provider name for Review by MD/Doctor");
+                     } else {
+                       conditions.hide.push("Provider name for Review by MD/Doctor");
+                     }
+
+            if (obj.indexOf('Hospital Visit')>=0 ) {
+                     conditions.show.push("Provider name for Hospital Visit");
+                     } else {
+                       conditions.hide.push("Provider name for Hospital Visit");
+                     }
+  
+              if (obj.indexOf('Viac Initial')>=0 ) {
+                     conditions.show.push("Provider name for Viac Initial");
+                     } else {
+                       conditions.hide.push("Provider name for Viac Initial");
+                     }
+
+            if (obj.indexOf('Viac Continuation')>=0 ) {
+                     conditions.show.push("Provider name for Viac Continuation");
+                     } else {
+                       conditions.hide.push("Provider name for Viac Continuation");
+                     }
+
+            if (obj.indexOf('VMMC')>=0 ) {
+                     conditions.show.push("Provider name for VMMC");
+                     } else {
+                       conditions.hide.push("Provider name for VMMC");
+                     }
+
+            if (obj.indexOf('FP Initial')>=0 ) {
+                     conditions.show.push("Provider name for FP Initial");
+                     } else {
+                       conditions.hide.push("Provider name for FP Initial");
+                     }
+
+            if (obj.indexOf('FP Counselling Only')>=0 ) {
+                     conditions.show.push("Provider name for FP Counselling Only");
+                     } else {
+                       conditions.hide.push("Provider name for FP Counselling Only");
+                     }
+
+            if (obj.indexOf('FP Continuation')>=0 ) {
+                     conditions.show.push("Provider name for FP Continuation");
+                     } else {
+                       conditions.hide.push("Provider name for FP Continuation");
+                     }              
+
+            if (obj.indexOf('VAWG')>=0 ) {
+                     conditions.show.push("Provider name for VAWG");
+                     } else {
+                       conditions.hide.push("Provider name for VAWG");
+                     }
+
+            if (obj.indexOf('STI')>=0 ) {
+                     conditions.show.push("Provider name for STI");
+                     } else {
+                       conditions.hide.push("Provider name for STI");
+                     }
+
+            if (obj.indexOf('Home visit')>=0 ) {
+                     conditions.show.push("Provider name for Home Visit");
+                     } else {
+                       conditions.hide.push("Provider name for Home Visit");
+                     }
 
       return conditions;
 },

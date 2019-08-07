@@ -1,0 +1,32 @@
+set @concept_id = 0;
+set @concept_short_id = 0;
+set @concept_full_id = 0;
+set @count = 0;
+set @uuid = NULL;
+
+
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"VAWG",'VAWG','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"STI",'STI','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Provider name for HIV Self Testing",'Provider name for HIV Self Testing','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Provider name for Provider Testing and Counseling",'Provider name for Provider Testing and Counseling','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Provider name for Confirmatory HIV testing and Counseling",'Provider name for Confirmatory HIV testing and Counseling','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Provider name for Contact Tracing",'Provider name for Contact Tracing','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Provider name for Viac Initial",'Provider name for Viac Initial','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Provider name for Viac Continuation",'Provider name for Viac Continuation','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Provider name for VMMC",'Provider name for VMMC','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Provider name for FP Initial",'Provider name for FP Initial','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Provider name for FP Counselling Only",'Provider name for FP Counselling Only','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Provider name for FP Continuation",'Provider name for FP Continuation','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Provider name for VAWG",'Provider name for VAWG','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Provider name for STI",'Provider name for STI','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Alex Chimedza",'Alex Chimedza','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Loice Mushayi",'Loice Mushayi','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Denny Chikowo",'Denny Chikowo','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Evidence Meda",'Evidence Meda','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Ozius Duri",'Ozius Duri','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Ritchard Tafira",'Ritchard Tafira','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Tawanda Gumiso",'Tawanda Gumiso','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Vimbai Chihwehwete",'Vimbai Chihwehwete','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Tsitsi Chitiki",'Tsitsi Chitiki','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Everisto Marowa",'Everisto Marowa','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"Philipa Mabunda",'Philipa Mabunda','N/A','Misc',false);

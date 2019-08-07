@@ -900,28 +900,33 @@ phtc.\"Late read result\"
                 max(case when fpsform.\"fps_form_allergies_state_below_if_any\" = 'Yes' then 1
                 when fpsform.\"fps_form_allergies_state_below_if_any\" = 'No' THEN 0
                     else null end) :: BOOLEAN as \"Allergies (state below if any)\",
-              Case when string_agg(case when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Varicose Veins' then 'Varicose Veins' 
-                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Anemia' then 'Anemia'
-                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'Diabetes Mellitus' then 'Diabetes Mellitus'
-                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Thromboplebitis' then 'Thromboplebitis'
-                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Heart condition' then 'Heart condition'
-                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Liver problems' then 'Liver problems'
-                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Epilepsy' then 'Epilepsy'
-                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Cancer of the breast' then 'Cancer of the breast'
-                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'N/A' then 'N/A'
-                end ,', ') != 'N/A' AND
-                 string_agg(case when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Varicose Veins' then 'Varicose Veins' 
-                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Anemia' then 'Anemia'
-                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'Diabetes Mellitus' then 'Diabetes Mellitus'
-                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Thromboplebitis' then 'Thromboplebitis'
-                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Heart condition' then 'Heart condition'
-                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Liver problems' then 'Liver problems'
-                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Epilepsy' then 'Epilepsy'
-                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Cancer of the breast' then 'Cancer of the breast'
-                                when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'N/A' then 'N/A'
-                end ,', ') is not null then  1
+              Case when string_agg 
+                                ( 
+                                  case 
+                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Varicose Veins' then 'Varicose Veins' 
+                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Anemia' then 'Anemia'
+                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'Diabetes Mellitus' then 'Diabetes Mellitus'
+                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Thromboplebitis' then 'Thromboplebitis'
+                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Heart condition' then 'Heart condition'
+                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Liver problems' then 'Liver problems'
+                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Epilepsy' then 'Epilepsy'
+                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Cancer of the breast' then 'Cancer of the breast'
+                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'N/A' then 'N/A'
+                                end ,', ') != 'N/A' AND
+                        string_agg
+                                (
+                                  case when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Varicose Veins' then 'Varicose Veins' 
+                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Anemia' then 'Anemia'
+                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'Diabetes Mellitus' then 'Diabetes Mellitus'
+                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Thromboplebitis' then 'Thromboplebitis'
+                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Heart condition' then 'Heart condition'
+                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Liver problems' then 'Liver problems'
+                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Epilepsy' then 'Epilepsy'
+                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Cancer of the breast' then 'Cancer of the breast'
+                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'N/A' then 'N/A'
+                                end ,', ') is not null then  1
                 else Null end :: BOOLEAN as \"Does the client have a history\",
-                 max(case when fpsform.\"fps_form_any_other_illness\" = 'Yes' then 1
+                max(case when fpsform.\"fps_form_any_other_illness\" = 'Yes' then 1
                 when fpsform.\"fps_form_any_other_illness\" = 'No' THEN 0
                     else null end) :: BOOLEAN as \"Any other illness?\",
                 max(fpsform.\"fps_form_clinical_history\") as \"Clinical History\",

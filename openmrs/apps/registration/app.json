@@ -136,6 +136,66 @@
       "dropdown": true,
       "disableAddNotes":true
     },
+    "Provider name for HIV Self Testing":{
+      "dropdown": true,
+      "disableAddNotes":true
+    },
+    "Provider name for Provider Testing and Counseling":{
+      "dropdown": true,
+      "disableAddNotes":true
+    },
+    "Provider name for Confirmatory HIV testing and Counseling":{
+      "dropdown": true,
+      "disableAddNotes":true
+    },
+    "Provider name for Contact Tracing":{
+      "dropdown": true,
+      "disableAddNotes":true
+    },
+    "Provider name for Review by MD/Doctor":{
+      "dropdown": true,
+      "disableAddNotes":true
+    },
+    "Provider name for Hospital Visit":{
+      "dropdown": true,
+      "disableAddNotes":true
+    },
+    "Provider name for Viac Initial":{
+      "dropdown": true,
+      "disableAddNotes":true
+    },
+    "Provider name for Viac Continuation":{
+      "dropdown": true,
+      "disableAddNotes":true
+    },
+    "Provider name for VMMC":{
+      "dropdown": true,
+      "disableAddNotes":true
+    },
+    "Provider name for FP Initial":{
+      "dropdown": true,
+      "disableAddNotes":true
+    },
+    "Provider name for FP Counselling Only":{
+      "dropdown": true,
+      "disableAddNotes":true
+    },
+    "Provider name for FP Continuation":{
+      "dropdown": true,
+      "disableAddNotes":true
+    },
+    "Provider name for VAWG":{
+      "dropdown": true,
+      "disableAddNotes":true
+    },
+    "Provider name for STI":{
+      "dropdown": true,
+      "disableAddNotes":true
+    },
+    "Provider name for Home Visit":{
+      "dropdown": true,
+      "disableAddNotes":true
+    },
             "Vital Signs, Temperature Data": {
               "hideAbnormalButton" : true
             },
