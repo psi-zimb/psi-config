@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet id="PSI-CONFIG-20190812001" author="Yash">
+          <comment>Adding VIAC form  Concepts</comment>
+          <sqlFile path="AddPHTCConcepts.sql"/>
+  </changeSet>
+
+    <changeSet id="PSI-CONFIG-20190812002" author="Yash">
+          <preConditions onFail="MARK_RAN">
+              <sqlCheck expectedResult="0">
+                     select count(*) from concept_answer ca
+                     join
+                     concept_name cn
+                     on ca.concept_id = cn.concept_id
+                     where ca.answer_concept IN (select concept_id from concept_name where name IN
+                     (
+                      'BAMBANANI',
+                      'MAC',
+                      'GWERU',
+                      'NKULUMANE',
+                      'CHITUNGWIZA',
+                      'NAH',
+                      'CHIPINGE',
+                      'MUTARE',
+                      'CONCESSION',
+                      'CHIREDZI',
+                      'TRIANGLE',
+                      'MASVINGO'
+                      ) and concept_name_type = "FULLY_SPECIFIED")
+                     AND
+                     cn.concept_id IN (select concept_id from concept_name where name = "PHTC, Facility");
+             </sqlCheck>
+          </preConditions>
+          <comment>Adding Answers to PHTC, Facility Question</comment>
+          <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+            set @child6_concept_id = 0;
+            set @child7_concept_id = 0;
+            set @child8_concept_id = 0;
+            set @child9_concept_id = 0;
+            set @child10_concept_id = 0;
+            set @child11_concept_id = 0;
+            set @child12_concept_id = 0;
+
+          select concept_id into @concept_id from concept_name where name = "PHTC, Facility" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+          select concept_id into @child1_concept_id from concept_name where name = 'BAMBANANI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child2_concept_id from concept_name where name = 'MAC' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child3_concept_id from concept_name where name = 'GWERU' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child4_concept_id from concept_name where name = 'NKULUMANE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child5_concept_id from concept_name where name = 'CHITUNGWIZA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child6_concept_id from concept_name where name = 'NAH' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child7_concept_id from concept_name where name = 'CHIPINGE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child8_concept_id from concept_name where name = 'MUTARE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child9_concept_id from concept_name where name = 'CONCESSION' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child10_concept_id from concept_name where name = 'CHIREDZI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child11_concept_id from concept_name where name = 'TRIANGLE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+          select concept_id into @child12_concept_id from concept_name where name = 'MASVINGO' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+          call add_concept_answer(@concept_id, @child1_concept_id, 1);
+          call add_concept_answer(@concept_id, @child2_concept_id, 2);
+          call add_concept_answer(@concept_id, @child3_concept_id, 3);
+          call add_concept_answer(@concept_id, @child4_concept_id, 4);
+          call add_concept_answer(@concept_id, @child5_concept_id, 5);
+          call add_concept_answer(@concept_id, @child6_concept_id, 6);
+          call add_concept_answer(@concept_id, @child7_concept_id, 7);
+          call add_concept_answer(@concept_id, @child8_concept_id, 8);
+          call add_concept_answer(@concept_id, @child9_concept_id, 9);
+          call add_concept_answer(@concept_id, @child10_concept_id, 10);
+          call add_concept_answer(@concept_id, @child11_concept_id, 11);
+          call add_concept_answer(@concept_id, @child12_concept_id, 12);
+
+          </sql>
+  </changeSet>
+
+  <changeSet id="PSI-CONFIG-20190812003" author="Yash">
+      <comment>Updating position of set members in PHTC, Service Provided Form</comment>
+      <sql>
+          update concept_set set sort_weight = 1 where concept_set = (select concept_id from concept_view where concept_full_name = 'PHTC, Service Provided' and retired = 0) and concept_id  = (select concept_id from concept_view where concept_full_name = 'PHTC, Site Type' and retired = 0);
+
+          update concept_set set sort_weight = 2 where concept_set = (select concept_id from concept_view where concept_full_name = 'PHTC, Service Provided' and retired = 0) and concept_id  = (select concept_id from concept_view where concept_full_name = 'PHTC, District' and retired = 0);
+
+          update concept_set set sort_weight = 3 where concept_set = (select concept_id from concept_view where concept_full_name = 'PHTC, Service Provided' and retired = 0) and concept_id  = (select concept_id from concept_view where concept_full_name = 'PHTC, Setting' and retired = 0);
+
+      </sql>
+   </changeSet>
+
+  <changeSet id="PSI-CONFIG-20190812004" author="Yash">
+      <preConditions onFail="MARK_RAN">
+          <sqlCheck expectedResult="0">
+                 select COUNT(*) from concept_set cs
+                 join concept_name cn
+                 on cs.concept_id = cn.concept_id
+                 where cs.concept_id IN (select concept_id from concept_name where name IN
+                 (
+                 "PHTC, Facility"
+                 )
+                 AND concept_name_type = "FULLY_SPECIFIED")
+                 and cs.concept_set IN (select concept_id from concept_name where name = "PHTC, Service Provided");
+              </sqlCheck>
+      </preConditions>
+      <comment>Adding set members to PHTC, Service Provided Form</comment>
+      <sql>
+          set @concept_id = 0;
+          select concept_id into @concept_id from concept_name where name = "PHTC, Service Provided" and concept_name_type = 'FULLY_SPECIFIED' and voided = 0;
+
+          SELECT concept_id INTO @concept_id1 FROM concept_name WHERE name = 'PHTC, Facility' AND concept_name_type="FULLY_SPECIFIED";
+          INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id1,@concept_id,0,1,now(),uuid());
+
+      </sql>
+   </changeSet>
+
+</databaseChangeLog>

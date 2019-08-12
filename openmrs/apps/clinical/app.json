@@ -370,8 +370,16 @@
           "HST, District":{
             "dropdown":true
           },
+          "PHTC, Facility":{
+            "dropdown":true,
+            "required":true
+          },
+          "PHTC, Site Type":{
+            "required":true
+          },
           "PHTC, District":{
-            "dropdown":true
+            "dropdown":true,
+            "required":true
           },
           "AIVC, District":{
             "dropdown":true

@@ -153,4 +153,6 @@
 
     <include file ="HTS_Program.xml"/>
 
+    <include file ="PHTCServiceProvided.xml"/>
+
 </databaseChangeLog>

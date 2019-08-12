@@ -10547,6 +10547,19 @@ Bahmni.ConceptSet.FormConditions.rules = {
                          conditions.disable.push("Viac Form, REVIEW If Other Specify details");
                     }
                          return conditions;
-                  }
+                  },
+                 "PHTC, Site Type": function(formName, formFieldValues) {
+                         var conditions = {show: [], hide: []};
+                         var conditionConcept = formFieldValues['PHTC, Site Type'];
+                         if (conditionConcept =="Outreach") {
+                              conditions.show.push("PHTC, District");
+
+                         }
+                         else
+                         {
+                              conditions.hide.push("PHTC, District");
+                         }
+                              return conditions;
+                      }
 
 }
