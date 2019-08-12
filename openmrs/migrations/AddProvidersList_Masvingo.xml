@@ -2980,4 +2980,98 @@
         </sql>
         </changeSet>
 
+        <changeSet id="PSI-CONFIG-2019081201" author="Yash">
+       <preConditions onFail="MARK_RAN">
+           <sqlCheck expectedResult= "0">
+               select count(*) from global_property where property='emrapi.sqlSearch.VAWGPatients';
+           </sqlCheck>
+       </preConditions>
+       <comment>Creating Global Property for VAWG Patient Queue</comment>
+       <sql>
+           INSERT INTO global_property (property, property_value, uuid)
+           VALUES ('emrapi.sqlSearch.VAWGPatients', '', uuid());
+       </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-2019081202" author="Yash">
+        <comment>Updating Global Property For VAWG Patient Queue</comment>
+        <sql>
+            update global_property set property_value =
+            "select distinct  concat(pn.given_name,' ', 
+            ifnull(pn.family_name,'')) as name, 
+            pi.identifier as identifier, 
+            concat('',p.uuid) as uuid, 
+            concat('',v.uuid) as activeVisitUuid, 
+            IF(va.value_reference = 'Admitted', 'true', 'false') as hasBeenAdmitted 
+            from visit v 
+            join person_name pn on v.patient_id = pn.person_id and pn.voided = 0 
+            join patient_identifier pi on v.patient_id = pi.patient_id 
+            join patient_identifier_type pit on pi.identifier_type = pit.patient_identifier_type_id 
+            join global_property gp on gp.property='bahmni.primaryIdentifierType' 
+            and gp.property_value=pit.uuid 
+            join person p on p.person_id = v.patient_id 
+            join location l on l.uuid = ${visit_location_uuid} 
+            and v.location_id = l.location_id 
+            INNER JOIN (SELECT reason_for_visit.person_id,e.visit_id 
+            FROM obs reason_for_visit 
+            INNER JOIN concept c ON c.concept_id = reason_for_visit.concept_id AND reason_for_visit.voided = 0 
+            INNER JOIN concept_name cn ON c.concept_id = cn.concept_id AND cn.concept_name_type = 'FULLY_SPECIFIED' AND 
+            cn.name IN ('Reason for visit') 
+            INNER JOIN concept c2 ON c2.concept_id = reason_for_visit.value_coded 
+            INNER JOIN concept_name cn2 ON c2.concept_id = cn2.concept_id AND cn2.concept_name_type = 'FULLY_SPECIFIED' AND cn2.name IN ('VAWG') INNER JOIN encounter e on e.encounter_id = reason_for_visit.encounter_id) AS result 
+            ON result.person_id = v.patient_id AND result.visit_id = v.visit_id 
+            left outer join visit_attribute va on va.visit_id = v.visit_id 
+            and va.attribute_type_id = (select visit_attribute_type_id from visit_attribute_type where name='Admission Status') 
+            and va.voided = 0 where v.date_stopped is null AND v.voided = 0;"
+        where property= 'emrapi.sqlSearch.VAWGPatients';
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-2019081203" author="Yash">
+       <preConditions onFail="MARK_RAN">
+           <sqlCheck expectedResult= "0">
+               select count(*) from global_property where property='emrapi.sqlSearch.STIPatients';
+           </sqlCheck>
+       </preConditions>
+       <comment>Creating Global Property for STI Patients queue</comment>
+       <sql>
+           INSERT INTO global_property (property, property_value, uuid)
+           VALUES ('emrapi.sqlSearch.STIPatients', '', uuid());
+       </sql>
+</changeSet>
+
+    <changeSet id="PSI-CONFIG-2019081204" author="Yash">
+        <comment>Updating Global Property For STI Patients queue</comment>
+        <sql>
+            update global_property set property_value =
+            "select distinct  concat(pn.given_name,' ', 
+            ifnull(pn.family_name,'')) as name, 
+            pi.identifier as identifier, 
+            concat('',p.uuid) as uuid, 
+            concat('',v.uuid) as activeVisitUuid, 
+            IF(va.value_reference = 'Admitted', 'true', 'false') as hasBeenAdmitted 
+            from visit v 
+            join person_name pn on v.patient_id = pn.person_id and pn.voided = 0 
+            join patient_identifier pi on v.patient_id = pi.patient_id 
+            join patient_identifier_type pit on pi.identifier_type = pit.patient_identifier_type_id 
+            join global_property gp on gp.property='bahmni.primaryIdentifierType' 
+            and gp.property_value=pit.uuid 
+            join person p on p.person_id = v.patient_id 
+            join location l on l.uuid = ${visit_location_uuid} 
+            and v.location_id = l.location_id 
+            INNER JOIN (SELECT reason_for_visit.person_id,e.visit_id 
+            FROM obs reason_for_visit 
+            INNER JOIN concept c ON c.concept_id = reason_for_visit.concept_id AND reason_for_visit.voided = 0 
+            INNER JOIN concept_name cn ON c.concept_id = cn.concept_id AND cn.concept_name_type = 'FULLY_SPECIFIED' AND 
+            cn.name IN ('Reason for visit') 
+            INNER JOIN concept c2 ON c2.concept_id = reason_for_visit.value_coded 
+            INNER JOIN concept_name cn2 ON c2.concept_id = cn2.concept_id AND cn2.concept_name_type = 'FULLY_SPECIFIED' AND cn2.name IN ('STI') INNER JOIN encounter e on e.encounter_id = reason_for_visit.encounter_id) AS result 
+            ON result.person_id = v.patient_id AND result.visit_id = v.visit_id 
+            left outer join visit_attribute va on va.visit_id = v.visit_id 
+            and va.attribute_type_id = (select visit_attribute_type_id from visit_attribute_type where name='Admission Status') 
+            and va.voided = 0 where v.date_stopped is null AND v.voided = 0;"
+        where property= 'emrapi.sqlSearch.STIPatients';
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

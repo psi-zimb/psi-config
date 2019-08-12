@@ -345,6 +345,30 @@
     "order": 25,
     "requiredPrivilege": "app:clinical"
   },
+    "bahmniClinicalPatientsSearchVAWGPatients": {
+    "id": "bahmni.clinical.patients.search.VAWGPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.VAWGPatients",
+      "translationKey": "MODULE_LABEL_VAWG",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "order": 26,
+    "requiredPrivilege": "app:clinical"
+  },
+    "bahmniClinicalPatientsSearchSTIPatients": {
+    "id": "bahmni.clinical.patients.search.STIPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.STIPatients",
+      "translationKey": "MODULE_LABEL_STI",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "order": 27,
+    "requiredPrivilege": "app:clinical"
+  },
   "bahmniClinicalPatientsSearchAllPatients": {
     "id": "bahmni.clinical.patients.search.allPatients",
     "extensionPointId": "org.bahmni.patient.search",
@@ -353,7 +377,7 @@
       "translationKey": "MODULE_LABEL_ALL_KEY",
       "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
     },
-    "order": 26,
+    "order": 28,
     "requiredPrivilege": "app:clinical"
   },
   "bahmniClinicalConceptSetGroupObservationsHistory": {

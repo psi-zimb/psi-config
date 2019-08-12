@@ -6,11 +6,6 @@
         xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
-    
-    <changeSet id="PSI-CONFIG-2019061401" author="Yash">
-        <comment>Adding All Obs Concepts</comment>
-        <sqlFile path="AddAllObsConcepts.sql"/>
-    </changeSet>
 
       <changeSet id="PSI-CONFIG-2019061901" author="Yash">
        <comment>Allowing decimal values to newly created numeric concept</comment>
