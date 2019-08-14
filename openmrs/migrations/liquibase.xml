@@ -155,4 +155,6 @@
 
     <include file ="PHTCServiceProvided.xml"/>
 
+    <include file ="PrEPProgramNewOutcome.xml"/>
+
 </databaseChangeLog>

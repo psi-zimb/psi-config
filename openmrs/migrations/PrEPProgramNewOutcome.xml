@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="PSI-CONFIG-20190814001" author="Yash">
+          <comment>Adding VIAC form  Concepts</comment>
+          <sqlFile path="AddPrePProgramOutcome.sql"/>
+  </changeSet>
+
+<changeSet id="PSI-CONFIG-20190814002" author="Yash">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select COUNT(*) from concept_set cs
+                join concept_name cn
+                on cs.concept_id = cn.concept_id
+                where cs.concept_id IN (select concept_id from concept_name where name in
+                (
+                "Sero-converted"
+                ) 
+                AND concept_name_type = "FULLY_SPECIFIED")
+                and cs.concept_set IN (select concept_id from concept_name where name = 'PrEP Program Outcomes');
+            </sqlCheck>
+        </preConditions>
+        <comment>Adding set members for PrEP Program Outcomes concept</comment>
+        <sql>
+            set @concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = 'PrEP Program Outcomes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            SELECT concept_id INTO @concept_id1 FROM concept_name WHERE name = 'Sero-converted' AND concept_name_type="FULLY_SPECIFIED";
+            INSERT INTO concept_set(concept_id,concept_set,sort_weight,creator,date_created,uuid) VALUES (@concept_id1,@concept_id,12,1,now(),uuid());
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

@@ -209,165 +209,6 @@
       "columnsToIgnore": []
       },
     {
-      "name": "HTS_instance_table_creation",
-      "type": "customSql",
-      "readerSql": "select              
-                    'New Africa House' as \"NSC site name\",
-                    GROUP_CONCAT(distinct (case when pat1.name = 'Outreach site name' Then pac.value else null end)) as \"Outreach site name\",
-                    GROUP_CONCAT(DISTINCT (case when pat1.name = 'Outreach Classification' then cv.concept_full_name else null end)) as \"Outreach type\",
-                    (case when patientSitetype.siteType = (select concept_id from concept_view where concept_full_name = 'Static' and retired = 0)
-                    then \"Fixed\"
-                    ELSE
-                    (Select concept_full_name from concept_view where concept_id = patientSitetype.siteType)
-                    end) as \"Channel Type\",
-                    piUIC.identifier as \"UIC\",
-                    pi.identifier as \"Client Code\",
-                    per.gender as \"Gender\",
-                    TIMESTAMPDIFF(YEAR, per.birthdate, CURDATE()) as \"Age at last birth day\",
-                    GROUP_CONCAT(DISTINCT (case when pat1.name = 'Client Resident' then cv.concept_full_name else null end)) as \"Residence\",
-                    GROUP_CONCAT(DISTINCT (case when pat1.name = 'Marital Status' then cv.concept_full_name else null end)) as \"Marital Status\",
-                    GROUP_CONCAT(DISTINCT (case when pat1.name = 'occupation' then cv.concept_full_name else null end)) as \"Occupation\",
-                    (case when patientSitetype.siteType = (select concept_id from concept_view where concept_full_name = 'Outreach' and retired = 0)
-                    AND perAdd.city_village not like 'Other%'
-                    then concat('ZWNSC-OU-',perAdd.address2,'-',upper(perAdd.city_village))
-                    ELSE concat('ZWNSC-',perAdd.address2) 
-                    end) as \"OrgUnit\",
-                    personInstanceDateChanged.dateChanged as \"date_created\",
-                    pi.identifier as \"Patient_Identifier\"
-                    from patient_identifier pi
-                    inner join person per on pi.patient_id = per.person_id
-                    and pi.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'Patient Identifier' and retired=0)
-                    inner join patient pat on pi.patient_id = pat.patient_id
-                    Inner Join (/*To get the max changed date for a person instance*/
-                                    Select 
-                                        pid as person_id,
-                                        max(DateChanged) as dateChanged 
-                                    from (
-                                        /*Person name max date created*/
-                                        Select person_id as pid, max(coalesce(date_changed,date_created)) dateChanged from person_name group by person_id
-                                        Union All
-                                        /*Person max date created*/
-                                        Select person_id as pid, max(coalesce(date_changed,date_created)) dateChanged from person group by person_id
-                                        Union All
-                                        /*Person identifier max date created*/
-                                        Select patient_id as pid, max(coalesce(date_changed,date_created)) dateChanged from patient_identifier group by patient_id
-                                        Union All
-                                        /*Person address max date created*/
-                                        Select person_id as pid, max(coalesce(date_changed,date_created)) dateChanged from person_address group by person_id
-                                        Union All
-                                        /*Person attribute max date created*/
-                                        Select person_id as pid, max(coalesce(date_changed,date_created)) dateChanged from person_attribute group by person_id
-                                        union all
-                                        /*HTS Type of visit with min obs date time*/
-                                        select person_id as pid, min(obs_datetime) dateChanged from obs 
-                                                    where concept_id = (Select concept_id from 
-                                                    concept_name 
-                                                    where name ='Reason for visit' 
-                                                    and concept_name_type='FULLY_SPECIFIED'
-                                                    and voided=0) 
-                                                    and value_coded IN (Select concept_id from
-                                                concept_name 
-                                                where name in ('HIV Self Testing','Provider Testing and Counseling','Confirmatory HIV testing and Counseling') 
-                                                and concept_name_type='FULLY_SPECIFIED'
-                                                and voided=0)
-                                                and voided = 0
-                                                    group by person_id
-                                    ) as personInstanceDateChanged
-                                     group by pid
-                                ) as personInstanceDateChanged
-                    On personInstanceDateChanged.person_id = pat.patient_id
-                    inner join patient_identifier piUIC on pat.patient_id = piUIC.patient_id
-                    inner join person_address perAdd on pi.patient_id = perAdd.person_id
-                    LEFT JOIN (/*Patient id along with the site type value*/
-                                Select perAtt.person_id,perAtt.value as 'siteType' from person_attribute perAtt 
-                                inner JOIN person_attribute_type perAtttype on perAtt.person_attribute_type_id = perAtttype.person_attribute_type_id
-                                where  perAtttype.name = 'Site Type'
-                                and perAtt.voided=0
-                              ) as patientSitetype
-                    on patientSitetype.person_id = pi.patient_id
-                    LEFT JOIN person_attribute pac on pi.patient_id = pac.person_id and pac.voided = 0
-                    LEFT JOIN person_attribute_type pat1 on pac.person_attribute_type_id = pat1.person_attribute_type_id
-                    LEFT jOIN concept_view cv on pac.value = cv.concept_id AND cv.retired = 0
-                    and piUIC.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'UIC' and retired=0)
-                    where pi.patient_id in ( /*Filtering the HTS patients using type of visit*/
-                                                Select person_id from obs htsObs where htsObs.concept_id in (
-                                                    Select concept_id from 
-                                                    concept_name 
-                                                    where name ='Reason for visit' 
-                                                    and concept_name_type='FULLY_SPECIFIED'
-                                                    and voided=0
-                                                )
-                                                and htsObs.value_coded in (
-                                                Select concept_id from
-                                                concept_name 
-                                                where name in ('HIV Self Testing','Provider Testing and Counseling','Confirmatory HIV testing and Counseling') 
-                                                and concept_name_type='FULLY_SPECIFIED'
-                                                and voided=0
-                                               )
-                                               and htsObs.voided = 0
-                                          )
-                   group by pi.patient_id",
-      "tableName": "hts_instance_table",
-      "chunkSizeToRead": "500",
-      "columnsToIgnore": []
-    },
-    {
-      "name": "HTS_program_table_creation",
-      "type": "customSql",
-      "readerSql":  "Select 
-                    pi.identifier as \"Patient_Identifier\",
-                    case when patientSitetype.siteType = (select concept_id from concept_view where concept_full_name = 'Outreach' and retired = 0)
-                    AND perAdd.city_village not like 'Other%'
-                    then concat('ZWNSC-OU-',perAdd.address2,'-',upper(perAdd.city_village))
-                    ELSE concat('ZWNSC-',perAdd.address2) 
-                    end as \"OrgUnit\",
-                    'HTSDeId' as program,
-                    min(date(htsObs.obs_datetime)) as \"enrollment_date\",
-                    min(date(htsObs.obs_datetime)) as \"incident_date\",
-                    min(htsObs.date_created) as \"date_created\",
-                    min(v.visit_id) as \"program_unique_id\", 
-                    'ACTIVE' as status
-                        from obs htsObs/*obs for the patients for whom the HTS visit type was selected*/
-                        inner join person_address perAdd on htsObs.person_id = perAdd.person_id
-                        Inner Join patient_identifier pi on htsObs.person_id = pi.patient_id
-                    and pi.identifier_type in (
-                                        select patient_identifier_type_id 
-                                        from patient_identifier_type 
-                                        where name = 'Patient Identifier' 
-                                        and retired=0
-                                              )
-                  INNER JOIN encounter e on htsObs.encounter_id = e.encounter_id                           
-                  INNER JOIN visit v on e.visit_id = v.visit_id
-                  LEFT JOIN (/*Patient id along with the site type value*/
-                  Select perAtt.person_id,
-                  perAtt.value as 'siteType' 
-                  from person_attribute perAtt 
-                  inner JOIN person_attribute_type perAtttype 
-                  on perAtt.person_attribute_type_id = perAtttype.person_attribute_type_id
-                  where  perAtttype.name = 'Site Type'
-                ) as patientSitetype
-                      On patientSitetype.person_id = htsObs.person_id
-                      where htsObs.concept_id in (
-                        Select concept_id from 
-                        concept_name 
-                        where name ='Reason for visit' 
-                        and concept_name_type='FULLY_SPECIFIED'
-                        and voided=0
-                                                  )
-                and htsObs.value_coded in (
-                    Select concept_id from
-                    concept_name 
-                    where name in ('HIV Self Testing','Provider Testing and Counseling','Confirmatory HIV testing and Counseling') 
-                    and concept_name_type='FULLY_SPECIFIED'
-                    and voided=0
-                   )
-                and htsObs.voided=0
-                group by htsObs.person_id",
-      "tableName": "hts_program_enrollment_table",
-      "chunkSizeToRead": "500",
-      "columnsToIgnore": []
-    },
-    {
       "name": "FPS_instance_table_creation",
       "type": "customSql",
       "readerSql": "select              
@@ -525,6 +366,167 @@
                 and pp.voided=0
                 group by pp.patient_id",
       "tableName": "fps_program_enrollment_table",
+      "chunkSizeToRead": "500",
+      "columnsToIgnore": []
+    },
+  {
+    "name": "HTS_instance_table_creation",
+      "type": "customSql",
+      "readerSql": "select              
+                    GROUP_CONCAT(DISTINCT (case when pat1.name = 'Site Type' then cv.concept_full_name else null end)) as \"Site Type\",
+                    GROUP_CONCAT(distinct (case when pat1.name = 'Outreach site name' Then pac.value else null end)) as \"Outreach site name\",
+                    GROUP_CONCAT(DISTINCT (case when pat1.name = 'Outreach Classification' then cv.concept_full_name else null end)) as \"Outreach type\",
+                    (case when patientSitetype.siteType = (select concept_id from concept_view where concept_full_name = 'Static' and retired = 0)
+                    then \"Fixed\"
+                    ELSE
+                    (Select concept_full_name from concept_view where concept_id = patientSitetype.siteType)
+                    end) as \"Channel Type\",
+                    piUIC.identifier as \"UIC\",
+                    per.gender as \"Gender\",
+                    per.birthdate as \"Date of Birth\",
+                    GROUP_CONCAT(DISTINCT (case when pat1.name = 'Client Resident' then cv.concept_full_name else null end)) as \"Residence\",
+                    GROUP_CONCAT(DISTINCT (case when pat1.name = 'Marital Status' then cv.concept_full_name else null end)) as \"Marital Status\",
+                    GROUP_CONCAT(DISTINCT (case when pat1.name = 'occupation' then cv.concept_full_name else null end)) as \"Occupation\",
+                    case when OrgUnitLogic.sitetype = 'Outreach'
+                    then concat('ZWNSC-OU-',upper(OrgUnitLogic.facility),'-',upper(OrgUnitLogic.district))
+                    ELSE concat('ZWNSC-',upper(OrgUnitLogic.facility))
+                    end as \"OrgUnit\",
+                    personInstanceDateChanged.dateChanged as \"date_created\",
+                    pi.identifier as \"Patient_Identifier\"
+                    from patient_identifier pi
+                    inner join person per on pi.patient_id = per.person_id
+                    and pi.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'Patient Identifier' and retired=0)
+                    inner join patient pat on pi.patient_id = pat.patient_id
+                    Inner Join (/*To get the max changed date for a person instance*/
+                                    Select 
+                                        pid as person_id,
+                                        max(DateChanged) as dateChanged 
+                                    from (
+                                        /*Person name max date created*/
+                                        Select person_id as pid, max(coalesce(date_changed,date_created)) dateChanged from person_name group by person_id
+                                        Union All
+                                        /*Person max date created*/
+                                        Select person_id as pid, max(coalesce(date_changed,date_created)) dateChanged from person group by person_id
+                                        Union All
+                                        /*Person identifier max date created*/
+                                        Select patient_id as pid, max(coalesce(date_changed,date_created)) dateChanged from patient_identifier group by patient_id
+                                        Union All
+                                        /*Person address max date created*/
+                                        Select person_id as pid, max(coalesce(date_changed,date_created)) dateChanged from person_address group by person_id
+                                        Union All
+                                        /*Person attribute max date created*/
+                                        Select person_id as pid, max(coalesce(date_changed,date_created)) dateChanged from person_attribute group by person_id
+                                    ) as personInstanceDateChanged
+                                     group by pid
+                                ) as personInstanceDateChanged
+                    On personInstanceDateChanged.person_id = pat.patient_id
+                    inner join patient_identifier piUIC on pat.patient_id = piUIC.patient_id
+                    inner join person_address perAdd on pi.patient_id = perAdd.person_id
+                    LEFT JOIN (/*Patient id along with the site type value*/
+                                Select perAtt.person_id,perAtt.value as 'siteType' from person_attribute perAtt 
+                                inner JOIN person_attribute_type perAtttype on perAtt.person_attribute_type_id = perAtttype.person_attribute_type_id
+                                where  perAtttype.name = 'Site Type'
+                                and perAtt.voided=0
+                              ) as patientSitetype
+                    on patientSitetype.person_id = pi.patient_id
+                    LEFT JOIN person_attribute pac on pi.patient_id = pac.person_id and pac.voided = 0
+                    LEFT JOIN person_attribute_type pat1 on pac.person_attribute_type_id = pat1.person_attribute_type_id
+                    LEFT jOIN concept_view cv on pac.value = cv.concept_id AND cv.retired = 0
+                    and piUIC.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'UIC' and retired=0)
+                    inner join  
+                    (Select 
+            facilityObs.person_id,
+            (select concept_full_name from concept_view where retired = 0 and concept_id= facilityObs.value_coded) as facility,
+            (select concept_full_name from concept_view where retired = 0 and concept_id= siteTypeObs.value_coded) as sitetype,
+            (select concept_full_name from concept_view where retired = 0 and concept_id= districtObs.value_coded) as district
+            from obs facilityObs
+            Inner Join
+            (Select concept_id,person_id,max(obs_datetime) as facilityObsDateTime from obs 
+            where concept_id=(select concept_id from concept_view where retired = 0 and concept_full_name='PHTC, Facility')
+            and voided=0
+            group by person_id) as facilityObsDateTimePerPerson
+            on facilityObsDateTimePerPerson.concept_id = facilityObs.concept_id
+            And facilityObsDateTimePerPerson.person_id = facilityObs.person_id
+            And facilityObsDateTimePerPerson.facilityObsDateTime = facilityObs.obs_datetime
+            and facilityObs.voided = 0
+            Inner join obs siteTypeObs
+            on siteTypeObs.encounter_id = facilityObs.encounter_id
+            and siteTypeObs.voided = 0 and siteTypeObs.concept_id=(select concept_id from concept_view where retired = 0 and concept_full_name='PHTC, Site Type')
+            Left join obs districtObs
+            on districtObs.encounter_id = siteTypeObs.encounter_id
+            and  districtObs.voided = 0 and districtObs.concept_id=(select concept_id from concept_view where retired = 0 and concept_full_name='PHTC, District')
+          ) as OrgUnitLogic
+            on OrgUnitLogic.person_id = pi.patient_id
+                    where pi.patient_id in ( /*Filtering the HTS Program patients using Program name*/
+                                                Select patient_id from patient_program pp where program_id in (
+                                                    Select program_id from 
+                                                    program 
+                                                    where name ='HTS Program'
+                                                    and retired=0
+                                                )
+                                                and voided = 0
+                                          )
+                   group by pi.patient_id",
+      "tableName": "hts_instance_table",
+      "chunkSizeToRead": "500",
+      "columnsToIgnore": []
+    },
+    {
+      "name": "HTS_program_table_creation",
+      "type": "customSql",
+      "readerSql":  "Select 
+                    pi.identifier as \"Patient_Identifier\",
+                    case when OrgUnitLogic.sitetype = 'Outreach'
+                    then concat('ZWNSC-OU-',upper(OrgUnitLogic.facility),'-',upper(OrgUnitLogic.district))
+                    ELSE concat('ZWNSC-',upper(OrgUnitLogic.facility))
+                    end as \"OrgUnit\",
+                    'vatFxlZR2lj' as program,
+                    CAST(min(date(pp.date_enrolled)) AS DATE) as \"enrollment_date\",
+                    CAST(min(date(pp.date_enrolled)) AS DATE) as \"incident_date\",
+                    min(pp.date_created) as \"date_created\",
+                    min(pp.patient_program_id) as \"program_unique_id\", 
+                    'ACTIVE' as status
+                        from patient_program pp /*patient_program for the patients enrolled in HTS Program*/
+                        Inner Join patient_identifier pi on pp.patient_id = pi.patient_id
+                    and pi.identifier_type in (
+                                        select patient_identifier_type_id 
+                                        from patient_identifier_type 
+                                        where name = 'Patient Identifier' 
+                                        and retired=0
+                                              )
+                  inner join  
+                    (Select 
+            facilityObs.person_id,
+            (select concept_full_name from concept_view where retired = 0 and concept_id= facilityObs.value_coded) as facility,
+            (select concept_full_name from concept_view where retired = 0 and concept_id= siteTypeObs.value_coded) as sitetype,
+            (select concept_full_name from concept_view where retired = 0 and concept_id= districtObs.value_coded) as district
+            from obs facilityObs
+            Inner Join
+            (Select concept_id,person_id,max(obs_datetime) as facilityObsDateTime from obs 
+            where concept_id=(select concept_id from concept_view where retired = 0 and concept_full_name='PHTC, Facility')
+            and voided=0
+            group by person_id) as facilityObsDateTimePerPerson
+            on facilityObsDateTimePerPerson.concept_id = facilityObs.concept_id
+            And facilityObsDateTimePerPerson.person_id = facilityObs.person_id
+            And facilityObsDateTimePerPerson.facilityObsDateTime = facilityObs.obs_datetime
+            and facilityObs.voided = 0
+            Inner join obs siteTypeObs
+            on siteTypeObs.encounter_id = facilityObs.encounter_id
+            and siteTypeObs.voided = 0 and siteTypeObs.concept_id=(select concept_id from concept_view where retired = 0 and concept_full_name='PHTC, Site Type')
+            Left join obs districtObs
+            on districtObs.encounter_id = siteTypeObs.encounter_id
+            and  districtObs.voided = 0 and districtObs.concept_id=(select concept_id from concept_view where retired = 0 and concept_full_name='PHTC, District')
+          ) as OrgUnitLogic
+            on OrgUnitLogic.person_id = pi.patient_id
+                      where pp.program_id in (
+                        Select program_id from 
+                        program 
+                        where name ='HTS Program'
+                        and retired=0
+                                             )    
+                and pp.voided=0
+                group by pp.patient_id",
+      "tableName": "hts_program_enrollment_table",
       "chunkSizeToRead": "500",
       "columnsToIgnore": []
     }
