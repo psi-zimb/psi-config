@@ -8438,11 +8438,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
       else  {
           conditions.disable.push("FPS FORM,State COC Cycles");
             }
-       if (obj === 'FPS FORM, Other Methods'){
-            conditions.enable.push("FPS FORM, Other State");}
-      else
-      {
-         conditions.disable.push("FPS FORM, Other State");}
           return conditions;
      },
 "FPS FORM,Device removal": function(formName, formFieldValues) {
@@ -10558,6 +10553,19 @@ Bahmni.ConceptSet.FormConditions.rules = {
                          else
                          {
                               conditions.hide.push("PHTC, District");
+                         }
+                              return conditions;
+                      },
+                "AIVC, Site Type": function(formName, formFieldValues) {
+                         var conditions = {show: [], hide: []};
+                         var conditionConcept = formFieldValues['AIVC, Site Type'];
+                         if (conditionConcept =="Outreach") {
+                              conditions.show.push("AIVC, District");
+
+                         }
+                         else
+                         {
+                              conditions.hide.push("AIVC, District");
                          }
                               return conditions;
                       }

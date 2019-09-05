@@ -676,6 +676,17 @@
           "Viac Form, Diastolic": {
                 "hideAbnormalButton" : true
             },
+        "AIVC, Facility":{
+            "dropdown":true,
+            "required":true
+          },
+          "AIVC, Site Type":{
+            "required":true
+          },
+          "AIVC, District":{
+            "dropdown":true,
+            "required":true
+          },
           "defaults": {
                 "HIV testing and counselling service": "Requested",
                 "Numeric concept": 1,

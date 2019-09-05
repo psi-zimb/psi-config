@@ -157,4 +157,6 @@
 
     <include file ="PrEPProgramNewOutcome.xml"/>
 
+    <include file ="AIVCServiceProvided.xml"/>
+
 </databaseChangeLog>
