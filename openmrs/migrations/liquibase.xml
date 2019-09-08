@@ -159,4 +159,8 @@
 
     <include file ="AIVCServiceProvided.xml"/>
 
+    <include file ="FPContForm.xml"/>
+
+    <include file ="FPCounsForm.xml"/>
+
 </databaseChangeLog>

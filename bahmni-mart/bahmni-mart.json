@@ -1002,7 +1002,6 @@ phtc.\"Late read result\"
                                 when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM,Vasectomy' then 'Vasectomy'
                                 when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM,Emergency contraception' then 'Emergency contraception'
                                 when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM,Tuberligation' then 'Tuberligation'
-                                when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM, Other Methods' then 'Other Methods'
                 end ,', ') as \"Method issued and/or administered\",
                 max(case when fpsform.\"fps_form_dual_protection_discussed\" = 'Yes' then 1
                 when fpsform.\"fps_form_dual_protection_discussed\" = 'No' THEN 0

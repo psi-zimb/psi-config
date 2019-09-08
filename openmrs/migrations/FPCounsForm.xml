@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+  <changeSet id="PSI-CONFIG-2019090601" author="Yash">
+          <comment>Adding VIAC form  Concepts</comment>
+          <sqlFile path="AddFPCounsFormConcepts.sql"/>
+  </changeSet>
+    <changeSet id="PSI-CONFIG-2019090602" author="Yash">
+      <sql>
+        INSERT INTO concept_numeric
+        (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision)
+        VALUES ((select concept_id from concept_name where name = 'FP Couns Form, Temperature'
+        and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
+      </sql>
+  </changeSet>
+
+  <changeSet id="PSI-CONFIG-2019090603" author="Yash">
+    <comment>Removing existing Temperature concept from FP Couns form</comment>
+      <sql>
+        delete from concept_set where concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Counselling Only Form' and retired = 0) and concept_id = (select concept_id from concept_view where concept_full_name = 'FP Counselling Only, Temperature Data' and retired = 0);
+      </sql>
+  </changeSet>
+
+  <changeSet id="PSI-CONFIG-2019090604" author="Yash">
+    <comment>Adding Newly created Temperature concept to the FP Couns form</comment>
+      <sql>
+        INSERT INTO concept_set (concept_id,concept_set,sort_weight,creator,date_created,uuid) 
+        VALUES ((select concept_id from concept_view where concept_full_name = 'FP Couns Form, Temperature' and retired = 0),(select concept_id from concept_view where concept_full_name = 'FPS, FP Counselling Only Form' and retired = 0),
+        1,1,now(),uuid());
+      </sql>
+  </changeSet>
+
+</databaseChangeLog>

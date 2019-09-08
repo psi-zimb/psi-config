@@ -388,12 +388,6 @@
             "dropdown":true,
             "required":true
           },
-          "FP Counselling Only, Temperature":{
-            "hideAbnormalButton":true
-          },
-          "FP Continuation, Temperature":{
-            "hideAbnormalButton":true
-          },
           "FPS Counselling Only BP, Systolic": {
                 "hideAbnormalButton" : true
             },
@@ -429,10 +423,6 @@
             {
              "multiSelect":true   
             },
-            "FPS Continuation, Method Administered":
-            {
-             "multiSelect":true   
-            },
             "FP Continuation,Indicate where client was referred to":
             {
              "multiSelect":true   
@@ -440,13 +430,9 @@
             "FP Continuation, State review date": {
             "allowFutureDates": true
           },
-          "FPS Continuation, If Yes select the complications":
-            {
-             "multiSelect":true   
-            },
             "FP Continuation, If yes, select the adverse event":
             {
-             "multiSelect":true   
+             "dropdown":true   
             },
             "FP Continuation, Expiry date of the method given":
           {
@@ -686,6 +672,15 @@
           "AIVC, District":{
             "dropdown":true,
             "required":true
+          },
+          "FPS Continuation, If Yes select the complications":{
+            "dropdown":true
+          },
+          "FPS Counselling Only,If complication is Yes":{
+            "dropdown":true
+          },
+          "FPS Counselling Only, If yes, select the adverse event":{
+            "dropdown":true
           },
           "defaults": {
                 "HIV testing and counselling service": "Requested",

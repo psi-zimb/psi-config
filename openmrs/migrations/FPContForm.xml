@@ -1,0 +1,997 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+<changeSet id="PSI-CONFIG-20190906000001" author="Yash">
+          <comment>Adding FP Cont form Concepts</comment>
+          <sqlFile path="AddFPContFormConcepts.sql"/>
+  </changeSet>
+
+    <changeSet id="PSI-CONFIG-2019090602" author="Yash">
+        <comment>Adding Concept to concept_numeric table</comment>
+      <sql>
+        INSERT INTO concept_numeric
+        (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision)
+        VALUES ((select concept_id from concept_name where name = 'FP Cont Form, Temperature'
+        and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
+      </sql>
+  </changeSet>
+
+      <changeSet id="PSI-CONFIG-2019090611" author="Yash">
+        <comment>Adding Concept to concept_numeric table</comment>
+      <sql>
+        INSERT INTO concept_numeric
+        (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision)
+        VALUES ((select concept_id from concept_name where name = 'FP Cont Form, State COC Cycles'
+        and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
+        INSERT INTO concept_numeric
+        (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision)
+        VALUES ((select concept_id from concept_name where name = 'FP Cont Form, State POP Cycles'
+        and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
+      </sql>
+  </changeSet>
+
+  <changeSet id="PSI-CONFIG-2019090603" author="Yash">
+    <comment>Removing existing Temperature concept from FP Cont form</comment>
+      <sql>
+        delete from concept_set where concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0) and concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Temperature Data' and retired = 0);
+      </sql>
+  </changeSet>
+
+  <changeSet id="PSI-CONFIG-2019090604" author="Yash">
+    <comment>Adding Newly created Temperature concept to the FP Cont form</comment>
+      <sql>
+        INSERT INTO concept_set (concept_id,concept_set,sort_weight,creator,date_created,uuid) 
+        VALUES ((select concept_id from concept_view where concept_full_name = 'FP Cont Form, Temperature' and retired = 0),(select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0),
+        1,1,now(),uuid());
+      </sql>
+  </changeSet>
+
+  <changeSet id="PSI-CONFIG-2019090605" author="Yash">
+    <comment>Update shortname for Method Administered in FP Cont form</comment>
+      <sql>
+        update concept_view set concept_short_name = 'Method issued and/or administered' where concept_full_name = 'FPS Continuation, Method Administered' and retired = 0;
+      </sql>
+  </changeSet>
+
+  <changeSet id="PSI-CONFIG-2019090607" author="Yash">
+    <comment>Update shortname for Other Methods in FP Int form</comment>
+      <sql>
+        update concept_view set concept_short_name = 'Others' where concept_full_name = 'FPS FORM, Other Methods' and retired = 0;
+      </sql>
+  </changeSet>
+
+    <changeSet id="PSI-CONFIG-2019090608" author="Yash">
+    <comment>Removing If other specify details from Method Issued from FP Initial form</comment>
+      <sql>
+        delete from concept_set where concept_set = (select concept_id from concept_view where concept_full_name = 'FPS FORM,Method Choice' and retired = 0) and concept_id = (select concept_id from concept_view where concept_full_name = 'FPS FORM, Other State' and retired = 0);
+      </sql>
+  </changeSet>
+
+  <changeSet id="PSI-CONFIG-2019090610" author="Yash">
+    <comment>Removing If other specify details from Method Issued from FP Cont form</comment>
+      <sql>
+        delete from concept_set where concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0) and concept_id = (select concept_id from concept_view where concept_full_name = "FPS Continuation, IF Method Administered others, then specify" and retired = 0);
+      </sql>
+  </changeSet>
+
+    <changeSet id="PSI-CONFIG-2019090612" author="Yash">
+    <comment>Adding State POP Cycle and State COC Cycle concept to the FP Cont form</comment>
+      <sql>
+        INSERT INTO concept_set (concept_id,concept_set,creator,date_created,uuid) 
+        VALUES ((select concept_id from concept_view where concept_full_name = 'FP Cont Form, State COC Cycles' and retired = 0),(select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0),1,now(),uuid());
+
+        INSERT INTO concept_set (concept_id,concept_set,creator,date_created,uuid) 
+        VALUES ((select concept_id from concept_view where concept_full_name = 'FP Cont Form, State POP Cycles' and retired = 0),(select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0),1,now(),uuid());
+      </sql>
+  </changeSet>
+
+    <changeSet id="PSI-CONFIG-2019090613" author="Yash">
+    <comment>Removing If other specify details from Removal method from FP Cont form</comment>
+      <sql>
+        delete from concept_set where concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0) and concept_id = (select concept_id from concept_view where concept_full_name = "FP Continuation, IF Removal method others, then specify" and retired = 0);
+      </sql>
+  </changeSet>
+
+      <changeSet id="PSI-CONFIG-2019090614" author="Yash">
+    <comment>Removing Others answer from Removal method from FP Cont form</comment>
+      <sql>
+        delete from concept_answer where concept_id = (select concept_id from concept_view where concept_full_name = 'FPS Continuation, Removal Method' and retired = 0) and answer_concept = (select concept_id from concept_view where concept_full_name = "Others" and retired = 0);
+
+        delete from concept_answer where concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, State reason for removal' and retired = 0) and answer_concept = (select concept_id from concept_view where concept_full_name = "Others" and retired = 0);
+
+        delete from concept_set where concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0) and concept_id = (select concept_id from concept_view where concept_full_name = "FP Continuation, State removal If other" and retired = 0);
+      </sql>
+  </changeSet>
+
+
+    <changeSet id="PSI-CONFIG-2019090617" author="Yash">
+    <comment>Removing existing Start of procedure indicate time, End of procedure indicate time concepts from FP Cont form</comment>
+      <sql>
+        delete from concept_set where concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0) and concept_id = (select concept_id from concept_view where concept_full_name = "FP Continuation, Start of procedure indicate time" and retired = 0);
+
+        delete from concept_set where concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0) and concept_id = (select concept_id from concept_view where concept_full_name = "FP Continuation, End of procedure, indicate time" and retired = 0);
+      </sql>
+  </changeSet>
+
+  <changeSet id="PSI-CONFIG-2019090618" author="Yash">
+    <comment>Adding Newly created Start of procedure indicate time, End of procedure indicate time concept to the FP Cont form</comment>
+      <sql>
+        INSERT INTO concept_set (concept_id,concept_set,creator,date_created,uuid) 
+        VALUES ((select concept_id from concept_view where concept_full_name = 'FP Cont Form, Start of procedure indicate time' and retired = 0),(select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0),1,now(),uuid());
+
+        INSERT INTO concept_set (concept_id,concept_set,creator,date_created,uuid) 
+        VALUES ((select concept_id from concept_view where concept_full_name = 'FP Cont Form, End of procedure indicate time' and retired = 0),(select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0),1,now(),uuid());
+      </sql>
+  </changeSet>
+
+    <changeSet id="PSI-CONFIG-2019090619" author="Yash">
+    <comment>Removing existing State procedure concept from FP Init form</comment>
+      <sql>
+        delete from concept_set where concept_set = (select concept_id from concept_view where concept_full_name = 'FPS FORM,Procedure Notes (insertion/removal) Section' and retired = 0) and concept_id = (select concept_id from concept_view where concept_full_name = 'FPS FORM,State Procedure' and retired = 0);
+      </sql>
+  </changeSet>
+
+
+  <changeSet id="PSI-CONFIG-2019090621" author="Yash">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                   select count(*) from concept_answer ca
+                   join
+                   concept_name cn
+                   on ca.concept_id = cn.concept_id
+                   where ca.answer_concept IN 
+                   (
+                       select concept_id from concept_name where name IN 
+                           (
+                            'Insertion',
+                            'Removal',
+                            'Insertion/Removal'
+                            
+                           ) 
+                       and concept_name_type = "FULLY_SPECIFIED"
+                   )
+                   AND
+                   cn.concept_id IN (select concept_id from concept_name where name = "FP Initial Form, State Procedure");
+                </sqlCheck>
+        </preConditions>
+        <comment>Adding Answers to State procedure for FP Initial form</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            
+
+            select concept_id into @concept_id from concept_name where name = "FP Initial Form, State Procedure" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Insertion' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'Removal' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'Insertion/Removal' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+            call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            call add_concept_answer(@concept_id, @child3_concept_id, 3);
+
+        </sql>
+    </changeSet>
+
+  <changeSet id="PSI-CONFIG-2019090620" author="Yash">
+    <comment>Adding Newly created State procedure concept to the FP Init form</comment>
+      <sql>
+        INSERT INTO concept_set (concept_id,concept_set,sort_weight,creator,date_created,uuid) 
+        VALUES ((select concept_id from concept_view where concept_full_name = 'FP Initial Form, State Procedure' and retired = 0),(select concept_id from concept_view where concept_full_name = 'FPS FORM,Procedure Notes (insertion/removal) Section' and retired = 0),
+        0,1,now(),uuid());
+      </sql>
+  </changeSet>
+
+    <changeSet id="PSI-CONFIG-2019090622" author="Yash">
+    <comment>Making changes to State procedure field in FP Cont form</comment>
+      <sql>
+        update concept_view set concept_short_name = 'Insertion Method' where concept_full_name = 'FP Continuation, Insertion/Removal Method' and retired = 0;
+
+        delete from concept_answer where concept_id = (select concept_id from concept_view where concept_full_name = 'FPS Continuation, Insertion Method' and retired = 0) and answer_concept = (select concept_id from concept_view where concept_full_name = "Others" and retired = 0);
+
+        delete from concept_answer where concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, State reason for removal' and retired = 0) and answer_concept = (select concept_id from concept_view where concept_full_name = "Others" and retired = 0);
+
+        delete from concept_answer where concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Insertion/Removal Method' and retired = 0) and answer_concept = (select concept_id from concept_view where concept_full_name = "Others" and retired = 0);
+
+        delete from concept_set where concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0) and concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, IF Insertion method others, then specify' and retired = 0);
+
+        delete from concept_set where concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0) and concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, IF Insertion/Removal methods others, then specify' and retired = 0);
+
+        delete from concept_answer where concept_id = (select concept_id from concept_view where concept_full_name = 'FPS Continuation, Method Administered' and retired = 0) and answer_concept = (select concept_id from concept_view where concept_full_name = "Others" and retired = 0);
+
+        delete from concept_answer where concept_id = (select concept_id from concept_view where concept_full_name = 'FPS FORM,Method issued and/or administered' and retired = 0) and answer_concept = (select concept_id from concept_view where concept_full_name = "FPS FORM, Other Methods" and retired = 0);
+      </sql>
+  </changeSet>
+
+     <changeSet id="PSI-CONFIG-2019090623" author="Yash">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN
+                      (
+                      "FPS FORM,Jadelle Implants",
+                      "FPS FORM,Implanon Implants",
+                      "IUCD",
+                      "FPS FORM,LNG-IUS") and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "FP Cont Form, Removal Method");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to FP Cont Form, Removal Method Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+               set @child3_concept_id = 0;
+               set @child4_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "FP Cont Form, Removal Method" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               select concept_id into @child1_concept_id from concept_name where name = 'FPS FORM,Jadelle Implants' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'FPS FORM,Implanon Implants' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child3_concept_id from concept_name where name = 'IUCD' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child4_concept_id from concept_name where name = 'FPS FORM,LNG-IUS' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+               call add_concept_answer(@concept_id, @child3_concept_id, 3);
+               call add_concept_answer(@concept_id, @child4_concept_id, 4);
+           </sql>
+   </changeSet>
+
+   <changeSet id="PSI-CONFIG-2019090624" author="Yash">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN
+                      (
+                      "FPS FORM,Expired",
+                      "FPS FORM,Desire to be pregnant",
+                      "FPS FORM,Health concerns",
+                      "FPS FORM,Complications") and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "FP Cont Form, State reason for removal");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to FP Cont Form, State reason for removal Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+               set @child3_concept_id = 0;
+               set @child4_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "FP Cont Form, State reason for removal" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               select concept_id into @child1_concept_id from concept_name where name = 'FPS FORM,Expired' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'FPS FORM,Desire to be pregnant' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child3_concept_id from concept_name where name = 'FPS FORM,Health concerns' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child4_concept_id from concept_name where name = 'FPS FORM,Complications' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+               call add_concept_answer(@concept_id, @child3_concept_id, 3);
+               call add_concept_answer(@concept_id, @child4_concept_id, 4);
+           </sql>
+   </changeSet>
+
+     <changeSet id="PSI-CONFIG-2019090625" author="Yash">
+    <comment>Adding Newly created Removal method concepts under Insertion/Removal method to the FP Cont form</comment>
+      <sql>
+        INSERT INTO concept_set (concept_id,concept_set,creator,date_created,uuid) 
+        VALUES ((select concept_id from concept_view where concept_full_name = 'FP Cont Form, Removal Method' and retired = 0),(select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0),1,now(),uuid());
+
+        INSERT INTO concept_set (concept_id,concept_set,creator,date_created,uuid) 
+        VALUES ((select concept_id from concept_view where concept_full_name = 'FP Cont Form, State reason for removal' and retired = 0),(select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0),1,now(),uuid());
+
+        update concept_set set sort_weight = 21 where concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0) and concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Insertion/Removal Method' and retired = 0);
+      </sql>
+  </changeSet>
+
+       <changeSet id="PSI-CONFIG-2019090626" author="Yash">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN
+                      (
+                      "FPS FORM,Jadelle Implants",
+                      "FPS FORM,Implanon Implants",
+                      "IUCD",
+                      "FPS FORM,LNG-IUS") and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "FP Init Form, Insertion Method");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to FP Init Form, Insertion Method Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+               set @child3_concept_id = 0;
+               set @child4_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "FP Init Form, Insertion Method" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               select concept_id into @child1_concept_id from concept_name where name = 'FPS FORM,Jadelle Implants' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'FPS FORM,Implanon Implants' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child3_concept_id from concept_name where name = 'IUCD' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child4_concept_id from concept_name where name = 'FPS FORM,LNG-IUS' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+               call add_concept_answer(@concept_id, @child3_concept_id, 3);
+               call add_concept_answer(@concept_id, @child4_concept_id, 4);
+           </sql>
+   </changeSet>
+
+
+   <changeSet id="PSI-CONFIG-2019090627" author="Yash">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN
+                      (
+                      "FPS FORM,Jadelle Implants",
+                      "FPS FORM,Implanon Implants",
+                      "IUCD",
+                      "FPS FORM,LNG-IUS") and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "FP Init Form, Removal Method");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to FP Init Form, Removal Method Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+               set @child3_concept_id = 0;
+               set @child4_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "FP Init Form, Removal Method" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               select concept_id into @child1_concept_id from concept_name where name = 'FPS FORM,Jadelle Implants' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'FPS FORM,Implanon Implants' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child3_concept_id from concept_name where name = 'IUCD' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child4_concept_id from concept_name where name = 'FPS FORM,LNG-IUS' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+               call add_concept_answer(@concept_id, @child3_concept_id, 3);
+               call add_concept_answer(@concept_id, @child4_concept_id, 4);
+           </sql>
+   </changeSet>
+
+
+   <changeSet id="PSI-CONFIG-2019090628" author="Yash">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN
+                      (
+                      "FPS FORM,Expired",
+                      "FPS FORM,Desire to be pregnant",
+                      "FPS FORM,Health concerns",
+                      "FPS FORM,Complications") and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "FP Init Form, State reason for removal");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to FP Init Form, State reason for removal Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+               set @child3_concept_id = 0;
+               set @child4_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "FP Init Form, State reason for removal" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               select concept_id into @child1_concept_id from concept_name where name = 'FPS FORM,Expired' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'FPS FORM,Desire to be pregnant' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child3_concept_id from concept_name where name = 'FPS FORM,Health concerns' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child4_concept_id from concept_name where name = 'FPS FORM,Complications' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+               call add_concept_answer(@concept_id, @child3_concept_id, 3);
+               call add_concept_answer(@concept_id, @child4_concept_id, 4);
+           </sql>
+   </changeSet>
+
+   <changeSet id="PSI-CONFIG-2019090629" author="Yash">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN
+                      (
+                      "FPS FORM,Jadelle Implants",
+                      "FPS FORM,Implanon Implants",
+                      "IUCD",
+                      "FPS FORM,LNG-IUS") and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "FP Init Form, Insert/Remove Removal Method");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to FP Init Form, Insert/Remove Removal Method Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+               set @child3_concept_id = 0;
+               set @child4_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "FP Init Form, Insert/Remove Removal Method" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               select concept_id into @child1_concept_id from concept_name where name = 'FPS FORM,Jadelle Implants' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'FPS FORM,Implanon Implants' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child3_concept_id from concept_name where name = 'IUCD' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child4_concept_id from concept_name where name = 'FPS FORM,LNG-IUS' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+               call add_concept_answer(@concept_id, @child3_concept_id, 3);
+               call add_concept_answer(@concept_id, @child4_concept_id, 4);
+           </sql>
+   </changeSet>
+
+   <changeSet id="PSI-CONFIG-2019090630" author="Yash">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN
+                      (
+                      "FPS FORM,Expired",
+                      "FPS FORM,Desire to be pregnant",
+                      "FPS FORM,Health concerns",
+                      "FPS FORM,Complications") and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "FP Init Form, InsertRemove state reason for removal");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to FP Init Form, InsertRemove state reason for removal Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+               set @child3_concept_id = 0;
+               set @child4_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "FP Init Form, InsertRemove state reason for removal" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               select concept_id into @child1_concept_id from concept_name where name = 'FPS FORM,Expired' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'FPS FORM,Desire to be pregnant' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child3_concept_id from concept_name where name = 'FPS FORM,Health concerns' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child4_concept_id from concept_name where name = 'FPS FORM,Complications' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+               call add_concept_answer(@concept_id, @child3_concept_id, 3);
+               call add_concept_answer(@concept_id, @child4_concept_id, 4);
+           </sql>
+   </changeSet>
+   <changeSet id="PSI-CONFIG-2019090631" author="Yash">
+           <preConditions onFail="MARK_RAN">
+               <sqlCheck expectedResult="0">
+                      select count(*) from concept_answer ca
+                      join
+                      concept_name cn
+                      on ca.concept_id = cn.concept_id
+                      where ca.answer_concept IN (select concept_id from concept_name where name IN
+                      (
+                      "FPS FORM,Jadelle Implants",
+                      "FPS FORM,Implanon Implants",
+                      "IUCD",
+                      "FPS FORM,LNG-IUS") and concept_name_type = "FULLY_SPECIFIED")
+                      AND
+                      cn.concept_id IN (select concept_id from concept_name where name = "FP Init Form, Insert/Remove Insertion Method");
+                   </sqlCheck>
+           </preConditions>
+           <comment>Adding Answers to FP Init Form, Insert/Remove Insertion Method Question</comment>
+           <sql>
+               set @concept_id = 0;
+               set @child1_concept_id = 0;
+               set @child2_concept_id = 0;
+               set @child3_concept_id = 0;
+               set @child4_concept_id = 0;
+
+               select concept_id into @concept_id from concept_name where name = "FP Init Form, Insert/Remove Insertion Method" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               select concept_id into @child1_concept_id from concept_name where name = 'FPS FORM,Jadelle Implants' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child2_concept_id from concept_name where name = 'FPS FORM,Implanon Implants' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child3_concept_id from concept_name where name = 'IUCD' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+               select concept_id into @child4_concept_id from concept_name where name = 'FPS FORM,LNG-IUS' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+               call add_concept_answer(@concept_id, @child1_concept_id, 1);
+               call add_concept_answer(@concept_id, @child2_concept_id, 2);
+               call add_concept_answer(@concept_id, @child3_concept_id, 3);
+               call add_concept_answer(@concept_id, @child4_concept_id, 4);
+           </sql>
+   </changeSet>
+
+
+     <changeSet id="PSI-CONFIG-2019090632" author="Yash">
+    <comment>Adding Newly created State procedure concepts to the FP Init form</comment>
+      <sql>
+        INSERT INTO concept_set (concept_id,concept_set,creator,date_created,uuid) 
+        VALUES ((select concept_id from concept_view where concept_full_name = 'FP Init Form, Insertion Method' and retired = 0),(select concept_id from concept_view where concept_full_name = "FPS FORM,Procedure Notes (insertion/removal) Section" and retired = 0),1,now(),uuid());
+
+        INSERT INTO concept_set (concept_id,concept_set,creator,date_created,uuid) 
+        VALUES ((select concept_id from concept_view where concept_full_name = 'FP Init Form, Removal Method' and retired = 0),(select concept_id from concept_view where concept_full_name = "FPS FORM,Procedure Notes (insertion/removal) Section" and retired = 0),1,now(),uuid());
+
+        INSERT INTO concept_set (concept_id,concept_set,creator,date_created,uuid) 
+        VALUES ((select concept_id from concept_view where concept_full_name = 'FP Init Form, State reason for removal' and retired = 0),(select concept_id from concept_view where concept_full_name = "FPS FORM,Procedure Notes (insertion/removal) Section" and retired = 0),1,now(),uuid());
+
+        INSERT INTO concept_set (concept_id,concept_set,creator,date_created,uuid) 
+        VALUES ((select concept_id from concept_view where concept_full_name = 'FP Init Form, Insert/Remove Removal Method' and retired = 0),(select concept_id from concept_view where concept_full_name = "FPS FORM,Procedure Notes (insertion/removal) Section" and retired = 0),1,now(),uuid());
+
+        INSERT INTO concept_set (concept_id,concept_set,creator,date_created,uuid) 
+        VALUES ((select concept_id from concept_view where concept_full_name = 'FP Init Form, InsertRemove state reason for removal' and retired = 0),(select concept_id from concept_view where concept_full_name = "FPS FORM,Procedure Notes (insertion/removal) Section" and retired = 0),1,now(),uuid());
+
+        INSERT INTO concept_set (concept_id,concept_set,creator,date_created,uuid) 
+        VALUES ((select concept_id from concept_view where concept_full_name = 'FP Init Form, Insert/Remove Insertion Method' and retired = 0),(select concept_id from concept_view where concept_full_name = "FPS FORM,Procedure Notes (insertion/removal) Section" and retired = 0),1,now(),uuid());
+
+      </sql>
+  </changeSet>
+
+
+  <changeSet id="PSI-CONFIG-2019090633" author="Yash">
+    <comment>Updating sort_weight for members in FPS FORM,Procedure Notes (insertion/removal) Section in FP Init form</comment>
+      <sql>
+        update concept_set set sort_weight = 1 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS FORM,Procedure Notes (insertion/removal) Section" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Init Form, Insertion Method' and retired = 0);
+
+        update concept_set set sort_weight = 2 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS FORM,Procedure Notes (insertion/removal) Section" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Init Form, Removal Method' and retired = 0);
+
+        update concept_set set sort_weight = 3 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS FORM,Procedure Notes (insertion/removal) Section" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Init Form, State reason for removal' and retired = 0);
+
+        update concept_set set sort_weight = 4 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS FORM,Procedure Notes (insertion/removal) Section" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Init Form, Insert/Remove Removal Method' and retired = 0);
+
+        update concept_set set sort_weight = 5 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS FORM,Procedure Notes (insertion/removal) Section" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Init Form, InsertRemove state reason for removal' and retired = 0);
+
+        update concept_set set sort_weight = 6 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS FORM,Procedure Notes (insertion/removal) Section" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Init Form, Insert/Remove Insertion Method' and retired = 0);
+
+        update concept_set set sort_weight = 7 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS FORM,Procedure Notes (insertion/removal) Section" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FPS FORM,Date of Procedure indicate' and retired = 0);
+
+        update concept_set set sort_weight = 8 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS FORM,Procedure Notes (insertion/removal) Section" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FPS FORM,Pre-Procedure counseling and assessment conducted?' and retired = 0);
+
+        update concept_set set sort_weight = 9 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS FORM,Procedure Notes (insertion/removal) Section" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FPS FORM,Indicate name of Counselor' and retired = 0);
+
+        update concept_set set sort_weight = 10 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS FORM,Procedure Notes (insertion/removal) Section" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FPS FORM,Start of procedure indicate time' and retired = 0);
+
+        update concept_set set sort_weight = 11 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS FORM,Procedure Notes (insertion/removal) Section" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FPS FORM,End of procedure, indicate time' and retired = 0);
+
+        update concept_set set sort_weight = 12 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS FORM,Procedure Notes (insertion/removal) Section" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FPS FORM,Complications during insertions' and retired = 0);
+
+        update concept_set set sort_weight = 13 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS FORM,Procedure Notes (insertion/removal) Section" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FPS FORM,If complication is Yes' and retired = 0);
+
+        update concept_set set sort_weight = 14 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS FORM,Procedure Notes (insertion/removal) Section" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FPS Form, If Yes for other complication' and retired = 0);
+
+        update concept_set set sort_weight = 15 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS FORM,Procedure Notes (insertion/removal) Section" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FPS FORM,Adverse Event' and retired = 0);
+
+        update concept_set set sort_weight = 16 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS FORM,Procedure Notes (insertion/removal) Section" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FPS FORM,If yes, select the adverse event' and retired = 0);
+
+        update concept_set set sort_weight = 17 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS FORM,Procedure Notes (insertion/removal) Section" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FPS Form, If Yes for other adverse event' and retired = 0);
+
+        update concept_set set sort_weight = 18 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS FORM,Procedure Notes (insertion/removal) Section" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FPS FORM,Procedure done by' and retired = 0);
+
+        update concept_set set sort_weight = 19 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS FORM,Procedure Notes (insertion/removal) Section" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FPS FORM,Batch Number' and retired = 0);
+
+        update concept_set set sort_weight = 20 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS FORM,Procedure Notes (insertion/removal) Section" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FPS FORM,Expiry Date' and retired = 0);
+
+        update concept_set set sort_weight = 21 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS FORM,Procedure Notes (insertion/removal) Section" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FPS FORM,Manufacture' and retired = 0);
+      </sql>
+  </changeSet>
+
+      <changeSet id="PSI-CONFIG-2019090634" author="Yash">
+        <comment>Remove Other as answer form State reason for removal from removal method from FP Cont form</comment>
+      <sql>
+        delete from concept_answer where concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, State reason for removal' and retired = 0) and answer_concept = (select concept_id from concept_view where concept_full_name = 'Other' and retired = 0);
+      </sql>
+  </changeSet>
+
+  <changeSet id="PSI-CONFIG-2019090635" author="Yash">
+        <comment>Updating sort_weight for members in FP Cont form</comment>
+      <sql>
+        update concept_set set sort_weight = 1 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Weight' and retired = 0);
+
+        update concept_set set sort_weight = 2 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Cont Form, Temperature' and retired = 0);
+
+        update concept_set set sort_weight = 3 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation BP, Blood Pressure' and retired = 0);
+
+        update concept_set set sort_weight = 4 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Current Method' and retired = 0);
+
+        update concept_set set sort_weight = 5 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, IF Current method others, then specify' and retired = 0);
+
+        update concept_set set sort_weight = 6 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Assessment' and retired = 0);
+
+        update concept_set set sort_weight = 7 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Plan' and retired = 0);
+
+        update concept_set set sort_weight = 8 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FPS Continuation, Method Administered' and retired = 0);
+
+        update concept_set set sort_weight = 9 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Cont Form, State POP Cycles' and retired = 0);
+
+        update concept_set set sort_weight = 10 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Cont Form, State COC Cycles' and retired = 0);
+
+        update concept_set set sort_weight = 11 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FPS Continuation, Procedure Done' and retired = 0);
+
+        update concept_set set sort_weight = 12 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FPS Continuation, State Procedure' and retired = 0);
+
+        update concept_set set sort_weight = 13 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FPS Continuation, Insertion Method' and retired = 0);
+
+        update concept_set set sort_weight = 14 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FPS Continuation, Removal Method' and retired = 0);
+
+        update concept_set set sort_weight = 15 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, State reason for removal' and retired = 0);
+
+        update concept_set set sort_weight = 16 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Cont Form, Removal Method' and retired = 0);
+
+        update concept_set set sort_weight = 17 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Cont Form, State reason for removal' and retired = 0);
+
+        update concept_set set sort_weight = 18 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Insertion/Removal Method' and retired = 0);
+
+        update concept_set set sort_weight = 19 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, State the health concerns and complications' and retired = 0);
+
+        update concept_set set sort_weight = 20 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation If side effects, specify details' and retired = 0);
+
+        update concept_set set sort_weight = 21 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Date of Procedure indicate' and retired = 0);
+
+
+        update concept_set set sort_weight = 22 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Pre-Procedure counseling and assessment conducted?' and retired = 0);
+
+        update concept_set set sort_weight = 23 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Cont Form, Start of procedure indicate time' and retired = 0);
+
+        update concept_set set sort_weight = 24 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Cont Form, End of procedure indicate time' and retired = 0);
+
+        update concept_set set sort_weight = 25 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Indicate name of Counselor' and retired = 0);
+
+        update concept_set set sort_weight = 26 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Complications during insertions' and retired = 0);
+
+        update concept_set set sort_weight = 27 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FPS Continuation, If Yes select the complications' and retired = 0);
+
+
+        update concept_set set sort_weight = 28 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FPS Continuation, If other for yes as complication' and retired = 0);
+
+        update concept_set set sort_weight = 29
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Adverse Event' and retired = 0);
+
+        update concept_set set sort_weight = 30 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, If yes, select the adverse event' and retired = 0);
+
+        update concept_set set sort_weight = 31
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, If Yes for other adverse event' and retired = 0);
+
+        update concept_set set sort_weight = 32 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Procedure done by (Name of counsellor)' and retired = 0);
+
+        update concept_set set sort_weight = 33 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Batch number of the method given' and retired = 0);
+
+        update concept_set set sort_weight = 34 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Expiry date of the method given' and retired = 0);
+
+        update concept_set set sort_weight = 35 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Manufacturer of the method given' and retired = 0);
+
+        update concept_set set sort_weight = 36 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation,Referrals Section' and retired = 0);
+
+        update concept_set set sort_weight = 37 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, State review date' and retired = 0);
+
+        update concept_set set sort_weight = 38 
+        where 
+        concept_set = 
+        (select concept_id from concept_view where concept_full_name = "FPS, FP Continuation Form" and retired = 0)
+        and
+        concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Reason for review' and retired = 0);
+      </sql>
+  </changeSet>
+
+</databaseChangeLog>

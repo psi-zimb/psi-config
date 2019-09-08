@@ -8913,58 +8913,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
      }
           return conditions;
   },
-    "FPS Continuation, Method Administered": function(formName, formFieldValues) {
-     var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues['FPS Continuation, Method Administered'];
-     if (conditionConcept.indexOf("Others") >=0) {
-          conditions.enable.push("FPS Continuation, IF Method Administered others, then specify");
-
-     }
-     else
-     {
-          conditions.disable.push("FPS Continuation, IF Method Administered others, then specify");
-     }
-          return conditions;
-  },
-    "FPS Continuation, Insertion Method": function(formName, formFieldValues) {
-     var conditions = {show: [], hide: []};
-     var conditionConcept = formFieldValues['FPS Continuation, Insertion Method'];
-     if (conditionConcept =="Others") {
-          conditions.show.push("FP Continuation, IF Insertion method others, then specify");
-
-     }
-     else
-     {
-          conditions.hide.push("FP Continuation, IF Insertion method others, then specify");
-     }
-          return conditions;
-  },
-    "FPS Continuation, Removal Method": function(formName, formFieldValues) {
-     var conditions = {show: [], hide: []};
-     var conditionConcept = formFieldValues['FPS Continuation, Removal Method'];
-     if (conditionConcept =="Others") {
-          conditions.show.push("FP Continuation, IF Removal method others, then specify");
-
-     }
-     else
-     {
-          conditions.hide.push("FP Continuation, IF Removal method others, then specify");
-     }
-          return conditions;
-  },
-    "FP Continuation, Insertion/Removal Method": function(formName, formFieldValues) {
-     var conditions = {show: [], hide: []};
-     var conditionConcept = formFieldValues['FP Continuation, Insertion/Removal Method'];
-     if (conditionConcept =="Others") {
-          conditions.show.push("FP Continuation, IF Insertion/Removal methods others, then specify");
-
-     }
-     else
-     {
-          conditions.hide.push("FP Continuation, IF Insertion/Removal methods others, then specify");
-     }
-          return conditions;
-  },
     "FP Continuation,Referred out ?": function(formName, formFieldValues) {
    var conditions = {enable: [], disable: [],show: [], hide: []};
    var questionThatTriggersRule = "FP Continuation,Referred out ?";
@@ -9031,8 +8979,8 @@ Bahmni.ConceptSet.FormConditions.rules = {
         var secondAnswer = "FP Continuation, Date of Procedure indicate";
         var thirdAnswer = "FP Continuation, Pre-Procedure counseling and assessment conducted?";
         var forthAnswer = "FP Continuation, Indicate name of Counselor";
-        var fifthAnswer = "FP Continuation, Start of procedure indicate time";
-        var sixthAnswer = "FP Continuation, End of procedure, indicate time";
+        var fifthAnswer = "FP Cont Form, Start of procedure indicate time";
+        var sixthAnswer = "FP Cont Form, End of procedure indicate time";
         var seventhAnswer = "FP Continuation, Complications during insertions";
         var eighthAnswer = "FP Continuation, Adverse Event";
         var ninethAnswer = "FP Continuation, Procedure done by (Name of counsellor)";
@@ -9087,7 +9035,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
  "FPS Continuation, If Yes select the complications": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
      var conditionConcept = formFieldValues['FPS Continuation, If Yes select the complications'];
-     if (conditionConcept.indexOf("Other") >=0) {
+     if (conditionConcept =="Other") {
           conditions.enable.push("FPS Continuation, If other for yes as complication");
 
      }
@@ -9114,7 +9062,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
  "FP Continuation, If yes, select the adverse event": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
      var conditionConcept = formFieldValues['FP Continuation, If yes, select the adverse event'];
-     if (conditionConcept.indexOf("Other") >=0) {
+     if (conditionConcept =="Other") {
           conditions.enable.push("FP Continuation, If Yes for other adverse event");
 
      }
@@ -9133,6 +9081,8 @@ Bahmni.ConceptSet.FormConditions.rules = {
             conditions.hide.push("FPS Continuation, Removal Method");
             conditions.hide.push("FP Continuation, Insertion/Removal Method");
             conditions.hide.push("FP Continuation, State reason for removal");
+            conditions.hide.push("FP Cont Form, Removal Method");
+            conditions.hide.push("FP Cont Form, State reason for removal");
 
         }
         else if (conditionConcept == "Removal") {
@@ -9140,18 +9090,26 @@ Bahmni.ConceptSet.FormConditions.rules = {
             conditions.show.push("FP Continuation, State reason for removal");
             conditions.hide.push("FPS Continuation, Insertion Method");
             conditions.hide.push("FP Continuation, Insertion/Removal Method");
+            conditions.hide.push("FP Cont Form, Removal Method");
+            conditions.hide.push("FP Cont Form, State reason for removal");
  
         }
         else if (conditionConcept == "Insertion/Removal") {
             conditions.show.push("FP Continuation, Insertion/Removal Method");
+            conditions.show.push("FP Cont Form, Removal Method");
+            conditions.show.push("FP Cont Form, State reason for removal");
             conditions.hide.push("FPS Continuation, Removal Method");
             conditions.hide.push("FPS Continuation, Insertion Method");
             conditions.hide.push("FP Continuation, State reason for removal");
  
         }
         else {
-            conditions.hide.push("FPS Continuation, Insertion Method","FPS Continuation, Removal Method","FP Continuation, Insertion/Removal Method",
-                "FP Continuation, State reason for removal");
+            conditions.hide.push("FPS Continuation, Insertion Method",
+                                 "FPS Continuation, Removal Method",
+                                 "FP Continuation, Insertion/Removal Method",
+                                 "FP Continuation, State reason for removal",
+                                 "FP Cont Form, Removal Method",
+                                 "FP Cont Form, State reason for removal");
         }
         return conditions;
     },
@@ -9430,15 +9388,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
      "FP Continuation, State reason for removal": function(formName, formFieldValues) {
          var conditions = {enable: [], disable: [], show: [], hide: []};
          var conditionConcept = formFieldValues['FP Continuation, State reason for removal'];
-         if (conditionConcept == "Other") {
-              conditions.show.push("FP Continuation, State removal If other");
-
-         }
-         else
-         {
-              conditions.hide.push("FP Continuation, State removal If other");
-             }
-
          if (conditionConcept == "FPS FORM,Health concerns" || conditionConcept == "FPS FORM,Complications")
          {
               conditions.show.push("FP Continuation, State the health concerns and complications");
@@ -10543,7 +10492,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                     }
                          return conditions;
                   },
-                  "PHTC, Site Type": function(formName, formFieldValues) {
+                 "PHTC, Site Type": function(formName, formFieldValues) {
                          var conditions = {show: [], hide: []};
                          var conditionConcept = formFieldValues['PHTC, Site Type'];
                          if (conditionConcept =="Outreach") {
@@ -10568,6 +10517,65 @@ Bahmni.ConceptSet.FormConditions.rules = {
                               conditions.hide.push("AIVC, District");
                          }
                               return conditions;
-                      }
+                      },
+            "FPS Continuation, Method Administered" : function (formName, formFieldValues) {
+                      var conditions = {enable: [], disable: []};
+                      var obj = formFieldValues['FPS Continuation, Method Administered'];
+                      if (obj ==='FPS FORM,Projesterone only pill (POP)') {
+                          conditions.enable.push("FP Cont Form, State POP Cycles");
+                            }
+                      else  {
+                          conditions.disable.push("FP Cont Form, State POP Cycles");
+                            }
+                       if (obj ==='FPS FORM,Combined oral contaceptive (COC)') {
+                          conditions.enable.push("FP Cont Form, State COC Cycles");
+                            }
+                      else  {
+                          conditions.disable.push("FP Cont Form, State COC Cycles");
+                            }
+                          return conditions;
+                     },
+
+        "FP Initial Form, State Procedure": function (formName, formFieldValues) {
+        var conditions = {show: [], hide: []};
+        var conditionConcept = formFieldValues['FP Initial Form, State Procedure'];
+
+        if (conditionConcept == "Insertion") {
+            conditions.show.push("FP Init Form, Insertion Method");
+            conditions.hide.push("FP Init Form, Removal Method");
+            conditions.hide.push("FP Init Form, Insert/Remove Insertion Method");
+            conditions.hide.push("FP Init Form, State reason for removal");
+            conditions.hide.push("FP Init Form, Insert/Remove Removal Method");
+            conditions.hide.push("FP Init Form, InsertRemove state reason for removal");
+
+        }
+        else if (conditionConcept == "Removal") {
+            conditions.show.push("FP Init Form, Removal Method");
+            conditions.show.push("FP Init Form, State reason for removal");
+            conditions.hide.push("FP Init Form, Insertion Method");
+            conditions.hide.push("FP Init Form, Insert/Remove Insertion Method");
+            conditions.hide.push("FP Init Form, Insert/Remove Removal Method");
+            conditions.hide.push("FP Init Form, InsertRemove state reason for removal");
+ 
+        }
+        else if (conditionConcept == "Insertion/Removal") {
+            conditions.show.push("FP Init Form, Insert/Remove Insertion Method");
+            conditions.show.push("FP Init Form, Insert/Remove Removal Method");
+            conditions.show.push("FP Init Form, InsertRemove state reason for removal");
+            conditions.hide.push("FP Init Form, Removal Method");
+            conditions.hide.push("FP Init Form, Insertion Method");
+            conditions.hide.push("FP Init Form, State reason for removal");
+ 
+        }
+        else {
+            conditions.hide.push("FP Init Form, Insertion Method",
+                                 "FP Init Form, Removal Method",
+                                 "FP Init Form, Insert/Remove Insertion Method",
+                                 "FP Init Form, Insert/Remove Removal Method",
+                                 "FP Init Form, InsertRemove state reason for removal",
+                                 "FP Init Form, State reason for removal");
+        }
+        return conditions;
+    }
 
 }
