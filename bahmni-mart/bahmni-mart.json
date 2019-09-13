@@ -529,6 +529,167 @@
       "tableName": "hts_program_enrollment_table",
       "chunkSizeToRead": "500",
       "columnsToIgnore": []
+    },
+    {
+    "name": "VIAC_instance_table_creation",
+      "type": "customSql",
+      "readerSql": "select              
+                    GROUP_CONCAT(DISTINCT (case when pat1.name = 'Site Type' then cv.concept_full_name else null end)) as \"Site Type\",
+                    GROUP_CONCAT(distinct (case when pat1.name = 'Outreach site name' Then pac.value else null end)) as \"Outreach site name\",
+                    GROUP_CONCAT(DISTINCT (case when pat1.name = 'Outreach Classification' then cv.concept_full_name else null end)) as \"Outreach type\",
+                    (case when patientSitetype.siteType = (select concept_id from concept_view where concept_full_name = 'Static' and retired = 0)
+                    then \"Fixed\"
+                    ELSE
+                    (Select concept_full_name from concept_view where concept_id = patientSitetype.siteType)
+                    end) as \"Channel Type\",
+                    piUIC.identifier as \"UIC\",
+                    per.gender as \"Gender\",
+                    per.birthdate as \"Date of Birth\",
+                    GROUP_CONCAT(DISTINCT (case when pat1.name = 'Client Resident' then cv.concept_full_name else null end)) as \"Residence\",
+                    GROUP_CONCAT(DISTINCT (case when pat1.name = 'Marital Status' then cv.concept_full_name else null end)) as \"Marital Status\",
+                    GROUP_CONCAT(DISTINCT (case when pat1.name = 'occupation' then cv.concept_full_name else null end)) as \"Occupation\",
+                    case when OrgUnitLogic.sitetype = 'Outreach'
+                    then concat('ZWNSC-OU-',upper(OrgUnitLogic.facility),'-',upper(OrgUnitLogic.district))
+                    ELSE concat('ZWNSC-',upper(OrgUnitLogic.facility))
+                    end as \"OrgUnit\",
+                    personInstanceDateChanged.dateChanged as \"date_created\",
+                    pi.identifier as \"Patient_Identifier\"
+                    from patient_identifier pi
+                    inner join person per on pi.patient_id = per.person_id
+                    and pi.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'Patient Identifier' and retired=0)
+                    inner join patient pat on pi.patient_id = pat.patient_id
+                    Inner Join (/*To get the max changed date for a person instance*/
+                                    Select 
+                                        pid as person_id,
+                                        max(DateChanged) as dateChanged 
+                                    from (
+                                        /*Person name max date created*/
+                                        Select person_id as pid, max(coalesce(date_changed,date_created)) dateChanged from person_name group by person_id
+                                        Union All
+                                        /*Person max date created*/
+                                        Select person_id as pid, max(coalesce(date_changed,date_created)) dateChanged from person group by person_id
+                                        Union All
+                                        /*Person identifier max date created*/
+                                        Select patient_id as pid, max(coalesce(date_changed,date_created)) dateChanged from patient_identifier group by patient_id
+                                        Union All
+                                        /*Person address max date created*/
+                                        Select person_id as pid, max(coalesce(date_changed,date_created)) dateChanged from person_address group by person_id
+                                        Union All
+                                        /*Person attribute max date created*/
+                                        Select person_id as pid, max(coalesce(date_changed,date_created)) dateChanged from person_attribute group by person_id
+                                    ) as personInstanceDateChanged
+                                     group by pid
+                                ) as personInstanceDateChanged
+                    On personInstanceDateChanged.person_id = pat.patient_id
+                    inner join patient_identifier piUIC on pat.patient_id = piUIC.patient_id
+                    inner join person_address perAdd on pi.patient_id = perAdd.person_id
+                    LEFT JOIN (/*Patient id along with the site type value*/
+                                Select perAtt.person_id,perAtt.value as 'siteType' from person_attribute perAtt 
+                                inner JOIN person_attribute_type perAtttype on perAtt.person_attribute_type_id = perAtttype.person_attribute_type_id
+                                where  perAtttype.name = 'Site Type'
+                                and perAtt.voided=0
+                              ) as patientSitetype
+                    on patientSitetype.person_id = pi.patient_id
+                    LEFT JOIN person_attribute pac on pi.patient_id = pac.person_id and pac.voided = 0
+                    LEFT JOIN person_attribute_type pat1 on pac.person_attribute_type_id = pat1.person_attribute_type_id
+                    LEFT jOIN concept_view cv on pac.value = cv.concept_id AND cv.retired = 0
+                    and piUIC.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'UIC' and retired=0)
+                    inner join  
+                    (Select 
+            facilityObs.person_id,
+            (select concept_full_name from concept_view where retired = 0 and concept_id= facilityObs.value_coded) as facility,
+            (select concept_full_name from concept_view where retired = 0 and concept_id= siteTypeObs.value_coded) as sitetype,
+            (select concept_full_name from concept_view where retired = 0 and concept_id= districtObs.value_coded) as district
+            from obs facilityObs
+            Inner Join
+            (Select concept_id,person_id,max(obs_datetime) as facilityObsDateTime from obs 
+            where concept_id=(select concept_id from concept_view where retired = 0 and concept_full_name='Viac Form, Facility')
+            and voided=0
+            group by person_id) as facilityObsDateTimePerPerson
+            on facilityObsDateTimePerPerson.concept_id = facilityObs.concept_id
+            And facilityObsDateTimePerPerson.person_id = facilityObs.person_id
+            And facilityObsDateTimePerPerson.facilityObsDateTime = facilityObs.obs_datetime
+            and facilityObs.voided = 0
+            Inner join obs siteTypeObs
+            on siteTypeObs.encounter_id = facilityObs.encounter_id
+            and siteTypeObs.voided = 0 and siteTypeObs.concept_id=(select concept_id from concept_view where retired = 0 and concept_full_name='Viac Form, Site Type')
+            Left join obs districtObs
+            on districtObs.encounter_id = siteTypeObs.encounter_id
+            and  districtObs.voided = 0 and districtObs.concept_id=(select concept_id from concept_view where retired = 0 and concept_full_name='Viac Form, District')
+          ) as OrgUnitLogic
+            on OrgUnitLogic.person_id = pi.patient_id
+                    where pi.patient_id in ( /*Filtering the FPS Program patients using Program name*/
+                                                Select patient_id from patient_program pp where program_id in (
+                                                    Select program_id from 
+                                                    program 
+                                                    where name ='VIAC Program'
+                                                    and retired=0
+                                                )
+                                                and voided = 0
+                                          )
+                   group by pi.patient_id",
+      "tableName": "viac_instance_table",
+      "chunkSizeToRead": "500",
+      "columnsToIgnore": []
+    },
+    {
+    "name": "VIAC_program_table_creation",
+      "type": "customSql",
+      "readerSql":  "Select 
+                    pi.identifier as \"Patient_Identifier\",
+                    case when OrgUnitLogic.sitetype = 'Outreach'
+                    then concat('ZWNSC-OU-',upper(OrgUnitLogic.facility),'-',upper(OrgUnitLogic.district))
+                    ELSE concat('ZWNSC-',upper(OrgUnitLogic.facility))
+                    end as \"OrgUnit\",
+                    'vatFxlZR2lj' as program,
+                    CAST(min(date(pp.date_enrolled)) AS DATE) as \"enrollment_date\",
+                    CAST(min(date(pp.date_enrolled)) AS DATE) as \"incident_date\",
+                    min(pp.date_created) as \"date_created\",
+                    min(pp.patient_program_id) as \"program_unique_id\", 
+                    'ACTIVE' as status
+                        from patient_program pp /*patient_program for the patients enrolled in VIAC Program*/
+                        Inner Join patient_identifier pi on pp.patient_id = pi.patient_id
+                    and pi.identifier_type in (
+                                        select patient_identifier_type_id 
+                                        from patient_identifier_type 
+                                        where name = 'Patient Identifier' 
+                                        and retired=0
+                                              )
+                  inner join  
+                    (Select 
+            facilityObs.person_id,
+            (select concept_full_name from concept_view where retired = 0 and concept_id= facilityObs.value_coded) as facility,
+            (select concept_full_name from concept_view where retired = 0 and concept_id= siteTypeObs.value_coded) as sitetype,
+            (select concept_full_name from concept_view where retired = 0 and concept_id= districtObs.value_coded) as district
+            from obs facilityObs
+            Inner Join
+            (Select concept_id,person_id,max(obs_datetime) as facilityObsDateTime from obs 
+            where concept_id=(select concept_id from concept_view where retired = 0 and concept_full_name='Viac Form, Facility')
+            and voided=0
+            group by person_id) as facilityObsDateTimePerPerson
+            on facilityObsDateTimePerPerson.concept_id = facilityObs.concept_id
+            And facilityObsDateTimePerPerson.person_id = facilityObs.person_id
+            And facilityObsDateTimePerPerson.facilityObsDateTime = facilityObs.obs_datetime
+            and facilityObs.voided = 0
+            Inner join obs siteTypeObs
+            on siteTypeObs.encounter_id = facilityObs.encounter_id
+            and siteTypeObs.voided = 0 and siteTypeObs.concept_id=(select concept_id from concept_view where retired = 0 and concept_full_name='Viac Form, Site Type')
+            Left join obs districtObs
+            on districtObs.encounter_id = siteTypeObs.encounter_id
+            and  districtObs.voided = 0 and districtObs.concept_id=(select concept_id from concept_view where retired = 0 and concept_full_name='Viac Form, District')
+          ) as OrgUnitLogic
+            on OrgUnitLogic.person_id = pi.patient_id
+                      where pp.program_id in (
+                        Select program_id from 
+                        program 
+                        where name ='VIAC Program'
+                        and retired=0
+                                             )    
+                and pp.voided=0
+                group by pp.patient_id",
+      "tableName": "viac_program_enrollment_table",
+      "chunkSizeToRead": "500",
+      "columnsToIgnore": []
     }
   ],
   "procedures":[
@@ -1258,6 +1419,196 @@ patient_encounter_table pedd
                 where ppv.program_id = (select program_id from programs_default where program_name = 'FPS Program')
                 group by fpsform.id_fps_family_planning_service,fpsform.patient_id
                 order by fpsform.id_fps_family_planning_service desc"
- }
+ },
+ {
+ "name": "viac_program_events_table",
+ "sql": "select 
+        'vatFxlZR2l':: TEXT as program,
+        'KeomfqRdu8Q':: TEXT as program_stage,
+        max(case when viac.\"viac_form_site_type\" = 'Outreach'
+                    then concat('ZWNSC-OU-',upper(viac.\"viac_form_facility\"),'-',upper(viac.\"viac_form_district\"))
+                    ELSE concat('ZWNSC-',upper(viac.\"viac_form_facility\"))
+                    end) as \"OrgUnit\",
+        max(date(viac.\"obs_datetime\")) as \"event_date\",
+        'COMPLETED' :: TEXT as status,
+        max(pedd.\"visit_id\") as \"event_unique_id\",
+        max(DATE(ppv.\"date_enrolled\"))  as \"enrollment_date\",
+        max(viac.\"date_created\") as \"date_created\",       
+        max(pi.\"Patient_Identifier\") as \"Patient_Identifier\",
+        max(viac.\"viac_form_site_type\") as \"Site Type\",
+        max(viac.\"viac_form_setting\") as \"Setting\",
+        max(viac.\"viac_form_gravida\") as \"Gravida\",
+        max(viac.\"viac_form_parity\") as \"Parity\",
+        string_agg(
+        case
+        when viac.\"viac_form_type_of_visit\" = 'Viac Form, Initial (never been screened before for CaCx)' then 'Initial (never been screened before for CaCx)' 
+        when viac.\"viac_form_type_of_visit\" = 'Viac Form, Repeat' then 'Repeat'
+        when viac.\"viac_form_type_of_visit\" = 'Viac Form, Treatment' then 'Repeat'
+        when viac.\"viac_form_type_of_visit\" = 'Viac Form, Review after' then 'Review after'
+        when viac.\"viac_form_type_of_visit\" = 'Viac Form, VIAC after Positive HPV DNA Test' then 'VIAC after Positive HPV DNA Test'
+        when viac.\"viac_form_type_of_visit\" = 'Viac Form, Counseling Only' then 'Counseling Only'
+        end ,', ') as \"Type of visit\",
+        string_agg(
+        case
+        when viac.\"viac_form_repeat_specify_period\" = '1 year' then '1 year' 
+        when viac.\"viac_form_repeat_specify_period\" = 'Viac Form, 2 Years' then '2 years'
+        when viac.\"viac_form_repeat_specify_period\" = 'Viac Form, 3 Years' then '3 Years'
+        when viac.\"viac_form_repeat_specify_period\" = 'Viac Form, 4 Years' then '4 Years'
+        when viac.\"viac_form_repeat_specify_period\" = 'Viac Form, 5 Years' then '5 Years'
+        when viac.\"viac_form_repeat_specify_period\" = 'Viac Form, >5 Years' then '>5 Years'
+        end ,', ') as \"Specify period\",
+        string_agg(
+        case
+        when viac.\"viac_form_treatment_specify_treatment\" = 'Viac Form, Cryotherapy' then 'Cryotherapy' 
+        when viac.\"viac_form_treatment_specify_treatment\" = 'Viac Form, Thermocoagulation' then 'Thermocoagulation'
+        when viac.\"viac_form_treatment_specify_treatment\" = 'Viac Form, Treatment LEEP' then 'LEEP'
+        end ,', ') as \"Specify treatment\",
+        string_agg(
+        case
+        when viac.\"viac_form_review_after_specify_details\" = 'Viac Form, Cryotherapy' then 'Cryotherapy' 
+        when viac.\"viac_form_review_after_specify_details\" = 'Viac Form, Thermocoagulation' then 'Thermocoagulation'
+        when viac.\"viac_form_review_after_specify_details\" = 'Viac Form, Review after LEEP' then 'LEEP'
+        when viac.\"viac_form_review_after_specify_details\" = 'Viac Form, Antibiotics' then 'Antibiotics'
+        when viac.\"viac_form_review_after_specify_details\" = 'Other' then 'Other'
+        end ,', ') as \"Specify details for review after\",
+        max(viac.\"viac_form_hiv_status\") as \"HIV Status\",
+        max(viac.\"viac_form_age_at_sexual_debut\") as \"Age at sexual debut\",
+        max(viac.\"viac_form_no_of_lifetime_partners\") as \"No. of lifetime partners\",
+        max(viac.\"viac_form_presenting_complaints\") as \"Presenting complaints\",
+        max(viac.\"viac_form_presenting_complaints_if_other_specify_details\") as \"Specify details for presenting complaints\",
+        max(viac.\"viac_form_ever_treated_for_stis\") as \"Ever treated for STIs\",
+        string_agg(
+        case
+        when viac.\"viac_form_ever_treated_for_stis_specify_details\" = 'Viac Form, Genital Ulcer Disease' then 'Genital Ulcer Disease' 
+        when viac.\"viac_form_ever_treated_for_stis_specify_details\" = 'Viac Form, Vaginal Discharge Syndrome' then 'Vaginal Discharge Syndrome'
+        when viac.\"viac_form_ever_treated_for_stis_specify_details\" = 'Viac Form, Pelvic Inflamatory Disease' then 'Pelvic Inflamatory Disease'
+        when viac.\"viac_form_ever_treated_for_stis_specify_details\" = 'Viac Form, Genital Herpes' then 'Genital Herpes'
+        when viac.\"viac_form_ever_treated_for_stis_specify_details\" = 'Viac Form, Genital warts' then 'Genital warts'
+        when viac.\"viac_form_ever_treated_for_stis_specify_details\" = 'Other' then 'Other'
+        end ,', ') as \"Specify details for ever treated for STIs\",
+        string_agg(
+        case
+        when viac.\"viac_form_condom_use_with_regular_non_regular_partner\" = 'Always' then 'Always' 
+        when viac.\"viac_form_condom_use_with_regular_non_regular_partner\" = 'Sometimes' then 'Sometimes'
+        when viac.\"viac_form_condom_use_with_regular_non_regular_partner\" = 'Never' then 'Never'
+        when viac.\"viac_form_condom_use_with_regular_non_regular_partner\" = 'Viac Form, Abstinent' then 'Abstinent'
+        end ,', ') as \"Condom use with regular/non regular partner\",
+        string_agg(
+        case
+        when viac.\"viac_form_prior_family_planning_predominantly_used\" = 'Viac Form, Emergency contraception' then 'Emergency contraception' 
+        when viac.\"viac_form_prior_family_planning_predominantly_used\" = 'Viac Form, Projesterone only pill (POP)' then 'Projesterone only pill (POP)'
+        when viac.\"viac_form_prior_family_planning_predominantly_used\" = 'Viac Form, Combined oral contaceptive (COC)' then 'Combined oral contaceptive (COC)'
+        when viac.\"viac_form_prior_family_planning_predominantly_used\" = 'Viac Form, Injectable (Petogen)' then 'Injectable (Petogen)'
+        when viac.\"viac_form_prior_family_planning_predominantly_used\" = 'Viac Form, Implanon Implants' then 'Implanon Implants' 
+        when viac.\"viac_form_prior_family_planning_predominantly_used\" = 'Viac Form, Jadelle Implants' then 'Jadelle Implants'
+        when viac.\"viac_form_prior_family_planning_predominantly_used\" = 'Viac Form, Copper T IUCD' then 'Copper T IUCD'
+        when viac.\"viac_form_prior_family_planning_predominantly_used\" = 'Viac Form, LNG-IUS IUCD' then 'LNG-IUS IUCD'
+        when viac.\"viac_form_prior_family_planning_predominantly_used\" = 'Viac Form, Vasectomy' then 'Vasectomy' 
+        when viac.\"viac_form_prior_family_planning_predominantly_used\" = 'Viac Form, Tuberligation' then 'Tuberligation'
+        when viac.\"viac_form_prior_family_planning_predominantly_used\" = 'Viac Form, Condoms' then 'Condoms'
+        when viac.\"viac_form_prior_family_planning_predominantly_used\" = 'None' then 'None'
+        when viac.\"viac_form_prior_family_planning_predominantly_used\" = 'Other' then 'Other'
+        end ,', ') as \"Prior family planning predominantly used\",
+        max(viac.\"viac_form_have_you_ever_used_coc\") as \"Have you ever used COC\",
+        string_agg(
+        case
+        when viac.\"viac_form_coc_for_how_many_years\" = 'Viac Form, less than 1' then '<1' 
+        when viac.\"viac_form_coc_for_how_many_years\" = '1 year' then '1 year'
+        when viac.\"viac_form_coc_for_how_many_years\" = 'Viac Form, 2 Years' then '2 Years'
+        when viac.\"viac_form_coc_for_how_many_years\" = 'Viac Form, 3 Years' then '3 Years'
+        when viac.\"viac_form_coc_for_how_many_years\" = 'Viac Form, 4 Years' then '4 Years' 
+        when viac.\"viac_form_coc_for_how_many_years\" = 'Viac Form, 5 Years' then '5 Years'
+        when viac.\"viac_form_coc_for_how_many_years\" = 'Viac Form, >5 Years' then '>5 Years'
+        end ,', ') as \"For how many years on COC?\",
+
+        max(viac.\"viac_form_history_of_smoking\") as \"History of smoking\",
+        max(case when viac.\"viac_form_history_of_smoking\" = 'Yes' then 1
+                 when viac.\"viac_form_history_of_smoking\" = 'No' THEN 0
+                    else null end) :: BOOLEAN as \"History of smoking\",
+
+        string_agg(
+        case
+        when viac.\"viac_form_smoking_for_how_many_years\" = 'Viac Form, less than 1' then '<1' 
+        when viac.\"viac_form_smoking_for_how_many_years\" = '1 year' then '1 year'
+        when viac.\"viac_form_smoking_for_how_many_years\" = 'Viac Form, 2 Years' then '2 Years'
+        when viac.\"viac_form_smoking_for_how_many_years\" = 'Viac Form, 3 Years' then '3 Years'
+        when viac.\"viac_form_smoking_for_how_many_years\" = 'Viac Form, 4 Years' then '4 Years' 
+        when viac.\"viac_form_smoking_for_how_many_years\" = 'Viac Form, 5 Years' then '5 Years'
+        when viac.\"viac_form_smoking_for_how_many_years\" = 'Viac Form, >5 Years' then '>5 Years'
+        end ,', ') as \"For how many years on Smoking\",
+        max(viac.\"viac_form_current_medication_for_chronic_conditions\") as \"Current Medication for Chronic condition\",
+        string_agg(
+        case
+        when viac.\"viac_form_chronic_conditions_specify_details\" = 'Viac Form, Anti-retrovirals' then 'Anti-retrovirals' 
+        when viac.\"viac_form_chronic_conditions_specify_details\" = 'Viac Form, Anti-hypertensives' then 'Anti-hypertensives'
+        when viac.\"viac_form_chronic_conditions_specify_details\" = 'Viac Form, Diabetics' then 'Diabetics'
+        when viac.\"viac_form_chronic_conditions_specify_details\" = 'Viac Form, Anti-Epleptics' then 'Anti-Epleptics'
+        when viac.\"viac_form_chronic_conditions_specify_details\" = 'Viac Form, Chemotherapy' then 'Chemotherapy' 
+        when viac.\"viac_form_chronic_conditions_specify_details\" = 'Viac Form, Anti-Asthmatics' then 'Anti-Asthmatics'
+        when viac.\"viac_form_chronic_conditions_specify_details\" = 'Other' then 'Other'
+        end ,', ') as \"Specify details for chronic conditions\",
+
+        max(viac.\"viac_form_prior_ca_cervix_screening_in_lifetime\") as \"Prior CA CERVIX screening in lifetime\",
+        max(case when viac.\"viac_form_prior_ca_cervix_screening_in_lifetime\" = 'Yes' then 1
+                 when viac.\"viac_form_prior_ca_cervix_screening_in_lifetime\" = 'No' THEN 0
+                    else null end) :: BOOLEAN as \"Prior CA CERVIX screening in lifetime\",
+
+        string_agg(
+        case
+        when viac.\"viac_form_when_were_you_last_screened\" = 'Viac Form, less than 1' then '<1' 
+        when viac.\"viac_form_when_were_you_last_screened\" = '1 year' then '1 year'
+        when viac.\"viac_form_when_were_you_last_screened\" = 'Viac Form, 2 Years' then '2 Years'
+        when viac.\"viac_form_when_were_you_last_screened\" = 'Viac Form, 3 Years' then '3 Years'
+        when viac.\"viac_form_when_were_you_last_screened\" = 'Viac Form, 4 Years' then '4 Years' 
+        when viac.\"viac_form_when_were_you_last_screened\" = 'Viac Form, 5 Years' then '5 Years'
+        when viac.\"viac_form_when_were_you_last_screened\" = 'Viac Form, >5 Years' then '>5 Years'
+        end ,', ') as \"When were you last screened?\",
+        string_agg(
+        case
+        when viac.\"viac_form_method_used_in_your_last_screen\" = 'Viac Form, PAP SMEAR' then 'PAP SMEAR' 
+        when viac.\"viac_form_method_used_in_your_last_screen\" = 'Viac Form, VIAC' then 'VIAC'
+        when viac.\"viac_form_method_used_in_your_last_screen\" = 'Viac Form, HPV DNA Testing' then 'HPV DNA Testing'
+        end ,', ') as \"Method used in your last screen\",
+        string_agg(
+        case
+        when viac.\"viac_form_screening_method_used_on_this_visit\" = 'Viac Form, VIAC/ VIA' then 'VIAC/ VIA' 
+        when viac.\"viac_form_screening_method_used_on_this_visit\" = 'Viac Form, HPV DNA' then 'HPV DNA'
+        when viac.\"viac_form_screening_method_used_on_this_visit\" = 'Viac Form, PAP SMEAR' then 'PAP SMEAR'
+        end ,', ') as \"Screening method used on this visit\",
+        string_agg(
+        case
+        when viac.\"viac_form_specimen_collected_by\" = 'Viac Form, Self-collected specimen' then 'Self-collected specimen' 
+        when viac.\"viac_form_specimen_collected_by\" = 'Viac Form, Provider-collected specimen' then 'Provider-collected specimen'
+        end ,', ') as \"Specimen collected by\",
+        string_agg(
+        case
+        when viac.\"viac_form_result\" = 'Negative' then 'Negative' 
+        when viac.\"viac_form_result\" = 'Positive' then 'Positive'
+        when viac.\"viac_form_result\" = 'Viac Form, Suspicious of Cancer' then 'Suspicious of Cancer'
+        end ,', ') as \"Result\",
+        string_agg(
+        case
+        when viac.\"viac_form_intervention\" = 'Viac Form, Eligible for Cryotherapy/thermocoagulation' then 'Eligible for Cryotherapy/thermocoagulation' 
+        when viac.\"viac_form_intervention\" = 'Viac Form, Eligible for LEEP' then 'Eligible for LEEP'
+        when viac.\"viac_form_intervention\" = 'Viac Form, Extensive Lesion' then 'Extensive Lesion'
+        end ,', ') as \"Intervention\",
+        string_agg(
+        case
+        when viac.\"viac_form_other_pathological_lesions_seen\" = 'Viac Form, Polyps' then 'Polyps' 
+        when viac.\"viac_form_other_pathological_lesions_seen\" = 'Viac Form, Uterine Prolapse' then 'Uterine Prolapse'
+        when viac.\"viac_form_other_pathological_lesions_seen\" = 'Viac Form, Nabothian Cysts' then 'Nabothian Cysts'
+        when viac.\"viac_form_other_pathological_lesions_seen\" = 'Viac Form, Strawberry Lesions' then 'Strawberry Lesions'
+        when viac.\"viac_form_other_pathological_lesions_seen\" = 'Other' then 'Other '
+        end ,', ') as \"Other pathological lesions seen\"
+        from psi_patient_program_data ppv
+                join viac_form_template viac on ppv.patient_id = viac.patient_id
+                join patient_identifier pi on ppv.patient_id = pi.patient_id
+                join person_attributes pa on ppv.patient_id = pa.person_id
+                join person_address_default pad on pa.person_id = pad.person_id
+                join patient_encounter_table pedd on viac.encounter_id = pedd.encounter_id
+                where ppv.program_id = (select program_id from programs_default where program_name = 'VIAC Program')
+                group by viac.id_viac_form_template,viac.patient_id
+                order by viac.id_viac_form_template desc"
+}
   ]
 }

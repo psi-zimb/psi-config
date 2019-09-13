@@ -163,4 +163,6 @@
 
     <include file ="FPCounsForm.xml"/>
 
+    <include file ="VIAC_Program.xml"/>
+
 </databaseChangeLog>

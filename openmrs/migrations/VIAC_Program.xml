@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="PSI-CONFIG-2019091101" author="Yash">
+        <comment>Adding VIAC Program Concepts</comment>
+        <sqlFile path="VIAC_Program_Concepts.sql"/>
+    </changeSet>
+
+	<changeSet id="PSI-CONFIG-2019091102" author="Yash">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from program where name='VIAC Program' and retired = 0;
+            </sqlCheck>
+        </preConditions>
+        <comment>Adding VIAC program to Program table</comment>
+        <sql>
+        INSERT INTO program(concept_id,creator,date_created,name,description,uuid)
+  		VALUES (
+  				   (
+					select concept_id from concept_name where name = 'VIAC Program'
+					and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0
+				   ),
+				   (
+				   select user_id from users where username='superman'
+				   ),
+				   now(),'VIAC Program','VIAC Program',uuid()
+   			   );
+   </sql>
+   </changeSet>
+
+     <changeSet id="PSI-CONFIG-2019091103" author="Yash">
+		    <comment>Mapping VIAC Program to Encounter Type</comment>
+		    <sql>
+		        insert into entity_mapping(uuid, entity_mapping_type_id, entity1_uuid, entity2_uuid, date_created) 
+				values 
+				(uuid(), (select id from entity_mapping_type where name = 'program_encountertype'), (select uuid from program where name = 'VIAC Program' and retired = 0), (select uuid from entity_mapping_type where name = 'program_encountertype'), now());
+		    </sql>
+	</changeSet>
+
+	<changeSet id="PSI-CONFIG-2019091104" author="Yash">
+       <preConditions onFail="MARK_RAN">
+           <sqlCheck expectedResult= "0">
+               select count(*) from global_property where property='emrapi.sqlSearch.activeVIACPatients';
+           </sqlCheck>
+       </preConditions>
+       <comment>Creating Global Property for VIAC Program Queue</comment>
+       <sql>
+           INSERT INTO global_property (property, property_value, uuid)
+           VALUES ('emrapi.sqlSearch.activeVIACPatients', '', uuid());
+       </sql>
+</changeSet>
+
+       <changeSet id="PSI-CONFIG-2019091105" author="Yash">
+        <comment>Updating Global Property For VIAC Patients Queue</comment>
+        <sql>
+            update global_property set property_value =
+        	"SELECT DISTINCT concat(pn.given_name, ' ', Ifnull(pn.family_name, '')) AS name,
+            pi.identifier                                          AS
+            identifier,
+            concat('', p.uuid)                                     AS uuid,
+            concat('', v.uuid)                                     AS
+            activeVisitUuid,
+            IF(va.value_reference = 'admitted', 'true', 'false')   AS
+            hasBeenAdmitted
+            FROM   visit v
+            join person_name pn
+            ON v.patient_id = pn.person_id
+            AND pn.voided = 0
+            join patient_identifier pi
+            ON v.patient_id = pi.patient_id
+            join patient_identifier_type pit
+            ON pi.identifier_type = pit.patient_identifier_type_id
+            join global_property gp
+            ON gp.property = 'bahmni.primaryidentifiertype'
+            AND gp.property_value = pit.uuid
+            join person p
+            ON p.person_id = v.patient_id
+            join patient_program pg
+            ON pg.patient_id = pi.patient_id
+            join program pgg
+            ON pgg.program_id = pg.program_id
+            join location l
+            ON l.uuid = ${visit_location_uuid}
+            AND v.location_id = l.location_id
+            left outer join visit_attribute va
+            ON va.visit_id = v.visit_id
+            AND va.attribute_type_id =
+            (SELECT
+            visit_attribute_type_id
+            FROM   visit_attribute_type WHERE  name =
+            'admission status'
+            )
+            AND va.voided = 0
+            WHERE  v.date_stopped IS NULL
+            AND v.voided = 0
+            AND pgg.name = 'VIAC Program'
+            and pg.outcome_concept_id is NULL
+            and pg.voided =0;"
+        where property= 'emrapi.sqlSearch.activeVIACPatients';
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

@@ -10576,6 +10576,89 @@ Bahmni.ConceptSet.FormConditions.rules = {
                                  "FP Init Form, State reason for removal");
         }
         return conditions;
-    }
+    },
+        "FP Cont Form, State reason for removal": function(formName, formFieldValues) {
+         var conditions = {enable: [], disable: [], show: [], hide: []};
+         var conditionConcept = formFieldValues['FP Cont Form, State reason for removal'];
+         if (conditionConcept == "FPS FORM,Health concerns" || conditionConcept == "FPS FORM,Complications")
+         {
+              conditions.show.push("FP Cont Form, Insert/Remove State HealthConcernComplication");
+
+         }
+         else
+         {
+              conditions.hide.push("FP Cont Form, Insert/Remove State HealthConcernComplication");
+             }
+              return conditions;
+      },
+      "FP Cont Form, Insert/Remove State HealthConcernComplication": function(formName, formFieldValues) {
+         var conditions = {show: [], hide: []};
+         var conditionConcept = formFieldValues['FP Cont Form, Insert/Remove State HealthConcernComplication'];
+         if (conditionConcept == "Side effects") {
+              conditions.show.push("FP Cont Form, Insert/Remove Side effect Specify details");
+
+         }
+         else
+         {
+              conditions.hide.push("FP Cont Form, Insert/Remove Side effect Specify details");
+         }
+          return conditions;
+},
+
+    "FP Init Form, State reason for removal": function(formName, formFieldValues) {
+         var conditions = {enable: [], disable: [], show: [], hide: []};
+         var conditionConcept = formFieldValues['FP Init Form, State reason for removal'];
+         if (conditionConcept == "FPS FORM,Health concerns" || conditionConcept == "FPS FORM,Complications")
+         {
+              conditions.show.push("FP Init Form, Removal Method State HealthConcernComplication");
+
+         }
+         else
+         {
+              conditions.hide.push("FP Init Form, Removal Method State HealthConcernComplication");
+             }
+              return conditions;
+      },
+      "FP Init Form, Removal Method State HealthConcernComplication": function(formName, formFieldValues) {
+         var conditions = {show: [], hide: []};
+         var conditionConcept = formFieldValues['FP Init Form, Removal Method State HealthConcernComplication'];
+         if (conditionConcept == "Side effects") {
+              conditions.show.push("FP Init Form, Removal Method Side effect Specify details");
+
+         }
+         else
+         {
+              conditions.hide.push("FP Init Form, Removal Method Side effect Specify details");
+         }
+          return conditions;
+},
+
+    "FP Init Form, InsertRemove state reason for removal": function(formName, formFieldValues) {
+         var conditions = {enable: [], disable: [], show: [], hide: []};
+         var conditionConcept = formFieldValues['FP Init Form, InsertRemove state reason for removal'];
+         if (conditionConcept == "FPS FORM,Health concerns" || conditionConcept == "FPS FORM,Complications")
+         {
+              conditions.show.push("FP Init Form, Insert/Remove State HealthConcernComplication");
+
+         }
+         else
+         {
+              conditions.hide.push("FP Init Form, Insert/Remove State HealthConcernComplication");
+             }
+              return conditions;
+      },
+      "FP Init Form, Insert/Remove State HealthConcernComplication": function(formName, formFieldValues) {
+         var conditions = {show: [], hide: []};
+         var conditionConcept = formFieldValues['FP Init Form, Insert/Remove State HealthConcernComplication'];
+         if (conditionConcept == "Side effects") {
+              conditions.show.push("FP Init Form, Insert/Remove Side effect Specify details");
+
+         }
+         else
+         {
+              conditions.hide.push("FP Init Form, Insert/Remove Side effect Specify details");
+         }
+          return conditions;
+}
 
 }

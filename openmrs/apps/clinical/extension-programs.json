@@ -103,6 +103,19 @@
     "order": 8,
     "requiredPrivilege": "app:clinical"
   },
+  "bahmniProgramPatientsSearchActivePatientsForVIACPrograms": {
+    "id": "bahmni.clinical.patients.search.activeVIACPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.activeVIACPatients",
+      "display": "VIAC Program",
+      "forwardUrl": "#/programs/patient/{{patientUuid}}/consultationContext"
+    },
+    "label": "VIAC",
+    "order": 9,
+    "requiredPrivilege": "app:clinical"
+  },
     "bahmniClinicalPatientsSearchAllPatients": {
         "id": "bahmni.clinical.patients.search.allPatients",
         "extensionPointId": "org.bahmni.patient.search",
@@ -112,7 +125,7 @@
             "forwardUrl": "#/programs/patient/{{patientUuid}}/consultationContext"
         },
         "label": "All",
-        "order": 9,
+        "order": 10,
         "requiredPrivilege": "app:clinical"
     },
     "observations": {

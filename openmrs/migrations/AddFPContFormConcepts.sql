@@ -18,3 +18,9 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"FP Init For
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"FP Init Form, Insert/Remove Removal Method",'Removal Method','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"FP Init Form, InsertRemove state reason for removal",'State reason for removal','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"FP Init Form, Insert/Remove Insertion Method",'Insertion Method','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"FP Cont Form, Insert/Remove State HealthConcernComplication",'State the health concerns and complications','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"FP Cont Form, Insert/Remove Side effect Specify details",'If side effects, specify details','Text','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"FP Init Form, Insert/Remove State HealthConcernComplication",'State the health concerns and complications','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"FP Init Form, Insert/Remove Side effect Specify details",'If side effects, specify details','Text','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"FP Init Form, Removal Method State HealthConcernComplication",'State the health concerns and complications','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,"FP Init Form, Removal Method Side effect Specify details",'If side effects, specify details','Text','Misc',false);
