@@ -1520,12 +1520,9 @@ patient_encounter_table pedd
         when viac.\"viac_form_coc_for_how_many_years\" = 'Viac Form, 5 Years' then '5 Years'
         when viac.\"viac_form_coc_for_how_many_years\" = 'Viac Form, >5 Years' then '>5 Years'
         end ,', ') as \"For how many years on COC?\",
-
-        max(viac.\"viac_form_history_of_smoking\") as \"History of smoking\",
         max(case when viac.\"viac_form_history_of_smoking\" = 'Yes' then 1
                  when viac.\"viac_form_history_of_smoking\" = 'No' THEN 0
                     else null end) :: BOOLEAN as \"History of smoking\",
-
         string_agg(
         case
         when viac.\"viac_form_smoking_for_how_many_years\" = 'Viac Form, less than 1' then '<1' 
@@ -1547,8 +1544,6 @@ patient_encounter_table pedd
         when viac.\"viac_form_chronic_conditions_specify_details\" = 'Viac Form, Anti-Asthmatics' then 'Anti-Asthmatics'
         when viac.\"viac_form_chronic_conditions_specify_details\" = 'Other' then 'Other'
         end ,', ') as \"Specify details for chronic conditions\",
-
-        max(viac.\"viac_form_prior_ca_cervix_screening_in_lifetime\") as \"Prior CA CERVIX screening in lifetime\",
         max(case when viac.\"viac_form_prior_ca_cervix_screening_in_lifetime\" = 'Yes' then 1
                  when viac.\"viac_form_prior_ca_cervix_screening_in_lifetime\" = 'No' THEN 0
                     else null end) :: BOOLEAN as \"Prior CA CERVIX screening in lifetime\",
