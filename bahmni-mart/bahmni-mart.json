@@ -319,7 +319,7 @@
                     then concat('ZWNSC-OU-',upper(OrgUnitLogic.facility),'-',upper(OrgUnitLogic.district))
                     ELSE concat('ZWNSC-',upper(OrgUnitLogic.facility))
                     end as \"OrgUnit\",
-                    'vatFxlZR2lj' :: TEXT as program,
+                    'vatFxlZR2lj' as program,
                     CAST(min(date(pp.date_enrolled)) AS DATE) as \"enrollment_date\",
                     CAST(min(date(pp.date_enrolled)) AS DATE) as \"incident_date\",
                     min(pp.date_created) as \"date_created\",
@@ -480,7 +480,7 @@
                     then concat('ZWNSC-OU-',upper(OrgUnitLogic.facility),'-',upper(OrgUnitLogic.district))
                     ELSE concat('ZWNSC-',upper(OrgUnitLogic.facility))
                     end as \"OrgUnit\",
-                    'vatFxlZR2lj' :: TEXT as program,
+                    'vatFxlZR2lj' as program,
                     CAST(min(date(pp.date_enrolled)) AS DATE) as \"enrollment_date\",
                     CAST(min(date(pp.date_enrolled)) AS DATE) as \"incident_date\",
                     min(pp.date_created) as \"date_created\",
@@ -641,7 +641,7 @@
                     then concat('ZWNSC-OU-',upper(OrgUnitLogic.facility),'-',upper(OrgUnitLogic.district))
                     ELSE concat('ZWNSC-',upper(OrgUnitLogic.facility))
                     end as \"OrgUnit\",
-                    'vatFxlZR2lj' :: TEXT as program,
+                    'vatFxlZR2lj' as program,
                     CAST(min(date(pp.date_enrolled)) AS DATE) as \"enrollment_date\",
                     CAST(min(date(pp.date_enrolled)) AS DATE) as \"incident_date\",
                     min(pp.date_created) as \"date_created\",
@@ -760,8 +760,8 @@
 
         {
  "name": "hts_program_events_table",
- "sql": "SELECT 'vatFxlZR2lj' :: TEXT AS program,
-        'KeomfqRdu8Q' :: TEXT AS program_stage,
+ "sql": "SELECT 'vatFxlZR2lj':: TEXT AS program,
+        'KeomfqRdu8Q':: TEXT AS program_stage,
         
         max(CASE WHEN phtc.\"phtc_site_type\" = 'Outreach'
               THEN concat('ZWNSC-OU-',upper(
@@ -1140,7 +1140,7 @@ max(CASE WHEN phtc.hiv_test_results IS NOT NULL AND COALESCE(phtc.date_created, 
          END)  AS \"MC counselling provided\",
          
         max(phtc_site_type) AS \"Site type\",
-        max(how_long_ago_were_you_last_tested_months) :: TEXT AS \"How long ago were you last tested (months)?\",
+        max(how_long_ago_were_you_last_tested_months) AS \"How long ago were you last tested (months)?\",
        
         
         max(CASE WHEN phtc_if_client_advised_to_return_for_re_testing_indicate_ti IS NOT NULL AND COALESCE(phtc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(pht.date_created,'01-01-0001 00:00:00' )
@@ -1174,8 +1174,8 @@ patient_encounter_table pedd
 {
  "name": "fps_program_events_table",
  "sql": "select 
-        'vatFxlZR2lj' :: TEXT as program,
-        'KeomfqRdu8Q' :: TEXT as program_stage,
+        'vatFxlZR2lj':: TEXT as program,
+        'KeomfqRdu8Q':: TEXT as program_stage,
         max(case when fpsform.\"fps_form_site_type\" = 'Outreach'
                     then concat('ZWNSC-OU-',upper(fpsform.\"fps_form_facility\"),'-',upper(fpsform.\"fps_district\"))
                     ELSE concat('ZWNSC-',upper(fpsform.\"fps_form_facility\"))
@@ -1423,8 +1423,8 @@ patient_encounter_table pedd
  {
  "name": "viac_program_events_table",
  "sql": "select 
-        'vatFxlZR2lj' :: TEXT as program,
-        'YoxZS1bsBaW' :: TEXT as program_stage,
+        'vatFxlZR2lj':: TEXT as program,
+        'YoxZS1bsBaW':: TEXT as program_stage,
         max(case when viac.\"viac_form_site_type\" = 'Outreach'
                     then concat('ZWNSC-OU-',upper(viac.\"viac_form_facility\"),'-',upper(viac.\"viac_form_district\"))
                     ELSE concat('ZWNSC-',upper(viac.\"viac_form_facility\"))
