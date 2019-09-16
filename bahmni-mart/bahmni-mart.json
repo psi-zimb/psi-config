@@ -762,13 +762,13 @@
  "name": "hts_program_events_table",
  "sql": "SELECT 'vatFxlZR2lj':: TEXT AS program,
         'KeomfqRdu8Q':: TEXT AS program_stage,
-        
+         
         max(CASE WHEN phtc.\"phtc_site_type\" = 'Outreach'
               THEN concat('ZWNSC-OU-',upper(
-                   COALESCE(phtc.\"phtc_facility\", (SELECT phtc_facility FROM provider_hiv_test_counselling phtc_temp WHERE phtc_facility IS NOT NULL AND                      phtc_temp.patient_id = pedd.patient_id AND pedd.encounter_id > phtc_temp.encounter_id ORDER BY phtc_temp.encounter_id DESC LIMIT 1))),'-',upper(phtc.                      \"phtc_district\"))   
+                   COALESCE(phtc.\"phtc_facility\", (SELECT phtc_facility FROM provider_hiv_test_counselling phtc_temp WHERE phtc_facility IS NOT NULL AND  phtc_temp.patient_id = pedd.patient_id AND pedd.encounter_id > phtc_temp.encounter_id and phtc.program_id = (SELECT program_id FROM programs_default WHERE program_name= 'HTS Program') ORDER BY phtc_temp.encounter_id DESC LIMIT 1))),'-',upper(phtc.\"phtc_district\"))   
          ELSE concat('ZWNSC-',upper(
-              COALESCE(phtc.\"phtc_facility\",  (SELECT phtc_facility FROM provider_hiv_test_counselling phtc_temp WHERE phtc_facility IS NOT NULL AND phtc_temp.patient_id                       = pedd.patient_id AND pedd.encounter_id > phtc_temp.encounter_id ORDER BY phtc_temp.encounter_id DESC LIMIT 1))))
-         END) AS \"OrgUnit\",
+              COALESCE(phtc.\"phtc_facility\",  (SELECT phtc_facility FROM provider_hiv_test_counselling phtc_temp WHERE phtc_facility IS NOT NULL AND phtc_temp.patient_id  = pedd.patient_id AND pedd.encounter_id > phtc_temp.encounter_id and phtc.program_id = (SELECT program_id FROM programs_default WHERE program_name= 'HTS Program') ORDER BY phtc_temp.encounter_id DESC LIMIT 1))))
+         END) AS OrgUnit,
          
         max(CASE WHEN   COALESCE(phtc.obs_datetime, '01-01-0001' ) >= COALESCE(pht.obs_datetime, '01-01-0001' )
                 AND  COALESCE(phtc.obs_datetime, '01-01-0001' ) >=  COALESCE(hst.obs_datetime, '01-01-0001' )
@@ -798,35 +798,71 @@
         END) AS \"date_created\",
         
         max(pi.\"Patient_Identifier\") AS \"Patient_Identifier\", 
-        max(hst_assisted_st) AS \"Assisted ST\",
-        max(you_partner_currently_pregnant) AS \"You/partner currently pregnant?\",
-        max(phtc_client_received_post_test_counseling) AS \"Client received post test counseling?\",
+        max( CASE WHEN hst.hst_assisted_st = 'Yes' THEN 1
+                  WHEN hst.hst_assisted_st =  'No' THEN 0
+              ELSE NULL END ) :: BOOLEAN AS \"Assisted ST\",
+              
+        max( CASE WHEN phtc.you_partner_currently_pregnant = 'Yes' THEN 1 
+                  WHEN phtc.you_partner_currently_pregnant = 'No' THEN 0
+             ELSE NULL END ):: BOOLEAN  AS \"You/partner currently pregnant?\",
+             
+        max(CASE WHEN phtc_client_received_post_test_counseling = 'Yes' THEN 1 
+                  WHEN phtc_client_received_post_test_counseling = 'No' THEN 0
+             ELSE NULL END) :: BOOLEAN AS \"Client received post test counseling?\",
         
-         max(CASE WHEN  phtc_family_planning_counselling IS NOT NULL AND COALESCE(phtc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(pht.date_created,'01-01-0001 00:00:00' )
-             THEN phtc_family_planning_counselling
+         max(CASE WHEN  phtc_family_planning_counselling IS NOT NULL AND COALESCE(phtc.date_modified,phtc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(pht.date_modified,pht.date_created,'01-01-0001 00:00:00' )
+             THEN 
+                 CASE WHEN phtc_family_planning_counselling = 'Yes' THEN 1 
+                      WHEN phtc_family_planning_counselling = 'No' THEN 0
+                 ELSE NULL END
              WHEN  phtc_family_planning_counselling IS NULL 
-            THEN pht_family_planning_counselling
-             WHEN pht_family_planning_counselling IS NOT NULL AND COALESCE(pht.date_created, '01-01-0001 00:00:00' ) >= COALESCE(phtc.date_created,'01-01-0001 00:00:00' )
-             THEN pht_family_planning_counselling
+             THEN 
+                 CASE WHEN pht_family_planning_counselling = 'Yes' THEN 1 
+                      WHEN pht_family_planning_counselling = 'No' THEN 0
+                 ELSE NULL END 
+             WHEN pht_family_planning_counselling IS NOT NULL AND COALESCE(pht.date_modified,pht.date_created, '01-01-0001 00:00:00' ) >= COALESCE(phtc.date_modified,phtc.date_created,'01-01-0001 00:00:00' )
+             THEN 
+                 CASE WHEN pht_family_planning_counselling = 'Yes' THEN 1 
+                      WHEN pht_family_planning_counselling = 'No' THEN 0
+                 ELSE NULL END 
              WHEN  pht_family_planning_counselling IS NULL 
-             THEN phtc_family_planning_counselling
+             THEN 
+                 CASE WHEN phtc_family_planning_counselling = 'Yes' THEN 1 
+                      WHEN phtc_family_planning_counselling = 'No' THEN 0
+                 ELSE NULL END
              ELSE NULL
-         END) AS \"Family Planning Counselling\",
+         END):: BOOLEAN  AS \"Family Planning Counselling\",
          
-        max(ever_been_tested) AS \"Ever been tested\",
+        max(CASE WHEN ever_been_tested = 'Yes' THEN 1 
+                 WHEN ever_been_tested = 'No' THEN 0
+             ELSE NULL END) :: BOOLEAN AS \"Ever been tested\",
         
-         max(CASE WHEN  phtc_history_of_sexual_abuse IS NOT NULL AND COALESCE(phtc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(pht.date_created,'01-01-0001 00:00:00' ) 
-             THEN phtc_history_of_sexual_abuse
+         max(CASE WHEN  phtc_history_of_sexual_abuse IS NOT NULL AND COALESCE(phtc.date_modified,phtc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(pht.date_modified,pht.date_created,'01-01-0001 00:00:00' ) 
+             THEN 
+                 CASE WHEN phtc_history_of_sexual_abuse = 'Yes' THEN 1 
+                      WHEN phtc_history_of_sexual_abuse = 'No' THEN 0
+                 ELSE NULL END
              WHEN  phtc_history_of_sexual_abuse IS NULL 
-             THEN  pht_history_of_sexual_abuse
-             WHEN pht_history_of_sexual_abuse IS NOT NULL AND COALESCE(pht.date_created, '01-01-0001 00:00:00' ) >= COALESCE(phtc.date_created,'01-01-0001 00:00:00' ) 
-             THEN  pht_history_of_sexual_abuse
+             THEN  
+                 CASE WHEN pht_history_of_sexual_abuse = 'Yes' THEN 1 
+                      WHEN pht_history_of_sexual_abuse = 'No' THEN 0
+                 ELSE NULL END
+             WHEN pht_history_of_sexual_abuse IS NOT NULL AND COALESCE(pht.date_modified,pht.date_created, '01-01-0001 00:00:00' ) >= COALESCE(phtc.date_modified,phtc.date_created,'01-01-0001 00:00:00' ) 
+             THEN  
+                 CASE WHEN pht_history_of_sexual_abuse = 'Yes' THEN 1 
+                      WHEN pht_history_of_sexual_abuse = 'No' THEN 0
+                 ELSE NULL END
              WHEN   pht_history_of_sexual_abuse IS NULL 
-             THEN phtc_history_of_sexual_abuse
+             THEN 
+                 CASE WHEN phtc_history_of_sexual_abuse = 'Yes' THEN 1 
+                      WHEN phtc_history_of_sexual_abuse = 'No' THEN 0
+                 ELSE NULL END
              ELSE NULL
-         END)  AS \"History of sexual abuse\",
+         END) :: BOOLEAN   AS \"History of sexual abuse\",
          
-        max(has_your_most_recent_sex_partner_been_tested_in_the_last_3_) AS \"Has your most recent sex partner been tested in the last 3months?\",
+        CASE WHEN max(has_your_most_recent_sex_partner_been_tested_in_the_last_3_) IN ('Yes - negative', 'Yes - positive', 'Yes - dont know results') THEN 1 
+                  WHEN max(has_your_most_recent_sex_partner_been_tested_in_the_last_3_) = 'No' THEN 0
+             ELSE NULL END :: BOOLEAN AS \"Has your most recent sex partner been tested in the last 3months?\",
         
          max(CASE WHEN COALESCE(phtc.date_modified,phtc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(hst.date_modified,hst.date_created, '01-01-0001 00:00:00' )
                  AND COALESCE(phtc.date_modified,phtc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(pht.date_modified,pht.date_created, '01-01-0001 00:00:00' ) THEN
@@ -836,20 +872,21 @@
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'STI treatment centre' THEN 'STI treatment centre'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'Social welfare' THEN 'Social Welfare'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'TB diagnostic center' THEN 'TB Diagnostic center'
-                                WHEN phtc_was_referred_to_multiple_responses_possible = 'Other pyscho social support services' THEN 'Other psycho-social support services'
+                                WHEN phtc_was_referred_to_multiple_responses_possible = 'Other pyscho social support services' THEN 'Other pyscho-social support services'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'Other medical services' THEN 'Other medical services'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'OI-ART clinic' THEN 'OI/ART clinic'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'Nutritional information' THEN 'Nutritional information'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'Male circumcision' THEN 'Male circumcision'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'Family Planning' THEN 'Family planning'
-                                WHEN phtc_was_referred_to_multiple_responses_possible = 'Private doctor' THEN 'Private doctor'
+                                WHEN phtc_was_referred_to_multiple_responses_possible = 'Private Doctor' THEN 'Private doctor'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'Home based care' THEN 'Home based care'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'VIAC' THEN 'VIAC'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'Not applicable' THEN 'Not applicable'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'PReP' THEN 'PReP'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'PEP' THEN 'PEP'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'Other' THEN 'Other'
-                                END ,',') FROM provider_hiv_test_counselling phtctemp WHERE phtctemp.encounter_id = pedd.encounter_id  GROUP BY phtctemp.encounter_id)
+                                END ,',') FROM provider_hiv_test_counselling phtctemp WHERE phtctemp.encounter_id = pedd.encounter_id AND 
+                                phtctemp.patient_id = pedd.patient_id GROUP BY phtctemp.encounter_id)
               WHEN  COALESCE(pht.date_modified,pht.date_created, '01-01-0001 00:00:00' ) >= COALESCE(hst.date_modified,hst.date_created, '01-01-0001 00:00:00' )  THEN
                          CASE WHEN pht_was_referred_to_multiple_responses_possible IS NOT NULL THEN 
                               (SELECT string_agg (
@@ -857,7 +894,7 @@
                                     WHEN pht_was_referred_to_multiple_responses_possible = 'STI treatment centre' THEN 'STI treatment centre'
                                     WHEN pht_was_referred_to_multiple_responses_possible = 'Social welfare' THEN 'Social Welfare'
                                     WHEN pht_was_referred_to_multiple_responses_possible = 'TB diagnostic center' THEN 'TB Diagnostic center'
-                                    WHEN pht_was_referred_to_multiple_responses_possible = 'Other pyscho social support services' THEN 'Other psycho-social support services'
+                                    WHEN pht_was_referred_to_multiple_responses_possible = 'Other pyscho social support services' THEN 'Other pyscho-social support services'
                                     WHEN pht_was_referred_to_multiple_responses_possible = 'Other medical services' THEN 'Other medical services'
                                     WHEN pht_was_referred_to_multiple_responses_possible = 'Private doctor' THEN 'Private doctor'
                                     WHEN pht_was_referred_to_multiple_responses_possible = 'OI-ART clinic' THEN 'OI/ART clinic'
@@ -875,7 +912,7 @@
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'STI treatment centre' THEN 'STI treatment centre'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'Social welfare' THEN 'Social Welfare'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'TB diagnostic center' THEN 'TB Diagnostic center'
-                                          WHEN hst_external_referral_to_multiple_responses_possible = 'Other pyscho social support services' THEN 'Other psycho-social support services'
+                                          WHEN hst_external_referral_to_multiple_responses_possible = 'Other pyscho social support services' THEN 'Other pyscho-social support services'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'Other medical services' THEN 'Other medical services'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'OI-ART clinic' THEN 'OI/ART clinic'
                                           WHEN hst_external_referral_to_multiple_responses_possible   = 'Nutritional information' THEN 'Nutritional information'
@@ -887,7 +924,7 @@
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'PReP' THEN 'PReP'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'VIAC' THEN 'VIAC'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'PEP' THEN 'PEP'
-                                          END ,', ') FROM hiv_self_testing hsttemp WHERE hsttemp.encounter_id = pedd.encounter_id GROUP BY hsttemp.encounter_id)
+                                          END ,', ') FROM hiv_self_testing hsttemp WHERE hsttemp.encounter_id = pedd.encounter_id AND hsttemp.patient_id = pedd.patient_id GROUP BY hsttemp.encounter_id)
                                
                                ELSE 
                                NULL  END
@@ -899,7 +936,7 @@
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'STI treatment centre' THEN 'STI treatment centre'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'Social welfare' THEN 'Social Welfare'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'TB diagnostic center' THEN 'TB Diagnostic center'
-                                          WHEN hst_external_referral_to_multiple_responses_possible = 'Other pyscho social support services' THEN 'Other psycho-social support services'
+                                          WHEN hst_external_referral_to_multiple_responses_possible = 'Other pyscho social support services' THEN 'Other pyscho-social support services'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'Other medical services' THEN 'Other medical services'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'OI-ART clinic' THEN 'OI/ART clinic'
                                           WHEN hst_external_referral_to_multiple_responses_possible   = 'Nutritional information' THEN 'Nutritional information'
@@ -911,7 +948,7 @@
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'PReP' THEN 'PReP'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'VIAC' THEN 'VIAC'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'PEP' THEN 'PEP'
-                                          END ,', ') FROM hiv_self_testing hsttemp WHERE hsttemp.encounter_id = pedd.encounter_id GROUP BY hsttemp.encounter_id)
+                                          END ,', ') FROM hiv_self_testing hsttemp WHERE  hsttemp.encounter_id = pedd.encounter_id AND hsttemp.patient_id = pedd.patient_id GROUP BY hsttemp.encounter_id)
                   
                   ELSE NULL END       
                END 
@@ -925,7 +962,7 @@
                                     WHEN pht_was_referred_to_multiple_responses_possible = 'STI treatment centre' THEN 'STI treatment centre'
                                     WHEN pht_was_referred_to_multiple_responses_possible = 'Social welfare' THEN 'Social Welfare'
                                     WHEN pht_was_referred_to_multiple_responses_possible = 'TB diagnostic center' THEN 'TB Diagnostic center'
-                                    WHEN pht_was_referred_to_multiple_responses_possible = 'Other pyscho social support services' THEN 'Other psycho-social support services'
+                                    WHEN pht_was_referred_to_multiple_responses_possible = 'Other pyscho social support services' THEN 'Other pyscho-social support services'
                                     WHEN pht_was_referred_to_multiple_responses_possible = 'Other medical services' THEN 'Other medical services'
                                     WHEN pht_was_referred_to_multiple_responses_possible = 'Private doctor' THEN 'Private doctor'
                                     WHEN pht_was_referred_to_multiple_responses_possible = 'OI-ART clinic' THEN 'OI/ART clinic'
@@ -935,29 +972,29 @@
                                     WHEN pht_was_referred_to_multiple_responses_possible = 'Home based care' THEN 'Home based care'
                                     WHEN pht_was_referred_to_multiple_responses_possible = 'VIAC' THEN 'VIAC'
                                     WHEN pht_was_referred_to_multiple_responses_possible = 'Not applicable' THEN 'Not applicable'
-                                    END  ,', ') FROM post_hiv_test_counselling phttemp WHERE phttemp.encounter_id = pedd.encounter_id GROUP BY phttemp.encounter_id)
+                                    END  ,', ') FROM post_hiv_test_counselling phttemp WHERE phttemp.encounter_id = pedd.encounter_id AND phttemp.patient_id = pedd.patient_id GROUP BY phttemp.encounter_id)
                   WHEN COALESCE(phtc.date_modified,phtc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(hst.date_modified,hst.date_created, '01-01-0001 00:00:00' )
                   THEN
                   CASE WHEN phtc_was_referred_to_multiple_responses_possible  IS NOT NULL THEN  
                   (SELECT string_agg (
-                           CASE WHEN phtc_was_referred_to_multiple_responses_possible = 'Antenantal PMTCT' THEN  'Antenatal/ PMTCT'
+                           CASE WHEN phtc_was_referred_to_multiple_responses_possible = 'Antenatal PMTCT' THEN  'Antenatal/ PMTCT'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'STI treatment centre' THEN 'STI treatment centre'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'Social welfare' THEN 'Social Welfare'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'TB diagnostic center' THEN 'TB Diagnostic center'
-                                WHEN phtc_was_referred_to_multiple_responses_possible = 'Other pyscho social support services' THEN 'Other psycho-social support services'
+                                WHEN phtc_was_referred_to_multiple_responses_possible = 'Other pyscho social support services' THEN 'Other pyscho-social support services'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'Other medical services' THEN 'Other medical services'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'OI-ART clinic' THEN 'OI/ART clinic'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'Nutritional information' THEN 'Nutritional information'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'Male circumcision' THEN 'Male circumcision'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'Family Planning' THEN 'Family planning'
-                                WHEN phtc_was_referred_to_multiple_responses_possible = 'Private doctor' THEN 'Private doctor'
+                                WHEN phtc_was_referred_to_multiple_responses_possible = 'Private Doctor' THEN 'Private doctor'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'Home based care' THEN 'Home based care'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'VIAC' THEN 'VIAC'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'Not applicable' THEN 'Not applicable'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'PReP' THEN 'PReP'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'PEP' THEN 'PEP'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'Other' THEN 'Other'
-                                END ,',') FROM provider_hiv_test_counselling phtctemp WHERE phtctemp.encounter_id = pedd.encounter_id GROUP BY phtctemp.encounter_id)
+                                END ,',') FROM provider_hiv_test_counselling phtctemp WHERE phtctemp.encounter_id = pedd.encounter_id AND phtctemp.patient_id = pedd.patient_id GROUP BY phtctemp.encounter_id)
                   ELSE 
                                CASE WHEN hst_external_referral_to_multiple_responses_possible IS NOT NULL THEN  
                                (SELECT string_agg (
@@ -965,7 +1002,7 @@
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'STI treatment centre' THEN 'STI treatment centre'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'Social welfare' THEN 'Social Welfare'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'TB diagnostic center' THEN 'TB Diagnostic center'
-                                          WHEN hst_external_referral_to_multiple_responses_possible = 'Other pyscho social support services' THEN 'Other psycho-social support services'
+                                          WHEN hst_external_referral_to_multiple_responses_possible = 'Other pyscho social support services' THEN 'Other pyscho-social support services'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'Other medical services' THEN 'Other medical services'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'OI-ART clinic' THEN 'OI/ART clinic'
                                           WHEN hst_external_referral_to_multiple_responses_possible   = 'Nutritional information' THEN 'Nutritional information'
@@ -977,7 +1014,7 @@
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'PReP' THEN 'PReP'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'VIAC' THEN 'VIAC'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'PEP' THEN 'PEP'
-                                          END ,', ') FROM hiv_self_testing hsttemp WHERE hsttemp.encounter_id = pedd.encounter_id GROUP BY hsttemp.encounter_id)
+                                          END ,', ') FROM hiv_self_testing hsttemp WHERE hsttemp.encounter_id = pedd.encounter_id AND hsttemp.patient_id = pedd.patient_id GROUP BY hsttemp.encounter_id)
                                ELSE 
                                NULL  END
                   END 
@@ -988,7 +1025,7 @@
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'STI treatment centre' THEN 'STI treatment centre'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'Social welfare' THEN 'Social Welfare'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'TB diagnostic center' THEN 'TB Diagnostic center'
-                                          WHEN hst_external_referral_to_multiple_responses_possible = 'Other pyscho social support services' THEN 'Other psycho-social support services'
+                                          WHEN hst_external_referral_to_multiple_responses_possible = 'Other pyscho social support services' THEN 'Other pyscho-social support services'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'Other medical services' THEN 'Other medical services'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'OI-ART clinic' THEN 'OI/ART clinic'
                                           WHEN hst_external_referral_to_multiple_responses_possible   = 'Nutritional information' THEN 'Nutritional information'
@@ -1000,7 +1037,7 @@
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'PReP' THEN 'PReP'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'VIAC' THEN 'VIAC'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'PEP' THEN 'PEP'
-                                          END ,', ') FROM hiv_self_testing hsttemp WHERE hsttemp.encounter_id = pedd.encounter_id GROUP BY hsttemp.encounter_id)
+                                          END ,', ') FROM hiv_self_testing hsttemp WHERE hsttemp.encounter_id = pedd.encounter_id AND hsttemp.patient_id = pedd.patient_id GROUP BY hsttemp.encounter_id)
                   ELSE NULL END 
                   END 
          ELSE 
@@ -1010,7 +1047,7 @@
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'STI treatment centre' THEN 'STI treatment centre'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'Social welfare' THEN 'Social Welfare'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'TB diagnostic center' THEN 'TB Diagnostic center'
-                                          WHEN hst_external_referral_to_multiple_responses_possible = 'Other pyscho social support services' THEN 'Other psycho-social support services'
+                                          WHEN hst_external_referral_to_multiple_responses_possible = 'Other pyscho social support services' THEN 'Other pyscho-social support services'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'Other medical services' THEN 'Other medical services'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'OI-ART clinic' THEN 'OI/ART clinic'
                                           WHEN hst_external_referral_to_multiple_responses_possible   = 'Nutritional information' THEN 'Nutritional information'
@@ -1022,49 +1059,48 @@
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'PReP' THEN 'PReP'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'VIAC' THEN 'VIAC'
                                           WHEN hst_external_referral_to_multiple_responses_possible = 'PEP' THEN 'PEP'
-                                          END ,', ') FROM hiv_self_testing hsttemp WHERE hsttemp.encounter_id = pedd.encounter_id GROUP BY hsttemp.encounter_id)
+                                          END ,', ') FROM hiv_self_testing hsttemp WHERE hsttemp.encounter_id = pedd.encounter_id AND hsttemp.patient_id = pedd.patient_id GROUP BY hsttemp.encounter_id)
                                           
              WHEN COALESCE(phtc.date_modified,phtc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(pht.date_modified,pht.date_created, '01-01-0001 00:00:00' )THEN
                  CASE WHEN phtc_was_referred_to_multiple_responses_possible  IS NOT NULL THEN  
                   (SELECT string_agg (
-                           CASE WHEN phtc_was_referred_to_multiple_responses_possible = 'Antenantal PMTCT' THEN  'Antenatal/ PMTCT'
+                           CASE WHEN phtc_was_referred_to_multiple_responses_possible = 'Antenatal PMTCT' THEN  'Antenatal/ PMTCT'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'STI treatment centre' THEN 'STI treatment centre'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'Social welfare' THEN 'Social Welfare'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'TB diagnostic center' THEN 'TB Diagnostic center'
-                                WHEN phtc_was_referred_to_multiple_responses_possible = 'Other pyscho social support services' THEN 'Other psycho-social support services'
+                                WHEN phtc_was_referred_to_multiple_responses_possible = 'Other pyscho social support services' THEN 'Other pyscho-social support services'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'Other medical services' THEN 'Other medical services'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'OI-ART clinic' THEN 'OI/ART clinic'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'Nutritional information' THEN 'Nutritional information'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'Male circumcision' THEN 'Male circumcision'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'Family Planning' THEN 'Family planning'
-                                WHEN phtc_was_referred_to_multiple_responses_possible = 'Private doctor' THEN 'Private doctor'
+                                WHEN phtc_was_referred_to_multiple_responses_possible = 'Private Doctor' THEN 'Private doctor'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'Home based care' THEN 'Home based care'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'VIAC' THEN 'VIAC'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'Not applicable' THEN 'Not applicable'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'PReP' THEN 'PReP'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'PEP' THEN 'PEP'
                                 WHEN phtc_was_referred_to_multiple_responses_possible = 'Other' THEN 'Other'
-                                END ,',') FROM provider_hiv_test_counselling phtctemp WHERE phtctemp.encounter_id = pedd.encounter_id GROUP BY phtctemp.encounter_id)
+                                END ,',') FROM provider_hiv_test_counselling phtctemp WHERE phtctemp.encounter_id = pedd.encounter_id AND phtctemp.patient_id = pedd.patient_id GROUP BY phtctemp.encounter_id)
                 ELSE 
-                               CASE WHEN pht_was_referred_to_multiple_responses_possible IS NOT NULL THEN  
-                                (SELECT string_agg (
-                                CASE WHEN pht_was_referred_to_multiple_responses_possible = 'Antenatal PMTCT' THEN  'Antenatal/ PMTCT'
-                                    WHEN pht_was_referred_to_multiple_responses_possible = 'STI treatment centre' THEN 'STI treatment centre'
-                                    WHEN pht_was_referred_to_multiple_responses_possible = 'Social welfare' THEN 'Social Welfare'
-                                    WHEN pht_was_referred_to_multiple_responses_possible = 'TB diagnostic center' THEN 'TB Diagnostic center'
-                                    WHEN pht_was_referred_to_multiple_responses_possible = 'Other pyscho social support services' THEN 'Other psycho-social support services'
-                                    WHEN pht_was_referred_to_multiple_responses_possible = 'Other medical services' THEN 'Other medical services'
-                                    WHEN pht_was_referred_to_multiple_responses_possible = 'Private doctor' THEN 'Private doctor'
-                                    WHEN pht_was_referred_to_multiple_responses_possible = 'OI-ART clinic' THEN 'OI/ART clinic'
-                                    WHEN pht_was_referred_to_multiple_responses_possible = 'Nutritional information' THEN 'Nutritional information'
-                                    WHEN pht_was_referred_to_multiple_responses_possible = 'Male circumcision' THEN 'Male circumcision'
-                                    WHEN pht_was_referred_to_multiple_responses_possible = 'Family Planning' THEN 'Family planning'
-                                    WHEN pht_was_referred_to_multiple_responses_possible = 'Home based care' THEN 'Home based care'
-                                    WHEN pht_was_referred_to_multiple_responses_possible = 'VIAC' THEN 'VIAC'
-                                    WHEN pht_was_referred_to_multiple_responses_possible = 'Not applicable' THEN 'Not applicable'
-                                    END ,', ') FROM post_hiv_test_counselling phttemp WHERE phttemp.encounter_id = pedd.encounter_id GROUP BY phttemp.encounter_id)
-                               ELSE 
-                               NULL  END
+                        CASE WHEN pht_was_referred_to_multiple_responses_possible IS NOT NULL THEN  
+                         (SELECT string_agg (
+                             CASE WHEN pht_was_referred_to_multiple_responses_possible = 'Antenatal PMTCT' THEN  'Antenatal/ PMTCT'
+                                  WHEN pht_was_referred_to_multiple_responses_possible = 'STI treatment centre' THEN 'STI treatment centre'
+                                  WHEN pht_was_referred_to_multiple_responses_possible = 'Social welfare' THEN 'Social Welfare'
+                                  WHEN pht_was_referred_to_multiple_responses_possible = 'TB diagnostic center' THEN 'TB Diagnostic center'
+                                  WHEN pht_was_referred_to_multiple_responses_possible = 'Other pyscho social support services' THEN 'Other pyscho-social support services'
+                                  WHEN pht_was_referred_to_multiple_responses_possible = 'Other medical services' THEN 'Other medical services'
+                                  WHEN pht_was_referred_to_multiple_responses_possible = 'Private doctor' THEN 'Private doctor'
+                                  WHEN pht_was_referred_to_multiple_responses_possible = 'OI-ART clinic' THEN 'OI/ART clinic'
+                                  WHEN pht_was_referred_to_multiple_responses_possible = 'Nutritional information' THEN 'Nutritional information'
+                                  WHEN pht_was_referred_to_multiple_responses_possible = 'Male circumcision' THEN 'Male circumcision'
+                                  WHEN pht_was_referred_to_multiple_responses_possible = 'Family Planning' THEN 'Family planning'
+                                  WHEN pht_was_referred_to_multiple_responses_possible = 'Home based care' THEN 'Home based care'
+                                  WHEN pht_was_referred_to_multiple_responses_possible = 'VIAC' THEN 'VIAC'
+                                  WHEN pht_was_referred_to_multiple_responses_possible = 'Not applicable' THEN 'Not applicable'
+                                  END ,', ') FROM post_hiv_test_counselling phttemp WHERE phttemp.encounter_id = pedd.encounter_id AND phttemp.patient_id = pedd.patient_id GROUP BY phttemp.encounter_id)
+                             ELSE NULL  END
                   END 
                   ELSE 
                   CASE WHEN pht_was_referred_to_multiple_responses_possible IS NOT NULL THEN  
@@ -1073,7 +1109,7 @@
                                     WHEN pht_was_referred_to_multiple_responses_possible = 'STI treatment centre' THEN 'STI treatment centre'
                                     WHEN pht_was_referred_to_multiple_responses_possible = 'Social welfare' THEN 'Social Welfare'
                                     WHEN pht_was_referred_to_multiple_responses_possible = 'TB diagnostic center' THEN 'TB Diagnostic center'
-                                    WHEN pht_was_referred_to_multiple_responses_possible = 'Other pyscho social support services' THEN 'Other psycho-social support services'
+                                    WHEN pht_was_referred_to_multiple_responses_possible = 'Other pyscho social support services' THEN 'Other pyscho-social support services'
                                     WHEN pht_was_referred_to_multiple_responses_possible = 'Other medical services' THEN 'Other medical services'
                                     WHEN pht_was_referred_to_multiple_responses_possible = 'Private doctor' THEN 'Private doctor'
                                     WHEN pht_was_referred_to_multiple_responses_possible = 'OI-ART clinic' THEN 'OI/ART clinic'
@@ -1083,28 +1119,28 @@
                                     WHEN pht_was_referred_to_multiple_responses_possible = 'Home based care' THEN 'Home based care'
                                     WHEN pht_was_referred_to_multiple_responses_possible = 'VIAC' THEN 'VIAC'
                                     WHEN pht_was_referred_to_multiple_responses_possible = 'Not applicable' THEN 'Not applicable'
-                                    END ,', ') FROM post_hiv_test_counselling phttemp WHERE phttemp.encounter_id = pedd.encounter_id GROUP BY phttemp.encounter_id)
+                                    END ,', ') FROM post_hiv_test_counselling phttemp WHERE phttemp.encounter_id = pedd.encounter_id AND phttemp.patient_id = pedd.patient_id GROUP BY phttemp.encounter_id)
                   ELSE NULL END 
                   END 
              
 END)  AS \"referred by\",
 
-max(CASE WHEN phtc.hiv_test_results IS NOT NULL AND COALESCE(phtc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(pht.date_created,'01-01-0001 00:00:00' )
+max(CASE WHEN phtc.hiv_test_results IS NOT NULL AND COALESCE(phtc.date_modified,phtc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(pht.date_modified,pht.date_created,'01-01-0001 00:00:00' )
              THEN phtc.hiv_test_results
              WHEN  phtc.hiv_test_results IS NULL 
              THEN  pht_hiv_test_result
-             WHEN   pht_hiv_test_result IS NOT NULL AND COALESCE(pht.date_created, '01-01-0001 00:00:00' ) >= COALESCE(phtc.date_created,'01-01-0001 00:00:00' )
+             WHEN   pht_hiv_test_result IS NOT NULL AND COALESCE(pht.date_modified,pht.date_created, '01-01-0001 00:00:00' ) >= COALESCE(phtc.date_modified,phtc.date_created,'01-01-0001 00:00:00' )
              THEN  pht_hiv_test_result
              WHEN   pht_hiv_test_result IS NULL 
              THEN phtc.hiv_test_results
              ELSE NULL
          END)  AS \"HIV test results\",
          
-         max(CASE WHEN phtc_have_you_ever_talked_about_t_c_with_your_partner_spous IS NOT NULL AND  COALESCE(phtc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(pht.date_created,'01-01-0001 00:00:00' ) 
+         max(CASE WHEN phtc_have_you_ever_talked_about_t_c_with_your_partner_spous IS NOT NULL AND  COALESCE(phtc.date_modified,phtc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(pht.date_modified,pht.date_created,'01-01-0001 00:00:00' ) 
              THEN phtc_have_you_ever_talked_about_t_c_with_your_partner_spous 
              WHEN  phtc_have_you_ever_talked_about_t_c_with_your_partner_spous IS NULL 
              THEN  pht_have_you_ever_talked_about_t_c_with_your_partner_spouse
-             WHEN pht_have_you_ever_talked_about_t_c_with_your_partner_spouse IS NOT NULL AND COALESCE(phtc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(pht.date_created,'01-01-0001 00:00:00' )
+             WHEN pht_have_you_ever_talked_about_t_c_with_your_partner_spouse IS NOT NULL AND COALESCE(pht.date_modified,pht.date_created, '01-01-0001 00:00:00' ) >= COALESCE(phtc.date_modified,phtc.date_created,'01-01-0001 00:00:00' )
              THEN  pht_have_you_ever_talked_about_t_c_with_your_partner_spouse
              WHEN   pht_in_the_last_twelve_month_exchanged_money_or_goods_for_s IS NULL
              THEN phtc_have_you_ever_talked_about_t_c_with_your_partner_spous 
@@ -1113,11 +1149,11 @@ max(CASE WHEN phtc.hiv_test_results IS NOT NULL AND COALESCE(phtc.date_created, 
          
         max(if_yes_where_were_you_last_tested) AS \"If yes, where were you last tested?\",
         
-             max(CASE WHEN   phtc_in_the_last_twelve_month_exchanged_money_or_goods_for_ IS NOT NULL AND COALESCE(phtc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(pht.date_created,'01-01-0001 00:00:00' )
+        max(CASE WHEN phtc_in_the_last_twelve_month_exchanged_money_or_goods_for_ IS NOT NULL AND COALESCE(phtc.date_modified,phtc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(pht.date_modified,pht.date_created,'01-01-0001 00:00:00' )
              THEN phtc_in_the_last_twelve_month_exchanged_money_or_goods_for_
              WHEN  phtc_in_the_last_twelve_month_exchanged_money_or_goods_for_ IS NULL 
              THEN  pht_in_the_last_twelve_month_exchanged_money_or_goods_for_s
-             WHEN  pht_in_the_last_twelve_month_exchanged_money_or_goods_for_s IS NOT NULL AND COALESCE(pht.date_created, '01-01-0001 00:00:00' ) >= COALESCE(phtc.date_created,'01-01-0001 00:00:00' )
+             WHEN  pht_in_the_last_twelve_month_exchanged_money_or_goods_for_s IS NOT NULL AND COALESCE(pht.date_modified,pht.date_created, '01-01-0001 00:00:00' ) >= COALESCE(phtc.date_modified,phtc.date_created,'01-01-0001 00:00:00' )
              THEN  pht_in_the_last_twelve_month_exchanged_money_or_goods_for_s
              WHEN   pht_in_the_last_twelve_month_exchanged_money_or_goods_for_s IS NULL AND (pht.date_created >= phtc.date_created)
              THEN phtc_in_the_last_twelve_month_exchanged_money_or_goods_for_
@@ -1125,300 +1161,81 @@ max(CASE WHEN phtc.hiv_test_results IS NOT NULL AND COALESCE(phtc.date_created, 
          END)  AS \"In the last twelve month exchanged money or goods for sex\",
          
         
-        max(hst_consent_to_follow_up) AS \"Consent to follow-up\",
+        max(CASE WHEN hst_consent_to_follow_up = 'Yes' THEN 1
+                 WHEN hst_consent_to_follow_up =  'No' THEN 0
+            ELSE NULL END) :: BOOLEAN AS \"Consent to follow-up\",
+            
         max(phtc_late_read_result) AS \"Late read result?\",
         
-          max(CASE WHEN   phtc_mc_counselling_provided IS NOT NULL AND COALESCE(phtc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(pht.date_created,'01-01-0001 00:00:00' )
-             THEN phtc_mc_counselling_provided
+          max(CASE WHEN phtc_mc_counselling_provided IS NOT NULL AND COALESCE(phtc.date_modified,phtc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(pht.date_modified,pht.date_created,'01-01-0001 00:00:00' )
+             THEN 
+                 CASE WHEN phtc_mc_counselling_provided = 'Yes' THEN 1
+                      WHEN phtc_mc_counselling_provided =  'No' THEN 0
+                 ELSE NULL END
              WHEN  phtc_mc_counselling_provided IS NULL 
-             THEN pht_mc_counselling_provided
-             WHEN  pht_mc_counselling_provided IS NOT NULL AND COALESCE(pht.date_created, '01-01-0001 00:00:00' ) >= COALESCE(phtc.date_created,'01-01-0001 00:00:00' )
-             THEN pht_mc_counselling_provided
+             THEN 
+                 CASE WHEN pht_mc_counselling_provided = 'Yes' THEN 1
+                      WHEN pht_mc_counselling_provided =  'No' THEN 0
+                 ELSE NULL END
+             WHEN  pht_mc_counselling_provided IS NOT NULL AND COALESCE(pht.date_modified,pht.date_created, '01-01-0001 00:00:00' ) >= COALESCE(phtc.date_modified,phtc.date_created,'01-01-0001 00:00:00' )
+             THEN 
+                  CASE WHEN pht_mc_counselling_provided = 'Yes' THEN 1
+                       WHEN pht_mc_counselling_provided =  'No' THEN 0
+                 ELSE NULL END
              WHEN  pht_mc_counselling_provided IS NULL 
-             THEN pht_mc_counselling_provided
-             ELSE NULL
-         END)  AS \"MC counselling provided\",
+             THEN 
+                 CASE WHEN phtc_mc_counselling_provided = 'Yes' THEN 1
+                      WHEN phtc_mc_counselling_provided =  'No' THEN 0
+                  ELSE NULL END
+             ELSE NULL END) :: BOOLEAN  AS \"MC counselling provided\",
          
         max(phtc_site_type) AS \"Site type\",
-        max(how_long_ago_were_you_last_tested_months) AS \"How long ago were you last tested (months)?\",
+        max(how_long_ago_were_you_last_tested_months) :: TEXT AS \"How long ago were you last tested (months)?\",
        
         
-        max(CASE WHEN phtc_if_client_advised_to_return_for_re_testing_indicate_ti IS NOT NULL AND COALESCE(phtc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(pht.date_created,'01-01-0001 00:00:00' )
-             THEN phtc_if_client_advised_to_return_for_re_testing_indicate_ti
+        max(CASE WHEN phtc_if_client_advised_to_return_for_re_testing_indicate_ti IS NOT NULL AND (COALESCE(phtc.date_modified,phtc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(pht.date_modified,pht.date_created,'01-01-0001 00:00:00' ))
+             THEN 
+                 CASE WHEN phtc_if_client_advised_to_return_for_re_testing_indicate_ti IN ('2 weeks','4 weeks','3 months', '6 months','1 year') THEN 1
+                      WHEN phtc_if_client_advised_to_return_for_re_testing_indicate_ti = 'N/A' THEN 0
+                 END
              WHEN  phtc_if_client_advised_to_return_for_re_testing_indicate_ti IS NULL 
-             THEN pht_if_client_advised_to_return_for_re_testing_indicate_tim
-             WHEN  pht_if_client_advised_to_return_for_re_testing_indicate_tim IS NOT NULL AND COALESCE(pht.date_created, '01-01-0001 00:00:00' ) >= COALESCE(phtc.date_created,'01-01-0001 00:00:00' )
-             THEN pht_if_client_advised_to_return_for_re_testing_indicate_tim
-             WHEN  pht_if_client_advised_to_return_for_re_testing_indicate_tim IS NULL AND (pht.date_created >= phtc.date_created)
-             THEN phtc_if_client_advised_to_return_for_re_testing_indicate_ti
-             ELSE NULL
-         END)  AS \"If client advised to return for re-testing indicate timeline (2 weeks, 4 weeks, 3months, 6 months, other)\",
-         
+             THEN 
+                 CASE WHEN pht_if_client_advised_to_return_for_re_testing_indicate_tim IN ('2 weeks','4 weeks','3 months', '6 months','1 year') THEN 1
+                       WHEN pht_if_client_advised_to_return_for_re_testing_indicate_tim  = 'Other(specify)' then 0
+                     END 
+             WHEN  pht_if_client_advised_to_return_for_re_testing_indicate_tim IS NOT NULL AND COALESCE(pht.date_modified,pht.date_created, '01-01-0001 00:00:00' ) >= COALESCE(phtc.date_modified,phtc.date_created,'01-01-0001 00:00:00' )
+             THEN 
+                 CASE WHEN pht_if_client_advised_to_return_for_re_testing_indicate_tim IN ('2 weeks','4 weeks','3 months', '6 months','1 year')  THEN 1
+                       WHEN pht_if_client_advised_to_return_for_re_testing_indicate_tim  = 'Other(specify)' then 0
+                      END 
+             WHEN  pht_if_client_advised_to_return_for_re_testing_indicate_tim IS NULL 
+             THEN 
+                  CASE WHEN phtc_if_client_advised_to_return_for_re_testing_indicate_ti IN ('2 weeks','4 weeks','3 months', '6 months','1 year')  THEN 1
+                       WHEN phtc_if_client_advised_to_return_for_re_testing_indicate_ti = 'N/A' THEN 0
+                      END 
+             ELSE NULL END) :: BOOLEAN  AS \"If client advised to return for re-testing indicate timeline (2 weeks, 4 weeks, 3 months, 6 months, other)\",
+
        
-         max(phtc_tb_screening_have_you_had_a_cough) AS \"Have you had a cough?\"
-    
+         max(CASE WHEN phtc_tb_screening_have_you_had_a_cough = 'Yes' THEN 1
+                  WHEN phtc_tb_screening_have_you_had_a_cough =  'No' THEN 0
+             ELSE NULL END) :: BOOLEAN AS \"Have you had a cough?\"
 
 FROM
 patient_encounter_table pedd 
     
     JOIN psi_patient_program_data ppv ON pedd.patient_id = ppv.patient_id
-    JOIN patient_identifier pi ON ppv.patient_id = pi.patient_id
+    JOIN patient_identifier pi ON ppv.patient_id = pi.patient_id 
     LEFT OUTER JOIN provider_hiv_test_counselling phtc ON phtc.encounter_id = pedd.encounter_id
     LEFT OUTER JOIN post_hiv_test_counselling pht ON pht.encounter_id = pedd.encounter_id
     LEFT OUTER JOIN hiv_self_testing hst ON hst.encounter_id = pedd.encounter_id
     
-    WHERE (ppv.program_id = (SELECT program_id FROM programs_default WHERE program_name= 'HTS Program'))
+    where ppv.program_id = (SELECT program_id FROM programs_default WHERE program_name= 'HTS Program')
+    AND (pedd.encounter_id in (select encounter_id from provider_hiv_test_counselling 
+                                UNION select encounter_id from post_hiv_test_counselling
+                                UNION select encounter_id from hiv_self_testing))
+         
     GROUP BY hst.id_hiv_self_testing,phtc.id_provider_hiv_test_counselling
-    ORDER BY date_created DESC ;"
-},
-{
- "name": "fps_program_events_table",
- "sql": "select 
-        'vatFxlZR2lj':: TEXT as program,
-        'KeomfqRdu8Q':: TEXT as program_stage,
-        max(case when fpsform.\"fps_form_site_type\" = 'Outreach'
-                    then concat('ZWNSC-OU-',upper(fpsform.\"fps_form_facility\"),'-',upper(fpsform.\"fps_district\"))
-                    ELSE concat('ZWNSC-',upper(fpsform.\"fps_form_facility\"))
-                    end) as \"OrgUnit\",
-        max(date(fpsform.obs_datetime)) as \"event_date\",
-        'COMPLETED' :: TEXT as status,
-        max(pedd.\"visit_id\") as \"event_unique_id\",
-        max(DATE(ppv.\"date_enrolled\"))  as \"enrollment_date\",
-        max(fpsform.\"date_created\") as \"date_created\",       
-        max(pi.\"Patient_Identifier\") as \"Patient_Identifier\",
-        max(pdd.age) as \"Age\",
-        max(case when fpsform.\"fps_reg_is_client_accompanied_by_her_partner\" = 'Yes' then 1
-                when fpsform.\"fps_reg_is_client_accompanied_by_her_partner\" = 'No' THEN 0
-                    else null end) :: BOOLEAN as \"Is client accompanied by her Partner\",
-        max(fpsform.\"fps_reg_reason_for_the_visit\") as \"Reason for the visit\",
-        max(fpsform.\"fps_reg_reason_for_family_planning\") as \"Reason for family planning\",
-        string_agg(case when fpsform.\"fps_reg_occasion\" = 'FPS REG,Post Partum' then 'Post Partum' 
-                        when fpsform.\"fps_reg_occasion\" = 'FPS REG,Post abortion' then 'Post abortion'
-                        when fpsform.\"fps_reg_occasion\" = 'FPS REG,Interval' then 'Interval' 
-                        end ,', ') as \"Occasion\",
-        string_agg(case when fpsform.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,Friend/Relative' then 'Friend/Relative' 
-                        when fpsform.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,Other FP client' then 'Other FP client'
-                        when fpsform.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,Partner/Spouse' then 'Partner/Spouse'
-                        when fpsform.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,Health worker' then 'Health worker'
-                        when fpsform.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,Poster/Leaflet/Brochure' then 'Poster/Leaflet/Brochure'
-                        when fpsform.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,Community Mobilizer' then 'Community Mobilizer'
-                        when fpsform.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,TV' then 'TV'
-                        when fpsform.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,Radio' then 'Radio'
-                        when fpsform.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,New Start T&C/New Life' then 'New Start T&C/New Life'
-                        when fpsform.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,Other T&C service provider' then 'Other T&C service provider'
-                        when fpsform.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,Other site' then 'Other site'
-                        end ,', ') as \"How did you hear about the FP services at sites?\",
-        max(fpsform.\"fps_form_other_for_how_did_you_hear_about_the_fp_services_a\") as \"If other, specify details\",
-        max(fpsform.\"fps_form_referred_in_for\") as \"Referred in for\",
-        max(fpsform.\"fps_form_menarche\") as \"Menarche\",
-        max(fpsform.\"fps_form_lnmp\") as \"LNMP\",
-        max(fpsform.\"fps_form_no_of_bleeding_days_length_of_cycle\") as \"Number of bleeding days\",
-        max(fpsform.\"fps_form_number_of_living_children_indicate_number_and_ages\") as \"Number of Children and ages\",
-        max(fpsform.\"fps_form_date_of_last_delivery\") as \"Date of last delivery\",
-        max(case when fpsform.\"fps_form_used_checklist_to_exclude_pregnancy\" = 'Yes' then 1
-                when fpsform.\"fps_form_used_checklist_to_exclude_pregnancy\" = 'No' THEN 0
-                    else null end) :: BOOLEAN as \"Used checklist to exclude pregnancy\",
-        string_agg(case when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Vasectomy' then 'Vasecotomy' 
-                when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Projesterone only pill (POP)' then 'Projesterone only pill (POP)'
-                when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Combined oral contaceptive (COC)' then 'Combined oral contaceptive (COC)'
-                when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Injectable (Petogen)' then 'Injectable'
-                when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Implanon Implants' then 'Implanon Implants'
-                when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Emergency contraception' then 'Emergency contraception'
-                when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Jadelle Implants' then 'Jadelle Implants'
-                when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Copper T IUCD' then 'Copper T IUCD'
-                when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,LNG-IUS IUCD' then 'LNG-IUS IUCD'
-                when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'FPS FORM,Tuberligation' then 'Tuberligation'
-                when fpsform.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" = 'None' then 'None'
-                end ,', ') as \"Ever used contraception before\",
-                string_agg(case when fpsform.\"fps_form_current_method\" = 'New' then 'New' 
-                when fpsform.\"fps_form_current_method\" = 'Lapsed' then 'Lapsed'
-                when fpsform.\"fps_form_current_method\" = 'FPS FORM,Projesterone only pill (POP)' then 'Projesterone only pill (POP)'
-                when fpsform.\"fps_form_current_method\" = 'FPS FORM,Combined oral contaceptive (COC)' then 'Combined oral contaceptive (COC)'
-                when fpsform.\"fps_form_current_method\" = 'FPS FORM,Jadelle Implants' then 'Jadelle Implants'
-                when fpsform.\"fps_form_current_method\" = 'FPS FORM,Implanon Implants' then 'Implanon Implants'
-                when fpsform.\"fps_form_current_method\" = 'Injectables' then 'Injectables'
-                when fpsform.\"fps_form_current_method\" = 'IUCD' then 'IUCD'
-                when fpsform.\"fps_form_current_method\" = 'FPS FORM,LNG-IUS' then 'LNG-IUS'
-                when fpsform.\"fps_form_current_method\" = 'TUBAL LIGATION' then 'TUBAL LIGATION'
-                when fpsform.\"fps_form_current_method\" = 'FPS FORM,Emergency contraception' then 'Emergency contraception'
-                when fpsform.\"fps_form_current_method\" = 'Condoms' then 'Condoms'
-                when fpsform.\"fps_form_current_method\" = 'Others' then 'Others'
-                end ,', ') as \"Current Method\",
-                max(fpsform.\"fps_form_p_v_loss\") as \"P.V. Loss\",
-                max(case when fpsform.\"fps_form_post_coital_bleeding\" = 'Yes' then 1
-                when fpsform.\"fps_form_post_coital_bleeding\" = 'No' THEN 0
-                    else null end) :: BOOLEAN as \"Post coital bleeding\",
-                case when max(fpsform.\"fps_form_pain_during_intercourse_dyspareunia\") ='Yes' then 1 
-                when max(fpsform.\"fps_form_pain_during_intercourse_dyspareunia\") ='No' then 0
-                else null end :: Boolean as \"Pain during intercourse\",
-                max(case when fpsform.\"fps_form_any_discharge\" = 'Yes' then 1
-                when fpsform.\"fps_form_any_discharge\" = 'No' THEN 0
-                    else null end) :: BOOLEAN as \"Any Discharge\",
-                max(case when fpsform.\"fps_form_pain_during_micturation\" = 'Yes' then 1
-                when fpsform.\"fps_form_pain_during_micturation\" = 'No' THEN 0
-                    else null end) :: BOOLEAN as \"Pain during micturation\",
-                max(case when fpsform.\"fps_form_allergies_state_below_if_any\" = 'Yes' then 1
-                when fpsform.\"fps_form_allergies_state_below_if_any\" = 'No' THEN 0
-                    else null end) :: BOOLEAN as \"Allergies (state below if any)\",
-              Case when string_agg 
-                                ( 
-                                  case 
-                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Varicose Veins' then 'Varicose Veins' 
-                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Anemia' then 'Anemia'
-                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'Diabetes Mellitus' then 'Diabetes Mellitus'
-                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Thromboplebitis' then 'Thromboplebitis'
-                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Heart condition' then 'Heart condition'
-                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Liver problems' then 'Liver problems'
-                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Epilepsy' then 'Epilepsy'
-                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Cancer of the breast' then 'Cancer of the breast'
-                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'N/A' then 'N/A'
-                                end ,', ') != 'N/A' AND
-                        string_agg
-                                (
-                                  case when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Varicose Veins' then 'Varicose Veins' 
-                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Anemia' then 'Anemia'
-                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'Diabetes Mellitus' then 'Diabetes Mellitus'
-                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Thromboplebitis' then 'Thromboplebitis'
-                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Heart condition' then 'Heart condition'
-                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Liver problems' then 'Liver problems'
-                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Epilepsy' then 'Epilepsy'
-                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Cancer of the breast' then 'Cancer of the breast'
-                                  when fpsform.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'N/A' then 'N/A'
-                                end ,', ') is not null then  1
-                else Null end :: BOOLEAN as \"Does the client have a History\",
-                max(case when fpsform.\"fps_form_any_other_illness\" = 'Yes' then 1
-                when fpsform.\"fps_form_any_other_illness\" = 'No' THEN 0
-                    else null end) :: BOOLEAN as \"Any other illness?\",
-                max(fpsform.\"fps_form_clinical_history\") as \"Clinical History\",
-                max(fpsform.\"fps_form_hiv_infection\") as \"HIV infection?\",
-                max(fpsform.\"fps_form_diagnosed_when\") as \"Diagnosed when?\",
-                max(fpsform.\"fps_form_recent_cd4_cell_count\") as \"Recent CD4 cell count\",
-                max(case when fpsform.\"fps_form_currently_receiving_art\" = 'Yes' then 1
-                when fpsform.\"fps_form_currently_receiving_art\" = 'No' THEN 0
-                    else null end) :: BOOLEAN as \"Currently receiving ART?\",
-                max(case when fpsform.\"fps_form_in_the_past_included_in_pmtct_program\" = 'Yes' then 1
-                when fpsform.\"fps_form_in_the_past_included_in_pmtct_program\" = 'No' THEN 0
-                    else null end) :: BOOLEAN as \"In the past included in PMTCT program?\",
-                max(case when fpsform.\"fps_form_is_the_client_taking_any_medications\" = 'Yes' then 1
-                when fpsform.\"fps_form_is_the_client_taking_any_medications\" = 'No' THEN 0
-                    else null end) :: BOOLEAN as \"Is the client taking any medications\",
-                max(case when fpsform.\"fps_form_did_the_client_have_any_surgical_operation\" = 'Yes' then 1
-                when fpsform.\"fps_form_did_the_client_have_any_surgical_operation\" = 'No' THEN 0
-                    else null end) :: BOOLEAN as \"Did the client have any surgical operation?\",
-                case when string_agg(case when fpsform.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Heart' then 'Heart' 
-                                when fpsform.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Lung' then 'Lung'
-                                when fpsform.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Abdomen' then 'Abdomen'
-                                when fpsform.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Head, neck, mouth, throat, ears' then 'Head, neck, mouth, throat, ears'
-                                when fpsform.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Limbs' then 'Limbs'
-                                when fpsform.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Breasts' then 'Breasts'
-                                when fpsform.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Skin' then 'Skin'
-                end ,', ') is not null then 1
-                else 0 end :: BOOLEAN as \"General clinical examination\",
-                max(fpsform.\"fps_form_weight\") as \"Weight\",
-                max(fpsform.\"fps_bp_systolic\") as \"BP Systolic\",
-                max(fpsform.\"fps_bp_diastolic\") as \"BP Diastolic\",
-                max(fpsform.\"fps_form_temp\") as \"Temp\",
-                max(fpsform.\"fps_form_p\") as \"P\",
-                max(fpsform.\"fps_form_r\") as \"R\",
-                string_agg(case when fpsform.\"fps_form_genital_examination_does_the_client_have_any_of_th\" = 'FPS FORM,Vulvar warts' then 'Vulvar warts' 
-                                when fpsform.\"fps_form_genital_examination_does_the_client_have_any_of_th\" = 'FPS FORM,Genital ulcer' then 'Genital ulcer'
-                                when fpsform.\"fps_form_genital_examination_does_the_client_have_any_of_th\" = 'FPS FORM,lesions syndrome' then 'lesions syndrome'
-                                when fpsform.\"fps_form_genital_examination_does_the_client_have_any_of_th\" = 'FPS FORM,Vaginal Discharge syndrome' then 'Vaginal Discharge syndrome'
-                                when fpsform.\"fps_form_genital_examination_does_the_client_have_any_of_th\" = 'FPS FORM,PID' then 'PID'
-                                when fpsform.\"fps_form_genital_examination_does_the_client_have_any_of_th\" = 'Other' then 'Other'
-                end ,', ') as \"Genital examination: Does the client have any of the following conditions?\",
-                max(fpsform.\"fps_form_uterus_size\") as \"Uterus Size\",
-                max(fpsform.\"fps_form_uterus_position\") as \"Uterus Position\",
-                max(fpsform.\"fps_form_adnexae_comment\") as \"Adnexae (comment)\",
-                string_agg(case when fpsform.\"fps_form_preferred_method_state\" = 'FPS FORM,Projesterone only pill (POP)' then 'Projesterone only pill (POP)'
-                                when fpsform.\"fps_form_preferred_method_state\" = 'FPS FORM,Combined oral contaceptive (COC)' then 'Combined oral contaceptive (COC)'
-                                when fpsform.\"fps_form_preferred_method_state\" = 'FPS FORM,Jadelle Implants' then 'Jadelle Implants'
-                                when fpsform.\"fps_form_preferred_method_state\" = 'FPS FORM,Implanon Implants' then 'Implanon Implants'
-                                when fpsform.\"fps_form_preferred_method_state\" = 'FPS FORM,Injectable (Petogen)' then 'Injectables'
-                                when fpsform.\"fps_form_preferred_method_state\" = 'FPS FORM,Copper T IUCD' then 'Copper T IUCD'
-                                when fpsform.\"fps_form_preferred_method_state\" = 'FPS FORM,LNG-IUS IUCD' then 'LNG-IUS IUCD'
-                                when fpsform.\"fps_form_preferred_method_state\" = 'FPS FORM,Vasectomy' then 'Vasectomy'
-                                when fpsform.\"fps_form_preferred_method_state\" = 'FPS FORM,Emergency contraception' then 'Emergency contraception'
-                                when fpsform.\"fps_form_preferred_method_state\" = 'FPS FORM,Tuberligation' then 'Tuberligation'
-                end ,', ') as \"Preferred method (state)\",
-                max(case when fpsform.\"fps_form_changing_state\" = 'Yes' then 1
-                when fpsform.\"fps_form_changing_state\" = 'No' THEN 0
-                    else null end) :: BOOLEAN as \"Changing State\",
-                max(case when fpsform.\"fps_form_medically_eligible\" = 'Yes' then 1
-                when fpsform.\"fps_form_medically_eligible\" = 'No' THEN 0
-                    else null end) :: BOOLEAN as \"Medically eligible\",
-                case when max(fpsform.\"fps_form_pregnancy_test\") ='Yes' then 1 
-                when max(fpsform.\"fps_form_pregnancy_test\") ='No' then 0
-                else null end :: Boolean as \"Pregnancy test (Negative/positive)\",
-                string_agg(case when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM,Projesterone only pill (POP)' then 'Projesterone only pill (POP)'
-                                when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM,Combined oral contaceptive (COC)' then 'Combined oral contaceptive (COC)'
-                                when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM,Jadelle Implants' then 'Jadelle Implants'
-                                when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM,Implanon Implants' then 'Implanon Implants'
-                                when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM,Injectable (Petogen)' then 'Injectables'
-                                when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM,Copper T IUCD' then 'Copper T IUCD'
-                                when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM,LNG-IUS IUCD' then 'LNG-IUS IUCD'
-                                when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM,Vasectomy' then 'Vasectomy'
-                                when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM,Emergency contraception' then 'Emergency contraception'
-                                when fpsform.\"fps_form_method_issued_and_or_administered\" = 'FPS FORM,Tuberligation' then 'Tuberligation'
-                end ,', ') as \"Method issued and/or administered\",
-                max(case when fpsform.\"fps_form_dual_protection_discussed\" = 'Yes' then 1
-                when fpsform.\"fps_form_dual_protection_discussed\" = 'No' THEN 0
-                    else null end) :: BOOLEAN as \"Dual Protection discussed\",
-                max(fpsform.\"fps_form_name_of_counselor\") as \"Name of Counselor\",
-                max(case when fpsform.\"fps_form_device_removal\" = 'Yes' then 1
-                when fpsform.\"fps_form_device_removal\" = 'No' THEN 0
-                    else null end) :: BOOLEAN as \"Device removal\",
-                string_agg(case when fpsform.\"fps_form_state_reason_for_removal\" = 'FPS FORM,Expired' then 'Expired' 
-                                when fpsform.\"fps_form_state_reason_for_removal\" = 'FPS FORM,Desire to be pregnant' then 'Desire to be pregnant'
-                                when fpsform.\"fps_form_state_reason_for_removal\" = 'FPS FORM,Health concerns' then 'Health concerns'
-                                when fpsform.\"fps_form_state_reason_for_removal\" = 'FPS FORM,Complications' then 'Complications'
-                                when fpsform.\"fps_form_state_reason_for_removal\" = 'Other' then 'Other'
-                end ,', ') as \"State reason for removal\",
-                string_agg(case when fpsform.\"fps_form_device_inserted_by\" = 'FPS FORM,PSI/PSF' then 'PSI/PSF' 
-                                when fpsform.\"fps_form_device_inserted_by\" = 'Other' then 'Other'
-                                when fpsform.\"fps_form_device_inserted_by\" = 'Unknown' then 'Unknown'
-                end ,', ') as \"Device Inserted by\",
-                max(fpsform.\"fp_initial_form_state_procedure\") as \"State Procedure\",
-                max(fpsform.\"fps_form_date_of_procedure_indicate\") as \"Date of Procedure indicate\",
-                max(case when fpsform.\"fps_form_pre_procedure_counseling_and_assessment_conducted\" = 'Yes' then 1
-                when fpsform.\"fps_form_pre_procedure_counseling_and_assessment_conducted\" = 'No' THEN 0
-                    else null end) :: BOOLEAN as \"Pre-Procedure counseling\",
-                max(fpsform.\"fps_form_indicate_name_of_counselor\") as \"Indicate name of Counselor\",
-                max(fpsform.\"fps_form_start_of_procedure_indicate_time\") as \"Start of procedure indicate time\",
-                max(fpsform.\"fps_form_end_of_procedure_indicate_time\") as \"End of procedure, indicate time\",
-                max(case when fpsform.\"fps_form_complications_during_insertions\" = 'Yes' then 1
-                when fpsform.\"fps_form_complications_during_insertions\" = 'No' THEN 0
-                    else null end) :: BOOLEAN as \"Complications during insertions\",
-                max(case when fpsform.\"fps_form_adverse_event\" = 'Yes' then 1
-                when fpsform.\"fps_form_adverse_event\" = 'No' THEN 0
-                    else null end) :: BOOLEAN as \"Adverse Events\",
-                max(fpsform.\"fps_form_procedure_done_by\") as \"Procedure done by\",
-                case when max(fpsform.\"fps_form_condoms_given\") IN ('Male', 'Female') then 1 
-                when max(fpsform.\"fps_form_condoms_given\") ='FPS FORM,Not Given' then 0
-                else null end :: Boolean as \"Condoms given\",
-                max(fpsform.\"fps_form_batch_number\") as \"Batch Number\",
-                max(fpsform.\"fps_form_expiry_date\") as \"Expiry Date\",
-                max(fpsform.\"fps_form_manufacture\") as \"Manufacture\",
-                case when string_agg(fpsform.\"fps_form_indicate_where_client_was_referred_to\",', ') is not Null then 1
-                else null end :: BOOLEAN as \"Indicate where the client was referred to\",
-                max(case when fpsform.\"fps_form_referred_out\" = 'Yes' then 1
-                when fpsform.\"fps_form_referred_out\" = 'No' THEN 0
-                    else null end) :: BOOLEAN as \"Referred out ?\",
-                max(fpsform.\"fps_form_state_reason_for_referral\") as \"State reason for referral\",
-                max(case when fpsform.\"fps_form_referral_slip_and_instructions_to_leave_slip_at_th\" = 'Yes' then 1
-                when fpsform.\"fps_form_referral_slip_and_instructions_to_leave_slip_at_th\" = 'No' THEN 0
-                    else null end) :: BOOLEAN as \"Referral slip and instructions\",
-                max(fpsform.\"fps_form_state_review_date\") as \"State review date\"
-                from psi_patient_program_data ppv
-                join fps_family_planning_service fpsform on ppv.patient_id = fpsform.patient_id
-                join patient_identifier pi on ppv.patient_id = pi.patient_id
-                join person_details_default pdd on ppv.patient_id = pdd.person_id
-                join person_attributes pa on ppv.patient_id = pa.person_id
-                join person_address_default pad on pa.person_id = pad.person_id
-                join patient_encounter_table pedd on fpsform.encounter_id = pedd.encounter_id
-                where ppv.program_id = (select program_id from programs_default where program_name = 'FPS Program')
-                group by fpsform.id_fps_family_planning_service,fpsform.patient_id
-                order by fpsform.id_fps_family_planning_service desc"
+    ORDER BY date_created DESC;"
  },
  {
  "name": "viac_program_events_table",
