@@ -760,8 +760,8 @@
 
         {
  "name": "hts_program_events_table",
- "sql": "SELECT 'vatFxlZR2lj':: TEXT AS program,
-        'KeomfqRdu8Q':: TEXT AS program_stage,
+ "sql": "SELECT 'vatFxlZR2lj' :: TEXT AS program,
+        'KeomfqRdu8Q' :: TEXT AS program_stage,
         
         max(CASE WHEN phtc.\"phtc_site_type\" = 'Outreach'
               THEN concat('ZWNSC-OU-',upper(
@@ -1174,8 +1174,8 @@ patient_encounter_table pedd
 {
  "name": "fps_program_events_table",
  "sql": "select 
-        'vatFxlZR2lj':: TEXT as program,
-        'KeomfqRdu8Q':: TEXT as program_stage,
+        'vatFxlZR2lj' :: TEXT as program,
+        'KeomfqRdu8Q' :: TEXT as program_stage,
         max(case when fpsform.\"fps_form_site_type\" = 'Outreach'
                     then concat('ZWNSC-OU-',upper(fpsform.\"fps_form_facility\"),'-',upper(fpsform.\"fps_district\"))
                     ELSE concat('ZWNSC-',upper(fpsform.\"fps_form_facility\"))
@@ -1423,8 +1423,8 @@ patient_encounter_table pedd
  {
  "name": "viac_program_events_table",
  "sql": "select 
-        'vatFxlZR2lj':: TEXT as program,
-        'YoxZS1bsBaW':: TEXT as program_stage,
+        'vatFxlZR2lj' :: TEXT as program,
+        'YoxZS1bsBaW' :: TEXT as program_stage,
         max(case when viac.\"viac_form_site_type\" = 'Outreach'
                     then concat('ZWNSC-OU-',upper(viac.\"viac_form_facility\"),'-',upper(viac.\"viac_form_district\"))
                     ELSE concat('ZWNSC-',upper(viac.\"viac_form_facility\"))
