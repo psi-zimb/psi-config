@@ -768,7 +768,7 @@
                    COALESCE(phtc.\"phtc_facility\", (SELECT phtc_facility FROM provider_hiv_test_counselling phtc_temp WHERE phtc_facility IS NOT NULL AND  phtc_temp.patient_id = pedd.patient_id AND pedd.encounter_id > phtc_temp.encounter_id and phtc.program_id = (SELECT program_id FROM programs_default WHERE program_name= 'HTS Program') ORDER BY phtc_temp.encounter_id DESC LIMIT 1))),'-',upper(phtc.\"phtc_district\"))   
          ELSE concat('ZWNSC-',upper(
               COALESCE(phtc.\"phtc_facility\",  (SELECT phtc_facility FROM provider_hiv_test_counselling phtc_temp WHERE phtc_facility IS NOT NULL AND phtc_temp.patient_id  = pedd.patient_id AND pedd.encounter_id > phtc_temp.encounter_id and phtc.program_id = (SELECT program_id FROM programs_default WHERE program_name= 'HTS Program') ORDER BY phtc_temp.encounter_id DESC LIMIT 1))))
-         END) AS OrgUnit,
+         END) AS \"OrgUnit\",
          
         max(CASE WHEN   COALESCE(phtc.obs_datetime, '01-01-0001' ) >= COALESCE(pht.obs_datetime, '01-01-0001' )
                 AND  COALESCE(phtc.obs_datetime, '01-01-0001' ) >=  COALESCE(hst.obs_datetime, '01-01-0001' )
