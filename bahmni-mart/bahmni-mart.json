@@ -1427,6 +1427,1635 @@ patient_encounter_table pedd
                 where ppv.program_id = (select program_id from programs_default where program_name = 'VIAC Program')
                 group by viac.id_viac_form_template,viac.patient_id
                 order by viac.id_viac_form_template desc"
+},
+{
+ "name": "fps_program_events_table",
+ "sql": "SELECT 
+        'vatFxlZR2lj':: TEXT AS program,
+        'KeomfqRdu8Q':: TEXT AS program_stage,
+        'COMPLETED' :: TEXT AS status,
+     
+        max(CASE WHEN fps.\"fps_form_site_type\" = 'Outreach'
+              THEN concat('ZWNSC-OU-',upper(
+                   COALESCE(fps.\"fps_form_facility\", (SELECT \"fps_form_facility\" FROM fps_family_planning_service fps_temp WHERE fps_form_facility IS NOT NULL AND                      fps_temp.patient_id = pedd.patient_id AND pedd.encounter_id > fps_temp.encounter_id 
+                      ORDER BY fps_temp.encounter_id DESC LIMIT 1))),'-',upper( fps.\"fps_district\"))   
+         ELSE concat('ZWNSC-',upper(
+              COALESCE(fps.\"fps_form_facility\",  (SELECT \"fps_form_facility\" FROM fps_family_planning_service fps_temp WHERE fps_form_facility IS NOT NULL AND                fps_temp.patient_id = pedd.patient_id AND pedd.encounter_id >= fps_temp.encounter_id 
+              ORDER BY fps_temp.encounter_id DESC LIMIT 1))))
+         END) AS \"OrgUnit\",
+        
+         max(pedd.\"visit_id\") AS \"event_unique_id\",
+         max(DATE(ppv.\"date_enrolled\"))  AS \"enrollment_date\",
+         
+         max(CASE WHEN COALESCE(fps.obs_datetime, '01-01-0001' ) >= COALESCE(fpc.obs_datetime, '01-01-0001' )
+                AND  COALESCE(fps.obs_datetime, '01-01-0001' ) >=  COALESCE(fpcounselling.obs_datetime, '01-01-0001' )
+            THEN date(fps.obs_datetime)
+          
+            WHEN ( COALESCE(fpc.obs_datetime, '01-01-0001' ) >= COALESCE(fps.obs_datetime, '01-01-0001' ) ) 
+                 AND ( COALESCE(fpc.obs_datetime, '01-01-0001' ) >= COALESCE(fpcounselling.obs_datetime, '01-01-0001' ) ) 
+            THEN date(fpc.obs_datetime) 
+         ELSE
+            date(fpcounselling.obs_datetime) 
+         END) AS \"event_date\",
+         
+         max(CASE WHEN COALESCE(fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_created, '01-01-0001 00:00:00' )
+                AND COALESCE(fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_created, '01-01-0001 00:00:00' )
+             THEN fps.date_created
+          
+            WHEN COALESCE(fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_created, '01-01-0001 00:00:00' )
+                 AND COALESCE(fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_created, '01-01-0001 00:00:00' )
+            THEN fpc.date_created
+        ELSE
+            fpcounselling.date_created
+        END) AS \"date_created\",
+        
+         max(pi.\"Patient_Identifier\") AS \"Patient_Identifier\",
+         max(pdd.age) AS \"Age\",
+
+         max(CASE WHEN fps.\"fps_reg_is_client_accompanied_by_her_partner\" = 'Yes' THEN 1
+                  WHEN fps.\"fps_reg_is_client_accompanied_by_her_partner\" = 'No' THEN 0
+             ELSE NULL END) :: BOOLEAN AS \"Is client accompanied by her Partner\",
+          
+         max(fps.\"fps_reg_reason_for_the_visit\") AS \"Reason for the visit\",
+         max(fps.\"fps_reg_reason_for_family_planning\") AS \"Reason for family planning\",
+         
+         max(CASE WHEN fps.\"fps_reg_occasion\" = 'FPS REG,Post Partum' THEN 'Post Partum' 
+                         WHEN fps.\"fps_reg_occasion\" = 'FPS REG,Post abortion' THEN 'Post abortion'
+                         WHEN fps.\"fps_reg_occasion\" = 'FPS REG,Interval' THEN 'Interval' 
+                     END) AS \"Occasion\",
+         
+       max(CASE WHEN fps.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,Friend/Relative' THEN 'Friend/Relative' 
+                        WHEN fps.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,Other FP client' THEN 'Other FP client'
+                        WHEN fps.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,Partner/Spouse' THEN 'Partner/Spouse'
+                        WHEN fps.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,Health worker' THEN 'Health worker'
+                        WHEN fps.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,Poster/Leaflet/Brochure' THEN 'Poster/Leaflet/Brochure'
+                        WHEN fps.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,Community Mobilizer' THEN 'Community Mobilizer'
+                        WHEN fps.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,TV' THEN 'TV'
+                        WHEN fps.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,Radio' THEN 'Radio'
+                        WHEN fps.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,New Start T&C/New Life' THEN 'New Start T&C/New Life'
+                        WHEN fps.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,Other T&C service provider' THEN 'Other T&C service provider'
+                        WHEN fps.\"fps_reg_how_did_you_hear_about_the_fp_services_at_sites\" = 'FPS REG,Other site' THEN 'Other site'
+                        END) AS \"How did you hear about the FP services at sites?\",
+          
+           max(fps.\"fps_form_other_for_how_did_you_hear_about_the_fp_services_a\") AS \"If other, specify details\",
+           max(fps.\"fps_form_referred_in_for\") AS \"Referred in for\",
+           max(fps.\"fps_form_menarche\") AS \"Menarche\",
+           max(fps.\"fps_form_lnmp\") AS \"LNMP\",
+           max(fps.fps_form_menstrual_cycle_no_of_bleeding_days_length_of_cycl) AS \"Menstrual Cycle\",
+           max(fps.\"fps_form_no_of_bleeding_days_length_of_cycle\") AS \"Number of bleeding days\",
+           max(fps.\"fps_form_number_of_living_children_indicate_number_and_ages\") AS \"Number of Children and ages\",
+           max(fps.\"fps_form_date_of_last_delivery\") AS \"Date of last delivery\", 
+           
+           max(CASE WHEN fps.\"fps_form_used_checklist_to_exclude_pregnancy\" = 'Yes' THEN 1
+                    WHEN fps.\"fps_form_used_checklist_to_exclude_pregnancy\" = 'No' THEN 0
+               ELSE NULL END) :: BOOLEAN AS \"Used checklist to exclude pregnancy\",
+                  
+       max(CASE WHEN  fps.\"fps_form_have_you_ever_used_any_contraception_before_tick_a\" IS NOT NULL THEN 
+                (SELECT string_agg (
+                                CASE WHEN fps_form_have_you_ever_used_any_contraception_before_tick_a = 'FPS FORM,Vasectomy' THEN 'Vasecotomy' 
+                                    WHEN fps_form_have_you_ever_used_any_contraception_before_tick_a  = 'FPS FORM,Projesterone only pill (POP)' THEN 'Projesterone only pill (POP)'
+                                    WHEN fps_form_have_you_ever_used_any_contraception_before_tick_a = 'FPS FORM,Combined oral contaceptive (COC)' THEN 'Combined oral contaceptive (COC)'
+                                    WHEN fps_form_have_you_ever_used_any_contraception_before_tick_a = 'FPS FORM,Injectable (Petogen)' THEN 'Injectable'
+                                    WHEN fps_form_have_you_ever_used_any_contraception_before_tick_a  = 'FPS FORM,Implanon Implants' THEN 'Implanon Implants'
+                                    WHEN fps_form_have_you_ever_used_any_contraception_before_tick_a = 'FPS FORM,Emergency contraception' THEN 'Emergency contraception'
+                                    WHEN fps_form_have_you_ever_used_any_contraception_before_tick_a = 'FPS FORM,Jadelle Implants' THEN 'Jadelle Implants'
+                                    WHEN fps_form_have_you_ever_used_any_contraception_before_tick_a = 'FPS FORM,Copper T IUCD' THEN 'Copper T IUCD'
+                                    WHEN fps_form_have_you_ever_used_any_contraception_before_tick_a  = 'FPS FORM,LNG-IUS IUCD' THEN 'LNG-IUS IUCD'
+                                    WHEN fps_form_have_you_ever_used_any_contraception_before_tick_a = 'FPS FORM,Tuberligation' THEN 'Tuberligation'
+                                    WHEN fps_form_have_you_ever_used_any_contraception_before_tick_a = 'FPS FORM,Emergency contraception' THEN 'Emergency contraception'
+                                    WHEN fps_form_have_you_ever_used_any_contraception_before_tick_a = 'Condoms' THEN 'Condoms'
+                                    WHEN fps_form_have_you_ever_used_any_contraception_before_tick_a = 'None' THEN 'None'
+                                    END ,', ') FROM fps_family_planning_service fpstemp WHERE fpstemp.encounter_id = pedd.encounter_id AND fpstemp.patient_id = pedd.patient_id GROUP BY fpstemp.encounter_id)
+                ELSE NULL
+                END ) AS \"Ever used contraception before\",
+                
+           max(fps.\"fps_form_p_v_loss\") AS \"P.V. Loss\",
+           max(CASE WHEN fps.\"fps_form_post_coital_bleeding\" = 'Yes' THEN 1
+                         WHEN fps.\"fps_form_post_coital_bleeding\" = 'No' THEN 0
+                    ELSE NULL END) :: BOOLEAN AS \"Post coital bleeding\",
+           
+            CASE WHEN max(fps.\"fps_form_pain_during_intercourse_dyspareunia\") ='Yes' THEN 1 
+                     WHEN max(fps.\"fps_form_pain_during_intercourse_dyspareunia\") ='No' THEN 0
+                ELSE NULL END :: BOOLEAN AS \"Pain during intercourse\",
+                
+             max(CASE WHEN fps.\"fps_form_any_discharge\" = 'Yes' THEN 1
+                         WHEN fps.\"fps_form_any_discharge\" = 'No' THEN 0
+                   ELSE NULL END) :: BOOLEAN AS \"Any Discharge\",
+                    
+             max(CASE WHEN fps.\"fps_form_pain_during_micturation\" = 'Yes' THEN 1
+                         WHEN fps.\"fps_form_pain_during_micturation\" = 'No' THEN 0
+                    ELSE NULL END) :: BOOLEAN AS \"Pain during micturation\",
+                    
+             max(CASE WHEN fps.\"fps_form_allergies_state_below_if_any\" = 'Yes' THEN 1
+                        WHEN fps.\"fps_form_allergies_state_below_if_any\" = 'No' THEN 0
+                    ELSE NULL END) :: BOOLEAN AS \"Allergies (state below if any)\",
+              
+             CASE WHEN string_agg( 
+                                  CASE 
+                                  WHEN fps.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Varicose Veins' THEN 'Varicose Veins' 
+                                  WHEN fps.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Anemia' THEN 'Anemia'
+                                  WHEN fps.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'Diabetes Mellitus' THEN 'Diabetes Mellitus'
+                                  WHEN fps.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Thromboplebitis' THEN 'Thromboplebitis'
+                                  WHEN fps.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Heart condition' THEN 'Heart condition'
+                                  WHEN fps.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Liver problems' THEN 'Liver problems'
+                                  WHEN fps.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Epilepsy' THEN 'Epilepsy'
+                                  WHEN fps.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Cancer of the breast' THEN 'Cancer of the breast'
+                                  WHEN fps.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'N/A' THEN 'N/A'
+                                END ,', ') != 'N/A' AND
+            string_agg(
+                                  CASE WHEN fps.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Varicose Veins' THEN 'Varicose Veins' 
+                                  WHEN fps.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Anemia' THEN 'Anemia'
+                                  WHEN fps.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'Diabetes Mellitus' THEN 'Diabetes Mellitus'
+                                  WHEN fps.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Thromboplebitis' THEN 'Thromboplebitis'
+                                  WHEN fps.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Heart condition' THEN 'Heart condition'
+                                  WHEN fps.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Liver problems' THEN 'Liver problems'
+                                  WHEN fps.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Epilepsy' THEN 'Epilepsy'
+                                  WHEN fps.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'FPS FORM,Cancer of the breast' THEN 'Cancer of the breast'
+                                  WHEN fps.\"fps_form_does_the_client_have_a_history_of_any_of_the_follo\" = 'N/A' THEN 'N/A'
+                                END ,', ') IS NOT NULL THEN  1
+                ELSE NULL END :: BOOLEAN AS \"Does the client have a History\",
+            
+            max(CASE WHEN fps.\"fps_form_any_other_illness\" = 'Yes' THEN 1
+                     WHEN fps.\"fps_form_any_other_illness\" = 'No' THEN 0
+                 ELSE NULL END) :: BOOLEAN AS \"Any other illness?\",
+                
+            max(fps.\"fps_form_clinical_history\") AS \"Clinical History\",
+            max(fps.\"fps_form_hiv_infection\") AS \"HIV infection?\",
+            max(fps.\"fps_form_diagnosed_when\") AS \"Diagnosed when?\",
+            max(fps.\"fps_form_recent_cd4_cell_count\") AS \"Recent CD4 cell count\",  
+            
+            max(CASE WHEN fps.\"fps_form_currently_receiving_art\" = 'Yes' THEN 1
+                    WHEN fps.\"fps_form_currently_receiving_art\" = 'No' THEN 0
+                    ELSE NULL END) :: BOOLEAN AS \"Currently receiving ART?\",    
+           
+           max(CASE WHEN fps.\"fps_form_in_the_past_included_in_pmtct_program\" = 'Yes' THEN 1
+                WHEN fps.\"fps_form_in_the_past_included_in_pmtct_program\" = 'No' THEN 0
+                    ELSE NULL END) :: BOOLEAN AS \"In the past included in PMTCT program?\",
+          
+           max(CASE WHEN fps.\"fps_form_is_the_client_taking_any_medications\" = 'Yes' THEN 1
+                   WHEN fps.\"fps_form_is_the_client_taking_any_medications\" = 'No' THEN 0
+              ELSE NULL END) :: BOOLEAN AS \"Is the client taking any medications\",
+            
+            max(CASE WHEN fps.\"fps_form_did_the_client_have_any_surgical_operation\" = 'Yes' THEN 1
+                   WHEN fps.\"fps_form_did_the_client_have_any_surgical_operation\" = 'No' THEN 0
+              ELSE NULL END) :: BOOLEAN AS \"Did the client have any surgical operation?\",
+              
+            CASE WHEN string_agg(CASE WHEN fps.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Heart' THEN 'Heart' 
+                                WHEN fps.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Lung' THEN 'Lung'
+                                WHEN fps.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Abdomen' THEN 'Abdomen'
+                                WHEN fps.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Head, neck, mouth, throat, ears' THEN 'Head, neck, mouth, throat, ears'
+                                WHEN fps.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Limbs' THEN 'Limbs'
+                                WHEN fps.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Breasts' THEN 'Breasts'
+                                WHEN fps.\"fps_form_general_clinical_examination_any_clinical_abnormal\" = 'FPS FORM,Skin' THEN 'Skin'
+                END ,', ') IS NOT NULL THEN 1
+                ELSE 0 END :: BOOLEAN AS \"General clinical examination\",
+          
+         
+        max(CASE WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' )
+         AND COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN
+         CASE WHEN fps.fps_form_weight IS NOT NULL 
+                    THEN fps.fps_form_weight
+              WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fpc.fp_continuation_weight IS NOT NULL 
+                    THEN fpc.fp_continuation_weight
+              ELSE 
+                  fpcounselling.fp_counselling_only_weight
+         END 
+            
+      WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' )
+       AND COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN 
+         CASE WHEN fpc.fp_continuation_weight IS NOT NULL 
+              THEN fpc.fp_continuation_weight
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fps.fps_form_weight IS NOT NULL 
+              THEN fps.fps_form_weight
+              ELSE 
+                fpcounselling.fp_counselling_only_weight
+              END 
+      ELSE
+         CASE WHEN fpcounselling.fp_counselling_only_weight IS NOT NULL 
+              THEN fpcounselling.fp_counselling_only_weight
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, 
+              '01-01-0001 00:00:00' )AND fps.fps_form_weight IS NOT NULL 
+              THEN fps.fps_form_weight
+              ELSE 
+                  fpc.fp_continuation_weight
+              END
+      END) AS \"Weight\",
+        max(CASE WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' )
+         AND COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN
+         CASE WHEN fps.fps_bp_systolic IS NOT NULL 
+              THEN fps.fps_bp_systolic
+              WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fpc.fp_continuation_bp_systolic IS NOT NULL 
+              THEN fpc.fp_continuation_bp_systolic
+              ELSE 
+                  fpcounselling.fps_counselling_only_bp_systolic
+              END 
+            
+      WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' )
+       AND COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN 
+         CASE WHEN fpc.fp_continuation_bp_systolic IS NOT NULL 
+              THEN fpc.fp_continuation_bp_systolic
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fps.fps_bp_systolic IS NOT NULL 
+              THEN fps.fps_bp_systolic
+              ELSE 
+                fpcounselling.fps_counselling_only_bp_systolic
+              END 
+      ELSE
+         CASE WHEN fpcounselling.fps_counselling_only_bp_systolic IS NOT NULL 
+              THEN fpcounselling.fps_counselling_only_bp_systolic
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, 
+              '01-01-0001 00:00:00' ) AND fps.fps_bp_systolic IS NOT NULL 
+              THEN fps.fps_bp_systolic
+              ELSE 
+                  fpc.fp_continuation_bp_systolic
+              END
+      END) AS \"BP Systolic\",
+      
+      max(CASE WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' )
+         AND COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN
+         CASE WHEN fps.fps_bp_diastolic IS NOT NULL 
+              THEN fps.fps_bp_diastolic
+              WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fpc.fp_continuation_bp_diastolic IS NOT NULL 
+              THEN fpc.fp_continuation_bp_diastolic
+              ELSE 
+                  fpcounselling.fps_counselling_only_bp_diastolic
+              END 
+            
+      WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' )
+       AND COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN 
+         CASE WHEN fpc.fp_continuation_bp_diastolic IS NOT NULL 
+              THEN fpc.fp_continuation_bp_diastolic
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fps.fps_bp_diastolic IS NOT NULL 
+              THEN fps.fps_bp_diastolic
+              ELSE 
+                fpcounselling.fps_counselling_only_bp_diastolic
+              END 
+      ELSE
+         CASE WHEN fpcounselling.fps_counselling_only_bp_diastolic IS NOT NULL 
+              THEN fpcounselling.fps_counselling_only_bp_diastolic
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, 
+              '01-01-0001 00:00:00' ) AND fps.fps_bp_diastolic IS NOT NULL 
+              THEN fps.fps_bp_diastolic
+              ELSE 
+                  fpc.fp_continuation_bp_diastolic
+              END
+      END) AS \"BP Diastolic\",
+
+      max(CASE WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' )
+         AND COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN
+         CASE WHEN fps.fps_form_temp IS NOT NULL 
+              THEN fps.fps_form_temp
+              WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fpc.fp_cont_form_temperature IS NOT NULL 
+              THEN fpc.fp_cont_form_temperature
+              ELSE 
+                  fpcounselling.fp_couns_form_temperature
+              END 
+            
+      WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' )
+       AND COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN 
+         CASE WHEN fpc.fp_cont_form_temperature IS NOT NULL 
+              THEN fpc.fp_cont_form_temperature
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fps.fps_form_temp IS NOT NULL 
+              THEN fps.fps_form_temp
+              ELSE 
+                fpcounselling.fp_couns_form_temperature
+              END 
+      ELSE
+         CASE WHEN fpcounselling.fp_couns_form_temperature IS NOT NULL 
+              THEN fpcounselling.fp_couns_form_temperature
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, 
+              '01-01-0001 00:00:00' )AND fps.fps_form_temp IS NOT NULL 
+              THEN fps.fps_form_temp
+              ELSE 
+                  fpc.fp_cont_form_temperature
+              END
+      END) AS \"Temperature\",
+         
+           max(fps.\"fps_form_p\") AS \"P\",
+           max(fps.\"fps_form_r\") AS \"R\",
+            
+           max(CASE WHEN  fps.\"fps_form_genital_examination_does_the_client_have_any_of_th\" IS NOT NULL THEN 
+                (SELECT string_agg (
+                                CASE WHEN fps_form_genital_examination_does_the_client_have_any_of_th = 'FPS FORM,Vulvar warts' THEN 'Vulvar warts' 
+                                    WHEN fps_form_genital_examination_does_the_client_have_any_of_th  = 'FPS FORM,Genital ulcer' THEN 'Genital ulcer'
+                                    WHEN fps_form_genital_examination_does_the_client_have_any_of_th = 'FPS FORM,lesions syndrome' THEN 'lesions syndrome'
+                                    WHEN fps_form_genital_examination_does_the_client_have_any_of_th = 'FPS FORM,Vaginal Discharge syndrome' THEN 'Vaginal Discharge syndrome'
+                                    WHEN fps_form_genital_examination_does_the_client_have_any_of_th  ='FPS FORM,PID' THEN 'PID'
+                                    WHEN fps_form_genital_examination_does_the_client_have_any_of_th = 'Other' THEN 'Other'
+                                    END ,', ') FROM fps_family_planning_service fpstemp WHERE fpstemp.encounter_id = pedd.encounter_id AND fpstemp.patient_id = pedd.patient_id GROUP BY fpstemp.encounter_id)
+                ELSE NULL
+                END ) AS \"Genital examination: Does the client have any of the following conditions?\",
+          
+         max(fps.\"fps_form_uterus_size\") AS \"Uterus Size\",
+         max(fps.\"fps_form_uterus_position\") AS \"Uterus Position\",
+         max(fps.\"fps_form_adnexae_comment\") AS \"Adnexae (comment)\",
+         max(fps.fps_form_diagnosis) AS \"Diagnosis\",
+         
+         string_agg(CASE WHEN fps.\"fps_form_preferred_method_state\" = 'FPS FORM,Projesterone only pill (POP)' THEN 'Projesterone only pill (POP)'
+                                WHEN fps.\"fps_form_preferred_method_state\" = 'FPS FORM,Combined oral contaceptive (COC)' THEN 'Combined oral contaceptive (COC)'
+                                WHEN fps.\"fps_form_preferred_method_state\" = 'FPS FORM,Jadelle Implants' THEN 'Jadelle Implants'
+                                WHEN fps.\"fps_form_preferred_method_state\" = 'FPS FORM,Implanon Implants' THEN 'Implanon Implants'
+                                WHEN fps.\"fps_form_preferred_method_state\" = 'FPS FORM,Injectable (Petogen)' THEN 'Injectables'
+                                WHEN fps.\"fps_form_preferred_method_state\" = 'FPS FORM,Copper T IUCD' THEN 'Copper T IUCD'
+                                WHEN fps.\"fps_form_preferred_method_state\" = 'FPS FORM,LNG-IUS IUCD' THEN 'LNG-IUS IUCD'
+                                WHEN fps.\"fps_form_preferred_method_state\" = 'FPS FORM,Vasectomy' THEN 'Vasectomy'
+                                WHEN fps.\"fps_form_preferred_method_state\" = 'FPS FORM,Emergency contraception' THEN 'Emergency contraception'
+                                WHEN fps.\"fps_form_preferred_method_state\" = 'FPS FORM,Tuberligation' THEN 'Tuberligation'
+                END ,', ') AS \"Preferred method (state)\",
+         
+          max(CASE WHEN fps.\"fps_form_changing_state\" = 'Yes' THEN 1
+                   WHEN fps.\"fps_form_changing_state\" = 'No' THEN 0
+              ELSE NULL END) :: BOOLEAN AS \"Changing State\",
+           
+          max(CASE WHEN fps.\"fps_form_medically_eligible\" = 'Yes' THEN 1
+                   WHEN fps.\"fps_form_medically_eligible\" = 'No' THEN 0
+              ELSE NULL END) :: BOOLEAN AS \"Medically eligible\",
+           
+          CASE WHEN max(fps.\"fps_form_pregnancy_test\") ='Yes' THEN 1 
+              WHEN max(fps.\"fps_form_pregnancy_test\") ='No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Pregnancy test (Negative/positive)\", 
+          
+          max(fps.fps_form_if_yes_for_pregnancy_test) AS \"Result of Pregnancy test\" ,
+      
+            max(CASE WHEN  fps.fps_form_method_issued_and_or_administered IS NOT NULL AND COALESCE(fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_created,'01-01-0001 00:00:00' )
+             THEN 
+                  CASE WHEN  fps.fps_form_method_issued_and_or_administered ='FPS FORM,Emergency contraception' THEN 'Emergency contraception'
+                       WHEN  fps.fps_form_method_issued_and_or_administered ='FPS FORM,Projesterone only pill (POP)' THEN 'Projesterone only pill (POP)'
+                       WHEN  fps.fps_form_method_issued_and_or_administered ='FPS FORM,Combined oral contaceptive (COC)' THEN 'Combined oral contaceptive (COC'
+                       WHEN  fps.fps_form_method_issued_and_or_administered ='FPS FORM,Injectable (Petogen)' THEN 'Injectable'
+                       WHEN  fps.fps_form_method_issued_and_or_administered ='FPS FORM,Implanon Implants' THEN 'Implanon Implants'
+                       WHEN  fps.fps_form_method_issued_and_or_administered ='FPS FORM,Jadelle Implants' THEN 'Jadelle Implants'
+                       WHEN  fps.fps_form_method_issued_and_or_administered ='FPS FORM,Copper T IUCD' THEN 'Copper T IUCD'
+                       WHEN  fps.fps_form_method_issued_and_or_administered ='FPS FORM,LNG-IUS IUCD' THEN 'LNG-IUS IUCD'
+                       WHEN  fps.fps_form_method_issued_and_or_administered = 'FPS FORM,Vasectomy' THEN 'Vasectomy'
+                       WHEN  fps.fps_form_method_issued_and_or_administered = 'FPS FORM,Tuberligation' THEN 'Tuberligation'
+                  END 
+             WHEN  fps.fps_form_method_issued_and_or_administered IS NULL 
+             THEN  
+                  CASE WHEN  fps_continuation_method_administered ='FPS FORM,Projesterone only pill (POP)' THEN 'Projesterone only pill (POP)'
+                       WHEN  fps_continuation_method_administered ='FPS FORM,Jadelle Implants' THEN 'Jadelle Implants'
+                       WHEN  fps_continuation_method_administered ='FPS FORM,Combined oral contaceptive (COC)' THEN 'Combined oral contaceptive (COC'
+                       WHEN  fps_continuation_method_administered ='Injectables' THEN ' Injectables'
+                       WHEN  fps_continuation_method_administered ='FPS FORM,Implanon Implants' THEN 'Implanon Implants'
+                       WHEN  fps_continuation_method_administered ='FPS FORM,LNG-IUS' THEN 'LNG-IUS'
+                       WHEN  fps_continuation_method_administered ='IUCD' THEN 'IUCD'
+                       WHEN  fps_continuation_method_administered ='TUBAL LIGATION' THEN 'TUBAL LIGATION'
+                       WHEN  fps_continuation_method_administered = 'FPS FORM,Emergency contraception' THEN 'Emergency contraception'
+                       WHEN  fps_continuation_method_administered = 'Condoms' THEN 'Condoms'
+                  END 
+                  
+             WHEN fps_continuation_method_administered IS NOT NULL AND COALESCE(fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_created,'01-01-0001 00:00:00')
+             THEN 
+                 CASE WHEN  fps_continuation_method_administered ='FPS FORM,Projesterone only pill (POP)' THEN 'Projesterone only pill (POP)'
+                       WHEN  fps_continuation_method_administered ='FPS FORM,Jadelle Implants' THEN 'Jadelle Implants'
+                       WHEN  fps_continuation_method_administered ='FPS FORM,Combined oral contaceptive (COC)' THEN 'Combined oral contaceptive (COC'
+                       WHEN  fps_continuation_method_administered ='Injectables' THEN ' Injectables'
+                       WHEN  fps_continuation_method_administered ='FPS FORM,Implanon Implants' THEN 'Implanon Implants'
+                       WHEN  fps_continuation_method_administered ='FPS FORM,LNG-IUS' THEN 'LNG-IUS'
+                       WHEN  fps_continuation_method_administered ='IUCD' THEN 'IUCD'
+                       WHEN  fps_continuation_method_administered ='TUBAL LIGATION' THEN 'TUBAL LIGATION'
+                       WHEN  fps_continuation_method_administered = 'FPS FORM,Emergency contraception' THEN 'Emergency contraception'
+                       WHEN  fps_continuation_method_administered = 'Condoms' THEN 'Condoms'
+                  END 
+             WHEN  fps_continuation_method_administered IS NULL 
+             THEN 
+                 CASE WHEN  fps.fps_form_method_issued_and_or_administered ='FPS FORM,Emergency contraception' THEN 'Emergency contraception'
+                       WHEN  fps.fps_form_method_issued_and_or_administered ='FPS FORM,Projesterone only pill (POP)' THEN 'Projesterone only pill (POP)'
+                       WHEN  fps.fps_form_method_issued_and_or_administered ='FPS FORM,Combined oral contaceptive (COC)' THEN 'Combined oral contaceptive (COC'
+                       WHEN  fps.fps_form_method_issued_and_or_administered ='FPS FORM,Injectable (Petogen)' THEN 'Injectable'
+                       WHEN  fps.fps_form_method_issued_and_or_administered ='FPS FORM,Implanon Implants' THEN 'Implanon Implants'
+                       WHEN  fps.fps_form_method_issued_and_or_administered ='FPS FORM,Jadelle Implants' THEN 'Jadelle Implants'
+                       WHEN  fps.fps_form_method_issued_and_or_administered ='FPS FORM,Copper T IUCD' THEN 'Copper T IUCD'
+                       WHEN  fps.fps_form_method_issued_and_or_administered ='FPS FORM,LNG-IUS IUCD' THEN 'LNG-IUS IUCD'
+                       WHEN  fps.fps_form_method_issued_and_or_administered = 'FPS FORM,Vasectomy' THEN 'Vasectomy'
+                       WHEN  fps.fps_form_method_issued_and_or_administered = 'FPS FORM,Tuberligation' THEN 'Tuberligation'
+                  END 
+             ELSE NULL
+         END) AS \"Method issued and/or administered\",
+         
+          max(CASE WHEN fps.\"fps_form_dual_protection_discussed\" = 'Yes' THEN 1
+                WHEN fps.\"fps_form_dual_protection_discussed\" = 'No' THEN 0
+            ELSE NULL END) :: BOOLEAN AS \"Dual Protection discussed\",
+          
+          max(fps.\"fps_form_name_of_counselor\") AS \"Name of Counselor\",
+          max(CASE WHEN fps.\"fps_form_device_removal\" = 'Yes' THEN 1
+                WHEN fps.\"fps_form_device_removal\" = 'No' THEN 0
+              ELSE NULL END) :: BOOLEAN AS \"Device removal\",
+         
+          max(CASE WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' )
+              AND COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+          THEN
+          CASE WHEN fps.fps_form_fp_type IS NOT NULL 
+              THEN 
+                CASE WHEN fps.fps_form_fp_type = 'FPS FORM,Implanon' THEN 'Implanon'
+                     WHEN fps.fps_form_fp_type = 'FPS FORM,Jadelle' THEN 'Jadelle'
+                     WHEN fps.fps_form_fp_type = 'FPS FORM,Copper T' THEN 'Copper T'
+                     WHEN fps.fps_form_fp_type = 'FPS FORM,LNG-IUS' THEN 'LNG-IUS'
+                     END
+              WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fpc.fps_continuation_removal_method IS NOT NULL 
+              THEN 
+                  CASE WHEN fpc.fps_continuation_removal_method = 'FPS FORM,Implanon Implants' THEN 'Implanon Implants'
+                       WHEN fpc.fps_continuation_removal_method = 'FPS FORM,Jadelle Implants' THEN 'Jadelle Implants'
+                       WHEN fpc.fps_continuation_removal_method = 'IUCD' THEN 'IUCD'
+                       WHEN fpc.fps_continuation_removal_method = 'FPS FORM,LNG-IUS' THEN 'LNG-IUS'
+                  END
+
+              ELSE 
+                  
+                  CASE WHEN fpcounselling.fp_counselling_only_fp_type = 'FP Counselling Only,Implanon' THEN 'Implanon'
+                       WHEN fpcounselling.fp_counselling_only_fp_type = 'FP Counselling Only,Jadelle' THEN 'Jadelle'
+                       WHEN fpcounselling.fp_counselling_only_fp_type = 'FP Counselling Only,Copper T' THEN 'Copper T'
+                       WHEN fpcounselling.fp_counselling_only_fp_type = 'FP Counselling Only,LNG-IUS' THEN 'LNG-IUS'
+                  END
+              END 
+            
+       WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' )
+       AND COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN 
+         CASE WHEN fpc.fps_continuation_removal_method IS NOT NULL 
+              THEN 
+                  CASE WHEN fpc.fps_continuation_removal_method = 'FPS FORM,Implanon Implants' THEN 'Implanon Implants'
+                       WHEN fpc.fps_continuation_removal_method = 'FPS FORM,Jadelle Implants' THEN 'Jadelle Implants'
+                       WHEN fpc.fps_continuation_removal_method = 'IUCD' THEN 'IUCD'
+                       WHEN fpc.fps_continuation_removal_method = 'FPS FORM,LNG-IUS' THEN 'LNG-IUS'
+                  END
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fps.fps_form_fp_type IS NOT NULL 
+              THEN 
+                  CASE WHEN fps.fps_form_fp_type = 'FPS FORM,Implanon' THEN 'Implanon'
+                     WHEN fps.fps_form_fp_type = 'FPS FORM,Jadelle' THEN 'Jadelle'
+                     WHEN fps.fps_form_fp_type = 'FPS FORM,Copper T' THEN 'Copper T'
+                     WHEN fps.fps_form_fp_type = 'FPS FORM,LNG-IUS' THEN 'LNG-IUS'
+                     END
+              ELSE 
+                CASE WHEN fpcounselling.fp_counselling_only_fp_type = 'FP Counselling Only,Implanon' THEN 'Implanon'
+                       WHEN fpcounselling.fp_counselling_only_fp_type = 'FP Counselling Only,Jadelle' THEN 'Jadelle'
+                       WHEN fpcounselling.fp_counselling_only_fp_type = 'FP Counselling Only,Copper T' THEN 'Copper T'
+                       WHEN fpcounselling.fp_counselling_only_fp_type = 'FP Counselling Only,LNG-IUS' THEN 'LNG-IUS'
+                  END
+              END 
+      ELSE
+         CASE WHEN fpcounselling.fp_counselling_only_fp_type IS NOT NULL 
+              THEN 
+                  CASE WHEN fpcounselling.fp_counselling_only_fp_type = 'FP Counselling Only,Implanon' THEN 'Implanon'
+                       WHEN fpcounselling.fp_counselling_only_fp_type = 'FP Counselling Only,Jadelle' THEN 'Jadelle'
+                       WHEN fpcounselling.fp_counselling_only_fp_type = 'FP Counselling Only,Copper T' THEN 'Copper T'
+                       WHEN fpcounselling.fp_counselling_only_fp_type = 'FP Counselling Only,LNG-IUS' THEN 'LNG-IUS'
+                  END
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, 
+              '01-01-0001 00:00:00' )AND fps.fps_form_fp_type IS NOT NULL 
+              THEN 
+                 CASE WHEN fps.fps_form_fp_type = 'FPS FORM,Implanon' THEN 'Implanon'
+                     WHEN fps.fps_form_fp_type = 'FPS FORM,Jadelle' THEN 'Jadelle'
+                     WHEN fps.fps_form_fp_type = 'FPS FORM,Copper T' THEN 'Copper T'
+                     WHEN fps.fps_form_fp_type = 'FPS FORM,LNG-IUS' THEN 'LNG-IUS'
+                     END
+              ELSE 
+                  CASE WHEN fpc.fps_continuation_removal_method = 'FPS FORM,Implanon Implants' THEN 'Implanon Implants'
+                       WHEN fpc.fps_continuation_removal_method = 'FPS FORM,Jadelle Implants' THEN 'Jadelle Implants'
+                       WHEN fpc.fps_continuation_removal_method = 'IUCD' THEN 'IUCD'
+                       WHEN fpc.fps_continuation_removal_method = 'FPS FORM,LNG-IUS' THEN 'LNG-IUS'
+                  END
+              END
+      END) AS \"FP type\",
+   
+     max(CASE WHEN  fps.fps_form_expiry_date IS NOT NULL AND (COALESCE(fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_created, '01-01-0001 00:00:00' ))
+             THEN fps.fps_form_expiry_date
+             WHEN  fps.fps_form_expiry_date IS NULL 
+             THEN  fpc.fp_continuation_expiry_date_of_the_method_given
+             WHEN fpc.fp_continuation_expiry_date_of_the_method_given IS NOT NULL AND COALESCE(fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_created,'01-01-0001 00:00:00')
+             THEN fpc.fp_continuation_expiry_date_of_the_method_given
+             WHEN  fpc.fp_continuation_expiry_date_of_the_method_given IS NULL 
+             THEN fps.fps_form_expiry_date
+             ELSE NULL
+         END) AS \"Expiry Date\",
+
+       max(CASE WHEN fps.\"fps_form_state_reason_for_removal\" = 'FPS FORM,Expired' THEN 'Expired' 
+                                WHEN fps.\"fps_form_state_reason_for_removal\" = 'FPS FORM,Desire TO be pregnant' THEN 'Desire TO be pregnant'
+                                WHEN fps.\"fps_form_state_reason_for_removal\" = 'FPS FORM,Health concerns' THEN 'Health concerns'
+                                WHEN fps.\"fps_form_state_reason_for_removal\" = 'FPS FORM,Complications' THEN 'Complications'
+                                WHEN fps.\"fps_form_state_reason_for_removal\" = 'Other' THEN 'Other'
+                END) AS \"State reason for removal\",
+      
+      max(CASE WHEN fps.\"fps_form_device_inserted_by\" = 'FPS FORM,PSI/PSF' THEN 'PSI/PSF' 
+                      WHEN fps.\"fps_form_device_inserted_by\" = 'Other' THEN 'Other'
+                      WHEN fps.\"fps_form_device_inserted_by\" = 'UNKNOWN' THEN 'UNKNOWN'
+                END ) AS \"Device Inserted by\",
+      
+      max(CASE WHEN  fps.fp_initial_form_state_procedure IS NOT NULL AND COALESCE(fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_created,            '01-01-0001 00:00:00' )
+             THEN fps.fp_initial_form_state_procedure
+             WHEN  fps.fp_initial_form_state_procedure IS NULL 
+             THEN  fpc.fps_continuation_state_procedure
+             WHEN fpc.fps_continuation_state_procedure IS NOT NULL AND COALESCE(fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_created,'01-01-0001 00:00:00')
+             THEN fpc.fps_continuation_state_procedure
+             WHEN  fpc.fps_continuation_state_procedure IS NULL 
+             THEN fps.fp_initial_form_state_procedure
+             ELSE NULL
+         END) AS \"State Procedure\",          
+      
+      max(CASE WHEN  fps.fps_form_date_of_procedure_indicate IS NOT NULL AND COALESCE(fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_created,            '01-01-0001 00:00:00' )
+             THEN fps.fps_form_date_of_procedure_indicate
+             WHEN  fps.fps_form_date_of_procedure_indicate IS NULL 
+             THEN  fpc.fp_continuation_date_of_procedure_indicate
+             WHEN fpc.fp_continuation_date_of_procedure_indicate IS NOT NULL AND COALESCE(fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_created,'01-01-0001 00:00:00')
+             THEN fpc.fp_continuation_date_of_procedure_indicate
+             WHEN  fpc.fp_continuation_date_of_procedure_indicate IS NULL 
+             THEN fps.fps_form_date_of_procedure_indicate
+             ELSE NULL
+         END) AS \"Date of Procedure indicate\",
+         
+       max(CASE WHEN  fps_form_pre_procedure_counseling_and_assessment_conducted IS NOT NULL AND COALESCE(fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_created, '01-01-0001 00:00:00' )
+             THEN 
+                  CASE WHEN  fps.\"fps_form_pre_procedure_counseling_and_assessment_conducted\" = 'Yes' THEN 1
+                       WHEN  fps.\"fps_form_pre_procedure_counseling_and_assessment_conducted\" = 'No' THEN 0
+                    ELSE NULL END
+             WHEN  fps_form_pre_procedure_counseling_and_assessment_conducted IS NULL 
+             THEN  
+                 CASE WHEN fp_continuation_pre_procedure_counseling_and_assessment_con = 'Yes' THEN 1
+                       WHEN fp_continuation_pre_procedure_counseling_and_assessment_con = 'No' THEN 0
+                  ELSE NULL END 
+             WHEN fp_continuation_pre_procedure_counseling_and_assessment_con IS NOT NULL AND COALESCE(fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_created,'01-01-0001 00:00:00')
+             THEN 
+                 CASE WHEN fp_continuation_pre_procedure_counseling_and_assessment_con = 'Yes' THEN 1
+                       WHEN fp_continuation_pre_procedure_counseling_and_assessment_con = 'No' THEN 0
+                  ELSE NULL END  
+             WHEN  fp_continuation_pre_procedure_counseling_and_assessment_con IS NULL 
+             THEN 
+                CASE WHEN  fps.\"fps_form_pre_procedure_counseling_and_assessment_conducted\" = 'Yes' THEN 1
+                       WHEN  fps.\"fps_form_pre_procedure_counseling_and_assessment_conducted\" = 'No' THEN 0
+                    ELSE NULL END
+             ELSE NULL
+         END) :: BOOLEAN AS \"Pre-Procedure counseling and assessment conducted?\",
+
+             
+         max(CASE WHEN  fps_form_indicate_name_of_counselor IS NOT NULL AND COALESCE(fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_created, '01-01-0001 00:00:00' )
+             THEN fps.fps_form_indicate_name_of_counselor
+             WHEN  fps.fps_form_indicate_name_of_counselor IS NULL 
+             THEN  fpc.fp_continuation_indicate_name_of_counselor
+             WHEN fpc.fp_continuation_indicate_name_of_counselor IS NOT NULL AND COALESCE(fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_created,'01-01-0001 00:00:00')
+             THEN fpc.fp_continuation_indicate_name_of_counselor
+             WHEN  fpc.fp_continuation_indicate_name_of_counselor IS NULL 
+             THEN fps.fps_form_indicate_name_of_counselor
+             ELSE NULL
+         END) AS \"Indicate name of counsellor\",
+         
+         max(CASE WHEN  fps.fps_form_start_of_procedure_indicate_time IS NOT NULL AND COALESCE(fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_created,            '01-01-0001 00:00:00' )
+             THEN fps.fps_form_start_of_procedure_indicate_time
+             WHEN  fps.fps_form_start_of_procedure_indicate_time IS NULL 
+             THEN  fpc.fp_cont_form_start_of_procedure_indicate_time
+             WHEN fpc.fp_cont_form_start_of_procedure_indicate_time IS NOT NULL AND COALESCE(fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_created,'01-01-0001 00:00:00')
+             THEN fpc.fp_cont_form_start_of_procedure_indicate_time
+             WHEN  fpc.fp_cont_form_start_of_procedure_indicate_time IS NULL 
+             THEN fps.fps_form_start_of_procedure_indicate_time
+             ELSE NULL
+         END) AS \"Start of procedure indicate time\",
+         
+         max(CASE WHEN  fps.fps_form_end_of_procedure_indicate_time IS NOT NULL AND COALESCE(fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_created,            '01-01-0001 00:00:00' )
+             THEN fps.fps_form_end_of_procedure_indicate_time
+             WHEN  fps.fps_form_end_of_procedure_indicate_time IS NULL 
+             THEN  fpc.fp_cont_form_end_of_procedure_indicate_time
+             WHEN fpc.fp_cont_form_end_of_procedure_indicate_time IS NOT NULL AND COALESCE(fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_created,'01-01-0001 00:00:00')
+             THEN fpc.fp_cont_form_end_of_procedure_indicate_time
+             WHEN  fpc.fp_cont_form_end_of_procedure_indicate_time IS NULL 
+             THEN fps.fps_form_end_of_procedure_indicate_time
+             ELSE NULL
+         END) AS \"End of procedure, indicate time\",
+         
+         
+         max(CASE WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' )
+         AND COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN
+         CASE WHEN  fps.fps_form_complications_during_insertions IS NOT NULL 
+              THEN 
+                  CASE WHEN  fps.fps_form_complications_during_insertions = 'Yes' THEN 1
+                       WHEN  fps.fps_form_complications_during_insertions = 'No' THEN 0
+                    ELSE NULL END
+                    
+              WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fp_continuation_complications_during_insertions IS NOT NULL 
+              THEN 
+                 CASE WHEN fp_continuation_complications_during_insertions = 'Yes' THEN 1
+                       WHEN fp_continuation_complications_during_insertions = 'No' THEN 0
+                  ELSE NULL END 
+              ELSE 
+                 CASE WHEN fps_counselling_only_complications_during_insertions = 'Yes' THEN 1
+                      WHEN  fps_counselling_only_complications_during_insertions = 'No' THEN 0
+                  ELSE NULL END 
+              END 
+            
+      WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' )
+       AND COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN 
+         CASE WHEN fp_continuation_complications_during_insertions IS NOT NULL 
+              THEN 
+                   CASE WHEN fp_continuation_complications_during_insertions = 'Yes' THEN 1
+                       WHEN fp_continuation_complications_during_insertions = 'No' THEN 0
+                   ELSE NULL END  
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fps.fps_form_complications_during_insertions IS NOT NULL 
+              THEN 
+                     CASE WHEN  fps.fps_form_complications_during_insertions = 'Yes' THEN 1
+                       WHEN  fps.fps_form_complications_during_insertions = 'No' THEN 0
+                    ELSE NULL END
+              ELSE 
+                CASE WHEN  fps_counselling_only_complications_during_insertions = 'Yes' THEN 1
+                     WHEN  fps_counselling_only_complications_during_insertions = 'No' THEN 0
+                  ELSE NULL END 
+              END 
+      ELSE
+         CASE WHEN fps_counselling_only_complications_during_insertions IS NOT NULL 
+              THEN 
+                  CASE WHEN fps_counselling_only_complications_during_insertions = 'Yes' THEN 1
+                       WHEN fps_counselling_only_complications_during_insertions = 'No' THEN 0
+                  ELSE NULL END 
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, 
+              '01-01-0001 00:00:00' )AND fps.fps_form_complications_during_insertions IS NOT NULL 
+              THEN 
+                 CASE WHEN  fps.fps_form_complications_during_insertions = 'Yes' THEN 1
+                       WHEN fps.fps_form_complications_during_insertions = 'No' THEN 0
+                    ELSE NULL END
+              ELSE 
+                 CASE WHEN  fp_continuation_complications_during_insertions = 'Yes' THEN 1
+                     WHEN  fp_continuation_complications_during_insertions  = 'No' THEN 0
+                  ELSE NULL END  
+              END
+      END) :: BOOLEAN AS \"Complications during insertions\",
+      
+      max(CASE WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' )
+         AND COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN
+         CASE WHEN fps.fps_form_if_complication_is_yes IS NOT NULL 
+              THEN fps.fps_form_if_complication_is_yes
+              WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fpc.fps_continuation_if_yes_select_the_complications IS NOT NULL 
+              THEN fpc.fps_continuation_if_yes_select_the_complications
+              ELSE 
+                  fpcounselling.fps_counselling_only_if_complication_is_yes
+              END 
+            
+      WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' )
+       AND COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN 
+         CASE WHEN fpc.fps_continuation_if_yes_select_the_complications IS NOT NULL 
+              THEN fpc.fps_continuation_if_yes_select_the_complications
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fps.fps_form_if_complication_is_yes IS NOT NULL 
+              THEN fps.fps_form_if_complication_is_yes
+              ELSE 
+                fpcounselling.fps_counselling_only_if_complication_is_yes
+              END 
+      ELSE
+         CASE WHEN fpcounselling.fps_counselling_only_if_complication_is_yes IS NOT NULL 
+              THEN fpcounselling.fps_counselling_only_if_complication_is_yes
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, 
+              '01-01-0001 00:00:00' )AND fps.fps_form_if_complication_is_yes IS NOT NULL 
+              THEN fps.fps_form_if_complication_is_yes
+              ELSE 
+                  fpc.fps_continuation_if_yes_select_the_complications
+              END
+      END) AS \"if yes,select the complication\",
+      
+      max(CASE WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' )
+         AND COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN
+         CASE WHEN  fps.\"fps_form_adverse_event\" IS NOT NULL 
+              THEN 
+                  CASE WHEN  fps.\"fps_form_adverse_event\" = 'Yes' THEN 1
+                       WHEN  fps.\"fps_form_adverse_event\" = 'No' THEN 0
+                    ELSE NULL END
+                    
+              WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fpc.fp_continuation_adverse_event IS NOT NULL 
+              THEN 
+                 CASE WHEN fpc.fp_continuation_adverse_event = 'Yes' THEN 1
+                       WHEN fpc.fp_continuation_adverse_event = 'No' THEN 0
+                  ELSE NULL END 
+              ELSE 
+                 CASE WHEN fps_counselling_only_adverse_event = 'Yes' THEN 1
+                      WHEN  fps_counselling_only_adverse_event = 'No' THEN 0
+                  ELSE NULL END 
+              END 
+            
+      WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' )
+       AND COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN 
+         CASE WHEN fpc.fp_continuation_adverse_event IS NOT NULL 
+              THEN 
+                   CASE WHEN fpc.fp_continuation_adverse_event = 'Yes' THEN 1
+                       WHEN fpc.fp_continuation_adverse_event = 'No' THEN 0
+                   ELSE NULL END  
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fps.\"fps_form_referred_out\" IS NOT NULL 
+              THEN 
+                     CASE WHEN  fps.\"fps_form_adverse_event\" = 'Yes' THEN 1
+                       WHEN  fps.\"fps_form_adverse_event\" = 'No' THEN 0
+                    ELSE NULL END
+              ELSE 
+                CASE WHEN  fps_counselling_only_adverse_event = 'Yes' THEN 1
+                     WHEN  fps_counselling_only_adverse_event = 'No' THEN 0
+                  ELSE NULL END 
+              END 
+      ELSE
+         CASE WHEN fps_counselling_only_adverse_event IS NOT NULL 
+              THEN 
+                  CASE WHEN fps_counselling_only_adverse_event = 'Yes' THEN 1
+                       WHEN fps_counselling_only_adverse_event = 'No' THEN 0
+                  ELSE NULL END 
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, 
+              '01-01-0001 00:00:00' )AND fps.\"fps_form_referred_out\"  IS NOT NULL 
+              THEN 
+                 CASE WHEN  fps.\"fps_form_adverse_event\" = 'Yes' THEN 1
+                       WHEN  fps.\"fps_form_adverse_event\" = 'No' THEN 0
+                    ELSE NULL END
+              ELSE 
+                 CASE WHEN  fpc.fp_continuation_adverse_event = 'Yes' THEN 1
+                     WHEN  fpc.fp_continuation_adverse_event  = 'No' THEN 0
+                  ELSE NULL END  
+              END
+      END) :: BOOLEAN AS \"Adverse Event\",
+      
+      max(CASE WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' )
+         AND COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN
+         CASE WHEN fps.fps_form_if_yes_select_the_adverse_event IS NOT NULL 
+              THEN fps.fps_form_if_yes_select_the_adverse_event
+              WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fpc.fp_continuation_if_yes_select_the_adverse_event IS NOT NULL 
+              THEN fpc.fp_continuation_if_yes_select_the_adverse_event
+              ELSE 
+                  fpcounselling.fps_counselling_only_if_yes_select_the_adverse_event
+              END 
+            
+      WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' )
+       AND COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN 
+         CASE WHEN fpc.fp_continuation_if_yes_select_the_adverse_event IS NOT NULL 
+              THEN fpc.fp_continuation_if_yes_select_the_adverse_event
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fps.fps_form_if_yes_select_the_adverse_event IS NOT NULL 
+              THEN fps.fps_form_if_yes_select_the_adverse_event
+              ELSE 
+                fpcounselling.fps_counselling_only_if_yes_select_the_adverse_event
+              END 
+      ELSE
+         CASE WHEN fpcounselling.fps_counselling_only_if_yes_select_the_adverse_event IS NOT NULL 
+              THEN fpcounselling.fps_counselling_only_if_yes_select_the_adverse_event
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, 
+              '01-01-0001 00:00:00' )AND fps.fps_form_if_yes_select_the_adverse_event IS NOT NULL 
+              THEN fps.fps_form_if_yes_select_the_adverse_event
+              ELSE 
+                  fpc.fp_continuation_if_yes_select_the_adverse_event
+              END
+      END) AS \"if yes,select the adverse event\",
+      
+      max(CASE WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' )
+         AND COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN
+         CASE WHEN fps.fps_form_procedure_done_by IS NOT NULL 
+              THEN fps.fps_form_procedure_done_by
+              WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fpc.fp_continuation_procedure_done_by_name_of_counsellor IS NOT NULL 
+              THEN fpc.fp_continuation_procedure_done_by_name_of_counsellor
+              ELSE 
+                  fpcounselling.fps_counselling_only_procedure_done_by_name_of_counsellor
+              END 
+            
+      WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' )
+       AND COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN 
+         CASE WHEN fpc.fp_continuation_procedure_done_by_name_of_counsellor IS NOT NULL 
+              THEN fpc.fp_continuation_procedure_done_by_name_of_counsellor
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fps.fps_form_procedure_done_by IS NOT NULL 
+              THEN fps.fps_form_procedure_done_by
+              ELSE 
+                fpcounselling.fps_counselling_only_procedure_done_by_name_of_counsellor
+              END 
+      ELSE
+         CASE WHEN fpcounselling.fps_counselling_only_procedure_done_by_name_of_counsellor IS NOT NULL 
+              THEN fpcounselling.fps_counselling_only_procedure_done_by_name_of_counsellor
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, 
+              '01-01-0001 00:00:00' )AND fps.fps_form_procedure_done_by IS NOT NULL 
+              THEN fps.fps_form_procedure_done_by
+              ELSE 
+                  fpc.fp_continuation_procedure_done_by_name_of_counsellor
+              END
+      END) AS \"Procedure done by\",
+      
+      CASE WHEN max(fps.\"fps_form_condoms_given\") IN ('Male', 'Female') THEN 1 
+           WHEN max(fps.\"fps_form_condoms_given\") ='FPS FORM,Not Given' THEN 0
+      ELSE NULL END :: BOOLEAN AS \"Condoms given\" ,
+  
+      max(CASE WHEN  fps.fps_form_batch_number IS NOT NULL AND COALESCE(fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_created,            '01-01-0001 00:00:00' )
+             THEN fps.fps_form_batch_number
+             WHEN  fps.fps_form_batch_number IS NULL 
+             THEN  fpc.fp_continuation_batch_number_of_the_method_given
+             WHEN fpc.fp_continuation_batch_number_of_the_method_given IS NOT NULL AND COALESCE(fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_created,'01-01-0001 00:00:00')
+             THEN fpc.fp_continuation_batch_number_of_the_method_given
+             WHEN  fpc.fp_continuation_batch_number_of_the_method_given IS NULL 
+             THEN fps.fps_form_batch_number
+             ELSE NULL
+         END) AS \"Batch Number\",
+         
+       
+
+
+         max(CASE WHEN  fps.fps_form_manufacture IS NOT NULL AND COALESCE(fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_created,'01-01-0001 00:00:00' )
+             THEN  fps.fps_form_manufacture
+             WHEN  fps.fps_form_manufacture IS NULL 
+             THEN  fpc.fp_continuation_manufacturer_of_the_method_given
+             WHEN fpc.fp_continuation_manufacturer_of_the_method_given IS NOT NULL AND COALESCE(fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_created,'01-01-0001 00:00:00')
+             THEN fpc.fp_continuation_manufacturer_of_the_method_given
+             WHEN  fpc.fp_continuation_manufacturer_of_the_method_given IS NULL 
+             THEN fps.fps_form_manufacture
+             ELSE NULL
+         END) AS \"Manufacture\",
+
+         max(fps.fps_form_treatment) AS \"Treatment\",
+         
+          max(CASE WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' )
+         AND COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN
+         CASE WHEN fps.\"fps_form_referred_out\" IS NOT NULL 
+              THEN 
+                  CASE WHEN fps.\"fps_form_referred_out\" = 'Yes' THEN 1
+                       WHEN fps.\"fps_form_referred_out\" = 'No' THEN 0
+                    ELSE NULL END
+                    
+              WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fp_continuation_referred_out IS NOT NULL 
+              THEN 
+                 CASE WHEN fpc.fp_continuation_referred_out = 'Yes' THEN 1
+                       WHEN fpc.fp_continuation_referred_out = 'No' THEN 0
+                  ELSE NULL END 
+              ELSE 
+                 CASE WHEN fps_counselling_only_referred_out = 'Yes' THEN 1
+                      WHEN  fps_counselling_only_referred_out = 'No' THEN 0
+                  ELSE NULL END 
+              END 
+            
+      WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' )
+       AND COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN 
+         CASE WHEN fp_continuation_referred_out IS NOT NULL 
+              THEN 
+                   CASE WHEN fpc.fp_continuation_referred_out = 'Yes' THEN 1
+                       WHEN fpc.fp_continuation_referred_out = 'No' THEN 0
+                   ELSE NULL END  
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fps.\"fps_form_referred_out\" IS NOT NULL 
+              THEN 
+                    CASE WHEN fps.\"fps_form_referred_out\" = 'Yes' THEN 1
+                       WHEN fps.\"fps_form_referred_out\" = 'No' THEN 0
+                    ELSE NULL END
+              ELSE 
+                CASE WHEN  fps_counselling_only_referred_out = 'Yes' THEN 1
+                     WHEN  fps_counselling_only_referred_out = 'No' THEN 0
+                  ELSE NULL END 
+              END 
+      ELSE
+         CASE WHEN fpcounselling.fps_counselling_only_referred_out IS NOT NULL 
+              THEN 
+                  CASE WHEN fps_counselling_only_referred_out = 'Yes' THEN 1
+                       WHEN fps_counselling_only_referred_out = 'No' THEN 0
+                  ELSE NULL END 
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, 
+              '01-01-0001 00:00:00' )AND fps.\"fps_form_referred_out\"  IS NOT NULL 
+              THEN 
+                CASE WHEN fps.\"fps_form_referred_out\" = 'Yes' THEN 1
+                      WHEN fps.\"fps_form_referred_out\" = 'No' THEN 0
+                  ELSE NULL END
+              ELSE 
+                 CASE WHEN  fpc.fp_continuation_referred_out = 'Yes' THEN 1
+                     WHEN  fpc.fp_continuation_referred_out  = 'No' THEN 0
+                  ELSE NULL END  
+              END
+      END) :: BOOLEAN AS \"Referred out?\",
+
+       max(CASE WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' )
+                 AND COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00' ) THEN
+              CASE WHEN fps_form_indicate_where_client_was_referred_to  IS NOT NULL THEN 
+              (SELECT string_agg (
+                           CASE WHEN fps_form_indicate_where_client_was_referred_to = 'ANC' THEN 'ANC'
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'VMMC' THEN 'VMMC'
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'VIAC/PAP Smear' THEN 'VIAC/PAP Smear'
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'PNC' THEN 'PNC'
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'OI/ART' THEN 'OI/ART'
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'High blood pressure' THEN 'High blood pressure'
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'STI treatment' THEN 'STI treatment'
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'Permanent methods (tubaligation, vasectomy)' THEN 'Permanent methods (tubaligation, vasectomy)' 
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'VIAC' THEN 'VIAC'
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'Surgical (state the problem)' THEN 'Surgical (state the problem)'
+                                WHEN fps_form_indicate_where_client_was_referred_to =  'Medical (state the problem)' THEN 'Medical (state the problem)'
+                                WHEN fps_form_indicate_where_client_was_referred_to =  'Gynaecological problem (state the problem)' THEN 'Gynaecological problem (state the problem)'                 
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'Other' THEN 'Other'
+                                END ,',') FROM fps_family_planning_service fpstemp WHERE fpstemp.encounter_id = pedd.encounter_id AND 
+                                fpstemp.patient_id = pedd.patient_id GROUP BY fpstemp.encounter_id)
+              WHEN  COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00' )  THEN
+                         CASE WHEN fp_continuation_indicate_where_client_was_referred_to IS NOT NULL THEN 
+                              (SELECT string_agg (
+                                CASE WHEN fp_continuation_indicate_where_client_was_referred_to = 'ANC' THEN 'ANC'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'VMMC' THEN 'VMMC'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'VIAC/PAP Smear' THEN 'VIAC/PAP Smear'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'PNC' THEN 'PNC'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'OI/ART' THEN 'OI/ART'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'High blood pressure' THEN 'High blood pressure'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'STI treatment' THEN 'STI treatment'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'Permanent methods (tubaligation, vasectomy)' THEN 'Permanent methods (tubaligation, vasectomy)'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'VIAC' THEN 'VIAC'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'Surgical (state the problem)' THEN 'Surgical (state the problem)'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'Medical (state the problem)' THEN 'Medical (state the problem)'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'Gynaecological problem (state the problem)' THEN 'Gynaecological problem (state the problem)'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'Other' THEN 'Other'
+                                    END ,', ') FROM fps_fp_continuation_form fpctemp WHERE fpctemp.encounter_id = pedd.encounter_id AND fpctemp.patient_id = pedd.patient_id GROUP BY fpctemp.encounter_id)
+                          ELSE
+                               CASE WHEN fps_counselling_only_indicate_where_client_was_referred_to IS NOT NULL THEN  
+                                 (SELECT string_agg (
+                                     CASE WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'ANC' THEN 'ANC' 
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'VMMC' THEN 'VMMC'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'VIAC/PAP Smear' THEN 'VIAC/PAP Smear'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'PNC' THEN 'PNC'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'OI/ART' THEN 'OI/ART'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'High blood pressure' THEN 'High blood pressure'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'VIAC' THEN 'VIAC'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'Surgical (state the problem)' THEN 'Surgical (state the problem)'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'Medical (state the problem)' THEN 'Medical (state the problem)'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'Gynaecological problem (state the problem)' THEN 'Gynaecological problem (state the problem)'               
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'Other' THEN 'Other'
+                                          END ,', ') FROM fps_fp_counselling_only_form fpsctemp WHERE fpsctemp.encounter_id = pedd.encounter_id AND fpsctemp.patient_id = pedd.patient_id GROUP BY fpsctemp.encounter_id)
+                               
+                               ELSE 
+                               NULL  END
+                         END
+              ELSE 
+                  CASE WHEN fps_counselling_only_indicate_where_client_was_referred_to IS NOT NULL THEN  
+                   (SELECT string_agg (
+                                      CASE WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'ANC' THEN 'ANC' 
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'VMMC' THEN 'VMMC'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'VIAC/PAP Smear' THEN 'VIAC/PAP Smear'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'PNC' THEN 'PNC'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'OI/ART' THEN 'OI/ART'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'High blood pressure' THEN 'High blood pressure'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'VIAC' THEN 'VIAC'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'Surgical (state the problem)' THEN 'Surgical (state the problem)'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'Medical (state the problem)' THEN 'Medical (state the problem)'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'Gynaecological problem (state the problem)' THEN 'Gynaecological problem (state the problem)'     
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'Other' THEN 'Other'
+                                          END ,', ') FROM fps_fp_counselling_only_form fpsctemp WHERE fpsctemp.encounter_id = pedd.encounter_id AND fpsctemp.patient_id = pedd.patient_id GROUP BY fpsctemp.encounter_id)
+                  ELSE NULL END       
+               END 
+               
+         WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' )
+                  AND COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00' ) THEN 
+                  
+                  CASE WHEN fp_continuation_indicate_where_client_was_referred_to IS NOT NULL THEN 
+                       (SELECT string_agg (
+                                 CASE WHEN fp_continuation_indicate_where_client_was_referred_to = 'ANC' THEN 'ANC'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'VMMC' THEN 'VMMC'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'VIAC/PAP Smear' THEN 'VIAC/PAP Smear'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'PNC' THEN 'PNC'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'OI/ART' THEN 'OI/ART'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'High blood pressure' THEN 'High blood pressure'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'STI treatment' THEN 'STI treatment'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'Permanent methods (tubaligation, vasectomy)' THEN 'Permanent methods (tubaligation, vasectomy)'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'VIAC' THEN 'VIAC'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'Surgical (state the problem)' THEN 'Surgical (state the problem)'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'Medical (state the problem)' THEN 'Medical (state the problem)'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'Gynaecological problem (state the problem)' THEN 'Gynaecological problem (state the problem)'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'Other' THEN 'Other'
+                                    END ,', ') FROM fps_fp_continuation_form fpctemp WHERE fpctemp.encounter_id = pedd.encounter_id AND fpctemp.patient_id = pedd.patient_id GROUP BY fpctemp.encounter_id)
+                  WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00' )
+                  THEN
+                  CASE WHEN fps_form_indicate_where_client_was_referred_to  IS NOT NULL THEN  
+                (SELECT string_agg (
+                           CASE WHEN fps_form_indicate_where_client_was_referred_to = 'ANC' THEN 'ANC'
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'VMMC' THEN 'VMMC'
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'VIAC/PAP Smear' THEN 'VIAC/PAP Smear'
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'PNC' THEN 'PNC'
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'OI/ART' THEN 'OI/ART'
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'High blood pressure' THEN 'High blood pressure'
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'STI treatment' THEN 'STI treatment'
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'Permanent methods (tubaligation, vasectomy)' THEN 'Permanent methods (tubaligation, vasectomy)' 
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'VIAC' THEN 'VIAC'
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'Surgical (state the problem)' THEN 'Surgical (state the problem)'
+                                WHEN fps_form_indicate_where_client_was_referred_to =  'Medical (state the problem)' THEN 'Medical (state the problem)'
+                                WHEN fps_form_indicate_where_client_was_referred_to =  'Gynaecological problem (state the problem)' THEN 'Gynaecological problem (state the problem)'                 
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'Other' THEN 'Other'
+                                END ,',') FROM fps_family_planning_service fpstemp WHERE fpstemp.encounter_id = pedd.encounter_id AND 
+                                fpstemp.patient_id = pedd.patient_id GROUP BY fpstemp.encounter_id)
+                  ELSE 
+                               CASE WHEN fps_counselling_only_indicate_where_client_was_referred_to IS NOT NULL THEN  
+                                 (SELECT string_agg (
+                                       CASE WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'ANC' THEN 'ANC' 
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'VMMC' THEN 'VMMC'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'VIAC/PAP Smear' THEN 'VIAC/PAP Smear'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'PNC' THEN 'PNC'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'OI/ART' THEN 'OI/ART'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'High blood pressure' THEN 'High blood pressure'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'VIAC' THEN 'VIAC'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'Surgical (state the problem)' THEN 'Surgical (state the problem)'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'Medical (state the problem)' THEN 'Medical (state the problem)'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'Gynaecological problem (state the problem)' THEN 'Gynaecological problem (state the problem)'                                   
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'Other' THEN 'Other'
+                                          END ,', ') FROM fps_fp_counselling_only_form fpsctemp WHERE fpsctemp.encounter_id = pedd.encounter_id AND fpsctemp.patient_id = pedd.patient_id GROUP BY fpsctemp.encounter_id)
+                               ELSE 
+                               NULL  END
+                  END 
+                  ELSE 
+                  CASE WHEN fps_counselling_only_indicate_where_client_was_referred_to IS NOT NULL THEN 
+                    (SELECT string_agg (
+                                     
+                                      CASE WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'ANC' THEN 'ANC' 
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'VMMC' THEN 'VMMC'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'VIAC/PAP Smear' THEN 'VIAC/PAP Smear'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'PNC' THEN 'PNC'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'OI/ART' THEN 'OI/ART'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'High blood pressure' THEN 'High blood pressure'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'VIAC' THEN 'VIAC'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'Surgical (state the problem)' THEN 'Surgical (state the problem)'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'Medical (state the problem)' THEN 'Medical (state the problem)'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'Gynaecological problem (state the problem)' THEN 'Gynaecological problem (state the problem)'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'Other' THEN 'Other'
+                                          END ,', ') FROM fps_fp_counselling_only_form fpsctemp WHERE fpsctemp.encounter_id = pedd.encounter_id AND fpsctemp.patient_id = pedd.patient_id GROUP BY fpsctemp.encounter_id)
+                  ELSE NULL END 
+                  END 
+         ELSE 
+             CASE WHEN fps_counselling_only_indicate_where_client_was_referred_to IS NOT NULL THEN 
+             (SELECT string_agg (
+                                     CASE WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'ANC' THEN 'ANC' 
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'VMMC' THEN 'VMMC'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'VIAC/PAP Smear' THEN 'VIAC/PAP Smear'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'PNC' THEN 'PNC'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'OI/ART' THEN 'OI/ART'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'High blood pressure' THEN 'High blood pressure'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'VIAC' THEN 'VIAC'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'Surgical (state the problem)' THEN 'Surgical (state the problem)'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'Medical (state the problem)' THEN 'Medical (state the problem)'
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'Gynaecological problem (state the problem)' THEN 'Gynaecological problem (state the problem)'                        
+                                          WHEN fps_counselling_only_indicate_where_client_was_referred_to = 'Other' THEN 'Other'
+                                          END ,', ') FROM fps_fp_counselling_only_form fpsctemp WHERE fpsctemp.encounter_id = pedd.encounter_id AND fpsctemp.patient_id = pedd.patient_id GROUP BY fpsctemp.encounter_id)
+                                          
+             WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' )THEN
+                 CASE WHEN fps_form_indicate_where_client_was_referred_to  IS NOT NULL THEN  
+                 (SELECT string_agg (
+                           CASE WHEN fps_form_indicate_where_client_was_referred_to = 'ANC' THEN 'ANC'
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'VMMC' THEN 'VMMC'
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'VIAC/PAP Smear' THEN 'VIAC/PAP Smear'
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'PNC' THEN 'PNC'
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'OI/ART' THEN 'OI/ART'
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'High blood pressure' THEN 'High blood pressure'
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'STI treatment' THEN 'STI treatment'
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'Permanent methods (tubaligation, vasectomy)' THEN 'Permanent methods (tubaligation, vasectomy)' 
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'VIAC' THEN 'VIAC'
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'Surgical (state the problem)' THEN 'Surgical (state the problem)'
+                                WHEN fps_form_indicate_where_client_was_referred_to =  'Medical (state the problem)' THEN 'Medical (state the problem)'
+                                WHEN fps_form_indicate_where_client_was_referred_to =  'Gynaecological problem (state the problem)' THEN 'Gynaecological problem (state the problem)'                 
+                                WHEN fps_form_indicate_where_client_was_referred_to = 'Other' THEN 'Other'
+                                END ,',') FROM fps_family_planning_service fpstemp WHERE fpstemp.encounter_id = pedd.encounter_id AND 
+                                fpstemp.patient_id = pedd.patient_id GROUP BY fpstemp.encounter_id)
+                ELSE 
+                        CASE WHEN fp_continuation_indicate_where_client_was_referred_to IS NOT NULL THEN  
+                          (SELECT string_agg (
+                                 CASE WHEN fp_continuation_indicate_where_client_was_referred_to = 'ANC' THEN 'ANC'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'VMMC' THEN 'VMMC'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'VIAC/PAP Smear' THEN 'VIAC/PAP Smear'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'PNC' THEN 'PNC'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'OI/ART' THEN 'OI/ART'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'High blood pressure' THEN 'High blood pressure'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'STI treatment' THEN 'STI treatment'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'Permanent methods (tubaligation, vasectomy)' THEN 'Permanent methods (tubaligation, vasectomy)'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'VIAC' THEN 'VIAC'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'Surgical (state the problem)' THEN 'Surgical (state the problem)'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'Medical (state the problem)' THEN 'Medical (state the problem)'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'Gynaecological problem (state the problem)' THEN 'Gynaecological problem (state the problem)'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'Other' THEN 'Other'
+                                    END ,', ') FROM fps_fp_continuation_form fpctemp WHERE fpctemp.encounter_id = pedd.encounter_id AND fpctemp.patient_id = pedd.patient_id GROUP BY fpctemp.encounter_id)
+                             ELSE NULL  END
+                  END 
+                  ELSE 
+                  CASE WHEN fp_continuation_indicate_where_client_was_referred_to IS NOT NULL THEN  
+                    (SELECT string_agg (
+                                 CASE WHEN fp_continuation_indicate_where_client_was_referred_to = 'ANC' THEN 'ANC'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'VMMC' THEN 'VMMC'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'VIAC/PAP Smear' THEN 'VIAC/PAP Smear'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'PNC' THEN 'PNC'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'OI/ART' THEN 'OI/ART'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'High blood pressure' THEN 'High blood pressure'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'STI treatment' THEN 'STI treatment'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'Permanent methods (tubaligation, vasectomy)' THEN 'Permanent methods (tubaligation, vasectomy)'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'VIAC' THEN 'VIAC'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'Surgical (state the problem)' THEN 'Surgical (state the problem)'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'Medical (state the problem)' THEN 'Medical (state the problem)'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'Gynaecological problem (state the problem)' THEN 'Gynaecological problem (state the problem)'
+                                    WHEN fp_continuation_indicate_where_client_was_referred_to = 'Other' THEN 'Other'
+                                    END ,', ') FROM fps_fp_continuation_form fpctemp WHERE fpctemp.encounter_id = pedd.encounter_id AND fpctemp.patient_id = pedd.patient_id GROUP BY fpctemp.encounter_id)
+                  ELSE NULL END 
+                  END 
+             
+END)  AS \"Indicate where client was referred to\",
+
+      max(CASE WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' )
+         AND COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN
+         CASE WHEN fps.fps_form_state_reason_for_referral IS NOT NULL 
+              THEN fps.fps_form_state_reason_for_referral
+              WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fpc.fp_continuation_state_reason_for_referral IS NOT NULL 
+              THEN fpc.fp_continuation_state_reason_for_referral
+              ELSE 
+                  fpcounselling.fps_counselling_only_state_reason_for_referral
+              END 
+            
+      WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' )
+       AND COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN 
+         CASE WHEN fpc.fp_continuation_state_reason_for_referral IS NOT NULL 
+              THEN fpc.fp_continuation_state_reason_for_referral
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fps.fps_form_state_reason_for_referral IS NOT NULL 
+              THEN fps.fps_form_state_reason_for_referral
+              ELSE 
+                fpcounselling.fps_counselling_only_state_reason_for_referral
+              END 
+      ELSE
+         CASE WHEN fpcounselling.fps_counselling_only_state_reason_for_referral IS NOT NULL 
+              THEN fpcounselling.fps_counselling_only_state_reason_for_referral
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, 
+              '01-01-0001 00:00:00' )AND fps.fps_form_state_reason_for_referral IS NOT NULL 
+              THEN fps.fps_form_state_reason_for_referral
+              ELSE 
+                  fpc.fp_continuation_state_reason_for_referral
+              END
+      END) AS \"State reason for Referral\",
+      
+     
+       
+      max(CASE WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' )
+         AND COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN
+         CASE WHEN fps.\"fps_form_referral_slip_and_instructions_to_leave_slip_at_th\" IS NOT NULL 
+              THEN 
+                  CASE WHEN fps.\"fps_form_referral_slip_and_instructions_to_leave_slip_at_th\" = 'Yes' THEN 1
+                       WHEN fps.\"fps_form_referral_slip_and_instructions_to_leave_slip_at_th\" = 'No' THEN 0
+                    ELSE NULL END
+                    
+              WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fp_continuation_referral_slip_and_instructions_to_leave_sli IS NOT NULL 
+              THEN 
+                 CASE WHEN fpc.fp_continuation_referral_slip_and_instructions_to_leave_sli = 'Yes' THEN 1
+                       WHEN fpc.fp_continuation_referral_slip_and_instructions_to_leave_sli = 'No' THEN 0
+                  ELSE NULL END 
+              ELSE 
+                 CASE WHEN fps_counselling_only_referral_slip_and_instructions_to_leav = 'Yes' THEN 1
+                      WHEN  fps_counselling_only_referral_slip_and_instructions_to_leav = 'No' THEN 0
+                  ELSE NULL END 
+              END 
+            
+      WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' )
+       AND COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN 
+         CASE WHEN fp_continuation_referral_slip_and_instructions_to_leave_sli IS NOT NULL 
+              THEN 
+                   CASE WHEN fp_continuation_referral_slip_and_instructions_to_leave_sli = 'Yes' THEN 1
+                       WHEN fp_continuation_referral_slip_and_instructions_to_leave_sli = 'No' THEN 0
+                   ELSE NULL END  
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fps.\"fps_form_referral_slip_and_instructions_to_leave_slip_at_th\" IS NOT NULL 
+              THEN 
+                    CASE WHEN fps.\"fps_form_referral_slip_and_instructions_to_leave_slip_at_th\" = 'Yes' THEN 1
+                         WHEN fps.\"fps_form_referral_slip_and_instructions_to_leave_slip_at_th\" = 'No' THEN 0
+                    ELSE NULL END
+              ELSE 
+                CASE WHEN  fps_counselling_only_referral_slip_and_instructions_to_leav = 'Yes' THEN 1
+                     WHEN  fps_counselling_only_referral_slip_and_instructions_to_leav = 'No' THEN 0
+                  ELSE NULL END 
+              END 
+      ELSE
+         CASE WHEN fpcounselling.fps_counselling_only_referral_slip_and_instructions_to_leav IS NOT NULL 
+              THEN 
+                  CASE WHEN fps_counselling_only_referral_slip_and_instructions_to_leav = 'Yes' THEN 1
+                       WHEN fps_counselling_only_referral_slip_and_instructions_to_leav = 'No' THEN 0
+                  ELSE NULL END 
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, 
+              '01-01-0001 00:00:00' )AND fps.\"fps_form_referral_slip_and_instructions_to_leave_slip_at_th\"  IS NOT NULL 
+              THEN 
+                  CASE WHEN fps.\"fps_form_referral_slip_and_instructions_to_leave_slip_at_th\" = 'Yes' THEN 1
+                       WHEN fps.\"fps_form_referral_slip_and_instructions_to_leave_slip_at_th\" = 'No' THEN 0
+                    ELSE NULL END
+              ELSE 
+                 CASE WHEN  fpc.fp_continuation_referral_slip_and_instructions_to_leave_sli = 'Yes' THEN 1
+                     WHEN  fpc.fp_continuation_referral_slip_and_instructions_to_leave_sli = 'No' THEN 0
+                  ELSE NULL END  
+              END
+         END) :: BOOLEAN AS \"Referral slip and instructions to leave slip at the clinic given\",
+         
+
+         
+      max(CASE WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' )
+         AND COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN
+         CASE WHEN fps.fps_form_state_review_date IS NOT NULL 
+              THEN fps.fps_form_state_review_date
+              WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fpc.fp_continuation_state_review_date IS NOT NULL 
+              THEN fpc.fp_continuation_state_review_date
+              ELSE 
+                  fpcounselling.fps_counselling_only_state_review_date
+              END 
+            
+      WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' )
+       AND COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN 
+         CASE WHEN fpc.fp_continuation_state_review_date IS NOT NULL 
+              THEN fpc.fp_continuation_state_review_date
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fps.fps_form_state_review_date IS NOT NULL 
+              THEN fps.fps_form_state_review_date
+              ELSE 
+                fpcounselling.fps_counselling_only_state_review_date
+              END 
+      ELSE
+         CASE WHEN fpcounselling.fps_counselling_only_state_review_date IS NOT NULL 
+              THEN fpcounselling.fps_counselling_only_state_review_date
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, 
+              '01-01-0001 00:00:00' )AND fps.fps_form_state_review_date IS NOT NULL 
+              THEN fps.fps_form_state_review_date
+              ELSE 
+                  fpc.fp_continuation_state_review_date
+              END
+      END) AS \"State Review Date\",
+      
+      max(fps.fps_form_follow_up_visits) AS \"Follow up visits\",
+         
+        max(CASE WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' )
+         AND COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN
+         CASE WHEN fps.fps_form_state_the_surgical_problem IS NOT NULL 
+              THEN fps.fps_form_state_the_surgical_problem
+              WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fpc.fp_continuation_state_the_surgical_problem IS NOT NULL 
+              THEN fpc.fp_continuation_state_the_surgical_problem
+              ELSE 
+                  fpcounselling.fps_counselling_only_state_the_surgical_problem
+              END 
+            
+      WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' )
+       AND COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN 
+         CASE WHEN fpc.fp_continuation_state_the_surgical_problem IS NOT NULL 
+              THEN fpc.fp_continuation_state_the_surgical_problem
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fps.fps_form_state_the_surgical_problem IS NOT NULL 
+              THEN fps.fps_form_state_the_surgical_problem
+              ELSE 
+                fpcounselling.fps_counselling_only_state_the_surgical_problem
+              END 
+      ELSE
+         CASE WHEN fpcounselling.fps_counselling_only_state_the_surgical_problem IS NOT NULL 
+              THEN fpcounselling.fps_counselling_only_state_the_surgical_problem
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, 
+              '01-01-0001 00:00:00' )AND fps.fps_form_state_the_surgical_problem IS NOT NULL 
+              THEN fps.fps_form_state_the_surgical_problem
+              ELSE 
+                  fpc.fp_continuation_state_the_surgical_problem
+              END
+      END) AS \"State the surgical problem\",
+      
+       max(CASE WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' )
+         AND COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN
+         CASE WHEN fps.fps_form_state_the_medical_problem IS NOT NULL 
+              THEN fps.fps_form_state_the_medical_problem
+              WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fpc.fp_continuation_state_the_medical_problem IS NOT NULL 
+              THEN fpc.fp_continuation_state_the_medical_problem
+              ELSE 
+                  fpcounselling.fps_counselling_only_state_the_medical_problem
+              END 
+            
+      WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' )
+       AND COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN 
+         CASE WHEN fpc.fp_continuation_state_the_medical_problem IS NOT NULL 
+              THEN fpc.fp_continuation_state_the_medical_problem
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fps.fps_form_state_the_medical_problem IS NOT NULL 
+              THEN fps.fps_form_state_the_medical_problem
+              ELSE 
+                fpcounselling.fps_counselling_only_state_the_medical_problem
+              END 
+      ELSE
+         CASE WHEN fpcounselling.fps_counselling_only_state_the_medical_problem IS NOT NULL 
+              THEN fpcounselling.fps_counselling_only_state_the_medical_problem
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, 
+              '01-01-0001 00:00:00' )AND fps.fps_form_state_the_medical_problem IS NOT NULL 
+              THEN fps.fps_form_state_the_medical_problem
+              ELSE 
+                  fpc.fp_continuation_state_the_medical_problem
+              END
+      END) AS \"State the medical problem\",
+      
+         max(CASE WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' )
+         AND COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN
+         CASE WHEN fps.fps_form_state_the_gynaecological_problem IS NOT NULL 
+              THEN fps.fps_form_state_the_gynaecological_problem
+              WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fpc.fp_continuation_state_the_gynaecological_problem IS NOT NULL 
+              THEN fpc.fp_continuation_state_the_gynaecological_problem
+              ELSE 
+                  fpcounselling.fps_counselling_only_state_the_gynaecological_problem
+              END 
+            
+      WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' )
+       AND COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00')
+         THEN 
+         CASE WHEN fpc.fp_continuation_state_the_gynaecological_problem IS NOT NULL 
+              THEN fpc.fp_continuation_state_the_gynaecological_problem
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, 
+              '01-01-0001 00:00:00' )AND fps.fps_form_state_the_gynaecological_problem IS NOT NULL 
+              THEN fps.fps_form_state_the_gynaecological_problem
+              ELSE 
+                fpcounselling.fps_counselling_only_state_the_gynaecological_problem
+              END 
+      ELSE
+         CASE WHEN fpcounselling.fps_counselling_only_state_the_gynaecological_problem IS NOT NULL 
+              THEN fpcounselling.fps_counselling_only_state_the_gynaecological_problem
+              WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, 
+              '01-01-0001 00:00:00' )AND fps.fps_form_state_the_gynaecological_problem IS NOT NULL 
+              THEN fps.fps_form_state_the_gynaecological_problem
+              ELSE 
+                  fpc.fp_continuation_state_the_gynaecological_problem
+              END
+      END) AS \"State the gynaecological problem\",
+      
+      max(CASE WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' )
+                 AND COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00' ) THEN
+              CASE WHEN fps_form_current_method  IS NOT NULL THEN 
+              (SELECT string_agg (
+                           CASE WHEN fps_form_current_method = 'New' THEN 'New' 
+                                WHEN fps_form_current_method = 'Lapsed' THEN 'Lapsed'
+                                WHEN fps_form_current_method = 'FPS FORM,Projesterone ONLY pill (POP)' THEN 'Projesterone ONLY pill (POP)'
+                                WHEN fps_form_current_method = 'FPS FORM,Combined oral contaceptive (COC)' THEN 'Combined oral contaceptive (COC)'
+                                WHEN fps_form_current_method = 'FPS FORM,Jadelle Implants' THEN 'Jadelle Implants'
+                                WHEN fps_form_current_method = 'FPS FORM,Implanon Implants' THEN 'Implanon Implants'
+                                WHEN fps_form_current_method = 'Injectables' THEN 'Injectables'
+                                WHEN fps_form_current_method = 'IUCD' THEN 'IUCD'
+                                WHEN fps_form_current_method = 'FPS FORM,LNG-IUS' THEN 'LNG-IUS'
+                                WHEN fps_form_current_method = 'TUBAL LIGATION' THEN 'TUBAL LIGATION'
+                                WHEN fps_form_current_method = 'FPS FORM,Emergency contraception' THEN 'Emergency contraception'
+                                WHEN fps_form_current_method = 'Condoms' THEN 'Condoms'
+                                WHEN fps_form_current_method = 'Others' THEN 'Others'
+                                END ,',') FROM fps_family_planning_service fpstemp WHERE fpstemp.encounter_id = pedd.encounter_id AND 
+                                fpstemp.patient_id = pedd.patient_id GROUP BY fpstemp.encounter_id)
+              WHEN  COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00' )  THEN
+                         CASE WHEN fp_continuation_current_method IS NOT NULL THEN 
+                              (SELECT string_agg (
+                                CASE WHEN fp_continuation_current_method = 'New' THEN 'New' 
+                                    WHEN fp_continuation_current_method = 'Lapsed' THEN 'Lapsed'
+                                    WHEN fp_continuation_current_method = 'FPS FORM,Projesterone ONLY pill (POP)' THEN 'Projesterone ONLY pill (POP)'
+                                    WHEN fp_continuation_current_method = 'FPS FORM,Combined oral contaceptive (COC)' THEN 'Combined oral contaceptive (COC)'
+                                    WHEN fp_continuation_current_method = 'FPS FORM,Jadelle Implants' THEN 'Jadelle Implants'
+                                    WHEN fp_continuation_current_method = 'FPS FORM,Implanon Implants' THEN 'Implanon Implants'
+                                    WHEN fp_continuation_current_method = 'Injectables' THEN 'Injectables'
+                                    WHEN fp_continuation_current_method = 'IUCD' THEN 'IUCD'
+                                    WHEN fp_continuation_current_method = 'FPS FORM,LNG-IUS' THEN 'LNG-IUS'
+                                    WHEN fp_continuation_current_method = 'TUBAL LIGATION' THEN 'TUBAL LIGATION'
+                                    WHEN fp_continuation_current_method = 'FPS FORM,Emergency contraception' THEN 'Emergency contraception'
+                                    WHEN fp_continuation_current_method = 'Condoms' THEN 'Condoms'
+                                    WHEN fp_continuation_current_method = 'Others' THEN 'Others'
+                                    END ,', ') FROM fps_fp_continuation_form fpctemp WHERE fpctemp.encounter_id = pedd.encounter_id AND fpctemp.patient_id = pedd.patient_id GROUP BY fpctemp.encounter_id)
+                          ELSE
+                               CASE WHEN fp_counselling_only_current_method IS NOT NULL THEN  
+                                 (SELECT string_agg (
+                                     CASE WHEN fp_counselling_only_current_method = 'New' THEN 'New' 
+                                          WHEN fp_counselling_only_current_method = 'Lapsed' THEN 'Lapsed'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,Projesterone ONLY pill (POP)' THEN 'Projesterone ONLY pill (POP)'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,Combined oral contaceptive (COC)' THEN 'Combined oral contaceptive (COC)'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,Jadelle Implants' THEN 'Jadelle Implants'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,Implanon Implants' THEN 'Implanon Implants'
+                                          WHEN fp_counselling_only_current_method = 'Injectables' THEN 'Injectables'
+                                          WHEN fp_counselling_only_current_method = 'IUCD' THEN 'IUCD'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,LNG-IUS' THEN 'LNG-IUS'
+                                          WHEN fp_counselling_only_current_method = 'TUBAL LIGATION' THEN 'TUBAL LIGATION'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,Emergency contraception' THEN 'Emergency contraception'
+                                          WHEN fp_counselling_only_current_method = 'Condoms' THEN 'Condoms'
+                                          WHEN fp_counselling_only_current_method = 'Others' THEN 'Others'
+                                          END ,', ') FROM fps_fp_counselling_only_form fpsctemp WHERE fpsctemp.encounter_id = pedd.encounter_id AND fpsctemp.patient_id = pedd.patient_id GROUP BY fpsctemp.encounter_id)
+                               
+                               ELSE 
+                               NULL  END
+                         END
+              ELSE 
+                  CASE WHEN fp_counselling_only_current_method IS NOT NULL THEN  
+                   (SELECT string_agg (
+                                     CASE WHEN fp_counselling_only_current_method = 'New' THEN 'New' 
+                                          WHEN fp_counselling_only_current_method = 'Lapsed' THEN 'Lapsed'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,Projesterone ONLY pill (POP)' THEN 'Projesterone ONLY pill (POP)'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,Combined oral contaceptive (COC)' THEN 'Combined oral contaceptive (COC)'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,Jadelle Implants' THEN 'Jadelle Implants'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,Implanon Implants' THEN 'Implanon Implants'
+                                          WHEN fp_counselling_only_current_method = 'Injectables' THEN 'Injectables'
+                                          WHEN fp_counselling_only_current_method = 'IUCD' THEN 'IUCD'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,LNG-IUS' THEN 'LNG-IUS'
+                                          WHEN fp_counselling_only_current_method = 'TUBAL LIGATION' THEN 'TUBAL LIGATION'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,Emergency contraception' THEN 'Emergency contraception'
+                                          WHEN fp_counselling_only_current_method = 'Condoms' THEN 'Condoms'
+                                          WHEN fp_counselling_only_current_method = 'Others' THEN 'Others'
+                                          END ,', ') FROM fps_fp_counselling_only_form fpsctemp WHERE fpsctemp.encounter_id = pedd.encounter_id AND fpsctemp.patient_id = pedd.patient_id GROUP BY fpsctemp.encounter_id)
+                  ELSE NULL END       
+               END 
+               
+         WHEN COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' )
+                  AND COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00' ) THEN 
+                  
+                  CASE WHEN fp_continuation_current_method IS NOT NULL THEN 
+                       (SELECT string_agg (
+                                CASE WHEN fp_continuation_current_method = 'New' THEN 'New' 
+                                    WHEN fp_continuation_current_method = 'Lapsed' THEN 'Lapsed'
+                                    WHEN fp_continuation_current_method = 'FPS FORM,Projesterone ONLY pill (POP)' THEN 'Projesterone ONLY pill (POP)'
+                                    WHEN fp_continuation_current_method = 'FPS FORM,Combined oral contaceptive (COC)' THEN 'Combined oral contaceptive (COC)'
+                                    WHEN fp_continuation_current_method = 'FPS FORM,Jadelle Implants' THEN 'Jadelle Implants'
+                                    WHEN fp_continuation_current_method = 'FPS FORM,Implanon Implants' THEN 'Implanon Implants'
+                                    WHEN fp_continuation_current_method = 'Injectables' THEN 'Injectables'
+                                    WHEN fp_continuation_current_method = 'IUCD' THEN 'IUCD'
+                                    WHEN fp_continuation_current_method = 'FPS FORM,LNG-IUS' THEN 'LNG-IUS'
+                                    WHEN fp_continuation_current_method = 'TUBAL LIGATION' THEN 'TUBAL LIGATION'
+                                    WHEN fp_continuation_current_method = 'FPS FORM,Emergency contraception' THEN 'Emergency contraception'
+                                    WHEN fp_continuation_current_method = 'Condoms' THEN 'Condoms'
+                                    WHEN fp_continuation_current_method = 'Others' THEN 'Others'
+                                    END ,', ') FROM fps_fp_continuation_form fpctemp WHERE fpctemp.encounter_id = pedd.encounter_id AND fpctemp.patient_id = pedd.patient_id GROUP BY fpctemp.encounter_id)
+                  WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpcounselling.date_modified,fpcounselling.date_created, '01-01-0001 00:00:00' )
+                  THEN
+                  CASE WHEN fps_form_current_method  IS NOT NULL THEN  
+                (SELECT string_agg (
+                           CASE WHEN fps_form_current_method = 'New' THEN 'New' 
+                                WHEN fps_form_current_method = 'Lapsed' THEN 'Lapsed'
+                                WHEN fps_form_current_method = 'FPS FORM,Projesterone ONLY pill (POP)' THEN 'Projesterone ONLY pill (POP)'
+                                WHEN fps_form_current_method = 'FPS FORM,Combined oral contaceptive (COC)' THEN 'Combined oral contaceptive (COC)'
+                                WHEN fps_form_current_method = 'FPS FORM,Jadelle Implants' THEN 'Jadelle Implants'
+                                WHEN fps_form_current_method = 'FPS FORM,Implanon Implants' THEN 'Implanon Implants'
+                                WHEN fps_form_current_method = 'Injectables' THEN 'Injectables'
+                                WHEN fps_form_current_method = 'IUCD' THEN 'IUCD'
+                                WHEN fps_form_current_method = 'FPS FORM,LNG-IUS' THEN 'LNG-IUS'
+                                WHEN fps_form_current_method = 'TUBAL LIGATION' THEN 'TUBAL LIGATION'
+                                WHEN fps_form_current_method = 'FPS FORM,Emergency contraception' THEN 'Emergency contraception'
+                                WHEN fps_form_current_method = 'Condoms' THEN 'Condoms'
+                                WHEN fps_form_current_method = 'Others' THEN 'Others'
+                                END ,',') FROM fps_family_planning_service fpstemp WHERE fpstemp.encounter_id = pedd.encounter_id AND 
+                                fpstemp.patient_id = pedd.patient_id GROUP BY fpstemp.encounter_id)
+                  ELSE 
+                               CASE WHEN fp_counselling_only_current_method IS NOT NULL THEN  
+                                 (SELECT string_agg (
+                                     CASE WHEN fp_counselling_only_current_method = 'New' THEN 'New' 
+                                          WHEN fp_counselling_only_current_method = 'Lapsed' THEN 'Lapsed'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,Projesterone ONLY pill (POP)' THEN 'Projesterone ONLY pill (POP)'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,Combined oral contaceptive (COC)' THEN 'Combined oral contaceptive (COC)'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,Jadelle Implants' THEN 'Jadelle Implants'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,Implanon Implants' THEN 'Implanon Implants'
+                                          WHEN fp_counselling_only_current_method = 'Injectables' THEN 'Injectables'
+                                          WHEN fp_counselling_only_current_method = 'IUCD' THEN 'IUCD'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,LNG-IUS' THEN 'LNG-IUS'
+                                          WHEN fp_counselling_only_current_method = 'TUBAL LIGATION' THEN 'TUBAL LIGATION'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,Emergency contraception' THEN 'Emergency contraception'
+                                          WHEN fp_counselling_only_current_method = 'Condoms' THEN 'Condoms'
+                                          WHEN fp_counselling_only_current_method = 'Others' THEN 'Others'
+                                          END ,', ') FROM fps_fp_counselling_only_form fpsctemp WHERE fpsctemp.encounter_id = pedd.encounter_id AND fpsctemp.patient_id = pedd.patient_id GROUP BY fpsctemp.encounter_id)
+                               ELSE 
+                               NULL  END
+                  END 
+                  ELSE 
+                  CASE WHEN fp_counselling_only_current_method IS NOT NULL THEN 
+                    (SELECT string_agg (
+                                     CASE WHEN fp_counselling_only_current_method = 'New' THEN 'New' 
+                                          WHEN fp_counselling_only_current_method = 'Lapsed' THEN 'Lapsed'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,Projesterone ONLY pill (POP)' THEN 'Projesterone ONLY pill (POP)'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,Combined oral contaceptive (COC)' THEN 'Combined oral contaceptive (COC)'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,Jadelle Implants' THEN 'Jadelle Implants'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,Implanon Implants' THEN 'Implanon Implants'
+                                          WHEN fp_counselling_only_current_method = 'Injectables' THEN 'Injectables'
+                                          WHEN fp_counselling_only_current_method = 'IUCD' THEN 'IUCD'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,LNG-IUS' THEN 'LNG-IUS'
+                                          WHEN fp_counselling_only_current_method = 'TUBAL LIGATION' THEN 'TUBAL LIGATION'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,Emergency contraception' THEN 'Emergency contraception'
+                                          WHEN fp_counselling_only_current_method = 'Condoms' THEN 'Condoms'
+                                          WHEN fp_counselling_only_current_method = 'Others' THEN 'Others'
+                                          END ,', ') FROM fps_fp_counselling_only_form fpsctemp WHERE fpsctemp.encounter_id = pedd.encounter_id AND fpsctemp.patient_id = pedd.patient_id GROUP BY fpsctemp.encounter_id)
+                  ELSE NULL END 
+                  END 
+         ELSE 
+             CASE WHEN fp_counselling_only_current_method IS NOT NULL THEN 
+             (SELECT string_agg (
+                                     CASE WHEN fp_counselling_only_current_method = 'New' THEN 'New' 
+                                          WHEN fp_counselling_only_current_method = 'Lapsed' THEN 'Lapsed'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,Projesterone ONLY pill (POP)' THEN 'Projesterone ONLY pill (POP)'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,Combined oral contaceptive (COC)' THEN 'Combined oral contaceptive (COC)'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,Jadelle Implants' THEN 'Jadelle Implants'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,Implanon Implants' THEN 'Implanon Implants'
+                                          WHEN fp_counselling_only_current_method = 'Injectables' THEN 'Injectables'
+                                          WHEN fp_counselling_only_current_method = 'IUCD' THEN 'IUCD'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,LNG-IUS' THEN 'LNG-IUS'
+                                          WHEN fp_counselling_only_current_method = 'TUBAL LIGATION' THEN 'TUBAL LIGATION'
+                                          WHEN fp_counselling_only_current_method = 'FPS FORM,Emergency contraception' THEN 'Emergency contraception'
+                                          WHEN fp_counselling_only_current_method = 'Condoms' THEN 'Condoms'
+                                          WHEN fp_counselling_only_current_method = 'Others' THEN 'Others'
+                                          END ,', ') FROM fps_fp_counselling_only_form fpsctemp WHERE fpsctemp.encounter_id = pedd.encounter_id AND fpsctemp.patient_id = pedd.patient_id GROUP BY fpsctemp.encounter_id)
+                                          
+             WHEN COALESCE(fps.date_modified,fps.date_created, '01-01-0001 00:00:00' ) >= COALESCE(fpc.date_modified,fpc.date_created, '01-01-0001 00:00:00' )THEN
+                 CASE WHEN fps_form_current_method  IS NOT NULL THEN  
+                 (SELECT string_agg (
+                           CASE WHEN fps_form_current_method = 'New' THEN 'New' 
+                                WHEN fps_form_current_method = 'Lapsed' THEN 'Lapsed'
+                                WHEN fps_form_current_method = 'FPS FORM,Projesterone ONLY pill (POP)' THEN 'Projesterone ONLY pill (POP)'
+                                WHEN fps_form_current_method = 'FPS FORM,Combined oral contaceptive (COC)' THEN 'Combined oral contaceptive (COC)'
+                                WHEN fps_form_current_method = 'FPS FORM,Jadelle Implants' THEN 'Jadelle Implants'
+                                WHEN fps_form_current_method = 'FPS FORM,Implanon Implants' THEN 'Implanon Implants'
+                                WHEN fps_form_current_method = 'Injectables' THEN 'Injectables'
+                                WHEN fps_form_current_method = 'IUCD' THEN 'IUCD'
+                                WHEN fps_form_current_method = 'FPS FORM,LNG-IUS' THEN 'LNG-IUS'
+                                WHEN fps_form_current_method = 'TUBAL LIGATION' THEN 'TUBAL LIGATION'
+                                WHEN fps_form_current_method = 'FPS FORM,Emergency contraception' THEN 'Emergency contraception'
+                                WHEN fps_form_current_method = 'Condoms' THEN 'Condoms'
+                                WHEN fps_form_current_method = 'Others' THEN 'Others'
+                                END ,',') FROM fps_family_planning_service fpstemp WHERE fpstemp.encounter_id = pedd.encounter_id AND 
+                                fpstemp.patient_id = pedd.patient_id GROUP BY fpstemp.encounter_id)
+                ELSE 
+                        CASE WHEN fp_continuation_current_method IS NOT NULL THEN  
+                          (SELECT string_agg (
+                                CASE WHEN fp_continuation_current_method = 'New' THEN 'New' 
+                                    WHEN fp_continuation_current_method = 'Lapsed' THEN 'Lapsed'
+                                    WHEN fp_continuation_current_method = 'FPS FORM,Projesterone ONLY pill (POP)' THEN 'Projesterone ONLY pill (POP)'
+                                    WHEN fp_continuation_current_method = 'FPS FORM,Combined oral contaceptive (COC)' THEN 'Combined oral contaceptive (COC)'
+                                    WHEN fp_continuation_current_method = 'FPS FORM,Jadelle Implants' THEN 'Jadelle Implants'
+                                    WHEN fp_continuation_current_method = 'FPS FORM,Implanon Implants' THEN 'Implanon Implants'
+                                    WHEN fp_continuation_current_method = 'Injectables' THEN 'Injectables'
+                                    WHEN fp_continuation_current_method = 'IUCD' THEN 'IUCD'
+                                    WHEN fp_continuation_current_method = 'FPS FORM,LNG-IUS' THEN 'LNG-IUS'
+                                    WHEN fp_continuation_current_method = 'TUBAL LIGATION' THEN 'TUBAL LIGATION'
+                                    WHEN fp_continuation_current_method = 'FPS FORM,Emergency contraception' THEN 'Emergency contraception'
+                                    WHEN fp_continuation_current_method = 'Condoms' THEN 'Condoms'
+                                    WHEN fp_continuation_current_method = 'Others' THEN 'Others'
+                                    END ,', ') FROM fps_fp_continuation_form fpctemp WHERE fpctemp.encounter_id = pedd.encounter_id AND fpctemp.patient_id = pedd.patient_id GROUP BY fpctemp.encounter_id)
+                             ELSE NULL  END
+                  END 
+                  ELSE 
+                  CASE WHEN fp_continuation_current_method IS NOT NULL THEN  
+                    (SELECT string_agg (
+                                CASE WHEN fp_continuation_current_method = 'New' THEN 'New' 
+                                    WHEN fp_continuation_current_method = 'Lapsed' THEN 'Lapsed'
+                                    WHEN fp_continuation_current_method = 'FPS FORM,Projesterone ONLY pill (POP)' THEN 'Projesterone ONLY pill (POP)'
+                                    WHEN fp_continuation_current_method = 'FPS FORM,Combined oral contaceptive (COC)' THEN 'Combined oral contaceptive (COC)'
+                                    WHEN fp_continuation_current_method = 'FPS FORM,Jadelle Implants' THEN 'Jadelle Implants'
+                                    WHEN fp_continuation_current_method = 'FPS FORM,Implanon Implants' THEN 'Implanon Implants'
+                                    WHEN fp_continuation_current_method = 'Injectables' THEN 'Injectables'
+                                    WHEN fp_continuation_current_method = 'IUCD' THEN 'IUCD'
+                                    WHEN fp_continuation_current_method = 'FPS FORM,LNG-IUS' THEN 'LNG-IUS'
+                                    WHEN fp_continuation_current_method = 'TUBAL LIGATION' THEN 'TUBAL LIGATION'
+                                    WHEN fp_continuation_current_method = 'FPS FORM,Emergency contraception' THEN 'Emergency contraception'
+                                    WHEN fp_continuation_current_method = 'Condoms' THEN 'Condoms'
+                                    WHEN fp_continuation_current_method = 'Others' THEN 'Others'
+                                    END ,', ') FROM fps_fp_continuation_form fpctemp WHERE fpctemp.encounter_id = pedd.encounter_id AND fpctemp.patient_id = pedd.patient_id GROUP BY fpctemp.encounter_id)
+                  ELSE NULL END 
+                  END 
+             
+END)  AS \"Current Method\"
+
+
+
+      
+   
+FROM
+patient_encounter_table pedd 
+    
+    JOIN psi_patient_program_data ppv ON pedd.patient_id = ppv.patient_id
+    JOIN patient_identifier pi ON ppv.patient_id = pi.patient_id
+    JOIN person_details_default pdd ON ppv.patient_id = pdd.person_id
+    LEFT OUTER JOIN fps_family_planning_service fps ON fps.encounter_id = pedd.encounter_id
+    LEFT OUTER JOIN fps_fp_continuation_form fpc ON fpc.encounter_id = pedd.encounter_id
+    LEFT OUTER JOIN fps_fp_counselling_only_form fpcounselling ON fpcounselling.encounter_id = pedd.encounter_id
+    WHERE (ppv.program_id = (SELECT program_id FROM programs_default WHERE program_name= 'FPS Program')) 
+    AND (pedd.encounter_id IN (SELECT encounter_id FROM fps_family_planning_service 
+                                UNION SELECT encounter_id FROM fps_fp_continuation_form
+                                UNION SELECT encounter_id FROM fps_fp_counselling_only_form))
+
+    GROUP BY fps.id_fps_family_planning_service,fpc.id_fps_fp_continuation_form,fpcounselling.id_fps_fp_counselling_only_form 
+    ORDER BY  date_created DESC;"
 }
   ]
 }
