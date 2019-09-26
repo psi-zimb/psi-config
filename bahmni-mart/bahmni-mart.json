@@ -1426,7 +1426,7 @@ patient_encounter_table pedd
                 join patient_encounter_table pedd on viac.encounter_id = pedd.encounter_id
                 where ppv.program_id = (select program_id from programs_default where program_name = 'VIAC Program')
                 group by viac.id_viac_form_template,viac.patient_id
-                order by viac.id_viac_form_template desc"
+                order by viac.id_viac_form_template desc;"
 },
 {
  "name": "fps_program_events_table",
