@@ -618,7 +618,7 @@
             and  districtObs.voided = 0 and districtObs.concept_id=(select concept_id from concept_view where retired = 0 and concept_full_name='Viac Form, District')
           ) as OrgUnitLogic
             on OrgUnitLogic.person_id = pi.patient_id
-                    where pi.patient_id in ( /*Filtering the FPS Program patients using Program name*/
+                    where pi.patient_id in ( /*Filtering the VIAC Program patients using Program name*/
                                                 Select patient_id from patient_program pp where program_id in (
                                                     Select program_id from 
                                                     program 
@@ -922,7 +922,7 @@
         {
  "name": "hts_program_events_table",
  "sql": "SELECT 'vatFxlZR2lj':: TEXT AS program,
-        'KeomfqRdu8Q':: TEXT AS program_stage,
+        'bY9Dg3Je4CN':: TEXT AS program_stage,
          
         max(CASE WHEN phtc.\"phtc_site_type\" = 'Outreach'
               THEN concat('ZWNSC-OU-',upper(COALESCE(phtc.\"phtc_facility\", (SELECT phtc_facility FROM provider_hiv_test_counselling phtc_temp WHERE phtc_facility IS NOT NULL AND  phtc_temp.patient_id = pedd.patient_id AND pedd.encounter_id > phtc_temp.encounter_id  ORDER BY phtc_temp.encounter_id DESC LIMIT 1))),'-',upper(phtc.\"phtc_district\"))   
