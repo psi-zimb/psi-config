@@ -3217,6 +3217,1210 @@ patient_encounter_table pedd
 
     GROUP BY fps.id_fps_family_planning_service,fpc.id_fps_fp_continuation_form,fpcounselling.id_fps_fp_counselling_only_form 
     ORDER BY  date_created DESC;"
+},
+{
+ "name": "art_program_events_table",
+ "sql": "SELECT 
+    'vatFxlZR2lj':: TEXT AS program,
+    'axGKY6FAhRm':: TEXT AS program_stage,
+    CASE WHEN art1_1.aivc_site_type = 'Outreach'
+         THEN  
+             concat('ZWNSC-OU-',upper( COALESCE(art1_1.aivc_facility,(SELECT art.aivc_facility FROM art_initial_visit_compulsory_question_1_of_2 art 
+             INNER JOIN patient_encounter_table pedd ON art.encounter_id = pedd.encounter_id WHERE art.aivc_facility IS NOT NULL 
+             AND art.patient_id = pedd.patient_id AND art.encounter_id > pedd.encounter_id ORDER BY art.encounter_id DESC LIMIT 1))),
+             '-',upper(art1_1.aivc_district))
+         ELSE
+           concat('ZWNSC-OU-',upper( COALESCE(aivc_facility,(SELECT art.aivc_facility FROM art_initial_visit_compulsory_question_1_of_2 art
+           INNER JOIN patient_encounter_table pedd ON art.encounter_id = pedd.encounter_id WHERE art.aivc_facility IS NOT NULL 
+           AND art.patient_id = pedd.patient_id AND art.encounter_id > pedd.encounter_id ORDER BY art.encounter_id DESC LIMIT 1))))
+           END  AS \"Org Unit\",
+    CASE WHEN COALESCE(art1_1.obs_datetime, '01-01-0001' ) >= COALESCE(art2_2.obs_datetime, '01-01-0001' )     
+         THEN date(art1_1.obs_datetime)
+         WHEN ( COALESCE(art2_2.obs_datetime, '01-01-0001' ) >= COALESCE(art1_1.obs_datetime, '01-01-0001' ) )      
+         THEN date(art2_2.obs_datetime) 
+         END AS \"event_date\",
+    'COMPLETED' :: TEXT AS status,
+     COALESCE(art1_1.visit_id,art2_2.visit_id) AS \"event_unique_id\",
+     DATE(ppv.\"date_enrolled\") AS \"enrollment_date\",
+     CASE WHEN   COALESCE(art1_1.date_created, '01-01-0001 00:00:00' ) >= COALESCE(art2_2.date_created, '01-01-0001  00:00:00' )     
+          THEN art1_1.date_created
+          WHEN ( COALESCE(art2_2.date_created, '01-01-0001 00:00:00' ) >= COALESCE(art1_1.date_created, '01-01-0001  00:00:00' ) )      
+          THEN art2_2.date_created
+          END AS \"date_created\",
+     pi.\"Patient_Identifier\" AS \"Patient_Identifier\",
+     aivc_site_type AS \"SiteType\",
+     aivc_setting AS \"setting\",
+     aivc_workplace AS \"Workplace\",
+     aivc_social_history_details AS \"Social History Details\",
+     aivc_chief_complaint AS \"Chief Compliant\",
+     CASE WHEN aivc_sourse_giving_history = 'Other (specify)'  THEN 'Other'
+          ELSE aivc_sourse_giving_history END  AS \"Source giving History\",
+     aivc_sourse_giving_history_other AS \"If other,specify details\",
+     aivc_how_do_you_think_you_acquired_hiv AS \"How do you think you acquired HIV?\",
+     aivc_have_you_had_a_positive_hiv_test AS \"Have you had a positive HIV test?\",
+     aivc_why_were_u_tested AS \"Why were you tested?\",
+     aivc_when_was_the_test_done AS \"When was the test done?\",
+     CASE WHEN aivc_do_you_have_a_partner ='Yes' THEN 1
+          WHEN aivc_do_you_have_a_partner = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Do you have partner\",
+     aivc_is_your_sexual_partner_aware_of_your_hiv_status AS \"Is your (sexual) partner aware of your HIV status?\",
+     aivc_has_you_partner_been_tested AS \"Has your partner been tested?\",
+     aivc_partners_test_result AS \"Partners test result\",
+    CASE WHEN aivc_do_you_have_any_children = 'Yes' THEN 1
+          WHEN aivc_do_you_have_any_children = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Do you have any children?\",  
+     aivc_how_many_children_do_you_have AS \"How many children do you have?\",
+     CASE WHEN aivc_have_any_of_your_children_been_tested_for_hiv = 'Yes' THEN 1
+          WHEN aivc_have_any_of_your_children_been_tested_for_hiv = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Have any of your children been tested for HIV?\",
+     aivc_number_of_children_hiv_positive AS \"Number of Children HIV positive\",
+     aivc_number_of_children_hiv_negative AS \"Number of Children HIV negative\",
+     CASE WHEN aivc_have_you_had_cd4_count_lab_test = 'Yes' THEN 1
+          WHEN aivc_have_you_had_cd4_count_lab_test = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Have you had CD4 count lab test ?\",
+     aivc_cd4_count_results AS \"CD4 count results\",
+     CASE WHEN aivc_did_you_have_fever_recently = 'Yes' THEN 1
+          WHEN aivc_did_you_have_fever_recently = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Did you have fever recently?\",
+     aivc_duration_of_fever AS \"Duration of fever\",
+     CASE WHEN aivc_did_you_have_night_sweats = 'Yes' THEN 1
+          WHEN aivc_did_you_have_night_sweats = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Did you have night sweats?\",
+     aivc_duration_of_night_sweats AS \"Duration of night sweats\",
+     CASE WHEN aivc_do_you_have_weight_loss = 'Yes' THEN 1
+          WHEN aivc_do_you_have_weight_loss = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Do you have weight loss?\",
+     aivc_duration_of_weight_loss AS \"Duration of weight loss\",
+     CASE WHEN aivc_do_you_have_shortness_of_breath = 'Yes' THEN 1
+          WHEN aivc_do_you_have_shortness_of_breath = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Do you have shortness of breath?\",
+     aivc_duration_of_shortness_of_breath AS \"Duration of shortness of breath\",     
+     CASE WHEN aivc_have_you_ever_had_tb = 'Yes' THEN 1
+          WHEN aivc_have_you_ever_had_tb = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Have you ever had TB?\",   
+     aivc_how_many_episodes_of_tb AS \"How many episodes of TB?\",
+     aivc_tb_dates_of_previous_episodes AS \"Dates of previous episodes\",
+     CASE WHEN aivc_are_you_currently_being_treated_for_tb = 'Yes' THEN 1
+          WHEN aivc_are_you_currently_being_treated_for_tb = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Are you currently being treated for TB?\",
+     aivc_how_was_it_diagnosed AS \"How was it Diagnosed\",
+     aivc_location_of_tb AS \"Location of TB\",
+     CASE WHEN aivc_have_you_lived_with_someone_who_has_been_diagnosed_of_ = 'Yes' THEN 1
+          WHEN aivc_have_you_lived_with_someone_who_has_been_diagnosed_of_ = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Have you lived with someone who has been diagnosed of TB in the last 3 months?\",
+     CASE WHEN aivc_do_you_have_any_skin_problems = 'Yes' THEN 1
+          WHEN aivc_do_you_have_any_skin_problems = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Do you have any skin problems\",
+     CASE WHEN aivc_have_you_had_a_skin_rash_recently = 'Yes' THEN 1
+          WHEN aivc_have_you_had_a_skin_rash_recently = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Have you had a skin rash recently?\",
+     aivc_duration_of_skin_rash AS \"Duration of skin rash\",
+     aivc_location_of_skin_rash_details AS \"Location of skin rash details\",
+     CASE WHEN (split_part(aivc_mophology,',', 1) = 'Macular') OR (split_part(aivc_mophology,',', 2) = 'Macular') 
+               OR (split_part(aivc_mophology,',', 3) = 'Macular')  OR (split_part(aivc_mophology,',', 4) = 'Macular')
+          THEN 1 
+          ELSE NULL END :: BOOLEAN AS \"Macular\",
+     CASE WHEN (split_part(aivc_mophology,',', 1) = 'Papular') OR (split_part(aivc_mophology,',', 2) = 'Papular') 
+               OR (split_part(aivc_mophology,',', 3) = 'Papular')  OR (split_part(aivc_mophology,',', 4) = 'Papular')
+          THEN 1 
+          ELSE NULL END :: BOOLEAN AS \"Papular\",
+     CASE WHEN (split_part(aivc_mophology,',', 1) = 'Vasicular') OR (split_part(aivc_mophology,',', 2) = 'Vasicular') 
+               OR (split_part(aivc_mophology,',', 3) = 'Vasicular')  OR (split_part(aivc_mophology,',', 4) = 'Vasicular')
+          THEN 1 
+          ELSE NULL END :: BOOLEAN AS \"Vasicular\",     
+     CASE WHEN (split_part(aivc_mophology,',', 1) = 'Mixed') OR (split_part(aivc_mophology,',', 2) = 'Mixed') 
+               OR (split_part(aivc_mophology,',', 3) = 'Mixed')  OR (split_part(aivc_mophology,',', 4) = 'Mixed')
+          THEN 1 
+          ELSE NULL END :: BOOLEAN AS \"Mixed\", 
+     CASE WHEN aivc_did_the_skin_rash_start_after_taking_medications = 'Yes' THEN 1
+          WHEN aivc_did_the_skin_rash_start_after_taking_medications = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Did the skin rash start after taking medications?\",
+     CASE WHEN aivc_have_you_ever_had_herpes_zoster_shingles = 'Yes' THEN 1
+          WHEN aivc_have_you_ever_had_herpes_zoster_shingles = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Have you ever had Herpes zoster/shingles?\",
+     CASE WHEN aivc_did_you_experience_ant_itching = 'Yes' THEN 1
+          WHEN aivc_did_you_experience_ant_itching = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Did you experience ant itching?\",
+     CASE WHEN aivc_have_you_observed_a_lump_growing = 'Yes' THEN 1
+          WHEN aivc_have_you_observed_a_lump_growing = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN  AS \"Have you observed a lump growing?\",
+     aivc_location_lump_details AS \" Location lump details\",
+     CASE WHEN aivc_are_you_know_where_you_are_and_what_you_are_doing_here = 'Yes' THEN 1
+          WHEN aivc_are_you_know_where_you_are_and_what_you_are_doing_here = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Are you aware of where you are and what you are doing here?\",
+     CASE WHEN aivc_are_you_know_who_i_am = 'Yes' THEN 1
+          WHEN aivc_are_you_know_who_i_am = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Are you aware who I am?\",
+     CASE WHEN aivc_are_you_know_the_date_day_year_or_season = 'Yes' THEN 1
+          WHEN aivc_are_you_know_the_date_day_year_or_season = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Are you aware of the day, date, year or season?\",
+     CASE WHEN aivc_have_you_become_forgetful = 'Yes' THEN 1
+          WHEN aivc_have_you_become_forgetful = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Have you become forgetful?\",
+     CASE WHEN aivc_do_you_need_to_be_reminded_of_things = 'Yes' THEN 1
+          WHEN aivc_do_you_need_to_be_reminded_of_things = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Do you need to be reminded of things?\",
+     CASE WHEN aivc_are_you_suffering_from_headaches = 'Yes' THEN 1
+          WHEN aivc_are_you_suffering_from_headaches = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Are you suffering from headaches?\",
+     aivc_duration_of_headache AS \"Duration of Headache\",
+     aivc_headache_severity AS \"Severity of Headache\",
+     aivc_headache_course AS \"Course of Headache\",
+     aivc_headache_association AS \"Headache association\",
+     CASE WHEN aivc_have_you_experienced_loss_of_vision = 'Yes' THEN 1
+          WHEN aivc_have_you_experienced_loss_of_vision = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Have you experienced loss of vision?\",
+     aivc_heent_if_yes_specify_details AS \"If yes, specify details\",     
+     CASE WHEN aivc_have_you_noticed_any_changes_in_or_around_the_mouth_an = 'Yes' THEN 1
+          WHEN aivc_have_you_noticed_any_changes_in_or_around_the_mouth_an = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Have you noticed any changes in and around the mouth\",
+     aivc_have_you_had_blisters_or_swelling_on_around_the_lips AS \"Have you had blisters or swelling on/around the lips?\",
+     CASE WHEN (split_part(aivc_have_you_had_oral_thrush,',', 1) IN ('Several episodes?','Associated with pain or difficulty in swallowing')) OR 
+           (split_part(aivc_have_you_had_oral_thrush,',', 2) IN ('Several episodes?','Associated with pain or difficulty in swallowing')) THEN 1
+
+           WHEN (split_part(aivc_have_you_had_oral_thrush,',', 1) = 'No') OR (split_part(aivc_have_you_had_oral_thrush,',', 2) = 'No') THEN 0
+        ELSE NULL END :: BOOLEAN AS \"Have you had oral thrush?\",     
+    CASE WHEN aivc_have_you_had_a_cough = 'Yes' THEN 1
+         WHEN aivc_have_you_had_a_cough = 'No' THEN 0
+         ELSE NULL END :: BOOLEAN  AS \"Have you had a cough?\",
+     aivc_type_of_cough AS \"Type of cough\",
+     aivc_duration_of_the_cough AS \"Duration\",
+     CASE WHEN aivc_have_you_had_a_chest_pain = 'Yes' THEN 1
+          WHEN aivc_have_you_had_a_chest_pain = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Have you had a chest pain?\",
+     aivc_location_of_the_chest_pain AS \"Location of the chest pain\",
+     aivc_when_does_chest_pain_occur  AS \"When does chest pain occur\",    
+     aivc_duration_of_chest_pains AS \"Duration of chest pains?\",
+     CASE WHEN aivc_have_you_experienced_shortness_of_breath = 'Yes' THEN 1
+          WHEN aivc_have_you_experienced_shortness_of_breath = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Have you experienced shortness of breath?\",      
+     aivc_1_duration_of_shortness_of_breath_1 AS \"Duration of shortness of breath?\", 
+     aivc_when_does_the_shortness_of_breath_occur AS \"When does the shortness of breath occur?\",
+     CASE WHEN aivc_have_you_had_more_than_one_episodes_of_pneumonia = 'Yes' THEN 1
+          WHEN aivc_have_you_had_more_than_one_episodes_of_pneumonia = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Have you had more than one episodes of Pneumonia?\",
+     aivc_how_many_episodes_of_pneumonia AS \"How many episodes of Pneumonia?\",
+     CASE WHEN (split_part(aivc_have_you_had_swelling_of,',', 1) = 'Feet') OR (split_part(aivc_have_you_had_swelling_of,',', 2) = 'Feet') 
+               OR (split_part(aivc_have_you_had_swelling_of,',', 3) = 'Feet')  OR (split_part(aivc_have_you_had_swelling_of,',', 4) = 'Feet')
+          THEN 1 
+          ELSE NULL END :: BOOLEAN AS \"Have you had swelling of Feet?\",
+     CASE WHEN (split_part(aivc_have_you_had_swelling_of,',', 1) = 'Legs') OR (split_part(aivc_have_you_had_swelling_of,',', 2) = 'Legs') 
+               OR (split_part(aivc_have_you_had_swelling_of,',', 3) = 'Legs')  OR (split_part(aivc_have_you_had_swelling_of,',', 4) = 'Legs')
+          THEN 1 
+          ELSE NULL END :: BOOLEAN AS \"Have you had swelling of Legs?\",
+     CASE WHEN (split_part(aivc_have_you_had_swelling_of,',', 1) = 'Face') OR (split_part(aivc_have_you_had_swelling_of,',', 2) = 'Face') 
+               OR (split_part(aivc_have_you_had_swelling_of,',', 3) = 'Face')  OR (split_part(aivc_have_you_had_swelling_of,',', 4) = 'Face')
+          THEN 1 
+          ELSE NULL END :: BOOLEAN AS \"Have you had swelling of Face?\",     
+     CASE WHEN (split_part(aivc_have_you_had_swelling_of,',', 1) = 'No') OR (split_part(aivc_have_you_had_swelling_of,',', 2) = 'No') 
+               OR (split_part(aivc_have_you_had_swelling_of,',', 3) = 'No')  OR (split_part(aivc_have_you_had_swelling_of,',', 4) = 'No')
+          THEN 1 
+          ELSE NULL END :: BOOLEAN AS \"Have you had swelling No?\", 
+     CASE WHEN  aivc_have_you_experienced_nocturia = 'Yes' THEN 1
+          WHEN aivc_have_you_experienced_nocturia  = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Have you experienced nocturia\",
+     CASE WHEN aivc_do_you_have_a_high_blood_pressure = 'Yes' THEN 1
+          WHEN aivc_do_you_have_a_high_blood_pressure = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Do you have a high blood pressure\",
+     CASE WHEN aivc_are_you_on_hypertensive_drugs = 'Yes' THEN 1
+          WHEN aivc_are_you_on_hypertensive_drugs = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Are you on Hypertensive drugs?\",
+     aivc_if_yes_on_hypertensive_drugs_specify AS \"If yes, specify drug details\",
+     CASE WHEN aivc_do_you_have_difficulty_swallowing = 'Yes' THEN 1
+          WHEN aivc_do_you_have_difficulty_swallowing = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Do you have difficulty swallowing?\",
+     CASE WHEN aivc_is_swallowing_painful = 'Yes' THEN 1
+          WHEN aivc_is_swallowing_painful = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Is swallowing painful\",
+     CASE WHEN aivc_do_you_vomit_frequently = 'Yes' THEN 1
+          WHEN aivc_do_you_vomit_frequently = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Do you vomit frequently?\",
+    aivc_when_do_you_vomit AS \"When do you vomit?\",
+    aivc_vomit_content AS \"Vomit content\",
+    CASE WHEN aivc_do_you_have_diarrhea = 'Yes' THEN 1
+         WHEN aivc_do_you_have_diarrhea = 'No' THEN 0
+         ELSE NULL END :: BOOLEAN AS \"Do you have diarrhea?\",
+     aivc_diarrhea_duration AS \"Diarrhea duration\",
+     aivc_diarrhea_details AS \"Diarrhea Details\",   
+    CASE WHEN aivc_do_you_have_frequent_abdominal_pain = 'Yes' THEN 1
+         WHEN aivc_do_you_have_frequent_abdominal_pain = 'No' THEN 0
+         ELSE NULL END :: BOOLEAN AS \"Do you have frequent abdominal pain?\",
+    aivc_does_the_abdominal_pain_occur_during_fasting AS \"Does the abdominal pain occur during fasting?\",
+    CASE WHEN aivc_do_you_have_frequent_epigastric_pain = 'Yes' THEN 1
+         WHEN aivc_do_you_have_frequent_epigastric_pain = 'No' THEN 0
+         ELSE NULL END :: BOOLEAN AS \"Do you have frequent epigastric pain?\",
+     aivc_abdominal_pain_location AS \"Abdominal pain location\",
+     aivc_abdominal_pain_duration AS \"Abdominal pain duration\",
+     CASE WHEN aivc_have_you_experienced_muscle_aches = 'Yes' THEN 1
+          WHEN aivc_have_you_experienced_muscle_aches = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Have you experienced muscle aches?\",
+     CASE WHEN aivc_have_you_experienced_joint_pain = 'Yes' THEN 1
+          WHEN aivc_have_you_experienced_joint_pain = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Have you experienced joint pain?\",
+     aivc_joint_pain_duration AS \"Joint pain duration\", 
+     aivc_location_of_joint_pain AS \"Location of joint pain\",     
+     CASE WHEN aivc_have_you_experienced_joint_swelling = 'Yes' THEN 1
+          WHEN aivc_have_you_experienced_joint_swelling = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Have you experienced joint swelling?\",
+     aivc_joint_swelling_duration AS \"Joint swelling duration\",
+     aivc_location_of_joint_swelling AS \"Location of joint swelling\",
+     CASE WHEN aivc_do_you_feel_a_burning_sensation_with_micturation = 'Yes' THEN 1
+          WHEN aivc_do_you_feel_a_burning_sensation_with_micturation = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Do you feel a burning sensation with micturation?\",
+     CASE WHEN aivc_did_you_have_a_fever_rigors_or_chills_with_the_burning = 'Yes' THEN 1
+          WHEN aivc_did_you_have_a_fever_rigors_or_chills_with_the_burning = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Did you have a fever rigors or chills with the burning sensation?\",
+     CASE WHEN aivc_have_you_experienced_loss_of_sexual_interest = 'Yes' THEN 1
+          WHEN aivc_have_you_experienced_loss_of_sexual_interest = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Have you experienced loss of sexual interest?\",
+     CASE WHEN aivc_erectile_dysfunction = 'Yes' THEN 1
+          WHEN aivc_erectile_dysfunction = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Erectile dysfunction (males only)\",
+     CASE WHEN aivc_dysparenuia_painful_sexual_intercourse = 'Yes' THEN 1
+          WHEN aivc_dysparenuia_painful_sexual_intercourse = 'No' THEN 0
+          ELSE NULL END :: BOOLEAN AS \"Dysparenuia (females only)\",
+    aivc_are_you_sexually_active AS  \"Are you sexually active?\",
+    CASE WHEN aivc_female_have_you_observed_a_vaginal_discharge = 'Yes' THEN 1
+         WHEN aivc_female_have_you_observed_a_vaginal_discharge = 'No'  THEN 0
+         ELSE NULL END :: BOOLEAN AS \"Have you observed a vaginal discharge?\",   
+      CASE WHEN (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 1) = 'Whitish') OR 
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 2) = 'Whitish') OR
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 3) = 'Whitish') OR 
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 4) = 'Whitish') OR
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 5) = 'Whitish') OR
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 6) = 'Whitish') OR
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 7) = 'Whitish') 
+          THEN 1 
+          ELSE NULL END :: BOOLEAN AS \"If yes on vaginal discharge, specify type-Whitish\",
+      CASE WHEN (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 1) = 'Creamy') OR 
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 2) = 'Creamy') OR
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 3) = 'Creamy') OR 
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 4) = 'Creamy') OR
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 5) = 'Creamy') OR
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 6) = 'Creamy') OR
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 7) = 'Creamy')
+          THEN 1 
+          ELSE NULL END :: BOOLEAN AS \"If yes on vaginal discharge, specify type-Creamy\",  
+      CASE WHEN (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 1) = 'Foul smelling') OR 
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 2) = 'Foul smelling') OR
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 3) = 'Foul smelling') OR 
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 4) = 'Foul smelling') OR
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 5) = 'Foul smelling') OR
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 6) = 'Foul smelling') OR
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 7) = 'Foul smelling')
+          THEN 1 
+          ELSE NULL END :: BOOLEAN AS \"If yes on vaginal discharge, specify type-Foul smelling\",
+      CASE WHEN (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 1) = 'Itchy') OR 
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 2) = 'Itchy') OR
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 3) = 'Itchy') OR 
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 4) = 'Itchy') OR
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 5) = 'Itchy') OR
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 6) = 'Itchy') OR
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 7) = 'Itchy')
+          THEN 1 
+          ELSE NULL END :: BOOLEAN AS \"If yes on vaginal discharge, specify type-Itchy\",
+      CASE WHEN (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 1) = 'Blood stained') OR 
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 2) = 'Blood stained') OR
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 3) = 'Blood stained') OR 
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 4) = 'Blood stained') OR
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 5) = 'Blood stained') OR
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 6) = 'Blood stained') OR
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 7) = 'Blood stained')
+          THEN 1 
+          ELSE NULL END :: BOOLEAN AS \"If yes on vaginal discharge, specify type-Blood stained\",  
+      CASE WHEN (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 1) = ' Other') OR 
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 2) = ' Other') OR
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 3) = ' Other') OR 
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 4) = ' Other') OR
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 5) = ' Other') OR
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 6) = ' Other') OR
+                (split_part(aivc_female_if_yes_on_vaginal_discharge_specify_type,',', 7) = ' Other')
+          THEN 1 
+          ELSE NULL END :: BOOLEAN AS \"If yes on vaginal discharge, specify type- Other\",     
+      CASE WHEN aivc_female_have_you_noticed_non_painful_of_painful_ulcers_ = 'Yes' THEN 1
+           WHEN aivc_female_have_you_noticed_non_painful_of_painful_ulcers_ = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \" Have you noticed ulcers on or around the labia\",
+      CASE WHEN aivc_female_have_you_noticed_warts_on_the_genital_area = 'Yes' THEN 1
+           WHEN aivc_female_have_you_noticed_warts_on_the_genital_area = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Have you noticed warts on the genital area?\",
+      CASE WHEN aivc_female_have_you_noticed_ulcers_on_or_around_the_anal_a = 'Yes' THEN 1
+           WHEN aivc_female_have_you_noticed_ulcers_on_or_around_the_anal_a = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Have you noticed ulcers on or around the anal area?\",
+      CASE WHEN aivc_female_have_you_noticed_warts_on_or_around_the_anal_ar = 'Yes' THEN 1
+           WHEN aivc_female_have_you_noticed_warts_on_or_around_the_anal_ar = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Have you noticed warts on or around the anal area?\",
+      CASE WHEN aivc_male_have_you_observed_a_discharge_from_the_penis = 'Yes' THEN 1
+           WHEN aivc_male_have_you_observed_a_discharge_from_the_penis = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Have you observed a discharge from the penis?\",
+       CASE WHEN (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 1) = 'Whitish') OR 
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 2) = 'Whitish') OR
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 3) = 'Whitish') OR 
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 4) = 'Whitish') OR
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 5) = 'Whitish') OR
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 6) = 'Whitish') 
+          THEN 1 
+          ELSE NULL END :: BOOLEAN AS \"If yes on penis discharge, specify type - Whitish\",
+      CASE WHEN (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 1) = 'Creamy') OR 
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 2) = 'Creamy') OR
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 3) = 'Creamy') OR 
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 4) = 'Creamy') OR
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 5) = 'Creamy') OR
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 6) = 'Creamy') 
+          THEN 1 
+          ELSE NULL END :: BOOLEAN AS \"If yes on penis discharge, specify type - Creamy\",
+      CASE WHEN (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 1) = 'Foul smelling') OR 
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 2) = 'Foul smelling') OR
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 3) = 'Foul smelling') OR 
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 4) = 'Foul smelling') OR
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 5) = 'Foul smelling') OR
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 6) = 'Foul smelling')
+          THEN 1 
+          ELSE NULL END :: BOOLEAN AS \"If yes on penis discharge, specify type - Foul smelling\",    
+      CASE WHEN (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 1) = 'Itchy') OR 
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 2) = 'Itchy') OR
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 3) = 'Itchy') OR 
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 4) = 'Itchy') OR
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 5) = 'Itchy') OR
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 6) = 'Itchy') 
+          THEN 1 
+          ELSE NULL END :: BOOLEAN AS \"If yes on penis discharge, specify type - Itchy\",
+      CASE WHEN (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 1) = 'Blood stained') OR 
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 2) = 'Blood stained') OR
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 3) = 'Blood stained') OR 
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 4) = 'Blood stained') OR
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 5) = 'Blood stained') OR
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 6) = 'Blood stained')
+          THEN 1 
+          ELSE NULL END :: BOOLEAN AS \"If yes on penis discharge, specify type - Blood stained\",  
+      CASE WHEN (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 1) = 'Other') OR 
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 2) = 'Other') OR
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 3) = 'Other') OR 
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 4) = 'Other') OR
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 5) = 'Other') OR
+                (split_part(aivc_male_if_yes_on_penis_discharge_specify_type,',', 6) = 'Other')
+          THEN 1
+          ELSE NULL END :: BOOLEAN AS \"If yes on penis discharge, specify type - Other\",
+      CASE WHEN aivc_male_have_you_noticed_ulcers_on_the_penis = 'Yes' THEN 1
+           WHEN aivc_male_have_you_noticed_ulcers_on_the_penis = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Have you noticed ulcers on the penis?\",
+      CASE WHEN aivc_male_have_you_noticed_warts_around_the_genital_area = 'Yes' THEN 1
+           WHEN aivc_male_have_you_noticed_warts_around_the_genital_area = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Have you noticed warts around the genital area?\",
+      CASE WHEN aivc_male_have_you_noticed_ulcers_on_or_around_the_anal_are = 'Yes' THEN 1
+           WHEN aivc_male_have_you_noticed_ulcers_on_or_around_the_anal_are = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Have you noticed ulcers on or around the anal area?\",
+      CASE WHEN aivc_male_have_you_noticed_warts_on_or_around_the_anal_area = 'Yes' THEN 1
+           WHEN aivc_male_have_you_noticed_warts_on_or_around_the_anal_area = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Have you noticed warts on or around the anal area?\",
+      CASE WHEN aivc_are_you_currently_pregnant = 'Yes' THEN 1
+           WHEN aivc_are_you_currently_pregnant = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \" Are you currently pregnant?\",   
+      CASE WHEN aivc_are_you_booked_for_antenatal_care = 'Yes' THEN 1
+           WHEN aivc_are_you_booked_for_antenatal_care = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Are you booked for ANC?\",   
+      CASE WHEN aivc_do_you_know_the_edd = 'Yes' THEN 1
+           WHEN aivc_do_you_know_the_edd = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Do you know the EDD?\",   
+      aivc_date AS \"Date\",
+      CASE WHEN aivc_is_the_client_on_triple_therapy = 'Yes' THEN 1
+           WHEN aivc_is_the_client_on_triple_therapy = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Is the client on triple therapy?\",
+      CASE WHEN aivc_have_you_experienced_intermenstrual_bleeding = 'Yes' THEN 1
+           WHEN aivc_have_you_experienced_intermenstrual_bleeding = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Have you experienced intermenstrual bleeding?\",
+      aivc_duration_of_intermenstrual_bleeding AS \"Duration of intermenstrual bleeding\",
+      CASE WHEN aivc_have_you_experienced_post_coital_bleeding = 'Yes' THEN 1
+           WHEN aivc_have_you_experienced_post_coital_bleeding = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Have you experienced Post-coital bleeding?\",
+      CASE WHEN aivc_have_you_had_several_episodes_of_vaginal_thrush = 'Yes' THEN 1
+           WHEN aivc_have_you_had_several_episodes_of_vaginal_thrush = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Have you had several episodes of vaginal thrush?\",
+      CASE WHEN aivc_do_you_use_contraceptives = 'Yes' THEN 1
+           WHEN aivc_do_you_use_contraceptives = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Do you use contraceptives?\",
+      CASE WHEN what_types_of_contraceptives_do_you_use = 'AIVC, Other' THEN 'Other'
+           ELSE what_types_of_contraceptives_do_you_use END AS \"What types of contraceptives do you use?\",
+      aivc_other_contraceptives AS \"If Other, specify details\",
+      CASE WHEN aivc_have_you_been_screened_for_cervical_cancer = 'Yes' THEN 1
+           WHEN aivc_have_you_been_screened_for_cervical_cancer = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Have you been screened for cervical cancer?\",
+      aivc_date_of_screening AS \"Date of screening\",
+      screening_result AS \"Screening result\",
+      CASE WHEN aivc_have_you_observed_a_breast_lump_s = 'Yes' THEN 1
+           WHEN aivc_have_you_observed_a_breast_lump_s = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Have you observed a breast lump(s)?\",
+      aivc_duration_of_breast_lump AS \"Duration of breast lump\",
+      aivc_location_of_breast_lump AS \"Location of breast lump\",    
+      aivc_do_you_have_a_discharge_from_the_nipple_s AS \"Do you have a discharge from the nipple(s)?\",
+      CASE WHEN aivc_have_you_been_taking_other_medications_or_muti_herbs_w = 'Yes' THEN 1
+           WHEN aivc_have_you_been_taking_other_medications_or_muti_herbs_w = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Have you been taking other medications or muti (herbs) within the past 2 months?\",
+      aivc_are_you_taking_tb_medicines AS \"Are you taking TB medicines?\",
+      aivc_have_you_ever_experienced_a_drug_allergy AS \"Have you ever experienced a drug allergy?\",
+      aivc_if_yes_specify_drug_allergy_details AS \"If yes, specify drug allergy details\",
+      CASE WHEN aivc_have_been_treated_for_any_of_the_following_conditions = 'Yes' THEN 1
+           WHEN aivc_have_been_treated_for_any_of_the_following_conditions = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Have been treated for any of the following conditions?\",
+    
+      aivc_if_yes_specify_details AS \"If yes, Specify details for any of the  following conditions\",
+      CASE WHEN (split_part(aivc_if_yes_specify_details,',', 1) = 'Cryptococcal Meningitis code') OR 
+                (split_part(aivc_if_yes_specify_details,',', 2) = 'Cryptococcal Meningitis code') OR
+                (split_part(aivc_if_yes_specify_details,',', 3) = 'Cryptococcal Meningitis code') OR 
+                (split_part(aivc_if_yes_specify_details,',', 4) = 'Cryptococcal Meningitis code') OR
+                (split_part(aivc_if_yes_specify_details,',', 5) = 'Cryptococcal Meningitis code') OR
+                (split_part(aivc_if_yes_specify_details,',', 6) = 'Cryptococcal Meningitis code')
+          THEN 1 
+          ELSE NULL END :: BOOLEAN AS \"If yes, Specify details - Cryptococcal meningitis\",
+      CASE WHEN (split_part(aivc_if_yes_specify_details,',', 1) = 'PCP') OR 
+                (split_part(aivc_if_yes_specify_details,',', 2) = 'PCP') OR
+                (split_part(aivc_if_yes_specify_details,',', 3) = 'PCP') OR 
+                (split_part(aivc_if_yes_specify_details,',', 4) = 'PCP') OR
+                (split_part(aivc_if_yes_specify_details,',', 5) = 'PCP') OR
+                (split_part(aivc_if_yes_specify_details,',', 6) = 'PCP')
+          THEN 1 
+          ELSE NULL END :: BOOLEAN AS \"If yes, Specify details - PCP\",
+      CASE WHEN (split_part(aivc_if_yes_specify_details,',', 1) = 'Non Hodgkins Lymphoma (Ca of the lymph nodes)') OR 
+                (split_part(aivc_if_yes_specify_details,',', 2) = 'Non Hodgkins Lymphoma (Ca of the lymph nodes)') OR
+                (split_part(aivc_if_yes_specify_details,',', 3) = 'Non Hodgkins Lymphoma (Ca of the lymph nodes)') OR 
+                (split_part(aivc_if_yes_specify_details,',', 4) = 'Non Hodgkins Lymphoma (Ca of the lymph nodes)') OR
+                (split_part(aivc_if_yes_specify_details,',', 5) = 'Non Hodgkins Lymphoma (Ca of the lymph nodes)') OR
+                (split_part(aivc_if_yes_specify_details,',', 6) = 'Non Hodgkins Lymphoma (Ca of the lymph nodes)')
+          THEN 1 
+          ELSE NULL END :: BOOLEAN AS \"If yes, Specify details - Non Hodgkins Lymphoma (Ca of the lymph nodes)\",  
+      CASE WHEN (split_part(aivc_if_yes_specify_details,',', 1) = 'Respiratory disease') OR 
+                (split_part(aivc_if_yes_specify_details,',', 2) = 'Respiratory disease') OR
+                (split_part(aivc_if_yes_specify_details,',', 3) = 'Respiratory disease') OR 
+                (split_part(aivc_if_yes_specify_details,',', 4) = 'Respiratory disease') OR
+                (split_part(aivc_if_yes_specify_details,',', 5) = 'Respiratory disease') OR
+                (split_part(aivc_if_yes_specify_details,',', 6) = 'Respiratory disease')
+          THEN 1 
+          ELSE NULL END :: BOOLEAN AS \"If yes, Specify details - Respiratory disease\",
+      CASE WHEN (split_part(aivc_if_yes_specify_details,',', 1) = 'Cardiac Disease') OR 
+                (split_part(aivc_if_yes_specify_details,',', 2) = 'Cardiac Disease') OR
+                (split_part(aivc_if_yes_specify_details,',', 3) = 'Cardiac Disease') OR 
+                (split_part(aivc_if_yes_specify_details,',', 4) = 'Cardiac Disease') OR
+                (split_part(aivc_if_yes_specify_details,',', 5) = 'Cardiac Disease') OR
+                (split_part(aivc_if_yes_specify_details,',', 6) = 'Cardiac Disease')
+          THEN 1 
+          ELSE NULL END :: BOOLEAN AS \"If yes, Specify details - Cardiac Disease\", 
+      CASE WHEN (split_part(aivc_if_yes_specify_details,',', 1) = 'Skin disease') OR 
+                (split_part(aivc_if_yes_specify_details,',', 2) = 'Skin disease') OR
+                (split_part(aivc_if_yes_specify_details,',', 3) = 'Skin disease') OR 
+                (split_part(aivc_if_yes_specify_details,',', 4) = 'Skin disease') OR
+                (split_part(aivc_if_yes_specify_details,',', 5) = 'Skin disease') OR
+                (split_part(aivc_if_yes_specify_details,',', 6) = 'Skin disease')
+          THEN 1 
+          ELSE NULL END :: BOOLEAN AS \"If yes, Specify details -   Skin disease\",
+      aivc_medical_and_surigcal_history_notes AS \"Notes for the condition\",
+      CASE WHEN aivc_have_you_been_sexually_abused = 'Yes' THEN 1
+           WHEN aivc_have_you_been_sexually_abused = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Have you been sexually abused?\",
+      CASE WHEN aivc_has_a_police_report_been_filed = 'Yes' THEN 1
+           WHEN aivc_has_a_police_report_been_filed = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Has a police report been filed?\", 
+      CASE WHEN aivc_did_you_receive_any_medical_treatment_afterwards = 'Yes' THEN 1
+           WHEN aivc_did_you_receive_any_medical_treatment_afterwards = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Did you receive any medical treatment afterwards?\", 
+      CASE WHEN aivc_did_you_receive_counseling = 'Yes' THEN 1
+           WHEN aivc_did_you_receive_counseling = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Did you receive counseling?\",   
+      aivc_do_you_consider_yourself_to_be AS \"Do you consider yourself to be\",
+      aivc_in_the_past_3_months_whom_have_you_had_sex_with AS \"In the past 3 months whom have you had sex with?\",
+      aivc_which_gender_do_you_feel_attracted_to AS \"Which gender do you feel attracted to?\",
+      aivc_during_the_sexual_act_which_one_of_these_do_you_practi AS \"During the sexual act which one of these do you practice?\",
+      aivc_do_you_ever_ingage_in_transactional_sex AS \"Do you ever ingage in transactional sex?\",
+      CASE WHEN aivc_are_you_or_have_you_ever_been_a_smoker = 'Yes' THEN 1
+           WHEN aivc_are_you_or_have_you_ever_been_a_smoker = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Are you or have you ever been a smoker?\",
+      CASE WHEN aivc_do_you_drink_alcoholic_beverages = 'Yes' THEN 1
+           WHEN aivc_do_you_drink_alcoholic_beverages = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Do you drink alcoholic beverages?\",
+      CASE WHEN aivc_do_you_use_illicit_drugs = 'Yes' THEN 1
+           WHEN aivc_do_you_use_illicit_drugs = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Do you use illicit drugs?\", 
+      aivc_what_types_of_illicit_drugs_do_you_use_and_how_often AS \"What types of illicit drugs do you use and how often?\",
+      aivc_availability AS \"Availability\",
+      aivc_assessment AS \"Assessment\",
+      aivc_plan AS \"Plan\"
+     
+    
+         
+        
+         
+ FROM
+(SELECT 
+DISTINCT visit_id ,
+FIRST_VALUE(aivc_site_type)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_site_type IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC) AS aivc_site_type,
+FIRST_VALUE(aivc_facility)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_facility IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC)AS aivc_facility,
+FIRST_VALUE(aivc_district)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_district IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC)AS aivc_district,
+FIRST_VALUE(art1.date_created)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN art1.date_created IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC)AS date_created,
+FIRST_VALUE(art1.obs_datetime)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN art1.obs_datetime IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC)AS obs_datetime,
+FIRST_VALUE(art1.patient_id)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN art1.patient_id IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC)AS patient_id,
+FIRST_VALUE(aivc_setting)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_setting IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC)AS aivc_setting,
+FIRST_VALUE(aivc_workplace)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_workplace IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC)AS aivc_workplace,
+FIRST_VALUE(aivc_social_history_details)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_social_history_details IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC)
+      AS   aivc_social_history_details,
+FIRST_VALUE(aivc_chief_complaint)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_chief_complaint IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC)AS aivc_chief_complaint,
+FIRST_VALUE(aivc_sourse_giving_history)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_sourse_giving_history IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC)AS aivc_sourse_giving_history,
+FIRST_VALUE(aivc_sourse_giving_history_other)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_sourse_giving_history_other IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC) AS
+       aivc_sourse_giving_history_other,
+ FIRST_VALUE(aivc_how_do_you_think_you_acquired_hiv) 
+       OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_how_do_you_think_you_acquired_hiv IS NULL THEN 0 ELSE 1 
+       END  DESC, art1.encounter_id DESC) AS aivc_how_do_you_think_you_acquired_hiv, 
+ FIRST_VALUE(aivc_have_you_had_a_positive_hiv_test) 
+       OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_had_a_positive_hiv_test IS NULL THEN 0 ELSE 1 
+       END DESC, art1.encounter_id DESC) AS aivc_have_you_had_a_positive_hiv_test, 
+FIRST_VALUE(aivc_why_were_u_tested) 
+       OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_why_were_u_tested IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC)
+       AS aivc_why_were_u_tested, 
+FIRST_VALUE(aivc_when_was_the_test_done) 
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_when_was_the_test_done IS NULL THEN 0 ELSE 1 END DESC,
+      art1.encounter_id DESC) AS aivc_when_was_the_test_done,
+FIRST_VALUE(aivc_do_you_have_a_partner)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_do_you_have_a_partner IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC) AS aivc_do_you_have_a_partner,
+FIRST_VALUE(aivc_is_your_sexual_partner_aware_of_your_hiv_status)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_is_your_sexual_partner_aware_of_your_hiv_status IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC)
+       AS aivc_is_your_sexual_partner_aware_of_your_hiv_status,
+FIRST_VALUE(aivc_has_you_partner_been_tested)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_has_you_partner_been_tested IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC) 
+      AS aivc_has_you_partner_been_tested,
+FIRST_VALUE(aivc_partners_test_result)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_partners_test_result IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC) AS aivc_partners_test_result,
+FIRST_VALUE(aivc_do_you_have_any_children)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_do_you_have_any_children IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC) 
+      AS aivc_do_you_have_any_children,
+FIRST_VALUE(aivc_how_many_children_do_you_have)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_how_many_children_do_you_have IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC) 
+      AS aivc_how_many_children_do_you_have,
+FIRST_VALUE(aivc_have_any_of_your_children_been_tested_for_hiv)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_any_of_your_children_been_tested_for_hiv IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC) 
+      AS aivc_have_any_of_your_children_been_tested_for_hiv,
+FIRST_VALUE(aivc_number_of_children_hiv_positive)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_number_of_children_hiv_positive IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC) 
+      AS aivc_number_of_children_hiv_positive,
+FIRST_VALUE(aivc_number_of_children_hiv_negative)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_number_of_children_hiv_negative IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC) 
+      AS aivc_number_of_children_hiv_negative,
+FIRST_VALUE(aivc_have_you_had_cd4_count_lab_test)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_had_cd4_count_lab_test IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC) 
+      AS aivc_have_you_had_cd4_count_lab_test,
+FIRST_VALUE(aivc_cd4_count_results)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_cd4_count_results IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC) 
+      AS aivc_cd4_count_results,
+FIRST_VALUE(aivc_did_you_have_fever_recently)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_did_you_have_fever_recently IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC) 
+      AS aivc_did_you_have_fever_recently,
+FIRST_VALUE(aivc_duration_of_fever)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_duration_of_fever IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC) 
+      AS aivc_duration_of_fever,
+FIRST_VALUE(aivc_did_you_have_night_sweats)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_did_you_have_night_sweats IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC) 
+      AS aivc_did_you_have_night_sweats,
+FIRST_VALUE(aivc_duration_of_night_sweats)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_duration_of_night_sweats IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC) 
+      AS aivc_duration_of_night_sweats,
+FIRST_VALUE(aivc_do_you_have_weight_loss)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_do_you_have_weight_loss IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC) 
+      AS aivc_do_you_have_weight_loss,
+FIRST_VALUE(aivc_duration_of_weight_loss)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_duration_of_weight_loss IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC) 
+      AS aivc_duration_of_weight_loss,
+FIRST_VALUE(aivc_do_you_have_shortness_of_breath)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_do_you_have_shortness_of_breath IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC) 
+      AS aivc_do_you_have_shortness_of_breath,
+FIRST_VALUE(aivc_duration_of_shortness_of_breath)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_duration_of_shortness_of_breath IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC) 
+      AS aivc_duration_of_shortness_of_breath,
+FIRST_VALUE(aivc_when_does_the_shortness_of_breath_occur)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_when_does_the_shortness_of_breath_occur IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC) 
+      AS aivc_when_does_the_shortness_of_breath_occur,
+FIRST_VALUE(aivc_have_you_ever_had_tb)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_ever_had_tb IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC) 
+      AS aivc_have_you_ever_had_tb,
+FIRST_VALUE(aivc_how_many_episodes_of_tb)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_how_many_episodes_of_tb IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC) 
+      AS aivc_how_many_episodes_of_tb,
+FIRST_VALUE(aivc_tb_dates_of_previous_episodes)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_tb_dates_of_previous_episodes IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC) 
+      AS aivc_tb_dates_of_previous_episodes,
+FIRST_VALUE(aivc_are_you_currently_being_treated_for_tb)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_are_you_currently_being_treated_for_tb IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC) 
+      AS aivc_are_you_currently_being_treated_for_tb,
+FIRST_VALUE(aivc_how_was_it_diagnosed)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_how_was_it_diagnosed IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC) AS aivc_how_was_it_diagnosed,
+FIRST_VALUE(aivc_location_of_tb)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_location_of_tb IS NULL THEN 0 ELSE 1 END DESC, art1.encounter_id DESC) AS aivc_location_of_tb,
+FIRST_VALUE(aivc_have_you_lived_with_someone_who_has_been_diagnosed_of_)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_lived_with_someone_who_has_been_diagnosed_of_ IS NULL THEN 0 ELSE 1 END DESC,
+      art1.encounter_id DESC) AS aivc_have_you_lived_with_someone_who_has_been_diagnosed_of_,
+FIRST_VALUE(aivc_do_you_have_any_skin_problems)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_do_you_have_any_skin_problems IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC) 
+      AS  aivc_do_you_have_any_skin_problems,
+FIRST_VALUE(aivc_have_you_had_a_skin_rash_recently)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_had_a_skin_rash_recently IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC) 
+      AS  aivc_have_you_had_a_skin_rash_recently,
+FIRST_VALUE(aivc_duration_of_skin_rash)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_duration_of_skin_rash IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC) 
+      AS  aivc_duration_of_skin_rash,
+FIRST_VALUE(aivc_location_of_skin_rash_details)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_location_of_skin_rash_details IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC) 
+      AS  aivc_location_of_skin_rash_details, 
+FIRST_VALUE(aivc_mophology)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_mophology IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)  AS  aivc_mophology, 
+FIRST_VALUE(aivc_did_the_skin_rash_start_after_taking_medications)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_did_the_skin_rash_start_after_taking_medications IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC) 
+      AS  aivc_did_the_skin_rash_start_after_taking_medications,
+FIRST_VALUE(aivc_have_you_ever_had_herpes_zoster_shingles)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_ever_had_herpes_zoster_shingles IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC) 
+       AS  aivc_have_you_ever_had_herpes_zoster_shingles,
+FIRST_VALUE(aivc_did_you_experience_ant_itching)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_did_you_experience_ant_itching IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC) 
+       AS  aivc_did_you_experience_ant_itching,
+FIRST_VALUE(aivc_have_you_observed_a_lump_growing)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_observed_a_lump_growing IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)  
+      AS  aivc_have_you_observed_a_lump_growing,
+FIRST_VALUE(aivc_location_lump_details)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_location_lump_details IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC) AS aivc_location_lump_details,
+FIRST_VALUE(aivc_are_you_know_where_you_are_and_what_you_are_doing_here)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_are_you_know_where_you_are_and_what_you_are_doing_here IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)
+      AS aivc_are_you_know_where_you_are_and_what_you_are_doing_here,
+FIRST_VALUE(aivc_are_you_know_who_i_am)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_are_you_know_who_i_am IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC) AS aivc_are_you_know_who_i_am,
+FIRST_VALUE(aivc_are_you_know_the_date_day_year_or_season)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_are_you_know_the_date_day_year_or_season IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC) 
+      AS aivc_are_you_know_the_date_day_year_or_season,
+FIRST_VALUE(aivc_have_you_become_forgetful)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_become_forgetful IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC) 
+      AS aivc_have_you_become_forgetful,
+FIRST_VALUE(aivc_do_you_need_to_be_reminded_of_things)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_do_you_need_to_be_reminded_of_things IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC) 
+      AS aivc_do_you_need_to_be_reminded_of_things,
+FIRST_VALUE(aivc_are_you_suffering_from_headaches)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_are_you_suffering_from_headaches IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC) 
+      AS aivc_are_you_suffering_from_headaches,    
+FIRST_VALUE(aivc_duration_of_headache)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_duration_of_headache IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)  AS aivc_duration_of_headache,
+FIRST_VALUE(aivc_headache_severity)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_headache_severity IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)  AS aivc_headache_severity,
+FIRST_VALUE(aivc_headache_course)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_headache_course IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)  AS aivc_headache_course,
+FIRST_VALUE(aivc_headache_association)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_headache_association IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)  AS aivc_headache_association,FIRST_VALUE(aivc_have_you_experienced_loss_of_vision)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_experienced_loss_of_vision IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)
+      AS aivc_have_you_experienced_loss_of_vision,
+FIRST_VALUE(aivc_heent_if_yes_specify_details)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_heent_if_yes_specify_details IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)
+      AS aivc_heent_if_yes_specify_details, 
+FIRST_VALUE(aivc_have_you_noticed_any_changes_in_or_around_the_mouth_an)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_noticed_any_changes_in_or_around_the_mouth_an IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)
+      AS aivc_have_you_noticed_any_changes_in_or_around_the_mouth_an, 
+FIRST_VALUE(aivc_have_you_had_blisters_or_swelling_on_around_the_lips)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_had_blisters_or_swelling_on_around_the_lips IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)
+      AS aivc_have_you_had_blisters_or_swelling_on_around_the_lips,       
+FIRST_VALUE(aivc_have_you_had_oral_thrush)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_had_oral_thrush IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)
+      AS aivc_have_you_had_oral_thrush,
+FIRST_VALUE(aivc_have_you_had_a_cough)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_had_a_cough IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC) AS aivc_have_you_had_a_cough, 
+FIRST_VALUE(aivc_type_of_cough)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_type_of_cough IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC) AS aivc_type_of_cough,
+FIRST_VALUE(aivc_duration_of_the_cough)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_duration_of_the_cough IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC) AS aivc_duration_of_the_cough,
+FIRST_VALUE(aivc_have_you_had_a_chest_pain)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_had_a_chest_pain IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)
+       AS aivc_have_you_had_a_chest_pain,
+FIRST_VALUE(aivc_location_of_the_chest_pain)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_location_of_the_chest_pain IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)
+       AS aivc_location_of_the_chest_pain,    
+FIRST_VALUE(aivc_when_does_chest_pain_occur)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_when_does_chest_pain_occur IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)
+       AS aivc_when_does_chest_pain_occur,   
+FIRST_VALUE(aivc_duration_of_chest_pains)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_duration_of_chest_pains IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)
+       AS aivc_duration_of_chest_pains,               
+FIRST_VALUE(aivc_have_you_experienced_shortness_of_breath)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_experienced_shortness_of_breath IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)
+       AS aivc_have_you_experienced_shortness_of_breath,
+FIRST_VALUE(aivc_1_duration_of_shortness_of_breath_1)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_1_duration_of_shortness_of_breath_1 IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)
+       AS aivc_1_duration_of_shortness_of_breath_1,
+FIRST_VALUE(aivc_have_you_had_more_than_one_episodes_of_pneumonia)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_had_more_than_one_episodes_of_pneumonia IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)
+       AS aivc_have_you_had_more_than_one_episodes_of_pneumonia, 
+FIRST_VALUE(aivc_how_many_episodes_of_pneumonia)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_how_many_episodes_of_pneumonia IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)
+       AS aivc_how_many_episodes_of_pneumonia,   
+FIRST_VALUE(aivc_have_you_had_swelling_of)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_had_swelling_of IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)
+       AS aivc_have_you_had_swelling_of,
+FIRST_VALUE(aivc_have_you_experienced_nocturia)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_experienced_nocturia IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)
+       AS aivc_have_you_experienced_nocturia,
+FIRST_VALUE(aivc_do_you_have_a_high_blood_pressure)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_do_you_have_a_high_blood_pressure IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)
+       AS aivc_do_you_have_a_high_blood_pressure,
+FIRST_VALUE(aivc_are_you_on_hypertensive_drugs)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_are_you_on_hypertensive_drugs IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)
+       AS aivc_are_you_on_hypertensive_drugs,
+FIRST_VALUE(aivc_if_yes_on_hypertensive_drugs_specify)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_if_yes_on_hypertensive_drugs_specify IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)
+       AS aivc_if_yes_on_hypertensive_drugs_specify,
+FIRST_VALUE(aivc_do_you_have_difficulty_swallowing)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_do_you_have_difficulty_swallowing IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)
+       AS aivc_do_you_have_difficulty_swallowing,
+FIRST_VALUE(aivc_is_swallowing_painful)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_is_swallowing_painful IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC) AS aivc_is_swallowing_painful,
+FIRST_VALUE(aivc_do_you_vomit_frequently)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_do_you_vomit_frequently IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC) 
+      AS aivc_do_you_vomit_frequently,
+FIRST_VALUE(aivc_when_do_you_vomit)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_when_do_you_vomit IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)  AS aivc_when_do_you_vomit,
+FIRST_VALUE(aivc_vomit_content)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_vomit_content IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)  AS aivc_vomit_content,
+FIRST_VALUE(aivc_do_you_have_diarrhea)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_do_you_have_diarrhea IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)  AS aivc_do_you_have_diarrhea,
+FIRST_VALUE(aivc_diarrhea_duration)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_diarrhea_duration IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)  AS aivc_diarrhea_duration,
+FIRST_VALUE(aivc_diarrhea_details)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_diarrhea_details IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)  AS aivc_diarrhea_details,
+FIRST_VALUE(aivc_do_you_have_frequent_abdominal_pain)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_do_you_have_frequent_abdominal_pain IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)
+        AS aivc_do_you_have_frequent_abdominal_pain,
+FIRST_VALUE(aivc_does_the_abdominal_pain_occur_during_fasting)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_does_the_abdominal_pain_occur_during_fasting IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)  
+      AS aivc_does_the_abdominal_pain_occur_during_fasting, 
+FIRST_VALUE(aivc_do_you_have_frequent_epigastric_pain)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_do_you_have_frequent_epigastric_pain IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)  
+      AS aivc_do_you_have_frequent_epigastric_pain,
+FIRST_VALUE(aivc_abdominal_pain_location)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_abdominal_pain_location IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)  
+      AS aivc_abdominal_pain_location,
+FIRST_VALUE(aivc_abdominal_pain_duration)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_abdominal_pain_duration IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)  
+      AS aivc_abdominal_pain_duration,
+FIRST_VALUE(aivc_have_you_experienced_muscle_aches)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_experienced_muscle_aches IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)  
+      AS aivc_have_you_experienced_muscle_aches,
+FIRST_VALUE(aivc_have_you_experienced_joint_pain)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_experienced_joint_pain IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)  
+      AS aivc_have_you_experienced_joint_pain,
+FIRST_VALUE(aivc_joint_pain_duration)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_joint_pain_duration IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)  
+      AS aivc_joint_pain_duration,
+FIRST_VALUE(aivc_location_of_joint_pain)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_location_of_joint_pain IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)  
+      AS aivc_location_of_joint_pain,
+FIRST_VALUE(aivc_have_you_experienced_joint_swelling)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_experienced_joint_swelling IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)  
+      AS aivc_have_you_experienced_joint_swelling,
+FIRST_VALUE(aivc_joint_swelling_duration)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_joint_swelling_duration IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)  
+      AS aivc_joint_swelling_duration,
+FIRST_VALUE(aivc_location_of_joint_swelling)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_location_of_joint_swelling IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)  
+      AS aivc_location_of_joint_swelling,
+FIRST_VALUE(aivc_do_you_feel_a_burning_sensation_with_micturation)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_do_you_feel_a_burning_sensation_with_micturation IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)  
+      AS aivc_do_you_feel_a_burning_sensation_with_micturation,               
+FIRST_VALUE(aivc_did_you_have_a_fever_rigors_or_chills_with_the_burning)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_did_you_have_a_fever_rigors_or_chills_with_the_burning IS NULL THEN 0 ELSE 1 END DESC,
+      art1.encounter_id DESC)  AS aivc_did_you_have_a_fever_rigors_or_chills_with_the_burning,           
+FIRST_VALUE(aivc_have_you_experienced_loss_of_sexual_interest)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_experienced_loss_of_sexual_interest IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)  
+      AS aivc_have_you_experienced_loss_of_sexual_interest,           
+FIRST_VALUE(aivc_erectile_dysfunction)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_erectile_dysfunction IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)  AS aivc_erectile_dysfunction,FIRST_VALUE(aivc_dysparenuia_painful_sexual_intercourse)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_dysparenuia_painful_sexual_intercourse IS NULL THEN 0 ELSE 1 END DESC,art1.encounter_id DESC)  
+      AS aivc_dysparenuia_painful_sexual_intercourse      
+
+FROM
+(SELECT max(id_art_initial_visit_compulsory_question_1_of_2) AS id_art_initial_visit_compulsory_question_1_of_2,
+max(patient_id) AS patient_id,
+encounter_id,
+max(obs_datetime) AS obs_datetime,
+max(date_created) AS date_created,
+max(date_modified) AS date_modified,
+max(location_id) AS location_id,
+max(location_name) AS location_name,
+max(program_id) AS program_id,
+max(program_name) AS program_name,
+max(aivc_facility) AS aivc_facility,
+max(aivc_site_type) AS aivc_site_type,
+max(aivc_district) AS aivc_district,
+max(aivc_setting) AS aivc_setting,
+max(aivc_workplace) AS aivc_workplace,
+max(aivc_social_history_details) AS aivc_social_history_details,
+max(aivc_chief_complaint) AS aivc_chief_complaint,
+max(aivc_sourse_giving_history) AS aivc_sourse_giving_history ,
+max(aivc_sourse_giving_history_other) AS aivc_sourse_giving_history_other ,
+max(aivc_how_do_you_think_you_acquired_hiv) AS aivc_how_do_you_think_you_acquired_hiv,
+max(aivc_have_you_had_a_positive_hiv_test) AS aivc_have_you_had_a_positive_hiv_test,
+max(aivc_why_were_u_tested)  AS aivc_why_were_u_tested,
+max(aivc_why_were_u_tested_other)  AS aivc_why_were_u_tested_other,
+max(aivc_when_was_the_test_done) AS aivc_when_was_the_test_done,
+max(aivc_do_you_have_a_partner) AS aivc_do_you_have_a_partner,
+max(aivc_is_your_sexual_partner_aware_of_your_hiv_status) AS aivc_is_your_sexual_partner_aware_of_your_hiv_status,
+max(aivc_has_you_partner_been_tested) AS aivc_has_you_partner_been_tested,
+max(aivc_partners_test_result) AS aivc_partners_test_result,
+max(aivc_do_you_have_any_children) AS aivc_do_you_have_any_children,
+max(aivc_how_many_children_do_you_have) AS aivc_how_many_children_do_you_have,
+max(aivc_have_any_of_your_children_been_tested_for_hiv) AS aivc_have_any_of_your_children_been_tested_for_hiv,
+max(aivc_number_of_children_hiv_positive) AS aivc_number_of_children_hiv_positive,
+max(aivc_number_of_children_hiv_negative) AS aivc_number_of_children_hiv_negative,
+max(aivc_have_you_had_cd4_count_lab_test) AS aivc_have_you_had_cd4_count_lab_test,
+max(aivc_cd4_count_results) AS aivc_cd4_count_results,
+max(aivc_did_you_have_fever_recently) AS aivc_did_you_have_fever_recently,
+max(aivc_duration_of_fever) AS aivc_duration_of_fever,
+max(aivc_did_you_have_night_sweats) AS aivc_did_you_have_night_sweats,
+max(aivc_duration_of_night_sweats) AS aivc_duration_of_night_sweats,
+max(aivc_do_you_have_weight_loss) AS aivc_do_you_have_weight_loss,
+max(aivc_duration_of_weight_loss) AS aivc_duration_of_weight_loss,
+max(aivc_do_you_have_shortness_of_breath) AS aivc_do_you_have_shortness_of_breath,
+max(aivc_duration_of_shortness_of_breath) AS aivc_duration_of_shortness_of_breath,
+max(aivc_have_you_ever_had_tb) AS aivc_have_you_ever_had_tb,
+max(aivc_how_many_episodes_of_tb) AS aivc_how_many_episodes_of_tb,
+string_agg(aivc_tb_dates_of_previous_episodes,',') AS aivc_tb_dates_of_previous_episodes,
+max(aivc_are_you_currently_being_treated_for_tb) AS aivc_are_you_currently_being_treated_for_tb,
+max(aivc_how_was_it_diagnosed) AS aivc_how_was_it_diagnosed,
+max(aivc_location_of_tb) AS aivc_location_of_tb,
+max(aivc_have_you_lived_with_someone_who_has_been_diagnosed_of_) AS aivc_have_you_lived_with_someone_who_has_been_diagnosed_of_,
+max(aivc_do_you_have_any_skin_problems) AS aivc_do_you_have_any_skin_problems,
+max(aivc_have_you_had_a_skin_rash_recently) AS aivc_have_you_had_a_skin_rash_recently,
+max(aivc_duration_of_skin_rash) AS aivc_duration_of_skin_rash,
+max(aivc_location_of_skin_rash_details) AS aivc_location_of_skin_rash_details,
+max(aivc_location_of_skin_rash) AS aivc_location_of_skin_rash,
+string_agg(aivc_mophology,',') AS aivc_mophology,
+max(aivc_did_the_skin_rash_start_after_taking_medications) AS aivc_did_the_skin_rash_start_after_taking_medications,
+max(aivc_have_you_ever_had_herpes_zoster_shingles) AS aivc_have_you_ever_had_herpes_zoster_shingles,
+max(aivc_did_you_experience_ant_itching) AS aivc_did_you_experience_ant_itching,
+max(aivc_have_you_observed_a_lump_growing) AS aivc_have_you_observed_a_lump_growing,
+max(aivc_abdominal_pain_duration) AS aivc_abdominal_pain_duration,
+max(aivc_location_lump_details) AS aivc_location_lump_details,
+max(aivc_location_lump) AS aivc_location_lump,
+max(aivc_are_you_know_where_you_are_and_what_you_are_doing_here) AS aivc_are_you_know_where_you_are_and_what_you_are_doing_here,
+max(aivc_are_you_know_who_i_am) AS aivc_are_you_know_who_i_am,
+max(aivc_are_you_know_the_date_day_year_or_season) AS aivc_are_you_know_the_date_day_year_or_season,
+max(aivc_have_you_become_forgetful) AS aivc_have_you_become_forgetful,
+max(aivc_do_you_need_to_be_reminded_of_things) AS aivc_do_you_need_to_be_reminded_of_things,
+max(aivc_are_you_suffering_from_headaches) AS aivc_are_you_suffering_from_headaches,
+max(aivc_duration_of_headache) AS aivc_duration_of_headache,
+max(aivc_headache_severity) AS aivc_headache_severity,
+max(aivc_headache_course) AS aivc_headache_course,
+max(aivc_headache_association) AS aivc_headache_association,
+max(aivc_have_you_experienced_loss_of_vision) AS aivc_have_you_experienced_loss_of_vision,
+string_agg(aivc_heent_if_yes_specify_details,',') AS aivc_heent_if_yes_specify_details,
+max(aivc_have_you_noticed_any_changes_in_or_around_the_mouth_an) AS aivc_have_you_noticed_any_changes_in_or_around_the_mouth_an,
+max(aivc_have_you_had_blisters_or_swelling_on_around_the_lips) AS aivc_have_you_had_blisters_or_swelling_on_around_the_lips,
+string_agg(aivc_have_you_had_oral_thrush,',') AS aivc_have_you_had_oral_thrush,
+max(aivc_have_you_had_a_cough) AS aivc_have_you_had_a_cough,
+max(aivc_type_of_cough) AS aivc_type_of_cough,
+max(aivc_duration_of_the_cough) AS aivc_duration_of_the_cough,
+max(aivc_have_you_had_a_chest_pain) AS aivc_have_you_had_a_chest_pain,
+max(aivc_location_of_the_chest_pain) AS aivc_location_of_the_chest_pain,
+max(aivc_if_other_location_of_the_chest_pain_specify) AS aivc_if_other_location_of_the_chest_pain_specify,
+max(aivc_when_does_chest_pain_occur) AS aivc_when_does_chest_pain_occur,
+max(aivc_chest_pain_occur_other) AS aivc_chest_pain_occur_other,
+max(aivc_duration_of_chest_pains) AS aivc_duration_of_chest_pains,
+max(aivc_have_you_experienced_shortness_of_breath) AS aivc_have_you_experienced_shortness_of_breath,
+max(aivc_1_duration_of_shortness_of_breath_1) AS aivc_1_duration_of_shortness_of_breath_1,
+max(aivc_when_does_the_shortness_of_breath_occur) AS aivc_when_does_the_shortness_of_breath_occur,
+max(aivc_have_you_had_more_than_one_episodes_of_pneumonia) AS aivc_have_you_had_more_than_one_episodes_of_pneumonia,
+max(aivc_how_many_episodes_of_pneumonia) AS aivc_how_many_episodes_of_pneumonia,
+string_agg(aivc_have_you_had_swelling_of,',') AS aivc_have_you_had_swelling_of,
+max(aivc_have_you_experienced_nocturia) AS aivc_have_you_experienced_nocturia,
+max(aivc_do_you_have_a_high_blood_pressure) AS aivc_do_you_have_a_high_blood_pressure,
+max(aivc_are_you_on_hypertensive_drugs) AS aivc_are_you_on_hypertensive_drugs,
+max(aivc_if_yes_on_hypertensive_drugs_specify) AS aivc_if_yes_on_hypertensive_drugs_specify,
+max(aivc_do_you_have_difficulty_swallowing) AS aivc_do_you_have_difficulty_swallowing,
+max(aivc_is_swallowing_painful) AS aivc_is_swallowing_painful,
+max(aivc_do_you_vomit_frequently) AS aivc_do_you_vomit_frequently,
+max(aivc_when_do_you_vomit) AS aivc_when_do_you_vomit,
+max(aivc_if_other_on_vomit_specify) AS aivc_if_other_on_vomit_specify,
+max(aivc_vomit_content) AS aivc_vomit_content,
+max(aivc_vommit_content_other) AS aivc_vommit_content_other,
+max(aivc_do_you_have_diarrhea) AS aivc_do_you_have_diarrhea,
+max(aivc_diarrhea_duration) AS aivc_diarrhea_duration,
+max(aivc_diarrhea_details) AS aivc_diarrhea_details,
+max(aivc_do_you_have_frequent_abdominal_pain) AS aivc_do_you_have_frequent_abdominal_pain,
+max(aivc_does_the_abdominal_pain_occur_during_fasting) AS aivc_does_the_abdominal_pain_occur_during_fasting,
+max(aivc_do_you_have_frequent_epigastric_pain) AS aivc_do_you_have_frequent_epigastric_pain,
+max(aivc_abdominal_pain_location) AS aivc_abdominal_pain_location,
+max(aivc_have_you_experienced_muscle_aches) AS aivc_have_you_experienced_muscle_aches,
+max(aivc_have_you_experienced_joint_pain) AS aivc_have_you_experienced_joint_pain,
+max(aivc_joint_pain_duration) AS aivc_joint_pain_duration,
+max(aivc_location_of_joint_pain) AS aivc_location_of_joint_pain,
+max(aivc_have_you_experienced_joint_swelling) AS aivc_have_you_experienced_joint_swelling,
+max(aivc_joint_swelling_duration) AS aivc_joint_swelling_duration,
+max(aivc_location_of_joint_swelling) AS aivc_location_of_joint_swelling,
+max(aivc_do_you_feel_a_burning_sensation_with_micturation) AS aivc_do_you_feel_a_burning_sensation_with_micturation,
+max(aivc_did_you_have_a_fever_rigors_or_chills_with_the_burning) AS aivc_did_you_have_a_fever_rigors_or_chills_with_the_burning,
+max(aivc_have_you_experienced_loss_of_sexual_interest) AS aivc_have_you_experienced_loss_of_sexual_interest,
+max(aivc_erectile_dysfunction) AS aivc_erectile_dysfunction,
+max(aivc_dysparenuia_painful_sexual_intercourse) AS aivc_dysparenuia_painful_sexual_intercourse
+FROM art_initial_visit_compulsory_question_1_of_2 GROUP BY encounter_id) AS art1
+INNER JOIN patient_encounter_table pedd ON pedd.encounter_id = art1.encounter_id ) art1_1
+
+FULL OUTER JOIN
+
+(SELECT 
+DISTINCT visit_id ,
+FIRST_VALUE(art2.obs_datetime)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN art2.obs_datetime IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC) AS obs_datetime,
+FIRST_VALUE(art2.date_created)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN art2.date_created IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC)AS date_created,
+FIRST_VALUE(art2.patient_id)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN art2.patient_id IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC)AS patient_id,
+FIRST_VALUE(aivc_are_you_sexually_active)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_are_you_sexually_active IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC)
+      AS aivc_are_you_sexually_active,
+FIRST_VALUE(aivc_female_have_you_observed_a_vaginal_discharge)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_female_have_you_observed_a_vaginal_discharge IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC)
+      AS aivc_female_have_you_observed_a_vaginal_discharge,
+FIRST_VALUE(aivc_female_if_yes_on_vaginal_discharge_specify_type)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_female_if_yes_on_vaginal_discharge_specify_type IS NULL THEN 0 ELSE 1 END DESC, 
+      art2.encounter_id DESC)AS aivc_female_if_yes_on_vaginal_discharge_specify_type,
+FIRST_VALUE(aivc_female_have_you_noticed_non_painful_of_painful_ulcers_)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_female_have_you_noticed_non_painful_of_painful_ulcers_ IS NULL THEN 0 ELSE 1 END DESC, 
+      art2.encounter_id DESC)AS aivc_female_have_you_noticed_non_painful_of_painful_ulcers_,
+FIRST_VALUE(aivc_female_have_you_noticed_warts_on_the_genital_area)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_female_have_you_noticed_warts_on_the_genital_area IS NULL THEN 0 ELSE 1 END DESC, 
+      art2.encounter_id DESC)AS aivc_female_have_you_noticed_warts_on_the_genital_area,
+FIRST_VALUE(aivc_female_have_you_noticed_ulcers_on_or_around_the_anal_a)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_female_have_you_noticed_ulcers_on_or_around_the_anal_a IS NULL THEN 0 ELSE 1 END DESC, 
+      art2.encounter_id DESC) AS  aivc_female_have_you_noticed_ulcers_on_or_around_the_anal_a,
+ FIRST_VALUE(aivc_female_have_you_noticed_warts_on_or_around_the_anal_ar)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_female_have_you_noticed_warts_on_or_around_the_anal_ar IS NULL THEN 0 ELSE 1 END DESC, 
+      art2.encounter_id DESC) AS  aivc_female_have_you_noticed_warts_on_or_around_the_anal_ar,     
+FIRST_VALUE(aivc_male_have_you_observed_a_discharge_from_the_penis)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_male_have_you_observed_a_discharge_from_the_penis IS NULL THEN 0 ELSE 1 END DESC,
+       art2.encounter_id DESC)AS aivc_male_have_you_observed_a_discharge_from_the_penis,
+FIRST_VALUE(aivc_male_if_yes_on_penis_discharge_specify_type)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_male_if_yes_on_penis_discharge_specify_type IS NULL THEN 0 ELSE 1 END DESC,
+       art2.encounter_id DESC)AS aivc_male_if_yes_on_penis_discharge_specify_type,
+FIRST_VALUE(aivc_male_have_you_noticed_ulcers_on_the_penis)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_male_have_you_noticed_ulcers_on_the_penis IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC) AS
+       aivc_male_have_you_noticed_ulcers_on_the_penis,
+ FIRST_VALUE(aivc_male_have_you_noticed_warts_around_the_genital_area) 
+       OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_male_have_you_noticed_warts_around_the_genital_area IS NULL THEN 0 ELSE 1 
+       END  DESC, art2.encounter_id DESC) AS aivc_male_have_you_noticed_warts_around_the_genital_area, 
+ FIRST_VALUE(aivc_male_have_you_noticed_ulcers_on_or_around_the_anal_are) 
+       OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_male_have_you_noticed_ulcers_on_or_around_the_anal_are IS NULL THEN 0 ELSE 1 
+       END DESC, art2.encounter_id DESC) AS aivc_male_have_you_noticed_ulcers_on_or_around_the_anal_are, 
+FIRST_VALUE(aivc_male_have_you_noticed_warts_on_or_around_the_anal_area) 
+       OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_male_have_you_noticed_warts_on_or_around_the_anal_area IS NULL THEN 0 ELSE 1 END DESC, 
+       art2.encounter_id DESC) AS aivc_male_have_you_noticed_warts_on_or_around_the_anal_area, 
+FIRST_VALUE(aivc_are_you_currently_pregnant) 
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_are_you_currently_pregnant IS NULL THEN 0 ELSE 1 END DESC,art2.encounter_id DESC) 
+      AS aivc_are_you_currently_pregnant,
+FIRST_VALUE(aivc_are_you_booked_for_antenatal_care)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_are_you_booked_for_antenatal_care IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC)
+       AS aivc_are_you_booked_for_antenatal_care,
+FIRST_VALUE(aivc_do_you_know_the_edd)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_do_you_know_the_edd IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC) AS aivc_do_you_know_the_edd,
+FIRST_VALUE(aivc_date)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_date IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC) AS aivc_date,
+FIRST_VALUE(aivc_is_the_client_on_triple_therapy)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_is_the_client_on_triple_therapy IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC) 
+      AS aivc_is_the_client_on_triple_therapy,
+FIRST_VALUE(aivc_have_you_experienced_intermenstrual_bleeding)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_experienced_intermenstrual_bleeding IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC) 
+      AS aivc_have_you_experienced_intermenstrual_bleeding,
+FIRST_VALUE(aivc_duration_of_intermenstrual_bleeding)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_duration_of_intermenstrual_bleeding IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC) 
+      AS aivc_duration_of_intermenstrual_bleeding,
+FIRST_VALUE(aivc_have_you_experienced_post_coital_bleeding)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_experienced_post_coital_bleeding IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC) 
+      AS aivc_have_you_experienced_post_coital_bleeding,
+FIRST_VALUE(aivc_have_you_had_several_episodes_of_vaginal_thrush)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_had_several_episodes_of_vaginal_thrush IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC) 
+      AS aivc_have_you_had_several_episodes_of_vaginal_thrush,
+FIRST_VALUE(aivc_do_you_use_contraceptives)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_do_you_use_contraceptives IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC) 
+      AS aivc_do_you_use_contraceptives,
+FIRST_VALUE(what_types_of_contraceptives_do_you_use)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN what_types_of_contraceptives_do_you_use IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC) 
+      AS what_types_of_contraceptives_do_you_use,
+FIRST_VALUE(aivc_other_contraceptives)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_other_contraceptives IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC) 
+      AS aivc_other_contraceptives,
+FIRST_VALUE(aivc_have_you_been_screened_for_cervical_cancer)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_been_screened_for_cervical_cancer IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC) 
+      AS aivc_have_you_been_screened_for_cervical_cancer,
+FIRST_VALUE(aivc_date_of_screening)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_date_of_screening IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC) 
+      AS aivc_date_of_screening,
+FIRST_VALUE(screening_result)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN screening_result IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC) 
+      AS screening_result,
+FIRST_VALUE(aivc_have_you_observed_a_breast_lump_s)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_observed_a_breast_lump_s IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC) 
+      AS aivc_have_you_observed_a_breast_lump_s,
+FIRST_VALUE(aivc_duration_of_breast_lump)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_duration_of_breast_lump IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC) 
+      AS aivc_duration_of_breast_lump,
+FIRST_VALUE(aivc_location_of_breast_lump)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_location_of_breast_lump IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC) 
+      AS aivc_location_of_breast_lump,
+FIRST_VALUE(aivc_do_you_have_a_discharge_from_the_nipple_s)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_do_you_have_a_discharge_from_the_nipple_s IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC) 
+      AS aivc_do_you_have_a_discharge_from_the_nipple_s,
+FIRST_VALUE(aivc_have_you_been_taking_other_medications_or_muti_herbs_w)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_been_taking_other_medications_or_muti_herbs_w IS NULL THEN 0 ELSE 1 END DESC,
+       art2.encounter_id DESC) AS aivc_have_you_been_taking_other_medications_or_muti_herbs_w,
+FIRST_VALUE(aivc_are_you_taking_tb_medicines)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_are_you_taking_tb_medicines IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC) 
+      AS aivc_are_you_taking_tb_medicines,
+FIRST_VALUE(aivc_have_you_ever_experienced_a_drug_allergy)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_ever_experienced_a_drug_allergy IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC) 
+      AS aivc_have_you_ever_experienced_a_drug_allergy,
+FIRST_VALUE(aivc_if_yes_specify_drug_allergy_details)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_if_yes_specify_drug_allergy_details IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC) 
+      AS aivc_if_yes_specify_drug_allergy_details,
+FIRST_VALUE(aivc_have_been_treated_for_any_of_the_following_conditions)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_been_treated_for_any_of_the_following_conditions IS NULL THEN 0 ELSE 1 END DESC,
+       art2.encounter_id DESC)  AS aivc_have_been_treated_for_any_of_the_following_conditions,
+FIRST_VALUE(aivc_if_yes_specify_details)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_if_yes_specify_details IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC) 
+      AS aivc_if_yes_specify_details,
+FIRST_VALUE(aivc_medical_and_surigcal_history_notes)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_medical_and_surigcal_history_notes IS NULL THEN 0 ELSE 1 END DESC, art2.encounter_id DESC) 
+      AS aivc_medical_and_surigcal_history_notes,
+FIRST_VALUE(aivc_have_you_been_sexually_abused)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_have_you_been_sexually_abused IS NULL THEN 0 ELSE 1 END DESC,
+      art2.encounter_id DESC) AS aivc_have_you_been_sexually_abused,
+FIRST_VALUE(aivc_has_a_police_report_been_filed)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_has_a_police_report_been_filed IS NULL THEN 0 ELSE 1 END DESC,art2.encounter_id DESC) 
+      AS  aivc_has_a_police_report_been_filed,
+FIRST_VALUE(aivc_did_you_receive_any_medical_treatment_afterwards)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_did_you_receive_any_medical_treatment_afterwards IS NULL THEN 0 ELSE 1 END DESC,art2.encounter_id DESC) 
+      AS  aivc_did_you_receive_any_medical_treatment_afterwards,
+FIRST_VALUE(aivc_did_you_receive_counseling)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_did_you_receive_counseling IS NULL THEN 0 ELSE 1 END DESC,art2.encounter_id DESC) 
+      AS  aivc_did_you_receive_counseling,
+FIRST_VALUE(aivc_do_you_consider_yourself_to_be)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_do_you_consider_yourself_to_be IS NULL THEN 0 ELSE 1 END DESC,art2.encounter_id DESC) 
+      AS  aivc_do_you_consider_yourself_to_be,
+FIRST_VALUE(aivc_in_the_past_3_months_whom_have_you_had_sex_with)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_in_the_past_3_months_whom_have_you_had_sex_with IS NULL THEN 0 ELSE 1 END DESC,art2.encounter_id DESC) 
+      AS  aivc_in_the_past_3_months_whom_have_you_had_sex_with,
+FIRST_VALUE(aivc_which_gender_do_you_feel_attracted_to)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_which_gender_do_you_feel_attracted_to IS NULL THEN 0 ELSE 1 END DESC,art2.encounter_id DESC) 
+      AS  aivc_which_gender_do_you_feel_attracted_to,
+FIRST_VALUE(aivc_during_the_sexual_act_which_one_of_these_do_you_practi)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_during_the_sexual_act_which_one_of_these_do_you_practi IS NULL THEN 0 ELSE 1 END DESC,
+      art2.encounter_id DESC) AS  aivc_during_the_sexual_act_which_one_of_these_do_you_practi,
+FIRST_VALUE(aivc_do_you_ever_ingage_in_transactional_sex)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_do_you_ever_ingage_in_transactional_sex IS NULL THEN 0 ELSE 1 END DESC,art2.encounter_id DESC) 
+      AS  aivc_do_you_ever_ingage_in_transactional_sex,
+FIRST_VALUE(aivc_are_you_or_have_you_ever_been_a_smoker)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_are_you_or_have_you_ever_been_a_smoker IS NULL THEN 0 ELSE 1 END DESC,art2.encounter_id DESC) 
+      AS  aivc_are_you_or_have_you_ever_been_a_smoker,
+FIRST_VALUE(aivc_do_you_drink_alcoholic_beverages)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_do_you_drink_alcoholic_beverages IS NULL THEN 0 ELSE 1 END DESC,art2.encounter_id DESC) 
+      AS  aivc_do_you_drink_alcoholic_beverages,
+FIRST_VALUE(aivc_do_you_use_illicit_drugs)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_do_you_use_illicit_drugs IS NULL THEN 0 ELSE 1 END DESC,art2.encounter_id DESC) 
+      AS  aivc_do_you_use_illicit_drugs,
+FIRST_VALUE(aivc_what_types_of_illicit_drugs_do_you_use_and_how_often)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_what_types_of_illicit_drugs_do_you_use_and_how_often IS NULL THEN 0 ELSE 1 END DESC,art2.encounter_id DESC) 
+      AS  aivc_what_types_of_illicit_drugs_do_you_use_and_how_often,
+FIRST_VALUE(aivc_availability)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_availability IS NULL THEN 0 ELSE 1 END DESC,art2.encounter_id DESC) AS  aivc_availability,
+FIRST_VALUE(aivc_assessment)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_assessment IS NULL THEN 0 ELSE 1 END DESC,art2.encounter_id DESC)  AS  aivc_assessment,
+FIRST_VALUE(aivc_plan)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN aivc_plan IS NULL THEN 0 ELSE 1 END DESC,art2.encounter_id DESC)  AS  aivc_plan
+
+FROM
+(SELECT max(id_art_initial_visit_compulsory_question_2_of_2) AS id_art_initial_visit_compulsory_question_2_of_2,
+max(patient_id) AS patient_id,
+encounter_id,
+max(obs_datetime) AS obs_datetime,
+max(date_created) AS date_created,
+max(date_modified) AS date_modified,
+max(location_id) AS location_id,
+max(location_name) AS location_name,
+max(program_id) AS program_id,
+max(program_name) AS program_name,
+max(aivc_are_you_sexually_active) AS aivc_are_you_sexually_active,
+max(aivc_female_have_you_observed_a_vaginal_discharge) AS aivc_female_have_you_observed_a_vaginal_discharge,
+string_agg(aivc_female_if_yes_on_vaginal_discharge_specify_type,',') AS aivc_female_if_yes_on_vaginal_discharge_specify_type,
+max(aivc_female_have_you_noticed_non_painful_of_painful_ulcers_) AS aivc_female_have_you_noticed_non_painful_of_painful_ulcers_,
+max(aivc_female_have_you_noticed_warts_on_the_genital_area) AS aivc_female_have_you_noticed_warts_on_the_genital_area,
+max(aivc_female_have_you_noticed_ulcers_on_or_around_the_anal_a) AS aivc_female_have_you_noticed_ulcers_on_or_around_the_anal_a,
+max(aivc_female_have_you_noticed_warts_on_or_around_the_anal_ar) AS aivc_female_have_you_noticed_warts_on_or_around_the_anal_ar,
+max(aivc_male_have_you_observed_a_discharge_from_the_penis) AS aivc_male_have_you_observed_a_discharge_from_the_penis ,
+string_agg(aivc_male_if_yes_on_penis_discharge_specify_type,',') AS aivc_male_if_yes_on_penis_discharge_specify_type,
+max(aivc_male_have_you_noticed_ulcers_on_the_penis) AS aivc_male_have_you_noticed_ulcers_on_the_penis,
+max(aivc_male_have_you_noticed_warts_around_the_genital_area)  AS aivc_male_have_you_noticed_warts_around_the_genital_area,
+max(aivc_male_have_you_noticed_ulcers_on_or_around_the_anal_are)  AS aivc_male_have_you_noticed_ulcers_on_or_around_the_anal_are,
+max(aivc_male_have_you_noticed_warts_on_or_around_the_anal_area)  AS aivc_male_have_you_noticed_warts_on_or_around_the_anal_area,
+max(aivc_are_you_currently_pregnant) AS aivc_are_you_currently_pregnant,
+max(aivc_are_you_booked_for_antenatal_care) AS aivc_are_you_booked_for_antenatal_care,
+max(aivc_do_you_know_the_edd) AS aivc_do_you_know_the_edd,
+max(aivc_date) AS aivc_date,
+max(aivc_is_the_client_on_triple_therapy) AS aivc_is_the_client_on_triple_therapy,
+max(aivc_have_you_experienced_intermenstrual_bleeding) AS aivc_have_you_experienced_intermenstrual_bleeding,
+max(aivc_duration_of_intermenstrual_bleeding) AS aivc_duration_of_intermenstrual_bleeding,
+max(aivc_have_you_experienced_post_coital_bleeding) AS aivc_have_you_experienced_post_coital_bleeding,
+max(aivc_have_you_had_several_episodes_of_vaginal_thrush) AS aivc_have_you_had_several_episodes_of_vaginal_thrush,
+max(aivc_do_you_use_contraceptives) AS aivc_do_you_use_contraceptives,
+max(what_types_of_contraceptives_do_you_use) AS what_types_of_contraceptives_do_you_use,
+max(aivc_other_contraceptives) AS aivc_other_contraceptives,
+max(aivc_have_you_been_screened_for_cervical_cancer) AS aivc_have_you_been_screened_for_cervical_cancer,
+max(aivc_date_of_screening) AS aivc_date_of_screening,
+max(screening_result) AS screening_result,
+max(aivc_have_you_observed_a_breast_lump_s) AS aivc_have_you_observed_a_breast_lump_s,
+max(aivc_duration_of_breast_lump) AS aivc_duration_of_breast_lump,
+max(aivc_location_of_breast_lump) AS aivc_location_of_breast_lump,
+max(aivc_do_you_have_a_discharge_from_the_nipple_s) AS aivc_do_you_have_a_discharge_from_the_nipple_s,
+max(aivc_have_you_been_taking_other_medications_or_muti_herbs_w) AS aivc_have_you_been_taking_other_medications_or_muti_herbs_w,
+max(aivc_medication_notes) AS aivc_medication_notes,
+max(aivc_are_you_taking_tb_medicines) AS aivc_are_you_taking_tb_medicines,
+max(aivc_have_you_ever_experienced_a_drug_allergy) AS aivc_have_you_ever_experienced_a_drug_allergy ,
+max(aivc_if_yes_specify_drug_allergy_details) AS aivc_if_yes_specify_drug_allergy_details,
+max(aivc_have_been_treated_for_any_of_the_following_conditions) AS aivc_have_been_treated_for_any_of_the_following_conditions,
+string_agg(CASE WHEN aivc_if_yes_specify_details = 'Cryptococcal Meningitis code' THEN 'Cryptococcal Meningitis'
+                WHEN aivc_if_yes_specify_details = 'PCP' THEN 'PCP'
+                WHEN aivc_if_yes_specify_details = 'Non Hodgkins Lymphoma (Ca of the lymph nodes)' THEN 'Non Hodgkins Lymphoma (Ca of the lymph nodes)' 
+                WHEN aivc_if_yes_specify_details = 'Respiratory disease' THEN 'Respiratory disease'
+                WHEN aivc_if_yes_specify_details = 'Cardiac Disease' THEN 'Cardiac Disease'
+                WHEN aivc_if_yes_specify_details = 'Skin disease' THEN 'Skin disease'
+                END ,',') AS aivc_if_yes_specify_details,
+max(aivc_medical_and_surigcal_history_notes) AS aivc_medical_and_surigcal_history_notes ,
+max(aivc_have_you_been_sexually_abused) AS aivc_have_you_been_sexually_abused,
+max(aivc_has_a_police_report_been_filed) AS aivc_has_a_police_report_been_filed,
+max(aivc_did_you_receive_any_medical_treatment_afterwards) AS aivc_did_you_receive_any_medical_treatment_afterwards,
+max(aivc_did_you_receive_counseling) AS aivc_did_you_receive_counseling,
+max(aivc_do_you_consider_yourself_to_be) AS aivc_do_you_consider_yourself_to_be,
+max(aivc_in_the_past_3_months_whom_have_you_had_sex_with) AS aivc_in_the_past_3_months_whom_have_you_had_sex_with,
+max(aivc_which_gender_do_you_feel_attracted_to) AS aivc_which_gender_do_you_feel_attracted_to,
+max(aivc_during_the_sexual_act_which_one_of_these_do_you_practi) AS aivc_during_the_sexual_act_which_one_of_these_do_you_practi,
+max(aivc_do_you_ever_ingage_in_transactional_sex) AS aivc_do_you_ever_ingage_in_transactional_sex,
+max(aivc_are_you_or_have_you_ever_been_a_smoker) AS aivc_are_you_or_have_you_ever_been_a_smoker,
+max(aivc_do_you_drink_alcoholic_beverages) AS aivc_do_you_drink_alcoholic_beverages,
+max(aivc_do_you_use_illicit_drugs) AS aivc_do_you_use_illicit_drugs,
+max(aivc_what_types_of_illicit_drugs_do_you_use_and_how_often) AS aivc_what_types_of_illicit_drugs_do_you_use_and_how_often,
+max(aivc_availability) AS aivc_availability,
+max(aivc_assessment) AS aivc_assessment,
+max(aivc_plan) AS aivc_plan
+FROM art_initial_visit_compulsory_question_2_of_2 GROUP BY encounter_id) art2
+INNER JOIN patient_encounter_table pedd ON pedd.encounter_id = art2.encounter_id) art2_2
+ON art1_1.visit_id = art2_2.visit_id
+JOIN psi_patient_program_data ppv ON (art2_2.patient_id = ppv.patient_id OR art1_1.patient_id = ppv.patient_id)
+JOIN patient_identifier pi ON ppv.patient_id = pi.patient_id ORDER BY date_created DESC;"
 }
   ]
 }
