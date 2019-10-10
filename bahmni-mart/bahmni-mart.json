@@ -3233,7 +3233,7 @@ patient_encounter_table pedd
            concat('ZWNSC-OU-',upper( COALESCE(aivc_facility,(SELECT art.aivc_facility FROM art_initial_visit_compulsory_question_1_of_2 art
            INNER JOIN patient_encounter_table pedd ON art.encounter_id = pedd.encounter_id WHERE art.aivc_facility IS NOT NULL 
            AND art.patient_id = pedd.patient_id AND art.encounter_id > pedd.encounter_id ORDER BY art.encounter_id DESC LIMIT 1))))
-           END  AS \"Org Unit\",
+           END  AS \"OrgUnit\",
     CASE WHEN COALESCE(art1_1.obs_datetime, '01-01-0001' ) >= COALESCE(art2_2.obs_datetime, '01-01-0001' )     
          THEN date(art1_1.obs_datetime)
          WHEN ( COALESCE(art2_2.obs_datetime, '01-01-0001' ) >= COALESCE(art1_1.obs_datetime, '01-01-0001' ) )      
@@ -3545,10 +3545,10 @@ patient_encounter_table pedd
            ELSE NULL END :: BOOLEAN AS \"Have you noticed warts on the genital area?\",
       CASE WHEN aivc_female_have_you_noticed_ulcers_on_or_around_the_anal_a = 'Yes' THEN 1
            WHEN aivc_female_have_you_noticed_ulcers_on_or_around_the_anal_a = 'No' THEN 0
-           ELSE NULL END :: BOOLEAN AS \"Have you noticed ulcers on or around the anal area?\",
+           ELSE NULL END :: BOOLEAN AS \"Female Have you noticed ulcers on or around the anal area?\",
       CASE WHEN aivc_female_have_you_noticed_warts_on_or_around_the_anal_ar = 'Yes' THEN 1
            WHEN aivc_female_have_you_noticed_warts_on_or_around_the_anal_ar = 'No' THEN 0
-           ELSE NULL END :: BOOLEAN AS \"Have you noticed warts on or around the anal area?\",
+           ELSE NULL END :: BOOLEAN AS \"Female Have you noticed warts on or around the anal area?\",
       CASE WHEN aivc_male_have_you_observed_a_discharge_from_the_penis = 'Yes' THEN 1
            WHEN aivc_male_have_you_observed_a_discharge_from_the_penis = 'No' THEN 0
            ELSE NULL END :: BOOLEAN AS \"Have you observed a discharge from the penis?\",
@@ -3605,13 +3605,13 @@ patient_encounter_table pedd
            ELSE NULL END :: BOOLEAN AS \"Have you noticed ulcers on the penis?\",
       CASE WHEN aivc_male_have_you_noticed_warts_around_the_genital_area = 'Yes' THEN 1
            WHEN aivc_male_have_you_noticed_warts_around_the_genital_area = 'No' THEN 0
-           ELSE NULL END :: BOOLEAN AS \"Have you noticed warts around the genital area?\",
+           ELSE NULL END :: BOOLEAN AS \"Male Have you noticed warts around the genital area?\",
       CASE WHEN aivc_male_have_you_noticed_ulcers_on_or_around_the_anal_are = 'Yes' THEN 1
            WHEN aivc_male_have_you_noticed_ulcers_on_or_around_the_anal_are = 'No' THEN 0
-           ELSE NULL END :: BOOLEAN AS \"Have you noticed ulcers on or around the anal area?\",
+           ELSE NULL END :: BOOLEAN AS \"Male Have you noticed ulcers on or around the anal area?\",
       CASE WHEN aivc_male_have_you_noticed_warts_on_or_around_the_anal_area = 'Yes' THEN 1
            WHEN aivc_male_have_you_noticed_warts_on_or_around_the_anal_area = 'No' THEN 0
-           ELSE NULL END :: BOOLEAN AS \"Have you noticed warts on or around the anal area?\",
+           ELSE NULL END :: BOOLEAN AS \"Male Have you noticed warts on or around the anal area?\",
       CASE WHEN aivc_are_you_currently_pregnant = 'Yes' THEN 1
            WHEN aivc_are_you_currently_pregnant = 'No' THEN 0
            ELSE NULL END :: BOOLEAN AS \" Are you currently pregnant?\",   
@@ -3663,12 +3663,12 @@ patient_encounter_table pedd
            ELSE NULL END :: BOOLEAN AS \"Have been treated for any of the following conditions?\",
     
       aivc_if_yes_specify_details AS \"If yes, Specify details for any of the  following conditions\",
-      CASE WHEN (split_part(aivc_if_yes_specify_details,',', 1) = 'Cryptococcal Meningitis code') OR 
-                (split_part(aivc_if_yes_specify_details,',', 2) = 'Cryptococcal Meningitis code') OR
-                (split_part(aivc_if_yes_specify_details,',', 3) = 'Cryptococcal Meningitis code') OR 
-                (split_part(aivc_if_yes_specify_details,',', 4) = 'Cryptococcal Meningitis code') OR
-                (split_part(aivc_if_yes_specify_details,',', 5) = 'Cryptococcal Meningitis code') OR
-                (split_part(aivc_if_yes_specify_details,',', 6) = 'Cryptococcal Meningitis code')
+      CASE WHEN (split_part(aivc_if_yes_specify_details,',', 1) = 'Cryptococcal Meningitis') OR 
+                (split_part(aivc_if_yes_specify_details,',', 2) = 'Cryptococcal Meningitis') OR
+                (split_part(aivc_if_yes_specify_details,',', 3) = 'Cryptococcal Meningitis') OR 
+                (split_part(aivc_if_yes_specify_details,',', 4) = 'Cryptococcal Meningitis') OR
+                (split_part(aivc_if_yes_specify_details,',', 5) = 'Cryptococcal Meningitis') OR
+                (split_part(aivc_if_yes_specify_details,',', 6) = 'Cryptococcal Meningitis')
           THEN 1 
           ELSE NULL END :: BOOLEAN AS \"If yes, Specify details - Cryptococcal meningitis\",
       CASE WHEN (split_part(aivc_if_yes_specify_details,',', 1) = 'PCP') OR 
