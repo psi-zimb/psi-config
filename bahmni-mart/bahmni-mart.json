@@ -4580,8 +4580,10 @@ max(aivc_plan) AS aivc_plan
 FROM art_initial_visit_compulsory_question_2_of_2 GROUP BY encounter_id) art2
 INNER JOIN patient_encounter_table pedd ON pedd.encounter_id = art2.encounter_id) art2_2
 ON art1_1.visit_id = art2_2.visit_id
-JOIN psi_patient_program_data ppv ON (art2_2.patient_id = ppv.patient_id OR art1_1.patient_id = ppv.patient_id)
-JOIN patient_identifier pi ON ppv.patient_id = pi.patient_id ORDER BY date_created DESC;"
+
+INNER JOIN psi_patient_program_data ppv on (ppv.patient_id = art1_1.patient_id or ppv.patient_id = art2_2.patient_id) and (ppv.program_id = (SELECT program_id FROM programs_default WHERE program_name= 'ART Program'))
+INNER JOIN patient_identifier pi ON (art1_1.patient_id = pi.patient_id or art2_2.patient_id = pi.patient_id)
+ORDER BY date_created DESC;"
 }
   ]
 }
