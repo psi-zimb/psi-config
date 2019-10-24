@@ -1465,7 +1465,7 @@ max(CASE WHEN phtc.hiv_test_results IS NOT NULL AND COALESCE(phtc.date_modified,
              WHEN   pht_in_the_last_twelve_month_exchanged_money_or_goods_for_s IS NULL
              THEN phtc_have_you_ever_talked_about_t_c_with_your_partner_spous 
              ELSE NULL
-         END)  AS \"Have you ever talked about T&C with your partner/spouse?\",
+         END)  AS \"Have you ever talked about T and C with your partner/spouse?\",
          
         max(if_yes_where_were_you_last_tested) AS \"If yes, where were you last tested?\",
         
