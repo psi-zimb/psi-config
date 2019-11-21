@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="PSI-CONFIG-201911181429" author="Suraj">
+        <comment>Adding New Concepts for Feedback Form Migration</comment>
+        <sqlFile path="Feedback_Form_Concepts.sql"/>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-201911181433" author="Suraj">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                   select count(*) from concept_answer ca
+                   join
+                   concept_name cn
+                   on ca.concept_id = cn.concept_id
+                   where ca.answer_concept IN
+                   (
+                   	   select concept_id from concept_name where name IN
+		                   (
+		                   	'Yes',
+                            'No'
+		                   )
+	                   and concept_name_type = "FULLY_SPECIFIED"
+                   )
+                   AND
+                   cn.concept_id IN (select concept_id from concept_name where name = "Prep Cont Form, Has the client defaulted treatment for more than 28 days?");
+                </sqlCheck>
+        </preConditions>
+        <comment>Adding Answers to "Prep Cont Form, Has the client defaulted treatment for more than 28 days?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "Prep Cont Form, Has the client defaulted treatment for more than 28 days?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911181528" author="Suraj">
+        <comment>Adding "Has the client defaulted treatment for more than 28 days?" to PrEP continuation form</comment>
+          <sql>
+              set @concept_id = 0;
+              set @member1_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "Prep Cont Form Template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member1_concept_id from concept_name where name = "Prep Cont Form, Has the client defaulted treatment for more than 28 days?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member1_concept_id, 43);
+          </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-201911181610" author="Suraj">
+        <comment>Adding "Date of reinitiation" to PrEP continuation form</comment>
+          <sql>
+              set @concept_id = 0;
+              set @member1_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "Prep Cont Form Template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member1_concept_id from concept_name where name = "Prep Cont Form, Date of Reinitiation" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member1_concept_id, 44);
+          </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911182249" author="Suraj">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                   select count(*) from concept_answer ca
+                   join
+                   concept_name cn
+                   on ca.concept_id = cn.concept_id
+                   where ca.answer_concept IN
+                   (
+                   	   select concept_id from concept_name where name IN
+		                   (
+		                   	'Yes',
+                            'No'
+		                   )
+	                   and concept_name_type = "FULLY_SPECIFIED"
+                   )
+                   AND
+                   cn.concept_id IN (select concept_id from concept_name where name = "RUUV, Has the client defaulted treatment for more than 28 days?");
+                </sqlCheck>
+        </preConditions>
+        <comment>Adding Answers to "RUUV, Has the client defaulted treatment for more than 28 days?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+
+            select concept_id into @concept_id from concept_name where name = "RUUV, Has the client defaulted treatment for more than 28 days?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911182250" author="Suraj">
+        <comment>Adding "Has the client defaulted treatment for more than 28 days?" to Routine, Unplanned and Urgent visit Form </comment>
+          <sql><![CDATA[
+              set @concept_id = 0;
+              set @member1_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "Routine, Unplanned & Urgent visit Form template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member1_concept_id from concept_name where name = "RUUV, Has the client defaulted treatment for more than 28 days?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member1_concept_id, 12);
+          ]]></sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-201911182251" author="Suraj">
+        <comment>Adding "Date of reinitiation" to Routine, Unplanned and Urgent visit form</comment>
+          <sql><![CDATA[
+              set @concept_id = 0;
+              set @member1_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "Routine, Unplanned & Urgent visit Form template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member1_concept_id from concept_name where name = "RUUV, Date of Reinitiation" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member1_concept_id, 13);
+          ]]></sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911182254" author="Suraj">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                   select count(*) from concept_answer ca
+                   join
+                   concept_name cn
+                   on ca.concept_id = cn.concept_id
+                   where ca.answer_concept IN
+                   (
+                   	   select concept_id from concept_name where name IN
+		                   (
+		                   	'Yes',
+                            'No'
+		                   )
+	                   and concept_name_type = "FULLY_SPECIFIED"
+                   )
+                   AND
+                   cn.concept_id IN (select concept_id from concept_name where name = "AP, Has the client defaulted treatment for more than 28 days?");
+                </sqlCheck>
+        </preConditions>
+        <comment>Adding Answers to "AP, Has the client defaulted treatment for more than 28 days?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+
+            select concept_id into @concept_id from concept_name where name = "AP, Has the client defaulted treatment for more than 28 days?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911182255" author="Suraj">
+        <comment>Adding "Has the client defaulted treatment for more than 28 days?" to Assessment and Plan Form Template Form </comment>
+          <sql>
+              set @concept_id = 0;
+              set @member1_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "Assessment and Plan Form Template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member1_concept_id from concept_name where name = "AP, Has the client defaulted treatment for more than 28 days?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member1_concept_id, 3);
+          </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-201911182257" author="Suraj">
+        <comment>Adding "Date of reinitiation" to Assessment and Plan Form Template form</comment>
+          <sql>
+              set @concept_id = 0;
+              set @member1_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "Assessment and Plan Form Template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member1_concept_id from concept_name where name = "AP, Date of Reinitiation" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member1_concept_id, 4);
+          </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911191303" author="Suraj">
+        <comment>Adding Answers to "PHTC, Index testing offered"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PHTC, Index testing offered" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'N/A' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            call add_concept_answer(@concept_id, @child3_concept_id, 3);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911191304" author="Suraj">
+        <comment>Adding "Index testing offered" to Provider HIV test counselling Form</comment>
+          <sql>
+              set @concept_id = 0;
+              set @member1_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "PHTC, Post test counselling" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member1_concept_id from concept_name where name = "PHTC, Index testing offered" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member1_concept_id, 8);
+          </sql>
+
+    </changeSet>
+    <changeSet id="PSI-CONFIG-201911191305" author="Suraj">
+        <comment>Adding Answers to "PHTC, Reasons not Offered"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+            set @child6_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PHTC, Reasons not Offered" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'PHTC, No possibly HIV exposed children or siblings' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'PHTC, Tested as a couple' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'PHTC, Partner on ART' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = 'PHTC, Partner already tested' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child5_concept_id from concept_name where name = 'PHTC, Index does not have a partner' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child6_concept_id from concept_name where name = 'N/A' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            call add_concept_answer(@concept_id, @child3_concept_id, 3);
+            call add_concept_answer(@concept_id, @child4_concept_id, 4);
+			call add_concept_answer(@concept_id, @child5_concept_id, 5);
+            call add_concept_answer(@concept_id, @child6_concept_id, 6);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911191306" author="Suraj">
+        <comment>Adding "PHTC, Reasons not Offered" to Provider HIV test counselling Form</comment>
+          <sql>
+              set @concept_id = 0;
+              set @member1_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "PHTC, Post test counselling" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member1_concept_id from concept_name where name = "PHTC, Reasons not Offered" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member1_concept_id, 9);
+          </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911191307" author="Suraj">
+        <comment>Adding Answers to "PHTC, Index testing accepted"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PHTC, Index testing accepted" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'N/A' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            call add_concept_answer(@concept_id, @child3_concept_id, 3);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911191308" author="Suraj">
+        <comment>Adding "Index testing accepted" to Provider HIV test counselling Form</comment>
+          <sql>
+              set @concept_id = 0;
+              set @member1_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "PHTC, Post test counselling" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member1_concept_id from concept_name where name = "PHTC, Index testing accepted" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member1_concept_id, 10);
+          </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-2019111911309" author="Suraj">
+        <comment>Adding Answers to "PHTC, Reasons not Accepted"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+            set @child6_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PHTC, Reasons not Accepted" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'PHTC, Index not ready to disclose status' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'PHTC, Index not ready to disclose that they were tested' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'PHTC, Index lost partner’s contacts' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = 'PHTC, Index in a long-distance relationship' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child5_concept_id from concept_name where name = 'PHTC, Index plans to retest with partner' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child6_concept_id from concept_name where name = 'N/A' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            call add_concept_answer(@concept_id, @child3_concept_id, 3);
+            call add_concept_answer(@concept_id, @child4_concept_id, 4);
+			call add_concept_answer(@concept_id, @child5_concept_id, 5);
+            call add_concept_answer(@concept_id, @child6_concept_id, 6);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911191310" author="Suraj">
+        <comment>Adding "PHTC, Reasons not Accepted" to Provider HIV test counselling Form</comment>
+          <sql>
+              set @concept_id = 0;
+              set @member1_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "PHTC, Post test counselling" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member1_concept_id from concept_name where name = "PHTC, Reasons not Accepted" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member1_concept_id, 11);
+          </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911191421" author="Suraj">
+        <comment>updating the sort weight for the set PHTC, Post test counselling</comment>
+          <sql>
+
+               UPDATE concept_set SET sort_weight = 3
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'PHTC, Post test counselling' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'PHTC, Index testing offered' and retired = 0);
+
+               UPDATE concept_set SET sort_weight = 4
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'PHTC, Post test counselling' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'PHTC, Reasons not Offered' and retired = 0);
+
+               UPDATE concept_set SET sort_weight = 5
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'PHTC, Post test counselling' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'PHTC, Index testing accepted' and retired = 0);
+
+               UPDATE concept_set SET sort_weight = 6
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'PHTC, Post test counselling' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'PHTC, Reasons not Accepted' and retired = 0);
+
+               UPDATE concept_set SET sort_weight = 7
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'PHTC, Post test counselling' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'PHTC, Was referred to:  (Multiple responses possible)' and retired = 0);
+
+               UPDATE concept_set SET sort_weight = 8
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'PHTC, Post test counselling' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'PHTC, Family planning counselling' and retired = 0);
+
+               UPDATE concept_set SET sort_weight = 9
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'PHTC, Post test counselling' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'PHTC, MC counselling provided' and retired = 0);
+
+               UPDATE concept_set SET sort_weight = 10
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'PHTC, Post test counselling' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'PHTC, Referral made' and retired = 0);
+
+               UPDATE concept_set SET sort_weight = 11
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'PHTC, Post test counselling' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'PHTC, Post Test Counselling Other' and retired = 0);
+
+          </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911201253" author="Suraj">
+        <comment>Adding new units to "Drug Units"</comment>
+          <sql>
+              set @concept_id = 0;
+              set @member1_concept_id = 0;
+              set @member2_concept_id = 0;
+              set @member3_concept_id = 0;
+              set @member4_concept_id = 0;
+              set @member5_concept_id = 0;
+              set @member6_concept_id = 0;
+              set @member7_concept_id = 0;
+              set @member8_concept_id = 0;
+              set @member9_concept_id = 0;
+              set @member10_concept_id = 0;
+              set @member11_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "Dosing Units" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              select concept_id into @member1_concept_id from concept_name where name = "g" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member2_concept_id from concept_name where name = "grain " and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member3_concept_id from concept_name where name = "kg" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member4_concept_id from concept_name where name = "l" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member5_concept_id from concept_name where name = "mcg" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member6_concept_id from concept_name where name = "mEq*" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member7_concept_id from concept_name where name = "ounce" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member8_concept_id from concept_name where name = "pint" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member9_concept_id from concept_name where name = "quote" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member10_concept_id from concept_name where name = "cup" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member11_concept_id from concept_name where name = "mu" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member1_concept_id, 11);
+              call add_concept_set_members (@concept_id, @member2_concept_id, 12);
+              call add_concept_set_members (@concept_id, @member3_concept_id, 13);
+              call add_concept_set_members (@concept_id, @member4_concept_id, 14);
+              call add_concept_set_members (@concept_id, @member5_concept_id, 15);
+              call add_concept_set_members (@concept_id, @member6_concept_id, 16);
+              call add_concept_set_members (@concept_id, @member7_concept_id, 17);
+              call add_concept_set_members (@concept_id, @member8_concept_id, 18);
+              call add_concept_set_members (@concept_id, @member9_concept_id, 19);
+              call add_concept_set_members (@concept_id, @member10_concept_id, 20);
+              call add_concept_set_members (@concept_id, @member11_concept_id, 21);
+
+          </sql>
+    </changeSet>
+
+
+
+
+
+
+
+
+</databaseChangeLog>

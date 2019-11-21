@@ -7337,6 +7337,50 @@ Bahmni.ConceptSet.FormConditions.rules = {
             }
         return conditions;
         },
+        "RUUV, Has the client defaulted treatment for more than 28 days?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['RUUV, Has the client defaulted treatment for more than 28 days?'];
+        if (conditionConcept =="Yes") {
+            conditions.enable.push("RUUV, Date of Reinitiation");
+
+        }
+            else {
+            conditions.disable.push("RUUV, Date of Reinitiation");
+            }
+        return conditions;
+        },
+        "AP, Type of Visit": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['AP, Type of Visit'];
+        if (conditionConcept =="Pickup drugs") {
+              conditions.enable.push("AP, Has the client defaulted treatment for more than 28 days?");
+
+        }
+        else if (conditionConcept =="Review by MD or Doctor") {
+              conditions.enable.push("AP, Has the client defaulted treatment for more than 28 days?");
+
+        }
+        else if (conditionConcept =="AP, Review By nurse") {
+              conditions.enable.push("AP, Has the client defaulted treatment for more than 28 days?");
+
+        }
+            else {
+            conditions.disable.push("AP, Has the client defaulted treatment for more than 28 days?");
+        }
+        return conditions;
+        },
+        "AP, Has the client defaulted treatment for more than 28 days?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['AP, Has the client defaulted treatment for more than 28 days?'];
+        if (conditionConcept =="Yes") {
+              conditions.enable.push("AP, Date of Reinitiation");
+
+        }
+            else {
+            conditions.disable.push("AP, Date of Reinitiation");
+            }
+        return conditions;
+        },
 
         "AS, Activity status": function (formName, formFieldValues) {
         var conditions = {show: [], hide: []};
@@ -10115,6 +10159,19 @@ Bahmni.ConceptSet.FormConditions.rules = {
      }
           return conditions;
   },
+  "Prep Cont Form, Has the client defaulted treatment for more than 28 days?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Prep Cont Form, Has the client defaulted treatment for more than 28 days?'];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Cont Form, Date of Reinitiation");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Cont Form, Date of Reinitiation");
+     }
+          return conditions;
+  },
   "Prep Cont Form, If Yes for the client eligible to continue PrEP? Males": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
      var conditionConcept = formFieldValues['Prep Cont Form, If Yes for the client eligible to continue PrEP? Males'];
@@ -10141,6 +10198,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
      }
           return conditions;
   },
+
   "Prep Init Form, Site Type": function(formName, formFieldValues) {
      var conditions = {show: [], hide: []};
      var conditionConcept = formFieldValues['Prep Init Form, Site Type'];
@@ -10492,6 +10550,30 @@ Bahmni.ConceptSet.FormConditions.rules = {
                     }
                          return conditions;
                   },
+                 "PHTC, Index testing offered": function (formName, formFieldValues) {
+                    var conditions = {show: [], hide: []};
+                    var conditionConcept = formFieldValues['PHTC, Index testing offered'];
+
+                    if (conditionConcept == "No") {
+                        conditions.show.push("PHTC, Reasons not Offered");
+                    }
+                    else {
+                         conditions.hide.push("PHTC, Reasons not Offered");
+                    }
+                    return conditions;
+                    },
+                 "PHTC, Index testing accepted": function (formName, formFieldValues) {
+                    var conditions = {show: [], hide: []};
+                    var conditionConcept = formFieldValues['PHTC, Index testing accepted'];
+
+                    if (conditionConcept == "No") {
+                        conditions.show.push("PHTC, Reasons not Accepted");
+                    }
+                    else {
+                        conditions.hide.push("PHTC, Reasons not Accepted");
+                    }
+                    return conditions;
+                    },
                  "PHTC, Site Type": function(formName, formFieldValues) {
                          var conditions = {show: [], hide: []};
                          var conditionConcept = formFieldValues['PHTC, Site Type'];

@@ -165,4 +165,6 @@
 
     <include file ="VIAC_Program.xml"/>
 
+    <include file ="Feedback_Form.xml"/>
+
 </databaseChangeLog>

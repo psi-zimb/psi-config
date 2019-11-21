@@ -225,6 +225,12 @@
             "PHTC, Risk reduction plan":{
                 "multiSelect":true
             },
+            "PHTC, Reasons not Offered":{
+                "multiSelect":true
+            },
+            "PHTC, Reasons not Accepted":{
+                "multiSelect":true
+            },
            "STI Symptoms, Male, If yes on penis discharge, specify type":{
                   "multiSelect" : true
               },
