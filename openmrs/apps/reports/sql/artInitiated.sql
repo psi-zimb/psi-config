@@ -98,7 +98,10 @@ from
         "Didanosine (ddl) 200mg", "Didanosine (ddl) 250mg",
         "Didanosine (ddl) 25mg", "Didanosine (ddl) 400mg" "Emitricitabine 200mg",
         "Tenofovir 300mg", "Indinavir 400mg",
-        "Saquinavir 200mg"
+        "Saquinavir 200mg",
+        "Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Dolutegravia (DTG) 50mg",
+        "Dolutegravia (DTG) 50mg",
+        "Dolutegravia (DTG) 25mg"
       )
       and date(orders.date_activated) < date('#startDate#')
   )
@@ -127,7 +130,10 @@ from
     "Didanosine (ddl) 200mg", "Didanosine (ddl) 250mg",
     "Didanosine (ddl) 25mg", "Didanosine (ddl) 400mg" "Emitricitabine 200mg",
     "Tenofovir 300mg", "Indinavir 400mg",
-    "Saquinavir 200mg"
+    "Saquinavir 200mg",
+    "Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Dolutegravia (DTG) 50mg",
+    "Dolutegravia (DTG) 50mg",
+    "Dolutegravia (DTG) 25mg"
   )
   /*For getting only formulation drugs*/
   LEFT JOIN patient_identifier piOINo on patient.patient_id = piOINo.patient_id
@@ -251,7 +257,10 @@ from
         "Didanosine (ddl) 200mg", "Didanosine (ddl) 250mg",
         "Didanosine (ddl) 25mg", "Didanosine (ddl) 400mg" "Emitricitabine 200mg",
         "Tenofovir 300mg", "Indinavir 400mg",
-        "Saquinavir 200mg"
+        "Saquinavir 200mg",
+        "Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Dolutegravia (DTG) 50mg",
+        "Dolutegravia (DTG) 50mg",
+        "Dolutegravia (DTG) 25mg"
       )
       and date(orders.date_activated) < date('#startDate#')
   )
@@ -280,7 +289,10 @@ from
     "Didanosine (ddl) 200mg", "Didanosine (ddl) 250mg",
     "Didanosine (ddl) 25mg", "Didanosine (ddl) 400mg" "Emitricitabine 200mg",
     "Tenofovir 300mg", "Indinavir 400mg",
-    "Saquinavir 200mg"
+    "Saquinavir 200mg",
+    "Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Dolutegravia (DTG) 50mg",
+    "Dolutegravia (DTG) 50mg",
+    "Dolutegravia (DTG) 25mg"
   )
   /*For getting only formulation drugs*/
   LEFT JOIN patient_identifier piOINo on patient.patient_id = piOINo.patient_id
