@@ -177,6 +177,12 @@
 	        "PHTC, TB History, Disclosure planned to" : {
                 "multiSelect" : true
             },
+            "PHTC, Reasons not Offered":{
+                "multiSelect":true
+            },
+            "PHTC, Reasons not Accepted":{
+                "multiSelect":true
+            },
 	        "ART Observations Form Template": {
             	"hideAbnormalButton" : true
             },
