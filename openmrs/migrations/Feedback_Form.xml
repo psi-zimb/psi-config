@@ -313,15 +313,18 @@
             set @child4_concept_id = 0;
             set @child5_concept_id = 0;
             set @child6_concept_id = 0;
+            set @child7_concept_id = 0;
 
             select concept_id into @concept_id from concept_name where name = "PHTC, Reasons not Accepted" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            select concept_id into @child1_concept_id from concept_name where name = 'PHTC, Index not ready to disclose status' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @child2_concept_id from concept_name where name = 'PHTC, Index not ready to disclose that they were tested' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @child3_concept_id from concept_name where name = 'PHTC, Index lost partner’s contacts' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @child4_concept_id from concept_name where name = 'PHTC, Index in a long-distance relationship' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @child5_concept_id from concept_name where name = 'PHTC, Index plans to retest with partner' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @child6_concept_id from concept_name where name = 'N/A' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child1_concept_id from concept_name where name = 'PHTC, Partner refuses to test' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'PHTC, Index not ready to disclose status' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'PHTC, Index not ready to disclose that they were tested' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = 'PHTC, Index lost partner’s contacts' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child5_concept_id from concept_name where name = 'PHTC, Index in a long-distance relationship' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child6_concept_id from concept_name where name = 'PHTC, Index plans to retest with partner' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child7_concept_id from concept_name where name = 'N/A' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
 
             call add_concept_answer(@concept_id, @child1_concept_id, 1);
 			call add_concept_answer(@concept_id, @child2_concept_id, 2);
@@ -329,6 +332,7 @@
             call add_concept_answer(@concept_id, @child4_concept_id, 4);
 			call add_concept_answer(@concept_id, @child5_concept_id, 5);
             call add_concept_answer(@concept_id, @child6_concept_id, 6);
+            call add_concept_answer(@concept_id, @child7_concept_id, 7);
         </sql>
     </changeSet>
 
@@ -433,8 +437,48 @@
           </sql>
     </changeSet>
 
+    <changeSet id="PSI-CONFIG-201911211539" author="Suraj">
+        <comment>Adding Answer Contact Parent to Relationship to Index in Registration Page</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
 
+            select concept_id into @concept_id from concept_name where name = "Patient Registration, Relationships" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
+            select concept_id into @child1_concept_id from concept_name where name = 'Contact Parent' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 4);
+
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911251208" author="Suraj">
+        <comment>Adding KP Transition outcome to ART, TB, IPT, Pregnancy, Breastfeeding and PrEP Program</comment>
+          <sql>
+              set @concept1_id = 0;
+              set @concept2_id = 0;
+              set @concept3_id = 0;
+              set @concept4_id = 0;
+              set @concept5_id = 0;
+              set @concept6_id = 0;
+              set @member_concept_id = 0;
+
+              select concept_id into @concept1_id from concept_name where name = "ART Program Outcomes" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @concept2_id from concept_name where name = "TB Program Outcome" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @concept3_id from concept_name where name = "IPT Program Outcomes" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @concept4_id from concept_name where name = "Pregnancy Program Outcomes" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @concept5_id from concept_name where name = "Breast Feeding Program Outcomes" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @concept6_id from concept_name where name = "PrEP Program Outcomes" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member_concept_id from concept_name where name = "KP Transition" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept1_id, @member_concept_id, 12);
+              call add_concept_set_members (@concept2_id, @member_concept_id, 13);
+              call add_concept_set_members (@concept3_id, @member_concept_id, 13);
+              call add_concept_set_members (@concept4_id, @member_concept_id, 13);
+              call add_concept_set_members (@concept5_id, @member_concept_id, 11);
+              call add_concept_set_members (@concept6_id, @member_concept_id, 13);
+          </sql>
+    </changeSet>
 
 
 
