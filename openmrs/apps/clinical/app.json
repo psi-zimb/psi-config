@@ -668,6 +668,12 @@
           "Viac Form, Diastolic": {
                 "hideAbnormalButton" : true
             },
+          "PrEP ST Form, If Yes, then Specify2":{
+            "multiSelect": true
+          },
+          "PrEP ST Form, If Yes, then Specify3":{
+            "multiSelect": true
+          },
          "AIVC, Facility":{
             "dropdown":true,
             "required":true

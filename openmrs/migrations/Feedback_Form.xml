@@ -480,7 +480,20 @@
           </sql>
     </changeSet>
 
+    <changeSet id="PSI-CONFIG-201911281727" author="Suraj">
+        <comment>Adding new reason for stopping madicine as Out of Stock in Medication tab</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
 
+            select concept_id into @concept_id from concept_name where name = "Stopped Order Reason" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Out Of Stock' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 3);
+
+        </sql>
+    </changeSet>
 
 
 

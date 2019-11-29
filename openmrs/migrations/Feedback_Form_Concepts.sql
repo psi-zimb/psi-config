@@ -47,3 +47,5 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'mu','mu','N
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Contact Parent','Contact Parent','N/A','Misc',false);
 
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'KP Transition','KP Transition','N/A','Misc',false);
+
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Out Of Stock','Out Of Stock','N/A','Misc',false);
