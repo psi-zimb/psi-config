@@ -62,6 +62,13 @@
          "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artInitiated.sql"
       }
    },
+   "artViralLoad": {
+      "name": "Annual Viral Load Due Report",
+      "type": "MRSGeneric",
+      "config": {
+         "sqlPath": "/var/www/bahmni_config/openmrs/apps/reports/sql/artViralLoadDue.sql"
+      }
+   },
    "artTransferIn": {
       "name": "ART Transfer In Report",
       "type": "MRSGeneric",
