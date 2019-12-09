@@ -87,7 +87,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                      conditions.show.push("Provider name for Provider Testing and Counseling");
                      } else {
                        conditions.hide.push("Provider name for Provider Testing and Counseling");
-                     }  
+                     }
 
             if (obj.indexOf('Confirmatory HIV testing and Counseling')>=0 ) {
                      conditions.show.push("Provider name for Confirmatory HIV testing and Counseling");
@@ -112,7 +112,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                      } else {
                        conditions.hide.push("Provider name for Hospital Visit");
                      }
-  
+
               if (obj.indexOf('Viac Initial')>=0 ) {
                      conditions.show.push("Provider name for Viac Initial");
                      } else {
@@ -147,7 +147,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                      conditions.show.push("Provider name for FP Continuation");
                      } else {
                        conditions.hide.push("Provider name for FP Continuation");
-                     }              
+                     }
 
             if (obj.indexOf('VAWG')>=0 ) {
                      conditions.show.push("Provider name for VAWG");
@@ -9144,7 +9144,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
             conditions.hide.push("FP Continuation, Insertion/Removal Method");
             conditions.hide.push("FP Cont Form, Removal Method");
             conditions.hide.push("FP Cont Form, State reason for removal");
- 
+
         }
         else if (conditionConcept == "Insertion/Removal") {
             conditions.show.push("FP Continuation, Insertion/Removal Method");
@@ -9153,7 +9153,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
             conditions.hide.push("FPS Continuation, Removal Method");
             conditions.hide.push("FPS Continuation, Insertion Method");
             conditions.hide.push("FP Continuation, State reason for removal");
- 
+
         }
         else {
             conditions.hide.push("FPS Continuation, Insertion Method",
@@ -9216,24 +9216,24 @@ Bahmni.ConceptSet.FormConditions.rules = {
     "COSD Form, Previous ART Regimens (allow for multiple entries)": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
      var conditionConcept = formFieldValues['COSD Form, Previous ART Regimens (allow for multiple entries)'];
-     if (conditionConcept.indexOf("Adult 1st line ART Regimens") >=0 && !(conditionConcept.indexOf("Adult 2nd line ART Regimens") >=0)) 
+     if (conditionConcept.indexOf("Adult 1st line ART Regimens") >=0 && !(conditionConcept.indexOf("Adult 2nd line ART Regimens") >=0))
         {
           conditions.enable.push("COSD FORM, Previous Regimen Specify Adult 1st line ART Regimen");
           conditions.disable.push("COSD Form, Previous Regimen Specify Adult 2nd line ART Regimen");
-          
+
         }
      else if (conditionConcept.indexOf("Adult 2nd line ART Regimens") >=0 && !(conditionConcept.indexOf("Adult 1st line ART Regimens") >=0) )
         {
         conditions.enable.push("COSD Form, Previous Regimen Specify Adult 2nd line ART Regimen");
         conditions.disable.push("COSD FORM, Previous Regimen Specify Adult 1st line ART Regimen");
-        
+
         }
 
     else if (conditionConcept.indexOf("Adult 1st line ART Regimens") >=0 && conditionConcept.indexOf("Adult 2nd line ART Regimens") >=0)
      {
-        conditions.enable.push("COSD FORM, Previous Regimen Specify Adult 1st line ART Regimen","COSD Form, Previous Regimen Specify Adult 2nd line ART Regimen"); 
+        conditions.enable.push("COSD FORM, Previous Regimen Specify Adult 1st line ART Regimen","COSD Form, Previous Regimen Specify Adult 2nd line ART Regimen");
      }
-     
+
      else
      {
        conditions.disable.push("COSD FORM, Previous Regimen Specify Adult 1st line ART Regimen","COSD Form, Previous Regimen Specify Adult 2nd line ART Regimen");
@@ -10646,7 +10646,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
             conditions.hide.push("FP Init Form, Insert/Remove Insertion Method");
             conditions.hide.push("FP Init Form, Insert/Remove Removal Method");
             conditions.hide.push("FP Init Form, InsertRemove state reason for removal");
- 
+
         }
         else if (conditionConcept == "Insertion/Removal") {
             conditions.show.push("FP Init Form, Insert/Remove Insertion Method");
@@ -10655,7 +10655,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
             conditions.hide.push("FP Init Form, Removal Method");
             conditions.hide.push("FP Init Form, Insertion Method");
             conditions.hide.push("FP Init Form, State reason for removal");
- 
+
         }
         else {
             conditions.hide.push("FP Init Form, Insertion Method",
@@ -10699,7 +10699,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
      var conditionConcept = formFieldValues['PrEP ST Form, Are you in a Sero-discordant relationship?'];
      if (conditionConcept =="Yes") {
           conditions.enable.push("PrEP ST Form, If Yes, then Specify3");
-<<<<<<< HEAD
 
      }
      else
@@ -10713,28 +10712,10 @@ Bahmni.ConceptSet.FormConditions.rules = {
      var conditionConcept = formFieldValues['PrEP ST Form, Does the client have a sex partner with one or more HIV risk factors'];
      if (conditionConcept =="Yes") {
           conditions.enable.push("PrEP ST Form, If Yes, then Specify2");
-=======
->>>>>>> 4b5de29dd87a8c3bd5d06e427425a0b478bd4527
 
      }
      else
      {
-<<<<<<< HEAD
-=======
-          conditions.disable.push("PrEP ST Form, If Yes, then Specify3");
-     }
-          return conditions;
-  },
-    "PrEP ST Form, Does the client have a sex partner with one or more HIV risk factors": function(formName, formFieldValues) {
-     var conditions = {enable: [], disable: []};
-     var conditionConcept = formFieldValues['PrEP ST Form, Does the client have a sex partner with one or more HIV risk factors'];
-     if (conditionConcept =="Yes") {
-          conditions.enable.push("PrEP ST Form, If Yes, then Specify2");
-
-     }
-     else
-     {
->>>>>>> 4b5de29dd87a8c3bd5d06e427425a0b478bd4527
           conditions.disable.push("PrEP ST Form, If Yes, then Specify2");
      }
           return conditions;
