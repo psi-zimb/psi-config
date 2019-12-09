@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="PSI-CONFIG-201912051720" author="Suraj">
+        <comment>Adding New Concepts for Adherence Counselling Form</comment>
+        <sqlFile path="Adherence_Counselling_Form_Concepts.sql"/>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201912051822" author="Suraj">
+        <comment>Adding "AC Form, Tablets remaining at last visit" to numeric table</comment>
+        <sql>
+            INSERT INTO concept_numeric
+            (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision)
+            VALUES ((select concept_id from concept_name where name = 'AC Form, Tablets remaining at last visit'
+            and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201912051823" author="Suraj">
+        <comment>Adding "AC Form, Tablets supplied at last visit" to numeric table</comment>
+        <sql>
+            INSERT INTO concept_numeric
+            (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision)
+            VALUES ((select concept_id from concept_name where name = 'AC Form, Tablets supplied at last visit'
+            and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201912051824" author="Suraj">
+        <comment>Adding "AC Form, Number of days since last visit" to numeric table</comment>
+        <sql>
+            INSERT INTO concept_numeric
+            (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision)
+            VALUES ((select concept_id from concept_name where name = 'AC Form, Number of days since last visit'
+            and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201912051825" author="Suraj">
+        <comment>Adding "AC Form, Adherence Counselling Percentage" to numeric table</comment>
+        <sql>
+            INSERT INTO concept_numeric
+            (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision)
+            VALUES ((select concept_id from concept_name where name = 'AC Form, Adherence Counselling Percentage'
+            and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201912051721" author="Suraj">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select COUNT(*) from concept_set cs
+                join concept_name cn
+                on cs.concept_id = cn.concept_id
+                where cs.concept_id IN (select concept_id from concept_name where name ='Adherence Counselling Form Template' AND concept_name_type = "FULLY_SPECIFIED")
+                and cs.concept_set IN (select concept_id from concept_name where name = 'All Observation Templates');
+            </sqlCheck>
+        </preConditions>
+        <comment>Adding set member PrEP Screening Tool to all observation templates</comment>
+        <sql>
+              set @concept_id = 0;
+              set @member_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "All Observation Templates" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member_concept_id from concept_name where name = "Adherence Counselling Form Template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member_concept_id, 46);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201912051722" author="Suraj">
+        <comment>Adding set members to Adherence Counselling Form Template Form</comment>
+          <sql>
+              set @concept_id = 0;
+              set @member0_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "Adherence Counselling Form Template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member0_concept_id from concept_name where name = "AC Form, Adherence Counselling Details" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member0_concept_id, 0);
+
+          </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201912051723" author="Suraj">
+        <comment>Adding set members to AC Form, Adherence Counselling Details</comment>
+          <sql>
+              set @concept_id = 0;
+              set @member0_concept_id = 0;
+              set @member1_concept_id = 0;
+              set @member2_concept_id = 0;
+              set @member3_concept_id = 0;
+              set @member4_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "AC Form, Adherence Counselling Details" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              select concept_id into @member0_concept_id from concept_name where name = "AC Form, ARV Drugs" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member1_concept_id from concept_name where name = "AC Form, Tablets remaining at last visit" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member2_concept_id from concept_name where name = "AC Form, Tablets supplied at last visit" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member3_concept_id from concept_name where name = "AC Form, Number of days since last visit" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member4_concept_id from concept_name where name = "AC Form, Adherence Counselling Percentage" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member0_concept_id, 0);
+              call add_concept_set_members (@concept_id, @member1_concept_id, 1);
+              call add_concept_set_members (@concept_id, @member2_concept_id, 2);
+              call add_concept_set_members (@concept_id, @member3_concept_id, 3);
+              call add_concept_set_members (@concept_id, @member4_concept_id, 4);
+
+          </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201912051733" author="Suraj">
+        <comment>Adding Answers to "AC Form, ARV Drugs"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+            set @child6_concept_id = 0;
+            set @child7_concept_id = 0;
+            set @child8_concept_id = 0;
+            set @child9_concept_id = 0;
+            set @child10_concept_id = 0;
+            set @child11_concept_id = 0;
+            set @child12_concept_id = 0;
+            set @child13_concept_id = 0;
+            set @child14_concept_id = 0;
+            set @child15_concept_id = 0;
+            set @child16_concept_id = 0;
+            set @child17_concept_id = 0;
+            set @child18_concept_id = 0;
+            set @child19_concept_id = 0;
+            set @child20_concept_id = 0;
+            set @child21_concept_id = 0;
+            set @child22_concept_id = 0;
+            set @child23_concept_id = 0;
+            set @child24_concept_id = 0;
+            set @child25_concept_id = 0;
+            set @child26_concept_id = 0;
+            set @child27_concept_id = 0;
+            set @child28_concept_id = 0;
+            set @child29_concept_id = 0;
+            set @child30_concept_id = 0;
+            set @child31_concept_id = 0;
+            set @child32_concept_id = 0;
+            set @child33_concept_id = 0;
+            set @child34_concept_id = 0;
+            set @child35_concept_id = 0;
+            set @child36_concept_id = 0;
+            set @child37_concept_id = 0;
+            set @child38_concept_id = 0;
+            set @child39_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "AC Form, ARV Drugs" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'AC Form, Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Efavirenz (EFV) 600mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'AC Form, Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Efavirenz (EFV) 400mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'AC Form, Zidovudine (AZT) 300mg + Lamivudine (3TC) 150mg + Nevirapine (NVP) 200mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = 'AC Form, Zidovudine (AZT) 60mg + Lamivudine (3TC) 30mg + Nevirapine (NVP) 50mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child5_concept_id from concept_name where name = 'AC Form, Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child6_concept_id from concept_name where name = 'AC Form, Tenofovir (TDF) 300mg + Emtricitabine 200mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child7_concept_id from concept_name where name = 'AC Form, Zidovudine (AZT) 300mg + Lamivudine (3TC) 150mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child8_concept_id from concept_name where name = 'AC Form, Zidovudine (AZT) 60mg + Lamivudine (3TC) 30mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child9_concept_id from concept_name where name = 'AC Form, Abacavir 600mg / Lamivudine 300mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child10_concept_id from concept_name where name = 'AC Form, Abacavir 60mg / Lamivudine 30mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child11_concept_id from concept_name where name = 'AC Form, Atazanavir/Rtv 300/100 mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child12_concept_id from concept_name where name = 'AC Form, Lopinavir/Rtv 80/20 mg/ml' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child13_concept_id from concept_name where name = 'AC Form, Lopinavir/Rtv 100/25 mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child14_concept_id from concept_name where name = 'AC Form, Lopinavir/Rtv 200/50 mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child15_concept_id from concept_name where name = 'AC Form, Lamivudine (3TC) 150 mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child16_concept_id from concept_name where name = 'AC Form, Lamivudine (3TC) 50mg/5ml' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child17_concept_id from concept_name where name = 'AC Form, Efavirenz (EFV) 50 mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child18_concept_id from concept_name where name = 'AC Form, Efavirenz (EFV) 200 mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child19_concept_id from concept_name where name = 'AC Form, Efavirenz (EFV) 600 mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child20_concept_id from concept_name where name = 'AC Form, Zidovudine (AZT) 300 mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child21_concept_id from concept_name where name = 'AC Form, Zidovudine (AZT) 100mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child22_concept_id from concept_name where name = 'AC Form, Zidovudine (AZT) 50mg/5ml' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child23_concept_id from concept_name where name = 'AC Form, Abacavir (ABC) 20mg/ml' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child24_concept_id from concept_name where name = 'AC Form, Abacavir (ABC) 300 mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child25_concept_id from concept_name where name = 'AC Form, Abacavir (ABC) 60mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child26_concept_id from concept_name where name = 'AC Form, Nevirapine (NVP) 50mg/5ml' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child27_concept_id from concept_name where name = 'AC Form, Nevirapine (NVP) 200mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child28_concept_id from concept_name where name = 'AC Form, Didanosine (ddl) 125mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child29_concept_id from concept_name where name = 'AC Form, Didanosine (ddl) 200mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child30_concept_id from concept_name where name = 'AC Form, Didanosine (ddl) 250mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child31_concept_id from concept_name where name = 'AC Form, Didanosine (ddl) 25mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child32_concept_id from concept_name where name = 'AC Form, Didanosine (ddl) 400mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child33_concept_id from concept_name where name = 'AC Form, Emitricitabine 200mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child34_concept_id from concept_name where name = 'AC Form, Tenofovir 300mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child35_concept_id from concept_name where name = 'AC Form, Indinavir 400mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child36_concept_id from concept_name where name = 'AC Form, Saquinavir 200mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child37_concept_id from concept_name where name = 'AC Form, Tenofovir (TDF) 300mg + Lamivudine (3TC) 300mg + Dolutegravia (DTG) 50mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child38_concept_id from concept_name where name = 'AC Form, Dolutegravia (DTG) 50mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child39_concept_id from concept_name where name = 'AC Form, Dolutegravia (DTG) 25mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            call add_concept_answer(@concept_id, @child3_concept_id, 1);
+			call add_concept_answer(@concept_id, @child4_concept_id, 2);
+            call add_concept_answer(@concept_id, @child5_concept_id, 1);
+			call add_concept_answer(@concept_id, @child6_concept_id, 2);
+            call add_concept_answer(@concept_id, @child7_concept_id, 1);
+			call add_concept_answer(@concept_id, @child8_concept_id, 2);
+            call add_concept_answer(@concept_id, @child9_concept_id, 1);
+			call add_concept_answer(@concept_id, @child10_concept_id, 2);
+            call add_concept_answer(@concept_id, @child11_concept_id, 1);
+			call add_concept_answer(@concept_id, @child12_concept_id, 2);
+            call add_concept_answer(@concept_id, @child13_concept_id, 1);
+			call add_concept_answer(@concept_id, @child14_concept_id, 2);
+            call add_concept_answer(@concept_id, @child15_concept_id, 1);
+			call add_concept_answer(@concept_id, @child16_concept_id, 2);
+            call add_concept_answer(@concept_id, @child17_concept_id, 1);
+			call add_concept_answer(@concept_id, @child18_concept_id, 2);
+            call add_concept_answer(@concept_id, @child19_concept_id, 1);
+			call add_concept_answer(@concept_id, @child20_concept_id, 2);
+            call add_concept_answer(@concept_id, @child21_concept_id, 1);
+			call add_concept_answer(@concept_id, @child22_concept_id, 2);
+            call add_concept_answer(@concept_id, @child23_concept_id, 1);
+			call add_concept_answer(@concept_id, @child24_concept_id, 2);
+            call add_concept_answer(@concept_id, @child25_concept_id, 1);
+			call add_concept_answer(@concept_id, @child26_concept_id, 2);
+            call add_concept_answer(@concept_id, @child27_concept_id, 1);
+			call add_concept_answer(@concept_id, @child28_concept_id, 2);
+            call add_concept_answer(@concept_id, @child29_concept_id, 1);
+			call add_concept_answer(@concept_id, @child30_concept_id, 2);
+            call add_concept_answer(@concept_id, @child31_concept_id, 1);
+			call add_concept_answer(@concept_id, @child32_concept_id, 2);
+            call add_concept_answer(@concept_id, @child33_concept_id, 1);
+			call add_concept_answer(@concept_id, @child34_concept_id, 2);
+            call add_concept_answer(@concept_id, @child35_concept_id, 1);
+			call add_concept_answer(@concept_id, @child36_concept_id, 2);
+            call add_concept_answer(@concept_id, @child37_concept_id, 1);
+			call add_concept_answer(@concept_id, @child38_concept_id, 2);
+            call add_concept_answer(@concept_id, @child39_concept_id, 1);
+
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
