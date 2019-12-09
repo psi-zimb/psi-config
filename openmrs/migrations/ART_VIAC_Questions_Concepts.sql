@@ -41,8 +41,8 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, HPV P
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, HPV Pos-VIAC Pos Thermocoagulation Date','Thermocoagulation, Specify Date','Date','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, HPV Pos-VIAC Pos LEEP Date','LEEP, Specify Date','Date','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, HPV Pos-VIAC Pos Referred to Gyne Date','Referred to Gyne, Specify Date','Date','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, HPV Pos-VIAC Pos Other (Specify details) Text','Specify Details','Text','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, HPV Pos-VIAC Pos Other (Specify date) Date','Specify Date','Date','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, HPV Pos-VIAC Pos Other (Specify details) Text','If Other, Specify Details','Text','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, HPV Pos-VIAC Pos Other (Specify date) Date','If Other, Specify Date','Date','Misc',false);
 
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, VIAC Positive Did u have any intervention done?','Did u have any intervention done?','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, VIAC Positive If Yes','If Yes','Coded','Misc',false);
@@ -57,8 +57,8 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, VIAC 
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, VIAC Positive Thermocoagulation Date','Thermocoagulation, Specify Date','Date','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, VIAC Positive LEEP Date','LEEP, Specify Date','Date','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, VIAC Positive Referred to Gyne Date','Referred to Gyne, Specify Date','Date','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, VIAC Positive Other (Specify details) Text','Specify Details','Text','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, VIAC Positive Other (Specify date) Date','Specify Date','Date','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, VIAC Positive Other (Specify details) Text','If Other, Specify Details','Text','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, VIAC Positive Other (Specify date) Date','If Other, Specify Date','Date','Misc',false);
 
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, VIA Positive Did u have any intervention done?','Did u have any intervention done?','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, VIA Positive If Yes','If Yes','Coded','Misc',false);
@@ -73,8 +73,8 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, VIA P
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, VIA Positive Thermocoagulation Date','Thermocoagulation, Specify Date','Date','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, VIA Positive LEEP Date','LEEP, Specify Date','Date','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, VIA Positive Referred to Gyne Date','Referred to Gyne, Specify Date','Date','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, VIA Positive Other (Specify details) Text','Specify Details','Text','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, VIA Positive Other (Specify date) Date','Specify Date','Date','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, VIA Positive Other (Specify details) Text','If Other, Specify Details','Text','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, VIA Positive Other (Specify date) Date','If Other, Specify Date','Date','Misc',false);
 
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, Papsmear Pos Did u have any intervention done?','Did u have any intervention done?','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, Papsmear Pos If Yes','If Yes','Coded','Misc',false);
@@ -89,8 +89,8 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, Papsm
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, Papsmear Pos Thermocoagulation Date','Thermocoagulation, Specify Date','Date','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, Papsmear Pos LEEP Date','LEEP, Specify Date','Date','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, Papsmear Pos Referred to Gyne Date','Referred to Gyne, Specify Date','Date','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, Papsmear Pos Other (Specify details) Text','Specify Details','Text','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, Papsmear Pos Other (Specify date) Date','Specify Date','Date','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, Papsmear Pos Other (Specify details) Text','If Other, Specify Details','Text','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, Papsmear Pos Other (Specify date) Date','If Other, Specify Date','Date','Misc',false);
 
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, HPV DNA Neg Date','HPV DNA Neg','Date','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AIVC, Papsmear Neg Date','Papsmear Neg','Date','Misc',false);
@@ -238,8 +238,8 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, HPV Pos
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, HPV Pos-VIAC Pos Thermocoagulation Date','Thermocoagulation, Specify Date','Date','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, HPV Pos-VIAC Pos LEEP Date','LEEP, Specify Date','Date','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, HPV Pos-VIAC Pos Referred to Gyne Date','Referred to Gyne, Specify Date','Date','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, HPV Pos-VIAC Pos Other (Specify details) Text','Specify Details','Text','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, HPV Pos-VIAC Pos Other (Specify date) Date','Specify Date','Date','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, HPV Pos-VIAC Pos Other (Specify details) Text','If Other, Specify Details','Text','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, HPV Pos-VIAC Pos Other (Specify date) Date','If Other, Specify Date','Date','Misc',false);
 
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, VIAC Positive Did u have any intervention done?','Did u have any intervention done?','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, VIAC Positive If Yes','If Yes','Coded','Misc',false);
@@ -254,8 +254,8 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, VIAC Po
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, VIAC Positive Thermocoagulation Date','Thermocoagulation, Specify Date','Date','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, VIAC Positive LEEP Date','LEEP, Specify Date','Date','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, VIAC Positive Referred to Gyne Date','Referred to Gyne, Specify Date','Date','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, VIAC Positive Other (Specify details) Text','Specify Details','Text','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, VIAC Positive Other (Specify date) Date','Specify Date','Date','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, VIAC Positive Other (Specify details) Text','If Other, Specify Details','Text','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, VIAC Positive Other (Specify date) Date','If Other, Specify Date','Date','Misc',false);
 
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, VIA Positive Did u have any intervention done?','Did u have any intervention done?','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, VIA Positive If Yes','If Yes','Coded','Misc',false);
@@ -270,8 +270,8 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, VIA Pos
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, VIA Positive Thermocoagulation Date','Thermocoagulation, Specify Date','Date','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, VIA Positive LEEP Date','LEEP, Specify Date','Date','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, VIA Positive Referred to Gyne Date','Referred to Gyne, Specify Date','Date','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, VIA Positive Other (Specify details) Text','Specify Details','Text','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, VIA Positive Other (Specify date) Date','Specify Date','Date','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, VIA Positive Other (Specify details) Text','If Other, Specify Details','Text','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, VIA Positive Other (Specify date) Date','If Other, Specify Date','Date','Misc',false);
 
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, Papsmear Pos Did u have any intervention done?','Did u have any intervention done?','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, Papsmear Pos If Yes','If Yes','Coded','Misc',false);
@@ -286,8 +286,8 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, Papsmea
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, Papsmear Pos Thermocoagulation Date','Thermocoagulation, Specify Date','Date','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, Papsmear Pos LEEP Date','LEEP, Specify Date','Date','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, Papsmear Pos Referred to Gyne Date','Referred to Gyne, Specify Date','Date','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, Papsmear Pos Other (Specify details) Text','Specify Details','Text','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, Papsmear Pos Other (Specify date) Date','Specify Date','Date','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, Papsmear Pos Other (Specify details) Text','If Other, Specify Details','Text','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, Papsmear Pos Other (Specify date) Date','If Other, Specify Date','Date','Misc',false);
 
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, HPV DNA Neg Date','HPV DNA Neg','Date','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, Papsmear Neg Date','Papsmear Neg','Date','Misc',false);
