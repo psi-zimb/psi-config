@@ -504,7 +504,7 @@ public class BahmniObsValueCalculator implements ObsValueCalculator {
           }*/
 
         DecimalFormat df = new DecimalFormat("0.00");
-        long percentage = (orderQuantity + tabletsRemaining) - numberOfDaysPassed;
+        float percentage = (orderQuantity + tabletsRemaining) - numberOfDaysPassed;
 
         if(tabletsSuppliedObservation == null ) {
             tabletsSuppliedObservation = createObs("AC Form, Tablets supplied at last visit", parentObservation, bahmniEncounterTransaction, obsDatetime);
