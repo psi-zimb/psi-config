@@ -167,4 +167,6 @@
 
     <include file ="Feedback_Form.xml"/>
 
+    <include file ="PrEP_Screening_Tool_Form.xml"/>
+
 </databaseChangeLog>

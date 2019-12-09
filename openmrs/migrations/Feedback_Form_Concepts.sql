@@ -24,6 +24,7 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PHTC, Partn
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PHTC, Index does not have a partner','Index does not have a partner','N/A','Misc',false);
 
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PHTC, Reasons not Accepted','Reasons not Accepted','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PHTC, Partner refuses to test','Partner refuses to test','N/A','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PHTC, Index not ready to disclose status','Index not ready to disclose status','N/A','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PHTC, Index not ready to disclose that they were tested','Index not ready to disclose that they were tested','N/A','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PHTC, Index lost partner’s contacts','Index lost partner’s contacts','N/A','Misc',false);
@@ -42,3 +43,9 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'pint','pint
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'quote','quote','N/A','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'cup','cup','N/A','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'mu','mu','N/A','Misc',false);
+
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Contact Parent','Contact Parent','N/A','Misc',false);
+
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'KP Transition','KP Transition','N/A','Misc',false);
+
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Out Of Stock','Out Of Stock','N/A','Misc',false);

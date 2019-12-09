@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="PSI-CONFIG-201911271158" author="Suraj">
+        <comment>Adding New Concepts for PrEP Screening Tool Form</comment>
+        <sqlFile path="PrEP_Screening_Tool_Form_Concepts.sql"/>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911271159" author="Suraj">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select COUNT(*) from concept_set cs
+                join concept_name cn
+                on cs.concept_id = cn.concept_id
+                where cs.concept_id IN (select concept_id from concept_name where name ='PrEP Screening Tool Template' AND concept_name_type = "FULLY_SPECIFIED")
+                and cs.concept_set IN (select concept_id from concept_name where name = 'All Observation Templates');
+            </sqlCheck>
+        </preConditions>
+        <comment>Adding set member PrEP Screening Tool to all observation templates</comment>
+        <sql>
+              set @concept_id = 0;
+              set @member_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "All Observation Templates" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member_concept_id from concept_name where name = "PrEP Screening Tool Template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member_concept_id, 45);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911271345" author="Suraj">
+        <comment>Adding Answers to "PrEP ST Form, Is the Client HIV negative"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PrEP ST Form, Is the Client HIV negative" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911271346" author="Suraj">
+        <comment>Adding Answers to "PrEP ST Form, Is the client sexually active"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PrEP ST Form, Is the client sexually active" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911271347" author="Suraj">
+        <comment>Adding Answers to "PrEP ST Form, Is the sexually active in a high prevalence / KP population in the last 6 months?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PrEP ST Form, Is the sexually active in a high prevalence / KP population in the last 6 months?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911271511" author="Suraj">
+        <comment>Adding Answers to "PrEP ST Form, If Yes, then Specify1"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+            set @child6_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PrEP ST Form, If Yes, then Specify1" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'PrEP ST Form, MSM' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'PrEP ST Form, TG' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'PrEP ST Form, TSW' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = 'PrEP ST Form, FSW' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child5_concept_id from concept_name where name = 'PrEP ST Form, HRM' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child6_concept_id from concept_name where name = 'PrEP ST Form, Sero-discordant' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            call add_concept_answer(@concept_id, @child3_concept_id, 3);
+			call add_concept_answer(@concept_id, @child4_concept_id, 4);
+            call add_concept_answer(@concept_id, @child5_concept_id, 5);
+			call add_concept_answer(@concept_id, @child6_concept_id, 6);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911271348" author="Suraj">
+        <comment>Adding Answers to "PrEP ST Form, Has the client had vaginal or anal intercourse without condoms with more than 1 partner in the last 6 months?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PrEP ST Form, Has the client had vaginal or anal intercourse without condoms with more than 1 partner in the last 6 months?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911271349" author="Suraj">
+        <comment>Adding "PrEP ST Form, How many sexual partners did you have vaginal or anal sex with?" to numeric table</comment>
+        <sql>
+            INSERT INTO concept_numeric
+            (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision)
+            VALUES ((select concept_id from concept_name where name = 'PrEP ST Form, How many sexual partners did you have vaginal or anal sex with?'
+            and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911271350" author="Suraj">
+        <comment>Adding Answers to "PrEP ST Form, In the past 6 months, did you use condoms consistently during sex?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PrEP ST Form, In the past 6 months, did you use condoms consistently during sex?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911271359" author="Suraj">
+        <comment>Adding Answers to "PrEP ST Form, Does the client have a sex partner with one or more HIV risk factors"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PrEP ST Form, Does the client have a sex partner with one or more HIV risk factors" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911271655" author="Suraj">
+        <comment>Adding Answers to "PrEP ST Form, If Yes, then Specify2"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+            set @child6_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PrEP ST Form, If Yes, then Specify2" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'PrEP ST Form, Living with HIV' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'PrEP ST Form, Injecting drugs' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'PrEP ST Form, Men having sex with men' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = 'PrEP ST Form, A transgender person?' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child5_concept_id from concept_name where name = 'PrEP ST Form, A sex worker' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child6_concept_id from concept_name where name = 'PrEP ST Form, Has sex with multiple partners without condoms' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            call add_concept_answer(@concept_id, @child3_concept_id, 3);
+			call add_concept_answer(@concept_id, @child4_concept_id, 4);
+            call add_concept_answer(@concept_id, @child5_concept_id, 5);
+			call add_concept_answer(@concept_id, @child6_concept_id, 6);
+        </sql>
+    </changeSet>
+
+
+    <changeSet id="PSI-CONFIG-201911271401" author="Suraj">
+        <comment>Adding Answers to "PrEP ST Form, In the last 6 months has the client been treated for an STI by lab testing, self-reports, syndromic STI treatment"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PrEP ST Form, In the last 6 months has the client been treated for an STI by lab testing, self-reports, syndromic STI treatment" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911271402" author="Suraj">
+        <comment>Adding Answers to "PrEP ST Form, In the last 6 months have you taken post-exposure prophylaxis (PEP) following a potential exposure to HIV?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PrEP ST Form, In the last 6 months have you taken post-exposure prophylaxis (PEP) following a potential exposure to HIV?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911271440" author="Suraj">
+        <comment>Adding Answers to "PrEP ST Form, In the last 6 months have you used emergency contraception?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PrEP ST Form, In the last 6 months have you used emergency contraception?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911271441" author="Suraj">
+        <comment>Adding Answers to "PrEP ST Form, In the last 6 months have you had sex while under the influence of alcohol?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PrEP ST Form, In the last 6 months have you had sex while under the influence of alcohol?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911271442" author="Suraj">
+        <comment>Adding Answers to "PrEP ST Form, Are you in a Sero-discordant relationship?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PrEP ST Form, Are you in a Sero-discordant relationship?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911271656" author="Suraj">
+        <comment>Adding Answers to "PrEP ST Form, If Yes, then Specify3"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PrEP ST Form, If Yes, then Specify3" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'PrEP ST Form, Trying to conceive' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'PrEP ST Form, Unknown treatment of positive partner' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'PrEP ST Form, Partner with HIV who has not been on effective therapy for the entire 6 months' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = 'PrEP ST Form, Unsuppressed/unknown viral load' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            call add_concept_answer(@concept_id, @child3_concept_id, 3);
+			call add_concept_answer(@concept_id, @child4_concept_id, 4);
+
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911271444" author="Suraj">
+        <comment>Adding Answers to "PrEP ST Form, Do you have a partners of unknown status who refuse testing?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PrEP ST Form, Do you have a partners of unknown status who refuse testing?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911271459" author="Suraj">
+        <comment>Adding Answers to "PrEP ST Form, Do you inject drugs?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PrEP ST Form, Do you inject drugs?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911271551" author="Suraj">
+        <comment>Adding set members to PrEP Screening Tool Form</comment>
+          <sql>
+              set @concept_id = 0;
+              set @member0_concept_id = 0;
+              set @member1_concept_id = 0;
+              set @member2_concept_id = 0;
+              set @member3_concept_id = 0;
+              set @member4_concept_id = 0;
+              set @member5_concept_id = 0;
+              set @member6_concept_id = 0;
+              set @member7_concept_id = 0;
+              set @member8_concept_id = 0;
+              set @member9_concept_id = 0;
+              set @member10_concept_id = 0;
+              set @member11_concept_id = 0;
+              set @member12_concept_id = 0;
+              set @member13_concept_id = 0;
+              set @member14_concept_id = 0;
+              set @member15_concept_id = 0;
+              set @member16_concept_id = 0;
+              set @member17_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "PrEP Screening Tool Template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              select concept_id into @member0_concept_id from concept_name where name = "PrEP ST Form, Is the Client HIV negative" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member1_concept_id from concept_name where name = "PrEP ST Form, Date tested" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member2_concept_id from concept_name where name = "PrEP ST Form, Is the client sexually active" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member3_concept_id from concept_name where name = "PrEP ST Form, Is the sexually active in a high prevalence / KP population in the last 6 months?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member4_concept_id from concept_name where name = "PrEP ST Form, If Yes, then Specify1" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member5_concept_id from concept_name where name = "PrEP ST Form, Has the client had vaginal or anal intercourse without condoms with more than 1 partner in the last 6 months?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member6_concept_id from concept_name where name = "PrEP ST Form, How many sexual partners did you have vaginal or anal sex with?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member7_concept_id from concept_name where name = "PrEP ST Form, In the past 6 months, did you use condoms consistently during sex?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member8_concept_id from concept_name where name = "PrEP ST Form, Does the client have a sex partner with one or more HIV risk factors" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member9_concept_id from concept_name where name = "PrEP ST Form, If Yes, then Specify2" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member10_concept_id from concept_name where name = "PrEP ST Form, In the last 6 months has the client been treated for an STI by lab testing, self-reports, syndromic STI treatment" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member11_concept_id from concept_name where name = "PrEP ST Form, In the last 6 months have you taken post-exposure prophylaxis (PEP) following a potential exposure to HIV?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member12_concept_id from concept_name where name = "PrEP ST Form, In the last 6 months have you used emergency contraception?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member13_concept_id from concept_name where name = "PrEP ST Form, In the last 6 months have you had sex while under the influence of alcohol?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member14_concept_id from concept_name where name = "PrEP ST Form, Are you in a Sero-discordant relationship?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member15_concept_id from concept_name where name = "PrEP ST Form, If Yes, then Specify3" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member16_concept_id from concept_name where name = "PrEP ST Form, Do you have a partners of unknown status who refuse testing?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member17_concept_id from concept_name where name = "PrEP ST Form, Do you inject drugs?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member0_concept_id, 0);
+              call add_concept_set_members (@concept_id, @member1_concept_id, 1);
+              call add_concept_set_members (@concept_id, @member2_concept_id, 2);
+              call add_concept_set_members (@concept_id, @member3_concept_id, 3);
+              call add_concept_set_members (@concept_id, @member4_concept_id, 4);
+              call add_concept_set_members (@concept_id, @member5_concept_id, 5);
+              call add_concept_set_members (@concept_id, @member6_concept_id, 6);
+              call add_concept_set_members (@concept_id, @member7_concept_id, 7);
+              call add_concept_set_members (@concept_id, @member8_concept_id, 8);
+              call add_concept_set_members (@concept_id, @member9_concept_id, 9);
+              call add_concept_set_members (@concept_id, @member10_concept_id, 10);
+              call add_concept_set_members (@concept_id, @member11_concept_id, 11);
+              call add_concept_set_members (@concept_id, @member12_concept_id, 12);
+              call add_concept_set_members (@concept_id, @member13_concept_id, 13);
+              call add_concept_set_members (@concept_id, @member14_concept_id, 14);
+              call add_concept_set_members (@concept_id, @member15_concept_id, 15);
+              call add_concept_set_members (@concept_id, @member16_concept_id, 16);
+              call add_concept_set_members (@concept_id, @member17_concept_id, 17);
+          </sql>
+    </changeSet>
+
+
+
+
+
+
+
+
+
+</databaseChangeLog>
