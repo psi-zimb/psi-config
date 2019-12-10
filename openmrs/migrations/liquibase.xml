@@ -169,4 +169,8 @@
 
     <include file ="PrEP_Screening_Tool_Form.xml"/>
 
+    <include file ="ART_VIAC_Questions.xml"/>
+
+    <include file ="Adherence_Counselling_Form.xml"/>
+
 </databaseChangeLog>

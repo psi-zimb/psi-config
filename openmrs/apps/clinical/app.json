@@ -273,6 +273,9 @@
             "RUUV, If Yes for Male Have you observed a discharge from the penis?":{
                 "multiSelect":true
             },
+            "RUUV, When is your next date of screening?":{
+                "allowFutureDates": true
+            },
             "Pregnancy Form Template, Due Date":{
                 "allowFutureDates": true
             },
@@ -318,6 +321,9 @@
             "AP, Type of Visit":{
                 "required":true
             },
+            "AP, When is your next date of screening?":{
+                "allowFutureDates": true
+          },
             "Provider name,Referral Letter form":{
                 "required":true
             },
@@ -685,6 +691,9 @@
             "dropdown":true,
             "required":true
           },
+          "AIVC, When is your next date of screening?":{
+            "allowFutureDates": true
+          },
           "FPS Continuation, If Yes select the complications":{
             "dropdown":true
           },
@@ -694,6 +703,18 @@
           "FPS Counselling Only, If yes, select the adverse event":{
             "dropdown":true
           },
+          "AC Form, Adherence Counselling Details": {
+                "allowAddMore": true
+            },
+          "AC Form, ARV Drugs": {
+                "required":true,
+                "dropdown":true,
+                "disableAddNotes" : true
+          },
+          "AC Form, Tablets remaining at last visit": {
+                "required":true,
+                "disableAddNotes" : true
+            },
           "defaults": {
                 "HIV testing and counselling service": "Requested",
                 "Numeric concept": 1,

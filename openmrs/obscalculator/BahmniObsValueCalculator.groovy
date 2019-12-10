@@ -2,14 +2,31 @@ import org.apache.commons.lang.StringUtils
 import org.openmrs.Concept
 import org.openmrs.ConceptSet
 import org.openmrs.api.ConceptService
+import org.bahmni.module.bahmnicore.service.BahmniDrugOrderService
+import org.openmrs.api.VisitService
+import org.openmrs.api.OrderService
+import org.openmrs.api.ConceptService
+import org.openmrs.api.EncounterService
+import org.openmrs.Visit
+import org.openmrs.Patient
+import org.openmrs.Order
+import org.openmrs.Drug
+import org.openmrs.DrugOrder
+import org.openmrs.Encounter
 import org.openmrs.api.context.Context
+import org.bahmni.module.bahmnicore.service.impl.BahmniBridge
+import org.bahmni.module.bahmnicore.service.impl.BahmniDrugOrderServiceImpl
 import org.openmrs.module.bahmniemrapi.encountertransaction.contract.BahmniEncounterTransaction
 import org.openmrs.module.bahmniemrapi.encountertransaction.contract.BahmniObservation
 import org.openmrs.module.bahmniemrapi.obscalculator.ObsValueCalculator
 import org.openmrs.module.emrapi.encounter.domain.EncounterTransaction
 
+import java.util.concurrent.TimeUnit
+import java.text.DecimalFormat
+
 public class BahmniObsValueCalculator implements ObsValueCalculator {
     static Double ZERO = 0.0;
+    static def logger = new File("/tmp/groovy_debug.txt");
 
     class ScoreDetails {
         Double score;
@@ -102,7 +119,7 @@ public class BahmniObsValueCalculator implements ObsValueCalculator {
                 return ZERO
             }
 //            double score = scoreDetails.areAllQuestionsAnswered() ? scoreDetails.getScore() * 1.25 : (scoreDetails.getScore() + scoreDetails.getScore() / scoreDetails.getAnsweredQuestions()) * 1.25;
-              double score = scoreDetails.areAllQuestionsAnswered() ? scoreDetails.getScore() * 1.25 : (scoreDetails.getScore()  / (4 * scoreDetails.getAnsweredQuestions())) * 100;
+            double score = scoreDetails.areAllQuestionsAnswered() ? scoreDetails.getScore() * 1.25 : (scoreDetails.getScore()  / (4 * scoreDetails.getAnsweredQuestions())) * 100;
             String value = "" + roundOffToTwoDecimalPlaces(score);
             return value
         }
@@ -212,16 +229,21 @@ public class BahmniObsValueCalculator implements ObsValueCalculator {
     }
 
     void run(BahmniEncounterTransaction bahmniEncounterTransaction) {
+        logger.append("*******************************\nStarted at " + new Date() + "\n")
         Collection<BahmniObservation> observations = bahmniEncounterTransaction.getObservations()
         BahmniObservation baselineVitalsForm = find("ART Observations Form Template", observations, null)
         BahmniObservation cosdForm = find("Community Operational and Service deliver form", observations, null)
+        BahmniObservation adherenceCounsellingForm = find("Adherence Counselling Form Template", observations, null)
         if (baselineVitalsForm != null) {
             calculateBMIAndSave(baselineVitalsForm, "HEIGHT", "WEIGHT", "BMI Data", "BMI")
         }
         if (cosdForm != null) {
             calculateBMIAndSave(cosdForm, "COSD, Height", "COSD, Weight", "COSD, BMI Data", "COSD, BMI")
         }
-        
+
+        if(adherenceCounsellingForm != null) {
+            calculateAdherencePercentage(bahmniEncounterTransaction, adherenceCounsellingForm);
+        }
         println("hello");
         calculateScores(observations)
         voidExistingObservationWithoutValue(observations)
@@ -375,6 +397,142 @@ public class BahmniObsValueCalculator implements ObsValueCalculator {
         }
     }
 
+    static def calculateAdherencePercentage(BahmniEncounterTransaction bahmniEncounterTransaction,BahmniObservation baselineForm) {
+        Map<String,String> drugNameToOrderIdMap = new HashMap<>();
+        Patient patient = Context.getPatientService().getPatientByUuid(bahmniEncounterTransaction.getPatientUuid());
+        Collection<BahmniObservation> observations = baselineForm.getGroupMembers();
+        ConceptService conceptService = Context.getConceptService();
+        VisitService visitService = Context.getVisitService();
+        OrderService orderService = Context.getOrderService();
+
+        List<BahmniDrugOrderService> drugOrderService = Context.getRegisteredComponents(BahmniDrugOrderServiceImpl.class)
+        List<DrugOrder> drugOrders = drugOrderService[0].getActiveDrugOrders(bahmniEncounterTransaction.getPatientUuid());
+        logger.append("drugOrders " + drugOrders.size() + "\n");
+
+        List<Visit> visits = visitService.getVisitsByPatient(patient);
+        logger.append("Visits count is " + visits.size() + "\n");
+        int visitCount = 0;
+        if(visits == null || visits.size() == 1) {
+            //No Previous visits
+            throw new IllegalArgumentException("No Previous Visits for this patient");
+        }
+        Date currentVisitStartTime = null;
+        for(Visit visit: visits) {
+            if(visit.getStopDatetime() != null) {
+                // exclude drugs given in current visit if any
+                logger.append("ID " + visit.getId() + " Start " + visit.getStartDatetime() + " End " + visit.getStopDatetime() + " Date Created "+  visit.getDateCreated() +"\n");
+                currentVisitStartTime = visit.getStartDatetime();
+                break;
+            }
+        }
+
+       // logger.append("currentVisitStartTime " + currentVisitStartTime + "\n");
+        List<Drug> drugs = conceptService.getAllDrugs(false);
+        for(Drug drug:drugs) {
+            drugNameToOrderIdMap.put(drug.getName(),drug.getConcept().getConceptId());
+        }
+        List<Order> orders = orderService.getAllOrdersByPatient(patient);
+        if(orders == null) {
+            throw new IllegalArgumentException("No Medications for this patient");
+        }
+        List<Order> activeOrders = orders.clone();
+        logger.append("orders size " + orders.size + "\n");
+        for(Order order: orders) {
+            logger.append("isActive " + order.isActive() +  " Start date " + order.getEffectiveStartDate() +
+                    " Stop date " + order.getEffectiveStopDate() + " Scheduled Date " + order.getScheduledDate() +
+                    " Order ID " + order.getOrderId() + " Order Type " + order.getOrderType().getId() + "\n");
+            if(!order.isActive() || order.getOrderType().getId() != 2) {
+                activeOrders.remove(order);
+            }
+        }
+        if(activeOrders == null || activeOrders.size() == 0) {
+            throw new IllegalArgumentException("No Active Medications for this patient");
+        }
+        logger.append("Active Orders size " + activeOrders.size + "\n");
+        logger.append("Obs size " + observations.size() + "\n");
+        for (BahmniObservation observation : observations) {
+            calculateAdherencePercentagePerSection(bahmniEncounterTransaction, observation, patient, drugNameToOrderIdMap, drugOrders, activeOrders, visits, currentVisitStartTime);
+        }
+    }
+
+    static def calculateAdherencePercentagePerSection(BahmniEncounterTransaction bahmniEncounterTransaction, BahmniObservation parentObservation, Patient patient,
+                                                      Map<String,String> drugNameToOrderIdMap, List<DrugOrder> drugOrders, List<Order> activeOrders, List<Visit> visits, Date currentVisitStartTime) {
+        Collection<BahmniObservation> observations = parentObservation.getGroupMembers();
+
+        double tabletsRemaining = 0;
+        String drugName = "";
+        Date obsDatetime = null;
+        String drugId = "";
+        BahmniObservation tabletsSuppliedObservation = findObs("AC Form, Tablets supplied at last visit", observations);
+        BahmniObservation numberOfDaysObservation = findObs("AC Form, Number of days since last visit", observations);
+        BahmniObservation percentageObservation = findObs("AC Form, Adherence Counselling Percentage", observations);
+        for (BahmniObservation observation : observations) {
+            if("AC Form, Tablets remaining at last visit".equalsIgnoreCase(observation.getConcept().getName())) {
+                tabletsRemaining = observation.getValue();
+                obsDatetime = getDate(observation);
+            }
+            else if("AC Form, ARV Drugs".equalsIgnoreCase(observation.getConcept().getName())) {
+                drugName = observation.getValue().name;
+                obsDatetime = getDate(observation);
+                drugId = drugNameToOrderIdMap.get(drugName);
+            }
+        }
+
+        int orderQuantity = -1;
+        long numberOfDaysPassed = -1;
+        for (DrugOrder drugOrder : drugOrders) {
+            logger.append("Drug ID [" + drugOrder.getOrderId() + "] Quantity [" + drugOrder.getQuantity() + "]\n");
+            if(drugName.equalsIgnoreCase("" + drugOrder.getDrug().getName())) {
+                orderQuantity = drugOrder.getQuantity();
+                numberOfDaysPassed = getNumberOfDaysPassed(drugOrder);
+                if(numberOfDaysPassed != 0)
+                    break;
+            }
+        }
+        if( orderQuantity == -1) {
+            throw new IllegalArgumentException("Drug [" + drugName + "] is not active for this patient ");
+        }
+        if(orderQuantity < tabletsRemaining)
+            throw new IllegalArgumentException("Tablets remaining at last visit " + tabletsRemaining +
+                    " is more than prescribed [" + orderQuantity + "] for the drug [" + drugName + "] given in the last visit ");
+
+        /*  if(numberOfDaysPassed == 0) {
+              throw new IllegalArgumentException("Drug [" + drugName + "] is given either in current visit or Number of days passed after last visit is zero");
+          }*/
+
+        logger.append("TabletsRemaining [" + tabletsRemaining + "]\n");
+        logger.append("Drug Selected [" + drugName + "]\n");
+        logger.append("Drug Id " + drugId + "\n");
+
+        DecimalFormat df = new DecimalFormat("0.00");
+        float percentage = (orderQuantity + tabletsRemaining) - numberOfDaysPassed;
+
+        if(tabletsSuppliedObservation == null ) {
+            tabletsSuppliedObservation = createObs("AC Form, Tablets supplied at last visit", parentObservation, bahmniEncounterTransaction, obsDatetime);
+        }
+        if(numberOfDaysObservation == null ) {
+            numberOfDaysObservation = createObs("AC Form, Number of days since last visit", parentObservation, bahmniEncounterTransaction, obsDatetime);
+        }
+        if(percentageObservation == null ) {
+            percentageObservation = createObs("AC Form, Adherence Counselling Percentage", parentObservation, bahmniEncounterTransaction, obsDatetime);
+        }
+        tabletsSuppliedObservation.setValue(orderQuantity);
+        numberOfDaysObservation.setValue(numberOfDaysPassed);
+        percentageObservation.setValue(percentage);
+    }
+
+    private static long getNumberOfDaysPassed(DrugOrder drugOrder) {
+        EncounterService encounterService = Context.getEncounterService()
+        int encounterID = drugOrder.getEncounter().getEncounterId();
+        Encounter encounter = encounterService.getEncounter(encounterID);
+        Visit visit = encounter.getVisit();
+        Date dateCreated = visit.getStartDatetime();
+        logger.append("Encounter ID " + encounterID + " Date Created " + dateCreated + "\n");
+
+        long diff = new Date().getTime() - dateCreated.getTime();
+        return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+
+    }
     private static Date getDate(BahmniObservation observation) {
         return hasValue(observation) && !observation.voided ? observation.getObservationDateTime() : null;
     }
@@ -424,5 +582,12 @@ public class BahmniObsValueCalculator implements ObsValueCalculator {
         return null
     }
 
+    static BahmniObservation findObs(String conceptName, Collection<BahmniObservation> observations) {
+        for (BahmniObservation observation : observations) {
+            if (conceptName.equalsIgnoreCase(observation.getConcept().getName())) {
+                return observation;
+            }
+        }
+        return null;
+    }
 }
-
