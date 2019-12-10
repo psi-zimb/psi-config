@@ -477,15 +477,12 @@ public class BahmniObsValueCalculator implements ObsValueCalculator {
                 drugId = drugNameToOrderIdMap.get(drugName);
             }
         }
-        logger.append("TabletsRemaining [" + tabletsRemaining + "]\n");
-        logger.append("Drug Selected [" + drugName + "]\n");
-        logger.append("Drug Id " + drugId + "\n");
 
         int orderQuantity = -1;
         long numberOfDaysPassed = -1;
         for (DrugOrder drugOrder : drugOrders) {
             logger.append("Drug ID [" + drugOrder.getOrderId() + "] Quantity [" + drugOrder.getQuantity() + "]\n");
-            if(drugId.equalsIgnoreCase("" + drugOrder.getConcept().getConceptId())) {
+            if(drugName.equalsIgnoreCase("" + drugOrder.getDrug().getName())) {
                 orderQuantity = drugOrder.getQuantity();
                 numberOfDaysPassed = getNumberOfDaysPassed(drugOrder);
                 if(numberOfDaysPassed != 0)
@@ -502,6 +499,10 @@ public class BahmniObsValueCalculator implements ObsValueCalculator {
         /*  if(numberOfDaysPassed == 0) {
               throw new IllegalArgumentException("Drug [" + drugName + "] is given either in current visit or Number of days passed after last visit is zero");
           }*/
+
+        logger.append("TabletsRemaining [" + tabletsRemaining + "]\n");
+        logger.append("Drug Selected [" + drugName + "]\n");
+        logger.append("Drug Id " + drugId + "\n");
 
         DecimalFormat df = new DecimalFormat("0.00");
         float percentage = (orderQuantity + tabletsRemaining) - numberOfDaysPassed;
