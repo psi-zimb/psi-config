@@ -10695,56 +10695,84 @@ Bahmni.ConceptSet.FormConditions.rules = {
           return conditions;
 },
     "PrEP ST Form, Are you in a Sero-discordant relationship?": function(formName, formFieldValues) {
-     var conditions = {enable: [], disable: []};
+     var conditions = {show: [], hide: []};
      var conditionConcept = formFieldValues['PrEP ST Form, Are you in a Sero-discordant relationship?'];
      if (conditionConcept =="Yes") {
-          conditions.enable.push("PrEP ST Form, If Yes, then Specify3");
+          conditions.show.push("PrEP ST Form, If Yes, then Specify3");
 
      }
      else
      {
-          conditions.disable.push("PrEP ST Form, If Yes, then Specify3");
+          conditions.hide.push("PrEP ST Form, If Yes, then Specify3");
+     }
+          return conditions;
+  },
+    "PrEP ST Form, Is the client eligible for PrEP": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['PrEP ST Form, Is the client eligible for PrEP'];
+     if (conditionConcept =="Yes") {
+          conditions.show.push("PrEP ST Form, If Yes, then Specify4");
+          conditions.show.push("PrEP ST Form, Has the client been referred for PrEP");
+
+     }
+     else
+     {
+          conditions.hide.push("PrEP ST Form, If Yes, then Specify4");
+          conditions.hide.push("PrEP ST Form, Has the client been referred for PrEP");
+     }
+          return conditions;
+  },
+    "PrEP ST Form, Has the client been referred for PrEP": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['PrEP ST Form, Has the client been referred for PrEP'];
+     if (conditionConcept =="No") {
+          conditions.show.push("PrEP ST Form, Reason(s) for not referring the client");
+
+     }
+     else
+     {
+          conditions.hide.push("PrEP ST Form, Reason(s) for not referring the client");
      }
           return conditions;
   },
     "PrEP ST Form, Does the client have a sex partner with one or more HIV risk factors": function(formName, formFieldValues) {
-     var conditions = {enable: [], disable: []};
+     var conditions = {show: [], hide: []};
      var conditionConcept = formFieldValues['PrEP ST Form, Does the client have a sex partner with one or more HIV risk factors'];
      if (conditionConcept =="Yes") {
-          conditions.enable.push("PrEP ST Form, If Yes, then Specify2");
+          conditions.show.push("PrEP ST Form, If Yes, then Specify2");
 
      }
      else
      {
-          conditions.disable.push("PrEP ST Form, If Yes, then Specify2");
+          conditions.hide.push("PrEP ST Form, If Yes, then Specify2");
      }
           return conditions;
   },
     "PrEP ST Form, Is the sexually active in a high prevalence / KP population in the last 6 months?": function(formName, formFieldValues) {
-     var conditions = {enable: [], disable: []};
+     var conditions = {show: [], hide: []};
      var conditionConcept = formFieldValues['PrEP ST Form, Is the sexually active in a high prevalence / KP population in the last 6 months?'];
      if (conditionConcept =="Yes") {
-          conditions.enable.push("PrEP ST Form, If Yes, then Specify1");
+          conditions.show.push("PrEP ST Form, If Yes, then Specify1");
 
      }
      else
      {
-          conditions.disable.push("PrEP ST Form, If Yes, then Specify1");
+          conditions.hide.push("PrEP ST Form, If Yes, then Specify1");
      }
           return conditions;
   },
     "PrEP ST Form, Has the client had vaginal or anal intercourse without condoms with more than 1 partner in the last 6 months?": function(formName, formFieldValues) {
-     var conditions = {enable: [], disable: []};
+     var conditions = {show: [], hide: []};
      var conditionConcept = formFieldValues['PrEP ST Form, Has the client had vaginal or anal intercourse without condoms with more than 1 partner in the last 6 months?'];
      if (conditionConcept =="Yes") {
-          conditions.enable.push("PrEP ST Form, How many sexual partners did you have vaginal or anal sex with?");
-          conditions.enable.push("PrEP ST Form, In the past 6 months, did you use condoms consistently during sex?");
+          conditions.show.push("PrEP ST Form, How many sexual partners did you have vaginal or anal sex with?");
+          conditions.show.push("PrEP ST Form, In the past 6 months, did you use condoms consistently during sex?");
 
      }
      else
      {
-          conditions.disable.push("PrEP ST Form, How many sexual partners did you have vaginal or anal sex with?");
-          conditions.disable.push("PrEP ST Form, In the past 6 months, did you use condoms consistently during sex?");
+          conditions.hide.push("PrEP ST Form, How many sexual partners did you have vaginal or anal sex with?");
+          conditions.hide.push("PrEP ST Form, In the past 6 months, did you use condoms consistently during sex?");
      }
           return conditions;
   },
@@ -10760,29 +10788,29 @@ Bahmni.ConceptSet.FormConditions.rules = {
         return conditions;
     },
     "PrEP ST Form, Is the client sexually active": function(formName, formFieldValues) {
-        var conditions = {enable: [], disable: []};
+        var conditions = {show: [], hide: []};
         var conditionConcept = formFieldValues['PrEP ST Form, Is the client sexually active'];
         if (conditionConcept == "Yes") {
-            conditions.enable.push("PrEP ST Form, Is the sexually active in a high prevalence / KP population in the last 6 months?");
-            conditions.enable.push("PrEP ST Form, Has the client had vaginal or anal intercourse without condoms with more than 1 partner in the last 6 months?");
-            conditions.enable.push("PrEP ST Form, Does the client have a sex partner with one or more HIV risk factors");
-            conditions.enable.push("PrEP ST Form, In the last 6 months has the client been treated for an STI by lab testing, self-reports, syndromic STI treatment");
-            conditions.enable.push("PrEP ST Form, In the last 6 months have you taken post-exposure prophylaxis (PEP) following a potential exposure to HIV?");
-            conditions.enable.push("PrEP ST Form, In the last 6 months have you used emergency contraception?");
-            conditions.enable.push("PrEP ST Form, In the last 6 months have you had sex while under the influence of alcohol?");
-            conditions.enable.push("PrEP ST Form, Are you in a Sero-discordant relationship?");
-            conditions.enable.push("PrEP ST Form, Do you have a partners of unknown status who refuse testing?");
+            conditions.show.push("PrEP ST Form, Is the sexually active in a high prevalence / KP population in the last 6 months?");
+            conditions.show.push("PrEP ST Form, Has the client had vaginal or anal intercourse without condoms with more than 1 partner in the last 6 months?");
+            conditions.show.push("PrEP ST Form, Does the client have a sex partner with one or more HIV risk factors");
+            conditions.show.push("PrEP ST Form, In the last 6 months has the client been treated for an STI by lab testing, self-reports, syndromic STI treatment");
+            conditions.show.push("PrEP ST Form, In the last 6 months have you taken post-exposure prophylaxis (PEP) following a potential exposure to HIV?");
+            conditions.show.push("PrEP ST Form, In the last 6 months have you used emergency contraception?");
+            conditions.show.push("PrEP ST Form, In the last 6 months have you had sex while under the influence of alcohol?");
+            conditions.show.push("PrEP ST Form, Are you in a Sero-discordant relationship?");
+            conditions.show.push("PrEP ST Form, Do you have a partners of unknown status who refuse testing?");
 
         } else {
-            conditions.disable.push("PrEP ST Form, Is the sexually active in a high prevalence / KP population in the last 6 months?");
-            conditions.disable.push("PrEP ST Form, Has the client had vaginal or anal intercourse without condoms with more than 1 partner in the last 6 months?");
-            conditions.disable.push("PrEP ST Form, Does the client have a sex partner with one or more HIV risk factors");
-            conditions.disable.push("PrEP ST Form, In the last 6 months has the client been treated for an STI by lab testing, self-reports, syndromic STI treatment");
-            conditions.disable.push("PrEP ST Form, In the last 6 months have you taken post-exposure prophylaxis (PEP) following a potential exposure to HIV?");
-            conditions.disable.push("PrEP ST Form, In the last 6 months have you used emergency contraception?");
-            conditions.disable.push("PrEP ST Form, In the last 6 months have you had sex while under the influence of alcohol?");
-            conditions.disable.push("PrEP ST Form, Are you in a Sero-discordant relationship?");
-            conditions.disable.push("PrEP ST Form, Do you have a partners of unknown status who refuse testing?");
+            conditions.hide.push("PrEP ST Form, Is the sexually active in a high prevalence / KP population in the last 6 months?");
+            conditions.hide.push("PrEP ST Form, Has the client had vaginal or anal intercourse without condoms with more than 1 partner in the last 6 months?");
+            conditions.hide.push("PrEP ST Form, Does the client have a sex partner with one or more HIV risk factors");
+            conditions.hide.push("PrEP ST Form, In the last 6 months has the client been treated for an STI by lab testing, self-reports, syndromic STI treatment");
+            conditions.hide.push("PrEP ST Form, In the last 6 months have you taken post-exposure prophylaxis (PEP) following a potential exposure to HIV?");
+            conditions.hide.push("PrEP ST Form, In the last 6 months have you used emergency contraception?");
+            conditions.hide.push("PrEP ST Form, In the last 6 months have you had sex while under the influence of alcohol?");
+            conditions.hide.push("PrEP ST Form, Are you in a Sero-discordant relationship?");
+            conditions.hide.push("PrEP ST Form, Do you have a partners of unknown status who refuse testing?");
         }
         return conditions;
     },

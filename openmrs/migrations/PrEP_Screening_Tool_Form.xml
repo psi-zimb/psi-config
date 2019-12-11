@@ -97,12 +97,12 @@
 
             select concept_id into @concept_id from concept_name where name = "PrEP ST Form, If Yes, then Specify1" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            select concept_id into @child1_concept_id from concept_name where name = 'PrEP ST Form, MSM' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @child2_concept_id from concept_name where name = 'PrEP ST Form, TG' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @child3_concept_id from concept_name where name = 'PrEP ST Form, TSW' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @child4_concept_id from concept_name where name = 'PrEP ST Form, FSW' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @child5_concept_id from concept_name where name = 'PrEP ST Form, HRM' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @child6_concept_id from concept_name where name = 'PrEP ST Form, Sero-discordant' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child1_concept_id from concept_name where name = 'MSM' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'TG' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'TSW' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = 'FSW' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child5_concept_id from concept_name where name = 'HRM' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child6_concept_id from concept_name where name = 'Sero-discordant' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
             call add_concept_answer(@concept_id, @child1_concept_id, 1);
 			call add_concept_answer(@concept_id, @child2_concept_id, 2);
@@ -347,6 +347,105 @@
         </sql>
     </changeSet>
 
+    <changeSet id="PSI-CONFIG-201912091623" author="Suraj">
+        <comment>Adding Answers to "PrEP ST Form, Is the client eligible for PrEP"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PrEP ST Form, Is the client eligible for PrEP" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201912091624" author="Suraj">
+        <comment>Adding Answers to "PrEP ST Form, If Yes, then Specify4"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+            set @child6_concept_id = 0;
+            set @child7_concept_id = 0;
+            set @child8_concept_id = 0;
+            set @child9_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PrEP ST Form, If Yes, then Specify4" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'FSW' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'TSW' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'MSM' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = 'BI-SEXUAL' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child5_concept_id from concept_name where name = 'PWID' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child6_concept_id from concept_name where name = 'SERO-DISC' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child7_concept_id from concept_name where name = 'HRM' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child8_concept_id from concept_name where name = 'Transgender' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child9_concept_id from concept_name where name = 'GP' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            call add_concept_answer(@concept_id, @child3_concept_id, 3);
+			call add_concept_answer(@concept_id, @child4_concept_id, 4);
+            call add_concept_answer(@concept_id, @child5_concept_id, 5);
+			call add_concept_answer(@concept_id, @child6_concept_id, 6);
+			call add_concept_answer(@concept_id, @child7_concept_id, 7);
+            call add_concept_answer(@concept_id, @child8_concept_id, 8);
+			call add_concept_answer(@concept_id, @child9_concept_id, 9);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201912091632" author="Suraj">
+        <comment>Adding Answers to "PrEP ST Form, Has the client been referred for PrEP"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PrEP ST Form, Has the client been referred for PrEP" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201912091641" author="Suraj">
+        <comment>Adding Answers to "PrEP ST Form, Reason(s) for not referring the client"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PrEP ST Form, Reason(s) for not referring the client" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Not Ready' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'Fear of violence from partner' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'Fear of side effects' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = 'Need to notify partner first' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child5_concept_id from concept_name where name = 'Prefers other prevention methods' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            call add_concept_answer(@concept_id, @child3_concept_id, 3);
+			call add_concept_answer(@concept_id, @child4_concept_id, 4);
+            call add_concept_answer(@concept_id, @child5_concept_id, 5);
+        </sql>
+    </changeSet>
+
     <changeSet id="PSI-CONFIG-201911271551" author="Suraj">
         <comment>Adding set members to PrEP Screening Tool Form</comment>
           <sql>
@@ -369,6 +468,10 @@
               set @member15_concept_id = 0;
               set @member16_concept_id = 0;
               set @member17_concept_id = 0;
+              set @member18_concept_id = 0;
+              set @member19_concept_id = 0;
+              set @member20_concept_id = 0;
+              set @member21_concept_id = 0;
 
               select concept_id into @concept_id from concept_name where name = "PrEP Screening Tool Template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
@@ -390,6 +493,10 @@
               select concept_id into @member15_concept_id from concept_name where name = "PrEP ST Form, If Yes, then Specify3" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
               select concept_id into @member16_concept_id from concept_name where name = "PrEP ST Form, Do you have a partners of unknown status who refuse testing?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
               select concept_id into @member17_concept_id from concept_name where name = "PrEP ST Form, Do you inject drugs?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member18_concept_id from concept_name where name = "PrEP ST Form, Is the client eligible for PrEP" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member19_concept_id from concept_name where name = "PrEP ST Form, If Yes, then Specify4" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member20_concept_id from concept_name where name = "PrEP ST Form, Has the client been referred for PrEP" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member21_concept_id from concept_name where name = "PrEP ST Form, Reason(s) for not referring the client" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
               call add_concept_set_members (@concept_id, @member0_concept_id, 0);
               call add_concept_set_members (@concept_id, @member1_concept_id, 1);
@@ -409,6 +516,10 @@
               call add_concept_set_members (@concept_id, @member15_concept_id, 15);
               call add_concept_set_members (@concept_id, @member16_concept_id, 16);
               call add_concept_set_members (@concept_id, @member17_concept_id, 17);
+              call add_concept_set_members (@concept_id, @member18_concept_id, 18);
+              call add_concept_set_members (@concept_id, @member19_concept_id, 19);
+              call add_concept_set_members (@concept_id, @member20_concept_id, 20);
+              call add_concept_set_members (@concept_id, @member21_concept_id, 21);
           </sql>
     </changeSet>
 

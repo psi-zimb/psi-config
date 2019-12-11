@@ -677,6 +677,9 @@
           "PrEP ST Form, If Yes, then Specify2":{
             "multiSelect": true
           },
+          "PrEP ST Form, Reason(s) for not referring the client":{
+            "multiSelect": true
+          },
           "PrEP ST Form, If Yes, then Specify3":{
             "multiSelect": true
           },

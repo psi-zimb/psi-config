@@ -13,12 +13,8 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST For
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST Form, Is the client sexually active','Is the client sexually active','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST Form, Is the sexually active in a high prevalence / KP population in the last 6 months?','Is the sexually active in a high prevalence / KP population in the last 6 months?','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST Form, If Yes, then Specify1','If Yes, then Specify','Coded','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST Form, MSM','MSM','N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST Form, TG','TG','N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST Form, TSW','TSW','N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST Form, FSW','FSW','N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST Form, HRM','HRM','N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST Form, Sero-discordant','Sero-discordant','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'TG','TG','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Sero-discordant','Sero-discordant','N/A','Misc',false);
 
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST Form, Has the client had vaginal or anal intercourse without condoms with more than 1 partner in the last 6 months?','Has the client had vaginal or anal intercourse without condoms with more than 1 partner in the last 6 months?','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST Form, How many sexual partners did you have vaginal or anal sex with?','How many sexual partners did you have vaginal or anal sex with?','Numeric','Misc',false);
@@ -51,4 +47,20 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST For
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST Form, Do you have a partners of unknown status who refuse testing?','Do you have a partners of unknown status who refuse testing?','Coded','Misc',false);
 
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST Form, Do you inject drugs?','Do you inject drugs?','Coded','Misc',false);
+
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST Form, Is the client eligible for PrEP','Is the client eligible for PrEP','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST Form, If Yes, then Specify4','If Yes, then Specify','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PWID','PWID','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST Form, Has the client been referred for PrEP','Has the client been referred for PrEP','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST Form, Reason(s) for not referring the client','Reason(s) for not referring the client','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Not Ready','Not Ready','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Fear of side effects','Fear of side effects','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Need to notify partner first','Need to notify partner first','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Prefers other prevention methods','Prefers other prevention methods','N/A','Misc',false);
+
+
+
+
+
+
 

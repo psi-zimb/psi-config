@@ -453,7 +453,7 @@
     </changeSet>
 
     <changeSet id="PSI-CONFIG-201911251208" author="Suraj">
-        <comment>Adding KP Transition outcome to ART, TB, IPT, Pregnancy, Breastfeeding and PrEP Program</comment>
+        <comment>Adding Transferred Out - KP Transition outcome to ART, TB, IPT, Pregnancy, Breastfeeding and PrEP Program</comment>
           <sql>
               set @concept1_id = 0;
               set @concept2_id = 0;
@@ -469,7 +469,7 @@
               select concept_id into @concept4_id from concept_name where name = "Pregnancy Program Outcomes" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
               select concept_id into @concept5_id from concept_name where name = "Breast Feeding Program Outcomes" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
               select concept_id into @concept6_id from concept_name where name = "PrEP Program Outcomes" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-              select concept_id into @member_concept_id from concept_name where name = "KP Transition" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member_concept_id from concept_name where name = "Transferred Out - KP Transition" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
               call add_concept_set_members (@concept1_id, @member_concept_id, 12);
               call add_concept_set_members (@concept2_id, @member_concept_id, 13);
