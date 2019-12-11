@@ -105,5 +105,6 @@
   "DASHBOARD_TITLE_Consultation_KEY": "Consultation Notes",
 
   "NUMBER_OF_WEEKS_IN_ART_PROGRAM": "Weeks in ART Program",
-  "NOT_ENROLLED_IN_ART_PROGRAM": "Not enrolled in the ART Program"
+  "NOT_ENROLLED_IN_ART_PROGRAM": "Not enrolled in the ART Program",
+  "DASHBOARD_TITLE_ART_ACTIVE_DRUG_DETAILS":"All Active Drugs"
 }
