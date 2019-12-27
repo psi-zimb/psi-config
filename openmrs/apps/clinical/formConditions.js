@@ -70,7 +70,11 @@ Bahmni.ConceptSet.FormConditions.rules = {
 			         } else {
 			           conditions.hide.push("Provider name for Adherence counseling");
 			         }
-
+			if (obj.indexOf('Enhanced Adherence Counseling')>=0 ) {
+			         conditions.show.push("Provider name for Enhanced adherence counseling");
+			         } else {
+			           conditions.hide.push("Provider name for Enhanced adherence counseling");
+			         }
 			if (obj.indexOf('PrEP Continuation')>=0 ) {
 			         conditions.show.push("Provider name for Prep Continuation");
 			         } else {
@@ -864,11 +868,13 @@ Bahmni.ConceptSet.FormConditions.rules = {
         var conditionConcept = formFieldValues['STI Symptoms, Patients gender'];
         if (conditionConcept == "Male") {
             conditions.show.push("STI Symptoms, Male Details");
-            conditions.enable.push("STI Symptoms, Male, Have you observed a discharge from the penis?","STI Symptoms, Male, Have you noticed non painful or painful ulcers on or around the penis?","STI Symptoms, Male, Have you had rash with any of the symptoms?", "STI Symptoms, Male, Have you noticed warts on the genital area?", "STI Symptoms, Male, Have you had swelling of your penis or foreskin?", "STI Symptoms, Male, Have you been treated for any of the following?");
+            conditions.enable.push("STI Symptoms, Male, Family Medical History","STI Symptoms, Male, Registered for ART","STI Symptoms, Male, Client's HIV status","STI Symptoms, Male, Have you observed a discharge from the penis?","STI Symptoms, Male, Have you noticed non painful or painful ulcers on or around the penis?","STI Symptoms, Male, Have you had rash with any of the symptoms?", "STI Symptoms, Male, Have you noticed warts on the genital area?", "STI Symptoms, Male, Have you had swelling of your penis or foreskin?", "STI Symptoms, Male, Have you been treated for any of the following?");
             conditions.hide.push("STI Symptoms, Female Details");
             var PenisDischarge = formFieldValues['STI Symptoms, Male, Have you observed a discharge from the penis?'];
             var PenisUlcers = formFieldValues['STI Symptoms, Male, Have you noticed non painful or painful ulcers on or around the penis?'];
             var RashSymptoms = formFieldValues['STI Symptoms, Male, Have you had rash with any of the symptoms?'];
+            var HivStatus = formFieldValues["STI Symptoms, Male, Client's HIV status"];
+            var RegArt = formFieldValues['STI Symptoms, Male, Registered for ART'];
             if (PenisDischarge == "Yes") {
                 conditions.enable.push("STI Symptoms, Male, If yes on penis discharge, specify type");
             } else {
@@ -884,15 +890,26 @@ Bahmni.ConceptSet.FormConditions.rules = {
             } else {
                 conditions.disable.push("STI Symptoms, Male, If yes on rash, location of rash");
             }
-
+            if (HivStatus == "Positive") {
+                conditions.enable.push("STI Symptoms, Male, Registered for ART");
+            } else {
+                conditions.disable.push("STI Symptoms, Male, Registered for ART");
+            }
+            if (RegArt == "Yes") {
+                conditions.enable.push("STI Symptoms, Male, If Yes");
+            } else {
+                conditions.disable.push("STI Symptoms, Male, If Yes");
+            }
         }
         else if (conditionConcept == "Female") {
             conditions.show.push("STI Symptoms, Female Details");
-            conditions.enable.push("STI Symptoms, Female, Have you observed a vaginal discharge?","STI Symptoms, Female, Have you noticed non painful of painful ulcers on or around the labia?","STI Symptoms, Female, Have you had rash with any of the symptoms?", "STI Symptoms, Female, Have you noticed warts on the genital area?", "STI Symptoms, Female, Have you had swelling of the labia?", "STI Symptoms, Female, Have you been treated for any of the following?");
+            conditions.enable.push("STI Symptoms, Male, Family Medical History","STI Symptoms, Female, Family Medical History","STI Symptoms, Female, Registered for ART","STI Symptoms, Female, Client's HIV status","STI Symptoms, Female, Have you observed a vaginal discharge?","STI Symptoms, Female, Have you noticed non painful of painful ulcers on or around the labia?","STI Symptoms, Female, Have you had rash with any of the symptoms?", "STI Symptoms, Female, Have you noticed warts on the genital area?", "STI Symptoms, Female, Have you had swelling of the labia?", "STI Symptoms, Female, Have you been treated for any of the following?");
             conditions.hide.push("STI Symptoms, Male Details");
             var VagDischarge = formFieldValues['STI Symptoms, Female, Have you observed a vaginal discharge?'];
             var LabiaUlcer = formFieldValues['STI Symptoms, Female, Have you noticed non painful of painful ulcers on or around the labia?'];
             var RashSymptoms = formFieldValues['STI Symptoms, Female, Have you had rash with any of the symptoms?'];
+            var HivStatus = formFieldValues["STI Symptoms, Female, Client's HIV status"];
+            var RegArt = formFieldValues['STI Symptoms, Female, Registered for ART'];
             if (VagDischarge == "Yes") {
                 conditions.enable.push("STI Symptoms, Female, If yes on vaginal discharge, specify type");
             } else {
@@ -907,6 +924,16 @@ Bahmni.ConceptSet.FormConditions.rules = {
                 conditions.enable.push("STI Symptoms, Female, If yes on rash, location of rash");
             } else {
                 conditions.disable.push("STI Symptoms, Female, If yes on rash, location of rash");
+            }
+            if (HivStatus == "Positive") {
+                conditions.enable.push("STI Symptoms, Female, Registered for ART");
+            } else {
+                conditions.disable.push("STI Symptoms, Female, Registered for ART");
+            }
+            if (RegArt == "Yes") {
+                conditions.enable.push("STI Symptoms, Female, If Yes");
+            } else {
+                conditions.disable.push("STI Symptoms, Female, If Yes");
             }
         }
         else {
@@ -924,6 +951,42 @@ Bahmni.ConceptSet.FormConditions.rules = {
         }
         return conditions;
         },
+    "STI Symptoms, Male, If Yes": function(formName, formFieldValues) {
+         var conditions = {show: [], hide: []};
+         var NscOther = formFieldValues['STI Symptoms, Male, If Yes'];
+         if (NscOther == "NSC") {
+              conditions.show.push("STI Symptoms, Male, NSC");
+              conditions.hide.push("STI Symptoms, Male, Other");
+         }
+         else if (NscOther == "Other")
+         {
+              conditions.show.push("STI Symptoms, Male, Other");
+              conditions.hide.push("STI Symptoms, Male, NSC");
+         }
+         else {
+            conditions.hide.push("STI Symptoms, Male, NSC",
+                                 "STI Symptoms, Male, Other");
+        }
+          return conditions;
+    },
+    "STI Symptoms, Female, If Yes": function(formName, formFieldValues) {
+         var conditions = {show: [], hide: []};
+         var NscOther = formFieldValues['STI Symptoms, Female, If Yes'];
+         if (NscOther == "NSC") {
+              conditions.show.push("STI Symptoms, Female, NSC");
+              conditions.hide.push("STI Symptoms, Female, Other");
+         }
+         else if (NscOther == "Other")
+         {
+              conditions.show.push("STI Symptoms, Female, Other");
+              conditions.hide.push("STI Symptoms, Female, NSC");
+         }
+         else {
+            conditions.hide.push("STI Symptoms, Female, NSC",
+                                 "STI Symptoms, Female, Other");
+        }
+          return conditions;
+    },
     "STI Symptoms, Male, Have you noticed non painful or painful ulcers on or around the penis?": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['STI Symptoms, Male, Have you noticed non painful or painful ulcers on or around the penis?'];
@@ -961,6 +1024,16 @@ Bahmni.ConceptSet.FormConditions.rules = {
             conditions.enable.push("STI Symptoms, Female, Other type of vaginal discharge");
         } else {
             conditions.disable.push("STI Symptoms, Female, Other type of vaginal discharge");
+        }
+        return conditions;
+        },
+    "STI Symptoms, Male, If yes on penis discharge, specify type": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['STI Symptoms, Male, If yes on penis discharge, specify type'];
+        if (conditionConcept.indexOf("Other") >=0) {
+            conditions.enable.push("STI Symptoms, Male, Other type of discharge");
+        } else {
+            conditions.disable.push("STI Symptoms, Male, Other type of discharge");
         }
         return conditions;
         },
@@ -12180,15 +12253,285 @@ Bahmni.ConceptSet.FormConditions.rules = {
                                  "AP, VIAC Neg Date");
         }
         return conditions;
+    },
+  'STI Symptoms, Male, Have you been treated for any of the following?' : function (formName, formFieldValues) {
+            var conditions = {show: [], hide: []};
+            var obj = formFieldValues['STI Symptoms, Male, Have you been treated for any of the following?'];
+
+                     if (obj.indexOf('Syphilis')>=0 ) {
+                              conditions.show.push("STI Symptoms, Male, Syphilis Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Male, Syphilis Date");
+                              }
+                      if (obj.indexOf('Acute scrotal swelling')>=0 ) {
+                              conditions.show.push("STI Symptoms, Male, Acute scrotal swelling Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Male, Acute scrotal swelling Date");
+                              }
+                      if (obj.indexOf('Balanitis')>=0 ) {
+                              conditions.show.push("STI Symptoms, Male, Balanitis Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Male, Balanitis Date");
+                              }
+                     if (obj.indexOf('Genital herpes')>=0 ) {
+                              conditions.show.push("STI Symptoms, Male, Genital herpes Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Male, Genital herpes Date");
+                              }
+                     if (obj.indexOf('Genital ulcer disease')>=0 ) {
+                              conditions.show.push("STI Symptoms, Male, Genital ulcer disease Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Male, Genital ulcer disease Date");
+                              }
+                     if (obj.indexOf('Genital warts')>=0 ) {
+                              conditions.show.push("STI Symptoms, Male, Genital Warts Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Male, Genital Warts Date");
+                              }
+                     if (obj.indexOf('Inguinal Bubo')>=0 ) {
+                              conditions.show.push("STI Symptoms, Male, Inguinal Bubo Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Male, Inguinal Bubo Date");
+                              }
+                     if (obj.indexOf('Pubic Lice')>=0 ) {
+                              conditions.show.push("STI Symptoms, Male, Pubic Lice Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Male, Pubic Lice Date");
+                              }
+                     if (obj.indexOf('Scabies')>=0 ) {
+                              conditions.show.push("STI Symptoms, Male, Scabies Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Male, Scabies Date");
+                              }
+                     if (obj.indexOf('Urethral Discharge Syndrome')>=0 ) {
+                              conditions.show.push("STI Symptoms, Male, Urethral Discharge Syndrome Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Male, Urethral Discharge Syndrome Date");
+                              }
+
+
+       return conditions;
+        },
+  'STI Symptoms, Male, Family Medical History' : function (formName, formFieldValues) {
+            var conditions = {show: [], hide: []};
+            var obj = formFieldValues['STI Symptoms, Male, Family Medical History'];
+
+                     if (obj.indexOf('Other (specify)')>=0 ) {
+                              conditions.show.push("STI Symptoms, Male, Other, Specify");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Male, Other, Specify");
+                              }
+        return conditions;
+        },
+    "STI Symptoms, Male, Client's HIV status": function(formName, formFieldValues) {
+         var conditions = {enable: [], disable: []};
+         var conditionConcept = formFieldValues["STI Symptoms, Male, Client's HIV status"];
+         if (conditionConcept == "Positive") {
+              conditions.enable.push("STI Symptoms, Male, Registered for ART");
+         }
+         else
+         {
+              conditions.disable.push("STI Symptoms, Male, Registered for ART");
+         }
+          return conditions;
+    },
+    "STI Symptoms, Male, Registered for ART": function(formName, formFieldValues) {
+         var conditions = {enable: [], disable: []};
+         var conditionConcept = formFieldValues['STI Symptoms, Male, Registered for ART'];
+         if (conditionConcept == "Yes") {
+              conditions.enable.push("STI Symptoms, Male, If Yes");
+         }
+         else
+         {
+              conditions.disable.push("STI Symptoms, Male, If Yes");
+         }
+          return conditions;
+    },
+    "STI Symptoms, Female, Client's HIV status": function(formName, formFieldValues) {
+         var conditions = {enable: [], disable: []};
+         var conditionConcept = formFieldValues['STI Symptoms, Female, Client\'s HIV status'];
+         if (conditionConcept == "Positive") {
+              conditions.enable.push("STI Symptoms, Female, Registered for ART");
+         }
+         else
+         {
+              conditions.disable.push("STI Symptoms, Female, Registered for ART");
+         }
+          return conditions;
+    },
+    "STI Symptoms, Female, Registered for ART": function(formName, formFieldValues) {
+         var conditions = {enable: [], disable: []};
+         var conditionConcept = formFieldValues['STI Symptoms, Female, Registered for ART'];
+         if (conditionConcept == "Yes") {
+              conditions.enable.push("STI Symptoms, Female, If Yes");
+         }
+         else
+         {
+              conditions.disable.push("STI Symptoms, Female, If Yes");
+         }
+          return conditions;
+    },
+  'STI Symptoms, Female, Family Medical History' : function (formName, formFieldValues) {
+            var conditions = {show: [], hide: []};
+            var obj = formFieldValues['STI Symptoms, Female, Family Medical History'];
+
+                     if (obj.indexOf('Other (specify)')>=0 ) {
+                              conditions.show.push("STI Symptoms, Female, Other, Specify");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Female, Other, Specify");
+                              }
+        return conditions;
+        },
+  'STI Symptoms, Female, Have you been treated for any of the following?' : function (formName, formFieldValues) {
+            var conditions = {show: [], hide: []};
+            var obj = formFieldValues['STI Symptoms, Female, Have you been treated for any of the following?'];
+
+                     if (obj.indexOf('Syphilis')>=0 ) {
+                              conditions.show.push("STI Symptoms, Female, Syphilis Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Female, Syphilis Date");
+                              }
+                      if (obj.indexOf('Genital herpes')>=0 ) {
+                              conditions.show.push("STI Symptoms, Female, Genital herpes Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Female, Genital herpes Date");
+                              }
+                      if (obj.indexOf('Genital ulcer disease')>=0 ) {
+                              conditions.show.push("STI Symptoms, Female, Genital ulcer disease Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Female, Genital ulcer disease Date");
+                              }
+                     if (obj.indexOf('Genital warts')>=0 ) {
+                              conditions.show.push("STI Symptoms, Female, Genital Warts Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Female, Genital Warts Date");
+                              }
+                     if (obj.indexOf('Inguinal Bubo')>=0 ) {
+                              conditions.show.push("STI Symptoms, Female, Inguinal Bubo Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Female, Inguinal Bubo Date");
+                              }
+                     if (obj.indexOf('Pelvic Inflammatory disease')>=0 ) {
+                              conditions.show.push("STI Symptoms, Female, Pelvic Inflammatory Disease Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Female, Pelvic Inflammatory Disease Date");
+                              }
+                     if (obj.indexOf('Pubic Lice')>=0 ) {
+                              conditions.show.push("STI Symptoms, Female, Pubic Lice Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Female, Pubic Lice Date");
+                              }
+                     if (obj.indexOf('Scabies')>=0 ) {
+                              conditions.show.push("STI Symptoms, Female, Scabies Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Female, Scabies Date");
+                              }
+                     if (obj.indexOf('Vaginal discharge syndrome')>=0 ) {
+                              conditions.show.push("STI Symptoms, Female, Vaginal Discharge Syndrome Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Female, Vaginal Discharge Syndrome Date");
+                              }
+
+       return conditions;
+        },
+
+  "FP Counselling Only, Site Type": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['FP Counselling Only, Site Type'];
+     if (conditionConcept =="Outreach") {
+          conditions.show.push("FP Counselling Only, District");
+
+     }
+     else
+     {
+          conditions.hide.push("FP Counselling Only, District");
+     }
+          return conditions;
+    },
+
+   "FP Continuation, Site Type": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['FP Continuation, Site Type'];
+     if (conditionConcept =="Outreach") {
+          conditions.show.push("FP Continuation, District");
+
+     }
+     else
+     {
+          conditions.hide.push("FP Continuation, District");
+     }
+          return conditions;
+  },
+  'EAC Form, What could be the possible cause of treatment failure?' : function (formName, formFieldValues) {
+            var conditions = {show: [], hide: []};
+            var obj = formFieldValues['EAC Form, What could be the possible cause of treatment failure?'];
+
+                     if (obj.indexOf('Drug to drug interaction')>=0 ) {
+                              conditions.show.push("EAC Form, Specify drug");
+                              } else {
+                                conditions.hide.push("EAC Form, Specify drug");
+                              }
+        return conditions;
+        },
+   "EAC Form, Have been having unprotected sex?": function(formName, formFieldValues) {
+         var conditions = {show: [], hide: []};
+         var conditionConcept = formFieldValues['EAC Form, Have been having unprotected sex?'];
+         if (conditionConcept == "Yes") {
+              conditions.show.push("EAC Form, If Yes, Specify2");
+         }
+         else
+         {
+              conditions.hide.push("EAC Form, If Yes, Specify2");
+         }
+          return conditions;
+    },
+   "EAC Form, Are you using any other medications or traditional herbs?": function(formName, formFieldValues) {
+         var conditions = {show: [], hide: []};
+         var conditionConcept = formFieldValues['EAC Form, Are you using any other medications or traditional herbs?'];
+         if (conditionConcept == "Yes") {
+              conditions.show.push("EAC Form, If Yes, Specify1");
+         }
+         else
+         {
+              conditions.hide.push("EAC Form, If Yes, Specify1");
+         }
+          return conditions;
+    },
+  'EAC Form, If Yes, Specify1' : function (formName, formFieldValues) {
+            var conditions = {show: [], hide: []};
+            var obj = formFieldValues['EAC Form, If Yes, Specify1'];
+
+                     if (obj.indexOf('Other (specify)')>=0 ) {
+                              conditions.show.push("EAC Form, If Others, Specify");
+                              } else {
+                                conditions.hide.push("EAC Form, If Others, Specify");
+                              }
+        return conditions;
+        },
+   "EAC Form, Have you been taking your drugs daily?": function(formName, formFieldValues) {
+         var conditions = {enable: [], disable: []};
+         var conditionConcept = formFieldValues['EAC Form, Have you been taking your drugs daily?'];
+         if (conditionConcept == "Yes") {
+              conditions.enable.push("EAC Form, What time are you taking the drugs?");
+              conditions.enable.push("EAC Form, Have you been taking drugs at the same time daily?");
+         }
+         else
+         {
+              conditions.disable.push("EAC Form, What time are you taking the drugs?");
+              conditions.disable.push("EAC Form, Have you been taking drugs at the same time daily?");
+         }
+          return conditions;
+    },
+   "EAC Form, Have you been taking drugs at the same time daily?": function(formName, formFieldValues) {
+         var conditions = {enable: [], disable: []};
+         var conditionConcept = formFieldValues['EAC Form, Have you been taking drugs at the same time daily?'];
+         if (conditionConcept == "No") {
+              conditions.enable.push("EAC Form, What challenges are you facing to maintain the same time?");
+         }
+         else
+         {
+              conditions.disable.push("EAC Form, What challenges are you facing to maintain the same time?");
+         }
+          return conditions;
     }
-
-
-
-
-
-
-
-
-
-
 }

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="PSI-CONFIG-201912261234" author="Yash">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                   select count(*) from concept_answer ca
+                   join
+                   concept_name cn
+                   on ca.concept_id = cn.concept_id
+                   where ca.answer_concept IN
+                   (
+                   	   select concept_id from concept_name where name IN
+		                   (
+		                   	'Moleen Mukukura',
+							'Bekezela ndhlovu',
+							'Prisca Ncube',
+							'Magrett Chibuye',
+							'Virginia Mutomba',
+							'Reamohetsi Mlobane',
+							'Fanuel Ncube',
+							'Rumbidzai Kudzurunga',
+							'Ephrem Moyo',
+							'Rose Dube',
+							'Sithandwa Ncube',
+							'Sidumiso Hove',
+							'Dipuo Dube',
+							'Similo Malila',
+							'Hlengiwe Nyathi',
+							'Sazile Nkala',
+							'Ellen Mnkandla',
+							'Gugulethu Simango',
+							'Sipho Chinula',
+							'Ndumiso Makheba',
+							'Purity Kahari',
+							'Saziso Ncube',
+							'Lovemore Sibanda',
+							'Debra Mwale',
+							'Magadeline Ngwenya',
+							'sizalobuhle Ncube',
+							'Pamela Hadebe',
+							'Moses Mangena',
+							'Edward Ngwindi',
+							'Phuthumani Mlotshwa',
+							'Adam Omar',
+							'Rufaro Magadu'
+		                   )
+	                   and concept_name_type = "FULLY_SPECIFIED"
+                   )
+                   AND
+                   cn.concept_id IN (select concept_id from concept_name where name = "Provider name for Enhanced adherence counseling");
+                </sqlCheck>
+        </preConditions>
+        <comment>Adding Answers to "Provider name for Enhanced adherence counseling"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+            set @child6_concept_id = 0;
+            set @child7_concept_id = 0;
+            set @child8_concept_id = 0;
+            set @child9_concept_id = 0;
+            set @child10_concept_id = 0;
+            set @child11_concept_id = 0;
+            set @child12_concept_id = 0;
+            set @child13_concept_id = 0;
+            set @child14_concept_id = 0;
+            set @child15_concept_id = 0;
+            set @child16_concept_id = 0;
+            set @child17_concept_id = 0;
+            set @child18_concept_id = 0;
+            set @child19_concept_id = 0;
+            set @child20_concept_id = 0;
+            set @child21_concept_id = 0;
+            set @child22_concept_id = 0;
+            set @child23_concept_id = 0;
+            set @child24_concept_id = 0;
+            set @child25_concept_id = 0;
+            set @child26_concept_id = 0;
+            set @child27_concept_id = 0;
+            set @child28_concept_id = 0;
+            set @child29_concept_id = 0;
+            set @child30_concept_id = 0;
+            set @child31_concept_id = 0;
+            set @child32_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "Provider name for Enhanced adherence counseling" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Moleen Mukukura' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'Bekezela ndhlovu' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'Prisca Ncube' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = 'Magrett Chibuye' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child5_concept_id from concept_name where name = 'Virginia Mutomba' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child6_concept_id from concept_name where name = 'Reamohetsi Mlobane' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child7_concept_id from concept_name where name = 'Fanuel Ncube' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child8_concept_id from concept_name where name = 'Rumbidzai Kudzurunga' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child9_concept_id from concept_name where name = 'Ephrem Moyo' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child10_concept_id from concept_name where name = 'Rose Dube' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child11_concept_id from concept_name where name = 'Sithandwa Ncube' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child12_concept_id from concept_name where name = 'Sidumiso Hove' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child13_concept_id from concept_name where name = 'Dipuo Dube' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child14_concept_id from concept_name where name = 'Similo Malila' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child15_concept_id from concept_name where name = 'Hlengiwe Nyathi' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child16_concept_id from concept_name where name = 'Sazile Nkala' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child17_concept_id from concept_name where name = 'Ellen Mnkandla' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child18_concept_id from concept_name where name = 'Gugulethu Simango' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child19_concept_id from concept_name where name = 'Sipho Chinula' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child20_concept_id from concept_name where name = 'Ndumiso Makheba' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child21_concept_id from concept_name where name = 'Purity Kahari' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child22_concept_id from concept_name where name = 'Saziso Ncube' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child23_concept_id from concept_name where name = 'Lovemore Sibanda' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child24_concept_id from concept_name where name = 'Debra Mwale' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child25_concept_id from concept_name where name = 'Magadeline Ngwenya' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child26_concept_id from concept_name where name = 'sizalobuhle Ncube' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child27_concept_id from concept_name where name = 'Pamela Hadebe' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child28_concept_id from concept_name where name = 'Moses Mangena' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child29_concept_id from concept_name where name = 'Edward Ngwindi' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child30_concept_id from concept_name where name = 'Phuthumani Mlotshwa' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child31_concept_id from concept_name where name = 'Adam Omar' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child32_concept_id from concept_name where name = 'Rufaro Magadu' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+			call add_concept_answer(@concept_id, @child3_concept_id, 3);
+			call add_concept_answer(@concept_id, @child4_concept_id, 4);
+			call add_concept_answer(@concept_id, @child5_concept_id, 5);
+			call add_concept_answer(@concept_id, @child6_concept_id, 6);
+			call add_concept_answer(@concept_id, @child7_concept_id, 7);
+			call add_concept_answer(@concept_id, @child8_concept_id, 8);
+			call add_concept_answer(@concept_id, @child9_concept_id, 9);
+			call add_concept_answer(@concept_id, @child10_concept_id, 10);
+			call add_concept_answer(@concept_id, @child11_concept_id, 11);
+			call add_concept_answer(@concept_id, @child12_concept_id, 12);
+			call add_concept_answer(@concept_id, @child13_concept_id, 13);
+			call add_concept_answer(@concept_id, @child14_concept_id, 14);
+			call add_concept_answer(@concept_id, @child15_concept_id, 15);
+			call add_concept_answer(@concept_id, @child16_concept_id, 16);
+			call add_concept_answer(@concept_id, @child17_concept_id, 17);
+			call add_concept_answer(@concept_id, @child18_concept_id, 18);
+			call add_concept_answer(@concept_id, @child19_concept_id, 19);
+			call add_concept_answer(@concept_id, @child20_concept_id, 20);
+			call add_concept_answer(@concept_id, @child21_concept_id, 21);
+			call add_concept_answer(@concept_id, @child22_concept_id, 22);
+			call add_concept_answer(@concept_id, @child23_concept_id, 23);
+			call add_concept_answer(@concept_id, @child24_concept_id, 24);
+			call add_concept_answer(@concept_id, @child25_concept_id, 25);
+			call add_concept_answer(@concept_id, @child26_concept_id, 26);
+			call add_concept_answer(@concept_id, @child27_concept_id, 27);
+			call add_concept_answer(@concept_id, @child28_concept_id, 28);
+			call add_concept_answer(@concept_id, @child29_concept_id, 29);
+			call add_concept_answer(@concept_id, @child30_concept_id, 30);
+			call add_concept_answer(@concept_id, @child31_concept_id, 31);
+			call add_concept_answer(@concept_id, @child32_concept_id, 32);
+
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

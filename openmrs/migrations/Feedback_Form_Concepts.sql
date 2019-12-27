@@ -49,3 +49,15 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Contact Par
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Transferred Out - KP Transition','Transferred Out - KP Transition','N/A','Misc',false);
 
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Out Of Stock','Out Of Stock','N/A','Misc',false);
+
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'FP Counselling Only, Service Provided','Service Provided','N/A','ConvSet',true);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'FP Counselling Only, Facility','Facility','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'FP Counselling Only, Site Type','Site Type','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'FP Counselling Only, District','District','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'FP Counselling Only, Setting','Setting','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'FP Continuation, Service Provided','Service Provided','N/A','ConvSet',true);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'FP Continuation, Facility','Facility','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'FP Continuation, Site Type','Site Type','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'FP Continuation, District','District','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'FP Continuation, Setting','Setting','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'I = Family Refill','I = Family Refill','N/A','Misc',false);
