@@ -37,10 +37,10 @@
 	                   and concept_name_type = "FULLY_SPECIFIED"
                    )
                    AND
-                   cn.concept_id IN (select concept_id from concept_name where name = "Provider name for Enhanced adherence counseling");
+                   cn.concept_id IN (select concept_id from concept_name where name = "Provider name for Enhanced adherence counselling");
                 </sqlCheck>
         </preConditions>
-        <comment>Adding Answers to "Provider name for Enhanced adherence counseling"</comment>
+        <comment>Adding Answers to "Provider name for Enhanced adherence counselling"</comment>
         <sql>
             set @concept_id = 0;
             set @child1_concept_id = 0;
@@ -59,7 +59,7 @@
             set @child14_concept_id = 0;
             set @child15_concept_id = 0;
 
-            select concept_id into @concept_id from concept_name where name = "Provider name for Enhanced adherence counseling" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @concept_id from concept_name where name = "Provider name for Enhanced adherence counselling" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
             select concept_id into @child1_concept_id from concept_name where name = 'Stella Chabata' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
             select concept_id into @child2_concept_id from concept_name where name = 'Edward Manyawu' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;

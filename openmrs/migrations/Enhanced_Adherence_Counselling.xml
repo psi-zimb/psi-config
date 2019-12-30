@@ -18,7 +18,7 @@
                    join
                    concept_name cn
                    on ca.concept_id = cn.concept_id
-                   where ca.answer_concept IN (select concept_id from concept_name where name IN ('Enhanced adherence counseling') and concept_name_type = "FULLY_SPECIFIED")
+                   where ca.answer_concept IN (select concept_id from concept_name where name IN ('Enhanced adherence counselling') and concept_name_type = "FULLY_SPECIFIED")
                    AND
                    cn.concept_id IN (select concept_id from concept_name where name = "Reason for Visit");
                 </sqlCheck>
@@ -29,7 +29,7 @@
             set @child1_concept_id = 0;
 
             select concept_id into @concept_id from concept_name where name = "Reason for Visit" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @child1_concept_id from concept_name where name = 'Enhanced Adherence Counseling' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child1_concept_id from concept_name where name = 'Enhanced Adherence Counselling' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
             call add_concept_answer(@concept_id, @child1_concept_id, 45);
         </sql>
@@ -39,37 +39,37 @@
         <comment>updating the sort weight for the set "Reason for visit"</comment>
           <sql>
 
-               UPDATE concept_set SET sort_weight = 46
-               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Reason for visit' and retired = 0)
-               AND concept_id = (select concept_id from concept_view where concept_full_name = 'PrEP Initial' and retired = 0);
+               UPDATE concept_answer SET sort_weight = 46
+               WHERE concept_id = (select concept_id from concept_view where concept_full_name = 'Reason for visit' and retired = 0)
+               AND answer_concept = (select concept_id from concept_view where concept_full_name = 'PrEP Initial' and retired = 0);
 
-               UPDATE concept_set SET sort_weight = 47
-               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Reason for visit' and retired = 0)
-               AND concept_id = (select concept_id from concept_view where concept_full_name = 'PrEP Continuation' and retired = 0);
+               UPDATE concept_answer SET sort_weight = 47
+               WHERE concept_id = (select concept_id from concept_view where concept_full_name = 'Reason for visit' and retired = 0)
+               AND answer_concept = (select concept_id from concept_view where concept_full_name = 'PrEP Continuation' and retired = 0);
 
-               UPDATE concept_set SET sort_weight = 48
-               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Reason for visit' and retired = 0)
-               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Initial' and retired = 0);
+               UPDATE concept_answer SET sort_weight = 48
+               WHERE concept_id = (select concept_id from concept_view where concept_full_name = 'Reason for visit' and retired = 0)
+               AND answer_concept = (select concept_id from concept_view where concept_full_name = 'Viac Initial' and retired = 0);
 
-               UPDATE concept_set SET sort_weight = 49
-               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Reason for visit' and retired = 0)
-               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Continuation' and retired = 0);
+               UPDATE concept_answer SET sort_weight = 49
+               WHERE concept_id = (select concept_id from concept_view where concept_full_name = 'Reason for visit' and retired = 0)
+               AND answer_concept = (select concept_id from concept_view where concept_full_name = 'Viac Continuation' and retired = 0);
 
-               UPDATE concept_set SET sort_weight = 50
-               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Reason for visit' and retired = 0)
-               AND concept_id = (select concept_id from concept_view where concept_full_name = 'VMMC' and retired = 0);
+               UPDATE concept_answer SET sort_weight = 50
+               WHERE concept_id = (select concept_id from concept_view where concept_full_name = 'Reason for visit' and retired = 0)
+               AND answer_concept = (select concept_id from concept_view where concept_full_name = 'VMMC' and retired = 0);
 
-               UPDATE concept_set SET sort_weight = 51
-               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Reason for visit' and retired = 0)
-               AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Initial' and retired = 0);
+               UPDATE concept_answer SET sort_weight = 51
+               WHERE concept_id = (select concept_id from concept_view where concept_full_name = 'Reason for visit' and retired = 0)
+               AND answer_concept = (select concept_id from concept_view where concept_full_name = 'FP Initial' and retired = 0);
 
-               UPDATE concept_set SET sort_weight = 52
-               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Reason for visit' and retired = 0)
-               AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Counselling Only' and retired = 0);
+               UPDATE concept_answer SET sort_weight = 52
+               WHERE concept_id = (select concept_id from concept_view where concept_full_name = 'Reason for visit' and retired = 0)
+               AND answer_concept = (select concept_id from concept_view where concept_full_name = 'FP Counselling Only' and retired = 0);
 
-               UPDATE concept_set SET sort_weight = 53
-               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Reason for visit' and retired = 0)
-               AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation' and retired = 0);
+               UPDATE concept_answer SET sort_weight = 53
+               WHERE concept_id = (select concept_id from concept_view where concept_full_name = 'Reason for visit' and retired = 0)
+               AND answer_concept = (select concept_id from concept_view where concept_full_name = 'FP Continuation' and retired = 0);
           </sql>
     </changeSet>
 
@@ -80,7 +80,7 @@
             set @member1_concept_id = 0;
 
             select concept_id into @concept_id FROM concept_name where name = "Visit" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @member1_concept_id from concept_name where name = "Provider name for Enhanced adherence counseling" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member1_concept_id from concept_name where name = "Provider name for Enhanced adherence counselling" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
             call add_concept_set_members (@concept_id, @member1_concept_id, 29);
         </sql>
@@ -89,18 +89,18 @@
     <changeSet id="PSI-CONFIG-2019120904" author="Santhosh">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult= "0">
-                select count(*) from global_property where property='emrapi.sqlSearch.EnhancedAdherenceCounseling';
+                select count(*) from global_property where property='emrapi.sqlSearch.EnhancedAdherenceCounselling';
             </sqlCheck>
         </preConditions>
-        <comment>Creating Global Property for Enhanced Adherence Counseling Patient Queue</comment>
+        <comment>Creating Global Property for Enhanced Adherence Counselling Patient Queue</comment>
         <sql>
             INSERT INTO global_property (property, property_value, uuid)
-            VALUES ('emrapi.sqlSearch.EnhancedAdherenceCounseling', '', uuid());
+            VALUES ('emrapi.sqlSearch.EnhancedAdherenceCounselling', '', uuid());
         </sql>
     </changeSet>
 
     <changeSet id="PSI-CONFIG-2019081204" author="Suraj">
-        <comment>Updating Global Property For Enhanced Adherence Counseling queue</comment>
+        <comment>Updating Global Property For Enhanced Adherence Counselling queue</comment>
         <sql>
             update global_property set property_value =
             "select distinct  concat(pn.given_name,' ',
@@ -124,12 +124,12 @@
             INNER JOIN concept_name cn ON c.concept_id = cn.concept_id AND cn.concept_name_type = 'FULLY_SPECIFIED' AND
             cn.name IN ('Reason for visit')
             INNER JOIN concept c2 ON c2.concept_id = reason_for_visit.value_coded
-            INNER JOIN concept_name cn2 ON c2.concept_id = cn2.concept_id AND cn2.concept_name_type = 'FULLY_SPECIFIED' AND cn2.name IN ('Enhanced Adherence Counseling') INNER JOIN encounter e on e.encounter_id = reason_for_visit.encounter_id) AS result
+            INNER JOIN concept_name cn2 ON c2.concept_id = cn2.concept_id AND cn2.concept_name_type = 'FULLY_SPECIFIED' AND cn2.name IN ('Enhanced Adherence Counselling') INNER JOIN encounter e on e.encounter_id = reason_for_visit.encounter_id) AS result
             ON result.person_id = v.patient_id AND result.visit_id = v.visit_id
             left outer join visit_attribute va on va.visit_id = v.visit_id
             and va.attribute_type_id = (select visit_attribute_type_id from visit_attribute_type where name='Admission Status')
             and va.voided = 0 where v.date_stopped is null AND v.voided = 0;"
-            where property= 'emrapi.sqlSearch.EnhancedAdherenceCounseling';
+            where property= 'emrapi.sqlSearch.EnhancedAdherenceCounselling';
         </sql>
     </changeSet>
     <changeSet id="PSI-CONFIG-201926121444" author="Suraj">
@@ -317,7 +317,7 @@
     </changeSet>
 
     <changeSet id="PSI-CONFIG-201912261247" author="Suraj">
-        <comment>Adding set members to "Enhanced Adherence Counseling Template"</comment>
+        <comment>Adding set members to "Enhanced Adherence Counselling Template"</comment>
           <sql>
               set @concept_id = 0;
               set @member0_concept_id = 0;
@@ -337,7 +337,7 @@
               set @member14_concept_id = 0;
               set @member15_concept_id = 0;
 
-              select concept_id into @concept_id from concept_name where name = "Enhanced Adherence Counseling Template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @concept_id from concept_name where name = "Enhanced Adherence Counselling Template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
               select concept_id into @member0_concept_id from concept_name where name = "EAC Form, Have you been taking your drugs daily?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
               select concept_id into @member1_concept_id from concept_name where name = "EAC Form, What time are you taking the drugs?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
@@ -382,17 +382,17 @@
                 select COUNT(*) from concept_set cs
                 join concept_name cn
                 on cs.concept_id = cn.concept_id
-                where cs.concept_id IN (select concept_id from concept_name where name ='Enhanced Adherence Counseling Template' AND concept_name_type = "FULLY_SPECIFIED")
+                where cs.concept_id IN (select concept_id from concept_name where name ='Enhanced Adherence Counselling Template' AND concept_name_type = "FULLY_SPECIFIED")
                 and cs.concept_set IN (select concept_id from concept_name where name = 'All Observation Templates');
             </sqlCheck>
         </preConditions>
-        <comment>Adding set member "Enhanced Adherence Counseling Template" to all observation templates</comment>
+        <comment>Adding set member "Enhanced Adherence Counselling Template" to all observation templates</comment>
         <sql>
               set @concept_id = 0;
               set @member_concept_id = 0;
 
               select concept_id into @concept_id from concept_name where name = "All Observation Templates" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-              select concept_id into @member_concept_id from concept_name where name = "Enhanced Adherence Counseling Template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member_concept_id from concept_name where name = "Enhanced Adherence Counselling Template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
               call add_concept_set_members (@concept_id, @member_concept_id, 47);
         </sql>

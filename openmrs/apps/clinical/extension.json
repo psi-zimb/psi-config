@@ -253,8 +253,8 @@
     "extensionPointId": "org.bahmni.patient.search",
     "type": "config",
     "extensionParams": {
-      "searchHandler": "emrapi.sqlSearch.EnhancedAdherenceCounseling",
-      "translationKey": "MODULE_LABEL_ENHANCED_ADHERENCE_COUNSELING",
+      "searchHandler": "emrapi.sqlSearch.EnhancedAdherenceCounselling",
+      "translationKey": "MODULE_LABEL_ENHANCED_ADHERENCE_COUNSELLING",
       "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
     },
     "order": 18,

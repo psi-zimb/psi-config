@@ -4,10 +4,10 @@ set @concept_full_id = 0;
 set @count = 0;
 set @uuid = NULL;
 
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Enhanced Adherence Counseling','Enhanced Adherence Counselling','N/A','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Provider name for Enhanced adherence counseling','Provider name for Enhanced Adherence Counselling','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Enhanced Adherence Counselling','Enhanced Adherence Counselling','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Provider name for Enhanced adherence counselling','Provider name for Enhanced Adherence Counselling','Coded','Misc',false);
 
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Enhanced Adherence Counseling Template','Enhanced Adherence Counselling','N/A','Misc',true);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Enhanced Adherence Counselling Template','Enhanced Adherence Counselling','N/A','Misc',true);
 
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'EAC Form, Have you been taking your drugs daily?','Have you been taking your drugs daily?','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'EAC Form, What time are you taking the drugs?','What time are you taking the drugs?','Text','Misc',false);

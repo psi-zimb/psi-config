@@ -51,13 +51,11 @@ Bahmni.ConceptSet.FormConditions.rules = {
 			           conditions.hide.push("Provider name for Lab Test (Only)");
 			         }
 
-
 			if (obj.indexOf('Basic 1 and ART 1 service')>=0 ) {
 			         conditions.show.push("Provider name for Basic 1 and ART 1");
 			         } else {
 			           conditions.hide.push("Provider name for Basic 1 and ART 1");
 			         }
-
 
 			if (obj.indexOf('Phone Call')>=0 ) {
 			         conditions.show.push("Provider name for Phone Call");
@@ -70,10 +68,10 @@ Bahmni.ConceptSet.FormConditions.rules = {
 			         } else {
 			           conditions.hide.push("Provider name for Adherence counseling");
 			         }
-			if (obj.indexOf('Enhanced Adherence Counseling')>=0 ) {
-			         conditions.show.push("Provider name for Enhanced adherence counseling");
+			if (obj.indexOf('Enhanced Adherence Counselling')>=0 ) {
+			         conditions.show.push("Provider name for Enhanced adherence counselling");
 			         } else {
-			           conditions.hide.push("Provider name for Enhanced adherence counseling");
+			           conditions.hide.push("Provider name for Enhanced adherence counselling");
 			         }
 			if (obj.indexOf('PrEP Continuation')>=0 ) {
 			         conditions.show.push("Provider name for Prep Continuation");
