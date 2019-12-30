@@ -177,7 +177,7 @@
 
     <include file ="Enhanced_Adherence_Counselling.xml"/>
 
-<!--<include file ="AddProvidersList_EAC_ClinicName.xml"/>-->
+    <include file ="AddProvidersList_EAC_NAH.xml"/>
 
 
 </databaseChangeLog>
