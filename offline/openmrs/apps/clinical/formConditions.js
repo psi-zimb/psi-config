@@ -12533,5 +12533,72 @@ Bahmni.ConceptSet.FormConditions.rules = {
               conditions.disable.push("EAC Form, What challenges are you facing to maintain the same time?");
          }
           return conditions;
+    },
+    "Viac Form, HIV STATUS": function(formName, formFieldValues) {
+var conditions = {enable: [], disable: [], show: [], hide: []};
+var conditionConcept = formFieldValues['Viac Form, HIV STATUS'];
+if (conditionConcept == "Positive") {
+conditions.show.push("Viac Form,Is the client on treatment?");
+}
+else
+{
+conditions.hide.push("Viac Form,Is the client on treatment?");
+
+}
+return conditions;
+},
+
+'Viac Form,Is the client on treatment?': function (formName, formFieldValues) {
+        var conditions = {
+              hide: [],
+              show: [],
+              enable: [],
+              disable: []
+              };
+        var conditionConcept = formFieldValues['Viac Form,Is the client on treatment?'];
+        if (conditionConcept == "Yes") {
+     
+              conditions.show.push("Viac Form,Which line of treatment?");
+              conditions.show.push("Viac Form,Combination of drugs");
+              conditions.show.push("Viac Form,Which line of treatment?");
+              conditions.show.push("Viac Form,Date of initiation");
+              conditions.show.push("Viac Form,Latest viral load result");
+              conditions.hide.push("Viac Form,Reason for not on treatment");
+
+            }
+       else if (conditionConcept == "No") {
+    
+            conditions.hide.push("Viac Form,Which line of treatment?");
+            conditions.hide.push("Viac Form,Combination of drugs");
+            conditions.hide.push("Viac Form,Which line of treatment?");
+            conditions.hide.push("Viac Form,Date of initiation");
+            conditions.hide.push("Viac Form,Latest viral load result");
+            conditions.show.push("Viac Form,Reason for not on treatment");
+              }
+       else {
+conditions.hide.push("Viac Form,Which line of treatment?");
+conditions.hide.push("Viac Form,Combination of drugs");
+conditions.hide.push("Viac Form,Which line of treatment?");
+conditions.hide.push("Viac Form,Date of initiation");
+conditions.hide.push("Viac Form,Latest viral load result");
+conditions.hide.push("Viac Form,Reason for not on treatment");
+
+          }
+        return conditions;
+        },
+
+"Viac Form,Combination of drugs": function(formName, formFieldValues) {
+       var conditions = {show: [], hide: []};
+       var conditionConcept = formFieldValues['Viac Form,Combination of drugs'];
+       if (conditionConcept == "Viac Form,Others") {
+            conditions.show.push("Viac Form,if others then specify");
+
+       }
+       else
+       {
+            conditions.hide.push("Viac Form,if others then specify");
+       }
+            return conditions;
     }
+
 }
