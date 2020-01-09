@@ -137,6 +137,12 @@
         <sqlFile path="HTS_Program_Concepts.sql"/>
     </changeSet>
 
+    <changeSet id="PSI-CONFIG-201912271143" author="Santhosh">
+        <comment>Viac Form Changes</comment>
+        <sqlFile path="VFConcepts.sql"/>
+    </changeSet>
+
+
     <include file ="ART_Program.xml"/>
 
     <include file ="PrEP_Program.xml"/>
@@ -178,6 +184,9 @@
     <include file ="Enhanced_Adherence_Counselling.xml"/>
 
     <include file ="AddProvidersList_EAC_NAH.xml"/>
+
+    <include file ="VFConcepts.xml"/>
+
 
 
 </databaseChangeLog>
