@@ -100,6 +100,15 @@
           "numberOfVisits": 20
         }
       },
+      "adverseEventsForms": {
+        "translationKey": "DASHBOARD_TITLE_BASELINE_FORMS",
+        "type": "forms",
+        "displayOrder": 9,
+        "dashboardConfig": {
+        "maximumNoOfVisits": 10
+        },
+        "formGroup":[]
+      },
       "artObservation":{
         "translationKey":"Art Observation",
         "type":"vitals",
