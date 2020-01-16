@@ -1,0 +1,1395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="PSI-CONFIG-201911181429" author="Suraj">
+        <comment>Adding New Concepts for Feedback Form Migration</comment>
+        <sqlFile path="Feedback_Form_Concepts.sql"/>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-201911181433" author="Suraj">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                   select count(*) from concept_answer ca
+                   join
+                   concept_name cn
+                   on ca.concept_id = cn.concept_id
+                   where ca.answer_concept IN
+                   (
+                   	   select concept_id from concept_name where name IN
+		                   (
+		                   	'Yes',
+                            'No'
+		                   )
+	                   and concept_name_type = "FULLY_SPECIFIED"
+                   )
+                   AND
+                   cn.concept_id IN (select concept_id from concept_name where name = "Prep Cont Form, Has the client defaulted treatment for more than 28 days?");
+                </sqlCheck>
+        </preConditions>
+        <comment>Adding Answers to "Prep Cont Form, Has the client defaulted treatment for more than 28 days?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "Prep Cont Form, Has the client defaulted treatment for more than 28 days?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911181528" author="Suraj">
+        <comment>Adding "Has the client defaulted treatment for more than 28 days?" to PrEP continuation form</comment>
+          <sql>
+              set @concept_id = 0;
+              set @member1_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "Prep Cont Form Template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member1_concept_id from concept_name where name = "Prep Cont Form, Has the client defaulted treatment for more than 28 days?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member1_concept_id, 43);
+          </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-201911181610" author="Suraj">
+        <comment>Adding "Date of reinitiation" to PrEP continuation form</comment>
+          <sql>
+              set @concept_id = 0;
+              set @member1_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "Prep Cont Form Template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member1_concept_id from concept_name where name = "Prep Cont Form, Date of Reinitiation" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member1_concept_id, 44);
+          </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911182249" author="Suraj">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                   select count(*) from concept_answer ca
+                   join
+                   concept_name cn
+                   on ca.concept_id = cn.concept_id
+                   where ca.answer_concept IN
+                   (
+                   	   select concept_id from concept_name where name IN
+		                   (
+		                   	'Yes',
+                            'No'
+		                   )
+	                   and concept_name_type = "FULLY_SPECIFIED"
+                   )
+                   AND
+                   cn.concept_id IN (select concept_id from concept_name where name = "RUUV, Has the client defaulted treatment for more than 28 days?");
+                </sqlCheck>
+        </preConditions>
+        <comment>Adding Answers to "RUUV, Has the client defaulted treatment for more than 28 days?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+
+            select concept_id into @concept_id from concept_name where name = "RUUV, Has the client defaulted treatment for more than 28 days?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911182250" author="Suraj">
+        <comment>Adding "Has the client defaulted treatment for more than 28 days?" to Routine, Unplanned and Urgent visit Form </comment>
+          <sql><![CDATA[
+              set @concept_id = 0;
+              set @member1_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "Routine, Unplanned & Urgent visit Form template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member1_concept_id from concept_name where name = "RUUV, Has the client defaulted treatment for more than 28 days?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member1_concept_id, 12);
+          ]]></sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-201911182251" author="Suraj">
+        <comment>Adding "Date of reinitiation" to Routine, Unplanned and Urgent visit form</comment>
+          <sql><![CDATA[
+              set @concept_id = 0;
+              set @member1_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "Routine, Unplanned & Urgent visit Form template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member1_concept_id from concept_name where name = "RUUV, Date of Reinitiation" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member1_concept_id, 13);
+          ]]></sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911182254" author="Suraj">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                   select count(*) from concept_answer ca
+                   join
+                   concept_name cn
+                   on ca.concept_id = cn.concept_id
+                   where ca.answer_concept IN
+                   (
+                   	   select concept_id from concept_name where name IN
+		                   (
+		                   	'Yes',
+                            'No'
+		                   )
+	                   and concept_name_type = "FULLY_SPECIFIED"
+                   )
+                   AND
+                   cn.concept_id IN (select concept_id from concept_name where name = "AP, Has the client defaulted treatment for more than 28 days?");
+                </sqlCheck>
+        </preConditions>
+        <comment>Adding Answers to "AP, Has the client defaulted treatment for more than 28 days?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+
+            select concept_id into @concept_id from concept_name where name = "AP, Has the client defaulted treatment for more than 28 days?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911182255" author="Suraj">
+        <comment>Adding "Has the client defaulted treatment for more than 28 days?" to Assessment and Plan Form Template Form </comment>
+          <sql>
+              set @concept_id = 0;
+              set @member1_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "Assessment and Plan Form Template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member1_concept_id from concept_name where name = "AP, Has the client defaulted treatment for more than 28 days?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member1_concept_id, 3);
+          </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-201911182257" author="Suraj">
+        <comment>Adding "Date of reinitiation" to Assessment and Plan Form Template form</comment>
+          <sql>
+              set @concept_id = 0;
+              set @member1_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "Assessment and Plan Form Template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member1_concept_id from concept_name where name = "AP, Date of Reinitiation" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member1_concept_id, 4);
+          </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911191303" author="Suraj">
+        <comment>Adding Answers to "PHTC, Index testing offered"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PHTC, Index testing offered" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'N/A' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            call add_concept_answer(@concept_id, @child3_concept_id, 3);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911191304" author="Suraj">
+        <comment>Adding "Index testing offered" to Provider HIV test counselling Form</comment>
+          <sql>
+              set @concept_id = 0;
+              set @member1_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "PHTC, Post test counselling" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member1_concept_id from concept_name where name = "PHTC, Index testing offered" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member1_concept_id, 8);
+          </sql>
+
+    </changeSet>
+    <changeSet id="PSI-CONFIG-201911191305" author="Suraj">
+        <comment>Adding Answers to "PHTC, Reasons not Offered"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+            set @child6_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PHTC, Reasons not Offered" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'PHTC, No possibly HIV exposed children or siblings' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'PHTC, Tested as a couple' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'PHTC, Partner on ART' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = 'PHTC, Partner already tested' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child5_concept_id from concept_name where name = 'PHTC, Index does not have a partner' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child6_concept_id from concept_name where name = 'N/A' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            call add_concept_answer(@concept_id, @child3_concept_id, 3);
+            call add_concept_answer(@concept_id, @child4_concept_id, 4);
+			call add_concept_answer(@concept_id, @child5_concept_id, 5);
+            call add_concept_answer(@concept_id, @child6_concept_id, 6);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911191306" author="Suraj">
+        <comment>Adding "PHTC, Reasons not Offered" to Provider HIV test counselling Form</comment>
+          <sql>
+              set @concept_id = 0;
+              set @member1_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "PHTC, Post test counselling" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member1_concept_id from concept_name where name = "PHTC, Reasons not Offered" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member1_concept_id, 9);
+          </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911191307" author="Suraj">
+        <comment>Adding Answers to "PHTC, Index testing accepted"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PHTC, Index testing accepted" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'N/A' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            call add_concept_answer(@concept_id, @child3_concept_id, 3);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911191308" author="Suraj">
+        <comment>Adding "Index testing accepted" to Provider HIV test counselling Form</comment>
+          <sql>
+              set @concept_id = 0;
+              set @member1_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "PHTC, Post test counselling" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member1_concept_id from concept_name where name = "PHTC, Index testing accepted" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member1_concept_id, 10);
+          </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-2019111911309" author="Suraj">
+        <comment>Adding Answers to "PHTC, Reasons not Accepted"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+            set @child6_concept_id = 0;
+            set @child7_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "PHTC, Reasons not Accepted" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'PHTC, Partner refuses to test' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'PHTC, Index not ready to disclose status' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'PHTC, Index not ready to disclose that they were tested' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = 'PHTC, Index lost partner’s contacts' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child5_concept_id from concept_name where name = 'PHTC, Index in a long-distance relationship' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child6_concept_id from concept_name where name = 'PHTC, Index plans to retest with partner' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child7_concept_id from concept_name where name = 'N/A' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            call add_concept_answer(@concept_id, @child3_concept_id, 3);
+            call add_concept_answer(@concept_id, @child4_concept_id, 4);
+			call add_concept_answer(@concept_id, @child5_concept_id, 5);
+            call add_concept_answer(@concept_id, @child6_concept_id, 6);
+            call add_concept_answer(@concept_id, @child7_concept_id, 7);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911191310" author="Suraj">
+        <comment>Adding "PHTC, Reasons not Accepted" to Provider HIV test counselling Form</comment>
+          <sql>
+              set @concept_id = 0;
+              set @member1_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "PHTC, Post test counselling" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member1_concept_id from concept_name where name = "PHTC, Reasons not Accepted" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member1_concept_id, 11);
+          </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911191421" author="Suraj">
+        <comment>updating the sort weight for the set PHTC, Post test counselling</comment>
+          <sql>
+
+               UPDATE concept_set SET sort_weight = 3
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'PHTC, Post test counselling' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'PHTC, Index testing offered' and retired = 0);
+
+               UPDATE concept_set SET sort_weight = 4
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'PHTC, Post test counselling' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'PHTC, Reasons not Offered' and retired = 0);
+
+               UPDATE concept_set SET sort_weight = 5
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'PHTC, Post test counselling' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'PHTC, Index testing accepted' and retired = 0);
+
+               UPDATE concept_set SET sort_weight = 6
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'PHTC, Post test counselling' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'PHTC, Reasons not Accepted' and retired = 0);
+
+               UPDATE concept_set SET sort_weight = 7
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'PHTC, Post test counselling' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'PHTC, Was referred to:  (Multiple responses possible)' and retired = 0);
+
+               UPDATE concept_set SET sort_weight = 8
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'PHTC, Post test counselling' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'PHTC, Family planning counselling' and retired = 0);
+
+               UPDATE concept_set SET sort_weight = 9
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'PHTC, Post test counselling' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'PHTC, MC counselling provided' and retired = 0);
+
+               UPDATE concept_set SET sort_weight = 10
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'PHTC, Post test counselling' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'PHTC, Referral made' and retired = 0);
+
+               UPDATE concept_set SET sort_weight = 11
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'PHTC, Post test counselling' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'PHTC, Post Test Counselling Other' and retired = 0);
+
+          </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911201253" author="Suraj">
+        <comment>Adding new units to "Drug Units"</comment>
+          <sql>
+              set @concept_id = 0;
+              set @member1_concept_id = 0;
+              set @member2_concept_id = 0;
+              set @member3_concept_id = 0;
+              set @member4_concept_id = 0;
+              set @member5_concept_id = 0;
+              set @member6_concept_id = 0;
+              set @member7_concept_id = 0;
+              set @member8_concept_id = 0;
+              set @member9_concept_id = 0;
+              set @member10_concept_id = 0;
+              set @member11_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "Dosing Units" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              select concept_id into @member1_concept_id from concept_name where name = "g" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member2_concept_id from concept_name where name = "grain " and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member3_concept_id from concept_name where name = "kg" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member4_concept_id from concept_name where name = "l" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member5_concept_id from concept_name where name = "mcg" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member6_concept_id from concept_name where name = "mEq*" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member7_concept_id from concept_name where name = "ounce" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member8_concept_id from concept_name where name = "pint" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member9_concept_id from concept_name where name = "quote" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member10_concept_id from concept_name where name = "cup" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member11_concept_id from concept_name where name = "mu" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member1_concept_id, 11);
+              call add_concept_set_members (@concept_id, @member2_concept_id, 12);
+              call add_concept_set_members (@concept_id, @member3_concept_id, 13);
+              call add_concept_set_members (@concept_id, @member4_concept_id, 14);
+              call add_concept_set_members (@concept_id, @member5_concept_id, 15);
+              call add_concept_set_members (@concept_id, @member6_concept_id, 16);
+              call add_concept_set_members (@concept_id, @member7_concept_id, 17);
+              call add_concept_set_members (@concept_id, @member8_concept_id, 18);
+              call add_concept_set_members (@concept_id, @member9_concept_id, 19);
+              call add_concept_set_members (@concept_id, @member10_concept_id, 20);
+              call add_concept_set_members (@concept_id, @member11_concept_id, 21);
+
+          </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911211539" author="Suraj">
+        <comment>Adding Answer Contact Parent to Relationship to Index in Registration Page</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "Patient Registration, Relationships" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Contact Parent' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 4);
+
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911251208" author="Suraj">
+        <comment>Adding Transferred Out - KP Transition outcome to ART, TB, IPT, Pregnancy, Breastfeeding and PrEP Program</comment>
+          <sql>
+              set @concept1_id = 0;
+              set @concept2_id = 0;
+              set @concept3_id = 0;
+              set @concept4_id = 0;
+              set @concept5_id = 0;
+              set @concept6_id = 0;
+              set @member_concept_id = 0;
+
+              select concept_id into @concept1_id from concept_name where name = "ART Program Outcomes" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @concept2_id from concept_name where name = "TB Program Outcome" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @concept3_id from concept_name where name = "IPT Program Outcomes" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @concept4_id from concept_name where name = "Pregnancy Program Outcomes" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @concept5_id from concept_name where name = "Breast Feeding Program Outcomes" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @concept6_id from concept_name where name = "PrEP Program Outcomes" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member_concept_id from concept_name where name = "Transferred Out - KP Transition" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept1_id, @member_concept_id, 12);
+              call add_concept_set_members (@concept2_id, @member_concept_id, 13);
+              call add_concept_set_members (@concept3_id, @member_concept_id, 13);
+              call add_concept_set_members (@concept4_id, @member_concept_id, 13);
+              call add_concept_set_members (@concept5_id, @member_concept_id, 11);
+              call add_concept_set_members (@concept6_id, @member_concept_id, 13);
+          </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201911281727" author="Suraj">
+        <comment>Adding new reason for stopping madicine as Out of Stock in Medication tab</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "Stopped Order Reason" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Out Of Stock' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 3);
+
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201912180943" author="Santhosh">
+        <comment>Adding set members to FP Counselling Only form</comment>
+        <sql>
+            set @concept_id = 0;
+            set @member1_concept_id = 0;
+            set @member2_concept_id = 0;
+            set @member3_concept_id = 0;
+            set @member4_concept_id = 0;
+
+            select concept_id into @concept_id FROM concept_name where name = "FP Counselling Only, Service Provided" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member1_concept_id from concept_name where name = "FP Counselling Only, Facility" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member2_concept_id from concept_name where name = "FP Counselling Only, Site Type" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member3_concept_id from concept_name where name = "FP Counselling Only, District" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member4_concept_id from concept_name where name = "FP Counselling Only, Setting" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_set_members (@concept_id, @member1_concept_id, 1);
+            call add_concept_set_members (@concept_id, @member2_concept_id, 2);
+            call add_concept_set_members (@concept_id, @member3_concept_id, 3);
+            call add_concept_set_members (@concept_id, @member4_concept_id, 4);
+        </sql>
+    </changeSet>
+
+   <changeSet id="PSI-CONFIG-201912184944" author="Santhosh">
+        <comment>Adding answers to FP Counselling Only, Facility</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+            set @child6_concept_id = 0;
+            set @child7_concept_id = 0;
+            set @child8_concept_id = 0;
+            set @child9_concept_id = 0;
+            set @child10_concept_id = 0;
+            set @child11_concept_id = 0;
+            set @child12_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "FP Counselling Only, Facility" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'BAMBANANI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'MAC' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'GWERU' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = 'NKULUMANE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child5_concept_id from concept_name where name = 'CHITUNGWIZA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child6_concept_id from concept_name where name = 'NAH' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child7_concept_id from concept_name where name = 'CHIPINGE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child8_concept_id from concept_name where name = 'MUTARE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child9_concept_id from concept_name where name = 'CONCESSION' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child10_concept_id from concept_name where name = 'CHIREDZI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child11_concept_id from concept_name where name = 'TRIANGLE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child12_concept_id from concept_name where name = 'MASVINGO' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+            call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            call add_concept_answer(@concept_id, @child3_concept_id, 3);
+            call add_concept_answer(@concept_id, @child4_concept_id, 4);
+            call add_concept_answer(@concept_id, @child5_concept_id, 5);
+            call add_concept_answer(@concept_id, @child6_concept_id, 6);
+            call add_concept_answer(@concept_id, @child7_concept_id, 7);
+            call add_concept_answer(@concept_id, @child8_concept_id, 8);
+            call add_concept_answer(@concept_id, @child9_concept_id, 9);
+            call add_concept_answer(@concept_id, @child10_concept_id, 10);
+            call add_concept_answer(@concept_id, @child11_concept_id, 11);
+            call add_concept_answer(@concept_id, @child12_concept_id, 12);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201912184949" author="Santhosh">
+        <comment>Adding answers to FP Counselling Only, Site Type</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+
+            select concept_id into @concept_id from concept_name where name = "FP Counselling Only, Site Type" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Static' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'Outreach' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+            call add_concept_answer(@concept_id, @child2_concept_id, 2);
+
+        </sql>
+        </changeSet>
+        <changeSet id="PSI-CONFIG-201912184950" author="Santhosh">
+            <comment>Adding Answers to FP Counselling Only, District</comment>
+            <sql>
+                  set @concept_id = 0;
+                  set @child1_concept_id = 0;
+                  set @child2_concept_id = 0;
+                  set @child3_concept_id = 0;
+                  set @child4_concept_id = 0;
+                  set @child5_concept_id = 0;
+                  set @child6_concept_id = 0;
+                  set @child7_concept_id = 0;
+                  set @child8_concept_id = 0;
+                  set @child9_concept_id = 0;
+                  set @child10_concept_id = 0;
+                  set @child11_concept_id = 0;
+                  set @child12_concept_id = 0;
+                  set @child13_concept_id = 0;
+                  set @child14_concept_id = 0;
+                  set @child15_concept_id = 0;
+                  set @child16_concept_id = 0;
+                  set @child17_concept_id = 0;
+                  set @child18_concept_id = 0;
+                  set @child19_concept_id = 0;
+                  set @child20_concept_id = 0;
+                  set @child21_concept_id = 0;
+                  set @child22_concept_id = 0;
+                  set @child23_concept_id = 0;
+                  set @child24_concept_id = 0;
+                  set @child25_concept_id = 0;
+                  set @child26_concept_id = 0;
+                  set @child27_concept_id = 0;
+                  set @child28_concept_id = 0;
+                  set @child29_concept_id = 0;
+                  set @child30_concept_id = 0;
+                  set @child31_concept_id = 0;
+                  set @child32_concept_id = 0;
+                  set @child33_concept_id = 0;
+                  set @child34_concept_id = 0;
+                  set @child35_concept_id = 0;
+                  set @child36_concept_id = 0;
+                  set @child37_concept_id = 0;
+                  set @child38_concept_id = 0;
+                  set @child39_concept_id = 0;
+                  set @child40_concept_id = 0;
+                  set @child41_concept_id = 0;
+                  set @child42_concept_id = 0;
+                  set @child43_concept_id = 0;
+                  set @child44_concept_id = 0;
+                  set @child45_concept_id = 0;
+                  set @child46_concept_id = 0;
+                  set @child47_concept_id = 0;
+                  set @child48_concept_id = 0;
+                  set @child49_concept_id = 0;
+                  set @child50_concept_id = 0;
+                  set @child51_concept_id = 0;
+                  set @child52_concept_id = 0;
+                  set @child53_concept_id = 0;
+                  set @child54_concept_id = 0;
+                  set @child55_concept_id = 0;
+                  set @child56_concept_id = 0;
+                  set @child57_concept_id = 0;
+                  set @child58_concept_id = 0;
+                  set @child59_concept_id = 0;
+                  set @child60_concept_id = 0;
+                  set @child61_concept_id = 0;
+                  set @child62_concept_id = 0;
+                  set @child63_concept_id = 0;
+
+
+
+                  select concept_id into @concept_id from concept_name where name = "FP Counselling Only, District" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                  select concept_id into @child1_concept_id from concept_name where name = 'BEITBRIDGE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child2_concept_id from concept_name where name = 'BIKITA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child3_concept_id from concept_name where name = 'BINDURA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child4_concept_id from concept_name where name = 'BINGA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child5_concept_id from concept_name where name = 'BUBI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child6_concept_id from concept_name where name = 'BUHERA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child7_concept_id from concept_name where name = 'BULAWAYO' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child8_concept_id from concept_name where name = 'BULILIMA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child9_concept_id from concept_name where name = 'CENTENARY' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child10_concept_id from concept_name where name = 'CHEGUTU' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child11_concept_id from concept_name where name = 'CHIKOMBA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child12_concept_id from concept_name where name = 'CHIMANIMANI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child13_concept_id from concept_name where name = 'CHIPINGE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child14_concept_id from concept_name where name = 'CHIREDZI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child15_concept_id from concept_name where name = 'CHIRUMHANZU' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child16_concept_id from concept_name where name = 'CHIVI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child17_concept_id from concept_name where name = 'GOKWE NORTH' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child18_concept_id from concept_name where name = 'GOKWE SOUTH' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child19_concept_id from concept_name where name = 'GOROMONZI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child20_concept_id from concept_name where name = 'GURUVE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child21_concept_id from concept_name where name = 'GUTU' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child22_concept_id from concept_name where name = 'GWANDA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child23_concept_id from concept_name where name = 'GWERU' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child24_concept_id from concept_name where name = 'HARARE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child25_concept_id from concept_name where name = 'HURUNGWE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child26_concept_id from concept_name where name = 'HWANGE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child27_concept_id from concept_name where name = 'HWEDZA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child28_concept_id from concept_name where name = 'INSIZA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child29_concept_id from concept_name where name = 'KADOMA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child30_concept_id from concept_name where name = 'KARIBA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child31_concept_id from concept_name where name = 'KWEKWE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child32_concept_id from concept_name where name = 'LUPANE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child33_concept_id from concept_name where name = 'MAKONDE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child34_concept_id from concept_name where name = 'MAKONI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child35_concept_id from concept_name where name = 'MANGWE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child36_concept_id from concept_name where name = 'MARONDERA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child37_concept_id from concept_name where name = 'MASVINGO ' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child38_concept_id from concept_name where name = 'MATOBO' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child39_concept_id from concept_name where name = 'MAZOWE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child40_concept_id from concept_name where name = 'MBERENGWA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child41_concept_id from concept_name where name = 'MBIRE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child42_concept_id from concept_name where name = 'MT.DARWIN' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child43_concept_id from concept_name where name = 'MUDZI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child44_concept_id from concept_name where name = 'MUREWA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child45_concept_id from concept_name where name = 'MUTARE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child46_concept_id from concept_name where name = 'MUTASA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child47_concept_id from concept_name where name = 'MUTOKO' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child48_concept_id from concept_name where name = 'MWENEZI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child49_concept_id from concept_name where name = 'NKAYI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child50_concept_id from concept_name where name = 'NYANGA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child51_concept_id from concept_name where name = 'OUT' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child52_concept_id from concept_name where name = 'RUSHINGA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child53_concept_id from concept_name where name = 'SEKE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child54_concept_id from concept_name where name = 'SHAMVA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child55_concept_id from concept_name where name = 'SHURUGWI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child56_concept_id from concept_name where name = 'TSHOLOTSHO' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child57_concept_id from concept_name where name = 'U.B.H.' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child58_concept_id from concept_name where name = 'U.M.P' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child59_concept_id from concept_name where name = 'UMGUZA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child60_concept_id from concept_name where name = 'UMZINGWANE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child61_concept_id from concept_name where name = 'ZAKA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child62_concept_id from concept_name where name = 'ZVIMBA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child63_concept_id from concept_name where name = 'ZVISHAVANE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+
+                  call add_concept_answer(@concept_id, @child1_concept_id, 1);
+                  call add_concept_answer(@concept_id, @child2_concept_id, 2);
+                  call add_concept_answer(@concept_id, @child3_concept_id, 3);
+                  call add_concept_answer(@concept_id, @child4_concept_id, 4);
+                  call add_concept_answer(@concept_id, @child5_concept_id, 5);
+                  call add_concept_answer(@concept_id, @child6_concept_id, 6);
+                  call add_concept_answer(@concept_id, @child7_concept_id, 7);
+                  call add_concept_answer(@concept_id, @child8_concept_id, 8);
+                  call add_concept_answer(@concept_id, @child9_concept_id, 9);
+                  call add_concept_answer(@concept_id, @child10_concept_id, 10);
+                  call add_concept_answer(@concept_id, @child11_concept_id, 11);
+                  call add_concept_answer(@concept_id, @child12_concept_id, 12);
+                  call add_concept_answer(@concept_id, @child13_concept_id, 13);
+                  call add_concept_answer(@concept_id, @child14_concept_id, 14);
+                  call add_concept_answer(@concept_id, @child15_concept_id, 15);
+                  call add_concept_answer(@concept_id, @child16_concept_id, 16);
+                  call add_concept_answer(@concept_id, @child17_concept_id, 17);
+                  call add_concept_answer(@concept_id, @child18_concept_id, 18);
+                  call add_concept_answer(@concept_id, @child19_concept_id, 19);
+                  call add_concept_answer(@concept_id, @child20_concept_id, 20);
+                  call add_concept_answer(@concept_id, @child21_concept_id, 21);
+                  call add_concept_answer(@concept_id, @child22_concept_id, 22);
+                  call add_concept_answer(@concept_id, @child23_concept_id, 23);
+                  call add_concept_answer(@concept_id, @child24_concept_id, 24);
+                  call add_concept_answer(@concept_id, @child25_concept_id, 25);
+                  call add_concept_answer(@concept_id, @child26_concept_id, 26);
+                  call add_concept_answer(@concept_id, @child27_concept_id, 27);
+                  call add_concept_answer(@concept_id, @child28_concept_id, 28);
+                  call add_concept_answer(@concept_id, @child29_concept_id, 29);
+                  call add_concept_answer(@concept_id, @child30_concept_id, 30);
+                  call add_concept_answer(@concept_id, @child31_concept_id, 31);
+                  call add_concept_answer(@concept_id, @child32_concept_id, 32);
+                  call add_concept_answer(@concept_id, @child33_concept_id, 33);
+                  call add_concept_answer(@concept_id, @child34_concept_id, 34);
+                  call add_concept_answer(@concept_id, @child35_concept_id, 35);
+                  call add_concept_answer(@concept_id, @child36_concept_id, 36);
+                  call add_concept_answer(@concept_id, @child37_concept_id, 37);
+                  call add_concept_answer(@concept_id, @child38_concept_id, 38);
+                  call add_concept_answer(@concept_id, @child39_concept_id, 39);
+                  call add_concept_answer(@concept_id, @child40_concept_id, 40);
+                  call add_concept_answer(@concept_id, @child41_concept_id, 41);
+                  call add_concept_answer(@concept_id, @child42_concept_id, 42);
+                  call add_concept_answer(@concept_id, @child43_concept_id, 43);
+                  call add_concept_answer(@concept_id, @child44_concept_id, 44);
+                  call add_concept_answer(@concept_id, @child45_concept_id, 45);
+                  call add_concept_answer(@concept_id, @child46_concept_id, 46);
+                  call add_concept_answer(@concept_id, @child47_concept_id, 47);
+                  call add_concept_answer(@concept_id, @child48_concept_id, 48);
+                  call add_concept_answer(@concept_id, @child49_concept_id, 49);
+                  call add_concept_answer(@concept_id, @child50_concept_id, 50);
+                  call add_concept_answer(@concept_id, @child51_concept_id, 51);
+                  call add_concept_answer(@concept_id, @child52_concept_id, 52);
+                  call add_concept_answer(@concept_id, @child53_concept_id, 53);
+                  call add_concept_answer(@concept_id, @child54_concept_id, 54);
+                  call add_concept_answer(@concept_id, @child55_concept_id, 55);
+                  call add_concept_answer(@concept_id, @child56_concept_id, 56);
+                  call add_concept_answer(@concept_id, @child57_concept_id, 57);
+                  call add_concept_answer(@concept_id, @child58_concept_id, 58);
+                  call add_concept_answer(@concept_id, @child59_concept_id, 59);
+                  call add_concept_answer(@concept_id, @child60_concept_id, 60);
+                  call add_concept_answer(@concept_id, @child61_concept_id, 61);
+                  call add_concept_answer(@concept_id, @child62_concept_id, 62);
+                  call add_concept_answer(@concept_id, @child63_concept_id, 63);
+
+            </sql>
+        </changeSet>
+        <changeSet id="PSI-CONFIG-201912184951" author="Santhosh">
+            <comment>Adding members in FP Counselling Only Form</comment>
+            <sql>
+                set @concept_id = 0;
+                set @member1_concept_id = 0;
+
+                select concept_id into @concept_id FROM concept_name where name = "FPS, FP Counselling Only Form" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @member1_concept_id from concept_name where name = "FP Counselling Only, Service Provided" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                call add_concept_set_members (@concept_id, @member1_concept_id, 0);
+            </sql>
+        </changeSet>
+        <changeSet id="PSI-CONFIG-201912184966" author="Santhosh">
+            <comment>Adding answers to FP Counselling Only, Setting</comment>
+            <sql>
+                set @concept_id = 0;
+                set @child1_concept_id = 0;
+                set @child2_concept_id = 0;
+
+
+                select concept_id into @concept_id from concept_name where name = "FP Counselling Only, Setting" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                select concept_id into @child1_concept_id from concept_name where name = 'Urban' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @child2_concept_id from concept_name where name = 'Rural' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                call add_concept_answer(@concept_id, @child1_concept_id, 1);
+                call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            </sql>
+        </changeSet>
+
+        <changeSet id="PSI-CONFIG-201912184967" author="Santhosh">
+            <comment>updating the sort weight for the FP Counselling Only Form</comment>
+            <sql>
+                UPDATE concept_set SET sort_weight = 0
+                WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Counselling Only Form' and retired = 0)
+                AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Counselling Only, Service Provided' and retired = 0);
+
+                UPDATE concept_set SET sort_weight = 1
+                WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Counselling Only Form' and retired = 0)
+                AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Counselling Only, Weight' and retired = 0);
+
+                UPDATE concept_set SET sort_weight = 2
+                WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Counselling Only Form' and retired = 0)
+                AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Couns Form, Temperature' and retired = 0);
+
+                UPDATE concept_set SET sort_weight = 3
+                WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Counselling Only Form' and retired = 0)
+                AND concept_id = (select concept_id from concept_view where concept_full_name = 'FPS Counselling Only BP, Blood Pressure' and retired = 0);
+
+                UPDATE concept_set SET sort_weight = 4
+                WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Counselling Only Form' and retired = 0)
+                AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Counselling Only, Current Method' and retired = 0);
+
+                UPDATE concept_set SET sort_weight = 5
+                WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Counselling Only Form' and retired = 0)
+                AND concept_id = (select concept_id from concept_view where concept_full_name = 'FPS Counselling, IF Current method others, then specify' and retired = 0);
+
+                UPDATE concept_set SET sort_weight = 6
+                WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Counselling Only Form' and retired = 0)
+                AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Counselling Only, Assessment' and retired = 0);
+
+                UPDATE concept_set SET sort_weight = 7
+                WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Counselling Only Form' and retired = 0)
+                AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Counselling Only, Plan' and retired = 0);
+
+                UPDATE concept_set SET sort_weight = 8
+                WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Counselling Only Form' and retired = 0)
+                AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Counselling Only,Device Removal Section' and retired = 0);
+
+                UPDATE concept_set SET sort_weight = 9
+                WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Counselling Only Form' and retired = 0)
+                AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Counselling Only, Treatment given' and retired = 0);
+
+                UPDATE concept_set SET sort_weight = 10
+                WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Counselling Only Form' and retired = 0)
+                AND concept_id = (select concept_id from concept_view where concept_full_name = 'FPS Counselling Only, Referrals Section' and retired = 0);
+
+                UPDATE concept_set SET sort_weight = 11
+                WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Counselling Only Form' and retired = 0)
+                AND concept_id = (select concept_id from concept_view where concept_full_name = 'FPS Counselling Only, State review date' and retired = 0);
+
+                UPDATE concept_set SET sort_weight = 12
+                WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Counselling Only Form' and retired = 0)
+                AND concept_id = (select concept_id from concept_view where concept_full_name = 'FPS Counselling Only, Reason for review' and retired = 0);
+            </sql>
+        </changeSet>
+
+        <changeSet id="PSI-CONFIG-201912180100" author="Santhosh">
+            <comment>Adding set members to FP Continuation, Service Provided</comment>
+            <sql>
+                set @concept_id = 0;
+                set @member1_concept_id = 0;
+                set @member2_concept_id = 0;
+                set @member3_concept_id = 0;
+                set @member4_concept_id = 0;
+
+                select concept_id into @concept_id FROM concept_name where name = "FP Continuation, Service Provided" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                select concept_id into @member1_concept_id from concept_name where name = "FP Continuation, Facility" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                select concept_id into @member2_concept_id from concept_name where name = "FP Continuation, Site Type" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                select concept_id into @member3_concept_id from concept_name where name = "FP Continuation, District" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                select concept_id into @member4_concept_id from concept_name where name = "FP Continuation, Setting" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+
+
+                call add_concept_set_members (@concept_id, @member1_concept_id, 1);
+                call add_concept_set_members (@concept_id, @member2_concept_id, 2);
+                call add_concept_set_members (@concept_id, @member3_concept_id, 3);
+                call add_concept_set_members (@concept_id, @member4_concept_id, 4);
+            </sql>
+        </changeSet>
+
+        <changeSet id="PSI-CONFIG-201912180101" author="Santhosh">
+            <comment>Adding answers to FP Continuation, Facility</comment>
+
+            <sql>
+                set @concept_id = 0;
+                set @child1_concept_id = 0;
+                set @child2_concept_id = 0;
+                set @child3_concept_id = 0;
+                set @child4_concept_id = 0;
+                set @child5_concept_id = 0;
+                set @child6_concept_id = 0;
+                set @child7_concept_id = 0;
+                set @child8_concept_id = 0;
+                set @child9_concept_id = 0;
+                set @child10_concept_id = 0;
+                set @child11_concept_id = 0;
+                set @child12_concept_id = 0;
+
+                select concept_id into @concept_id from concept_name where name = "FP Continuation, Facility" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                select concept_id into @child1_concept_id from concept_name where name = 'BAMBANANI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @child2_concept_id from concept_name where name = 'MAC' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @child3_concept_id from concept_name where name = 'GWERU' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @child4_concept_id from concept_name where name = 'NKULUMANE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @child5_concept_id from concept_name where name = 'CHITUNGWIZA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @child6_concept_id from concept_name where name = 'NAH' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @child7_concept_id from concept_name where name = 'CHIPINGE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @child8_concept_id from concept_name where name = 'MUTARE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @child9_concept_id from concept_name where name = 'CONCESSION' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @child10_concept_id from concept_name where name = 'CHIREDZI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @child11_concept_id from concept_name where name = 'TRIANGLE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @child12_concept_id from concept_name where name = 'MASVINGO' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                call add_concept_answer(@concept_id, @child1_concept_id, 1);
+                call add_concept_answer(@concept_id, @child2_concept_id, 2);
+                call add_concept_answer(@concept_id, @child3_concept_id, 3);
+                call add_concept_answer(@concept_id, @child4_concept_id, 4);
+                call add_concept_answer(@concept_id, @child5_concept_id, 5);
+                call add_concept_answer(@concept_id, @child6_concept_id, 6);
+                call add_concept_answer(@concept_id, @child7_concept_id, 7);
+                call add_concept_answer(@concept_id, @child8_concept_id, 8);
+                call add_concept_answer(@concept_id, @child9_concept_id, 9);
+                call add_concept_answer(@concept_id, @child10_concept_id, 10);
+                call add_concept_answer(@concept_id, @child11_concept_id, 11);
+                call add_concept_answer(@concept_id, @child12_concept_id, 12);
+            </sql>
+        </changeSet>
+
+        <changeSet id="PSI-CONFIG-2019121801287" author="Santhosh">
+            <comment>Inserting description to FP Counselling Only, Site Type</comment>
+            <sql>
+                INSERT INTO concept_description (concept_id,description,locale,creator,date_created,changed_by,date_changed,uuid) VALUES ((select concept_id from concept_name where name = 'FP Counselling Only, Site Type' and concept_name_type = 'FULLY_SPECIFIED' and voided = 0),'Place where the service is being provided','en',1,now(),NULL,NULL,uuid());
+            </sql>
+        </changeSet>
+
+        <changeSet id="PSI-CONFIG-201912180102" author="Santhosh">
+            <comment>Adding answers to FP Continuation, Site Type</comment>
+            <sql>
+                set @concept_id = 0;
+                set @child1_concept_id = 0;
+                set @child2_concept_id = 0;
+
+
+                select concept_id into @concept_id from concept_name where name = "FP Continuation, Site Type" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                select concept_id into @child1_concept_id from concept_name where name = 'Static' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @child2_concept_id from concept_name where name = 'Outreach' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                call add_concept_answer(@concept_id, @child1_concept_id, 1);
+                call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            </sql>
+            </changeSet>
+        <changeSet id="PSI-CONFIG-201912180103" author="Santhosh">
+            <comment>Adding Answers to FP Continuation, District</comment>
+            <sql>
+                  set @concept_id = 0;
+                  set @child1_concept_id = 0;
+                  set @child2_concept_id = 0;
+                  set @child3_concept_id = 0;
+                  set @child4_concept_id = 0;
+                  set @child5_concept_id = 0;
+                  set @child6_concept_id = 0;
+                  set @child7_concept_id = 0;
+                  set @child8_concept_id = 0;
+                  set @child9_concept_id = 0;
+                  set @child10_concept_id = 0;
+                  set @child11_concept_id = 0;
+                  set @child12_concept_id = 0;
+                  set @child13_concept_id = 0;
+                  set @child14_concept_id = 0;
+                  set @child15_concept_id = 0;
+                  set @child16_concept_id = 0;
+                  set @child17_concept_id = 0;
+                  set @child18_concept_id = 0;
+                  set @child19_concept_id = 0;
+                  set @child20_concept_id = 0;
+                  set @child21_concept_id = 0;
+                  set @child22_concept_id = 0;
+                  set @child23_concept_id = 0;
+                  set @child24_concept_id = 0;
+                  set @child25_concept_id = 0;
+                  set @child26_concept_id = 0;
+                  set @child27_concept_id = 0;
+                  set @child28_concept_id = 0;
+                  set @child29_concept_id = 0;
+                  set @child30_concept_id = 0;
+                  set @child31_concept_id = 0;
+                  set @child32_concept_id = 0;
+                  set @child33_concept_id = 0;
+                  set @child34_concept_id = 0;
+                  set @child35_concept_id = 0;
+                  set @child36_concept_id = 0;
+                  set @child37_concept_id = 0;
+                  set @child38_concept_id = 0;
+                  set @child39_concept_id = 0;
+                  set @child40_concept_id = 0;
+                  set @child41_concept_id = 0;
+                  set @child42_concept_id = 0;
+                  set @child43_concept_id = 0;
+                  set @child44_concept_id = 0;
+                  set @child45_concept_id = 0;
+                  set @child46_concept_id = 0;
+                  set @child47_concept_id = 0;
+                  set @child48_concept_id = 0;
+                  set @child49_concept_id = 0;
+                  set @child50_concept_id = 0;
+                  set @child51_concept_id = 0;
+                  set @child52_concept_id = 0;
+                  set @child53_concept_id = 0;
+                  set @child54_concept_id = 0;
+                  set @child55_concept_id = 0;
+                  set @child56_concept_id = 0;
+                  set @child57_concept_id = 0;
+                  set @child58_concept_id = 0;
+                  set @child59_concept_id = 0;
+                  set @child60_concept_id = 0;
+                  set @child61_concept_id = 0;
+                  set @child62_concept_id = 0;
+                  set @child63_concept_id = 0;
+
+
+
+                  select concept_id into @concept_id from concept_name where name = "FP Continuation, District" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                  select concept_id into @child1_concept_id from concept_name where name = 'BEITBRIDGE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child2_concept_id from concept_name where name = 'BIKITA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child3_concept_id from concept_name where name = 'BINDURA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child4_concept_id from concept_name where name = 'BINGA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child5_concept_id from concept_name where name = 'BUBI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child6_concept_id from concept_name where name = 'BUHERA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child7_concept_id from concept_name where name = 'BULAWAYO' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child8_concept_id from concept_name where name = 'BULILIMA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child9_concept_id from concept_name where name = 'CENTENARY' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child10_concept_id from concept_name where name = 'CHEGUTU' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child11_concept_id from concept_name where name = 'CHIKOMBA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child12_concept_id from concept_name where name = 'CHIMANIMANI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child13_concept_id from concept_name where name = 'CHIPINGE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child14_concept_id from concept_name where name = 'CHIREDZI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child15_concept_id from concept_name where name = 'CHIRUMHANZU' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child16_concept_id from concept_name where name = 'CHIVI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child17_concept_id from concept_name where name = 'GOKWE NORTH' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child18_concept_id from concept_name where name = 'GOKWE SOUTH' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child19_concept_id from concept_name where name = 'GOROMONZI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child20_concept_id from concept_name where name = 'GURUVE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child21_concept_id from concept_name where name = 'GUTU' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child22_concept_id from concept_name where name = 'GWANDA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child23_concept_id from concept_name where name = 'GWERU' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child24_concept_id from concept_name where name = 'HARARE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child25_concept_id from concept_name where name = 'HURUNGWE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child26_concept_id from concept_name where name = 'HWANGE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child27_concept_id from concept_name where name = 'HWEDZA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child28_concept_id from concept_name where name = 'INSIZA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child29_concept_id from concept_name where name = 'KADOMA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child30_concept_id from concept_name where name = 'KARIBA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child31_concept_id from concept_name where name = 'KWEKWE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child32_concept_id from concept_name where name = 'LUPANE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child33_concept_id from concept_name where name = 'MAKONDE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child34_concept_id from concept_name where name = 'MAKONI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child35_concept_id from concept_name where name = 'MANGWE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child36_concept_id from concept_name where name = 'MARONDERA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child37_concept_id from concept_name where name = 'MASVINGO ' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child38_concept_id from concept_name where name = 'MATOBO' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child39_concept_id from concept_name where name = 'MAZOWE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child40_concept_id from concept_name where name = 'MBERENGWA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child41_concept_id from concept_name where name = 'MBIRE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child42_concept_id from concept_name where name = 'MT.DARWIN' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child43_concept_id from concept_name where name = 'MUDZI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child44_concept_id from concept_name where name = 'MUREWA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child45_concept_id from concept_name where name = 'MUTARE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child46_concept_id from concept_name where name = 'MUTASA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child47_concept_id from concept_name where name = 'MUTOKO' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child48_concept_id from concept_name where name = 'MWENEZI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child49_concept_id from concept_name where name = 'NKAYI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child50_concept_id from concept_name where name = 'NYANGA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child51_concept_id from concept_name where name = 'OUT' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child52_concept_id from concept_name where name = 'RUSHINGA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child53_concept_id from concept_name where name = 'SEKE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child54_concept_id from concept_name where name = 'SHAMVA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child55_concept_id from concept_name where name = 'SHURUGWI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child56_concept_id from concept_name where name = 'TSHOLOTSHO' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child57_concept_id from concept_name where name = 'U.B.H.' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child58_concept_id from concept_name where name = 'U.M.P' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child59_concept_id from concept_name where name = 'UMGUZA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child60_concept_id from concept_name where name = 'UMZINGWANE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child61_concept_id from concept_name where name = 'ZAKA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child62_concept_id from concept_name where name = 'ZVIMBA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                  select concept_id into @child63_concept_id from concept_name where name = 'ZVISHAVANE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+
+                  call add_concept_answer(@concept_id, @child1_concept_id, 1);
+                  call add_concept_answer(@concept_id, @child2_concept_id, 2);
+                  call add_concept_answer(@concept_id, @child3_concept_id, 3);
+                  call add_concept_answer(@concept_id, @child4_concept_id, 4);
+                  call add_concept_answer(@concept_id, @child5_concept_id, 5);
+                  call add_concept_answer(@concept_id, @child6_concept_id, 6);
+                  call add_concept_answer(@concept_id, @child7_concept_id, 7);
+                  call add_concept_answer(@concept_id, @child8_concept_id, 8);
+                  call add_concept_answer(@concept_id, @child9_concept_id, 9);
+                  call add_concept_answer(@concept_id, @child10_concept_id, 10);
+                  call add_concept_answer(@concept_id, @child11_concept_id, 11);
+                  call add_concept_answer(@concept_id, @child12_concept_id, 12);
+                  call add_concept_answer(@concept_id, @child13_concept_id, 13);
+                  call add_concept_answer(@concept_id, @child14_concept_id, 14);
+                  call add_concept_answer(@concept_id, @child15_concept_id, 15);
+                  call add_concept_answer(@concept_id, @child16_concept_id, 16);
+                  call add_concept_answer(@concept_id, @child17_concept_id, 17);
+                  call add_concept_answer(@concept_id, @child18_concept_id, 18);
+                  call add_concept_answer(@concept_id, @child19_concept_id, 19);
+                  call add_concept_answer(@concept_id, @child20_concept_id, 20);
+                  call add_concept_answer(@concept_id, @child21_concept_id, 21);
+                  call add_concept_answer(@concept_id, @child22_concept_id, 22);
+                  call add_concept_answer(@concept_id, @child23_concept_id, 23);
+                  call add_concept_answer(@concept_id, @child24_concept_id, 24);
+                  call add_concept_answer(@concept_id, @child25_concept_id, 25);
+                  call add_concept_answer(@concept_id, @child26_concept_id, 26);
+                  call add_concept_answer(@concept_id, @child27_concept_id, 27);
+                  call add_concept_answer(@concept_id, @child28_concept_id, 28);
+                  call add_concept_answer(@concept_id, @child29_concept_id, 29);
+                  call add_concept_answer(@concept_id, @child30_concept_id, 30);
+                  call add_concept_answer(@concept_id, @child31_concept_id, 31);
+                  call add_concept_answer(@concept_id, @child32_concept_id, 32);
+                  call add_concept_answer(@concept_id, @child33_concept_id, 33);
+                  call add_concept_answer(@concept_id, @child34_concept_id, 34);
+                  call add_concept_answer(@concept_id, @child35_concept_id, 35);
+                  call add_concept_answer(@concept_id, @child36_concept_id, 36);
+                  call add_concept_answer(@concept_id, @child37_concept_id, 37);
+                  call add_concept_answer(@concept_id, @child38_concept_id, 38);
+                  call add_concept_answer(@concept_id, @child39_concept_id, 39);
+                  call add_concept_answer(@concept_id, @child40_concept_id, 40);
+                  call add_concept_answer(@concept_id, @child41_concept_id, 41);
+                  call add_concept_answer(@concept_id, @child42_concept_id, 42);
+                  call add_concept_answer(@concept_id, @child43_concept_id, 43);
+                  call add_concept_answer(@concept_id, @child44_concept_id, 44);
+                  call add_concept_answer(@concept_id, @child45_concept_id, 45);
+                  call add_concept_answer(@concept_id, @child46_concept_id, 46);
+                  call add_concept_answer(@concept_id, @child47_concept_id, 47);
+                  call add_concept_answer(@concept_id, @child48_concept_id, 48);
+                  call add_concept_answer(@concept_id, @child49_concept_id, 49);
+                  call add_concept_answer(@concept_id, @child50_concept_id, 50);
+                  call add_concept_answer(@concept_id, @child51_concept_id, 51);
+                  call add_concept_answer(@concept_id, @child52_concept_id, 52);
+                  call add_concept_answer(@concept_id, @child53_concept_id, 53);
+                  call add_concept_answer(@concept_id, @child54_concept_id, 54);
+                  call add_concept_answer(@concept_id, @child55_concept_id, 55);
+                  call add_concept_answer(@concept_id, @child56_concept_id, 56);
+                  call add_concept_answer(@concept_id, @child57_concept_id, 57);
+                  call add_concept_answer(@concept_id, @child58_concept_id, 58);
+                  call add_concept_answer(@concept_id, @child59_concept_id, 59);
+                  call add_concept_answer(@concept_id, @child60_concept_id, 60);
+                  call add_concept_answer(@concept_id, @child61_concept_id, 61);
+                  call add_concept_answer(@concept_id, @child62_concept_id, 62);
+                  call add_concept_answer(@concept_id, @child63_concept_id, 63);
+             </sql>
+        </changeSet>
+        <changeSet id="PSI-CONFIG-201912180104" author="Santhosh">
+            <comment>Adding members in FP Continuation Form</comment>
+            <sql>
+                set @concept_id = 0;
+                set @member1_concept_id = 0;
+
+                select concept_id into @concept_id FROM concept_name where name = "FPS, FP Continuation Form" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                select concept_id into @member1_concept_id from concept_name where name = "FP Continuation, Service Provided" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                call add_concept_set_members (@concept_id, @member1_concept_id, 0);
+            </sql>
+        </changeSet>
+        <changeSet id="PSI-CONFIG-201912180105" author="Santhosh">
+        <comment>Adding answers to FP Continuation, Setting</comment>
+        <sql>
+                set @concept_id = 0;
+                set @child1_concept_id = 0;
+                set @child2_concept_id = 0;
+
+                select concept_id into @concept_id from concept_name where name = "FP Continuation, Setting" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                select concept_id into @child1_concept_id from concept_name where name = 'Urban' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                select concept_id into @child2_concept_id from concept_name where name = 'Rural' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                call add_concept_answer(@concept_id, @child1_concept_id, 1);
+                call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+        </changeSet>
+
+        <changeSet id="PSI-CONFIG-201912180106" author="Santhosh">
+             <comment>updating the sort weight for the FP Continuation Form</comment>
+             <sql>
+                    UPDATE concept_set SET sort_weight = 0
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Service Provided' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 1
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Weight' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 2
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Cont Form, Temperature' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 3
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation BP, Blood Pressure' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 4
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Current Method' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 5
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, IF Current method others, then specify' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 6
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Assessment' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 7
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Plan' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 8
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FPS Continuation, Method Administered' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 9
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Cont Form, State POP Cycles' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 10
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Cont Form, State COC Cycles' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 11
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FPS Continuation, Procedure Done' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 12
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FPS Continuation, State Procedure' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 13
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FPS Continuation, Insertion Method' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 14
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FPS Continuation, Removal Method' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 15
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, State reason for removal' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 16
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, State the health concerns and complications' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 17
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation If side effects, specify details' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 18
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Cont Form, Removal Method' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 19
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, State reason for removal' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 20
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Cont Form, Insert/Remove State HealthConcernComplication' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 21
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Cont Form, Insert/Remove Side effect Specify details' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 22
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Insertion/Removal Method' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 23
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Date of Procedure indicate' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 24
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Pre-Procedure counseling and assessment conducted?' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 25
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Cont Form, Start of procedure indicate time' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 26
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Cont Form, End of procedure indicate time' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 27
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Indicate name of Counselor' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 28
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Complications during insertions' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 29
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FPS Continuation, If Yes select the complications' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 30
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FPS Continuation, If other for yes as complication' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 31
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Adverse Event' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 32
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, If yes, select the adverse event' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 33
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, If Yes for other adverse event' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 34
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Procedure done by (Name of counsellor)' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 35
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Batch number of the method given' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 36
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Expiry date of the method given' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 37
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Manufacturer of the method given' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 38
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation,Referrals Section' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 39
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, State review date' and retired = 0);
+
+                    UPDATE concept_set SET sort_weight = 40
+                    WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'FPS, FP Continuation Form' and retired = 0)
+                    AND concept_id = (select concept_id from concept_view where concept_full_name = 'FP Continuation, Reason for review' and retired = 0);
+                </sql>
+        </changeSet>
+        <changeSet id="PSI-CONFIG-201912180107" author="Santhosh">
+               <comment>Inserting Description to FP Continuation, Site Type</comment>
+               <sql>
+                    INSERT INTO concept_description (concept_id,description,locale,creator,date_created,changed_by,date_changed,uuid) VALUES ((select concept_id from concept_name where name = 'FP Continuation, Site Type' and concept_name_type = 'FULLY_SPECIFIED' and voided = 0),'Place where the service is being provided','en',1,now(),NULL,NULL,uuid());
+               </sql>
+        </changeSet>
+
+        <changeSet id="PSI-CONFIG-201912100529" author="Santhosh">
+               <comment>Adding Answers to Community Operational and Service delivery form</comment>
+                 <sql>
+                     set @concept_id = 0;
+                     set @child1_concept_id = 0;
+                     select concept_id into @concept_id from concept_name where name = "COSD Form, Visit Type" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                     select concept_id into @child1_concept_id from concept_name where name = 'I = Family Refill' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+                     call add_concept_answer(@concept_id, @child1_concept_id, 9);
+                 </sql>
+        </changeSet>
+
+
+</databaseChangeLog>

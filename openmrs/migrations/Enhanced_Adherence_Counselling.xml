@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="PSI-CONFIG-2019120801" author="Santhosh">
+        <comment>Adding visit type Concepts</comment>
+        <sqlFile path="Enhanced_Adherence_Counselling_Concepts.sql"/>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201924121422" author="Santhosh">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                   select count(*) from concept_answer ca
+                   join
+                   concept_name cn
+                   on ca.concept_id = cn.concept_id
+                   where ca.answer_concept IN (select concept_id from concept_name where name IN ('Enhanced adherence counselling') and concept_name_type = "FULLY_SPECIFIED")
+                   AND
+                   cn.concept_id IN (select concept_id from concept_name where name = "Reason for Visit");
+                </sqlCheck>
+        </preConditions>
+        <comment>Adding Answers to Reason for Visit</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "Reason for Visit" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child1_concept_id from concept_name where name = 'Enhanced Adherence Counselling' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 45);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201924121423" author="Suraj">
+        <comment>updating the sort weight for the set "Reason for visit"</comment>
+          <sql>
+
+               UPDATE concept_answer SET sort_weight = 46
+               WHERE concept_id = (select concept_id from concept_view where concept_full_name = 'Reason for visit' and retired = 0)
+               AND answer_concept = (select concept_id from concept_view where concept_full_name = 'PrEP Initial' and retired = 0);
+
+               UPDATE concept_answer SET sort_weight = 47
+               WHERE concept_id = (select concept_id from concept_view where concept_full_name = 'Reason for visit' and retired = 0)
+               AND answer_concept = (select concept_id from concept_view where concept_full_name = 'PrEP Continuation' and retired = 0);
+
+               UPDATE concept_answer SET sort_weight = 48
+               WHERE concept_id = (select concept_id from concept_view where concept_full_name = 'Reason for visit' and retired = 0)
+               AND answer_concept = (select concept_id from concept_view where concept_full_name = 'Viac Initial' and retired = 0);
+
+               UPDATE concept_answer SET sort_weight = 49
+               WHERE concept_id = (select concept_id from concept_view where concept_full_name = 'Reason for visit' and retired = 0)
+               AND answer_concept = (select concept_id from concept_view where concept_full_name = 'Viac Continuation' and retired = 0);
+
+               UPDATE concept_answer SET sort_weight = 50
+               WHERE concept_id = (select concept_id from concept_view where concept_full_name = 'Reason for visit' and retired = 0)
+               AND answer_concept = (select concept_id from concept_view where concept_full_name = 'VMMC' and retired = 0);
+
+               UPDATE concept_answer SET sort_weight = 51
+               WHERE concept_id = (select concept_id from concept_view where concept_full_name = 'Reason for visit' and retired = 0)
+               AND answer_concept = (select concept_id from concept_view where concept_full_name = 'FP Initial' and retired = 0);
+
+               UPDATE concept_answer SET sort_weight = 52
+               WHERE concept_id = (select concept_id from concept_view where concept_full_name = 'Reason for visit' and retired = 0)
+               AND answer_concept = (select concept_id from concept_view where concept_full_name = 'FP Counselling Only' and retired = 0);
+
+               UPDATE concept_answer SET sort_weight = 53
+               WHERE concept_id = (select concept_id from concept_view where concept_full_name = 'Reason for visit' and retired = 0)
+               AND answer_concept = (select concept_id from concept_view where concept_full_name = 'FP Continuation' and retired = 0);
+          </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-2019120903" author="Santhosh">
+        <comment>Adding set members to Visit</comment>
+        <sql>
+            set @concept_id = 0;
+            set @member1_concept_id = 0;
+
+            select concept_id into @concept_id FROM concept_name where name = "Visit" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member1_concept_id from concept_name where name = "Provider name for Enhanced adherence counselling" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_set_members (@concept_id, @member1_concept_id, 29);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-2019120904" author="Santhosh">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult= "0">
+                select count(*) from global_property where property='emrapi.sqlSearch.EnhancedAdherenceCounselling';
+            </sqlCheck>
+        </preConditions>
+        <comment>Creating Global Property for Enhanced Adherence Counselling Patient Queue</comment>
+        <sql>
+            INSERT INTO global_property (property, property_value, uuid)
+            VALUES ('emrapi.sqlSearch.EnhancedAdherenceCounselling', '', uuid());
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-2019081204" author="Suraj">
+        <comment>Updating Global Property For Enhanced Adherence Counselling queue</comment>
+        <sql>
+            update global_property set property_value =
+            "select distinct  concat(pn.given_name,' ',
+            ifnull(pn.family_name,'')) as name,
+            pi.identifier as identifier,
+            concat('',p.uuid) as uuid,
+            concat('',v.uuid) as activeVisitUuid,
+            IF(va.value_reference = 'Admitted', 'true', 'false') as hasBeenAdmitted
+            from visit v
+            join person_name pn on v.patient_id = pn.person_id and pn.voided = 0
+            join patient_identifier pi on v.patient_id = pi.patient_id
+            join patient_identifier_type pit on pi.identifier_type = pit.patient_identifier_type_id
+            join global_property gp on gp.property='bahmni.primaryIdentifierType'
+            and gp.property_value=pit.uuid
+            join person p on p.person_id = v.patient_id
+            join location l on l.uuid = ${visit_location_uuid}
+            and v.location_id = l.location_id
+            INNER JOIN (SELECT reason_for_visit.person_id,e.visit_id
+            FROM obs reason_for_visit
+            INNER JOIN concept c ON c.concept_id = reason_for_visit.concept_id AND reason_for_visit.voided = 0
+            INNER JOIN concept_name cn ON c.concept_id = cn.concept_id AND cn.concept_name_type = 'FULLY_SPECIFIED' AND
+            cn.name IN ('Reason for visit')
+            INNER JOIN concept c2 ON c2.concept_id = reason_for_visit.value_coded
+            INNER JOIN concept_name cn2 ON c2.concept_id = cn2.concept_id AND cn2.concept_name_type = 'FULLY_SPECIFIED' AND cn2.name IN ('Enhanced Adherence Counselling') INNER JOIN encounter e on e.encounter_id = reason_for_visit.encounter_id) AS result
+            ON result.person_id = v.patient_id AND result.visit_id = v.visit_id
+            left outer join visit_attribute va on va.visit_id = v.visit_id
+            and va.attribute_type_id = (select visit_attribute_type_id from visit_attribute_type where name='Admission Status')
+            and va.voided = 0 where v.date_stopped is null AND v.voided = 0;"
+            where property= 'emrapi.sqlSearch.EnhancedAdherenceCounselling';
+        </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-201926121444" author="Suraj">
+        <comment>Adding "EAC Form, What was your baseline CD4 count?" to numeric table</comment>
+        <sql>
+            INSERT INTO concept_numeric
+            (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision)
+            VALUES ((select concept_id from concept_name where name = 'EAC Form, What was your baseline CD4 count?'
+            and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
+        </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-201926121445" author="Suraj">
+        <comment>Adding "EAC Form, What is the client's current viral load?" to numeric table</comment>
+        <sql>
+            INSERT INTO concept_numeric
+            (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision)
+            VALUES ((select concept_id from concept_name where name = "EAC Form, What is the client's current viral load?"
+            and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201924121707" author="Suraj">
+        <comment>Adding Answers to "EAC Form, Have you been taking your drugs daily?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "EAC Form, Have you been taking your drugs daily?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-201924121706" author="Suraj">
+        <comment>Adding Answers to "EAC Form, Have you been taking drugs at the same time daily?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "EAC Form, Have you been taking drugs at the same time daily?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-201924121705" author="Suraj">
+        <comment>Adding Answers to "EAC Form, Are you using any other medications or traditional herbs?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "EAC Form, Are you using any other medications or traditional herbs?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-201924121704" author="Suraj">
+        <comment>Adding Answers to "EAC Form, Have been having unprotected sex?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "EAC Form, Have been having unprotected sex?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-201924121703" author="Suraj">
+        <comment>Adding Answers to "EAC Form, If Yes, Specify1"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+            set @child6_concept_id = 0;
+            set @child7_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "EAC Form, If Yes, Specify1" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Anti-hypertensives' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'Diabetics' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'Anti-Epleptics' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = 'Chemotherapy' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child5_concept_id from concept_name where name = 'Anti-Asthmatics' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child6_concept_id from concept_name where name = 'Traditional Herbs' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child7_concept_id from concept_name where name = 'Other (specify)' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            call add_concept_answer(@concept_id, @child3_concept_id, 3);
+            call add_concept_answer(@concept_id, @child4_concept_id, 4);
+            call add_concept_answer(@concept_id, @child5_concept_id, 5);
+            call add_concept_answer(@concept_id, @child6_concept_id, 6);
+            call add_concept_answer(@concept_id, @child7_concept_id, 7);
+        </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-201924121702" author="Suraj">
+        <comment>Adding Answers to "EAC Form, If Yes, Specify2"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "EAC Form, If Yes, Specify2" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'With someone of unknown status refusing to test' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'With someone HIV infected but not on effective anti-retroviral treatment' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'With someone with a detectable viral load' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            call add_concept_answer(@concept_id, @child3_concept_id, 3);
+        </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-201924121716" author="Suraj">
+        <comment>Adding Answers to "EAC Form, What could be the possible cause of treatment failure?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "EAC Form, What could be the possible cause of treatment failure?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Drug non-adherence' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'Baseline CD4 less than 100' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'Use of traditional Herbs' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = 'Drug to drug interaction' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child5_concept_id from concept_name where name = 'Unprotected sex with a infected partner' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            call add_concept_answer(@concept_id, @child3_concept_id, 3);
+            call add_concept_answer(@concept_id, @child4_concept_id, 4);
+            call add_concept_answer(@concept_id, @child5_concept_id, 5);
+        </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-201924121718" author="Suraj">
+        <comment>Adding Answers to "EAC Form, What is the outcome of this current session?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "EAC Form, What is the outcome of this current session?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'continue EAC' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'Repeat Viral Load' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'Virally suppressed discharge from EAC' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = 'Unsuppressed Switch to 2nd line' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child5_concept_id from concept_name where name = 'Unsuppressed transfer for 3rd line' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            call add_concept_answer(@concept_id, @child3_concept_id, 3);
+            call add_concept_answer(@concept_id, @child4_concept_id, 4);
+            call add_concept_answer(@concept_id, @child5_concept_id, 5);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201912261247" author="Suraj">
+        <comment>Adding set members to "Enhanced Adherence Counselling Template"</comment>
+          <sql>
+              set @concept_id = 0;
+              set @member0_concept_id = 0;
+              set @member1_concept_id = 0;
+              set @member2_concept_id = 0;
+              set @member3_concept_id = 0;
+              set @member4_concept_id = 0;
+              set @member5_concept_id = 0;
+              set @member6_concept_id = 0;
+              set @member7_concept_id = 0;
+              set @member8_concept_id = 0;
+              set @member9_concept_id = 0;
+              set @member10_concept_id = 0;
+              set @member11_concept_id = 0;
+              set @member12_concept_id = 0;
+              set @member13_concept_id = 0;
+              set @member14_concept_id = 0;
+              set @member15_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "Enhanced Adherence Counselling Template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              select concept_id into @member0_concept_id from concept_name where name = "EAC Form, Have you been taking your drugs daily?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member1_concept_id from concept_name where name = "EAC Form, What time are you taking the drugs?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member2_concept_id from concept_name where name = "EAC Form, Have you been taking drugs at the same time daily?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member3_concept_id from concept_name where name = "EAC Form, What challenges are you facing to maintain the same time?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member4_concept_id from concept_name where name = "EAC Form, What was your baseline CD4 count?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member5_concept_id from concept_name where name = "EAC Form, Are you using any other medications or traditional herbs?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member6_concept_id from concept_name where name = "EAC Form, If Yes, Specify1" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member7_concept_id from concept_name where name = "EAC Form, If Others, Specify" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member8_concept_id from concept_name where name = "EAC Form, Have been having unprotected sex?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member9_concept_id from concept_name where name = "EAC Form, If Yes, Specify2" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member10_concept_id from concept_name where name = "EAC Form, What is the client's current viral load?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member11_concept_id from concept_name where name = "EAC Form, Assessment" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member12_concept_id from concept_name where name = "EAC Form, Plan" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member13_concept_id from concept_name where name = "EAC Form, What could be the possible cause of treatment failure?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member14_concept_id from concept_name where name = "EAC Form, Specify drug" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member15_concept_id from concept_name where name = "EAC Form, What is the outcome of this current session?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member0_concept_id, 0);
+              call add_concept_set_members (@concept_id, @member1_concept_id, 1);
+              call add_concept_set_members (@concept_id, @member2_concept_id, 2);
+              call add_concept_set_members (@concept_id, @member3_concept_id, 3);
+              call add_concept_set_members (@concept_id, @member4_concept_id, 4);
+              call add_concept_set_members (@concept_id, @member5_concept_id, 5);
+              call add_concept_set_members (@concept_id, @member6_concept_id, 6);
+              call add_concept_set_members (@concept_id, @member7_concept_id, 7);
+              call add_concept_set_members (@concept_id, @member8_concept_id, 8);
+              call add_concept_set_members (@concept_id, @member9_concept_id, 9);
+              call add_concept_set_members (@concept_id, @member10_concept_id, 10);
+              call add_concept_set_members (@concept_id, @member11_concept_id, 11);
+              call add_concept_set_members (@concept_id, @member12_concept_id, 12);
+              call add_concept_set_members (@concept_id, @member13_concept_id, 13);
+              call add_concept_set_members (@concept_id, @member14_concept_id, 14);
+              call add_concept_set_members (@concept_id, @member15_concept_id, 15);
+
+          </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-201926121258" author="Suraj">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select COUNT(*) from concept_set cs
+                join concept_name cn
+                on cs.concept_id = cn.concept_id
+                where cs.concept_id IN (select concept_id from concept_name where name ='Enhanced Adherence Counselling Template' AND concept_name_type = "FULLY_SPECIFIED")
+                and cs.concept_set IN (select concept_id from concept_name where name = 'All Observation Templates');
+            </sqlCheck>
+        </preConditions>
+        <comment>Adding set member "Enhanced Adherence Counselling Template" to all observation templates</comment>
+        <sql>
+              set @concept_id = 0;
+              set @member_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "All Observation Templates" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member_concept_id from concept_name where name = "Enhanced Adherence Counselling Template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              call add_concept_set_members (@concept_id, @member_concept_id, 47);
+        </sql>
+    </changeSet>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ </databaseChangeLog>

@@ -51,13 +51,11 @@ Bahmni.ConceptSet.FormConditions.rules = {
 			           conditions.hide.push("Provider name for Lab Test (Only)");
 			         }
 
-
 			if (obj.indexOf('Basic 1 and ART 1 service')>=0 ) {
 			         conditions.show.push("Provider name for Basic 1 and ART 1");
 			         } else {
 			           conditions.hide.push("Provider name for Basic 1 and ART 1");
 			         }
-
 
 			if (obj.indexOf('Phone Call')>=0 ) {
 			         conditions.show.push("Provider name for Phone Call");
@@ -70,7 +68,11 @@ Bahmni.ConceptSet.FormConditions.rules = {
 			         } else {
 			           conditions.hide.push("Provider name for Adherence counseling");
 			         }
-
+			if (obj.indexOf('Enhanced Adherence Counselling')>=0 ) {
+			         conditions.show.push("Provider name for Enhanced adherence counselling");
+			         } else {
+			           conditions.hide.push("Provider name for Enhanced adherence counselling");
+			         }
 			if (obj.indexOf('PrEP Continuation')>=0 ) {
 			         conditions.show.push("Provider name for Prep Continuation");
 			         } else {
@@ -87,7 +89,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                      conditions.show.push("Provider name for Provider Testing and Counseling");
                      } else {
                        conditions.hide.push("Provider name for Provider Testing and Counseling");
-                     }  
+                     }
 
             if (obj.indexOf('Confirmatory HIV testing and Counseling')>=0 ) {
                      conditions.show.push("Provider name for Confirmatory HIV testing and Counseling");
@@ -112,7 +114,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                      } else {
                        conditions.hide.push("Provider name for Hospital Visit");
                      }
-  
+
               if (obj.indexOf('Viac Initial')>=0 ) {
                      conditions.show.push("Provider name for Viac Initial");
                      } else {
@@ -147,7 +149,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
                      conditions.show.push("Provider name for FP Continuation");
                      } else {
                        conditions.hide.push("Provider name for FP Continuation");
-                     }              
+                     }
 
             if (obj.indexOf('VAWG')>=0 ) {
                      conditions.show.push("Provider name for VAWG");
@@ -864,11 +866,13 @@ Bahmni.ConceptSet.FormConditions.rules = {
         var conditionConcept = formFieldValues['STI Symptoms, Patients gender'];
         if (conditionConcept == "Male") {
             conditions.show.push("STI Symptoms, Male Details");
-            conditions.enable.push("STI Symptoms, Male, Have you observed a discharge from the penis?","STI Symptoms, Male, Have you noticed non painful or painful ulcers on or around the penis?","STI Symptoms, Male, Have you had rash with any of the symptoms?", "STI Symptoms, Male, Have you noticed warts on the genital area?", "STI Symptoms, Male, Have you had swelling of your penis or foreskin?", "STI Symptoms, Male, Have you been treated for any of the following?");
+            conditions.enable.push("STI Symptoms, Male, Family Medical History","STI Symptoms, Male, Registered for ART","STI Symptoms, Male, Client's HIV status","STI Symptoms, Male, Have you observed a discharge from the penis?","STI Symptoms, Male, Have you noticed non painful or painful ulcers on or around the penis?","STI Symptoms, Male, Have you had rash with any of the symptoms?", "STI Symptoms, Male, Have you noticed warts on the genital area?", "STI Symptoms, Male, Have you had swelling of your penis or foreskin?", "STI Symptoms, Male, Have you been treated for any of the following?");
             conditions.hide.push("STI Symptoms, Female Details");
             var PenisDischarge = formFieldValues['STI Symptoms, Male, Have you observed a discharge from the penis?'];
             var PenisUlcers = formFieldValues['STI Symptoms, Male, Have you noticed non painful or painful ulcers on or around the penis?'];
             var RashSymptoms = formFieldValues['STI Symptoms, Male, Have you had rash with any of the symptoms?'];
+            var HivStatus = formFieldValues["STI Symptoms, Male, Client's HIV status"];
+            var RegArt = formFieldValues['STI Symptoms, Male, Registered for ART'];
             if (PenisDischarge == "Yes") {
                 conditions.enable.push("STI Symptoms, Male, If yes on penis discharge, specify type");
             } else {
@@ -884,15 +888,26 @@ Bahmni.ConceptSet.FormConditions.rules = {
             } else {
                 conditions.disable.push("STI Symptoms, Male, If yes on rash, location of rash");
             }
-
+            if (HivStatus == "Positive") {
+                conditions.enable.push("STI Symptoms, Male, Registered for ART");
+            } else {
+                conditions.disable.push("STI Symptoms, Male, Registered for ART");
+            }
+            if (RegArt == "Yes") {
+                conditions.enable.push("STI Symptoms, Male, If Yes");
+            } else {
+                conditions.disable.push("STI Symptoms, Male, If Yes");
+            }
         }
         else if (conditionConcept == "Female") {
             conditions.show.push("STI Symptoms, Female Details");
-            conditions.enable.push("STI Symptoms, Female, Have you observed a vaginal discharge?","STI Symptoms, Female, Have you noticed non painful of painful ulcers on or around the labia?","STI Symptoms, Female, Have you had rash with any of the symptoms?", "STI Symptoms, Female, Have you noticed warts on the genital area?", "STI Symptoms, Female, Have you had swelling of the labia?", "STI Symptoms, Female, Have you been treated for any of the following?");
+            conditions.enable.push("STI Symptoms, Male, Family Medical History","STI Symptoms, Female, Family Medical History","STI Symptoms, Female, Registered for ART","STI Symptoms, Female, Client's HIV status","STI Symptoms, Female, Have you observed a vaginal discharge?","STI Symptoms, Female, Have you noticed non painful of painful ulcers on or around the labia?","STI Symptoms, Female, Have you had rash with any of the symptoms?", "STI Symptoms, Female, Have you noticed warts on the genital area?", "STI Symptoms, Female, Have you had swelling of the labia?", "STI Symptoms, Female, Have you been treated for any of the following?");
             conditions.hide.push("STI Symptoms, Male Details");
             var VagDischarge = formFieldValues['STI Symptoms, Female, Have you observed a vaginal discharge?'];
             var LabiaUlcer = formFieldValues['STI Symptoms, Female, Have you noticed non painful of painful ulcers on or around the labia?'];
             var RashSymptoms = formFieldValues['STI Symptoms, Female, Have you had rash with any of the symptoms?'];
+            var HivStatus = formFieldValues["STI Symptoms, Female, Client's HIV status"];
+            var RegArt = formFieldValues['STI Symptoms, Female, Registered for ART'];
             if (VagDischarge == "Yes") {
                 conditions.enable.push("STI Symptoms, Female, If yes on vaginal discharge, specify type");
             } else {
@@ -907,6 +922,16 @@ Bahmni.ConceptSet.FormConditions.rules = {
                 conditions.enable.push("STI Symptoms, Female, If yes on rash, location of rash");
             } else {
                 conditions.disable.push("STI Symptoms, Female, If yes on rash, location of rash");
+            }
+            if (HivStatus == "Positive") {
+                conditions.enable.push("STI Symptoms, Female, Registered for ART");
+            } else {
+                conditions.disable.push("STI Symptoms, Female, Registered for ART");
+            }
+            if (RegArt == "Yes") {
+                conditions.enable.push("STI Symptoms, Female, If Yes");
+            } else {
+                conditions.disable.push("STI Symptoms, Female, If Yes");
             }
         }
         else {
@@ -924,6 +949,42 @@ Bahmni.ConceptSet.FormConditions.rules = {
         }
         return conditions;
         },
+    "STI Symptoms, Male, If Yes": function(formName, formFieldValues) {
+         var conditions = {show: [], hide: []};
+         var NscOther = formFieldValues['STI Symptoms, Male, If Yes'];
+         if (NscOther == "NSC") {
+              conditions.show.push("STI Symptoms, Male, NSC");
+              conditions.hide.push("STI Symptoms, Male, Other");
+         }
+         else if (NscOther == "Other")
+         {
+              conditions.show.push("STI Symptoms, Male, Other");
+              conditions.hide.push("STI Symptoms, Male, NSC");
+         }
+         else {
+            conditions.hide.push("STI Symptoms, Male, NSC",
+                                 "STI Symptoms, Male, Other");
+        }
+          return conditions;
+    },
+    "STI Symptoms, Female, If Yes": function(formName, formFieldValues) {
+         var conditions = {show: [], hide: []};
+         var NscOther = formFieldValues['STI Symptoms, Female, If Yes'];
+         if (NscOther == "NSC") {
+              conditions.show.push("STI Symptoms, Female, NSC");
+              conditions.hide.push("STI Symptoms, Female, Other");
+         }
+         else if (NscOther == "Other")
+         {
+              conditions.show.push("STI Symptoms, Female, Other");
+              conditions.hide.push("STI Symptoms, Female, NSC");
+         }
+         else {
+            conditions.hide.push("STI Symptoms, Female, NSC",
+                                 "STI Symptoms, Female, Other");
+        }
+          return conditions;
+    },
     "STI Symptoms, Male, Have you noticed non painful or painful ulcers on or around the penis?": function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['STI Symptoms, Male, Have you noticed non painful or painful ulcers on or around the penis?'];
@@ -961,6 +1022,16 @@ Bahmni.ConceptSet.FormConditions.rules = {
             conditions.enable.push("STI Symptoms, Female, Other type of vaginal discharge");
         } else {
             conditions.disable.push("STI Symptoms, Female, Other type of vaginal discharge");
+        }
+        return conditions;
+        },
+    "STI Symptoms, Male, If yes on penis discharge, specify type": function (formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['STI Symptoms, Male, If yes on penis discharge, specify type'];
+        if (conditionConcept.indexOf("Other") >=0) {
+            conditions.enable.push("STI Symptoms, Male, Other type of discharge");
+        } else {
+            conditions.disable.push("STI Symptoms, Male, Other type of discharge");
         }
         return conditions;
         },
@@ -7337,6 +7408,58 @@ Bahmni.ConceptSet.FormConditions.rules = {
             }
         return conditions;
         },
+        "RUUV, Has the client defaulted treatment for more than 28 days?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['RUUV, Has the client defaulted treatment for more than 28 days?'];
+        if (conditionConcept =="Yes") {
+            conditions.enable.push("RUUV, Date of Reinitiation");
+
+        }
+            else {
+            conditions.disable.push("RUUV, Date of Reinitiation");
+            }
+        return conditions;
+        },
+        "AP, Type of Visit": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['AP, Type of Visit'];
+        if (conditionConcept =="Pickup drugs") {
+              conditions.enable.push("AP, Has the client defaulted treatment for more than 28 days?");
+              conditions.enable.push("AP, Have you ever been screened for cervical cancer?");
+              conditions.enable.push("AP, Is the client eligible for cervical cancer screening today?");
+
+        }
+        else if (conditionConcept =="Review by MD or Doctor") {
+              conditions.enable.push("AP, Has the client defaulted treatment for more than 28 days?");
+              conditions.disable.push("AP, Have you ever been screened for cervical cancer?");
+              conditions.disable.push("AP, Is the client eligible for cervical cancer screening today?");
+
+        }
+        else if (conditionConcept =="AP, Review By nurse") {
+              conditions.enable.push("AP, Has the client defaulted treatment for more than 28 days?");
+              conditions.enable.push("AP, Have you ever been screened for cervical cancer?");
+              conditions.enable.push("AP, Is the client eligible for cervical cancer screening today?");
+
+        }
+            else {
+            conditions.disable.push("AP, Has the client defaulted treatment for more than 28 days?");
+            conditions.disable.push("AP, Have you ever been screened for cervical cancer?");
+            conditions.disable.push("AP, Is the client eligible for cervical cancer screening today?");
+        }
+        return conditions;
+        },
+        "AP, Has the client defaulted treatment for more than 28 days?": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['AP, Has the client defaulted treatment for more than 28 days?'];
+        if (conditionConcept =="Yes") {
+              conditions.enable.push("AP, Date of Reinitiation");
+
+        }
+            else {
+            conditions.disable.push("AP, Date of Reinitiation");
+            }
+        return conditions;
+        },
 
         "AS, Activity status": function (formName, formFieldValues) {
         var conditions = {show: [], hide: []};
@@ -9092,7 +9215,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
             conditions.hide.push("FP Continuation, Insertion/Removal Method");
             conditions.hide.push("FP Cont Form, Removal Method");
             conditions.hide.push("FP Cont Form, State reason for removal");
- 
+
         }
         else if (conditionConcept == "Insertion/Removal") {
             conditions.show.push("FP Continuation, Insertion/Removal Method");
@@ -9101,7 +9224,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
             conditions.hide.push("FPS Continuation, Removal Method");
             conditions.hide.push("FPS Continuation, Insertion Method");
             conditions.hide.push("FP Continuation, State reason for removal");
- 
+
         }
         else {
             conditions.hide.push("FPS Continuation, Insertion Method",
@@ -9164,24 +9287,24 @@ Bahmni.ConceptSet.FormConditions.rules = {
     "COSD Form, Previous ART Regimens (allow for multiple entries)": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
      var conditionConcept = formFieldValues['COSD Form, Previous ART Regimens (allow for multiple entries)'];
-     if (conditionConcept.indexOf("Adult 1st line ART Regimens") >=0 && !(conditionConcept.indexOf("Adult 2nd line ART Regimens") >=0)) 
+     if (conditionConcept.indexOf("Adult 1st line ART Regimens") >=0 && !(conditionConcept.indexOf("Adult 2nd line ART Regimens") >=0))
         {
           conditions.enable.push("COSD FORM, Previous Regimen Specify Adult 1st line ART Regimen");
           conditions.disable.push("COSD Form, Previous Regimen Specify Adult 2nd line ART Regimen");
-          
+
         }
      else if (conditionConcept.indexOf("Adult 2nd line ART Regimens") >=0 && !(conditionConcept.indexOf("Adult 1st line ART Regimens") >=0) )
         {
         conditions.enable.push("COSD Form, Previous Regimen Specify Adult 2nd line ART Regimen");
         conditions.disable.push("COSD FORM, Previous Regimen Specify Adult 1st line ART Regimen");
-        
+
         }
 
     else if (conditionConcept.indexOf("Adult 1st line ART Regimens") >=0 && conditionConcept.indexOf("Adult 2nd line ART Regimens") >=0)
      {
-        conditions.enable.push("COSD FORM, Previous Regimen Specify Adult 1st line ART Regimen","COSD Form, Previous Regimen Specify Adult 2nd line ART Regimen"); 
+        conditions.enable.push("COSD FORM, Previous Regimen Specify Adult 1st line ART Regimen","COSD Form, Previous Regimen Specify Adult 2nd line ART Regimen");
      }
-     
+
      else
      {
        conditions.disable.push("COSD FORM, Previous Regimen Specify Adult 1st line ART Regimen","COSD Form, Previous Regimen Specify Adult 2nd line ART Regimen");
@@ -10115,6 +10238,19 @@ Bahmni.ConceptSet.FormConditions.rules = {
      }
           return conditions;
   },
+  "Prep Cont Form, Has the client defaulted treatment for more than 28 days?": function(formName, formFieldValues) {
+     var conditions = {enable: [], disable: []};
+     var conditionConcept = formFieldValues['Prep Cont Form, Has the client defaulted treatment for more than 28 days?'];
+     if (conditionConcept =="Yes") {
+          conditions.enable.push("Prep Cont Form, Date of Reinitiation");
+
+     }
+     else
+     {
+          conditions.disable.push("Prep Cont Form, Date of Reinitiation");
+     }
+          return conditions;
+  },
   "Prep Cont Form, If Yes for the client eligible to continue PrEP? Males": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
      var conditionConcept = formFieldValues['Prep Cont Form, If Yes for the client eligible to continue PrEP? Males'];
@@ -10141,6 +10277,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
      }
           return conditions;
   },
+
   "Prep Init Form, Site Type": function(formName, formFieldValues) {
      var conditions = {show: [], hide: []};
      var conditionConcept = formFieldValues['Prep Init Form, Site Type'];
@@ -10492,6 +10629,30 @@ Bahmni.ConceptSet.FormConditions.rules = {
                     }
                          return conditions;
                   },
+                 "PHTC, Index testing offered": function (formName, formFieldValues) {
+                    var conditions = {show: [], hide: []};
+                    var conditionConcept = formFieldValues['PHTC, Index testing offered'];
+
+                    if (conditionConcept == "No") {
+                        conditions.show.push("PHTC, Reasons not Offered");
+                    }
+                    else {
+                         conditions.hide.push("PHTC, Reasons not Offered");
+                    }
+                    return conditions;
+                    },
+                 "PHTC, Index testing accepted": function (formName, formFieldValues) {
+                    var conditions = {show: [], hide: []};
+                    var conditionConcept = formFieldValues['PHTC, Index testing accepted'];
+
+                    if (conditionConcept == "No") {
+                        conditions.show.push("PHTC, Reasons not Accepted");
+                    }
+                    else {
+                        conditions.hide.push("PHTC, Reasons not Accepted");
+                    }
+                    return conditions;
+                    },
                  "PHTC, Site Type": function(formName, formFieldValues) {
                          var conditions = {show: [], hide: []};
                          var conditionConcept = formFieldValues['PHTC, Site Type'];
@@ -10556,7 +10717,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
             conditions.hide.push("FP Init Form, Insert/Remove Insertion Method");
             conditions.hide.push("FP Init Form, Insert/Remove Removal Method");
             conditions.hide.push("FP Init Form, InsertRemove state reason for removal");
- 
+
         }
         else if (conditionConcept == "Insertion/Removal") {
             conditions.show.push("FP Init Form, Insert/Remove Insertion Method");
@@ -10565,7 +10726,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
             conditions.hide.push("FP Init Form, Removal Method");
             conditions.hide.push("FP Init Form, Insertion Method");
             conditions.hide.push("FP Init Form, State reason for removal");
- 
+
         }
         else {
             conditions.hide.push("FP Init Form, Insertion Method",
@@ -10604,7 +10765,126 @@ Bahmni.ConceptSet.FormConditions.rules = {
          }
           return conditions;
 },
+    "PrEP ST Form, Are you in a Sero-discordant relationship?": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['PrEP ST Form, Are you in a Sero-discordant relationship?'];
+     if (conditionConcept =="Yes") {
+          conditions.show.push("PrEP ST Form, If Yes, then Specify3");
 
+     }
+     else
+     {
+          conditions.hide.push("PrEP ST Form, If Yes, then Specify3");
+     }
+          return conditions;
+  },
+    "PrEP ST Form, Is the client eligible for PrEP": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['PrEP ST Form, Is the client eligible for PrEP'];
+     if (conditionConcept =="Yes") {
+          conditions.show.push("PrEP ST Form, If Yes, then Specify4");
+          conditions.show.push("PrEP ST Form, Has the client been referred for PrEP");
+
+     }
+     else
+     {
+          conditions.hide.push("PrEP ST Form, If Yes, then Specify4");
+          conditions.hide.push("PrEP ST Form, Has the client been referred for PrEP");
+     }
+          return conditions;
+  },
+    "PrEP ST Form, Has the client been referred for PrEP": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['PrEP ST Form, Has the client been referred for PrEP'];
+     if (conditionConcept =="No") {
+          conditions.show.push("PrEP ST Form, Reason(s) for not referring the client");
+
+     }
+     else
+     {
+          conditions.hide.push("PrEP ST Form, Reason(s) for not referring the client");
+     }
+          return conditions;
+  },
+    "PrEP ST Form, Does the client have a sex partner with one or more HIV risk factors": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['PrEP ST Form, Does the client have a sex partner with one or more HIV risk factors'];
+     if (conditionConcept =="Yes") {
+          conditions.show.push("PrEP ST Form, If Yes, then Specify2");
+
+     }
+     else
+     {
+          conditions.hide.push("PrEP ST Form, If Yes, then Specify2");
+     }
+          return conditions;
+  },
+    "PrEP ST Form, Is the sexually active in a high prevalence / KP population in the last 6 months?": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['PrEP ST Form, Is the sexually active in a high prevalence / KP population in the last 6 months?'];
+     if (conditionConcept =="Yes") {
+          conditions.show.push("PrEP ST Form, If Yes, then Specify1");
+
+     }
+     else
+     {
+          conditions.hide.push("PrEP ST Form, If Yes, then Specify1");
+     }
+          return conditions;
+  },
+    "PrEP ST Form, Has the client had vaginal or anal intercourse without condoms with more than 1 partner in the last 6 months?": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['PrEP ST Form, Has the client had vaginal or anal intercourse without condoms with more than 1 partner in the last 6 months?'];
+     if (conditionConcept =="Yes") {
+          conditions.show.push("PrEP ST Form, How many sexual partners did you have vaginal or anal sex with?");
+          conditions.show.push("PrEP ST Form, In the past 6 months, did you use condoms consistently during sex?");
+
+     }
+     else
+     {
+          conditions.hide.push("PrEP ST Form, How many sexual partners did you have vaginal or anal sex with?");
+          conditions.hide.push("PrEP ST Form, In the past 6 months, did you use condoms consistently during sex?");
+     }
+          return conditions;
+  },
+    "PrEP ST Form, Is the Client HIV negative": function(formName, formFieldValues) {
+        var conditions = {enable: [], disable: []};
+        var conditionConcept = formFieldValues['PrEP ST Form, Is the Client HIV negative'];
+        if (conditionConcept == "Yes") {
+            conditions.enable.push("PrEP ST Form, Date tested");
+
+        } else {
+            conditions.disable.push("PrEP ST Form, Date tested");
+        }
+        return conditions;
+    },
+    "PrEP ST Form, Is the client sexually active": function(formName, formFieldValues) {
+        var conditions = {show: [], hide: []};
+        var conditionConcept = formFieldValues['PrEP ST Form, Is the client sexually active'];
+        if (conditionConcept == "Yes") {
+            conditions.show.push("PrEP ST Form, Is the sexually active in a high prevalence / KP population in the last 6 months?");
+            conditions.show.push("PrEP ST Form, Has the client had vaginal or anal intercourse without condoms with more than 1 partner in the last 6 months?");
+            conditions.show.push("PrEP ST Form, Does the client have a sex partner with one or more HIV risk factors");
+            conditions.show.push("PrEP ST Form, In the last 6 months has the client been treated for an STI by lab testing, self-reports, syndromic STI treatment");
+            conditions.show.push("PrEP ST Form, In the last 6 months have you taken post-exposure prophylaxis (PEP) following a potential exposure to HIV?");
+            conditions.show.push("PrEP ST Form, In the last 6 months have you used emergency contraception?");
+            conditions.show.push("PrEP ST Form, In the last 6 months have you had sex while under the influence of alcohol?");
+            conditions.show.push("PrEP ST Form, Are you in a Sero-discordant relationship?");
+            conditions.show.push("PrEP ST Form, Do you have a partners of unknown status who refuse testing?");
+
+        } else {
+            conditions.hide.push("PrEP ST Form, Is the sexually active in a high prevalence / KP population in the last 6 months?");
+            conditions.hide.push("PrEP ST Form, Has the client had vaginal or anal intercourse without condoms with more than 1 partner in the last 6 months?");
+            conditions.hide.push("PrEP ST Form, Does the client have a sex partner with one or more HIV risk factors");
+            conditions.hide.push("PrEP ST Form, In the last 6 months has the client been treated for an STI by lab testing, self-reports, syndromic STI treatment");
+            conditions.hide.push("PrEP ST Form, In the last 6 months have you taken post-exposure prophylaxis (PEP) following a potential exposure to HIV?");
+            conditions.hide.push("PrEP ST Form, In the last 6 months have you used emergency contraception?");
+            conditions.hide.push("PrEP ST Form, In the last 6 months have you had sex while under the influence of alcohol?");
+            conditions.hide.push("PrEP ST Form, Are you in a Sero-discordant relationship?");
+            conditions.hide.push("PrEP ST Form, Do you have a partners of unknown status who refuse testing?");
+        }
+        return conditions;
+    },
     "FP Init Form, State reason for removal": function(formName, formFieldValues) {
          var conditions = {enable: [], disable: [], show: [], hide: []};
          var conditionConcept = formFieldValues['FP Init Form, State reason for removal'];
@@ -10659,6 +10939,1665 @@ Bahmni.ConceptSet.FormConditions.rules = {
               conditions.hide.push("FP Init Form, Insert/Remove Side effect Specify details");
          }
           return conditions;
+    },
+    "AIVC, Have you ever been screened for cervical cancer?": function(formName, formFieldValues) {
+         var conditions = {show: [], hide: []};
+         var conditionConcept = formFieldValues['AIVC, Have you ever been screened for cervical cancer?'];
+         if (conditionConcept == "Yes") {
+              conditions.show.push("AIVC, When were you last screened?");
+              conditions.show.push("AIVC, What screening test was used?");
+              conditions.show.push("AIVC, What was the the result?");
+              conditions.show.push("AIVC, When is your next date of screening?");
+
+         }
+         else
+         {
+              conditions.hide.push("AIVC, When were you last screened?");
+              conditions.hide.push("AIVC, What screening test was used?");
+              conditions.hide.push("AIVC, What was the the result?");
+              conditions.hide.push("AIVC, When is your next date of screening?");
+
+         }
+          return conditions;
+    },
+    "AIVC, HPV Pos-VIAC Pos Did u have any intervention done?": function(formName, formFieldValues) {
+         var conditions = {show: [], hide: []};
+         var conditionConcept = formFieldValues['AIVC, HPV Pos-VIAC Pos Did u have any intervention done?'];
+         if (conditionConcept == "Yes") {
+              conditions.show.push("AIVC, HPV Pos-VIAC Pos If Yes");
+         }
+         else
+         {
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos If Yes");
+         }
+          return conditions;
+    },
+    "AIVC, VIAC Positive Did u have any intervention done?": function(formName, formFieldValues) {
+         var conditions = {show: [], hide: []};
+         var conditionConcept = formFieldValues['AIVC, VIAC Positive Did u have any intervention done?'];
+         if (conditionConcept == "Yes") {
+              conditions.show.push("AIVC, VIAC Positive If Yes");
+         }
+         else
+         {
+              conditions.hide.push("AIVC, VIAC Positive If Yes");
+         }
+          return conditions;
+    },
+    "AIVC, VIA Positive Did u have any intervention done?": function(formName, formFieldValues) {
+         var conditions = {show: [], hide: []};
+         var conditionConcept = formFieldValues['AIVC, VIA Positive Did u have any intervention done?'];
+         if (conditionConcept == "Yes") {
+              conditions.show.push("AIVC, VIA Positive If Yes");
+         }
+         else
+         {
+              conditions.hide.push("AIVC, VIA Positive If Yes");
+         }
+          return conditions;
+    },
+    "AIVC, Papsmear Pos Did u have any intervention done?": function(formName, formFieldValues) {
+         var conditions = {show: [], hide: []};
+         var conditionConcept = formFieldValues['AIVC, Papsmear Pos Did u have any intervention done?'];
+         if (conditionConcept == "Yes") {
+              conditions.show.push("AIVC, Papsmear Pos If Yes");
+         }
+         else
+         {
+              conditions.hide.push("AIVC, Papsmear Pos If Yes");
+         }
+          return conditions;
+    },
+    "AIVC, HPV Pos-VIAC Pos If Yes": function (formName, formFieldValues) {
+        var conditions = {show: [], hide: []};
+        var conditionConcept = formFieldValues['AIVC, HPV Pos-VIAC Pos If Yes'];
+
+        if (conditionConcept == "AIVC, HPV Pos-VIAC Pos Cryotherapy") {
+              conditions.show.push("AIVC, HPV Pos-VIAC Pos Cryotherapy Date");
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Thermocoagulation Date");
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos LEEP Date");
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Referred to Gyne Date");
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Other (Specify details) Text");
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Other (Specify date) Date");
+        }
+        else if (conditionConcept == "AIVC, HPV Pos-VIAC Pos Thermocoagulation") {
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Cryotherapy Date");
+              conditions.show.push("AIVC, HPV Pos-VIAC Pos Thermocoagulation Date");
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos LEEP Date");
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Referred to Gyne Date");
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Other (Specify details) Text");
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AIVC, HPV Pos-VIAC Pos LEEP") {
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Cryotherapy Date");
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Thermocoagulation Date");
+              conditions.show.push("AIVC, HPV Pos-VIAC Pos LEEP Date");
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Referred to Gyne Date");
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Other (Specify details) Text");
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AIVC, HPV Pos-VIAC Pos Referred to Gyne") {
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Cryotherapy Date");
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Thermocoagulation Date");
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos LEEP Date");
+              conditions.show.push("AIVC, HPV Pos-VIAC Pos Referred to Gyne Date");
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Other (Specify details) Text");
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AIVC, HPV Pos-VIAC Pos Other (Specify details)") {
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Cryotherapy Date");
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Thermocoagulation Date");
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos LEEP Date");
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Referred to Gyne Date");
+              conditions.show.push("AIVC, HPV Pos-VIAC Pos Other (Specify details) Text");
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AIVC, HPV Pos-VIAC Pos Other (Specify date)") {
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Cryotherapy Date");
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Thermocoagulation Date");
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos LEEP Date");
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Referred to Gyne Date");
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Other (Specify details) Text");
+              conditions.show.push("AIVC, HPV Pos-VIAC Pos Other (Specify date) Date");
+
+        }
+        else {
+            conditions.hide.push("AIVC, HPV Pos-VIAC Pos Cryotherapy Date",
+                                 "AIVC, HPV Pos-VIAC Pos Thermocoagulation Date",
+                                 "AIVC, HPV Pos-VIAC Pos Thermocoagulation Date",
+                                 "AIVC, HPV Pos-VIAC Pos LEEP Date",
+                                 "AIVC, HPV Pos-VIAC Pos Referred to Gyne Date",
+                                 "AIVC, HPV Pos-VIAC Pos Other (Specify details) Text",
+                                 "AIVC, HPV Pos-VIAC Pos Other (Specify date) Date");
+        }
+        return conditions;
+    },
+    "AIVC, VIAC Positive If Yes": function (formName, formFieldValues) {
+        var conditions = {show: [], hide: []};
+        var conditionConcept = formFieldValues['AIVC, VIAC Positive If Yes'];
+
+        if (conditionConcept == "AIVC, VIAC Positive Cryotherapy") {
+              conditions.show.push("AIVC, VIAC Positive Cryotherapy Date");
+              conditions.hide.push("AIVC, VIAC Positive Thermocoagulation Date");
+              conditions.hide.push("AIVC, VIAC Positive LEEP Date");
+              conditions.hide.push("AIVC, VIAC Positive Referred to Gyne Date");
+              conditions.hide.push("AIVC, VIAC Positive Other (Specify details) Text");
+              conditions.hide.push("AIVC, VIAC Positive Other (Specify date) Date");
+        }
+        else if (conditionConcept == "AIVC, VIAC Positive Thermocoagulation") {
+              conditions.hide.push("AIVC, VIAC Positive Cryotherapy Date");
+              conditions.show.push("AIVC, VIAC Positive Thermocoagulation Date");
+              conditions.hide.push("AIVC, VIAC Positive LEEP Date");
+              conditions.hide.push("AIVC, VIAC Positive Referred to Gyne Date");
+              conditions.hide.push("AIVC, VIAC Positive Other (Specify details) Text");
+              conditions.hide.push("AIVC, VIAC Positive Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AIVC, VIAC Positive LEEP") {
+              conditions.hide.push("AIVC, VIAC Positive Cryotherapy Date");
+              conditions.hide.push("AIVC, VIAC Positive Thermocoagulation Date");
+              conditions.show.push("AIVC, VIAC Positive LEEP Date");
+              conditions.hide.push("AIVC, VIAC Positive Referred to Gyne Date");
+              conditions.hide.push("AIVC, VIAC Positive Other (Specify details) Text");
+              conditions.hide.push("AIVC, VIAC Positive Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AIVC, VIAC Positive Referred to Gyne") {
+              conditions.hide.push("AIVC, VIAC Positive Cryotherapy Date");
+              conditions.hide.push("AIVC, VIAC Positive Thermocoagulation Date");
+              conditions.hide.push("AIVC, VIAC Positive LEEP Date");
+              conditions.show.push("AIVC, VIAC Positive Referred to Gyne Date");
+              conditions.hide.push("AIVC, VIAC Positive Other (Specify details) Text");
+              conditions.hide.push("AIVC, VIAC Positive Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AIVC, VIAC Positive Other (Specify details)") {
+              conditions.hide.push("AIVC, VIAC Positive Cryotherapy Date");
+              conditions.hide.push("AIVC, VIAC Positive Thermocoagulation Date");
+              conditions.hide.push("AIVC, VIAC Positive LEEP Date");
+              conditions.hide.push("AIVC, VIAC Positive Referred to Gyne Date");
+              conditions.show.push("AIVC, VIAC Positive Other (Specify details) Text");
+              conditions.hide.push("AIVC, VIAC Positive Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AIVC, VIAC Positive Other (Specify date)") {
+              conditions.hide.push("AIVC, VIAC Positive Cryotherapy Date");
+              conditions.hide.push("AIVC, VIAC Positive Thermocoagulation Date");
+              conditions.hide.push("AIVC, VIAC Positive LEEP Date");
+              conditions.hide.push("AIVC, VIAC Positive Referred to Gyne Date");
+              conditions.hide.push("AIVC, VIAC Positive Other (Specify details) Text");
+              conditions.show.push("AIVC, VIAC Positive Other (Specify date) Date");
+
+        }
+        else {
+            conditions.hide.push("AIVC, VIAC Positive Cryotherapy Date",
+                                 "AIVC, VIAC Positive Thermocoagulation Date",
+                                 "AIVC, VIAC Positive Thermocoagulation Date",
+                                 "AIVC, VIAC Positive LEEP Date",
+                                 "AIVC, VIAC Positive Referred to Gyne Date",
+                                 "AIVC, VIAC Positive Other (Specify details) Text",
+                                 "AIVC, VIAC Positive Other (Specify date) Date");
+        }
+        return conditions;
+    },
+   "AIVC, VIA Positive If Yes": function (formName, formFieldValues) {
+        var conditions = {show: [], hide: []};
+        var conditionConcept = formFieldValues['AIVC, VIA Positive If Yes'];
+
+        if (conditionConcept == "AIVC, VIA Positive Cryotherapy") {
+              conditions.show.push("AIVC, VIA Positive Cryotherapy Date");
+              conditions.hide.push("AIVC, VIA Positive Thermocoagulation Date");
+              conditions.hide.push("AIVC, VIA Positive LEEP Date");
+              conditions.hide.push("AIVC, VIA Positive Referred to Gyne Date");
+              conditions.hide.push("AIVC, VIA Positive Other (Specify details) Text");
+              conditions.hide.push("AIVC, VIA Positive Other (Specify date) Date");
+        }
+        else if (conditionConcept == "AIVC, VIA Positive Thermocoagulation") {
+              conditions.hide.push("AIVC, VIA Positive Cryotherapy Date");
+              conditions.show.push("AIVC, VIA Positive Thermocoagulation Date");
+              conditions.hide.push("AIVC, VIA Positive LEEP Date");
+              conditions.hide.push("AIVC, VIA Positive Referred to Gyne Date");
+              conditions.hide.push("AIVC, VIA Positive Other (Specify details) Text");
+              conditions.hide.push("AIVC, VIA Positive Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AIVC, VIA Positive LEEP") {
+              conditions.hide.push("AIVC, VIA Positive Cryotherapy Date");
+              conditions.hide.push("AIVC, VIA Positive Thermocoagulation Date");
+              conditions.show.push("AIVC, VIA Positive LEEP Date");
+              conditions.hide.push("AIVC, VIA Positive Referred to Gyne Date");
+              conditions.hide.push("AIVC, VIA Positive Other (Specify details) Text");
+              conditions.hide.push("AIVC, VIA Positive Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AIVC, VIA Positive Referred to Gyne") {
+              conditions.hide.push("AIVC, VIA Positive Cryotherapy Date");
+              conditions.hide.push("AIVC, VIA Positive Thermocoagulation Date");
+              conditions.hide.push("AIVC, VIA Positive LEEP Date");
+              conditions.show.push("AIVC, VIA Positive Referred to Gyne Date");
+              conditions.hide.push("AIVC, VIA Positive Other (Specify details) Text");
+              conditions.hide.push("AIVC, VIA Positive Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AIVC, VIA Positive Other (Specify details)") {
+              conditions.hide.push("AIVC, VIA Positive Cryotherapy Date");
+              conditions.hide.push("AIVC, VIA Positive Thermocoagulation Date");
+              conditions.hide.push("AIVC, VIA Positive LEEP Date");
+              conditions.hide.push("AIVC, VIA Positive Referred to Gyne Date");
+              conditions.show.push("AIVC, VIA Positive Other (Specify details) Text");
+              conditions.hide.push("AIVC, VIA Positive Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AIVC, VIA Positive Other (Specify date)") {
+              conditions.hide.push("AIVC, VIA Positive Cryotherapy Date");
+              conditions.hide.push("AIVC, VIA Positive Thermocoagulation Date");
+              conditions.hide.push("AIVC, VIA Positive LEEP Date");
+              conditions.hide.push("AIVC, VIA Positive Referred to Gyne Date");
+              conditions.hide.push("AIVC, VIA Positive Other (Specify details) Text");
+              conditions.show.push("AIVC, VIA Positive Other (Specify date) Date");
+
+        }
+        else {
+            conditions.hide.push("AIVC, VIA Positive Cryotherapy Date",
+                                 "AIVC, VIA Positive Thermocoagulation Date",
+                                 "AIVC, VIA Positive Thermocoagulation Date",
+                                 "AIVC, VIA Positive LEEP Date",
+                                 "AIVC, VIA Positive Referred to Gyne Date",
+                                 "AIVC, VIA Positive Other (Specify details) Text",
+                                 "AIVC, VIA Positive Other (Specify date) Date");
+        }
+        return conditions;
+    },
+   "AIVC, Papsmear Pos If Yes": function (formName, formFieldValues) {
+        var conditions = {show: [], hide: []};
+        var conditionConcept = formFieldValues['AIVC, Papsmear Pos If Yes'];
+
+        if (conditionConcept == "AIVC, Papsmear Pos Cryotherapy") {
+              conditions.show.push("AIVC, Papsmear Pos Cryotherapy Date");
+              conditions.hide.push("AIVC, Papsmear Pos Thermocoagulation Date");
+              conditions.hide.push("AIVC, Papsmear Pos LEEP Date");
+              conditions.hide.push("AIVC, Papsmear Pos Referred to Gyne Date");
+              conditions.hide.push("AIVC, Papsmear Pos Other (Specify details) Text");
+              conditions.hide.push("AIVC, Papsmear Pos Other (Specify date) Date");
+        }
+        else if (conditionConcept == "AIVC, Papsmear Pos Thermocoagulation") {
+              conditions.hide.push("AIVC, Papsmear Pos Cryotherapy Date");
+              conditions.show.push("AIVC, Papsmear Pos Thermocoagulation Date");
+              conditions.hide.push("AIVC, Papsmear Pos LEEP Date");
+              conditions.hide.push("AIVC, Papsmear Pos Referred to Gyne Date");
+              conditions.hide.push("AIVC, Papsmear Pos Other (Specify details) Text");
+              conditions.hide.push("AIVC, Papsmear Pos Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AIVC, Papsmear Pos LEEP") {
+              conditions.hide.push("AIVC, Papsmear Pos Cryotherapy Date");
+              conditions.hide.push("AIVC, Papsmear Pos Thermocoagulation Date");
+              conditions.show.push("AIVC, Papsmear Pos LEEP Date");
+              conditions.hide.push("AIVC, Papsmear Pos Referred to Gyne Date");
+              conditions.hide.push("AIVC, Papsmear Pos Other (Specify details) Text");
+              conditions.hide.push("AIVC, Papsmear Pos Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AIVC, Papsmear Pos Referred to Gyne") {
+              conditions.hide.push("AIVC, Papsmear Pos Cryotherapy Date");
+              conditions.hide.push("AIVC, Papsmear Pos Thermocoagulation Date");
+              conditions.hide.push("AIVC, Papsmear Pos LEEP Date");
+              conditions.show.push("AIVC, Papsmear Pos Referred to Gyne Date");
+              conditions.hide.push("AIVC, Papsmear Pos Other (Specify details) Text");
+              conditions.hide.push("AIVC, Papsmear Pos Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AIVC, Papsmear Pos Other (Specify details)") {
+              conditions.hide.push("AIVC, Papsmear Pos Cryotherapy Date");
+              conditions.hide.push("AIVC, Papsmear Pos Thermocoagulation Date");
+              conditions.hide.push("AIVC, Papsmear Pos LEEP Date");
+              conditions.hide.push("AIVC, Papsmear Pos Referred to Gyne Date");
+              conditions.show.push("AIVC, Papsmear Pos Other (Specify details) Text");
+              conditions.hide.push("AIVC, Papsmear Pos Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AIVC, Papsmear Pos Other (Specify date)") {
+              conditions.hide.push("AIVC, Papsmear Pos Cryotherapy Date");
+              conditions.hide.push("AIVC, Papsmear Pos Thermocoagulation Date");
+              conditions.hide.push("AIVC, Papsmear Pos LEEP Date");
+              conditions.hide.push("AIVC, Papsmear Pos Referred to Gyne Date");
+              conditions.hide.push("AIVC, Papsmear Pos Other (Specify details) Text");
+              conditions.show.push("AIVC, Papsmear Pos Other (Specify date) Date");
+
+        }
+        else {
+            conditions.hide.push("AIVC, Papsmear Pos Cryotherapy Date",
+                                 "AIVC, Papsmear Pos Thermocoagulation Date",
+                                 "AIVC, Papsmear Pos Thermocoagulation Date",
+                                 "AIVC, Papsmear Pos LEEP Date",
+                                 "AIVC, Papsmear Pos Referred to Gyne Date",
+                                 "AIVC, Papsmear Pos Other (Specify details) Text",
+                                 "AIVC, Papsmear Pos Other (Specify date) Date");
+        }
+        return conditions;
+    },
+    "AIVC, What was the the result?": function (formName, formFieldValues) {
+        var conditions = {show: [], hide: []};
+        var conditionConcept = formFieldValues['AIVC, What was the the result?'];
+
+        if (conditionConcept == "AIVC, HPV Pos-VIAC Pos") {
+              conditions.show.push("AIVC, HPV Pos-VIAC Pos Did u have any intervention done?");
+              conditions.hide.push("AIVC, VIAC Positive Did u have any intervention done?");
+              conditions.hide.push("AIVC, VIA Positive Did u have any intervention done?");
+              conditions.hide.push("AIVC, Papsmear Pos Did u have any intervention done?");
+              conditions.hide.push("AIVC, HPV DNA Neg Date");
+              conditions.hide.push("AIVC, Papsmear Neg Date");
+              conditions.hide.push("AIVC, VIA Neg Date");
+              conditions.hide.push("AIVC, VIAC Neg Date");
+        }
+        else if (conditionConcept == "AIVC, VIAC Positive") {
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Did u have any intervention done?");
+              conditions.show.push("AIVC, VIAC Positive Did u have any intervention done?");
+              conditions.hide.push("AIVC, VIA Positive Did u have any intervention done?");
+              conditions.hide.push("AIVC, Papsmear Pos Did u have any intervention done?");
+              conditions.hide.push("AIVC, HPV DNA Neg Date");
+              conditions.hide.push("AIVC, Papsmear Neg Date");
+              conditions.hide.push("AIVC, VIA Neg Date");
+              conditions.hide.push("AIVC, VIAC Neg Date");
+
+        }
+        else if (conditionConcept == "AIVC, VIA Positive") {
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Did u have any intervention done?");
+              conditions.hide.push("AIVC, VIAC Positive Did u have any intervention done?");
+              conditions.show.push("AIVC, VIA Positive Did u have any intervention done?");
+              conditions.hide.push("AIVC, Papsmear Pos Did u have any intervention done?");
+              conditions.hide.push("AIVC, HPV DNA Neg Date");
+              conditions.hide.push("AIVC, Papsmear Neg Date");
+              conditions.hide.push("AIVC, VIA Neg Date");
+              conditions.hide.push("AIVC, VIAC Neg Date");
+        }
+        else if (conditionConcept == "AIVC, Papsmear Pos") {
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Did u have any intervention done?");
+              conditions.hide.push("AIVC, VIAC Positive Did u have any intervention done?");
+              conditions.hide.push("AIVC, VIA Positive Did u have any intervention done?");
+              conditions.show.push("AIVC, Papsmear Pos Did u have any intervention done?");
+              conditions.hide.push("AIVC, HPV DNA Neg Date");
+              conditions.hide.push("AIVC, Papsmear Neg Date");
+              conditions.hide.push("AIVC, VIA Neg Date");
+              conditions.hide.push("AIVC, VIAC Neg Date");
+        }
+        else if (conditionConcept == "AIVC, HPV DNA Neg") {
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Did u have any intervention done?");
+              conditions.hide.push("AIVC, VIAC Positive Did u have any intervention done?");
+              conditions.hide.push("AIVC, VIA Positive Did u have any intervention done?");
+              conditions.hide.push("AIVC, Papsmear Pos Did u have any intervention done?");
+              conditions.show.push("AIVC, HPV DNA Neg Date");
+              conditions.hide.push("AIVC, Papsmear Neg Date");
+              conditions.hide.push("AIVC, VIA Neg Date");
+              conditions.hide.push("AIVC, VIAC Neg Date");
+        }
+        else if (conditionConcept == "AIVC, Papsmear Neg") {
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Did u have any intervention done?");
+              conditions.hide.push("AIVC, VIAC Positive Did u have any intervention done?");
+              conditions.hide.push("AIVC, VIA Positive Did u have any intervention done?");
+              conditions.hide.push("AIVC, Papsmear Pos Did u have any intervention done?");
+              conditions.hide.push("AIVC, HPV DNA Neg Date");
+              conditions.show.push("AIVC, Papsmear Neg Date");
+              conditions.hide.push("AIVC, VIA Neg Date");
+              conditions.hide.push("AIVC, VIAC Neg Date");
+        }
+        else if (conditionConcept == "AIVC, VIA Neg") {
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Did u have any intervention done?");
+              conditions.hide.push("AIVC, VIAC Positive Did u have any intervention done?");
+              conditions.hide.push("AIVC, VIA Positive Did u have any intervention done?");
+              conditions.hide.push("AIVC, Papsmear Pos Did u have any intervention done?");
+              conditions.hide.push("AIVC, HPV DNA Neg Date");
+              conditions.hide.push("AIVC, Papsmear Neg Date");
+              conditions.show.push("AIVC, VIA Neg Date");
+              conditions.hide.push("AIVC, VIAC Neg Date");
+        }
+        else if (conditionConcept == "AIVC, VIAC Neg") {
+              conditions.hide.push("AIVC, HPV Pos-VIAC Pos Did u have any intervention done?");
+              conditions.hide.push("AIVC, VIAC Positive Did u have any intervention done?");
+              conditions.hide.push("AIVC, VIA Positive Did u have any intervention done?");
+              conditions.hide.push("AIVC, Papsmear Pos Did u have any intervention done?");
+              conditions.hide.push("AIVC, HPV DNA Neg Date");
+              conditions.hide.push("AIVC, Papsmear Neg Date");
+              conditions.hide.push("AIVC, VIA Neg Date");
+              conditions.show.push("AIVC, VIAC Neg Date");
+        }
+        else {
+            conditions.hide.push("AIVC, HPV Pos-VIAC Pos Did u have any intervention done?",
+                                 "AIVC, VIAC Positive Did u have any intervention done?",
+                                 "AIVC, VIA Positive Did u have any intervention done?",
+                                 "AIVC, Papsmear Pos Did u have any intervention done?",
+                                 "AIVC, HPV DNA Neg Date",
+                                 "AIVC, Papsmear Neg Date",
+                                 "AIVC, VIA Neg Date",
+                                 "AIVC, VIAC Neg Date");
+        }
+        return conditions;
+    },
+
+    "RUUV, Have you ever been screened for cervical cancer?": function(formName, formFieldValues) {
+         var conditions = {show: [], hide: []};
+         var conditionConcept = formFieldValues['RUUV, Have you ever been screened for cervical cancer?'];
+         if (conditionConcept == "Yes") {
+              conditions.show.push("RUUV, When were you last screened?");
+              conditions.show.push("RUUV, What screening test was used?");
+              conditions.show.push("RUUV, What was the the result?");
+              conditions.show.push("RUUV, When is your next date of screening?");
+
+         }
+         else
+         {
+              conditions.hide.push("RUUV, When were you last screened?");
+              conditions.hide.push("RUUV, What screening test was used?");
+              conditions.hide.push("RUUV, What was the the result?");
+              conditions.hide.push("RUUV, When is your next date of screening?");
+
+         }
+          return conditions;
+    },
+    "RUUV, HPV Pos-VIAC Pos Did u have any intervention done?": function(formName, formFieldValues) {
+         var conditions = {show: [], hide: []};
+         var conditionConcept = formFieldValues['RUUV, HPV Pos-VIAC Pos Did u have any intervention done?'];
+         if (conditionConcept == "Yes") {
+              conditions.show.push("RUUV, HPV Pos-VIAC Pos If Yes");
+         }
+         else
+         {
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos If Yes");
+         }
+          return conditions;
+    },
+    "RUUV, VIAC Positive Did u have any intervention done?": function(formName, formFieldValues) {
+         var conditions = {show: [], hide: []};
+         var conditionConcept = formFieldValues['RUUV, VIAC Positive Did u have any intervention done?'];
+         if (conditionConcept == "Yes") {
+              conditions.show.push("RUUV, VIAC Positive If Yes");
+         }
+         else
+         {
+              conditions.hide.push("RUUV, VIAC Positive If Yes");
+         }
+          return conditions;
+    },
+    "RUUV, VIA Positive Did u have any intervention done?": function(formName, formFieldValues) {
+         var conditions = {show: [], hide: []};
+         var conditionConcept = formFieldValues['RUUV, VIA Positive Did u have any intervention done?'];
+         if (conditionConcept == "Yes") {
+              conditions.show.push("RUUV, VIA Positive If Yes");
+         }
+         else
+         {
+              conditions.hide.push("RUUV, VIA Positive If Yes");
+         }
+          return conditions;
+    },
+    "RUUV, Papsmear Pos Did u have any intervention done?": function(formName, formFieldValues) {
+         var conditions = {show: [], hide: []};
+         var conditionConcept = formFieldValues['RUUV, Papsmear Pos Did u have any intervention done?'];
+         if (conditionConcept == "Yes") {
+              conditions.show.push("RUUV, Papsmear Pos If Yes");
+         }
+         else
+         {
+              conditions.hide.push("RUUV, Papsmear Pos If Yes");
+         }
+          return conditions;
+    },
+    "RUUV, HPV Pos-VIAC Pos If Yes": function (formName, formFieldValues) {
+        var conditions = {show: [], hide: []};
+        var conditionConcept = formFieldValues['RUUV, HPV Pos-VIAC Pos If Yes'];
+
+        if (conditionConcept == "RUUV, HPV Pos-VIAC Pos Cryotherapy") {
+              conditions.show.push("RUUV, HPV Pos-VIAC Pos Cryotherapy Date");
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Thermocoagulation Date");
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos LEEP Date");
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Referred to Gyne Date");
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Other (Specify details) Text");
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Other (Specify date) Date");
+        }
+        else if (conditionConcept == "RUUV, HPV Pos-VIAC Pos Thermocoagulation") {
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Cryotherapy Date");
+              conditions.show.push("RUUV, HPV Pos-VIAC Pos Thermocoagulation Date");
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos LEEP Date");
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Referred to Gyne Date");
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Other (Specify details) Text");
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "RUUV, HPV Pos-VIAC Pos LEEP") {
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Cryotherapy Date");
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Thermocoagulation Date");
+              conditions.show.push("RUUV, HPV Pos-VIAC Pos LEEP Date");
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Referred to Gyne Date");
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Other (Specify details) Text");
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "RUUV, HPV Pos-VIAC Pos Referred to Gyne") {
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Cryotherapy Date");
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Thermocoagulation Date");
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos LEEP Date");
+              conditions.show.push("RUUV, HPV Pos-VIAC Pos Referred to Gyne Date");
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Other (Specify details) Text");
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "RUUV, HPV Pos-VIAC Pos Other (Specify details)") {
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Cryotherapy Date");
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Thermocoagulation Date");
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos LEEP Date");
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Referred to Gyne Date");
+              conditions.show.push("RUUV, HPV Pos-VIAC Pos Other (Specify details) Text");
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "RUUV, HPV Pos-VIAC Pos Other (Specify date)") {
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Cryotherapy Date");
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Thermocoagulation Date");
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos LEEP Date");
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Referred to Gyne Date");
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Other (Specify details) Text");
+              conditions.show.push("RUUV, HPV Pos-VIAC Pos Other (Specify date) Date");
+
+        }
+        else {
+            conditions.hide.push("RUUV, HPV Pos-VIAC Pos Cryotherapy Date",
+                                 "RUUV, HPV Pos-VIAC Pos Thermocoagulation Date",
+                                 "RUUV, HPV Pos-VIAC Pos Thermocoagulation Date",
+                                 "RUUV, HPV Pos-VIAC Pos LEEP Date",
+                                 "RUUV, HPV Pos-VIAC Pos Referred to Gyne Date",
+                                 "RUUV, HPV Pos-VIAC Pos Other (Specify details) Text",
+                                 "RUUV, HPV Pos-VIAC Pos Other (Specify date) Date");
+        }
+        return conditions;
+    },
+    "RUUV, VIAC Positive If Yes": function (formName, formFieldValues) {
+        var conditions = {show: [], hide: []};
+        var conditionConcept = formFieldValues['RUUV, VIAC Positive If Yes'];
+
+        if (conditionConcept == "RUUV, VIAC Positive Cryotherapy") {
+              conditions.show.push("RUUV, VIAC Positive Cryotherapy Date");
+              conditions.hide.push("RUUV, VIAC Positive Thermocoagulation Date");
+              conditions.hide.push("RUUV, VIAC Positive LEEP Date");
+              conditions.hide.push("RUUV, VIAC Positive Referred to Gyne Date");
+              conditions.hide.push("RUUV, VIAC Positive Other (Specify details) Text");
+              conditions.hide.push("RUUV, VIAC Positive Other (Specify date) Date");
+        }
+        else if (conditionConcept == "RUUV, VIAC Positive Thermocoagulation") {
+              conditions.hide.push("RUUV, VIAC Positive Cryotherapy Date");
+              conditions.show.push("RUUV, VIAC Positive Thermocoagulation Date");
+              conditions.hide.push("RUUV, VIAC Positive LEEP Date");
+              conditions.hide.push("RUUV, VIAC Positive Referred to Gyne Date");
+              conditions.hide.push("RUUV, VIAC Positive Other (Specify details) Text");
+              conditions.hide.push("RUUV, VIAC Positive Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "RUUV, VIAC Positive LEEP") {
+              conditions.hide.push("RUUV, VIAC Positive Cryotherapy Date");
+              conditions.hide.push("RUUV, VIAC Positive Thermocoagulation Date");
+              conditions.show.push("RUUV, VIAC Positive LEEP Date");
+              conditions.hide.push("RUUV, VIAC Positive Referred to Gyne Date");
+              conditions.hide.push("RUUV, VIAC Positive Other (Specify details) Text");
+              conditions.hide.push("RUUV, VIAC Positive Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "RUUV, VIAC Positive Referred to Gyne") {
+              conditions.hide.push("RUUV, VIAC Positive Cryotherapy Date");
+              conditions.hide.push("RUUV, VIAC Positive Thermocoagulation Date");
+              conditions.hide.push("RUUV, VIAC Positive LEEP Date");
+              conditions.show.push("RUUV, VIAC Positive Referred to Gyne Date");
+              conditions.hide.push("RUUV, VIAC Positive Other (Specify details) Text");
+              conditions.hide.push("RUUV, VIAC Positive Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "RUUV, VIAC Positive Other (Specify details)") {
+              conditions.hide.push("RUUV, VIAC Positive Cryotherapy Date");
+              conditions.hide.push("RUUV, VIAC Positive Thermocoagulation Date");
+              conditions.hide.push("RUUV, VIAC Positive LEEP Date");
+              conditions.hide.push("RUUV, VIAC Positive Referred to Gyne Date");
+              conditions.show.push("RUUV, VIAC Positive Other (Specify details) Text");
+              conditions.hide.push("RUUV, VIAC Positive Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "RUUV, VIAC Positive Other (Specify date)") {
+              conditions.hide.push("RUUV, VIAC Positive Cryotherapy Date");
+              conditions.hide.push("RUUV, VIAC Positive Thermocoagulation Date");
+              conditions.hide.push("RUUV, VIAC Positive LEEP Date");
+              conditions.hide.push("RUUV, VIAC Positive Referred to Gyne Date");
+              conditions.hide.push("RUUV, VIAC Positive Other (Specify details) Text");
+              conditions.show.push("RUUV, VIAC Positive Other (Specify date) Date");
+
+        }
+        else {
+            conditions.hide.push("RUUV, VIAC Positive Cryotherapy Date",
+                                 "RUUV, VIAC Positive Thermocoagulation Date",
+                                 "RUUV, VIAC Positive Thermocoagulation Date",
+                                 "RUUV, VIAC Positive LEEP Date",
+                                 "RUUV, VIAC Positive Referred to Gyne Date",
+                                 "RUUV, VIAC Positive Other (Specify details) Text",
+                                 "RUUV, VIAC Positive Other (Specify date) Date");
+        }
+        return conditions;
+    },
+   "RUUV, VIA Positive If Yes": function (formName, formFieldValues) {
+        var conditions = {show: [], hide: []};
+        var conditionConcept = formFieldValues['RUUV, VIA Positive If Yes'];
+
+        if (conditionConcept == "RUUV, VIA Positive Cryotherapy") {
+              conditions.show.push("RUUV, VIA Positive Cryotherapy Date");
+              conditions.hide.push("RUUV, VIA Positive Thermocoagulation Date");
+              conditions.hide.push("RUUV, VIA Positive LEEP Date");
+              conditions.hide.push("RUUV, VIA Positive Referred to Gyne Date");
+              conditions.hide.push("RUUV, VIA Positive Other (Specify details) Text");
+              conditions.hide.push("RUUV, VIA Positive Other (Specify date) Date");
+        }
+        else if (conditionConcept == "RUUV, VIA Positive Thermocoagulation") {
+              conditions.hide.push("RUUV, VIA Positive Cryotherapy Date");
+              conditions.show.push("RUUV, VIA Positive Thermocoagulation Date");
+              conditions.hide.push("RUUV, VIA Positive LEEP Date");
+              conditions.hide.push("RUUV, VIA Positive Referred to Gyne Date");
+              conditions.hide.push("RUUV, VIA Positive Other (Specify details) Text");
+              conditions.hide.push("RUUV, VIA Positive Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "RUUV, VIA Positive LEEP") {
+              conditions.hide.push("RUUV, VIA Positive Cryotherapy Date");
+              conditions.hide.push("RUUV, VIA Positive Thermocoagulation Date");
+              conditions.show.push("RUUV, VIA Positive LEEP Date");
+              conditions.hide.push("RUUV, VIA Positive Referred to Gyne Date");
+              conditions.hide.push("RUUV, VIA Positive Other (Specify details) Text");
+              conditions.hide.push("RUUV, VIA Positive Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "RUUV, VIA Positive Referred to Gyne") {
+              conditions.hide.push("RUUV, VIA Positive Cryotherapy Date");
+              conditions.hide.push("RUUV, VIA Positive Thermocoagulation Date");
+              conditions.hide.push("RUUV, VIA Positive LEEP Date");
+              conditions.show.push("RUUV, VIA Positive Referred to Gyne Date");
+              conditions.hide.push("RUUV, VIA Positive Other (Specify details) Text");
+              conditions.hide.push("RUUV, VIA Positive Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "RUUV, VIA Positive Other (Specify details)") {
+              conditions.hide.push("RUUV, VIA Positive Cryotherapy Date");
+              conditions.hide.push("RUUV, VIA Positive Thermocoagulation Date");
+              conditions.hide.push("RUUV, VIA Positive LEEP Date");
+              conditions.hide.push("RUUV, VIA Positive Referred to Gyne Date");
+              conditions.show.push("RUUV, VIA Positive Other (Specify details) Text");
+              conditions.hide.push("RUUV, VIA Positive Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "RUUV, VIA Positive Other (Specify date)") {
+              conditions.hide.push("RUUV, VIA Positive Cryotherapy Date");
+              conditions.hide.push("RUUV, VIA Positive Thermocoagulation Date");
+              conditions.hide.push("RUUV, VIA Positive LEEP Date");
+              conditions.hide.push("RUUV, VIA Positive Referred to Gyne Date");
+              conditions.hide.push("RUUV, VIA Positive Other (Specify details) Text");
+              conditions.show.push("RUUV, VIA Positive Other (Specify date) Date");
+
+        }
+        else {
+            conditions.hide.push("RUUV, VIA Positive Cryotherapy Date",
+                                 "RUUV, VIA Positive Thermocoagulation Date",
+                                 "RUUV, VIA Positive Thermocoagulation Date",
+                                 "RUUV, VIA Positive LEEP Date",
+                                 "RUUV, VIA Positive Referred to Gyne Date",
+                                 "RUUV, VIA Positive Other (Specify details) Text",
+                                 "RUUV, VIA Positive Other (Specify date) Date");
+        }
+        return conditions;
+    },
+   "RUUV, Papsmear Pos If Yes": function (formName, formFieldValues) {
+        var conditions = {show: [], hide: []};
+        var conditionConcept = formFieldValues['RUUV, Papsmear Pos If Yes'];
+
+        if (conditionConcept == "RUUV, Papsmear Pos Cryotherapy") {
+              conditions.show.push("RUUV, Papsmear Pos Cryotherapy Date");
+              conditions.hide.push("RUUV, Papsmear Pos Thermocoagulation Date");
+              conditions.hide.push("RUUV, Papsmear Pos LEEP Date");
+              conditions.hide.push("RUUV, Papsmear Pos Referred to Gyne Date");
+              conditions.hide.push("RUUV, Papsmear Pos Other (Specify details) Text");
+              conditions.hide.push("RUUV, Papsmear Pos Other (Specify date) Date");
+        }
+        else if (conditionConcept == "RUUV, Papsmear Pos Thermocoagulation") {
+              conditions.hide.push("RUUV, Papsmear Pos Cryotherapy Date");
+              conditions.show.push("RUUV, Papsmear Pos Thermocoagulation Date");
+              conditions.hide.push("RUUV, Papsmear Pos LEEP Date");
+              conditions.hide.push("RUUV, Papsmear Pos Referred to Gyne Date");
+              conditions.hide.push("RUUV, Papsmear Pos Other (Specify details) Text");
+              conditions.hide.push("RUUV, Papsmear Pos Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "RUUV, Papsmear Pos LEEP") {
+              conditions.hide.push("RUUV, Papsmear Pos Cryotherapy Date");
+              conditions.hide.push("RUUV, Papsmear Pos Thermocoagulation Date");
+              conditions.show.push("RUUV, Papsmear Pos LEEP Date");
+              conditions.hide.push("RUUV, Papsmear Pos Referred to Gyne Date");
+              conditions.hide.push("RUUV, Papsmear Pos Other (Specify details) Text");
+              conditions.hide.push("RUUV, Papsmear Pos Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "RUUV, Papsmear Pos Referred to Gyne") {
+              conditions.hide.push("RUUV, Papsmear Pos Cryotherapy Date");
+              conditions.hide.push("RUUV, Papsmear Pos Thermocoagulation Date");
+              conditions.hide.push("RUUV, Papsmear Pos LEEP Date");
+              conditions.show.push("RUUV, Papsmear Pos Referred to Gyne Date");
+              conditions.hide.push("RUUV, Papsmear Pos Other (Specify details) Text");
+              conditions.hide.push("RUUV, Papsmear Pos Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "RUUV, Papsmear Pos Other (Specify details)") {
+              conditions.hide.push("RUUV, Papsmear Pos Cryotherapy Date");
+              conditions.hide.push("RUUV, Papsmear Pos Thermocoagulation Date");
+              conditions.hide.push("RUUV, Papsmear Pos LEEP Date");
+              conditions.hide.push("RUUV, Papsmear Pos Referred to Gyne Date");
+              conditions.show.push("RUUV, Papsmear Pos Other (Specify details) Text");
+              conditions.hide.push("RUUV, Papsmear Pos Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "RUUV, Papsmear Pos Other (Specify date)") {
+              conditions.hide.push("RUUV, Papsmear Pos Cryotherapy Date");
+              conditions.hide.push("RUUV, Papsmear Pos Thermocoagulation Date");
+              conditions.hide.push("RUUV, Papsmear Pos LEEP Date");
+              conditions.hide.push("RUUV, Papsmear Pos Referred to Gyne Date");
+              conditions.hide.push("RUUV, Papsmear Pos Other (Specify details) Text");
+              conditions.show.push("RUUV, Papsmear Pos Other (Specify date) Date");
+
+        }
+        else {
+            conditions.hide.push("RUUV, Papsmear Pos Cryotherapy Date",
+                                 "RUUV, Papsmear Pos Thermocoagulation Date",
+                                 "RUUV, Papsmear Pos Thermocoagulation Date",
+                                 "RUUV, Papsmear Pos LEEP Date",
+                                 "RUUV, Papsmear Pos Referred to Gyne Date",
+                                 "RUUV, Papsmear Pos Other (Specify details) Text",
+                                 "RUUV, Papsmear Pos Other (Specify date) Date");
+        }
+        return conditions;
+    },
+    "RUUV, What was the the result?": function (formName, formFieldValues) {
+        var conditions = {show: [], hide: []};
+        var conditionConcept = formFieldValues['RUUV, What was the the result?'];
+
+        if (conditionConcept == "RUUV, HPV Pos-VIAC Pos") {
+              conditions.show.push("RUUV, HPV Pos-VIAC Pos Did u have any intervention done?");
+              conditions.hide.push("RUUV, VIAC Positive Did u have any intervention done?");
+              conditions.hide.push("RUUV, VIA Positive Did u have any intervention done?");
+              conditions.hide.push("RUUV, Papsmear Pos Did u have any intervention done?");
+              conditions.hide.push("RUUV, HPV DNA Neg Date");
+              conditions.hide.push("RUUV, Papsmear Neg Date");
+              conditions.hide.push("RUUV, VIA Neg Date");
+              conditions.hide.push("RUUV, VIAC Neg Date");
+        }
+        else if (conditionConcept == "RUUV, VIAC Positive") {
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Did u have any intervention done?");
+              conditions.show.push("RUUV, VIAC Positive Did u have any intervention done?");
+              conditions.hide.push("RUUV, VIA Positive Did u have any intervention done?");
+              conditions.hide.push("RUUV, Papsmear Pos Did u have any intervention done?");
+              conditions.hide.push("RUUV, HPV DNA Neg Date");
+              conditions.hide.push("RUUV, Papsmear Neg Date");
+              conditions.hide.push("RUUV, VIA Neg Date");
+              conditions.hide.push("RUUV, VIAC Neg Date");
+
+        }
+        else if (conditionConcept == "RUUV, VIA Positive") {
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Did u have any intervention done?");
+              conditions.hide.push("RUUV, VIAC Positive Did u have any intervention done?");
+              conditions.show.push("RUUV, VIA Positive Did u have any intervention done?");
+              conditions.hide.push("RUUV, Papsmear Pos Did u have any intervention done?");
+              conditions.hide.push("RUUV, HPV DNA Neg Date");
+              conditions.hide.push("RUUV, Papsmear Neg Date");
+              conditions.hide.push("RUUV, VIA Neg Date");
+              conditions.hide.push("RUUV, VIAC Neg Date");
+        }
+        else if (conditionConcept == "RUUV, Papsmear Pos") {
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Did u have any intervention done?");
+              conditions.hide.push("RUUV, VIAC Positive Did u have any intervention done?");
+              conditions.hide.push("RUUV, VIA Positive Did u have any intervention done?");
+              conditions.show.push("RUUV, Papsmear Pos Did u have any intervention done?");
+              conditions.hide.push("RUUV, HPV DNA Neg Date");
+              conditions.hide.push("RUUV, Papsmear Neg Date");
+              conditions.hide.push("RUUV, VIA Neg Date");
+              conditions.hide.push("RUUV, VIAC Neg Date");
+        }
+        else if (conditionConcept == "RUUV, HPV DNA Neg") {
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Did u have any intervention done?");
+              conditions.hide.push("RUUV, VIAC Positive Did u have any intervention done?");
+              conditions.hide.push("RUUV, VIA Positive Did u have any intervention done?");
+              conditions.hide.push("RUUV, Papsmear Pos Did u have any intervention done?");
+              conditions.show.push("RUUV, HPV DNA Neg Date");
+              conditions.hide.push("RUUV, Papsmear Neg Date");
+              conditions.hide.push("RUUV, VIA Neg Date");
+              conditions.hide.push("RUUV, VIAC Neg Date");
+        }
+        else if (conditionConcept == "RUUV, Papsmear Neg") {
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Did u have any intervention done?");
+              conditions.hide.push("RUUV, VIAC Positive Did u have any intervention done?");
+              conditions.hide.push("RUUV, VIA Positive Did u have any intervention done?");
+              conditions.hide.push("RUUV, Papsmear Pos Did u have any intervention done?");
+              conditions.hide.push("RUUV, HPV DNA Neg Date");
+              conditions.show.push("RUUV, Papsmear Neg Date");
+              conditions.hide.push("RUUV, VIA Neg Date");
+              conditions.hide.push("RUUV, VIAC Neg Date");
+        }
+        else if (conditionConcept == "RUUV, VIA Neg") {
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Did u have any intervention done?");
+              conditions.hide.push("RUUV, VIAC Positive Did u have any intervention done?");
+              conditions.hide.push("RUUV, VIA Positive Did u have any intervention done?");
+              conditions.hide.push("RUUV, Papsmear Pos Did u have any intervention done?");
+              conditions.hide.push("RUUV, HPV DNA Neg Date");
+              conditions.hide.push("RUUV, Papsmear Neg Date");
+              conditions.show.push("RUUV, VIA Neg Date");
+              conditions.hide.push("RUUV, VIAC Neg Date");
+        }
+        else if (conditionConcept == "RUUV, VIAC Neg") {
+              conditions.hide.push("RUUV, HPV Pos-VIAC Pos Did u have any intervention done?");
+              conditions.hide.push("RUUV, VIAC Positive Did u have any intervention done?");
+              conditions.hide.push("RUUV, VIA Positive Did u have any intervention done?");
+              conditions.hide.push("RUUV, Papsmear Pos Did u have any intervention done?");
+              conditions.hide.push("RUUV, HPV DNA Neg Date");
+              conditions.hide.push("RUUV, Papsmear Neg Date");
+              conditions.hide.push("RUUV, VIA Neg Date");
+              conditions.show.push("RUUV, VIAC Neg Date");
+        }
+        else {
+            conditions.hide.push("RUUV, HPV Pos-VIAC Pos Did u have any intervention done?",
+                                 "RUUV, VIAC Positive Did u have any intervention done?",
+                                 "RUUV, VIA Positive Did u have any intervention done?",
+                                 "RUUV, Papsmear Pos Did u have any intervention done?",
+                                 "RUUV, HPV DNA Neg Date",
+                                 "RUUV, Papsmear Neg Date",
+                                 "RUUV, VIA Neg Date",
+                                 "RUUV, VIAC Neg Date");
+        }
+        return conditions;
+    },
+    "AP, Have you ever been screened for cervical cancer?": function(formName, formFieldValues) {
+         var conditions = {show: [], hide: []};
+         var conditionConcept = formFieldValues['AP, Have you ever been screened for cervical cancer?'];
+         if (conditionConcept == "Yes") {
+              conditions.show.push("AP, When were you last screened?");
+              conditions.show.push("AP, What screening test was used?");
+              conditions.show.push("AP, What was the the result?");
+              conditions.show.push("AP, When is your next date of screening?");
+
+         }
+         else
+         {
+              conditions.hide.push("AP, When were you last screened?");
+              conditions.hide.push("AP, What screening test was used?");
+              conditions.hide.push("AP, What was the the result?");
+              conditions.hide.push("AP, When is your next date of screening?");
+
+         }
+          return conditions;
+    },
+    "AP, HPV Pos-VIAC Pos Did u have any intervention done?": function(formName, formFieldValues) {
+         var conditions = {show: [], hide: []};
+         var conditionConcept = formFieldValues['AP, HPV Pos-VIAC Pos Did u have any intervention done?'];
+         if (conditionConcept == "Yes") {
+              conditions.show.push("AP, HPV Pos-VIAC Pos If Yes");
+         }
+         else
+         {
+              conditions.hide.push("AP, HPV Pos-VIAC Pos If Yes");
+         }
+          return conditions;
+    },
+    "AP, VIAC Positive Did u have any intervention done?": function(formName, formFieldValues) {
+         var conditions = {show: [], hide: []};
+         var conditionConcept = formFieldValues['AP, VIAC Positive Did u have any intervention done?'];
+         if (conditionConcept == "Yes") {
+              conditions.show.push("AP, VIAC Positive If Yes");
+         }
+         else
+         {
+              conditions.hide.push("AP, VIAC Positive If Yes");
+         }
+          return conditions;
+    },
+    "AP, VIA Positive Did u have any intervention done?": function(formName, formFieldValues) {
+         var conditions = {show: [], hide: []};
+         var conditionConcept = formFieldValues['AP, VIA Positive Did u have any intervention done?'];
+         if (conditionConcept == "Yes") {
+              conditions.show.push("AP, VIA Positive If Yes");
+         }
+         else
+         {
+              conditions.hide.push("AP, VIA Positive If Yes");
+         }
+          return conditions;
+    },
+    "AP, Papsmear Pos Did u have any intervention done?": function(formName, formFieldValues) {
+         var conditions = {show: [], hide: []};
+         var conditionConcept = formFieldValues['AP, Papsmear Pos Did u have any intervention done?'];
+         if (conditionConcept == "Yes") {
+              conditions.show.push("AP, Papsmear Pos If Yes");
+         }
+         else
+         {
+              conditions.hide.push("AP, Papsmear Pos If Yes");
+         }
+          return conditions;
+    },
+    "AP, HPV Pos-VIAC Pos If Yes": function (formName, formFieldValues) {
+        var conditions = {show: [], hide: []};
+        var conditionConcept = formFieldValues['AP, HPV Pos-VIAC Pos If Yes'];
+
+        if (conditionConcept == "AP, HPV Pos-VIAC Pos Cryotherapy") {
+              conditions.show.push("AP, HPV Pos-VIAC Pos Cryotherapy Date");
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Thermocoagulation Date");
+              conditions.hide.push("AP, HPV Pos-VIAC Pos LEEP Date");
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Referred to Gyne Date");
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Other (Specify details) Text");
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Other (Specify date) Date");
+        }
+        else if (conditionConcept == "AP, HPV Pos-VIAC Pos Thermocoagulation") {
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Cryotherapy Date");
+              conditions.show.push("AP, HPV Pos-VIAC Pos Thermocoagulation Date");
+              conditions.hide.push("AP, HPV Pos-VIAC Pos LEEP Date");
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Referred to Gyne Date");
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Other (Specify details) Text");
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AP, HPV Pos-VIAC Pos LEEP") {
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Cryotherapy Date");
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Thermocoagulation Date");
+              conditions.show.push("AP, HPV Pos-VIAC Pos LEEP Date");
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Referred to Gyne Date");
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Other (Specify details) Text");
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AP, HPV Pos-VIAC Pos Referred to Gyne") {
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Cryotherapy Date");
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Thermocoagulation Date");
+              conditions.hide.push("AP, HPV Pos-VIAC Pos LEEP Date");
+              conditions.show.push("AP, HPV Pos-VIAC Pos Referred to Gyne Date");
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Other (Specify details) Text");
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AP, HPV Pos-VIAC Pos Other (Specify details)") {
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Cryotherapy Date");
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Thermocoagulation Date");
+              conditions.hide.push("AP, HPV Pos-VIAC Pos LEEP Date");
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Referred to Gyne Date");
+              conditions.show.push("AP, HPV Pos-VIAC Pos Other (Specify details) Text");
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AP, HPV Pos-VIAC Pos Other (Specify date)") {
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Cryotherapy Date");
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Thermocoagulation Date");
+              conditions.hide.push("AP, HPV Pos-VIAC Pos LEEP Date");
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Referred to Gyne Date");
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Other (Specify details) Text");
+              conditions.show.push("AP, HPV Pos-VIAC Pos Other (Specify date) Date");
+
+        }
+        else {
+            conditions.hide.push("AP, HPV Pos-VIAC Pos Cryotherapy Date",
+                                 "AP, HPV Pos-VIAC Pos Thermocoagulation Date",
+                                 "AP, HPV Pos-VIAC Pos Thermocoagulation Date",
+                                 "AP, HPV Pos-VIAC Pos LEEP Date",
+                                 "AP, HPV Pos-VIAC Pos Referred to Gyne Date",
+                                 "AP, HPV Pos-VIAC Pos Other (Specify details) Text",
+                                 "AP, HPV Pos-VIAC Pos Other (Specify date) Date");
+        }
+        return conditions;
+    },
+    "AP, VIAC Positive If Yes": function (formName, formFieldValues) {
+        var conditions = {show: [], hide: []};
+        var conditionConcept = formFieldValues['AP, VIAC Positive If Yes'];
+
+        if (conditionConcept == "AP, VIAC Positive Cryotherapy") {
+              conditions.show.push("AP, VIAC Positive Cryotherapy Date");
+              conditions.hide.push("AP, VIAC Positive Thermocoagulation Date");
+              conditions.hide.push("AP, VIAC Positive LEEP Date");
+              conditions.hide.push("AP, VIAC Positive Referred to Gyne Date");
+              conditions.hide.push("AP, VIAC Positive Other (Specify details) Text");
+              conditions.hide.push("AP, VIAC Positive Other (Specify date) Date");
+        }
+        else if (conditionConcept == "AP, VIAC Positive Thermocoagulation") {
+              conditions.hide.push("AP, VIAC Positive Cryotherapy Date");
+              conditions.show.push("AP, VIAC Positive Thermocoagulation Date");
+              conditions.hide.push("AP, VIAC Positive LEEP Date");
+              conditions.hide.push("AP, VIAC Positive Referred to Gyne Date");
+              conditions.hide.push("AP, VIAC Positive Other (Specify details) Text");
+              conditions.hide.push("AP, VIAC Positive Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AP, VIAC Positive LEEP") {
+              conditions.hide.push("AP, VIAC Positive Cryotherapy Date");
+              conditions.hide.push("AP, VIAC Positive Thermocoagulation Date");
+              conditions.show.push("AP, VIAC Positive LEEP Date");
+              conditions.hide.push("AP, VIAC Positive Referred to Gyne Date");
+              conditions.hide.push("AP, VIAC Positive Other (Specify details) Text");
+              conditions.hide.push("AP, VIAC Positive Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AP, VIAC Positive Referred to Gyne") {
+              conditions.hide.push("AP, VIAC Positive Cryotherapy Date");
+              conditions.hide.push("AP, VIAC Positive Thermocoagulation Date");
+              conditions.hide.push("AP, VIAC Positive LEEP Date");
+              conditions.show.push("AP, VIAC Positive Referred to Gyne Date");
+              conditions.hide.push("AP, VIAC Positive Other (Specify details) Text");
+              conditions.hide.push("AP, VIAC Positive Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AP, VIAC Positive Other (Specify details)") {
+              conditions.hide.push("AP, VIAC Positive Cryotherapy Date");
+              conditions.hide.push("AP, VIAC Positive Thermocoagulation Date");
+              conditions.hide.push("AP, VIAC Positive LEEP Date");
+              conditions.hide.push("AP, VIAC Positive Referred to Gyne Date");
+              conditions.show.push("AP, VIAC Positive Other (Specify details) Text");
+              conditions.hide.push("AP, VIAC Positive Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AP, VIAC Positive Other (Specify date)") {
+              conditions.hide.push("AP, VIAC Positive Cryotherapy Date");
+              conditions.hide.push("AP, VIAC Positive Thermocoagulation Date");
+              conditions.hide.push("AP, VIAC Positive LEEP Date");
+              conditions.hide.push("AP, VIAC Positive Referred to Gyne Date");
+              conditions.hide.push("AP, VIAC Positive Other (Specify details) Text");
+              conditions.show.push("AP, VIAC Positive Other (Specify date) Date");
+
+        }
+        else {
+            conditions.hide.push("AP, VIAC Positive Cryotherapy Date",
+                                 "AP, VIAC Positive Thermocoagulation Date",
+                                 "AP, VIAC Positive Thermocoagulation Date",
+                                 "AP, VIAC Positive LEEP Date",
+                                 "AP, VIAC Positive Referred to Gyne Date",
+                                 "AP, VIAC Positive Other (Specify details) Text",
+                                 "AP, VIAC Positive Other (Specify date) Date");
+        }
+        return conditions;
+    },
+   "AP, VIA Positive If Yes": function (formName, formFieldValues) {
+        var conditions = {show: [], hide: []};
+        var conditionConcept = formFieldValues['AP, VIA Positive If Yes'];
+
+        if (conditionConcept == "AP, VIA Positive Cryotherapy") {
+              conditions.show.push("AP, VIA Positive Cryotherapy Date");
+              conditions.hide.push("AP, VIA Positive Thermocoagulation Date");
+              conditions.hide.push("AP, VIA Positive LEEP Date");
+              conditions.hide.push("AP, VIA Positive Referred to Gyne Date");
+              conditions.hide.push("AP, VIA Positive Other (Specify details) Text");
+              conditions.hide.push("AP, VIA Positive Other (Specify date) Date");
+        }
+        else if (conditionConcept == "AP, VIA Positive Thermocoagulation") {
+              conditions.hide.push("AP, VIA Positive Cryotherapy Date");
+              conditions.show.push("AP, VIA Positive Thermocoagulation Date");
+              conditions.hide.push("AP, VIA Positive LEEP Date");
+              conditions.hide.push("AP, VIA Positive Referred to Gyne Date");
+              conditions.hide.push("AP, VIA Positive Other (Specify details) Text");
+              conditions.hide.push("AP, VIA Positive Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AP, VIA Positive LEEP") {
+              conditions.hide.push("AP, VIA Positive Cryotherapy Date");
+              conditions.hide.push("AP, VIA Positive Thermocoagulation Date");
+              conditions.show.push("AP, VIA Positive LEEP Date");
+              conditions.hide.push("AP, VIA Positive Referred to Gyne Date");
+              conditions.hide.push("AP, VIA Positive Other (Specify details) Text");
+              conditions.hide.push("AP, VIA Positive Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AP, VIA Positive Referred to Gyne") {
+              conditions.hide.push("AP, VIA Positive Cryotherapy Date");
+              conditions.hide.push("AP, VIA Positive Thermocoagulation Date");
+              conditions.hide.push("AP, VIA Positive LEEP Date");
+              conditions.show.push("AP, VIA Positive Referred to Gyne Date");
+              conditions.hide.push("AP, VIA Positive Other (Specify details) Text");
+              conditions.hide.push("AP, VIA Positive Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AP, VIA Positive Other (Specify details)") {
+              conditions.hide.push("AP, VIA Positive Cryotherapy Date");
+              conditions.hide.push("AP, VIA Positive Thermocoagulation Date");
+              conditions.hide.push("AP, VIA Positive LEEP Date");
+              conditions.hide.push("AP, VIA Positive Referred to Gyne Date");
+              conditions.show.push("AP, VIA Positive Other (Specify details) Text");
+              conditions.hide.push("AP, VIA Positive Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AP, VIA Positive Other (Specify date)") {
+              conditions.hide.push("AP, VIA Positive Cryotherapy Date");
+              conditions.hide.push("AP, VIA Positive Thermocoagulation Date");
+              conditions.hide.push("AP, VIA Positive LEEP Date");
+              conditions.hide.push("AP, VIA Positive Referred to Gyne Date");
+              conditions.hide.push("AP, VIA Positive Other (Specify details) Text");
+              conditions.show.push("AP, VIA Positive Other (Specify date) Date");
+
+        }
+        else {
+            conditions.hide.push("AP, VIA Positive Cryotherapy Date",
+                                 "AP, VIA Positive Thermocoagulation Date",
+                                 "AP, VIA Positive Thermocoagulation Date",
+                                 "AP, VIA Positive LEEP Date",
+                                 "AP, VIA Positive Referred to Gyne Date",
+                                 "AP, VIA Positive Other (Specify details) Text",
+                                 "AP, VIA Positive Other (Specify date) Date");
+        }
+        return conditions;
+    },
+   "AP, Papsmear Pos If Yes": function (formName, formFieldValues) {
+        var conditions = {show: [], hide: []};
+        var conditionConcept = formFieldValues['AP, Papsmear Pos If Yes'];
+
+        if (conditionConcept == "AP, Papsmear Pos Cryotherapy") {
+              conditions.show.push("AP, Papsmear Pos Cryotherapy Date");
+              conditions.hide.push("AP, Papsmear Pos Thermocoagulation Date");
+              conditions.hide.push("AP, Papsmear Pos LEEP Date");
+              conditions.hide.push("AP, Papsmear Pos Referred to Gyne Date");
+              conditions.hide.push("AP, Papsmear Pos Other (Specify details) Text");
+              conditions.hide.push("AP, Papsmear Pos Other (Specify date) Date");
+        }
+        else if (conditionConcept == "AP, Papsmear Pos Thermocoagulation") {
+              conditions.hide.push("AP, Papsmear Pos Cryotherapy Date");
+              conditions.show.push("AP, Papsmear Pos Thermocoagulation Date");
+              conditions.hide.push("AP, Papsmear Pos LEEP Date");
+              conditions.hide.push("AP, Papsmear Pos Referred to Gyne Date");
+              conditions.hide.push("AP, Papsmear Pos Other (Specify details) Text");
+              conditions.hide.push("AP, Papsmear Pos Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AP, Papsmear Pos LEEP") {
+              conditions.hide.push("AP, Papsmear Pos Cryotherapy Date");
+              conditions.hide.push("AP, Papsmear Pos Thermocoagulation Date");
+              conditions.show.push("AP, Papsmear Pos LEEP Date");
+              conditions.hide.push("AP, Papsmear Pos Referred to Gyne Date");
+              conditions.hide.push("AP, Papsmear Pos Other (Specify details) Text");
+              conditions.hide.push("AP, Papsmear Pos Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AP, Papsmear Pos Referred to Gyne") {
+              conditions.hide.push("AP, Papsmear Pos Cryotherapy Date");
+              conditions.hide.push("AP, Papsmear Pos Thermocoagulation Date");
+              conditions.hide.push("AP, Papsmear Pos LEEP Date");
+              conditions.show.push("AP, Papsmear Pos Referred to Gyne Date");
+              conditions.hide.push("AP, Papsmear Pos Other (Specify details) Text");
+              conditions.hide.push("AP, Papsmear Pos Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AP, Papsmear Pos Other (Specify details)") {
+              conditions.hide.push("AP, Papsmear Pos Cryotherapy Date");
+              conditions.hide.push("AP, Papsmear Pos Thermocoagulation Date");
+              conditions.hide.push("AP, Papsmear Pos LEEP Date");
+              conditions.hide.push("AP, Papsmear Pos Referred to Gyne Date");
+              conditions.show.push("AP, Papsmear Pos Other (Specify details) Text");
+              conditions.hide.push("AP, Papsmear Pos Other (Specify date) Date");
+
+        }
+        else if (conditionConcept == "AP, Papsmear Pos Other (Specify date)") {
+              conditions.hide.push("AP, Papsmear Pos Cryotherapy Date");
+              conditions.hide.push("AP, Papsmear Pos Thermocoagulation Date");
+              conditions.hide.push("AP, Papsmear Pos LEEP Date");
+              conditions.hide.push("AP, Papsmear Pos Referred to Gyne Date");
+              conditions.hide.push("AP, Papsmear Pos Other (Specify details) Text");
+              conditions.show.push("AP, Papsmear Pos Other (Specify date) Date");
+
+        }
+        else {
+            conditions.hide.push("AP, Papsmear Pos Cryotherapy Date",
+                                 "AP, Papsmear Pos Thermocoagulation Date",
+                                 "AP, Papsmear Pos Thermocoagulation Date",
+                                 "AP, Papsmear Pos LEEP Date",
+                                 "AP, Papsmear Pos Referred to Gyne Date",
+                                 "AP, Papsmear Pos Other (Specify details) Text",
+                                 "AP, Papsmear Pos Other (Specify date) Date");
+        }
+        return conditions;
+    },
+    "AP, What was the the result?": function (formName, formFieldValues) {
+        var conditions = {show: [], hide: []};
+        var conditionConcept = formFieldValues['AP, What was the the result?'];
+
+        if (conditionConcept == "AP, HPV Pos-VIAC Pos") {
+              conditions.show.push("AP, HPV Pos-VIAC Pos Did u have any intervention done?");
+              conditions.hide.push("AP, VIAC Positive Did u have any intervention done?");
+              conditions.hide.push("AP, VIA Positive Did u have any intervention done?");
+              conditions.hide.push("AP, Papsmear Pos Did u have any intervention done?");
+              conditions.hide.push("AP, HPV DNA Neg Date");
+              conditions.hide.push("AP, Papsmear Neg Date");
+              conditions.hide.push("AP, VIA Neg Date");
+              conditions.hide.push("AP, VIAC Neg Date");
+        }
+        else if (conditionConcept == "AP, VIAC Positive") {
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Did u have any intervention done?");
+              conditions.show.push("AP, VIAC Positive Did u have any intervention done?");
+              conditions.hide.push("AP, VIA Positive Did u have any intervention done?");
+              conditions.hide.push("AP, Papsmear Pos Did u have any intervention done?");
+              conditions.hide.push("AP, HPV DNA Neg Date");
+              conditions.hide.push("AP, Papsmear Neg Date");
+              conditions.hide.push("AP, VIA Neg Date");
+              conditions.hide.push("AP, VIAC Neg Date");
+
+        }
+        else if (conditionConcept == "AP, VIA Positive") {
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Did u have any intervention done?");
+              conditions.hide.push("AP, VIAC Positive Did u have any intervention done?");
+              conditions.show.push("AP, VIA Positive Did u have any intervention done?");
+              conditions.hide.push("AP, Papsmear Pos Did u have any intervention done?");
+              conditions.hide.push("AP, HPV DNA Neg Date");
+              conditions.hide.push("AP, Papsmear Neg Date");
+              conditions.hide.push("AP, VIA Neg Date");
+              conditions.hide.push("AP, VIAC Neg Date");
+        }
+        else if (conditionConcept == "AP, Papsmear Pos") {
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Did u have any intervention done?");
+              conditions.hide.push("AP, VIAC Positive Did u have any intervention done?");
+              conditions.hide.push("AP, VIA Positive Did u have any intervention done?");
+              conditions.show.push("AP, Papsmear Pos Did u have any intervention done?");
+              conditions.hide.push("AP, HPV DNA Neg Date");
+              conditions.hide.push("AP, Papsmear Neg Date");
+              conditions.hide.push("AP, VIA Neg Date");
+              conditions.hide.push("AP, VIAC Neg Date");
+        }
+        else if (conditionConcept == "AP, HPV DNA Neg") {
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Did u have any intervention done?");
+              conditions.hide.push("AP, VIAC Positive Did u have any intervention done?");
+              conditions.hide.push("AP, VIA Positive Did u have any intervention done?");
+              conditions.hide.push("AP, Papsmear Pos Did u have any intervention done?");
+              conditions.show.push("AP, HPV DNA Neg Date");
+              conditions.hide.push("AP, Papsmear Neg Date");
+              conditions.hide.push("AP, VIA Neg Date");
+              conditions.hide.push("AP, VIAC Neg Date");
+        }
+        else if (conditionConcept == "AP, Papsmear Neg") {
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Did u have any intervention done?");
+              conditions.hide.push("AP, VIAC Positive Did u have any intervention done?");
+              conditions.hide.push("AP, VIA Positive Did u have any intervention done?");
+              conditions.hide.push("AP, Papsmear Pos Did u have any intervention done?");
+              conditions.hide.push("AP, HPV DNA Neg Date");
+              conditions.show.push("AP, Papsmear Neg Date");
+              conditions.hide.push("AP, VIA Neg Date");
+              conditions.hide.push("AP, VIAC Neg Date");
+        }
+        else if (conditionConcept == "AP, VIA Neg") {
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Did u have any intervention done?");
+              conditions.hide.push("AP, VIAC Positive Did u have any intervention done?");
+              conditions.hide.push("AP, VIA Positive Did u have any intervention done?");
+              conditions.hide.push("AP, Papsmear Pos Did u have any intervention done?");
+              conditions.hide.push("AP, HPV DNA Neg Date");
+              conditions.hide.push("AP, Papsmear Neg Date");
+              conditions.show.push("AP, VIA Neg Date");
+              conditions.hide.push("AP, VIAC Neg Date");
+        }
+        else if (conditionConcept == "AP, VIAC Neg") {
+              conditions.hide.push("AP, HPV Pos-VIAC Pos Did u have any intervention done?");
+              conditions.hide.push("AP, VIAC Positive Did u have any intervention done?");
+              conditions.hide.push("AP, VIA Positive Did u have any intervention done?");
+              conditions.hide.push("AP, Papsmear Pos Did u have any intervention done?");
+              conditions.hide.push("AP, HPV DNA Neg Date");
+              conditions.hide.push("AP, Papsmear Neg Date");
+              conditions.hide.push("AP, VIA Neg Date");
+              conditions.show.push("AP, VIAC Neg Date");
+        }
+        else {
+            conditions.hide.push("AP, HPV Pos-VIAC Pos Did u have any intervention done?",
+                                 "AP, VIAC Positive Did u have any intervention done?",
+                                 "AP, VIA Positive Did u have any intervention done?",
+                                 "AP, Papsmear Pos Did u have any intervention done?",
+                                 "AP, HPV DNA Neg Date",
+                                 "AP, Papsmear Neg Date",
+                                 "AP, VIA Neg Date",
+                                 "AP, VIAC Neg Date");
+        }
+        return conditions;
+    },
+  'STI Symptoms, Male, Have you been treated for any of the following?' : function (formName, formFieldValues) {
+            var conditions = {show: [], hide: []};
+            var obj = formFieldValues['STI Symptoms, Male, Have you been treated for any of the following?'];
+
+                     if (obj.indexOf('Syphilis')>=0 ) {
+                              conditions.show.push("STI Symptoms, Male, Syphilis Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Male, Syphilis Date");
+                              }
+                      if (obj.indexOf('Acute scrotal swelling')>=0 ) {
+                              conditions.show.push("STI Symptoms, Male, Acute scrotal swelling Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Male, Acute scrotal swelling Date");
+                              }
+                      if (obj.indexOf('Balanitis')>=0 ) {
+                              conditions.show.push("STI Symptoms, Male, Balanitis Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Male, Balanitis Date");
+                              }
+                     if (obj.indexOf('Genital herpes')>=0 ) {
+                              conditions.show.push("STI Symptoms, Male, Genital herpes Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Male, Genital herpes Date");
+                              }
+                     if (obj.indexOf('Genital ulcer disease')>=0 ) {
+                              conditions.show.push("STI Symptoms, Male, Genital ulcer disease Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Male, Genital ulcer disease Date");
+                              }
+                     if (obj.indexOf('Genital warts')>=0 ) {
+                              conditions.show.push("STI Symptoms, Male, Genital Warts Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Male, Genital Warts Date");
+                              }
+                     if (obj.indexOf('Inguinal Bubo')>=0 ) {
+                              conditions.show.push("STI Symptoms, Male, Inguinal Bubo Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Male, Inguinal Bubo Date");
+                              }
+                     if (obj.indexOf('Pubic Lice')>=0 ) {
+                              conditions.show.push("STI Symptoms, Male, Pubic Lice Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Male, Pubic Lice Date");
+                              }
+                     if (obj.indexOf('Scabies')>=0 ) {
+                              conditions.show.push("STI Symptoms, Male, Scabies Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Male, Scabies Date");
+                              }
+                     if (obj.indexOf('Urethral Discharge Syndrome')>=0 ) {
+                              conditions.show.push("STI Symptoms, Male, Urethral Discharge Syndrome Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Male, Urethral Discharge Syndrome Date");
+                              }
+
+
+       return conditions;
+        },
+  'STI Symptoms, Male, Family Medical History' : function (formName, formFieldValues) {
+            var conditions = {show: [], hide: []};
+            var obj = formFieldValues['STI Symptoms, Male, Family Medical History'];
+
+                     if (obj.indexOf('Other (specify)')>=0 ) {
+                              conditions.show.push("STI Symptoms, Male, Other, Specify");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Male, Other, Specify");
+                              }
+        return conditions;
+        },
+    "STI Symptoms, Male, Client's HIV status": function(formName, formFieldValues) {
+         var conditions = {enable: [], disable: []};
+         var conditionConcept = formFieldValues["STI Symptoms, Male, Client's HIV status"];
+         if (conditionConcept == "Positive") {
+              conditions.enable.push("STI Symptoms, Male, Registered for ART");
+         }
+         else
+         {
+              conditions.disable.push("STI Symptoms, Male, Registered for ART");
+         }
+          return conditions;
+    },
+    "STI Symptoms, Male, Registered for ART": function(formName, formFieldValues) {
+         var conditions = {enable: [], disable: []};
+         var conditionConcept = formFieldValues['STI Symptoms, Male, Registered for ART'];
+         if (conditionConcept == "Yes") {
+              conditions.enable.push("STI Symptoms, Male, If Yes");
+         }
+         else
+         {
+              conditions.disable.push("STI Symptoms, Male, If Yes");
+         }
+          return conditions;
+    },
+    "STI Symptoms, Female, Client's HIV status": function(formName, formFieldValues) {
+         var conditions = {enable: [], disable: []};
+         var conditionConcept = formFieldValues['STI Symptoms, Female, Client\'s HIV status'];
+         if (conditionConcept == "Positive") {
+              conditions.enable.push("STI Symptoms, Female, Registered for ART");
+         }
+         else
+         {
+              conditions.disable.push("STI Symptoms, Female, Registered for ART");
+         }
+          return conditions;
+    },
+    "STI Symptoms, Female, Registered for ART": function(formName, formFieldValues) {
+         var conditions = {enable: [], disable: []};
+         var conditionConcept = formFieldValues['STI Symptoms, Female, Registered for ART'];
+         if (conditionConcept == "Yes") {
+              conditions.enable.push("STI Symptoms, Female, If Yes");
+         }
+         else
+         {
+              conditions.disable.push("STI Symptoms, Female, If Yes");
+         }
+          return conditions;
+    },
+  'STI Symptoms, Female, Family Medical History' : function (formName, formFieldValues) {
+            var conditions = {show: [], hide: []};
+            var obj = formFieldValues['STI Symptoms, Female, Family Medical History'];
+
+                     if (obj.indexOf('Other (specify)')>=0 ) {
+                              conditions.show.push("STI Symptoms, Female, Other, Specify");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Female, Other, Specify");
+                              }
+        return conditions;
+        },
+  'STI Symptoms, Female, Have you been treated for any of the following?' : function (formName, formFieldValues) {
+            var conditions = {show: [], hide: []};
+            var obj = formFieldValues['STI Symptoms, Female, Have you been treated for any of the following?'];
+
+                     if (obj.indexOf('Syphilis')>=0 ) {
+                              conditions.show.push("STI Symptoms, Female, Syphilis Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Female, Syphilis Date");
+                              }
+                      if (obj.indexOf('Genital herpes')>=0 ) {
+                              conditions.show.push("STI Symptoms, Female, Genital herpes Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Female, Genital herpes Date");
+                              }
+                      if (obj.indexOf('Genital ulcer disease')>=0 ) {
+                              conditions.show.push("STI Symptoms, Female, Genital ulcer disease Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Female, Genital ulcer disease Date");
+                              }
+                     if (obj.indexOf('Genital warts')>=0 ) {
+                              conditions.show.push("STI Symptoms, Female, Genital Warts Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Female, Genital Warts Date");
+                              }
+                     if (obj.indexOf('Inguinal Bubo')>=0 ) {
+                              conditions.show.push("STI Symptoms, Female, Inguinal Bubo Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Female, Inguinal Bubo Date");
+                              }
+                     if (obj.indexOf('Pelvic Inflammatory disease')>=0 ) {
+                              conditions.show.push("STI Symptoms, Female, Pelvic Inflammatory Disease Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Female, Pelvic Inflammatory Disease Date");
+                              }
+                     if (obj.indexOf('Pubic Lice')>=0 ) {
+                              conditions.show.push("STI Symptoms, Female, Pubic Lice Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Female, Pubic Lice Date");
+                              }
+                     if (obj.indexOf('Scabies')>=0 ) {
+                              conditions.show.push("STI Symptoms, Female, Scabies Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Female, Scabies Date");
+                              }
+                     if (obj.indexOf('Vaginal discharge syndrome')>=0 ) {
+                              conditions.show.push("STI Symptoms, Female, Vaginal Discharge Syndrome Date");
+                              } else {
+                                conditions.hide.push("STI Symptoms, Female, Vaginal Discharge Syndrome Date");
+                              }
+
+       return conditions;
+        },
+
+  "FP Counselling Only, Site Type": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['FP Counselling Only, Site Type'];
+     if (conditionConcept =="Outreach") {
+          conditions.show.push("FP Counselling Only, District");
+
+     }
+     else
+     {
+          conditions.hide.push("FP Counselling Only, District");
+     }
+          return conditions;
+    },
+
+   "FP Continuation, Site Type": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['FP Continuation, Site Type'];
+     if (conditionConcept =="Outreach") {
+          conditions.show.push("FP Continuation, District");
+
+     }
+     else
+     {
+          conditions.hide.push("FP Continuation, District");
+     }
+          return conditions;
+  },
+  'EAC Form, What could be the possible cause of treatment failure?' : function (formName, formFieldValues) {
+            var conditions = {show: [], hide: []};
+            var obj = formFieldValues['EAC Form, What could be the possible cause of treatment failure?'];
+
+                     if (obj.indexOf('Drug to drug interaction')>=0 ) {
+                              conditions.show.push("EAC Form, Specify drug");
+                              } else {
+                                conditions.hide.push("EAC Form, Specify drug");
+                              }
+        return conditions;
+        },
+   "EAC Form, Have been having unprotected sex?": function(formName, formFieldValues) {
+         var conditions = {show: [], hide: []};
+         var conditionConcept = formFieldValues['EAC Form, Have been having unprotected sex?'];
+         if (conditionConcept == "Yes") {
+              conditions.show.push("EAC Form, If Yes, Specify2");
+         }
+         else
+         {
+              conditions.hide.push("EAC Form, If Yes, Specify2");
+         }
+          return conditions;
+    },
+   "EAC Form, Are you using any other medications or traditional herbs?": function(formName, formFieldValues) {
+         var conditions = {show: [], hide: []};
+         var conditionConcept = formFieldValues['EAC Form, Are you using any other medications or traditional herbs?'];
+         if (conditionConcept == "Yes") {
+              conditions.show.push("EAC Form, If Yes, Specify1");
+         }
+         else
+         {
+              conditions.hide.push("EAC Form, If Yes, Specify1");
+         }
+          return conditions;
+    },
+  'EAC Form, If Yes, Specify1' : function (formName, formFieldValues) {
+            var conditions = {show: [], hide: []};
+            var obj = formFieldValues['EAC Form, If Yes, Specify1'];
+
+                     if (obj.indexOf('Other (specify)')>=0 ) {
+                              conditions.show.push("EAC Form, If Others, Specify");
+                              } else {
+                                conditions.hide.push("EAC Form, If Others, Specify");
+                              }
+        return conditions;
+        },
+   "EAC Form, Have you been taking your drugs daily?": function(formName, formFieldValues) {
+         var conditions = {enable: [], disable: []};
+         var conditionConcept = formFieldValues['EAC Form, Have you been taking your drugs daily?'];
+         if (conditionConcept == "Yes") {
+              conditions.enable.push("EAC Form, What time are you taking the drugs?");
+              conditions.enable.push("EAC Form, Have you been taking drugs at the same time daily?");
+         }
+         else
+         {
+              conditions.disable.push("EAC Form, What time are you taking the drugs?");
+              conditions.disable.push("EAC Form, Have you been taking drugs at the same time daily?");
+         }
+          return conditions;
+    },
+   "EAC Form, Have you been taking drugs at the same time daily?": function(formName, formFieldValues) {
+         var conditions = {enable: [], disable: []};
+         var conditionConcept = formFieldValues['EAC Form, Have you been taking drugs at the same time daily?'];
+         if (conditionConcept == "No") {
+              conditions.enable.push("EAC Form, What challenges are you facing to maintain the same time?");
+         }
+         else
+         {
+              conditions.disable.push("EAC Form, What challenges are you facing to maintain the same time?");
+         }
+          return conditions;
+    },
+
+    "Viac Form, HIV STATUS": function(formName, formFieldValues) {
+var conditions = {enable: [], disable: [], show: [], hide: []};
+var conditionConcept = formFieldValues['Viac Form, HIV STATUS'];
+if (conditionConcept == "Positive") {
+conditions.show.push("Viac Form,Is the client on treatment?");
 }
+else
+{
+conditions.hide.push("Viac Form,Is the client on treatment?");
+
+}
+return conditions;
+},
+
+'Viac Form,Is the client on treatment?': function (formName, formFieldValues) {
+        var conditions = {
+              hide: [],
+              show: [],
+              enable: [],
+              disable: []
+              };
+        var conditionConcept = formFieldValues['Viac Form,Is the client on treatment?'];
+        if (conditionConcept == "Yes") {
+     
+              conditions.show.push("Viac Form,Which line of treatment?");
+              conditions.show.push("Viac Form,Combination of drugs");
+              conditions.show.push("Viac Form,Which line of treatment?");
+              conditions.show.push("Viac Form,Date of initiation");
+              conditions.show.push("Viac Form,Latest viral load result");
+              conditions.hide.push("Viac Form,Reason for not on treatment");
+
+            }
+       else if (conditionConcept == "No") {
+    
+            conditions.hide.push("Viac Form,Which line of treatment?");
+            conditions.hide.push("Viac Form,Combination of drugs");
+            conditions.hide.push("Viac Form,Which line of treatment?");
+            conditions.hide.push("Viac Form,Date of initiation");
+            conditions.hide.push("Viac Form,Latest viral load result");
+            conditions.show.push("Viac Form,Reason for not on treatment");
+              }
+       else {
+conditions.hide.push("Viac Form,Which line of treatment?");
+conditions.hide.push("Viac Form,Combination of drugs");
+conditions.hide.push("Viac Form,Which line of treatment?");
+conditions.hide.push("Viac Form,Date of initiation");
+conditions.hide.push("Viac Form,Latest viral load result");
+conditions.hide.push("Viac Form,Reason for not on treatment");
+
+          }
+        return conditions;
+        },
+
+"Viac Form,Combination of drugs": function(formName, formFieldValues) {
+       var conditions = {show: [], hide: []};
+       var conditionConcept = formFieldValues['Viac Form,Combination of drugs'];
+       if (conditionConcept == "Viac Form,Others") {
+            conditions.show.push("Viac Form,if others then specify");
+
+       }
+       else
+       {
+            conditions.hide.push("Viac Form,if others then specify");
+       }
+            return conditions;
+    }
 
 }

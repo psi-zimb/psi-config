@@ -1,5 +1,39 @@
-select DISTINCT
-  piOINo.identifier as "OI No.",
+select
+  art_patients.OI_No as "OI No.",
+  art_patients.Name,
+  art_patients.Surname,
+  art_patients.sex as "Sex",
+  art_patients.Age,
+  art_patients.Category,
+  art_patients.WksonART as "Wks on ART",
+  (case when art_patients.WksonART < 48 then "NA"
+      when exists
+        (select obs.obs_datetime
+          from orders o inner join obs obs on o.order_id = obs.order_id
+            where o.order_type_id = 3 /*Lab Orders*/
+              and o.patient_id = art_patients.patient_id
+              and o.concept_id in (select distinct concept_id from concept_set where concept_set = (select concept_id from concept_view where concept_full_name = 'Viral Load' and retired = 0))  /* Viral Concepts TODO*/
+              and Date(o.date_activated) BETWEEN
+              (case
+                when (SUBDATE(art_patients.art_end_date, INTERVAL 48 WEEK) < art_patients.art_start_date) then  Date(art_patients.art_start_date)
+                ELSE Date(SUBDATE(art_patients.art_end_date, INTERVAL 48 WEEK))
+               END)
+              and Date(art_patients.art_end_date)
+        ) then "NO"
+      ELSE "YES"
+    END) as "Is Viral Load Due",
+  art_patients.UIC,
+  art_patients.Mothers_name as "Mother's name",
+    art_patients.District_of_Birth as "District of Birth",
+    art_patients.Telephone_no as "Telephone no",
+    art_patients.Referred_from as "Referred from",
+    art_patients.Regime,
+    art_patients.Date_Of_Initiation as "Date Of Initiation"
+
+from (select DISTINCT
+  piOINo.patient_id,
+  piOINo.identifier as "OI_No",
+
   CONCAT(
     personName.given_name,
     " ",
@@ -17,6 +51,13 @@ select DISTINCT
       case when personAttributeType.name = 'Population' then cvForRefferedFrom.concept_full_name else null end
     )
   ) as "Category",
+  ordersForRegime.date_activated as art_start_date,
+  case when EXISTS(select obs.value_datetime from obs
+  INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0
+  where obs.person_id = patient.patient_id) then (select obs.value_datetime from obs
+  INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0
+  where obs.person_id = patient.patient_id) else  date('#endDate#') end as art_end_date,
+
   /*Wks on ART : If ART Stop date is present then ART stop date Else report end date for calculation*/
   ROUND(DATEDIFF(
   case when (select obs.value_datetime from obs
@@ -26,32 +67,32 @@ select DISTINCT
   (select obs.value_datetime from obs
   INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0
   where obs.person_id = patient.patient_id)
-  END, obsForArtProg.value_datetime) / 7, 0) as "Wks on ART",
+  END, obsForArtProg.value_datetime) / 7, 0) as "WksonART",
   piUIC.identifier as "UIC",
   GROUP_CONCAT(
     distinct (
       case when personAttributeType.name = 'Mother\'s name' Then personAttribute.value else null end
     )
-  ) as "Mother's name",
+  ) as "Mothers_name",
   GROUP_CONCAT(
     distinct (
       case when personAttributeType.name = 'District of Birth' then cvForRefferedFrom.concept_full_name else null end
     )
-  ) as "District of Birth",
+  ) as "District_of_Birth",
   GROUP_CONCAT(
     distinct (
       case when personAttributeType.name = 'Telephone' then personAttribute.value else null end
     )
-  ) as "Telephone no",
+  ) as "Telephone_no",
   GROUP_CONCAT(
     distinct (
       case when personAttributeType.name = 'Referral source' then case when cvForRefferedFrom.concept_short_name is null then cvForRefferedFrom.concept_full_name else cvForRefferedFrom.concept_short_name end else null end
     )
-  ) as "Referred from",
+  ) as "Referred_from",
   group_concat(distinct drug.name) as "Regime",
   DATE(
     min(ordersForRegime.date_activated)
-  ) as "Date Of Initiation"
+  ) as "Date_Of_Initiation"
 from
   patient
   INNER JOIN obs obsForArtProg on patient.patient_id = obsForArtProg.person_id
@@ -168,7 +209,8 @@ group by
 UNION DISTINCT
 
 select DISTINCT
-  piOINo.identifier as "OI No.",
+  piOINo.patient_id,
+  piOINo.identifier as "OI_No",
   CONCAT(
     personName.given_name,
     " ",
@@ -186,37 +228,43 @@ select DISTINCT
       case when personAttributeType.name = 'Population' then cvForRefferedFrom.concept_full_name else null end
     )
   ) as "Category",
+  ordersForRegime.date_activated as art_start_date,
+  case when EXISTS(select obs.value_datetime from obs
+  INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0
+  where obs.person_id = patient.patient_id) then (select obs.value_datetime from obs
+  INNER JOIN concept_view on obs.concept_id=concept_view.concept_id and concept_view.concept_full_name = "PR, ART Program Stop Date" and obs.voided=0
+  where obs.person_id = patient.patient_id) else  date('#endDate#') end as art_end_date,
   /*Wks on ART : If ART Stop date is present then ART stop date Else report end date for calculation*/
   ROUND(DATEDIFF(
   case when pp.date_completed is null then date('#endDate#')
   else
   pp.date_completed
-  END, pp.date_enrolled) / 7, 0) as "Wks on ART",
+  END, pp.date_enrolled) / 7, 0) as "WksonART",
   piUIC.identifier as "UIC",
   GROUP_CONCAT(
     distinct (
       case when personAttributeType.name = 'Mother\'s name' Then personAttribute.value else null end
     )
-  ) as "Mother's name",
+  ) as "Mothers_name",
   GROUP_CONCAT(
     distinct (
       case when personAttributeType.name = 'District of Birth' then cvForRefferedFrom.concept_full_name else null end
     )
-  ) as "District of Birth",
+  ) as "District_of_Birth",
   GROUP_CONCAT(
     distinct (
       case when personAttributeType.name = 'Telephone' then personAttribute.value else null end
     )
-  ) as "Telephone no",
+  ) as "Telephone_no",
   GROUP_CONCAT(
     distinct (
       case when personAttributeType.name = 'Referral source' then case when cvForRefferedFrom.concept_short_name is null then cvForRefferedFrom.concept_full_name else cvForRefferedFrom.concept_short_name end else null end
     )
-  ) as "Referred from",
+  ) as "Referred_from",
   group_concat(distinct drug.name) as "Regime",
   DATE(
     min(ordersForRegime.date_activated)
-  ) as "Date Of Initiation"
+  ) as "Date_Of_Initiation"
 from
   patient
   INNER JOIN patient_program pp on patient.patient_id = pp.patient_id
@@ -322,5 +370,5 @@ from
   LEFT JOIN person_attribute_type personAttributeType on personAttribute.person_attribute_type_id = personAttributeType.person_attribute_type_id
   LEFT jOIN concept_view cvForRefferedFrom on personAttribute.value = cvForRefferedFrom.concept_id
 group by
-  patient.patient_id
-
+  patient.patient_id) art_patients where art_patients.WksonART>=48 order by art_patients.WksonART desc
+;

@@ -248,6 +248,18 @@
     "order": 17,
     "requiredPrivilege": "app:clinical"
   },
+    "bahmniClinicalPatientsSearchEnhancedadherencecounsellingPatients": {
+    "id": "bahmni.clinical.patients.search.EnhancedAdherenceCounsellingPatients",
+    "extensionPointId": "org.bahmni.patient.search",
+    "type": "config",
+    "extensionParams": {
+      "searchHandler": "emrapi.sqlSearch.EnhancedAdherenceCounselling",
+      "translationKey": "MODULE_LABEL_ENHANCED_ADHERENCE_COUNSELLING",
+      "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
+    },
+    "order": 18,
+    "requiredPrivilege": "app:clinical"
+  },
     "bahmniClinicalPatientsSearchPrEPInitialPatients": {
     "id": "bahmni.clinical.patients.search.PrEPInitialPatients",
     "extensionPointId": "org.bahmni.patient.search",
@@ -257,7 +269,7 @@
       "translationKey": "MODULE_LABEL_PrEPInitial",
       "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
     },
-    "order": 18,
+    "order": 19,
     "requiredPrivilege": "app:clinical"
   },
     "bahmniClinicalPatientsSearchPrEPContinuationPatients": {
@@ -269,7 +281,7 @@
       "translationKey": "MODULE_LABEL_PrEPContinuation",
       "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
     },
-    "order": 19,
+    "order": 20,
     "requiredPrivilege": "app:clinical"
   },
     "bahmniClinicalPatientsSearchVIACInitialPatients": {
@@ -281,7 +293,7 @@
       "translationKey": "MODULE_LABEL_VIAC_Initial",
       "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
     },
-    "order": 20,
+    "order": 21,
     "requiredPrivilege": "app:clinical"
   },
     "bahmniClinicalPatientsSearchVIACContinuationPatients": {
@@ -293,7 +305,7 @@
       "translationKey": "MODULE_LABEL_VIAC_Continuation",
       "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
     },
-    "order": 21,
+    "order": 22,
     "requiredPrivilege": "app:clinical"
   },
     "bahmniClinicalPatientsSearchFamilyPlanningInitialPatients": {
@@ -305,7 +317,7 @@
       "translationKey": "MODULE_LABEL_FamilyPlanningInitial",
       "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
     },
-    "order": 22,
+    "order": 23,
     "requiredPrivilege": "app:clinical"
   },
     "bahmniClinicalPatientsSearchFamilyPlanningCounsellingOnlyPatients": {
@@ -317,7 +329,7 @@
       "translationKey": "MODULE_LABEL_FamilyPlanningCounsellingOnly",
       "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
     },
-    "order": 23,
+    "order": 24,
     "requiredPrivilege": "app:clinical"
   },
     "bahmniClinicalPatientsSearchFamilyPlanningContinuationPatients": {
@@ -329,7 +341,7 @@
       "translationKey": "MODULE_LABEL_FamilyPlanningContinuation",
       "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
     },
-    "order": 24,
+    "order": 25,
     "requiredPrivilege": "app:clinical"
   },
 
@@ -342,7 +354,7 @@
       "translationKey": "MODULE_LABEL_VMMC",
       "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
     },
-    "order": 25,
+    "order": 26,
     "requiredPrivilege": "app:clinical"
   },
     "bahmniClinicalPatientsSearchVAWGPatients": {
@@ -354,7 +366,7 @@
       "translationKey": "MODULE_LABEL_VAWG",
       "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
     },
-    "order": 26,
+    "order": 27,
     "requiredPrivilege": "app:clinical"
   },
     "bahmniClinicalPatientsSearchSTIPatients": {
@@ -366,7 +378,7 @@
       "translationKey": "MODULE_LABEL_STI",
       "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
     },
-    "order": 27,
+    "order": 28,
     "requiredPrivilege": "app:clinical"
   },
   "bahmniClinicalPatientsSearchAllPatients": {
@@ -377,7 +389,7 @@
       "translationKey": "MODULE_LABEL_ALL_KEY",
       "forwardUrl": "#/default/patient/{{patientUuid}}/dashboard"
     },
-    "order": 28,
+    "order": 29,
     "requiredPrivilege": "app:clinical"
   },
   "bahmniClinicalConceptSetGroupObservationsHistory": {

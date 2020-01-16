@@ -137,6 +137,12 @@
         <sqlFile path="HTS_Program_Concepts.sql"/>
     </changeSet>
 
+    <changeSet id="PSI-CONFIG-201912271143" author="Santhosh">
+        <comment>Viac Form Changes</comment>
+        <sqlFile path="VFConcepts.sql"/>
+    </changeSet>
+
+
     <include file ="ART_Program.xml"/>
 
     <include file ="PrEP_Program.xml"/>
@@ -164,5 +170,42 @@
     <include file ="FPCounsForm.xml"/>
 
     <include file ="VIAC_Program.xml"/>
+
+    <include file ="Feedback_Form.xml"/>
+
+    <include file ="PrEP_Screening_Tool_Form.xml"/>
+
+    <include file ="ART_VIAC_Questions.xml"/>
+
+    <include file ="Adherence_Counselling_Form.xml"/>
+
+    <include file ="STI_Symptoms_Form.xml"/>
+
+    <include file ="Enhanced_Adherence_Counselling.xml"/>
+
+<!--    <include file ="AddProvidersList_EAC_13th.xml"/>-->
+
+<!--    <include file ="AddProvidersList_EAC_Bambanani.xml"/>-->
+
+<!--    <include file ="AddProvidersList_EAC_Chipinge.xml"/>-->
+
+<!--    <include file ="AddProvidersList_EAC_Chiredzi.xml"/>-->
+
+<!--    <include file ="AddProvidersList_EAC_Chitungwiza.xml"/>-->
+
+<!--    <include file ="AddProvidersList_EAC_Gweru.xml"/>-->
+
+<!--    <include file ="AddProvidersList_EAC_Masvingo.xml"/>-->
+
+<!--    <include file ="AddProvidersList_EAC_Mutare.xml"/>-->
+
+<!--    <include file ="AddProvidersList_EAC_NAH.xml"/>-->
+
+<!--    <include file ="AddProvidersList_EAC_NEMC.xml"/>-->
+
+
+    <include file ="VFConcepts.xml"/>
+
+
 
 </databaseChangeLog>

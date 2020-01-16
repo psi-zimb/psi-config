@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+       
+
+  <changeSet id="PSI-CONFIG-201912271120" author="Santhosh">
+        
+   <comment>Adding Answers to Viac form HIV status question if client is positive for "Is the client on treatment?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "Viac Form,Is the client on treatment?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+</changeSet>
+
+        <changeSet id="PSI-CONFIG-201912271121" author="Santhosh">
+        
+   <comment>Adding Answers to Viac form HIV status question if client is positive "Which line of treatment?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "Viac Form,Which line of treatment?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Viac Form,1st Line' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'Viac Form,2nd Line' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+			select concept_id into @child3_concept_id from concept_name where name = 'Viac Form,3rd Line' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+			call add_concept_answer(@concept_id, @child3_concept_id, 3);
+        </sql>
+
+</changeSet>
+       <changeSet id="PSI-CONFIG-201912271122" author="Santhosh">
+ 
+          <comment>Adding Answers to Viac form HIV status question if client is positive "Combination of drugs"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+            set @child6_concept_id = 0;
+            set @child7_concept_id = 0;
+            set @child8_concept_id = 0;
+            set @child9_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "Viac Form,Combination of drugs" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Viac Form,TDF 300mg + 3TC 300mg + EFV 400mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'Viac Form,TDF 300mg + 3TC 300mg + EFV 600mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+			select concept_id into @child3_concept_id from concept_name where name = 'Viac Form,AZT 300mg + 3TC 150mg + NVP 200mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+			select concept_id into @child4_concept_id from concept_name where name = 'Viac Form,TDF 300mg + 3TC 300mg + DTG 50mg' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+			select concept_id into @child5_concept_id from concept_name where name = 'Viac Form,AZT 300 + 3TC 300 + ATV/r 300/100' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+			select concept_id into @child6_concept_id from concept_name where name = 'Viac Form,AZT 300 + 3TC 300 + LPV/r 400/100' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+			select concept_id into @child7_concept_id from concept_name where name = 'Viac Form,TDF 300 + 3TC 300 + ATV/r 300/100' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+select concept_id into @child8_concept_id from concept_name where name = 'Viac Form,TDF 300 + 3TC 300 + LPV/r 400/100' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+select concept_id into @child9_concept_id from concept_name where name = 'Viac Form,Others' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+			call add_concept_answer(@concept_id, @child3_concept_id, 3);
+			call add_concept_answer(@concept_id, @child4_concept_id, 4);
+			call add_concept_answer(@concept_id, @child5_concept_id, 5);
+			call add_concept_answer(@concept_id, @child6_concept_id, 6);
+			call add_concept_answer(@concept_id, @child7_concept_id, 7);
+      call add_concept_answer(@concept_id, @child8_concept_id, 8);
+      call add_concept_answer(@concept_id, @child9_concept_id, 9);
+        </sql>
+</changeSet>
+ 
+  <changeSet id="PSI-CONFIG-201912271123" author="Santhosh">
+  	   
+     <comment>Adding Answers to Viac form HIV status question if client is positive "Reason for not on treatment"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+            set @child6_concept_id = 0;
+            
+
+            select concept_id into @concept_id from concept_name where name = "Viac Form,Reason for not on treatment" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Viac Form,Fear of side effects' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'Viac Form,Fear of Disclosure' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+			select concept_id into @child3_concept_id from concept_name where name = 'Viac Form,Fear of Stigma and Discrimination' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+			select concept_id into @child4_concept_id from concept_name where name = 'Viac Form,ART not available' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+			select concept_id into @child5_concept_id from concept_name where name = 'Viac Form,Opted to use Herbs' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+			select concept_id into @child6_concept_id from concept_name where name = 'Viac Form,Spiritual Healing' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+		
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+			call add_concept_answer(@concept_id, @child2_concept_id, 2);
+			call add_concept_answer(@concept_id, @child3_concept_id, 3);
+			call add_concept_answer(@concept_id, @child4_concept_id, 4);
+			call add_concept_answer(@concept_id, @child5_concept_id, 5);
+			call add_concept_answer(@concept_id, @child6_concept_id, 6);
+		
+        </sql>
+        </changeSet>
+
+   <changeSet id="PSI-CONFIG-201912271124" author="Santhosh">
+   	   
+        <comment>Adding set members to the HIV status question if client is positive for "Viac Form Template"</comment>
+          <sql>
+              set @concept_id = 0;
+              set @member1_concept_id = 0;
+              set @member2_concept_id = 0;
+              set @member3_concept_id = 0;
+              set @member4_concept_id = 0;
+              set @member5_concept_id = 0;
+              set @member6_concept_id = 0;
+              set @member7_concept_id = 0;
+
+              select concept_id into @concept_id from concept_name where name = "Viac Form Template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member1_concept_id from concept_name where name = "Viac Form,Is the client on treatment?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member2_concept_id from concept_name where name = "Viac Form,Which line of treatment?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member3_concept_id from concept_name where name = "Viac Form,Combination of drugs" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member4_concept_id from concept_name where name = "Viac Form,if others then specify" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member5_concept_id from concept_name where name = "Viac Form,Date of initiation" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+	          select concept_id into @member6_concept_id from concept_name where name = "Viac Form,Latest viral load result" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+	          select concept_id into @member7_concept_id from concept_name where name = "Viac Form,Reason for not on treatment" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+
+              call add_concept_set_members (@concept_id, @member1_concept_id, 10);
+              call add_concept_set_members (@concept_id, @member2_concept_id, 11);
+              call add_concept_set_members (@concept_id, @member3_concept_id, 12);
+              call add_concept_set_members (@concept_id, @member4_concept_id, 13);
+              call add_concept_set_members (@concept_id, @member5_concept_id, 14);
+              call add_concept_set_members (@concept_id, @member6_concept_id, 15);
+              call add_concept_set_members (@concept_id, @member7_concept_id, 16);
+          </sql>
+    </changeSet>
+
+  <changeSet id="PSI-CONFIG-201912271125" author="Santhosh">
+  	   
+        <comment>Updating set members in the Viac Form Template as per new sortweight requrement</comment>
+          <sql>
+             UPDATE concept_set SET sort_weight = 17
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, AGE AT SEXUAL DEBUT' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 18
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, NO.OF LIFETIME PARTNERS' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 19
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, PRESENTING COMPLAINTS' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 20
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, PRESENTING COMPLAINTS Specify details' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 21
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, PRESENTING COMPLAINTS If Other Specify details' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 22
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, EVER TREATED FOR STIS' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 23
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, EVER TREATED FOR STIS Specify details' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 24
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, EVER TREATED FOR STIS If Other Specify details' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 25
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, CONDOM USE WITH REGULAR/NON REGULAR PARTNER' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 26
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, PRIOR FAMILY PLANNING PREDOMINANTLY USED' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 27
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, Have you ever used COC' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 28
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, COC For how many years?' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 29
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, History of smoking' and retired = 0);
+
+            
+             UPDATE concept_set SET sort_weight = 30
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, Smoking For how many years' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 31
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, Current Medication for Chronic conditions' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 32
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, Chronic conditions Specify details' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 33
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, Chronic conditions If Other Specify details' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 34
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, PRIOR CA CERVIX SCREENING IN LIFETIME' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 35
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, When were you last screened?' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 36
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, Method used in your last screen' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 37
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, SCREENING METHOD USED On This Visit' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 38
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, Specimen collected by' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 39
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, RESULT' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 40
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, Intervention' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 41
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, OTHER PATHOLOGICAL LESIONS SEEN' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 42
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, PATHOLOGICAL LESIONS SEEN If Other Specify details' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 43
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, Picture Files' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 44
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, MANAGEMENT' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 45
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, Complications/ Adverse events during procedure' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 46
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, Adverse events during procedure Specify details' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 47
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, Complications/ Adverse events during procedure , If Other Specify details' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 48
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, Next appointment' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 49
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, Answer REPEAT Screening' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 50
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, Repeat Screening If Other Specify details' and retired = 0);
+
+             UPDATE concept_set SET sort_weight = 51
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, Answer REVIEW' and retired = 0);
+
+            UPDATE concept_set SET sort_weight = 52
+               WHERE concept_set = (select concept_id from concept_view where concept_full_name = 'Viac Form Template' and retired = 0)
+               AND concept_id = (select concept_id from concept_view where concept_full_name = 'Viac Form, REVIEW If Other Specify details' and retired = 0);
+
+          </sql>
+    </changeSet>
+
+  
+      <changeSet id="PSI-CONFIG-201912271126" author="Santhosh">
+        <comment>Adding Concept to concept_numeric table</comment>
+      <sql>
+        INSERT INTO concept_numeric
+        (concept_id,hi_absolute,hi_critical,hi_normal,low_absolute,low_critical,low_normal,units,precise,display_precision)
+        VALUES ((select concept_id from concept_name where name = 'Viac Form,Latest viral load result'
+        and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0),NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL);
+       </sql>
+  </changeSet>
+
+
+</databaseChangeLog>

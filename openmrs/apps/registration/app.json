@@ -128,6 +128,10 @@
       "dropdown": true,
       "disableAddNotes":true
     },
+    "Provider name for Enhanced adherence counselling": {
+      "dropdown": true,
+      "disableAddNotes": true
+    },
     "Provider name for PrEP Initial":{
       "dropdown": true,
       "disableAddNotes":true
@@ -196,8 +200,8 @@
       "dropdown": true,
       "disableAddNotes":true
     },
-            "Vital Signs, Temperature Data": {
-              "hideAbnormalButton" : true
+    "Vital Signs, Temperature Data": {
+      "hideAbnormalButton" : true
             },
             "Vital Signs, Blood Pressure": {
               "hideAbnormalButton" : true

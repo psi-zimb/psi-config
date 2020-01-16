@@ -12,6 +12,7 @@
   "MODULE_LABEL_HIVSelfTesting": "HIV Self Testing",
   "MODULE_LABEL_Walkout": "Walkout",
   "MODULE_LABEL_AdherenceCounselling": "Adherence Counselling",
+  "MODULE_LABEL_ENHANCED_ADHERENCE_COUNSELLING": "Enhanced Adherence Counselling",
   "MODULE_LABEL_Homevisit": "Home visit",
   "MODULE_LABEL_Hospitalvisit": "Hospital visit",
   "MODULE_LABEL_PhoneCall": "Phone Call",
@@ -32,7 +33,7 @@
   "MODULE_LABEL_OPD_1_KEY": "OPD-1",
   "MODULE_LABEL_URGENT":"Urgent",
   "MODULE_LABEL_ALL_KEY": "All",
-
+  "DASHBOARD_TITLE_BASELINE_FORMS": "Form",
   "DASHBOARD_TITLE_LAB_RESULTS_KEY": "Lab Results",
   "DASHBOARD_TITLE_LAB_ORDERS_DISPLAY_CONTROL_KEY": "Lab Orders",
   "DASHBOARD_TITLE_PACS_KEY": "Pacs",
@@ -105,5 +106,6 @@
   "DASHBOARD_TITLE_Consultation_KEY": "Consultation Notes",
 
   "NUMBER_OF_WEEKS_IN_ART_PROGRAM": "Weeks in ART Program",
-  "NOT_ENROLLED_IN_ART_PROGRAM": "Not enrolled in the ART Program"
+  "NOT_ENROLLED_IN_ART_PROGRAM": "Not enrolled in the ART Program",
+  "DASHBOARD_TITLE_ART_ACTIVE_DRUG_DETAILS":"All Active Drugs"
 }

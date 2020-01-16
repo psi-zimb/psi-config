@@ -100,6 +100,15 @@
           "numberOfVisits": 20
         }
       },
+      "adverseEventsForms": {
+        "translationKey": "DASHBOARD_TITLE_BASELINE_FORMS",
+        "type": "forms",
+        "displayOrder": 9,
+        "dashboardConfig": {
+        "maximumNoOfVisits": 10
+        },
+        "formGroup":[]
+      },
       "artObservation":{
         "translationKey":"Art Observation",
         "type":"vitals",
@@ -148,8 +157,7 @@
           "showDetailsButton":true
         }
       },
-
-      "visits": {
+"visits": {
         "translationKey": "DASHBOARD_TITLE_VISITS_KEY",
         "type": "visits",
         "displayOrder": 8,
@@ -331,6 +339,16 @@
           "pivotTable": {}
         }
       },
+      "AllActiveDrugs": { 
+        "translationKey": "DASHBOARD_TITLE_ART_ACTIVE_DRUG_DETAILS",  
+        "type": "drugOrderDetails",
+        "showDetailsButton": true,  
+        "displayOrder": 1,  
+        "dashboardConfig": {  
+          "showOnlyActive": true, 
+          "numberOfVisits":20}
+        },
+        
         "vitalSigns":{
         "translationKey":"Registration Vital Signs",
         "type":"vitals",

@@ -225,11 +225,53 @@
             "PHTC, Risk reduction plan":{
                 "multiSelect":true
             },
-           "STI Symptoms, Male, If yes on penis discharge, specify type":{
+            "PHTC, Reasons not Offered":{
+                "multiSelect":true
+            },
+            "PHTC, Reasons not Accepted":{
+                "multiSelect":true
+            },
+            "STI Symptoms, Male, If yes on penis discharge, specify type":{
                   "multiSelect" : true
-              },
-           "STI Symptoms, Female, If yes on vaginal discharge, specify type":{
+            },
+            "STI Symptoms, Male, Family Medical History":{
                 "multiSelect" : true
+            },
+            "STI Symptoms, Male, Past significant Medical History":{
+                "multiSelect" : true
+            },
+            "STI Symptoms, Male, Past Significant Surgical History":{
+                "multiSelect" : true
+            },
+            "STI Symptoms, Male, Have you been treated for any of the following?":{
+                "multiSelect" : true
+            },
+            "STI Symptoms, Male, Diagnosis":{
+                "multiSelect" : true
+            },
+            "STI Symptoms, Male, Review Date":{
+                "allowFutureDates": true
+            },
+            "STI Symptoms, Female, If yes on vaginal discharge, specify type":{
+                "multiSelect" : true
+            },
+            "STI Symptoms, Female, Family Medical History":{
+                "multiSelect" : true
+            },
+            "STI Symptoms, Female, Past significant Medical History":{
+                "multiSelect" : true
+            },
+            "STI Symptoms, Female, Past Significant Surgical History":{
+                "multiSelect" : true
+            },
+            "STI Symptoms, Female, Have you been treated for any of the following?":{
+                "multiSelect" : true
+            },
+            "STI Symptoms, Female, Diagnosis":{
+                "multiSelect" : true
+            },
+            "STI Symptoms, Female, Review Date":{
+                "allowFutureDates": true
             },
             "Skin, Morphology of rash":{
                 "multiSelect" : true
@@ -266,6 +308,9 @@
             },
             "RUUV, If Yes for Male Have you observed a discharge from the penis?":{
                 "multiSelect":true
+            },
+            "RUUV, When is your next date of screening?":{
+                "allowFutureDates": true
             },
             "Pregnancy Form Template, Due Date":{
                 "allowFutureDates": true
@@ -312,6 +357,9 @@
             "AP, Type of Visit":{
                 "required":true
             },
+            "AP, When is your next date of screening?":{
+                "allowFutureDates": true
+          },
             "Provider name,Referral Letter form":{
                 "required":true
             },
@@ -381,9 +429,6 @@
             "dropdown":true,
             "required":true
           },
-          "AIVC, District":{
-            "dropdown":true
-          },
           "FPS, District":{
             "dropdown":true,
             "required":true
@@ -393,6 +438,22 @@
             },
          "FPS Counselling Only BP, Diastolic": {
                 "hideAbnormalButton" : true
+            },
+          "FP Counselling Only, District":{
+            "dropdown":true,
+            "required":true
+            },
+         "FP Continuation, District":{
+            "dropdown":true,
+            "required":true
+           },
+         "FP Counselling Only, Facility":{
+            "dropdown":true,
+            "required":true
+            },
+         "FP Continuation, Facility":{
+            "dropdown":true,
+            "required":true
             },
             "FP Continuation BP, Systolic": {
                 "hideAbnormalButton" : true
@@ -662,6 +723,21 @@
           "Viac Form, Diastolic": {
                 "hideAbnormalButton" : true
             },
+          "PrEP ST Form, If Yes, then Specify2":{
+            "multiSelect": true
+          },
+          "PrEP ST Form, Reason(s) for not referring the client":{
+            "multiSelect": true
+          },
+          "PrEP ST Form, If Yes, then Specify3":{
+            "multiSelect": true
+          },
+          "EAC Form, If Yes, Specify1":{
+            "multiSelect": true
+          },
+          "EAC Form, What could be the possible cause of treatment failure?":{
+            "multiSelect": true
+          },
          "AIVC, Facility":{
             "dropdown":true,
             "required":true
@@ -673,6 +749,15 @@
             "dropdown":true,
             "required":true
           },
+          "FP Counselling Only, Site Type":{
+            "required":true
+          },
+          "FP Continuation, Site Type":{
+            "required":true
+          },
+          "AIVC, When is your next date of screening?":{
+            "allowFutureDates": true
+          },
           "FPS Continuation, If Yes select the complications":{
             "dropdown":true
           },
@@ -682,6 +767,18 @@
           "FPS Counselling Only, If yes, select the adverse event":{
             "dropdown":true
           },
+          "AC Form, Adherence Counselling Details": {
+                "allowAddMore": true
+            },
+          "AC Form, ARV Drugs": {
+                "required":true,
+                "dropdown":true,
+                "disableAddNotes" : true
+          },
+          "AC Form, Tablets remaining at last visit": {
+                "required":true,
+                "disableAddNotes" : true
+            },
           "defaults": {
                 "HIV testing and counselling service": "Requested",
                 "Numeric concept": 1,
