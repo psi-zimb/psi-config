@@ -183,7 +183,26 @@
 
     <include file ="Enhanced_Adherence_Counselling.xml"/>
 
-    <include file ="AddProvidersList_EAC_NAH.xml"/>
+<!--    <include file ="AddProvidersList_EAC_13th.xml"/>-->
+
+<!--    <include file ="AddProvidersList_EAC_Bambanani.xml"/>-->
+
+<!--    <include file ="AddProvidersList_EAC_Chipinge.xml"/>-->
+
+<!--    <include file ="AddProvidersList_EAC_Chiredzi.xml"/>-->
+
+<!--    <include file ="AddProvidersList_EAC_Chitungwiza.xml"/>-->
+
+<!--    <include file ="AddProvidersList_EAC_Gweru.xml"/>-->
+
+<!--    <include file ="AddProvidersList_EAC_Masvingo.xml"/>-->
+
+<!--    <include file ="AddProvidersList_EAC_Mutare.xml"/>-->
+
+<!--    <include file ="AddProvidersList_EAC_NAH.xml"/>-->
+
+<!--    <include file ="AddProvidersList_EAC_NEMC.xml"/>-->
+
 
     <include file ="VFConcepts.xml"/>
 
