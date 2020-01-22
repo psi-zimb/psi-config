@@ -66,14 +66,14 @@ Bahmni.ConceptSet.FormConditions.rules = {
 			         }
 
 			if (obj.indexOf('Adherence Counselling')>=0 ) {
-			         conditions.show.push("Provider name for Adherence counseling");
+			         conditions.show.push("Provider name for Adherence counselling");
 			         } else {
-			           conditions.hide.push("Provider name for Adherence counseling");
+			           conditions.hide.push("Provider name for Adherence counselling");
 			         }
-			if (obj.indexOf('Enhanced Adherence Counseling')>=0 ) {
-			         conditions.show.push("Provider name for Enhanced adherence counseling");
+			if (obj.indexOf('Enhanced Adherence Counselling')>=0 ) {
+			         conditions.show.push("Provider name for Enhanced adherence counselling");
 			         } else {
-			           conditions.hide.push("Provider name for Enhanced adherence counseling");
+			           conditions.hide.push("Provider name for Enhanced adherence counselling");
 			         }
 			if (obj.indexOf('PrEP Continuation')>=0 ) {
 			         conditions.show.push("Provider name for Prep Continuation");
@@ -87,16 +87,16 @@ Bahmni.ConceptSet.FormConditions.rules = {
                        conditions.hide.push("Provider name for HIV Self Testing");
                      }
 
-            if (obj.indexOf('Provider Testing and Counseling')>=0 ) {
-                     conditions.show.push("Provider name for Provider Testing and Counseling");
+            if (obj.indexOf('Provider Testing and Counselling')>=0 ) {
+                     conditions.show.push("Provider name for Provider Testing and Counselling");
                      } else {
-                       conditions.hide.push("Provider name for Provider Testing and Counseling");
+                       conditions.hide.push("Provider name for Provider Testing and Counselling");
                      }
 
-            if (obj.indexOf('Confirmatory HIV testing and Counseling')>=0 ) {
-                     conditions.show.push("Provider name for Confirmatory HIV testing and Counseling");
+            if (obj.indexOf('Confirmatory HIV testing and Counselling')>=0 ) {
+                     conditions.show.push("Provider name for Confirmatory HIV testing and Counselling");
                      } else {
-                       conditions.hide.push("Provider name for Confirmatory HIV testing and Counseling");
+                       conditions.hide.push("Provider name for Confirmatory HIV testing and Counselling");
                      }
 
             if (obj.indexOf('Contact Tracing')>=0 ) {
@@ -1578,9 +1578,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['Abuse, Have you been sexually abused?'];
         if (conditionConcept == "Yes") {
-            conditions.enable.push("Abuse, Has a police report been filed?","Abuse, Did you receive any medical treatment afterwards?","Abuse, Did you receive counseling?");
+            conditions.enable.push("Abuse, Has a police report been filed?","Abuse, Did you receive any medical treatment afterwards?","Abuse, Did you receive counselling?");
         } else {
-            conditions.disable.push("Abuse, Has a police report been filed?","Abuse, Did you receive any medical treatment afterwards?","Abuse, Did you receive counseling?");
+            conditions.disable.push("Abuse, Has a police report been filed?","Abuse, Did you receive any medical treatment afterwards?","Abuse, Did you receive counselling?");
         }
         return conditions;
         },
