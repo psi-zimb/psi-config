@@ -8148,9 +8148,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
                     };
                     var conditionConcept = formFieldValues['AIVC, Have you been sexually abused?'];
                     if (conditionConcept == "Yes") {
-                        conditions.enable.push("AIVC, Has a police report been filed?","AIVC, Did you receive any medical treatment afterwards?","AIVC, Did you receive counseling?");
+                        conditions.enable.push("AIVC, Has a police report been filed?","AIVC, Did you receive any medical treatment afterwards?","AIVC, Did you receive counselling?");
                     } else {
-                        conditions.disable.push("AIVC, Has a police report been filed?","AIVC, Did you receive any medical treatment afterwards?","AIVC, Did you receive counseling?");
+                        conditions.disable.push("AIVC, Has a police report been filed?","AIVC, Did you receive any medical treatment afterwards?","AIVC, Did you receive counselling?");
                     }
                     return conditions;
                 },
@@ -9102,7 +9102,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         var selectedResponses = formFieldValues[questionThatTriggersRule];
         var aboveQuestionAnswer = "FPS Continuation, State Procedure";
         var secondAnswer = "FP Continuation, Date of Procedure indicate";
-        var thirdAnswer = "FP Continuation, Pre-Procedure counseling and assessment conducted?";
+        var thirdAnswer = "FP Continuation, Pre-Procedure counselling and assessment conducted?";
         var forthAnswer = "FP Continuation, Indicate name of Counselor";
         var fifthAnswer = "FP Cont Form, Start of procedure indicate time";
         var sixthAnswer = "FP Cont Form, End of procedure indicate time";
