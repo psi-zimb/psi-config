@@ -51,13 +51,11 @@ Bahmni.ConceptSet.FormConditions.rules = {
 			           conditions.hide.push("Provider name for Lab Test (Only)");
 			         }
 
-
 			if (obj.indexOf('Basic 1 and ART 1 service')>=0 ) {
 			         conditions.show.push("Provider name for Basic 1 and ART 1");
 			         } else {
 			           conditions.hide.push("Provider name for Basic 1 and ART 1");
 			         }
-
 
 			if (obj.indexOf('Phone Call')>=0 ) {
 			         conditions.show.push("Provider name for Phone Call");
@@ -66,9 +64,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
 			         }
 
 			if (obj.indexOf('Adherence Counselling')>=0 ) {
-			         conditions.show.push("Provider name for Adherence counselling");
+			         conditions.show.push("Provider name for Adherence counseling");
 			         } else {
-			           conditions.hide.push("Provider name for Adherence counselling");
+			           conditions.hide.push("Provider name for Adherence counseling");
 			         }
 			if (obj.indexOf('Enhanced Adherence Counselling')>=0 ) {
 			         conditions.show.push("Provider name for Enhanced adherence counselling");
@@ -87,16 +85,16 @@ Bahmni.ConceptSet.FormConditions.rules = {
                        conditions.hide.push("Provider name for HIV Self Testing");
                      }
 
-            if (obj.indexOf('Provider Testing and Counselling')>=0 ) {
-                     conditions.show.push("Provider name for Provider Testing and Counselling");
+            if (obj.indexOf('Provider Testing and Counseling')>=0 ) {
+                     conditions.show.push("Provider name for Provider Testing and Counseling");
                      } else {
-                       conditions.hide.push("Provider name for Provider Testing and Counselling");
+                       conditions.hide.push("Provider name for Provider Testing and Counseling");
                      }
 
-            if (obj.indexOf('Confirmatory HIV testing and Counselling')>=0 ) {
-                     conditions.show.push("Provider name for Confirmatory HIV testing and Counselling");
+            if (obj.indexOf('Confirmatory HIV testing and Counseling')>=0 ) {
+                     conditions.show.push("Provider name for Confirmatory HIV testing and Counseling");
                      } else {
-                       conditions.hide.push("Provider name for Confirmatory HIV testing and Counselling");
+                       conditions.hide.push("Provider name for Confirmatory HIV testing and Counseling");
                      }
 
             if (obj.indexOf('Contact Tracing')>=0 ) {
@@ -1578,9 +1576,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['Abuse, Have you been sexually abused?'];
         if (conditionConcept == "Yes") {
-            conditions.enable.push("Abuse, Has a police report been filed?","Abuse, Did you receive any medical treatment afterwards?","Abuse, Did you receive counselling?");
+            conditions.enable.push("Abuse, Has a police report been filed?","Abuse, Did you receive any medical treatment afterwards?","Abuse, Did you receive counseling?");
         } else {
-            conditions.disable.push("Abuse, Has a police report been filed?","Abuse, Did you receive any medical treatment afterwards?","Abuse, Did you receive counselling?");
+            conditions.disable.push("Abuse, Has a police report been filed?","Abuse, Did you receive any medical treatment afterwards?","Abuse, Did you receive counseling?");
         }
         return conditions;
         },
@@ -8148,9 +8146,9 @@ Bahmni.ConceptSet.FormConditions.rules = {
                     };
                     var conditionConcept = formFieldValues['AIVC, Have you been sexually abused?'];
                     if (conditionConcept == "Yes") {
-                        conditions.enable.push("AIVC, Has a police report been filed?","AIVC, Did you receive any medical treatment afterwards?","AIVC, Did you receive counselling?");
+                        conditions.enable.push("AIVC, Has a police report been filed?","AIVC, Did you receive any medical treatment afterwards?","AIVC, Did you receive counseling?");
                     } else {
-                        conditions.disable.push("AIVC, Has a police report been filed?","AIVC, Did you receive any medical treatment afterwards?","AIVC, Did you receive counselling?");
+                        conditions.disable.push("AIVC, Has a police report been filed?","AIVC, Did you receive any medical treatment afterwards?","AIVC, Did you receive counseling?");
                     }
                     return conditions;
                 },
@@ -9102,7 +9100,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         var selectedResponses = formFieldValues[questionThatTriggersRule];
         var aboveQuestionAnswer = "FPS Continuation, State Procedure";
         var secondAnswer = "FP Continuation, Date of Procedure indicate";
-        var thirdAnswer = "FP Continuation, Pre-Procedure counselling and assessment conducted?";
+        var thirdAnswer = "FP Continuation, Pre-Procedure counseling and assessment conducted?";
         var forthAnswer = "FP Continuation, Indicate name of Counselor";
         var fifthAnswer = "FP Cont Form, Start of procedure indicate time";
         var sixthAnswer = "FP Cont Form, End of procedure indicate time";
@@ -12534,6 +12532,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
          }
           return conditions;
     },
+
     "Viac Form, HIV STATUS": function(formName, formFieldValues) {
 var conditions = {enable: [], disable: [], show: [], hide: []};
 var conditionConcept = formFieldValues['Viac Form, HIV STATUS'];
