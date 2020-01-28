@@ -3921,8 +3921,12 @@ patient_encounter_table pedd
       CASE WHEN aivc_have_you_been_taking_other_medications_or_muti_herbs_w = 'Yes' THEN 1
            WHEN aivc_have_you_been_taking_other_medications_or_muti_herbs_w = 'No' THEN 0
            ELSE NULL END :: BOOLEAN AS \"Have you been taking other medications or muti (herbs) within the past 2 months?\",
-      aivc_are_you_taking_tb_medicines AS \"Are you taking TB medicines?\",
-      aivc_have_you_ever_experienced_a_drug_allergy AS \"Have you ever experienced a drug allergy?\",
+      CASE WHEN aivc_are_you_taking_tb_medicines = 'Yes' THEN 1
+           WHEN aivc_are_you_taking_tb_medicines = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Are you taking TB medicines?\",
+      CASE WHEN aivc_have_you_ever_experienced_a_drug_allergy = 'Yes' THEN 1
+           WHEN aivc_have_you_ever_experienced_a_drug_allergy = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Have you ever experienced a drug allergy?\",
       aivc_if_yes_specify_drug_allergy_details AS \"If yes, specify drug allergy details\",
       CASE WHEN aivc_have_been_treated_for_any_of_the_following_conditions = 'Yes' THEN 1
            WHEN aivc_have_been_treated_for_any_of_the_following_conditions = 'No' THEN 0
