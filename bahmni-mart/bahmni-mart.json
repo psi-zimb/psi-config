@@ -890,7 +890,7 @@
                     CAST(min(date(pp.date_enrolled)) AS DATE) as \"incident_date\",
                     min(pp.date_created) as \"date_created\",
                     min(pp.patient_program_id) as \"program_unique_id\", 
-                    'ACTIVE' as status
+                    CASE WHEN pp.voided = 0 AND pp.date_completed IS NOT NULL THEN 'COMPLETED' WHEN pp.voided = 1 THEN 'CANCELLED' ELSE 'ACTIVE' END as status
                         from patient_program pp /*patient_program for the patients enrolled in ART Program*/
                         Inner Join patient_identifier pi on pp.patient_id = pi.patient_id
                     and pi.identifier_type in (
@@ -928,8 +928,7 @@
                         program 
                         where name ='ART Program'
                         and retired=0
-                                             )    
-                and pp.voided=0
+                                             )
                 group by pp.patient_id",
       "tableName": "art_program_enrollment_table",
       "chunkSizeToRead": "500",
