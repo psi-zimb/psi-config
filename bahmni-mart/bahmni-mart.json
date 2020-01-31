@@ -384,7 +384,8 @@
                         program 
                         where name ='FPS Program'
                         and retired=0
-                                             )    
+                                             )
+                and pp.voided=0
                 group by pp.patient_id",
       "tableName": "fps_program_enrollment_table",
       "chunkSizeToRead": "500",
@@ -566,6 +567,7 @@
                         where name ='HTS Program'
                         and retired=0
                                              )
+                and pp.voided=0
                 group by pp.patient_id",
       "tableName": "hts_program_enrollment_table",
       "chunkSizeToRead": "500",
@@ -747,6 +749,7 @@
                         where name ='VIAC Program'
                         and retired=0
                                              )
+                and pp.voided=0
                 group by pp.patient_id",
       "tableName": "viac_program_enrollment_table",
       "chunkSizeToRead": "500",
@@ -928,6 +931,7 @@
                         where name ='ART Program'
                         and retired=0
                                              )
+                and pp.voided=0
                 group by pp.patient_id",
       "tableName": "art_program_enrollment_table",
       "chunkSizeToRead": "500",
@@ -1109,6 +1113,7 @@
                         where name ='PrEP Program'
                         and retired=0
                                              )
+                and pp.voided=0
                 group by pp.patient_id",
       "tableName": "prep_program_enrollment_table",
       "chunkSizeToRead": "500",
