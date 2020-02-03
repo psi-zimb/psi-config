@@ -3497,7 +3497,7 @@ patient_encounter_table pedd
              AND art.patient_id = pedd.patient_id AND art.encounter_id > pedd.encounter_id ORDER BY art.encounter_id DESC LIMIT 1))),
              '-',upper(art1_1.aivc_district))
          ELSE
-           concat('ZWNSC-OU-',upper( COALESCE(aivc_facility,(SELECT art.aivc_facility FROM art_initial_visit_compulsory_question_1_of_2 art
+           concat('ZWNSC-',upper( COALESCE(aivc_facility,(SELECT art.aivc_facility FROM art_initial_visit_compulsory_question_1_of_2 art
            INNER JOIN patient_encounter_table pedd ON art.encounter_id = pedd.encounter_id WHERE art.aivc_facility IS NOT NULL 
            AND art.patient_id = pedd.patient_id AND art.encounter_id > pedd.encounter_id ORDER BY art.encounter_id DESC LIMIT 1))))
            END  AS \"OrgUnit\",
@@ -4703,11 +4703,11 @@ ORDER BY date_created DESC;"
      CASE WHEN prep_init_form_site_type = 'Outreach'  THEN  
           concat('ZWNSC-OU-',upper(prep_init_form_facility),'-',upper(prep_init_form_district))
           WHEN prep_init_form_site_type = 'Static'   THEN 
-          concat('ZWNSC-OU-',upper(prep_init_form_facility))
+          concat('ZWNSC-',upper(prep_init_form_facility))
           WHEN prep_init_form_site_type IS NULL AND prep_cont_form_site_type = 'Outreach' THEN 
           concat('ZWNSC-OU-',upper(prep_cont_form_facility),'-',upper(prep_cont_form_district))
           ELSE
-          concat('ZWNSC-OU-',upper(prep_cont_form_facility))
+          concat('ZWNSC-',upper(prep_cont_form_facility))
           END AS \"OrgUnit\",
      CASE WHEN COALESCE(prep1_1.obs_datetime, '01-01-0001' ) >= COALESCE(prep2_2.obs_datetime, '01-01-0001' )     
          THEN date(prep1_1.obs_datetime)
