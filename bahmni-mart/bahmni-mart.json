@@ -3492,14 +3492,20 @@ patient_encounter_table pedd
     'axGKY6FAhRm':: TEXT AS program_stage,
     CASE WHEN art1_1.aivc_site_type = 'Outreach'
          THEN  
-             concat('ZWNSC-OU-',upper( COALESCE(art1_1.aivc_facility,(SELECT art.aivc_facility FROM art_initial_visit_compulsory_question_1_of_2 art 
-             INNER JOIN patient_encounter_table pedd ON art.encounter_id = pedd.encounter_id WHERE art.aivc_facility IS NOT NULL 
-             AND art.patient_id = pedd.patient_id AND art.encounter_id > pedd.encounter_id ORDER BY art.encounter_id DESC LIMIT 1))),
+             concat('ZWNSC-OU-',upper( COALESCE(art1_1.aivc_facility,(SELECT art.aivc_facility
+              FROM art_initial_visit_compulsory_question_1_of_2
+              WHERE art.aivc_facility IS NOT NULL
+                AND art.patient_id = art1_1.patient_id
+              ORDER BY art.encounter_id DESC
+              LIMIT 1))),
              '-',upper(art1_1.aivc_district))
          ELSE
-           concat('ZWNSC-',upper( COALESCE(aivc_facility,(SELECT art.aivc_facility FROM art_initial_visit_compulsory_question_1_of_2 art
-           INNER JOIN patient_encounter_table pedd ON art.encounter_id = pedd.encounter_id WHERE art.aivc_facility IS NOT NULL 
-           AND art.patient_id = pedd.patient_id AND art.encounter_id > pedd.encounter_id ORDER BY art.encounter_id DESC LIMIT 1))))
+           concat('ZWNSC-',upper( COALESCE(aivc_facility,(SELECT art.aivc_facility
+            FROM art_initial_visit_compulsory_question_1_of_2
+            WHERE art.aivc_facility IS NOT NULL
+              AND art.patient_id = art1_1.patient_id
+            ORDER BY art.encounter_id DESC
+            LIMIT 1))))
            END  AS \"OrgUnit\",
     CASE WHEN COALESCE(art1_1.obs_datetime, '01-01-0001' ) >= COALESCE(art2_2.obs_datetime, '01-01-0001' )     
          THEN date(art1_1.obs_datetime)
