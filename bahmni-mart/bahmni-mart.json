@@ -1192,8 +1192,8 @@
         'bY9Dg3Je4CN':: TEXT AS program_stage,
          
         max(CASE WHEN phtc.\"phtc_site_type\" = 'Outreach'
-              THEN concat('ZWNSC-OU-',upper(COALESCE(phtc.\"phtc_facility\", (SELECT phtc_facility FROM provider_hiv_test_counselling phtc_temp WHERE phtc_facility IS NOT NULL AND  phtc_temp.patient_id = pedd.patient_id AND pedd.encounter_id > phtc_temp.encounter_id  ORDER BY phtc_temp.encounter_id DESC LIMIT 1))),'-',upper(phtc.\"phtc_district\"))   
-         ELSE concat('ZWNSC-',upper(COALESCE(phtc.\"phtc_facility\",  (SELECT phtc_facility FROM provider_hiv_test_counselling phtc_temp WHERE phtc_facility IS NOT NULL AND phtc_temp.patient_id  = pedd.patient_id AND pedd.encounter_id > phtc_temp.encounter_id  ORDER BY phtc_temp.encounter_id DESC LIMIT 1))))
+              THEN concat('ZWNSC-OU-',upper(COALESCE(phtc.\"phtc_facility\", (SELECT phtc_facility FROM provider_hiv_test_counselling phtc_temp WHERE phtc_facility IS NOT NULL AND  phtc_temp.patient_id = pedd.patient_id ORDER BY phtc_temp.encounter_id DESC LIMIT 1))),'-',upper(phtc.\"phtc_district\"))
+         ELSE concat('ZWNSC-',upper(COALESCE(phtc.\"phtc_facility\",  (SELECT phtc_facility FROM provider_hiv_test_counselling phtc_temp WHERE phtc_facility IS NOT NULL AND phtc_temp.patient_id  = pedd.patient_id ORDER BY phtc_temp.encounter_id DESC LIMIT 1))))
          END) AS \"OrgUnit\",
          
         max(CASE WHEN   COALESCE(phtc.obs_datetime, '01-01-0001' ) >= COALESCE(pht.obs_datetime, '01-01-0001' )
