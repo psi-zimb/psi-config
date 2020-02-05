@@ -4706,15 +4706,35 @@ ORDER BY date_created DESC;"
  "sql": "select 
      'vatFxlZR2lj':: TEXT AS program,
      'kv6FYqNxzOd':: TEXT AS program_stage,
-     CASE WHEN prep_init_form_site_type = 'Outreach'  THEN  
-          concat('ZWNSC-OU-',upper(prep_init_form_facility),'-',upper(prep_init_form_district))
-          WHEN prep_init_form_site_type = 'Static'   THEN 
-          concat('ZWNSC-',upper(prep_init_form_facility))
-          WHEN prep_init_form_site_type IS NULL AND prep_cont_form_site_type = 'Outreach' THEN 
-          concat('ZWNSC-OU-',upper(prep_cont_form_facility),'-',upper(prep_cont_form_district))
-          ELSE
-          concat('ZWNSC-',upper(prep_cont_form_facility))
-          END AS \"OrgUnit\",
+  CASE WHEN prep_init_form_site_type = 'Outreach'  THEN
+       concat('ZWNSC-OU-',upper(COALESCE(prep_init_form_facility,(SELECT prep_init_form_facility
+       FROM prep_init_form_template
+       WHERE prep_init_form_facility IS NOT NULL
+       AND patient_id = prep1_1.patient_id
+       ORDER BY prepinit.encounter_id DESC
+       LIMIT 1))),'-',upper(prep_init_form_district))
+    WHEN prep_init_form_site_type = 'Static'   THEN
+       concat('ZWNSC-',upper(COALESCE(prep_init_form_facility,(SELECT prep_init_form_facility
+       FROM prep_init_form_template
+       WHERE prep_init_form_facility IS NOT NULL
+       AND patient_id = prep1_1.patient_id
+       ORDER BY encounter_id DESC
+       LIMIT 1))))
+    WHEN prep_init_form_site_type IS NULL AND prep_cont_form_site_type = 'Outreach' THEN
+       concat('ZWNSC-OU-',upper(COALESCE(prep_cont_form_facility,(SELECT prep_cont_form_facility
+       FROM prep_cont_form_template
+       WHERE prep_cont_form_facility IS NOT NULL
+       AND patient_id = prep2_2.patient_id
+       ORDER BY encounter_id DESC
+       LIMIT 1))),'-',upper(prep_cont_form_district))
+    ELSE
+       concat('ZWNSC-',upper(COALESCE(prep_cont_form_facility,(SELECT prep_cont_form_facility
+       FROM prep_cont_form_template
+       WHERE prep_cont_form_facility IS NOT NULL
+       AND patient_id = prep2_2.patient_id
+       ORDER BY encounter_id DESC
+       LIMIT 1))))
+    END AS \"OrgUnit\",
      CASE WHEN COALESCE(prep1_1.obs_datetime, '01-01-0001' ) >= COALESCE(prep2_2.obs_datetime, '01-01-0001' )     
          THEN date(prep1_1.obs_datetime)
          WHEN ( COALESCE(prep2_2.obs_datetime, '01-01-0001' ) >= COALESCE(prep1_1.obs_datetime, '01-01-0001' ) )      
