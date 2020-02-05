@@ -1669,9 +1669,19 @@ patient_encounter_table pedd
         'vatFxlZR2lj':: TEXT as program,
         'YoxZS1bsBaW':: TEXT as program_stage,
         max(case when viac.\"viac_form_site_type\" = 'Outreach'
-                    then concat('ZWNSC-OU-',upper(viac.\"viac_form_facility\"),'-',upper(viac.\"viac_form_district\"))
-                    ELSE concat('ZWNSC-',upper(viac.\"viac_form_facility\"))
-                    end) as \"OrgUnit\",
+           then concat('ZWNSC-OU-',upper(COALESCE(viac.viac_form_facility,(SELECT viac_form_facility
+           FROM viac_form_template
+           WHERE viac_form_facility IS NOT NULL
+           AND patient_id = ppv.patient_id
+           ORDER BY encounter_id DESC
+           LIMIT 1))),'-',upper(viac.\"viac_form_district\"))
+           ELSE concat('ZWNSC-',upper(COALESCE(viac_form_facility,(SELECT viac_form_facility
+           FROM viac_form_template
+           WHERE viac_form_facility IS NOT NULL
+           AND patient_id = ppv.patient_id
+           ORDER BY encounter_id DESC
+           LIMIT 1))))
+           end) as \"OrgUnit\",
         max(date(viac.\"obs_datetime\")) as \"event_date\",
         'COMPLETED' :: TEXT as status,
         max(pedd.\"visit_id\") as \"event_unique_id\",
@@ -4711,7 +4721,7 @@ ORDER BY date_created DESC;"
        FROM prep_init_form_template
        WHERE prep_init_form_facility IS NOT NULL
        AND patient_id = prep1_1.patient_id
-       ORDER BY prepinit.encounter_id DESC
+       ORDER BY encounter_id DESC
        LIMIT 1))),'-',upper(prep_init_form_district))
     WHEN prep_init_form_site_type = 'Static'   THEN
        concat('ZWNSC-',upper(COALESCE(prep_init_form_facility,(SELECT prep_init_form_facility
