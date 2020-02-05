@@ -1865,10 +1865,10 @@ patient_encounter_table pedd
      
         max(CASE WHEN fps.\"fps_form_site_type\" = 'Outreach'
               THEN concat('ZWNSC-OU-',upper(
-                   COALESCE(fps.\"fps_form_facility\", (SELECT \"fps_form_facility\" FROM fps_family_planning_service fps_temp WHERE fps_form_facility IS NOT NULL AND                      fps_temp.patient_id = pedd.patient_id AND pedd.encounter_id > fps_temp.encounter_id 
+                   COALESCE(fps.\"fps_form_facility\", (SELECT \"fps_form_facility\" FROM fps_family_planning_service fps_temp WHERE fps_form_facility IS NOT NULL AND fps_temp.patient_id = pedd.patient_id
                       ORDER BY fps_temp.encounter_id DESC LIMIT 1))),'-',upper( fps.\"fps_district\"))   
          ELSE concat('ZWNSC-',upper(
-              COALESCE(fps.\"fps_form_facility\",  (SELECT \"fps_form_facility\" FROM fps_family_planning_service fps_temp WHERE fps_form_facility IS NOT NULL AND                fps_temp.patient_id = pedd.patient_id AND pedd.encounter_id >= fps_temp.encounter_id 
+              COALESCE(fps.\"fps_form_facility\",  (SELECT \"fps_form_facility\" FROM fps_family_planning_service fps_temp WHERE fps_form_facility IS NOT NULL AND fps_temp.patient_id = pedd.patient_id
               ORDER BY fps_temp.encounter_id DESC LIMIT 1))))
          END) AS \"OrgUnit\",
         
