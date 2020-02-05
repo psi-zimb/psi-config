@@ -3490,7 +3490,714 @@ patient_encounter_table pedd
  "sql": "SELECT 
     'vatFxlZR2lj':: TEXT AS program,
     'axGKY6FAhRm':: TEXT AS program_stage,
-    CASE WHEN art1_1.aivc_site_type = 'Outreach'
+  select
+  'vatFxlZR2lj':: TEXT AS program,
+  'kv6FYqNxzOd':: TEXT AS program_stage,
+  CASE WHEN prep_init_form_site_type = 'Outreach'  THEN
+  concat('ZWNSC-OU-',upper(COALESCE(prep1_1.prep_init_form_facility,(SELECT prepinit.prep_init_form_facility
+  FROM prep_init_form_template prepinit
+  WHERE prepinit.prep_init_form_facility IS NOT NULL
+  AND prepinit.patient_id = prep1_1.patient_id
+  ORDER BY prepinit.encounter_id DESC
+  LIMIT 1))),'-',upper(prep_init_form_district))
+  WHEN prep_init_form_site_type = 'Static'   THEN
+  concat('ZWNSC-',upper(COALESCE(prep1_1.prep_init_form_facility,(SELECT prepinit.prep_init_form_facility
+  FROM prep_init_form_template prepinit
+  WHERE prepinit.prep_init_form_facility IS NOT NULL
+  AND prepinit.patient_id = prep1_1.patient_id
+  ORDER BY prepinit.encounter_id DESC
+  LIMIT 1))))
+  WHEN prep_init_form_site_type IS NULL AND prep_cont_form_site_type = 'Outreach' THEN
+  concat('ZWNSC-OU-',upper(COALESCE(prep2_2.prep_init_form_facility,(SELECT prepinit.prep_init_form_facility
+  FROM prep_cont_form_template prepcont
+  WHERE prepcont.prep_init_form_facility IS NOT NULL
+  AND prepcont.patient_id = prep2_2.patient_id
+  ORDER BY prepcont.encounter_id DESC
+  LIMIT 1))),'-',upper(prep_cont_form_district))
+  ELSE
+  concat('ZWNSC-',upper(COALESCE(prep2_2.prep_init_form_facility,(SELECT prepinit.prep_init_form_facility
+  FROM prep_cont_form_template prepcont
+  WHERE prepcont.prep_init_form_facility IS NOT NULL
+  AND prepcont.patient_id = prep2_2.patient_id
+  ORDER BY prepcont.encounter_id DESC
+  LIMIT 1))))
+  END AS \"OrgUnit\",
+  CASE WHEN COALESCE(prep1_1.obs_datetime, '01-01-0001' ) >= COALESCE(prep2_2.obs_datetime, '01-01-0001' )
+  THEN date(prep1_1.obs_datetime)
+  WHEN ( COALESCE(prep2_2.obs_datetime, '01-01-0001' ) >= COALESCE(prep1_1.obs_datetime, '01-01-0001' ) )
+  THEN date(prep2_2.obs_datetime)
+  END AS \"event_date\",
+  'COMPLETED' :: TEXT AS status,
+  COALESCE (prep1_1.visit_id,prep2_2.visit_id) AS \"event_unique_id\",
+  DATE(ppv.\"date_enrolled\") AS \"enrollment_date\",
+  CASE WHEN   COALESCE(prep1_1.date_created, '01-01-0001 00:00:00' ) >= COALESCE(prep2_2.date_created, '01-01-0001  00:00:00' )
+  THEN prep1_1.date_created
+  WHEN ( COALESCE(prep2_2.date_created, '01-01-0001 00:00:00' ) >= COALESCE(prep1_1.date_created, '01-01-0001  00:00:00' ) )
+  THEN prep2_2.date_created
+  END AS \"date_created\",
+  pi.\"Patient_Identifier\" AS \"Patient_Identifier\",
+
+  case when prep_init_form_have_you_had_an_hiv_test_in_the_past_1_week = 'Yes' then 1
+  when prep_init_form_have_you_had_an_hiv_test_in_the_past_1_week = 'No' then 0
+  else null end :: boolean AS \"Had you had HIV test in the past 1 week\",
+
+  prep_init_form_when_was_the_test_done AS \"When was the test done\",
+  prep_init_form_what_was_the_result AS \"What was the result HIV\",
+
+  case when prep_init_form_do_you_have_any_heath_related_problems_today = 'Yes' then 1
+  when prep_init_form_do_you_have_any_heath_related_problems_today = 'No' then 0
+  else null end :: boolean AS \"Any heath related problems today\",
+
+  prep_init_form_if_yes_for_health_related_problems_today AS \"If Yes Indicate the problem\",
+  prep_init_form_have_you_been_diagnosed_of_any_chronic_illne AS \"Ever been diagnosed of a chronic illness\",
+  prep_init_form_are_you_or_your_partner_currently_pregnant AS \"Are you/partner currently pregnant\",
+  prep_init_form_when_was_you_last_normal_menstrual_period as \"Last Menstrual Period Prep Initial\",
+
+  case when prep_init_form_pregnacy_test_done = 'Yes' then 1
+  when prep_init_form_pregnacy_test_done = 'No' then 0
+  else null end :: boolean AS \"Pregnacy test done\",
+
+  prep_init_form_pregnancy_test_what_was_the_result AS \"What was the result Pregnacy\",
+
+  case when prep_init_form_are_you_or_partner_currently_breast_feeding = 'Yes' then 1
+  when prep_init_form_are_you_or_partner_currently_breast_feeding = 'No' then 0
+  else null end :: boolean AS \"Are you/partner currently breast feeding\",
+
+
+  prep_init_form_are_you_or_your_partner_using_any_contracept AS \"Are you/partner using any contraception\",
+  prep_init_form_are_you_taking_any_drugs_or_medications AS \"Are you taking any drugs or medications\",
+
+  case when prep_init_form_are_you_on_arvs = 'Yes' then 1
+  when prep_init_form_are_you_on_arvs = 'No' then 0
+  else null end :: boolean AS \"Are you on ARVs\",
+
+  case when prep_init_form_are_you_sexually_active = 'Yes' then 1
+  when prep_init_form_are_you_sexually_active = 'No' then 0
+  else null end :: boolean AS \"Are you sexually active\",
+
+  case when prep_init_form_are_you_married_or_in_a_stable_relationship_ = 'Yes' then 1
+  when prep_init_form_are_you_married_or_in_a_stable_relationship_ = 'No' then 0
+  else null end :: boolean AS \"Married/stable relation past 6month/more\",
+
+  CASE WHEN prep_cont_form_do_you_know_your_partner_s_hiv_status is not null then
+  prep_cont_form_do_you_know_your_partner_s_hiv_status
+  when prep_cont_form_do_you_know_your_partner_s_hiv_status is null then
+  prep_init_form_do_you_know_your_partner_s_hiv_status
+  end  AS \"What is your partners HIV status\",
+
+  CASE WHEN prep_cont_form_is_your_partner_on_art is not null then
+  case when prep_cont_form_is_your_partner_on_art = 'Yes' then 1
+  when prep_cont_form_is_your_partner_on_art = 'No'  then 0
+  else null end
+  when prep_cont_form_is_your_partner_on_art is null then
+  case when prep_init_form_is_your_partner_on_art = 'Yes' then 1
+  when prep_init_form_is_your_partner_on_art = 'No'  then 0
+  else null end
+  end :: boolean AS \"Is your partner on ART\",
+
+  case when prep_init_form_do_you_know_your_partner_s_adherence_to_art = 'Yes' then 1
+  when prep_init_form_do_you_know_your_partner_s_adherence_to_art = 'No' then 0
+  else null end :: boolean AS \"What is your partners adherence to ART\",
+
+  prep_init_form_has_your_partner_had_a_viral_load_test_done_ AS \"Partner viral load tested last 12 months\",
+  prep_init_form_if_yes_for_partner_had_a_viral_load_test_don AS \"Specifiy Results\",
+
+  CASE WHEN prep_cont_form_are_you_using_condoms_every_time_you_are_hav is not null then
+  case when prep_cont_form_are_you_using_condoms_every_time_you_are_hav = 'Yes' then 1
+  when prep_cont_form_are_you_using_condoms_every_time_you_are_hav = 'No'  then 0
+  else null end
+  when prep_cont_form_are_you_using_condoms_every_time_you_are_hav is null then
+  case when prep_init_form_do_you_use_condoms_every_time_you_have_sex_w = 'Yes' then 1
+  when prep_init_form_do_you_use_condoms_every_time_you_have_sex_w = 'No'  then 0
+  else null end
+  end :: boolean AS \"Use condoms for sex with partner\",
+
+  case when prep_init_form_have_you_had_any_other_sexual_partners_in_th = 'Yes' then 1
+  when prep_init_form_have_you_had_any_other_sexual_partners_in_th = 'No' then 0
+  else null end :: boolean AS \"Had other sexual partners last 6 months\",
+
+  prep_init_form_if_yes_for_had_any_other_sexual_partners_in_ AS \"How many\",
+
+  case when prep_init_form_do_you_have_more_than_1_sexual_partner = 'Yes' then 1
+  when prep_init_form_do_you_have_more_than_1_sexual_partner = 'No' then 0
+  else null end :: boolean AS \"Do you have more than 1 sexual partner\",
+
+  case when prep_init_form_do_you_know_your_non_regular_partner_s_hiv_s = 'Yes' then 1
+  when prep_init_form_do_you_know_your_non_regular_partner_s_hiv_s = 'No' then 0
+  else null end :: boolean AS \"Whats is non-regular partners HIV status\",
+
+  prep_init_form_specify_hiv_status_of_partner AS \"Specify HIV status of partner\",
+
+  case when prep_init_form_do_you_use_condoms_every_time_you_have_sex_w_1 = 'Yes' then 1
+  when prep_init_form_do_you_use_condoms_every_time_you_have_sex_w_1 = 'No' then 0
+  else null end :: boolean AS \"Use condom alwys with nonregular partner\",
+
+  case when prep_init_form_have_you_been_treated_for_an_sti_in_the_last = 'Yes' then 1
+  when prep_init_form_have_you_been_treated_for_an_sti_in_the_last = 'No' then 0
+  else null end :: boolean AS \"Treated for an STI in the last 3 months\",
+
+  CASE WHEN prep_cont_form_have_you_exchanged_sex_for_money_goods_or_se is not null then
+  case when prep_cont_form_have_you_exchanged_sex_for_money_goods_or_se = 'Yes' then 1
+  when prep_cont_form_have_you_exchanged_sex_for_money_goods_or_se = 'No'  then 0
+  else null end
+  when prep_cont_form_have_you_exchanged_sex_for_money_goods_or_se is null then
+  case when prep_init_form_have_you_exchanged_sex_for_money_goods_or_se = 'Yes' then 1
+  when prep_init_form_have_you_exchanged_sex_for_money_goods_or_se = 'No'  then 0
+  else null end
+  end :: boolean  AS \"Exchanged sex for money/goods/services\",
+
+  case when prep_init_form_do_you_have_a_history_of_sexual_abuse_gender = 'Yes' then 1
+  when prep_init_form_do_you_have_a_history_of_sexual_abuse_gender = 'No' then 0
+  else null end :: boolean AS \"History of sexual abuse/gbv\",
+
+  case when prep_init_form_have_you_used_emergency_contraception_in_the  = 'Yes' then 1
+  when prep_init_form_have_you_used_emergency_contraception_in_the  = 'No' then 0
+  else null end :: boolean AS \"Used ec contraception in last 6 months\",
+
+  case when prep_init_form_have_you_used_pep_in_the_last_6_months  = 'Yes' then 1
+  when prep_init_form_have_you_used_pep_in_the_last_6_months  = 'No' then 0
+  else null end :: boolean AS \"Have you used PEP in the last 6 months more than one partner\",
+
+  prep_init_form_what_was_the_reason_for_taking_pep AS \"What was the reason for taking PEP?\",
+
+  case when prep_init_form_are_you_single_or_not_in_a_stable_relationsh  = 'Yes' then 1
+  when prep_init_form_are_you_single_or_not_in_a_stable_relationsh = 'No' then 0
+  else null end :: boolean AS \"You single/not in a stable relationship\",
+  case when prep_init_form_have_you_had_sexual_partner_s_in_the_last_6_  = 'Yes' then 1
+  when prep_init_form_have_you_had_sexual_partner_s_in_the_last_6_ = 'No' then 0
+  else null end :: boolean  AS \"Have you had sexual partner(s) in the last 6 months?\",
+
+  prep_init_form_if_yes_how_many AS \"How many?\",
+
+  case when prep_init_form_do_you_use_condoms_every_time_you_have_vagin = 'Yes' then 1
+  when prep_init_form_do_you_use_condoms_every_time_you_have_vagin = 'No' then 0
+  else null end :: boolean AS \"Use condoms always for vaginal/anal sex\",
+
+  case when prep_init_form_have_you_had_a_condom_burst_in_the_last_3_mo = 'Yes' then 1
+  when prep_init_form_have_you_had_a_condom_burst_in_the_last_3_mo = 'No' then 0
+  else null end :: boolean AS \"Had a condom burst in the last 3 month\",
+
+  prep_init_form_if_yes_for_condorm_burst_how_many_times AS \"How many times condom burst?\",
+
+  case when prep_init_form_in_a_single_relationship_have_you_been_treat = 'Yes' then 1
+  when prep_init_form_in_a_single_relationship_have_you_been_treat = 'No' then 0
+  else null end :: boolean AS \"Treated for an STI in the last 3 months in single Relationship\",
+
+  CASE WHEN prep_cont_form_have_you_had_sex_whilst_indoxicated_with_alc is not null then
+  case when prep_cont_form_have_you_had_sex_whilst_indoxicated_with_alc = 'Yes' then 1
+  when prep_cont_form_have_you_had_sex_whilst_indoxicated_with_alc = 'No'  then 0
+  else null end
+  when prep_cont_form_have_you_had_sex_whilst_indoxicated_with_alc is null then
+  case when prep_init_form_have_you_had_sex_whilst_indoxicated_with_alc = 'Yes' then 1
+  when prep_init_form_have_you_had_sex_whilst_indoxicated_with_alc = 'No'  then 0
+  else null end
+  end :: boolean  AS \"Have you had sex whilst indoxicated\",
+
+  case when prep_init_form_have_you_or_your_partner_used_emergency_cont = 'Yes' then 1
+  when prep_init_form_have_you_or_your_partner_used_emergency_cont = 'No' then 0
+  else null end :: boolean  AS \"Couple used ec contraception last 6month\",
+
+  prep_init_form_if_yes_for_emergency_contraception_how_many_ AS \"How many times contraception\",
+  case when prep_init_form_single_or_stable_relationship_have_you_used_ = 'Yes' then 1
+  when prep_init_form_single_or_stable_relationship_have_you_used_ = 'No' then 0
+  else null end :: boolean as \"Have you used PEP in the last 6 months single and used\",
+  prep_init_form_single_or_stable_relationship_what_was_the_r AS \" What was the reason for taking PEP?\",
+  case when prep_init_form_do_you_inject_drugs = 'Yes' then 1
+  when prep_init_form_do_you_inject_drugs = 'No' then 0
+  else null end :: boolean as \"Do you inject drugs?\",
+
+  CASE WHEN prep_cont_form_does_the_client_have_any_sings_of_primary_in is not null then
+  case when prep_cont_form_does_the_client_have_any_sings_of_primary_in = 'Yes' then 1
+  when prep_cont_form_does_the_client_have_any_sings_of_primary_in = 'No'  then 0
+  else null end
+  when prep_cont_form_does_the_client_have_any_sings_of_primary_in is null then
+  case when prep_init_form_any_signs_of_primary_infection = 'Yes' then 1
+  when prep_init_form_any_signs_of_primary_infection = 'No'  then 0
+  else null end
+  end :: boolean   AS \"Any signs of primary infection\",
+
+  CASE WHEN prep_cont_form_if_yes_for_client_have_any_sings_of_primary_  is not null then
+  prep_cont_form_if_yes_for_client_have_any_sings_of_primary_
+  when prep_cont_form_if_yes_for_client_have_any_sings_of_primary_  is null then
+  prep_init_form_if_yes_for_any_signs_of_primary_infection
+  end  AS \"Specify details\",
+
+  CASE WHEN prep_cont_form_what_is_the_client_s_hiv_status_today  is not null then
+  prep_cont_form_what_is_the_client_s_hiv_status_today
+  when prep_cont_form_what_is_the_client_s_hiv_status_today  is null then
+  prep_init_form_what_is_the_client_s_hiv_status_today
+  end   AS \"What is the clients HIV status today\",
+
+  case when prep_init_form_are_you_ready_to_start_prep = 'Yes' then 1
+  when prep_init_form_are_you_ready_to_start_prep = 'No' then 0
+  else null end :: boolean AS \"Are you ready to start Prep\",
+
+  CASE WHEN prep_cont_form_if_no_for_are_you_ready_to_continue_prep is not null then
+  prep_cont_form_if_no_for_are_you_ready_to_continue_prep
+  when prep_cont_form_if_no_for_are_you_ready_to_continue_prep is null then
+  prep_init_form_if_yes_for_ready_to_start_prep_specify_reaso
+  end  AS \"Specify Reason\",
+
+  case when prep_init_form_is_the_client_eligible_to_take_prep = 'Yes' then 1
+  when prep_init_form_is_the_client_eligible_to_take_prep = 'No' then 0
+  else null end :: boolean  AS \"Is the client Eligible to take PrEP\",
+
+  case when prep_cont_form_do_you_have_any_heath_related_problems_today = 'Yes' then 1
+  when prep_cont_form_do_you_have_any_heath_related_problems_today = 'No' then 0
+  else null end :: boolean  AS \"Have any heath related problems today\",
+
+  prep_cont_form_if_yes_for_health_related_problems_today AS \"Indicate the problem\",
+  case when prep_cont_form_are_you_using_any_family_planning_method = 'Yes' then 1
+  when prep_cont_form_are_you_using_any_family_planning_method = 'No' then 0
+  else null end :: boolean AS \"Are you using any family planning method\",
+
+  prep_cont_form_if_yes_for_are_you_using_any_family_planning AS \"Specify Method\",
+  prep_cont_form_last_normal_menstrual_period as \"Last Normal Menstrual Period Prep Cont\",
+  case when prep_cont_form_are_you_breast_feeding = 'Yes' then 1
+  when prep_cont_form_are_you_breast_feeding = 'No' then 0
+  else null end :: boolean AS \"Are you breast feeding\",
+
+  case when prep_cont_form_are_you_using_any_other_medications = 'Yes' then 1
+  when prep_cont_form_are_you_using_any_other_medications = 'No' then 0
+  else null end :: boolean AS \"Are you using any other medications\",
+
+  prep_cont_form_if_yes_for_are_you_using_any_other_medicatio AS \"Specify medications\",
+  prep_cont_form_how_many_sexual_partners_have_you_had_since_ AS \"How many sex partners since last visit\",
+  prep_cont_form_if_yes_for_do_you_know_your_partner_s_hiv_st AS \"If Yes then specify\",
+
+  case when prep_cont_form_do_you_know_your_partner_s_viral_load = 'Yes' then 1
+  when prep_cont_form_do_you_know_your_partner_s_viral_load = 'No' then 0
+  else null end :: boolean  AS \"Do you know your partners viral load\",
+
+  prep_cont_form_if_yes_for_do_you_know_your_partner_s_viral_ AS \"Indicate value\",
+
+  case when prep_cont_form_have_you_had_a_condom_burst_since_the_last_v = 'Yes' then 1
+  when prep_cont_form_have_you_had_a_condom_burst_since_the_last_v = 'No' then 0
+  else null end :: boolean AS \"Had a condom burst since the last visit\",
+  prep_cont_form_if_yes_for_condom_burst_since_the_last_visit AS \"How many times condom burst since last visit\",
+  case when prep_cont_form_have_you_been_treated_for_an_sti_since_the_l = 'Yes' then 1
+  when prep_cont_form_have_you_been_treated_for_an_sti_since_the_l = 'No' then 0
+  else null end :: boolean AS \"Treated for STI since the last visit\",
+  case when prep_cont_form_have_you_been_sexually_abused_or_had_gender_ = 'Yes' then 1
+  when prep_cont_form_have_you_been_sexually_abused_or_had_gender_ = 'No' then 0
+  else null end :: boolean AS \"Sexually abused/ GBV since last visit\",
+  case when prep_cont_form_have_you_used_emergency_contraception_since_ = 'Yes' then 1
+  when prep_cont_form_have_you_used_emergency_contraception_since_ = 'No' then 0
+  else null end :: boolean AS \"Used ec contraception since last visit\",
+
+  prep_cont_form_if_yes_for_used_emergency_contraception_sinc AS \"How many times contraception since last visit\",
+  case when prep_cont_form_are_you_ready_to_continue_prep = 'Yes' then 1
+  when prep_cont_form_are_you_ready_to_continue_prep = 'No' then 0
+  else null end :: boolean AS \"Are you ready to continue PrEP\",
+  case when prep_cont_form_is_the_client_eligible_to_continue_prep = 'Yes' then 1
+  when prep_cont_form_is_the_client_eligible_to_continue_prep = 'No' then 0
+  else null end :: boolean AS \"Is the client eligible to continue PrEP\"
+
+
+
+  FROM
+  (SELECT
+  DISTINCT visit_id ,
+  FIRST_VALUE(prep1.obs_datetime)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep1.obs_datetime IS NULL THEN 0 ELSE 1 END DESC, prep1.encounter_id DESC) AS obs_datetime,
+  FIRST_VALUE(prep1.patient_id)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep1.patient_id IS NULL THEN 0 ELSE 1 END DESC, prep1.encounter_id DESC) AS patient_id,
+  FIRST_VALUE(prep1.date_created)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep1.date_created IS NULL THEN 0 ELSE 1 END DESC, prep1.encounter_id DESC) AS date_created,
+  FIRST_VALUE(prep1.program_id)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep1.program_id IS NULL THEN 0 ELSE 1 END DESC, prep1.encounter_id DESC) AS program_id,
+  FIRST_VALUE(prep1.program_name)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep1.program_name IS NULL THEN 0 ELSE 1 END DESC, prep1.encounter_id DESC) AS program_name,
+  FIRST_VALUE(prep1.prep_init_form_facility)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep1.prep_init_form_facility IS NULL THEN 0 ELSE 1 END DESC, prep1.encounter_id DESC) AS prep_init_form_facility,
+  FIRST_VALUE(prep1.prep_init_form_site_type)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep1.prep_init_form_site_type IS NULL THEN 0 ELSE 1 END DESC, prep1.encounter_id DESC)
+  AS prep_init_form_site_type,
+  FIRST_VALUE(prep1.prep_init_form_district)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep1.prep_init_form_district IS NULL THEN 0 ELSE 1 END DESC, prep1.encounter_id DESC) AS prep_init_form_district,
+  FIRST_VALUE(prep1.prep_init_form_have_you_had_an_hiv_test_in_the_past_1_week)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_have_you_had_an_hiv_test_in_the_past_1_week IS NULL THEN 0 ELSE 1 END DESC,
+  prep1.encounter_id DESC) AS prep_init_form_have_you_had_an_hiv_test_in_the_past_1_week,
+  FIRST_VALUE(prep1.prep_init_form_when_was_the_test_done)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep1.prep_init_form_when_was_the_test_done IS NULL THEN 0 ELSE 1 END DESC,
+  prep1.encounter_id DESC) AS prep_init_form_when_was_the_test_done,
+  FIRST_VALUE(prep1.prep_init_form_what_was_the_result)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep1.prep_init_form_what_was_the_result IS NULL THEN 0 ELSE 1 END DESC,
+  prep1.encounter_id DESC) AS prep_init_form_what_was_the_result,
+  FIRST_VALUE(prep1.prep_init_form_do_you_have_any_heath_related_problems_today)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep1.prep_init_form_do_you_have_any_heath_related_problems_today IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_do_you_have_any_heath_related_problems_today,
+  FIRST_VALUE(prep1.prep_init_form_if_yes_for_health_related_problems_today)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_if_yes_for_health_related_problems_today IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_if_yes_for_health_related_problems_today,
+  FIRST_VALUE(prep1.prep_init_form_have_you_been_diagnosed_of_any_chronic_illne)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_have_you_been_diagnosed_of_any_chronic_illne IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_have_you_been_diagnosed_of_any_chronic_illne,
+  FIRST_VALUE(prep1.prep_init_form_are_you_or_your_partner_currently_pregnant)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_are_you_or_your_partner_currently_pregnant IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_are_you_or_your_partner_currently_pregnant,
+  FIRST_VALUE(prep1.prep_init_form_when_was_you_last_normal_menstrual_period)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_when_was_you_last_normal_menstrual_period IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_when_was_you_last_normal_menstrual_period,
+  FIRST_VALUE(prep1.prep_init_form_pregnacy_test_done)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_pregnacy_test_done IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_pregnacy_test_done,
+  FIRST_VALUE(prep1.prep_init_form_pregnancy_test_what_was_the_result)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_pregnancy_test_what_was_the_result IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_pregnancy_test_what_was_the_result,
+  FIRST_VALUE(prep1.prep_init_form_are_you_or_partner_currently_breast_feeding)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_are_you_or_partner_currently_breast_feeding IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_are_you_or_partner_currently_breast_feeding,
+  FIRST_VALUE(prep1.prep_init_form_are_you_or_your_partner_using_any_contracept)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_are_you_or_your_partner_using_any_contracept IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_are_you_or_your_partner_using_any_contracept,
+  FIRST_VALUE(prep1.prep_init_form_are_you_taking_any_drugs_or_medications)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_are_you_taking_any_drugs_or_medications IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_are_you_taking_any_drugs_or_medications,
+  FIRST_VALUE(prep1.prep_init_form_are_you_on_arvs)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_are_you_on_arvs IS NULL THEN 0 ELSE 1 END DESC, prep1.encounter_id DESC)
+  AS prep_init_form_are_you_on_arvs,
+  FIRST_VALUE(prep_init_form_are_you_sexually_active)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_are_you_sexually_active IS NULL THEN 0 ELSE 1 END DESC, prep1.encounter_id DESC)
+  AS prep_init_form_are_you_sexually_active,
+  FIRST_VALUE(prep_init_form_are_you_married_or_in_a_stable_relationship_)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_are_you_married_or_in_a_stable_relationship_ IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_are_you_married_or_in_a_stable_relationship_,
+  FIRST_VALUE(prep_init_form_do_you_know_your_partner_s_hiv_status)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_do_you_know_your_partner_s_hiv_status IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_do_you_know_your_partner_s_hiv_status,
+  FIRST_VALUE(prep_init_form_is_your_partner_on_art)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_is_your_partner_on_art IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_is_your_partner_on_art,
+  FIRST_VALUE(prep_init_form_do_you_know_your_partner_s_adherence_to_art)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_do_you_know_your_partner_s_adherence_to_art IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_do_you_know_your_partner_s_adherence_to_art,
+  FIRST_VALUE(prep_init_form_has_your_partner_had_a_viral_load_test_done_)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_has_your_partner_had_a_viral_load_test_done_ IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_has_your_partner_had_a_viral_load_test_done_,
+  FIRST_VALUE(prep_init_form_if_yes_for_partner_had_a_viral_load_test_don)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_if_yes_for_partner_had_a_viral_load_test_don IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_if_yes_for_partner_had_a_viral_load_test_don,
+  FIRST_VALUE(prep_init_form_do_you_use_condoms_every_time_you_have_sex_w)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_do_you_use_condoms_every_time_you_have_sex_w IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_do_you_use_condoms_every_time_you_have_sex_w,
+  FIRST_VALUE(prep_init_form_have_you_had_any_other_sexual_partners_in_th)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_have_you_had_any_other_sexual_partners_in_th IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_have_you_had_any_other_sexual_partners_in_th,
+  FIRST_VALUE(prep_init_form_if_yes_for_had_any_other_sexual_partners_in_)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_if_yes_for_had_any_other_sexual_partners_in_ IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_if_yes_for_had_any_other_sexual_partners_in_,
+  FIRST_VALUE(prep_init_form_do_you_have_more_than_1_sexual_partner)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_do_you_have_more_than_1_sexual_partner IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_do_you_have_more_than_1_sexual_partner,
+  FIRST_VALUE(prep_init_form_do_you_know_your_non_regular_partner_s_hiv_s)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_do_you_know_your_non_regular_partner_s_hiv_s IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_do_you_know_your_non_regular_partner_s_hiv_s,
+  FIRST_VALUE(prep_init_form_specify_hiv_status_of_partner)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_specify_hiv_status_of_partner IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_specify_hiv_status_of_partner,
+  FIRST_VALUE(prep_init_form_do_you_use_condoms_every_time_you_have_sex_w_1)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_do_you_use_condoms_every_time_you_have_sex_w_1 IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_do_you_use_condoms_every_time_you_have_sex_w_1,
+  FIRST_VALUE(prep_init_form_have_you_been_treated_for_an_sti_in_the_last)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_have_you_been_treated_for_an_sti_in_the_last IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_have_you_been_treated_for_an_sti_in_the_last,
+  FIRST_VALUE(prep_init_form_have_you_exchanged_sex_for_money_goods_or_se)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_have_you_exchanged_sex_for_money_goods_or_se IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_have_you_exchanged_sex_for_money_goods_or_se,
+  FIRST_VALUE(prep_init_form_do_you_have_a_history_of_sexual_abuse_gender)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_do_you_have_a_history_of_sexual_abuse_gender IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_do_you_have_a_history_of_sexual_abuse_gender,
+  FIRST_VALUE(prep_init_form_have_you_used_emergency_contraception_in_the)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_have_you_used_emergency_contraception_in_the IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_have_you_used_emergency_contraception_in_the,
+  FIRST_VALUE(prep_init_form_have_you_used_pep_in_the_last_6_months)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_have_you_used_pep_in_the_last_6_months IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_have_you_used_pep_in_the_last_6_months,
+  FIRST_VALUE(prep_init_form_what_was_the_reason_for_taking_pep)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_what_was_the_reason_for_taking_pep IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_what_was_the_reason_for_taking_pep,
+  FIRST_VALUE(prep_init_form_are_you_single_or_not_in_a_stable_relationsh)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_are_you_single_or_not_in_a_stable_relationsh IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_are_you_single_or_not_in_a_stable_relationsh,
+  FIRST_VALUE(prep_init_form_have_you_had_sexual_partner_s_in_the_last_6_)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_have_you_had_sexual_partner_s_in_the_last_6_ IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_have_you_had_sexual_partner_s_in_the_last_6_,
+  FIRST_VALUE(prep_init_form_if_yes_how_many)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_if_yes_how_many IS NULL THEN 0 ELSE 1 END DESC, prep1.encounter_id DESC)
+  AS prep_init_form_if_yes_how_many,
+  FIRST_VALUE(prep_init_form_do_you_use_condoms_every_time_you_have_vagin)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_do_you_use_condoms_every_time_you_have_vagin IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC)  AS prep_init_form_do_you_use_condoms_every_time_you_have_vagin,
+  FIRST_VALUE(prep_init_form_have_you_had_a_condom_burst_in_the_last_3_mo)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_have_you_had_a_condom_burst_in_the_last_3_mo IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_have_you_had_a_condom_burst_in_the_last_3_mo,
+  FIRST_VALUE(prep_init_form_if_yes_for_condorm_burst_how_many_times)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_if_yes_for_condorm_burst_how_many_times IS NULL THEN 0 ELSE 1 END DESC, prep1.encounter_id DESC)
+  AS prep_init_form_if_yes_for_condorm_burst_how_many_times,
+  FIRST_VALUE(prep_init_form_in_a_single_relationship_have_you_been_treat)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_in_a_single_relationship_have_you_been_treat IS NULL THEN 0 ELSE 1
+  END DESC, prep1.encounter_id DESC) AS prep_init_form_in_a_single_relationship_have_you_been_treat,
+  FIRST_VALUE(prep_init_form_have_you_had_sex_whilst_indoxicated_with_alc)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_have_you_had_sex_whilst_indoxicated_with_alc IS NULL THEN 0 ELSE 1 END DESC,
+  prep1.encounter_id DESC)  AS prep_init_form_have_you_had_sex_whilst_indoxicated_with_alc,
+  FIRST_VALUE(prep_init_form_have_you_or_your_partner_used_emergency_cont)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_have_you_or_your_partner_used_emergency_cont IS NULL THEN 0 ELSE 1 END DESC,
+  prep1.encounter_id DESC) AS prep_init_form_have_you_or_your_partner_used_emergency_cont,
+  FIRST_VALUE(prep_init_form_if_yes_for_emergency_contraception_how_many_)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_if_yes_for_emergency_contraception_how_many_ IS NULL THEN 0 ELSE 1 END DESC,
+  prep1.encounter_id DESC) AS prep_init_form_if_yes_for_emergency_contraception_how_many_,
+  FIRST_VALUE(prep_init_form_single_or_stable_relationship_have_you_used_)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_single_or_stable_relationship_have_you_used_ IS NULL THEN 0 ELSE 1 END DESC,
+  prep1.encounter_id DESC) AS prep_init_form_single_or_stable_relationship_have_you_used_,
+  FIRST_VALUE(prep_init_form_single_or_stable_relationship_what_was_the_r)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_single_or_stable_relationship_what_was_the_r IS NULL THEN 0 ELSE 1 END DESC,
+  prep1.encounter_id DESC)  AS prep_init_form_single_or_stable_relationship_what_was_the_r,
+  FIRST_VALUE(prep_init_form_do_you_inject_drugs)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_do_you_inject_drugs IS NULL THEN 0 ELSE 1 END DESC, prep1.encounter_id DESC)
+  AS prep_init_form_do_you_inject_drugs,
+  FIRST_VALUE(prep_init_form_any_signs_of_primary_infection)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_any_signs_of_primary_infection IS NULL THEN 0 ELSE 1 END DESC, prep1.encounter_id DESC)
+  AS prep_init_form_any_signs_of_primary_infection,
+  FIRST_VALUE(prep_init_form_if_yes_for_any_signs_of_primary_infection)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_if_yes_for_any_signs_of_primary_infection IS NULL THEN 0 ELSE 1 END DESC, prep1.encounter_id DESC)
+  AS prep_init_form_if_yes_for_any_signs_of_primary_infection,
+  FIRST_VALUE(prep_init_form_what_is_the_client_s_hiv_status_today)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_what_is_the_client_s_hiv_status_today IS NULL THEN 0 ELSE 1 END DESC, prep1.encounter_id DESC)
+  AS prep_init_form_what_is_the_client_s_hiv_status_today,
+  FIRST_VALUE(prep_init_form_are_you_ready_to_start_prep)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_are_you_ready_to_start_prep IS NULL THEN 0 ELSE 1 END DESC, prep1.encounter_id DESC)
+  AS prep_init_form_are_you_ready_to_start_prep,
+  FIRST_VALUE(prep_init_form_if_yes_for_ready_to_start_prep_specify_reaso)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_if_yes_for_ready_to_start_prep_specify_reaso IS NULL THEN 0 ELSE 1 END DESC,
+  prep1.encounter_id DESC)  AS prep_init_form_if_yes_for_ready_to_start_prep_specify_reaso,
+  FIRST_VALUE(prep_init_form_is_the_client_eligible_to_take_prep)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_is_the_client_eligible_to_take_prep IS NULL THEN 0 ELSE 1 END DESC, prep1.encounter_id DESC)
+  AS prep_init_form_is_the_client_eligible_to_take_prep
+
+  FROM
+  (SELECT
+  encounter_id,
+  max(patient_id) AS patient_id ,
+  max(obs_datetime) AS obs_datetime,
+  max(date_created) AS date_created,
+  max(program_id) AS program_id,
+  max(program_name) AS program_name,
+  max(prep_init_form_facility) AS prep_init_form_facility,
+  max(prep_init_form_site_type) AS prep_init_form_site_type,
+  max(prep_init_form_district) AS prep_init_form_district,
+  max(prep_init_form_have_you_had_an_hiv_test_in_the_past_1_week) AS prep_init_form_have_you_had_an_hiv_test_in_the_past_1_week,
+  max(prep_init_form_when_was_the_test_done) AS prep_init_form_when_was_the_test_done,
+  max(prep_init_form_what_was_the_result) AS prep_init_form_what_was_the_result,
+  max(prep_init_form_do_you_have_any_heath_related_problems_today) AS prep_init_form_do_you_have_any_heath_related_problems_today,
+  max(prep_init_form_if_yes_for_health_related_problems_today) AS prep_init_form_if_yes_for_health_related_problems_today,
+  string_agg(prep_init_form_have_you_been_diagnosed_of_any_chronic_illne,',') AS prep_init_form_have_you_been_diagnosed_of_any_chronic_illne,
+  max(prep_init_form_are_you_or_your_partner_currently_pregnant) AS prep_init_form_are_you_or_your_partner_currently_pregnant,
+  max(prep_init_form_when_was_you_last_normal_menstrual_period) AS prep_init_form_when_was_you_last_normal_menstrual_period,
+  max(prep_init_form_pregnacy_test_done) AS prep_init_form_pregnacy_test_done,
+  max(prep_init_form_pregnancy_test_what_was_the_result) AS prep_init_form_pregnancy_test_what_was_the_result,
+  max(prep_init_form_are_you_or_partner_currently_breast_feeding) AS prep_init_form_are_you_or_partner_currently_breast_feeding,
+  string_agg(prep_init_form_are_you_or_your_partner_using_any_contracept,',') AS prep_init_form_are_you_or_your_partner_using_any_contracept,
+  string_agg(prep_init_form_are_you_taking_any_drugs_or_medications,',') AS prep_init_form_are_you_taking_any_drugs_or_medications,
+  max(prep_init_form_are_you_on_arvs) AS prep_init_form_are_you_on_arvs,
+  max(prep_init_form_are_you_sexually_active) AS prep_init_form_are_you_sexually_active,
+  max(prep_init_form_are_you_married_or_in_a_stable_relationship_) AS prep_init_form_are_you_married_or_in_a_stable_relationship_,
+  max(prep_init_form_do_you_know_your_partner_s_hiv_status) AS prep_init_form_do_you_know_your_partner_s_hiv_status,
+  max(prep_init_form_is_your_partner_on_art) as prep_init_form_is_your_partner_on_art,
+  max(prep_init_form_do_you_know_your_partner_s_adherence_to_art) AS prep_init_form_do_you_know_your_partner_s_adherence_to_art,
+  max(prep_init_form_has_your_partner_had_a_viral_load_test_done_) AS prep_init_form_has_your_partner_had_a_viral_load_test_done_,
+  max(prep_init_form_if_yes_for_partner_had_a_viral_load_test_don) AS prep_init_form_if_yes_for_partner_had_a_viral_load_test_don,
+  max(prep_init_form_do_you_use_condoms_every_time_you_have_sex_w) AS prep_init_form_do_you_use_condoms_every_time_you_have_sex_w,
+  max(prep_init_form_have_you_had_any_other_sexual_partners_in_th) AS prep_init_form_have_you_had_any_other_sexual_partners_in_th,
+  max(prep_init_form_if_yes_for_had_any_other_sexual_partners_in_) AS prep_init_form_if_yes_for_had_any_other_sexual_partners_in_,
+  max(prep_init_form_do_you_have_more_than_1_sexual_partner) AS prep_init_form_do_you_have_more_than_1_sexual_partner,
+  max(prep_init_form_do_you_know_your_non_regular_partner_s_hiv_s) AS prep_init_form_do_you_know_your_non_regular_partner_s_hiv_s,
+  max(prep_init_form_specify_hiv_status_of_partner) AS prep_init_form_specify_hiv_status_of_partner,
+  max(prep_init_form_do_you_use_condoms_every_time_you_have_sex_w_1) AS prep_init_form_do_you_use_condoms_every_time_you_have_sex_w_1,
+  max(prep_init_form_have_you_been_treated_for_an_sti_in_the_last) AS prep_init_form_have_you_been_treated_for_an_sti_in_the_last,
+  max(prep_init_form_have_you_exchanged_sex_for_money_goods_or_se) AS prep_init_form_have_you_exchanged_sex_for_money_goods_or_se,
+  max(prep_init_form_do_you_have_a_history_of_sexual_abuse_gender) AS prep_init_form_do_you_have_a_history_of_sexual_abuse_gender,
+  max(prep_init_form_have_you_used_emergency_contraception_in_the) AS prep_init_form_have_you_used_emergency_contraception_in_the,
+  max(prep_init_form_have_you_used_pep_in_the_last_6_months) AS prep_init_form_have_you_used_pep_in_the_last_6_months,
+  string_agg(prep_init_form_what_was_the_reason_for_taking_pep,',') AS prep_init_form_what_was_the_reason_for_taking_pep,
+  max(prep_init_form_are_you_single_or_not_in_a_stable_relationsh) AS prep_init_form_are_you_single_or_not_in_a_stable_relationsh,
+  max(prep_init_form_have_you_had_sexual_partner_s_in_the_last_6_) AS prep_init_form_have_you_had_sexual_partner_s_in_the_last_6_,
+  max(prep_init_form_if_yes_how_many) AS prep_init_form_if_yes_how_many,
+  max(prep_init_form_do_you_use_condoms_every_time_you_have_vagin)  AS prep_init_form_do_you_use_condoms_every_time_you_have_vagin,
+  max(prep_init_form_have_you_had_a_condom_burst_in_the_last_3_mo) AS prep_init_form_have_you_had_a_condom_burst_in_the_last_3_mo,
+  max(prep_init_form_if_yes_for_condorm_burst_how_many_times) AS prep_init_form_if_yes_for_condorm_burst_how_many_times,
+  max(prep_init_form_in_a_single_relationship_have_you_been_treat) AS prep_init_form_in_a_single_relationship_have_you_been_treat,
+  max(prep_init_form_have_you_had_sex_whilst_indoxicated_with_alc) AS prep_init_form_have_you_had_sex_whilst_indoxicated_with_alc,
+  max(prep_init_form_have_you_or_your_partner_used_emergency_cont) AS prep_init_form_have_you_or_your_partner_used_emergency_cont,
+  max(prep_init_form_if_yes_for_emergency_contraception_how_many_) AS prep_init_form_if_yes_for_emergency_contraception_how_many_,
+  max(prep_init_form_single_or_stable_relationship_have_you_used_) AS prep_init_form_single_or_stable_relationship_have_you_used_,
+  string_agg(prep_init_form_single_or_stable_relationship_what_was_the_r,',') AS prep_init_form_single_or_stable_relationship_what_was_the_r,
+  max(prep_init_form_do_you_inject_drugs) AS prep_init_form_do_you_inject_drugs,
+  max(prep_init_form_any_signs_of_primary_infection) AS prep_init_form_any_signs_of_primary_infection,
+  string_agg(prep_init_form_if_yes_for_any_signs_of_primary_infection,',') AS prep_init_form_if_yes_for_any_signs_of_primary_infection,
+  max(prep_init_form_what_is_the_client_s_hiv_status_today) AS prep_init_form_what_is_the_client_s_hiv_status_today,
+  max(prep_init_form_are_you_ready_to_start_prep) AS prep_init_form_are_you_ready_to_start_prep,
+  string_agg(prep_init_form_if_yes_for_ready_to_start_prep_specify_reaso,',') AS prep_init_form_if_yes_for_ready_to_start_prep_specify_reaso,
+  max(prep_init_form_is_the_client_eligible_to_take_prep) AS prep_init_form_is_the_client_eligible_to_take_prep
+
+  FROM prep_init_form_template prep_init GROUP BY encounter_id) AS prep1
+  INNER JOIN patient_encounter_table pedd ON pedd.encounter_id = prep1.encounter_id) prep1_1
+
+  FULL OUTER JOIN
+
+  (SELECT
+  DISTINCT visit_id ,
+  FIRST_VALUE(prep2.obs_datetime)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep2.obs_datetime IS NULL THEN 0 ELSE 1 END DESC, prep2.encounter_id DESC) AS obs_datetime,
+  FIRST_VALUE(prep2.patient_id)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep2.patient_id IS NULL THEN 0 ELSE 1 END DESC, prep2.encounter_id DESC) AS patient_id,
+  FIRST_VALUE(prep2.date_created)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep2.date_created IS NULL THEN 0 ELSE 1 END DESC, prep2.encounter_id DESC) AS date_created,
+  FIRST_VALUE(prep2.program_id)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep2.program_id IS NULL THEN 0 ELSE 1 END DESC, prep2.encounter_id DESC) AS program_id,
+  FIRST_VALUE(prep2.program_name)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep2.program_name IS NULL THEN 0 ELSE 1 END DESC, prep2.encounter_id DESC) AS program_name,
+  FIRST_VALUE(prep_cont_form_facility)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_facility IS NULL THEN 0 ELSE 1 END DESC, prep2.encounter_id DESC) AS prep_cont_form_facility,
+  FIRST_VALUE(prep_cont_form_site_type)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_site_type IS NULL THEN 0 ELSE 1 END DESC, prep2.encounter_id DESC)
+  AS prep_cont_form_site_type,
+  FIRST_VALUE(prep_cont_form_district)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_district IS NULL THEN 0 ELSE 1 END DESC, prep2.encounter_id DESC) AS prep_cont_form_district,
+  FIRST_VALUE(prep_cont_form_do_you_have_any_heath_related_problems_today)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_do_you_have_any_heath_related_problems_today IS NULL THEN 0 ELSE 1 END DESC,
+  prep2.encounter_id DESC) AS prep_cont_form_do_you_have_any_heath_related_problems_today,
+  FIRST_VALUE(prep_cont_form_if_yes_for_health_related_problems_today)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_if_yes_for_health_related_problems_today IS NULL THEN 0 ELSE 1 END DESC,
+  prep2.encounter_id DESC) AS prep_cont_form_if_yes_for_health_related_problems_today,
+  FIRST_VALUE(prep_cont_form_are_you_using_any_family_planning_method)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_are_you_using_any_family_planning_method IS NULL THEN 0 ELSE 1 END DESC,
+  prep2.encounter_id DESC) AS prep_cont_form_are_you_using_any_family_planning_method,
+  FIRST_VALUE(prep_cont_form_if_yes_for_are_you_using_any_family_planning)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_if_yes_for_are_you_using_any_family_planning IS NULL THEN 0 ELSE 1
+  END DESC, prep2.encounter_id DESC) AS prep_cont_form_if_yes_for_are_you_using_any_family_planning,
+  FIRST_VALUE(prep_cont_form_last_normal_menstrual_period)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_last_normal_menstrual_period IS NULL THEN 0 ELSE 1
+  END DESC, prep2.encounter_id DESC) AS prep_cont_form_last_normal_menstrual_period,
+  FIRST_VALUE(prep_cont_form_are_you_breast_feeding)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_are_you_breast_feeding IS NULL THEN 0 ELSE 1
+  END DESC, prep2.encounter_id DESC) AS prep_cont_form_are_you_breast_feeding,
+  FIRST_VALUE(prep_cont_form_are_you_using_any_other_medications)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_are_you_using_any_other_medications IS NULL THEN 0 ELSE 1
+  END DESC, prep2.encounter_id DESC) AS prep_cont_form_are_you_using_any_other_medications,
+  FIRST_VALUE(prep_cont_form_if_yes_for_are_you_using_any_other_medicatio)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_if_yes_for_are_you_using_any_other_medicatio IS NULL THEN 0 ELSE 1
+  END DESC, prep2.encounter_id DESC) AS prep_cont_form_if_yes_for_are_you_using_any_other_medicatio,
+  FIRST_VALUE(prep_cont_form_how_many_sexual_partners_have_you_had_since_)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_how_many_sexual_partners_have_you_had_since_ IS NULL THEN 0 ELSE 1
+  END DESC, prep2.encounter_id DESC) AS prep_cont_form_how_many_sexual_partners_have_you_had_since_,
+  FIRST_VALUE(prep_cont_form_do_you_know_your_partner_s_hiv_status)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_do_you_know_your_partner_s_hiv_status IS NULL THEN 0 ELSE 1
+  END DESC, prep2.encounter_id DESC) AS prep_cont_form_do_you_know_your_partner_s_hiv_status,
+  FIRST_VALUE(prep_cont_form_if_yes_for_do_you_know_your_partner_s_hiv_st)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_if_yes_for_do_you_know_your_partner_s_hiv_st IS NULL THEN 0 ELSE 1
+  END DESC, prep2.encounter_id DESC) AS prep_cont_form_if_yes_for_do_you_know_your_partner_s_hiv_st,
+  FIRST_VALUE(prep_cont_form_is_your_partner_on_art)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_is_your_partner_on_art IS NULL THEN 0 ELSE 1
+  END DESC, prep2.encounter_id DESC) AS prep_cont_form_is_your_partner_on_art,
+  FIRST_VALUE(prep_cont_form_do_you_know_your_partner_s_viral_load)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_do_you_know_your_partner_s_viral_load IS NULL THEN 0 ELSE 1
+  END DESC, prep2.encounter_id DESC) AS prep_cont_form_do_you_know_your_partner_s_viral_load,
+  FIRST_VALUE(prep_cont_form_if_yes_for_do_you_know_your_partner_s_viral_)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_if_yes_for_do_you_know_your_partner_s_viral_ IS NULL THEN 0 ELSE 1 END DESC,
+  prep2.encounter_id DESC) AS prep_cont_form_if_yes_for_do_you_know_your_partner_s_viral_,
+  FIRST_VALUE(prep_cont_form_are_you_using_condoms_every_time_you_are_hav)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_are_you_using_condoms_every_time_you_are_hav IS NULL THEN 0 ELSE 1 END DESC,
+  prep2.encounter_id DESC) AS prep_cont_form_are_you_using_condoms_every_time_you_are_hav,
+  FIRST_VALUE(prep_cont_form_have_you_had_a_condom_burst_since_the_last_v)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_have_you_had_a_condom_burst_since_the_last_v IS NULL THEN 0 ELSE 1
+  END DESC, prep2.encounter_id DESC) AS prep_cont_form_have_you_had_a_condom_burst_since_the_last_v,
+  FIRST_VALUE(prep_cont_form_if_yes_for_condom_burst_since_the_last_visit)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_if_yes_for_condom_burst_since_the_last_visit IS NULL THEN 0 ELSE 1
+  END DESC, prep2.encounter_id DESC) AS prep_cont_form_if_yes_for_condom_burst_since_the_last_visit,
+  FIRST_VALUE(prep_cont_form_have_you_been_treated_for_an_sti_since_the_l)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_have_you_been_treated_for_an_sti_since_the_l IS NULL THEN 0 ELSE 1
+  END DESC, prep2.encounter_id DESC) AS prep_cont_form_have_you_been_treated_for_an_sti_since_the_l,
+  FIRST_VALUE(prep_cont_form_have_you_had_sex_whilst_indoxicated_with_alc)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_have_you_had_sex_whilst_indoxicated_with_alc IS NULL THEN 0 ELSE 1
+  END DESC, prep2.encounter_id DESC) AS prep_cont_form_have_you_had_sex_whilst_indoxicated_with_alc,
+  FIRST_VALUE(prep_cont_form_have_you_exchanged_sex_for_money_goods_or_se)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_have_you_exchanged_sex_for_money_goods_or_se IS NULL THEN 0 ELSE 1
+  END DESC, prep2.encounter_id DESC) AS prep_cont_form_have_you_exchanged_sex_for_money_goods_or_se,
+  FIRST_VALUE(prep_cont_form_have_you_been_sexually_abused_or_had_gender_)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_have_you_been_sexually_abused_or_had_gender_ IS NULL THEN 0 ELSE 1
+  END DESC, prep2.encounter_id DESC) AS prep_cont_form_have_you_been_sexually_abused_or_had_gender_,
+  FIRST_VALUE(prep_cont_form_have_you_used_emergency_contraception_since_)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_have_you_used_emergency_contraception_since_ IS NULL THEN 0 ELSE 1
+  END DESC, prep2.encounter_id DESC) AS prep_cont_form_have_you_used_emergency_contraception_since_,
+  FIRST_VALUE(prep_cont_form_if_yes_for_used_emergency_contraception_sinc)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_if_yes_for_used_emergency_contraception_sinc IS NULL THEN 0 ELSE 1
+  END DESC, prep2.encounter_id DESC) AS prep_cont_form_if_yes_for_used_emergency_contraception_sinc,
+  FIRST_VALUE(prep_cont_form_does_the_client_have_any_sings_of_primary_in)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_does_the_client_have_any_sings_of_primary_in IS NULL THEN 0 ELSE 1
+  END DESC, prep2.encounter_id DESC) AS prep_cont_form_does_the_client_have_any_sings_of_primary_in,
+  FIRST_VALUE(prep_cont_form_if_yes_for_client_have_any_sings_of_primary_)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_if_yes_for_client_have_any_sings_of_primary_ IS NULL THEN 0 ELSE 1
+  END DESC, prep2.encounter_id DESC) AS prep_cont_form_if_yes_for_client_have_any_sings_of_primary_,
+  FIRST_VALUE(prep_cont_form_are_you_ready_to_continue_prep)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_are_you_ready_to_continue_prep IS NULL THEN 0 ELSE 1
+  END DESC, prep2.encounter_id DESC) AS prep_cont_form_are_you_ready_to_continue_prep,
+  FIRST_VALUE(prep_cont_form_if_no_for_are_you_ready_to_continue_prep)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_if_no_for_are_you_ready_to_continue_prep IS NULL THEN 0 ELSE 1
+  END DESC, prep2.encounter_id DESC) AS prep_cont_form_if_no_for_are_you_ready_to_continue_prep,
+  FIRST_VALUE(prep_cont_form_what_is_the_client_s_hiv_status_today)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_what_is_the_client_s_hiv_status_today IS NULL THEN 0 ELSE 1
+  END DESC, prep2.encounter_id DESC) AS prep_cont_form_what_is_the_client_s_hiv_status_today,
+  FIRST_VALUE(prep_cont_form_is_the_client_eligible_to_continue_prep)
+  OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_is_the_client_eligible_to_continue_prep IS NULL THEN 0 ELSE 1
+  END DESC, prep2.encounter_id DESC) AS prep_cont_form_is_the_client_eligible_to_continue_prep
+  FROM
+  (SELECT
+  encounter_id,
+  max(patient_id) AS patient_id ,
+  max(obs_datetime) AS obs_datetime,
+  max(date_created) AS date_created,
+  max(program_id) AS program_id,
+  max(program_name) AS program_name,
+  max(prep_cont_form_facility) AS prep_cont_form_facility,
+  max(prep_cont_form_site_type) AS prep_cont_form_site_type,
+  max(prep_cont_form_district) AS prep_cont_form_district,
+  max(prep_cont_form_do_you_have_any_heath_related_problems_today) AS prep_cont_form_do_you_have_any_heath_related_problems_today,
+  max(prep_cont_form_if_yes_for_health_related_problems_today) AS prep_cont_form_if_yes_for_health_related_problems_today,
+  max(prep_cont_form_are_you_using_any_family_planning_method) AS prep_cont_form_are_you_using_any_family_planning_method,
+  string_agg(prep_cont_form_if_yes_for_are_you_using_any_family_planning,',') AS prep_cont_form_if_yes_for_are_you_using_any_family_planning,
+  max(prep_cont_form_last_normal_menstrual_period) AS prep_cont_form_last_normal_menstrual_period,
+  max(prep_cont_form_are_you_breast_feeding) AS prep_cont_form_are_you_breast_feeding,
+  max(prep_cont_form_are_you_using_any_other_medications) AS prep_cont_form_are_you_using_any_other_medications,
+  string_agg(prep_cont_form_if_yes_for_are_you_using_any_other_medicatio,',') AS prep_cont_form_if_yes_for_are_you_using_any_other_medicatio,
+  max(prep_cont_form_how_many_sexual_partners_have_you_had_since_) AS prep_cont_form_how_many_sexual_partners_have_you_had_since_,
+  max(prep_cont_form_do_you_know_your_partner_s_hiv_status) AS prep_cont_form_do_you_know_your_partner_s_hiv_status,
+  max(prep_cont_form_if_yes_for_do_you_know_your_partner_s_hiv_st) AS prep_cont_form_if_yes_for_do_you_know_your_partner_s_hiv_st,
+  max(prep_cont_form_is_your_partner_on_art) AS prep_cont_form_is_your_partner_on_art,
+  max(prep_cont_form_do_you_know_your_partner_s_viral_load) AS prep_cont_form_do_you_know_your_partner_s_viral_load,
+  max(prep_cont_form_if_yes_for_do_you_know_your_partner_s_viral_) AS prep_cont_form_if_yes_for_do_you_know_your_partner_s_viral_,
+  max(prep_cont_form_are_you_using_condoms_every_time_you_are_hav) AS prep_cont_form_are_you_using_condoms_every_time_you_are_hav,
+  max(prep_cont_form_have_you_had_a_condom_burst_since_the_last_v) AS prep_cont_form_have_you_had_a_condom_burst_since_the_last_v,
+  max(prep_cont_form_if_yes_for_condom_burst_since_the_last_visit) AS prep_cont_form_if_yes_for_condom_burst_since_the_last_visit,
+  max(prep_cont_form_have_you_been_treated_for_an_sti_since_the_l) AS prep_cont_form_have_you_been_treated_for_an_sti_since_the_l,
+  max(prep_cont_form_have_you_had_sex_whilst_indoxicated_with_alc) AS prep_cont_form_have_you_had_sex_whilst_indoxicated_with_alc,
+  max(prep_cont_form_have_you_exchanged_sex_for_money_goods_or_se) AS prep_cont_form_have_you_exchanged_sex_for_money_goods_or_se,
+  max(prep_cont_form_have_you_been_sexually_abused_or_had_gender_) AS prep_cont_form_have_you_been_sexually_abused_or_had_gender_,
+  max(prep_cont_form_have_you_used_emergency_contraception_since_) AS prep_cont_form_have_you_used_emergency_contraception_since_,
+  max(prep_cont_form_if_yes_for_used_emergency_contraception_sinc) AS prep_cont_form_if_yes_for_used_emergency_contraception_sinc,
+  max(prep_cont_form_does_the_client_have_any_sings_of_primary_in) AS prep_cont_form_does_the_client_have_any_sings_of_primary_in,
+  string_agg(prep_cont_form_if_yes_for_client_have_any_sings_of_primary_,',') AS prep_cont_form_if_yes_for_client_have_any_sings_of_primary_,
+  max(prep_cont_form_are_you_ready_to_continue_prep) AS prep_cont_form_are_you_ready_to_continue_prep,
+  string_agg(prep_cont_form_if_no_for_are_you_ready_to_continue_prep,',') AS prep_cont_form_if_no_for_are_you_ready_to_continue_prep,
+  max(prep_cont_form_what_is_the_client_s_hiv_status_today) AS prep_cont_form_what_is_the_client_s_hiv_status_today,
+  max(prep_cont_form_is_the_client_eligible_to_continue_prep) AS prep_cont_form_is_the_client_eligible_to_continue_prep
+  FROM prep_cont_form_template prep_cont GROUP BY encounter_id) AS prep2
+  INNER JOIN patient_encounter_table pedd ON pedd.encounter_id = prep2.encounter_id) AS prep2_2
+
+  ON prep1_1.visit_id = prep2_2.visit_id
+  INNER JOIN psi_patient_program_data ppv on (ppv.patient_id = prep1_1.patient_id or ppv.patient_id = prep2_2.patient_id) and (ppv.program_id = (SELECT program_id FROM programs_default WHERE program_name= 'PrEP Program'))
+  INNER JOIN patient_identifier pi ON (prep1_1.patient_id = pi.patient_id or prep2_2.patient_id = pi.patient_id)
+  ORDER BY date_created DESC;CASE WHEN art1_1.aivc_site_type = 'Outreach'
          THEN  
              concat('ZWNSC-OU-',upper( COALESCE(art1_1.aivc_facility,(SELECT art.aivc_facility
               FROM art_initial_visit_compulsory_question_1_of_2 art
@@ -4706,15 +5413,35 @@ ORDER BY date_created DESC;"
  "sql": "select 
      'vatFxlZR2lj':: TEXT AS program,
      'kv6FYqNxzOd':: TEXT AS program_stage,
-     CASE WHEN prep_init_form_site_type = 'Outreach'  THEN  
-          concat('ZWNSC-OU-',upper(prep_init_form_facility),'-',upper(prep_init_form_district))
-          WHEN prep_init_form_site_type = 'Static'   THEN 
-          concat('ZWNSC-',upper(prep_init_form_facility))
-          WHEN prep_init_form_site_type IS NULL AND prep_cont_form_site_type = 'Outreach' THEN 
-          concat('ZWNSC-OU-',upper(prep_cont_form_facility),'-',upper(prep_cont_form_district))
-          ELSE
-          concat('ZWNSC-',upper(prep_cont_form_facility))
-          END AS \"OrgUnit\",
+  CASE WHEN prep_init_form_site_type = 'Outreach'  THEN
+       concat('ZWNSC-OU-',upper(COALESCE(prep_init_form_facility,(SELECT prep_init_form_facility
+       FROM prep_init_form_template
+       WHERE prep_init_form_facility IS NOT NULL
+       AND patient_id = prep1_1.patient_id
+       ORDER BY prepinit.encounter_id DESC
+       LIMIT 1))),'-',upper(prep_init_form_district))
+    WHEN prep_init_form_site_type = 'Static'   THEN
+       concat('ZWNSC-',upper(COALESCE(prep_init_form_facility,(SELECT prep_init_form_facility
+       FROM prep_init_form_template
+       WHERE prep_init_form_facility IS NOT NULL
+       AND patient_id = prep1_1.patient_id
+       ORDER BY encounter_id DESC
+       LIMIT 1))))
+    WHEN prep_init_form_site_type IS NULL AND prep_cont_form_site_type = 'Outreach' THEN
+       concat('ZWNSC-OU-',upper(COALESCE(prep_cont_form_facility,(SELECT prep_cont_form_facility
+       FROM prep_cont_form_template
+       WHERE prep_cont_form_facility IS NOT NULL
+       AND patient_id = prep2_2.patient_id
+       ORDER BY encounter_id DESC
+       LIMIT 1))),'-',upper(prep_cont_form_district))
+    ELSE
+       concat('ZWNSC-',upper(COALESCE(prep_cont_form_facility,(SELECT prep_cont_form_facility
+       FROM prep_cont_form_template
+       WHERE prep_cont_form_facility IS NOT NULL
+       AND patient_id = prep2_2.patient_id
+       ORDER BY encounter_id DESC
+       LIMIT 1))))
+       END AS \"OrgUnit\",
      CASE WHEN COALESCE(prep1_1.obs_datetime, '01-01-0001' ) >= COALESCE(prep2_2.obs_datetime, '01-01-0001' )     
          THEN date(prep1_1.obs_datetime)
          WHEN ( COALESCE(prep2_2.obs_datetime, '01-01-0001' ) >= COALESCE(prep1_1.obs_datetime, '01-01-0001' ) )      
