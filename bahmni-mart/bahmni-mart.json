@@ -345,7 +345,8 @@
                     CAST(min(date(pp.date_enrolled)) AS DATE) as \"incident_date\",
                     min(pp.date_created) as \"date_created\",
                     min(pp.patient_program_id) as \"program_unique_id\", 
-                    'ACTIVE' as status
+                    CASE WHEN pp.voided = 0 AND pp.date_completed IS NOT NULL THEN 'COMPLETED' ELSE 'ACTIVE'
+                    END as status
                         from patient_program pp /*patient_program for the patients enrolled in FPS Program*/
                         Inner Join patient_identifier pi on pp.patient_id = pi.patient_id
                     and pi.identifier_type in (
@@ -383,7 +384,7 @@
                         program 
                         where name ='FPS Program'
                         and retired=0
-                                             )    
+                                             )
                 and pp.voided=0
                 group by pp.patient_id",
       "tableName": "fps_program_enrollment_table",
@@ -527,7 +528,7 @@
                     CAST(min(date(pp.date_enrolled)) AS DATE) as \"incident_date\",
                     min(pp.date_created) as \"date_created\",
                     min(pp.patient_program_id) as \"program_unique_id\", 
-                    'ACTIVE' as status
+                    CASE WHEN pp.voided = 0 AND pp.date_completed IS NOT NULL THEN 'COMPLETED' ELSE 'ACTIVE' END as status
                         from patient_program pp /*patient_program for the patients enrolled in HTS Program*/
                         Inner Join patient_identifier pi on pp.patient_id = pi.patient_id
                     and pi.identifier_type in (
@@ -565,7 +566,7 @@
                         program 
                         where name ='HTS Program'
                         and retired=0
-                                             )    
+                                             )
                 and pp.voided=0
                 group by pp.patient_id",
       "tableName": "hts_program_enrollment_table",
@@ -709,7 +710,7 @@
                     CAST(min(date(pp.date_enrolled)) AS DATE) as \"incident_date\",
                     min(pp.date_created) as \"date_created\",
                     min(pp.patient_program_id) as \"program_unique_id\", 
-                    'ACTIVE' as status
+                    CASE WHEN pp.voided = 0 AND pp.date_completed IS NOT NULL THEN 'COMPLETED' ELSE 'ACTIVE' END as status
                         from patient_program pp /*patient_program for the patients enrolled in VIAC Program*/
                         Inner Join patient_identifier pi on pp.patient_id = pi.patient_id
                     and pi.identifier_type in (
@@ -747,7 +748,7 @@
                         program 
                         where name ='VIAC Program'
                         and retired=0
-                                             )    
+                                             )
                 and pp.voided=0
                 group by pp.patient_id",
       "tableName": "viac_program_enrollment_table",
@@ -891,7 +892,7 @@
                     CAST(min(date(pp.date_enrolled)) AS DATE) as \"incident_date\",
                     min(pp.date_created) as \"date_created\",
                     min(pp.patient_program_id) as \"program_unique_id\", 
-                    'ACTIVE' as status
+                    CASE WHEN pp.voided = 0 AND pp.date_completed IS NOT NULL THEN 'COMPLETED' ELSE 'ACTIVE' END as status
                         from patient_program pp /*patient_program for the patients enrolled in ART Program*/
                         Inner Join patient_identifier pi on pp.patient_id = pi.patient_id
                     and pi.identifier_type in (
@@ -929,7 +930,7 @@
                         program 
                         where name ='ART Program'
                         and retired=0
-                                             )    
+                                             )
                 and pp.voided=0
                 group by pp.patient_id",
       "tableName": "art_program_enrollment_table",
@@ -1073,7 +1074,7 @@
                     CAST(min(date(pp.date_enrolled)) AS DATE) as \"incident_date\",
                     min(pp.date_created) as \"date_created\",
                     min(pp.patient_program_id) as \"program_unique_id\", 
-                    'ACTIVE' as status
+                    CASE WHEN pp.voided = 0 AND pp.date_completed IS NOT NULL THEN 'COMPLETED' ELSE 'ACTIVE' END as status
                         from patient_program pp /*patient_program for the patients enrolled in PrEP Program*/
                         Inner Join patient_identifier pi on pp.patient_id = pi.patient_id
                     and pi.identifier_type in (
@@ -1111,7 +1112,7 @@
                         program 
                         where name ='PrEP Program'
                         and retired=0
-                                             )    
+                                             )
                 and pp.voided=0
                 group by pp.patient_id",
       "tableName": "prep_program_enrollment_table",
@@ -1191,8 +1192,8 @@
         'bY9Dg3Je4CN':: TEXT AS program_stage,
          
         max(CASE WHEN phtc.\"phtc_site_type\" = 'Outreach'
-              THEN concat('ZWNSC-OU-',upper(COALESCE(phtc.\"phtc_facility\", (SELECT phtc_facility FROM provider_hiv_test_counselling phtc_temp WHERE phtc_facility IS NOT NULL AND  phtc_temp.patient_id = pedd.patient_id AND pedd.encounter_id > phtc_temp.encounter_id  ORDER BY phtc_temp.encounter_id DESC LIMIT 1))),'-',upper(phtc.\"phtc_district\"))   
-         ELSE concat('ZWNSC-',upper(COALESCE(phtc.\"phtc_facility\",  (SELECT phtc_facility FROM provider_hiv_test_counselling phtc_temp WHERE phtc_facility IS NOT NULL AND phtc_temp.patient_id  = pedd.patient_id AND pedd.encounter_id > phtc_temp.encounter_id  ORDER BY phtc_temp.encounter_id DESC LIMIT 1))))
+              THEN concat('ZWNSC-OU-',upper(COALESCE(phtc.\"phtc_facility\", (SELECT phtc_facility FROM provider_hiv_test_counselling phtc_temp WHERE phtc_facility IS NOT NULL AND  phtc_temp.patient_id = pedd.patient_id ORDER BY phtc_temp.encounter_id DESC LIMIT 1))),'-',upper(phtc.\"phtc_district\"))
+         ELSE concat('ZWNSC-',upper(COALESCE(phtc.\"phtc_facility\",  (SELECT phtc_facility FROM provider_hiv_test_counselling phtc_temp WHERE phtc_facility IS NOT NULL AND phtc_temp.patient_id  = pedd.patient_id ORDER BY phtc_temp.encounter_id DESC LIMIT 1))))
          END) AS \"OrgUnit\",
          
         max(CASE WHEN   COALESCE(phtc.obs_datetime, '01-01-0001' ) >= COALESCE(pht.obs_datetime, '01-01-0001' )
@@ -1668,9 +1669,19 @@ patient_encounter_table pedd
         'vatFxlZR2lj':: TEXT as program,
         'YoxZS1bsBaW':: TEXT as program_stage,
         max(case when viac.\"viac_form_site_type\" = 'Outreach'
-                    then concat('ZWNSC-OU-',upper(viac.\"viac_form_facility\"),'-',upper(viac.\"viac_form_district\"))
-                    ELSE concat('ZWNSC-',upper(viac.\"viac_form_facility\"))
-                    end) as \"OrgUnit\",
+           then concat('ZWNSC-OU-',upper(COALESCE(viac.viac_form_facility,(SELECT viac_form_facility
+           FROM viac_form_template
+           WHERE viac_form_facility IS NOT NULL
+           AND patient_id = ppv.patient_id
+           ORDER BY encounter_id DESC
+           LIMIT 1))),'-',upper(viac.\"viac_form_district\"))
+           ELSE concat('ZWNSC-',upper(COALESCE(viac_form_facility,(SELECT viac_form_facility
+           FROM viac_form_template
+           WHERE viac_form_facility IS NOT NULL
+           AND patient_id = ppv.patient_id
+           ORDER BY encounter_id DESC
+           LIMIT 1))))
+           end) as \"OrgUnit\",
         max(date(viac.\"obs_datetime\")) as \"event_date\",
         'COMPLETED' :: TEXT as status,
         max(pedd.\"visit_id\") as \"event_unique_id\",
@@ -1864,10 +1875,10 @@ patient_encounter_table pedd
      
         max(CASE WHEN fps.\"fps_form_site_type\" = 'Outreach'
               THEN concat('ZWNSC-OU-',upper(
-                   COALESCE(fps.\"fps_form_facility\", (SELECT \"fps_form_facility\" FROM fps_family_planning_service fps_temp WHERE fps_form_facility IS NOT NULL AND                      fps_temp.patient_id = pedd.patient_id AND pedd.encounter_id > fps_temp.encounter_id 
+                   COALESCE(fps.\"fps_form_facility\", (SELECT \"fps_form_facility\" FROM fps_family_planning_service fps_temp WHERE fps_form_facility IS NOT NULL AND fps_temp.patient_id = pedd.patient_id
                       ORDER BY fps_temp.encounter_id DESC LIMIT 1))),'-',upper( fps.\"fps_district\"))   
          ELSE concat('ZWNSC-',upper(
-              COALESCE(fps.\"fps_form_facility\",  (SELECT \"fps_form_facility\" FROM fps_family_planning_service fps_temp WHERE fps_form_facility IS NOT NULL AND                fps_temp.patient_id = pedd.patient_id AND pedd.encounter_id >= fps_temp.encounter_id 
+              COALESCE(fps.\"fps_form_facility\",  (SELECT \"fps_form_facility\" FROM fps_family_planning_service fps_temp WHERE fps_form_facility IS NOT NULL AND fps_temp.patient_id = pedd.patient_id
               ORDER BY fps_temp.encounter_id DESC LIMIT 1))))
          END) AS \"OrgUnit\",
         
@@ -3491,14 +3502,20 @@ patient_encounter_table pedd
     'axGKY6FAhRm':: TEXT AS program_stage,
     CASE WHEN art1_1.aivc_site_type = 'Outreach'
          THEN  
-             concat('ZWNSC-OU-',upper( COALESCE(art1_1.aivc_facility,(SELECT art.aivc_facility FROM art_initial_visit_compulsory_question_1_of_2 art 
-             INNER JOIN patient_encounter_table pedd ON art.encounter_id = pedd.encounter_id WHERE art.aivc_facility IS NOT NULL 
-             AND art.patient_id = pedd.patient_id AND art.encounter_id > pedd.encounter_id ORDER BY art.encounter_id DESC LIMIT 1))),
+             concat('ZWNSC-OU-',upper( COALESCE(art1_1.aivc_facility,(SELECT art.aivc_facility
+              FROM art_initial_visit_compulsory_question_1_of_2 art
+              WHERE art.aivc_facility IS NOT NULL
+                AND art.patient_id = art1_1.patient_id
+              ORDER BY art.encounter_id DESC
+              LIMIT 1))),
              '-',upper(art1_1.aivc_district))
          ELSE
-           concat('ZWNSC-OU-',upper( COALESCE(aivc_facility,(SELECT art.aivc_facility FROM art_initial_visit_compulsory_question_1_of_2 art
-           INNER JOIN patient_encounter_table pedd ON art.encounter_id = pedd.encounter_id WHERE art.aivc_facility IS NOT NULL 
-           AND art.patient_id = pedd.patient_id AND art.encounter_id > pedd.encounter_id ORDER BY art.encounter_id DESC LIMIT 1))))
+           concat('ZWNSC-',upper( COALESCE(aivc_facility,(SELECT art.aivc_facility
+            FROM art_initial_visit_compulsory_question_1_of_2 art
+            WHERE art.aivc_facility IS NOT NULL
+              AND art.patient_id = art1_1.patient_id
+            ORDER BY art.encounter_id DESC
+            LIMIT 1))))
            END  AS \"OrgUnit\",
     CASE WHEN COALESCE(art1_1.obs_datetime, '01-01-0001' ) >= COALESCE(art2_2.obs_datetime, '01-01-0001' )     
          THEN date(art1_1.obs_datetime)
@@ -3921,8 +3938,12 @@ patient_encounter_table pedd
       CASE WHEN aivc_have_you_been_taking_other_medications_or_muti_herbs_w = 'Yes' THEN 1
            WHEN aivc_have_you_been_taking_other_medications_or_muti_herbs_w = 'No' THEN 0
            ELSE NULL END :: BOOLEAN AS \"Have you been taking other medications or muti (herbs) within the past 2 months?\",
-      aivc_are_you_taking_tb_medicines AS \"Are you taking TB medicines?\",
-      aivc_have_you_ever_experienced_a_drug_allergy AS \"Have you ever experienced a drug allergy?\",
+      CASE WHEN aivc_are_you_taking_tb_medicines = 'Yes' THEN 1
+           WHEN aivc_are_you_taking_tb_medicines = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Are you taking TB medicines?\",
+      CASE WHEN aivc_have_you_ever_experienced_a_drug_allergy = 'Yes' THEN 1
+           WHEN aivc_have_you_ever_experienced_a_drug_allergy = 'No' THEN 0
+           ELSE NULL END :: BOOLEAN AS \"Have you ever experienced a drug allergy?\",
       aivc_if_yes_specify_drug_allergy_details AS \"If yes, specify drug allergy details\",
       CASE WHEN aivc_have_been_treated_for_any_of_the_following_conditions = 'Yes' THEN 1
            WHEN aivc_have_been_treated_for_any_of_the_following_conditions = 'No' THEN 0
@@ -4695,15 +4716,35 @@ ORDER BY date_created DESC;"
  "sql": "select 
      'vatFxlZR2lj':: TEXT AS program,
      'kv6FYqNxzOd':: TEXT AS program_stage,
-     CASE WHEN prep_init_form_site_type = 'Outreach'  THEN  
-          concat('ZWNSC-OU-',upper(prep_init_form_facility),'-',upper(prep_init_form_district))
-          WHEN prep_init_form_site_type = 'Static'   THEN 
-          concat('ZWNSC-OU-',upper(prep_init_form_facility))
-          WHEN prep_init_form_site_type IS NULL AND prep_cont_form_site_type = 'Outreach' THEN 
-          concat('ZWNSC-OU-',upper(prep_cont_form_facility),'-',upper(prep_cont_form_district))
-          ELSE
-          concat('ZWNSC-OU-',upper(prep_cont_form_facility))
-          END AS \"OrgUnit\",
+  CASE WHEN prep_init_form_site_type = 'Outreach'  THEN
+       concat('ZWNSC-OU-',upper(COALESCE(prep_init_form_facility,(SELECT prep_init_form_facility
+       FROM prep_init_form_template
+       WHERE prep_init_form_facility IS NOT NULL
+       AND patient_id = prep1_1.patient_id
+       ORDER BY encounter_id DESC
+       LIMIT 1))),'-',upper(prep_init_form_district))
+    WHEN prep_init_form_site_type = 'Static'   THEN
+       concat('ZWNSC-',upper(COALESCE(prep_init_form_facility,(SELECT prep_init_form_facility
+       FROM prep_init_form_template
+       WHERE prep_init_form_facility IS NOT NULL
+       AND patient_id = prep1_1.patient_id
+       ORDER BY encounter_id DESC
+       LIMIT 1))))
+    WHEN prep_init_form_site_type IS NULL AND prep_cont_form_site_type = 'Outreach' THEN
+       concat('ZWNSC-OU-',upper(COALESCE(prep_cont_form_facility,(SELECT prep_cont_form_facility
+       FROM prep_cont_form_template
+       WHERE prep_cont_form_facility IS NOT NULL
+       AND patient_id = prep2_2.patient_id
+       ORDER BY encounter_id DESC
+       LIMIT 1))),'-',upper(prep_cont_form_district))
+    ELSE
+       concat('ZWNSC-',upper(COALESCE(prep_cont_form_facility,(SELECT prep_cont_form_facility
+       FROM prep_cont_form_template
+       WHERE prep_cont_form_facility IS NOT NULL
+       AND patient_id = prep2_2.patient_id
+       ORDER BY encounter_id DESC
+       LIMIT 1))))
+    END AS \"OrgUnit\",
      CASE WHEN COALESCE(prep1_1.obs_datetime, '01-01-0001' ) >= COALESCE(prep2_2.obs_datetime, '01-01-0001' )     
          THEN date(prep1_1.obs_datetime)
          WHEN ( COALESCE(prep2_2.obs_datetime, '01-01-0001' ) >= COALESCE(prep1_1.obs_datetime, '01-01-0001' ) )      
