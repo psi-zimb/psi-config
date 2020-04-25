@@ -196,4 +196,16 @@
 		<column name="lastupdated" valueDate=" now() "/>
 	</insert>
      </changeSet>
+     <changeSet id="202004251321" author="Srivathsala">
+       <comment>Drop Unique and Not Null constraints on type_of_test_status.description</comment>
+       <sql endDelimiter=";\n" splitStatements="true" stripComments="true">
+           ALTER TABLE clinlims.type_of_test_status ALTER COLUMN description SET DEFAULT '';
+       </sql>
+       <sql endDelimiter=";\n" splitStatements="true" stripComments="true">
+           ALTER TABLE clinlims.type_of_test_status ALTER COLUMN description DROP NOT NULL;
+       </sql>
+       <sql endDelimiter=";\n" splitStatements="true" stripComments="true">
+           ALTER TABLE clinlims.type_of_test_status DROP CONSTRAINT type_of_test_status_description_key;
+       </sql>
+   </changeSet>
 </databaseChangeLog>
