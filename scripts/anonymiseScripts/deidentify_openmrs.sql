@@ -264,5 +264,12 @@ SET
 WHERE
    value_text is not null
    and concept_id NOT IN(50);
+/*  Appointment scheduling Notes */
+UPDATE
+   patient_appointment
+SET
+   comments = CONCAT('Annon-AppointmentComments', char(round(rand()* 25) + 97), char(round(rand()* 25) + 97), char(round(rand()* 25) + 97), char(round(rand()* 25) + 97) );
+
+
 
 
