@@ -177,6 +177,8 @@
 
     <include file ="IPV_FormB.xml"/>
 
+    <include file ="NCD_Form.xml"/>
+
     <include file ="ART_VIAC_Questions.xml"/>
 
     <include file ="Adherence_Counselling_Form.xml"/>
