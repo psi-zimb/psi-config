@@ -175,7 +175,7 @@
 
     <include file ="PrEP_Screening_Tool_Form.xml"/>
 
-    <include file ="IPV_FormB.xml"/>
+    <include file ="IPV_Form.xml"/>
 
     <include file ="NCD_Form.xml"/>
 
