@@ -157,6 +157,8 @@
 
     <include file ="FPS_Program.xml"/>
 
+    <include file ="AddProvidersList_NAH.xml"/>
+
     <include file ="HTS_Program.xml"/>
 
     <include file ="PHTCServiceProvided.xml"/>
@@ -175,13 +177,6 @@
 
     <include file ="PrEP_Screening_Tool_Form.xml"/>
 
-    <include file ="IPV_Form.xml"/>
-
-    <include file ="NCD_Form.xml"/>
-
-    <include file ="Referral_Form.xml"/>
-
-
     <include file ="ART_VIAC_Questions.xml"/>
 
     <include file ="Adherence_Counselling_Form.xml"/>
@@ -189,6 +184,8 @@
     <include file ="STI_Symptoms_Form.xml"/>
 
     <include file ="Enhanced_Adherence_Counselling.xml"/>
+
+
 
 <!--    <include file ="AddProvidersList_EAC_13th.xml"/>-->
 
@@ -206,13 +203,13 @@
 
 <!--    <include file ="AddProvidersList_EAC_Mutare.xml"/>-->
 
-<!--    <include file ="AddProvidersList_EAC_NAH.xml"/>-->
+     <include file ="AddProvidersList_EAC_NAH.xml"/>
 
 <!--    <include file ="AddProvidersList_EAC_NEMC.xml"/>-->
 
 
     <include file ="VFConcepts.xml"/>
-
+    <include file ="Provider_HIV_test_counselling.xml"/>
 
 
 </databaseChangeLog>
