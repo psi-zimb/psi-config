@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="PSI-CONFIG-RG-204011279983" author="Ranga" runAlways="true"> 
+        <comment>Adding New Concepts for Provider HIV test counselling</comment>
+        <sqlFile path="Provider_HIV_test_counselling_Concepts.sql"/>
+    </changeSet>
+
+  
+    <changeSet id="PSI-CONFIG-R-204011271302" author="psi" runAlways="true">
+        <comment>Adding Answers to "Provider HIV test counselling, Was recency testing done?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "Provider HIV test counselling, Was recency testing done?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+            call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+<changeSet id="PSI-CONFIG-R-204011271400" author="psi" runAlways="true">
+        <comment>Adding Answers to "Provider HIV test counselling, What was the result?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "Provider HIV test counselling, What was the result?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Recent' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'Long term' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+            call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+
+<changeSet id="PSI-CONFIG-R-204011271401" author="psi" runAlways="true">
+        <comment>Adding Answers to "Provider HIV test counselling, What was the testing modality used?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+          set @child3_concept_id = 0;
+          set @child4_concept_id = 0;
+set @child5_concept_id = 0;
+set @child6_concept_id = 0;
+
+
+
+
+            select concept_id into @concept_id from concept_name where name = "Provider HIV test counselling, What was the testing modality used?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Facility VCT' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'Facility Index' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+select concept_id into @child3_concept_id from concept_name where name = 'Facility PICT VMMC' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+select concept_id into @child4_concept_id from concept_name where name = 'Facility PICT TB' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+select concept_id into @child5_concept_id from concept_name where name = 'Facility PICT STI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+select concept_id into @child6_concept_id from concept_name where name = 'Facility PICT Other' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+
+
+
+call add_concept_answer(@concept_id, @child1_concept_id, 1);
+call add_concept_answer(@concept_id, @child2_concept_id, 2);
+call add_concept_answer(@concept_id, @child3_concept_id, 3);
+call add_concept_answer(@concept_id, @child4_concept_id, 4);
+call add_concept_answer(@concept_id, @child5_concept_id, 5);
+call add_concept_answer(@concept_id, @child6_concept_id, 6);
+
+
+
+        </sql>
+    </changeSet>
+
+
+
+<changeSet id="PSI-CONFIG-R-204011271402" author="psi" runAlways="true">
+        <comment>Adding Answers to "Provider HIV test counselling, Why was it not done?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+
+
+            select concept_id into @concept_id from concept_name where name = "Provider HIV test counselling, Why was it not done?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Client not eligible' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'Client declined' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'Kits not available' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+            call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            call add_concept_answer(@concept_id, @child3_concept_id, 3);
+
+        </sql>
+    </changeSet>
+
+
+    <changeSet id="PSI-CONFIG-RG-204011271403" author="Ranga">
+        <comment>Adding set members to Provider HIV test counselling</comment>
+          <sql>
+              set @concept_id = 0;
+             
+              
+              set @member5_concept_id = 0;
+              set @member6_concept_id = 0;
+              set @member7_concept_id = 0;
+              set @member8_concept_id = 0;
+              set @member9_concept_id = 0;
+
+
+
+
+                         
+              select concept_id into @concept_id from concept_name where name = "Provider HIV test counselling" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+
+              select concept_id into @member5_concept_id from concept_name where name = "Provider HIV test counselling, Was recency testing done?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+             select concept_id into @member6_concept_id from concept_name where name = "Provider HIV test counselling, What was the result?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+             select concept_id into @member7_concept_id from concept_name where name = "Provider HIV test counselling, Date of recency testing result" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+             select concept_id into @member8_concept_id from concept_name where name = "Provider HIV test counselling, What was the testing modality used?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+             select concept_id into @member9_concept_id from concept_name where name = "Provider HIV test counselling, Why was it not done?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                      
+
+              
+             
+           call add_concept_set_members (@concept_id, @member5_concept_id, 7);
+           call add_concept_set_members (@concept_id, @member6_concept_id, 8);
+           call add_concept_set_members (@concept_id, @member7_concept_id, 9);
+           call add_concept_set_members (@concept_id, @member8_concept_id, 10);
+          call add_concept_set_members (@concept_id, @member9_concept_id, 11);
+           
+              
+              
+          </sql>
+    </changeSet>
+
+
+</databaseChangeLog>
