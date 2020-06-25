@@ -6,13 +6,13 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <changeSet id="PSI-CONFIG-RG-204011279983" author="Ranga" runAlways="true"> 
+    <changeSet id="PSI-CONFIG-RG-204011279983" author="Ranga"> 
         <comment>Adding New Concepts for Provider HIV test counselling</comment>
         <sqlFile path="Provider_HIV_test_counselling_Concepts.sql"/>
     </changeSet>
 
   
-    <changeSet id="PSI-CONFIG-R-204011271302" author="psi" runAlways="true">
+    <changeSet id="PSI-CONFIG-R-204011271302" author="psi">
         <comment>Adding Answers to "Provider HIV test counselling, Was recency testing done?"</comment>
         <sql>
             set @concept_id = 0;
@@ -29,7 +29,7 @@
         </sql>
     </changeSet>
 
-<changeSet id="PSI-CONFIG-R-204011271400" author="psi" runAlways="true">
+<changeSet id="PSI-CONFIG-R-204011271400" author="psi">
         <comment>Adding Answers to "Provider HIV test counselling, What was the result?"</comment>
         <sql>
             set @concept_id = 0;
@@ -47,7 +47,7 @@
     </changeSet>
 
 
-<changeSet id="PSI-CONFIG-R-204011271401" author="psi" runAlways="true">
+<changeSet id="PSI-CONFIG-R-204011271401" author="psi">
         <comment>Adding Answers to "Provider HIV test counselling, What was the testing modality used?"</comment>
         <sql>
             set @concept_id = 0;
@@ -87,7 +87,7 @@ call add_concept_answer(@concept_id, @child6_concept_id, 6);
 
 
 
-<changeSet id="PSI-CONFIG-R-204011271402" author="psi" runAlways="true">
+<changeSet id="PSI-CONFIG-R-204011271402" author="psi">
         <comment>Adding Answers to "Provider HIV test counselling, Why was it not done?"</comment>
         <sql>
             set @concept_id = 0;

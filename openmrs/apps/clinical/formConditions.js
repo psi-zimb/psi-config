@@ -601,16 +601,17 @@ Bahmni.ConceptSet.FormConditions.rules = {
         }
         return ruleActions;
 	    },
-	"Ever been tested": function(formName, formFieldValues) {
-		var questionThatTriggersRule = "Ever been tested";
+	
+"Ever been tested": function(formName, formFieldValues) {
+        var questionThatTriggersRule = "Ever been tested";
         var selectedResponses = formFieldValues[questionThatTriggersRule];
-		var question1AffectedByRule = "If yes, where were you last tested?";
-		var question2AffectedByRule = "If ever been tested, how many times have you been tested for HIV before?";
-		var question3AffectedByRule = "How long ago were you last tested (months)?";
-		var question4AffectedByRule = "What were the results the last time you were tested?";
-		var question5AffectedByRule = "Has your most recent sex partner been tested in the last 3 months?";
+        var question1AffectedByRule = "If yes, where were you last tested?";
+        var question2AffectedByRule = "If ever been tested, how many times have you been tested for HIV before?";
+        var question3AffectedByRule = "How long ago were you last tested (months)?";
+        var question4AffectedByRule = "What were the results the last time you were tested?";
+        var question5AffectedByRule = "Has your most recent sex partner been tested in the last 3 months?";
         var conditionTrue = selectedResponses == 'Yes';
-    	var ruleActions = {enable: [], disable: []};
+        var ruleActions = {enable: [], disable: []};
         if(conditionTrue) {
             ruleActions.enable.push(question1AffectedByRule);
             ruleActions.enable.push(question2AffectedByRule);
@@ -625,7 +626,35 @@ Bahmni.ConceptSet.FormConditions.rules = {
             ruleActions.disable.push(question5AffectedByRule);
         }
         return ruleActions;
-	    },
+        },
+
+"Provider HIV test counselling, Was recency testing done?": function(formName, formFieldValues) {
+        var questionThatTriggersRule = "Provider HIV test counselling, Was recency testing done?";
+        var selectedResponses = formFieldValues[questionThatTriggersRule];
+        var question1AffectedByRule = "Provider HIV test counselling, What was the result?";
+        var question2AffectedByRule = "Provider HIV test counselling, Date of recency testing result";
+        var question3AffectedByRule = "Provider HIV test counselling, What was the testing modality used?";
+        var question4AffectedByRule = "Provider HIV test counselling, Why was it not done?";
+      
+        var conditionTrue = selectedResponses == 'Yes';
+        var ruleActions = {enable: [], disable: []};
+        if(conditionTrue) {
+            ruleActions.enable.push(question1AffectedByRule);
+            ruleActions.enable.push(question2AffectedByRule);
+            ruleActions.enable.push(question3AffectedByRule);
+            ruleActions.disable.push(question4AffectedByRule);
+            
+        } else {
+            ruleActions.disable.push(question1AffectedByRule);
+            ruleActions.disable.push(question2AffectedByRule);
+            ruleActions.disable.push(question3AffectedByRule);
+            ruleActions.enable.push(question4AffectedByRule);
+           
+        }
+        return ruleActions;
+        },
+
+   
 	"If client advised to return for re-testing indicate timeline (2 weeks, 4 weeks, 3months, 6 months, other)": function(formName, formFieldValues) {
 		var questionThatTriggersRule = "If client advised to return for re-testing indicate timeline (2 weeks, 4 weeks, 3months, 6 months, other)";
         var selectedResponses = formFieldValues[questionThatTriggersRule];
@@ -9548,6 +9577,48 @@ Bahmni.ConceptSet.FormConditions.rules = {
      }
           return conditions;
   },
+
+"Referrals Form,Site Type": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['Referrals Form,Site Type'];
+     if (conditionConcept =="Outreach") {
+          conditions.show.push("Referrals, District");
+
+     }
+     else
+     {
+          conditions.hide.push("Referrals, District");
+     }
+          return conditions;
+  },
+
+  "NCD Form,Site Type": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['NCD Form,Site Type'];
+     if (conditionConcept =="Outreach") {
+          conditions.show.push("NCD, District");
+
+     }
+     else
+     {
+          conditions.hide.push("NCD, District");
+     }
+          return conditions;
+  },
+
+  "IPV Form,Site Type": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['IPV Form,Site Type'];
+     if (conditionConcept =="Outreach") {
+          conditions.show.push("IPV, District");
+
+     }
+     else
+     {
+          conditions.hide.push("IPV, District");
+     }
+          return conditions;
+  },
     "Prep Init Form, Have you had an HIV test in the past 1 week?": function(formName, formFieldValues) {
      var conditions = {enable: [], disable: []};
      var conditionConcept = formFieldValues['Prep Init Form, Have you had an HIV test in the past 1 week?'];
@@ -12600,4 +12671,6 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
             return conditions;
     }
 
-}
+
+
+    }
