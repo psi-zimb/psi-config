@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="PSI-CONFIG-VM-376011278899" author="psi"> 
+        <comment>Adding New Concepts for Prep Cont Form</comment>
+        <sqlFile path="Prep_Contiuation_Concepts.sql"/>
+    </changeSet>
+
+  
+    
+
+
+
+<changeSet id="PSI-CONFIG-VM-307011272901" author="psi">
+        <comment>Adding Answers to "Prep Cont Form, Duration of medication"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+            set @child6_concept_id = 0;
+            set @child7_concept_id = 0;
+
+
+
+
+            select concept_id into @concept_id from concept_name where name = "Prep Cont Form, Duration of medication" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = '1 month or less' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = '2 Months supply' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = '3 Months supply' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = '4 Months supply' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child5_concept_id from concept_name where name = '5 Months supply' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child6_concept_id from concept_name where name = '6 Months supply' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child7_concept_id from concept_name where name = 'More than 6 months supply' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+
+
+
+
+call add_concept_answer(@concept_id, @child1_concept_id, 1);
+call add_concept_answer(@concept_id, @child2_concept_id, 2);
+call add_concept_answer(@concept_id, @child3_concept_id, 3);
+call add_concept_answer(@concept_id, @child4_concept_id, 4);
+call add_concept_answer(@concept_id, @child5_concept_id, 5);
+call add_concept_answer(@concept_id, @child6_concept_id, 6);
+call add_concept_answer(@concept_id, @child7_concept_id, 7);
+
+
+
+        </sql>
+    </changeSet>
+
+
+
+    <changeSet id="PSI-CONFIG-VM-366011271902" author="psi">
+        <comment>Adding Answers to "Type of follow up"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+            set @child6_concept_id = 0;
+            set @child7_concept_id = 0;
+            set @child8_concept_id = 0;
+
+
+
+
+            select concept_id into @concept_id from concept_name where name = "Prep Cont Form, Type of follow up" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Follow-up visit1 at 2 weeks' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'Follow-up visit 2 at 1 Month' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'Follow-up visit 3 at 2 Months' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = 'Follow-up visit 4 at 3 Months' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child5_concept_id from concept_name where name = 'Follow-up visit 5 at 4 Months' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child6_concept_id from concept_name where name = 'Follow-up visit 6 at 5 Months' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child7_concept_id from concept_name where name = 'Follow-up visit 7 at 6 Months' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child8_concept_id from concept_name where name = 'Follow-up visit 8 at more than 6 Months' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+
+
+
+
+call add_concept_answer(@concept_id, @child1_concept_id, 1);
+call add_concept_answer(@concept_id, @child2_concept_id, 2);
+call add_concept_answer(@concept_id, @child3_concept_id, 3);
+call add_concept_answer(@concept_id, @child4_concept_id, 4);
+call add_concept_answer(@concept_id, @child5_concept_id, 5);
+call add_concept_answer(@concept_id, @child6_concept_id, 6);
+call add_concept_answer(@concept_id, @child7_concept_id, 6);
+call add_concept_answer(@concept_id, @child8_concept_id, 6);
+
+
+
+        </sql>
+    </changeSet>
+
+
+
+
+
+
+    <changeSet id="PSI-CONFIG-VM-379111271913" author="psi">
+        <comment>Adding set members to Prep Cont Form</comment>
+          <sql>
+              set @concept_id = 0;
+             
+              
+              set @member5_concept_id = 0;
+              set @member6_concept_id = 0;
+              set @member7_concept_id = 0;
+              set @member8_concept_id = 0;
+
+
+
+
+                         
+              select concept_id into @concept_id from concept_name where name = "Prep Cont Form Template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+
+              select concept_id into @member5_concept_id from concept_name where name = "Prep Cont Form, Type of follow up" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+             select concept_id into @member6_concept_id from concept_name where name = "Prep Cont Form, Duration of medication" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+             select concept_id into @member7_concept_id from concept_name where name = "Prep Cont Form, Next date of medication resupply" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+             select concept_id into @member8_concept_id from concept_name where name = "Prep Cont Form, PrEP end date" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+                      
+
+              
+             
+           call add_concept_set_members (@concept_id, @member5_concept_id, 45);
+           call add_concept_set_members (@concept_id, @member6_concept_id, 46);
+           call add_concept_set_members (@concept_id, @member7_concept_id, 47);
+           call add_concept_set_members (@concept_id, @member8_concept_id, 48);
+           
+              
+              
+          </sql>
+    </changeSet>
+
+
+</databaseChangeLog>
