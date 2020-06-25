@@ -1644,7 +1644,15 @@ max(CASE WHEN phtc.hiv_test_results IS NOT NULL AND COALESCE(phtc.date_modified,
        
          max(CASE WHEN phtc_tb_screening_have_you_had_a_cough = 'Yes' THEN 1
                   WHEN phtc_tb_screening_have_you_had_a_cough =  'No' THEN 0
-             ELSE NULL END) :: BOOLEAN AS \"Have you had a cough?\"
+             ELSE NULL END) :: BOOLEAN AS \"Have you had a cough?\",
+         
+         max(CASE WHEN provider_hiv_test_counselling_was_recency_testing_done = 'Yes' THEN 1
+                  WHEN provider_hiv_test_counselling_was_recency_testing_done =  'No' THEN 0
+             ELSE NULL END) :: BOOLEAN AS \"Was recency testing done?\",
+         max(provider_hiv_test_counselling_what_was_the_result) AS \"What was the result?\",
+         max(provider_hiv_test_counselling_date_of_recency_testing_resul) AS \"Date of recency testing result\",
+         max(provider_hiv_test_counselling_what_was_the_testing_modality) AS \"What was the testing modality used?\",
+         max(provider_hiv_test_counselling_why_was_it_not_done) AS \"Why was it not done?\"
 
 FROM
 patient_encounter_table pedd 
