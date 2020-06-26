@@ -5022,7 +5022,15 @@ ORDER BY date_created DESC;"
          else null end :: boolean AS \"Are you ready to continue PrEP\",
      case when prep_cont_form_is_the_client_eligible_to_continue_prep = 'Yes' then 1
           when prep_cont_form_is_the_client_eligible_to_continue_prep = 'No' then 0
-          else null end :: boolean AS \"Is the client eligible to continue PrEP\"
+          else null end :: boolean AS \"Is the client eligible to continue PrEP\",
+
+    case when prep_st_form_client_offered_prep = 'Yes' then 1
+      when prep_st_form_client_offered_prep = 'No' then 0
+      else null end :: boolean AS \"Client offered PrEP?\",
+
+    case when prep_st_form_client_accepted_prep = 'Yes' then 1
+      when prep_st_form_client_accepted_prep = 'No' then 0
+      else null end :: boolean AS \"Client accepted PrEP?\"
       
      
 
@@ -5426,8 +5434,52 @@ FROM prep_cont_form_template prep_cont GROUP BY encounter_id) AS prep2
 INNER JOIN patient_encounter_table pedd ON pedd.encounter_id = prep2.encounter_id) AS prep2_2
 
 ON prep1_1.visit_id = prep2_2.visit_id
-INNER JOIN psi_patient_program_data ppv on (ppv.patient_id = prep1_1.patient_id or ppv.patient_id = prep2_2.patient_id) and (ppv.program_id = (SELECT program_id FROM programs_default WHERE program_name= 'PrEP Program'))
-INNER JOIN patient_identifier pi ON (prep1_1.patient_id = pi.patient_id or prep2_2.patient_id = pi.patient_id)
+
+FULL OUTER JOIN
+
+    (SELECT
+DISTINCT visit_id ,
+FIRST_VALUE(prep3.obs_datetime)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep3.obs_datetime IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS obs_datetime,
+FIRST_VALUE(prep3.patient_id)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep3.patient_id IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS patient_id,
+FIRST_VALUE(prep3.date_created)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep3.date_created IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS date_created,
+FIRST_VALUE(prep3.program_id)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep3.program_id IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS program_id,
+FIRST_VALUE(prep3.program_name)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep3.program_name IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS program_name,
+FIRST_VALUE(prep_st_form_facility)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_facility IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS prep_st_form_facility,
+FIRST_VALUE(prep_st_form_site_type)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_site_type IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC)
+AS prep_st_form_site_type,
+FIRST_VALUE(prep_st_form_district)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_district IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS prep_st_form_district,
+FIRST_VALUE(prep_st_form_client_offered_prep)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_client_offered_prep IS NULL THEN 0 ELSE 1 END DESC,
+prep3.encounter_id DESC) AS prep_st_form_client_offered_prep,
+FIRST_VALUE(prep_st_form_client_accepted_prep)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_client_accepted_prep IS NULL THEN 0 ELSE 1 END DESC,
+prep3.encounter_id DESC) AS prep_st_form_client_accepted_prep
+FROM
+(SELECT
+encounter_id,
+max(patient_id) AS patient_id ,
+max(obs_datetime) AS obs_datetime,
+max(date_created) AS date_created,
+max(program_id) AS program_id,
+max(program_name) AS program_name,
+max(prep_st_form_facility) AS prep_st_form_facility,
+max(prep_st_form_site_type) AS prep_st_form_site_type,
+max(prep_st_form_district) AS prep_st_form_district,
+max(prep_st_form_client_offered_prep) AS prep_st_form_client_offered_prep,
+max(prep_st_form_client_accepted_prep) AS prep_st_form_client_accepted_prep
+FROM prep_screening_tool_template prep_st GROUP BY encounter_id) AS prep3
+INNER JOIN patient_encounter_table pedd ON pedd.encounter_id = prep3.encounter_id) AS prep3_3
+ON prep1_1.visit_id = prep3_3.visit_id
+INNER JOIN psi_patient_program_data ppv on (ppv.patient_id = prep1_1.patient_id or ppv.patient_id = prep2_2.patient_id or ppv.patient_id = prep3_3.patient_id) and (ppv.program_id = (SELECT program_id FROM programs_default WHERE program_name= 'PrEP Program'))
+INNER JOIN patient_identifier pi ON (prep1_1.patient_id = pi.patient_id or prep2_2.patient_id = pi.patient_id or prep3_3.patient_id = pi.patient_id)
 ORDER BY date_created DESC;"
 }
   ]
