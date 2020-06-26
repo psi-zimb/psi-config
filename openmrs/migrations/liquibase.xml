@@ -215,6 +215,7 @@
     <include file ="Referral_Form.xml"/>
     <include file ="NCD_Form.xml"/>
     <include file ="IPV_Form.xml"/>
+    <include file ="ART_Inital_Form.xml"/>
 
 
 </databaseChangeLog>
