@@ -4972,7 +4972,15 @@ ORDER BY date_created DESC;"
      case when prep_init_form_is_the_client_eligible_to_take_prep = 'Yes' then 1
           when prep_init_form_is_the_client_eligible_to_take_prep = 'No' then 0
           else null end :: boolean  AS \"Is the client Eligible to take PrEP\",
-          
+
+     case when prep_init_form_was_client_initiated_on_prep = 'Yes' then 1
+          when prep_init_form_was_client_initiated_on_prep = 'No' then 0
+          else null end :: boolean  AS \"Was client initiated on PrEP?\",
+
+    prep_init_form_date_client_initiated_on_prep AS \"Date client initiated on PrEP\",
+    prep_init_form_duration_of_medication AS \"Duration of medication\",
+    prep_init_form_duration_client_intends_to_take_prep AS \"Duration client intends to take PrEP\",
+
      case when prep_cont_form_do_you_have_any_heath_related_problems_today = 'Yes' then 1
           when prep_cont_form_do_you_have_any_heath_related_problems_today = 'No' then 0
           else null end :: boolean  AS \"Have any heath related problems today\",
@@ -5286,7 +5294,19 @@ FIRST_VALUE(prep_init_form_are_you_ready_to_start_prep)
        prep1.encounter_id DESC)  AS prep_init_form_if_yes_for_ready_to_start_prep_specify_reaso,
 FIRST_VALUE(prep_init_form_is_the_client_eligible_to_take_prep)
       OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_is_the_client_eligible_to_take_prep IS NULL THEN 0 ELSE 1 END DESC, prep1.encounter_id DESC) 
-      AS prep_init_form_is_the_client_eligible_to_take_prep
+      AS prep_init_form_is_the_client_eligible_to_take_prep,
+FIRST_VALUE(prep_init_form_was_client_initiated_on_prep)
+    OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_was_client_initiated_on_prep IS NULL THEN 0 ELSE 1 END DESC, prep1.encounter_id DESC)
+    AS prep_init_form_was_client_initiated_on_prep,
+FIRST_VALUE(prep_init_form_date_client_initiated_on_prep)
+    OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_date_client_initiated_on_prep IS NULL THEN 0 ELSE 1 END DESC, prep1.encounter_id DESC)
+    AS prep_init_form_date_client_initiated_on_prep,
+FIRST_VALUE(prep_init_form_duration_of_medication)
+    OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_duration_of_medication IS NULL THEN 0 ELSE 1 END DESC, prep1.encounter_id DESC)
+    AS prep_init_form_duration_of_medication,
+FIRST_VALUE(prep_init_form_duration_client_intends_to_take_prep)
+    OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_init_form_duration_client_intends_to_take_prep IS NULL THEN 0 ELSE 1 END DESC, prep1.encounter_id DESC)
+    AS prep_init_form_duration_client_intends_to_take_prep
 
 FROM 
 (SELECT 
@@ -5351,7 +5371,12 @@ string_agg(prep_init_form_if_yes_for_any_signs_of_primary_infection,',') AS prep
 max(prep_init_form_what_is_the_client_s_hiv_status_today) AS prep_init_form_what_is_the_client_s_hiv_status_today,
 max(prep_init_form_are_you_ready_to_start_prep) AS prep_init_form_are_you_ready_to_start_prep,
 string_agg(prep_init_form_if_yes_for_ready_to_start_prep_specify_reaso,',') AS prep_init_form_if_yes_for_ready_to_start_prep_specify_reaso,
-max(prep_init_form_is_the_client_eligible_to_take_prep) AS prep_init_form_is_the_client_eligible_to_take_prep
+max(prep_init_form_is_the_client_eligible_to_take_prep) AS prep_init_form_is_the_client_eligible_to_take_prep,
+max(prep_init_form_was_client_initiated_on_prep) AS prep_init_form_was_client_initiated_on_prep,
+max(prep_init_form_date_client_initiated_on_prep) AS prep_init_form_date_client_initiated_on_prep,
+max(prep_init_form_duration_of_medication) AS prep_init_form_duration_of_medication,
+max(prep_init_form_duration_client_intends_to_take_prep) AS prep_init_form_duration_client_intends_to_take_prep
+
 
 FROM prep_init_form_template prep_init GROUP BY encounter_id) AS prep1
 INNER JOIN patient_encounter_table pedd ON pedd.encounter_id = prep1.encounter_id) prep1_1
