@@ -4950,6 +4950,21 @@ ORDER BY date_created DESC;"
           when prep_cont_form_what_is_the_client_s_hiv_status_today  is null then 
           prep_init_form_what_is_the_client_s_hiv_status_today
           end   AS \"What is the clients HIV status today\",
+
+    CASE WHEN prep_cont_form_type_of_follow_up  is not null then
+          prep_cont_form_type_of_follow_up
+          when prep_cont_form_type_of_follow_up  is null then
+          prep_cont_form_type_of_follow_up
+          end   AS \"Type of follow up\",
+
+    CASE WHEN prep_cont_form_duration_of_medication  is not null then
+          prep_cont_form_duration_of_medication
+          when prep_cont_form_duration_of_medication  is null then
+          prep_cont_form_duration_of_medication
+          end   AS \"Duration of the medication\",
+
+     prep_cont_form_next_date_of_medication_resupply as \"Next date of medication resupply\",
+     prep_cont_form_prep_end_date as \"PrEP end date\",
       
      case when prep_init_form_are_you_ready_to_start_prep = 'Yes' then 1
           when prep_init_form_are_you_ready_to_start_prep = 'No' then 0
@@ -5398,7 +5413,19 @@ FIRST_VALUE(prep_cont_form_what_is_the_client_s_hiv_status_today)
       END DESC, prep2.encounter_id DESC) AS prep_cont_form_what_is_the_client_s_hiv_status_today,      
 FIRST_VALUE(prep_cont_form_is_the_client_eligible_to_continue_prep)
       OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_is_the_client_eligible_to_continue_prep IS NULL THEN 0 ELSE 1 
-      END DESC, prep2.encounter_id DESC) AS prep_cont_form_is_the_client_eligible_to_continue_prep
+      END DESC, prep2.encounter_id DESC) AS prep_cont_form_is_the_client_eligible_to_continue_prep,
+FIRST_VALUE(prep_cont_form_type_of_follow_up)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_type_of_follow_up IS NULL THEN 0 ELSE 1
+      END DESC, prep2.encounter_id DESC) AS prep_cont_form_type_of_follow_up,
+FIRST_VALUE(prep_cont_form_duration_of_medication)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_duration_of_medication IS NULL THEN 0 ELSE 1
+      END DESC, prep2.encounter_id DESC) AS prep_cont_form_duration_of_medication,
+FIRST_VALUE(prep_cont_form_next_date_of_medication_resupply)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_next_date_of_medication_resupply IS NULL THEN 0 ELSE 1
+      END DESC, prep2.encounter_id DESC) AS prep_cont_form_next_date_of_medication_resupply,
+FIRST_VALUE(prep_cont_form_prep_end_date)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_cont_form_prep_end_date IS NULL THEN 0 ELSE 1
+      END DESC, prep2.encounter_id DESC) AS prep_cont_form_prep_end_date
 FROM
 (SELECT 
 encounter_id,
@@ -5438,7 +5465,11 @@ string_agg(prep_cont_form_if_yes_for_client_have_any_sings_of_primary_,',') AS p
 max(prep_cont_form_are_you_ready_to_continue_prep) AS prep_cont_form_are_you_ready_to_continue_prep,
 string_agg(prep_cont_form_if_no_for_are_you_ready_to_continue_prep,',') AS prep_cont_form_if_no_for_are_you_ready_to_continue_prep,
 max(prep_cont_form_what_is_the_client_s_hiv_status_today) AS prep_cont_form_what_is_the_client_s_hiv_status_today,
-max(prep_cont_form_is_the_client_eligible_to_continue_prep) AS prep_cont_form_is_the_client_eligible_to_continue_prep
+max(prep_cont_form_is_the_client_eligible_to_continue_prep) AS prep_cont_form_is_the_client_eligible_to_continue_prep,
+max(prep_cont_form_type_of_follow_up) AS prep_cont_form_type_of_follow_up,
+max(prep_cont_form_duration_of_medication) AS prep_cont_form_duration_of_medication,
+max(prep_cont_form_next_date_of_medication_resupply) AS prep_cont_form_next_date_of_medication_resupply,
+max(prep_cont_form_prep_end_date) AS prep_cont_form_prep_end_date
 FROM prep_cont_form_template prep_cont GROUP BY encounter_id) AS prep2
 INNER JOIN patient_encounter_table pedd ON pedd.encounter_id = prep2.encounter_id) AS prep2_2
 
