@@ -217,6 +217,7 @@
     <include file ="IPV_Form.xml"/>
     <include file ="ART_Inital_Form.xml"/>
     <include file ="ART_Cont_Form.xml"/>
+    <include file ="TB_Screening_Form.xml"/>
    
 
 
