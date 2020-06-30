@@ -7,7 +7,12 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-	<changeSet id="PSI-CONFIG-2019061402" author="Yash">
+	 <changeSet id="PSI-CONFIG-201911181429" author="Suraj">
+        <comment>Adding New Concepts for PrEP Init</comment>
+        <sqlFile path="AddAllObsConcepts.sql"/>
+    </changeSet>
+
+  <changeSet id="PSI-CONFIG-2012061402" author="YashRANGA">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
                    select count(*) from concept_answer ca
@@ -16,7 +21,7 @@
                    on ca.concept_id = cn.concept_id
                    where ca.answer_concept IN (select concept_id from concept_name where name IN ('Yes','No') and concept_name_type = "FULLY_SPECIFIED")
                    AND
-                   cn.concept_id IN (select concept_id from concept_name where name = "Prep Init Form, Have you had an HIV test in the past 1 week?");
+                   cn.concept_id IN (select concept_id from concept_name where name = "Prep Init Form, PREP TEST?");
                 </sqlCheck>
         </preConditions>
         <comment>Adding Answers to PrEP Init Form Question</comment>
@@ -25,7 +30,7 @@
             set @child1_concept_id = 0;
             set @child2_concept_id = 0;
 
-            select concept_id into @concept_id from concept_name where name = "Prep Init Form, Have you had an HIV test in the past 1 week?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @concept_id from concept_name where name = "Prep Init Form, PREP TEST?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
             select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
             select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
@@ -1951,7 +1956,7 @@
 
 
 
-      <changeSet id="PSI-CONFIG-2019061448" author="Yash">
+      <changeSet id="PSI-CONFIG-201261448" author="Yash">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
                    select COUNT(*) from concept_set cs
@@ -1960,7 +1965,7 @@
                    where cs.concept_id IN (select concept_id from concept_name where name IN
                    (
                    "Prep Init Form, Service Provided",
-                   "Prep Init Form, Have you had an HIV test in the past 1 week?",
+                   "Prep Init Form, PREP TEST?",
                    "Prep Init Form, When was the test done?",
                    "Prep Init Form, What was the result?",
                    "Prep Init Form, Do you have any heath related problems today?",
@@ -2109,7 +2114,7 @@
             select concept_id into @concept_id from concept_name where name = 'Prep Init Form Template' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
             select concept_id into @member1_concept_id from concept_name where name = "Prep Init Form, Service Provided" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @member2_concept_id from concept_name where name = "Prep Init Form, Have you had an HIV test in the past 1 week?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member2_concept_id from concept_name where name = "Prep Init Form, PREP TEST?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
             select concept_id into @member3_concept_id from concept_name where name = "Prep Init Form, When was the test done?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
             select concept_id into @member4_concept_id from concept_name where name = "Prep Init Form, What was the result?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
             select concept_id into @member5_concept_id from concept_name where name = "Prep Init Form, Do you have any heath related problems today?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;

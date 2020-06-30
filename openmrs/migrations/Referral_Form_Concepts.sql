@@ -6,6 +6,15 @@ set @uuid = NULL;
 
 
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Template','Referrals Template','N/A','Misc',true);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Type of referral','Type of referral','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Outgoing Referrals','Outgoing Referrals','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referral Confirmation','Referral Confirmation','N/A','Misc',false);
+
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Referring officer','Referring officer','Text','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Facility where client has been referred to','Facility where client has been referred to','Text','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Expected visit date','Expected visit date','Date','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Facility where client linked','Facility where client linked','Text','Misc',false);
+
 
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Service Provided','Service Provided','N/A','Misc',true);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Facility','Facility','Coded','Misc',false);
