@@ -5024,6 +5024,80 @@ ORDER BY date_created DESC;"
           when prep_cont_form_is_the_client_eligible_to_continue_prep = 'No' then 0
           else null end :: boolean AS \"Is the client eligible to continue PrEP\",
 
+    case when prep_st_form_is_the_client_hiv_negative = 'Yes' then 1
+      when prep_st_form_is_the_client_hiv_negative = 'No' then 0
+      else null end :: boolean AS \"Is Client Tested HIV Negative?\",
+
+prep_st_form_date_tested AS \"Date Tested \",
+
+case when prep_st_form_is_the_client_sexually_active = 'Yes' then 1
+      when prep_st_form_is_the_client_sexually_active = 'No' then 0
+      else null end :: boolean AS \"Is Client Sexually Active?\",
+
+case when prep_st_form_is_the_sexually_active_in_a_high_prevalence_kp = 'Yes' then 1
+      when prep_st_form_is_the_sexually_active_in_a_high_prevalence_kp = 'No' then 0
+      else null end :: boolean AS \"Is Client Sexually Active In A High Prevalence?\",
+
+prep_st_form_if_yes_then_specify1 AS \"High Prelavance Details\",
+
+case when prep_st_form_has_the_client_had_vaginal_or_anal_intercourse = 'Yes' then 1
+      when prep_st_form_has_the_client_had_vaginal_or_anal_intercourse = 'No' then 0
+      else null end :: boolean AS \"Has Client had Vaginal/Intercourse ?\",
+
+prep_st_form_how_many_sexual_partners_did_you_have_vaginal_ AS \"How Many Sexual Partners Did You Have Vaginal/Anal sex with\",
+
+case when prep_st_form_in_the_past_6_months_did_you_use_condoms_consi = 'Yes' then 1
+      when prep_st_form_in_the_past_6_months_did_you_use_condoms_consi = 'No' then 0
+      else null end :: boolean AS \"Did You Use Condoms Consistently During Sex In Last 6 Months?\",
+
+case when prep_st_form_does_the_client_have_a_sex_partner_with_one_or = 'Yes' then 1
+      when prep_st_form_does_the_client_have_a_sex_partner_with_one_or = 'No' then 0
+      else null end :: boolean AS \"Does The Client Have A Sex Partner With One or More HIV Risk Factors?\",
+
+prep_st_form_if_yes_then_specify2 AS \"Sex Partner Details \",
+
+case when prep_st_form_in_the_last_6_months_has_the_client_been_treat = 'Yes' then 1
+      when prep_st_form_in_the_last_6_months_has_the_client_been_treat = 'No' then 0
+      else null end :: boolean AS \"In the last 6 months has the client been treated for an STI by lab testing?\",
+
+ case when prep_st_form_in_the_last_6_months_have_you_taken_post_expos = 'Yes' then 1
+      when prep_st_form_in_the_last_6_months_have_you_taken_post_expos = 'No' then 0
+      else null end :: boolean AS \"In the last 6 months have you taken PEP ?\",
+
+case when prep_st_form_in_the_last_6_months_have_you_used_emergency_c = 'Yes' then 1
+      when prep_st_form_in_the_last_6_months_have_you_used_emergency_c = 'No' then 0
+      else null end :: boolean AS \"In the last 6 months have you used emergency contraception?\",
+
+case when prep_st_form_in_the_last_6_months_have_you_had_sex_while_un = 'Yes' then 1
+      when prep_st_form_in_the_last_6_months_have_you_had_sex_while_un = 'No' then 0
+      else null end :: boolean AS \"In the last 6 months have you had sex while under the influence of alcohol?\",
+
+case when prep_st_form_are_you_in_a_sero_discordant_relationship = 'Yes' then 1
+      when prep_st_form_are_you_in_a_sero_discordant_relationship = 'No' then 0
+      else null end :: boolean AS \"Are you in a Sero-discordant relationship?\",
+
+prep_st_form_if_yes_then_specify3 AS \"Sero-discordant Relationship Details ?\",
+
+case when prep_st_form_do_you_have_a_partners_of_unknown_status_who_r = 'Yes' then 1
+      when prep_st_form_do_you_have_a_partners_of_unknown_status_who_r = 'No' then 0
+      else null end :: boolean AS \"Do you have a partners of unknown status who refuse testing?\",
+
+case when prep_st_form_do_you_inject_drugs = 'Yes' then 1
+      when prep_st_form_do_you_inject_drugs = 'No' then 0
+      else null end :: boolean AS \"Do You Inject Drugs?\",
+
+case when prep_st_form_is_the_client_eligible_for_prep = 'Yes' then 1
+      when prep_st_form_is_the_client_eligible_for_prep = 'No' then 0
+      else null end :: boolean AS \"Is the client eligible for PrEP?\",
+
+prep_st_form_if_yes_then_specify4 AS \"Prep Eigibility Details \",
+
+case when prep_st_form_has_the_client_been_referred_for_prep = 'Yes' then 1
+      when prep_st_form_has_the_client_been_referred_for_prep = 'No' then 0
+      else null end :: boolean AS \"Has the client been referred for PrEP?\",
+
+prep_st_form_reason_s_for_not_referring_the_client AS \"Reasons For Not Referring The client \",
+
     case when prep_st_form_client_offered_prep = 'Yes' then 1
       when prep_st_form_client_offered_prep = 'No' then 0
       else null end :: boolean AS \"Client offered PrEP?\",
@@ -5456,6 +5530,71 @@ OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_site_type IS NULL THE
 AS prep_st_form_site_type,
 FIRST_VALUE(prep_st_form_district)
 OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_district IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS prep_st_form_district,
+FIRST_VALUE(prep_st_form_is_the_client_hiv_negative)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_is_the_client_hiv_negative IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS prep_st_form_is_the_client_hiv_negative,
+
+FIRST_VALUE(prep_st_form_date_tested)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_date_tested IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS prep_st_form_date_tested,
+
+FIRST_VALUE(prep_st_form_is_the_client_sexually_active)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_is_the_client_sexually_active IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS prep_st_form_is_the_client_sexually_active,
+
+FIRST_VALUE(prep_st_form_is_the_sexually_active_in_a_high_prevalence_kp)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_is_the_sexually_active_in_a_high_prevalence_kp IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS prep_st_form_is_the_sexually_active_in_a_high_prevalence_kp,
+
+FIRST_VALUE(prep_st_form_if_yes_then_specify1)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_if_yes_then_specify1 IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS prep_st_form_if_yes_then_specify1,
+
+FIRST_VALUE(prep_st_form_has_the_client_had_vaginal_or_anal_intercourse)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_has_the_client_had_vaginal_or_anal_intercourse IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS prep_st_form_has_the_client_had_vaginal_or_anal_intercourse,
+
+FIRST_VALUE(prep_st_form_how_many_sexual_partners_did_you_have_vaginal_)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_how_many_sexual_partners_did_you_have_vaginal_ IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS prep_st_form_how_many_sexual_partners_did_you_have_vaginal_,
+
+FIRST_VALUE(prep_st_form_in_the_past_6_months_did_you_use_condoms_consi)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_in_the_past_6_months_did_you_use_condoms_consi IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS prep_st_form_in_the_past_6_months_did_you_use_condoms_consi,
+
+FIRST_VALUE(prep_st_form_does_the_client_have_a_sex_partner_with_one_or)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_does_the_client_have_a_sex_partner_with_one_or IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS prep_st_form_does_the_client_have_a_sex_partner_with_one_or,
+
+FIRST_VALUE(prep_st_form_if_yes_then_specify2)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_if_yes_then_specify2 IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS prep_st_form_if_yes_then_specify2,
+
+FIRST_VALUE(prep_st_form_in_the_last_6_months_has_the_client_been_treat)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_in_the_last_6_months_has_the_client_been_treat IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS prep_st_form_in_the_last_6_months_has_the_client_been_treat,
+
+FIRST_VALUE(prep_st_form_in_the_last_6_months_have_you_taken_post_expos)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_in_the_last_6_months_have_you_taken_post_expos IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS prep_st_form_in_the_last_6_months_have_you_taken_post_expos,
+
+FIRST_VALUE(prep_st_form_in_the_last_6_months_have_you_used_emergency_c)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_in_the_last_6_months_have_you_used_emergency_c IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS prep_st_form_in_the_last_6_months_have_you_used_emergency_c,
+
+FIRST_VALUE(prep_st_form_in_the_last_6_months_have_you_had_sex_while_un)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_in_the_last_6_months_have_you_had_sex_while_un IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS prep_st_form_in_the_last_6_months_have_you_had_sex_while_un,
+
+FIRST_VALUE(prep_st_form_are_you_in_a_sero_discordant_relationship)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_are_you_in_a_sero_discordant_relationship IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS prep_st_form_are_you_in_a_sero_discordant_relationship,
+
+FIRST_VALUE(prep_st_form_if_yes_then_specify3)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_if_yes_then_specify3 IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS prep_st_form_if_yes_then_specify3,
+
+FIRST_VALUE(prep_st_form_do_you_have_a_partners_of_unknown_status_who_r)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_do_you_have_a_partners_of_unknown_status_who_r IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS prep_st_form_do_you_have_a_partners_of_unknown_status_who_r,
+
+FIRST_VALUE(prep_st_form_do_you_inject_drugs)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_do_you_inject_drugs IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS prep_st_form_do_you_inject_drugs,
+
+FIRST_VALUE(prep_st_form_is_the_client_eligible_for_prep)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_is_the_client_eligible_for_prep IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS prep_st_form_is_the_client_eligible_for_prep,
+
+FIRST_VALUE(prep_st_form_if_yes_then_specify4)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_if_yes_then_specify4 IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS prep_st_form_if_yes_then_specify4,
+
+FIRST_VALUE(prep_st_form_has_the_client_been_referred_for_prep)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_has_the_client_been_referred_for_prep IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS prep_st_form_has_the_client_been_referred_for_prep,
+
+FIRST_VALUE(prep_st_form_reason_s_for_not_referring_the_client)
+OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_reason_s_for_not_referring_the_client IS NULL THEN 0 ELSE 1 END DESC, prep3.encounter_id DESC) AS prep_st_form_reason_s_for_not_referring_the_client,
 FIRST_VALUE(prep_st_form_client_offered_prep)
 OVER(PARTITION BY visit_id ORDER BY CASE WHEN prep_st_form_client_offered_prep IS NULL THEN 0 ELSE 1 END DESC,
 prep3.encounter_id DESC) AS prep_st_form_client_offered_prep,
@@ -5473,6 +5612,28 @@ max(program_name) AS program_name,
 max(prep_st_form_facility) AS prep_st_form_facility,
 max(prep_st_form_site_type) AS prep_st_form_site_type,
 max(prep_st_form_district) AS prep_st_form_district,
+max(prep_st_form_is_the_client_hiv_negative) AS prep_st_form_is_the_client_hiv_negative,
+max(prep_st_form_date_tested) AS prep_st_form_date_tested,
+max(prep_st_form_is_the_client_sexually_active) AS prep_st_form_is_the_client_sexually_active,
+max(prep_st_form_is_the_sexually_active_in_a_high_prevalence_kp) AS prep_st_form_is_the_sexually_active_in_a_high_prevalence_kp,
+max(prep_st_form_if_yes_then_specify1) AS prep_st_form_if_yes_then_specify1,
+max(prep_st_form_has_the_client_had_vaginal_or_anal_intercourse) AS prep_st_form_has_the_client_had_vaginal_or_anal_intercourse,
+max(prep_st_form_how_many_sexual_partners_did_you_have_vaginal_) AS prep_st_form_how_many_sexual_partners_did_you_have_vaginal_,
+max(prep_st_form_in_the_past_6_months_did_you_use_condoms_consi) AS prep_st_form_in_the_past_6_months_did_you_use_condoms_consi,
+max(prep_st_form_does_the_client_have_a_sex_partner_with_one_or) AS prep_st_form_does_the_client_have_a_sex_partner_with_one_or,
+max(prep_st_form_if_yes_then_specify2) AS prep_st_form_if_yes_then_specify2,
+max(prep_st_form_in_the_last_6_months_has_the_client_been_treat) AS prep_st_form_in_the_last_6_months_has_the_client_been_treat,
+max(prep_st_form_in_the_last_6_months_have_you_taken_post_expos) AS prep_st_form_in_the_last_6_months_have_you_taken_post_expos,
+max(prep_st_form_in_the_last_6_months_have_you_used_emergency_c) AS prep_st_form_in_the_last_6_months_have_you_used_emergency_c,
+max(prep_st_form_in_the_last_6_months_have_you_had_sex_while_un) AS prep_st_form_in_the_last_6_months_have_you_had_sex_while_un,
+max(prep_st_form_are_you_in_a_sero_discordant_relationship) AS prep_st_form_are_you_in_a_sero_discordant_relationship,
+max(prep_st_form_if_yes_then_specify3) AS prep_st_form_if_yes_then_specify3,
+max(prep_st_form_do_you_have_a_partners_of_unknown_status_who_r) AS prep_st_form_do_you_have_a_partners_of_unknown_status_who_r,
+max(prep_st_form_do_you_inject_drugs) AS prep_st_form_do_you_inject_drugs,
+max(prep_st_form_is_the_client_eligible_for_prep) AS prep_st_form_is_the_client_eligible_for_prep,
+max(prep_st_form_if_yes_then_specify4) AS prep_st_form_if_yes_then_specify4,
+max(prep_st_form_has_the_client_been_referred_for_prep) AS prep_st_form_has_the_client_been_referred_for_prep,
+max(prep_st_form_reason_s_for_not_referring_the_client) AS prep_st_form_reason_s_for_not_referring_the_client,
 max(prep_st_form_client_offered_prep) AS prep_st_form_client_offered_prep,
 max(prep_st_form_client_accepted_prep) AS prep_st_form_client_accepted_prep
 FROM prep_screening_tool_template prep_st GROUP BY encounter_id) AS prep3
