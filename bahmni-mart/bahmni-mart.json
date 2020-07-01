@@ -4969,7 +4969,7 @@ ORDER BY date_created DESC;"
           prep_cont_form_duration_of_medication
           when prep_cont_form_duration_of_medication  is null then
           prep_cont_form_duration_of_medication
-          end   AS \"Duration of the medication\",
+          end   AS \"[Continuation] Duration of medication\",
 
      prep_cont_form_next_date_of_medication_resupply as \"Next date of medication resupply\",
      prep_cont_form_prep_end_date as \"PrEP end date\",
@@ -4993,7 +4993,7 @@ ORDER BY date_created DESC;"
           else null end :: boolean  AS \"Was client initiated on PrEP?\",
 
     prep_init_form_date_client_initiated_on_prep AS \"Date client initiated on PrEP\",
-    prep_init_form_duration_of_medication AS \"Duration of medication\",
+    prep_init_form_duration_of_medication AS \"[Initial] Duration of medication\",
     prep_init_form_duration_client_intends_to_take_prep AS \"Duration client intends to take PrEP\",
 
      case when prep_cont_form_do_you_have_any_heath_related_problems_today = 'Yes' then 1
