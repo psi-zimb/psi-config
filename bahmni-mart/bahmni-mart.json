@@ -5107,7 +5107,7 @@ case when prep_st_form_do_you_have_a_partners_of_unknown_status_who_r = 'Yes' th
 
 case when prep_st_form_do_you_inject_drugs = 'Yes' then 1
       when prep_st_form_do_you_inject_drugs = 'No' then 0
-      else null end :: boolean AS \"Do You Inject Drugs?\",
+      else null end :: boolean AS \"Prep Screening - Do You Inject Drugs?\",
 
 case when prep_st_form_is_the_client_eligible_for_prep = 'Yes' then 1
       when prep_st_form_is_the_client_eligible_for_prep = 'No' then 0
