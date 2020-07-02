@@ -7,6 +7,16 @@ set @uuid = NULL;
 
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP Screening Tool Template','PrEP Screening Tool','N/A','Misc',true);
 
+
+
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST Form, Service Provided','Service Provided','N/A','Misc',true);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST Form, Facility','Facility','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST Form, Site Type','Site Type','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST Form, District','District','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST Form, Setting','Setting','Coded','Misc',false);
+
+
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST Form, Is the Client HIV negative','Is the Client HIV negative','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST Form, Date tested','Date tested','Date','Misc',false);
 
@@ -60,6 +70,8 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Prefers oth
 
 
 
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST Form, Client offered PrEP?','Client offered PrEP?','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'PrEP ST Form, Client accepted PrEP?','Client accepted PrEP?','Coded','Misc',false);
 
 
 
