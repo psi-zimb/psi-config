@@ -410,7 +410,7 @@
             },
         "FPS FORM,Indicate where client was referred to":
         {
-             "multiSelect":true   
+             "multiSelect":true
             },
         "FPS REG,Reason for the visit":{
             "dropdown":true
@@ -452,6 +452,25 @@
           },
 
 
+          "PrEP ST Form, District":{
+            "dropdown":true,
+            "required":true
+            },
+
+        "PrEP ST Form, Facility":{
+            "dropdown":true,
+            "required":true
+          },
+
+          "PrEP ST Form, Site Type":{
+            "required":true
+          },
+
+          "PrEP ST Form, Setting":{
+            "required":true
+          },
+
+
           "IPV Form, Facility":{
             "dropdown":true,
             "required":true
@@ -485,7 +504,7 @@
           "Referrals Form, Site Type":{
             "required":true
           },
-          
+
           "Referrals Form, Setting":{
             "required":true
           },
@@ -521,37 +540,37 @@
             },
             "FPS FORM,Current Method":
             {
-             "multiSelect":true   
+             "multiSelect":true
             },
             "IR, Referred to":
             {
-             "multiSelect":true   
+             "multiSelect":true
             },
             "FP Counselling Only, Current Method":
             {
-             "multiSelect":true   
+             "multiSelect":true
             },
             "FPS Counselling Only, Indicate where client was referred to":
             {
-             "multiSelect":true   
+             "multiSelect":true
             },
             "FPS Counselling Only, State review date": {
             "allowFutureDates": true
           },
           "FP Continuation, Current Method":
             {
-             "multiSelect":true   
+             "multiSelect":true
             },
             "FP Continuation,Indicate where client was referred to":
             {
-             "multiSelect":true   
+             "multiSelect":true
             },
             "FP Continuation, State review date": {
             "allowFutureDates": true
           },
             "FP Continuation, If yes, select the adverse event":
             {
-             "dropdown":true   
+             "dropdown":true
             },
             "FP Continuation, Expiry date of the method given":
           {
