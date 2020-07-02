@@ -433,6 +433,83 @@
             "dropdown":true,
             "required":true
           },
+
+          "NCD Form, Facility":{
+            "dropdown":true,
+            "required":true
+          },
+          "NCD Form, District":{
+            "dropdown":true,
+            "required":true
+          },
+
+          "NCD Form, Site Type":{
+            "required":true
+          },
+
+          "NCD Form, Setting":{
+            "required":true
+          },
+
+
+          "PrEP ST Form, District":{
+            "dropdown":true,
+            "required":true
+            },
+
+        "PrEP ST Form, Facility":{
+            "dropdown":true,
+            "required":true
+          },
+
+          "PrEP ST Form, Site Type":{
+            "required":true
+          },
+
+          "PrEP ST Form, Setting":{
+            "required":true
+          },
+
+
+          "IPV Form, Facility":{
+            "dropdown":true,
+            "required":true
+          },
+
+          "IPV Form, District":{
+            "dropdown":true,
+            "required":true
+          },
+
+          "IPV Form, Site Type":{
+            "required":true
+          },
+
+          "IPV Form, Setting":{
+            "required":true
+          },
+
+
+
+          "Referrals Form, Facility":{
+            "dropdown":true,
+            "required":true
+          },
+
+          "Referrals Form, District":{
+            "dropdown":true,
+            "required":true
+          },
+
+          "Referrals Form, Site Type":{
+            "required":true
+          },
+          
+          "Referrals Form, Setting":{
+            "required":true
+          },
+
+
           "FPS Counselling Only BP, Systolic": {
                 "hideAbnormalButton" : true
             },
