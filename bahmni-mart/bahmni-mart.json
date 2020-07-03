@@ -4932,7 +4932,7 @@ ORDER BY date_created DESC;"
      case when prep_init_form_single_or_stable_relationship_have_you_used_ = 'Yes' then 1
           when prep_init_form_single_or_stable_relationship_have_you_used_ = 'No' then 0
           else null end :: boolean as \"[Initial] Have you used PEP in the last 6 months single and used\",
-     prep_init_form_single_or_stable_relationship_what_was_the_r AS \"[Initial] What was the reason for taking PEP?\",
+     prep_init_form_single_or_stable_relationship_what_was_the_r AS \"[Initial] Single or stable relationship\",
      case when prep_init_form_do_you_inject_drugs = 'Yes' then 1
          when prep_init_form_do_you_inject_drugs = 'No' then 0
          else null end :: boolean as \"[Initial] Do you inject drugs?\",
