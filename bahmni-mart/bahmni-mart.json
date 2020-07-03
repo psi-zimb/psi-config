@@ -4770,51 +4770,51 @@ ORDER BY date_created DESC;"
      
      case when prep_init_form_have_you_had_an_hiv_test_in_the_past_1_week = 'Yes' then 1
           when prep_init_form_have_you_had_an_hiv_test_in_the_past_1_week = 'No' then 0
-          else null end :: boolean AS \"Had you had HIV test in the past 1 week\",
+          else null end :: boolean AS \"[Initial] Had you had HIV test in the past 1 week\",
           
-     prep_init_form_when_was_the_test_done AS \"When was the test done\",
-     prep_init_form_what_was_the_result AS \"What was the result HIV\",
+     prep_init_form_when_was_the_test_done AS \"[Initial] When was the test done\",
+     prep_init_form_what_was_the_result AS \"[Initial] What was the result HIV\",
      
      case when prep_init_form_do_you_have_any_heath_related_problems_today = 'Yes' then 1
             when prep_init_form_do_you_have_any_heath_related_problems_today = 'No' then 0
-            else null end :: boolean AS \"Any heath related problems today\",
+            else null end :: boolean AS \"[Initial] Any heath related problems today\",
             
-     prep_init_form_if_yes_for_health_related_problems_today AS \"If Yes Indicate the problem\",
-     prep_init_form_have_you_been_diagnosed_of_any_chronic_illne AS \"Ever been diagnosed of a chronic illness\",
-     prep_init_form_are_you_or_your_partner_currently_pregnant AS \"Are you/partner currently pregnant\",
-     prep_init_form_when_was_you_last_normal_menstrual_period as \"Last Menstrual Period Prep Initial\",  
+     prep_init_form_if_yes_for_health_related_problems_today AS \"[Initial] If Yes Indicate the problem\",
+     prep_init_form_have_you_been_diagnosed_of_any_chronic_illne AS \"[Initial] Ever been diagnosed of a chronic illness\",
+     prep_init_form_are_you_or_your_partner_currently_pregnant AS \"[Initial] Are you/partner currently pregnant\",
+     prep_init_form_when_was_you_last_normal_menstrual_period as \"[Initial] Last Menstrual Period Prep Initial\",
          
      case when prep_init_form_pregnacy_test_done = 'Yes' then 1
           when prep_init_form_pregnacy_test_done = 'No' then 0
-          else null end :: boolean AS \"Pregnacy test done\",
+          else null end :: boolean AS \"[Initial] Pregnacy test done\",
             
-     prep_init_form_pregnancy_test_what_was_the_result AS \"What was the result Pregnacy\",
+     prep_init_form_pregnancy_test_what_was_the_result AS \"[Initial] What was the result Pregnacy\",
      
      case when prep_init_form_are_you_or_partner_currently_breast_feeding = 'Yes' then 1
           when prep_init_form_are_you_or_partner_currently_breast_feeding = 'No' then 0
-          else null end :: boolean AS \"Are you/partner currently breast feeding\",
+          else null end :: boolean AS \"[Initial] Are you/partner currently breast feeding\",
      
      
-     prep_init_form_are_you_or_your_partner_using_any_contracept AS \"Are you/partner using any contraception\",
-     prep_init_form_are_you_taking_any_drugs_or_medications AS \"Are you taking any drugs or medications\",
+     prep_init_form_are_you_or_your_partner_using_any_contracept AS \"[Initial] Are you/partner using any contraception\",
+     prep_init_form_are_you_taking_any_drugs_or_medications AS \"[Initial] Are you taking any drugs or medications\",
      
      case when prep_init_form_are_you_on_arvs = 'Yes' then 1
           when prep_init_form_are_you_on_arvs = 'No' then 0
-          else null end :: boolean AS \"Are you on ARVs\",
+          else null end :: boolean AS \"[Initial] Are you on ARVs\",
           
      case when prep_init_form_are_you_sexually_active = 'Yes' then 1
           when prep_init_form_are_you_sexually_active = 'No' then 0
-          else null end :: boolean AS \"Are you sexually active\",
+          else null end :: boolean AS \"[Initial] Are you sexually active\",
             
      case when prep_init_form_are_you_married_or_in_a_stable_relationship_ = 'Yes' then 1
           when prep_init_form_are_you_married_or_in_a_stable_relationship_ = 'No' then 0
-          else null end :: boolean AS \"Married/stable relation past 6month/more\",
+          else null end :: boolean AS \"[Initial] Married/stable relation past 6month/more\",
      
      CASE WHEN prep_cont_form_do_you_know_your_partner_s_hiv_status is not null then
           prep_cont_form_do_you_know_your_partner_s_hiv_status
           when prep_cont_form_do_you_know_your_partner_s_hiv_status is null then 
           prep_init_form_do_you_know_your_partner_s_hiv_status
-     end  AS \"What is your partners HIV status\",
+     end  AS \"[Continuation] What is your partners HIV status\",
      
      CASE WHEN prep_cont_form_is_your_partner_on_art is not null then
           case when prep_cont_form_is_your_partner_on_art = 'Yes' then 1
@@ -4824,14 +4824,14 @@ ORDER BY date_created DESC;"
           case when prep_init_form_is_your_partner_on_art = 'Yes' then 1
                when prep_init_form_is_your_partner_on_art = 'No'  then 0
                else null end
-     end :: boolean AS \"Is your partner on ART\",     
+     end :: boolean AS \"[Continuation / Initial] Is your partner on ART\",
      
      case when prep_init_form_do_you_know_your_partner_s_adherence_to_art = 'Yes' then 1
           when prep_init_form_do_you_know_your_partner_s_adherence_to_art = 'No' then 0
-          else null end :: boolean AS \"What is your partners adherence to ART\",
+          else null end :: boolean AS \"[Initial] What is your partners adherence to ART\",
      
-     prep_init_form_has_your_partner_had_a_viral_load_test_done_ AS \"Partner viral load tested last 12 months\",
-     prep_init_form_if_yes_for_partner_had_a_viral_load_test_don AS \"Specifiy Results\",
+     prep_init_form_has_your_partner_had_a_viral_load_test_done_ AS \"[Initial] Partner viral load tested last 12 months\",
+     prep_init_form_if_yes_for_partner_had_a_viral_load_test_don AS \"[Initial] Specifiy Results\",
    
      CASE WHEN prep_cont_form_are_you_using_condoms_every_time_you_are_hav is not null then
           case when prep_cont_form_are_you_using_condoms_every_time_you_are_hav = 'Yes' then 1
@@ -4841,31 +4841,31 @@ ORDER BY date_created DESC;"
           case when prep_init_form_do_you_use_condoms_every_time_you_have_sex_w = 'Yes' then 1
                when prep_init_form_do_you_use_condoms_every_time_you_have_sex_w = 'No'  then 0
                else null end
-     end :: boolean AS \"Use condoms for sex with partner\",
+     end :: boolean AS \"[Continuation / Initial] Use condoms for sex with partner\",
      
      case when prep_init_form_have_you_had_any_other_sexual_partners_in_th = 'Yes' then 1
             when prep_init_form_have_you_had_any_other_sexual_partners_in_th = 'No' then 0
-            else null end :: boolean AS \"Had other sexual partners last 6 months\",
+            else null end :: boolean AS \"[Initial] Had other sexual partners last 6 months\",
           
-     prep_init_form_if_yes_for_had_any_other_sexual_partners_in_ AS \"How many\",
+     prep_init_form_if_yes_for_had_any_other_sexual_partners_in_ AS \"[Initial] How many\",
      
      case when prep_init_form_do_you_have_more_than_1_sexual_partner = 'Yes' then 1
             when prep_init_form_do_you_have_more_than_1_sexual_partner = 'No' then 0
-            else null end :: boolean AS \"Do you have more than 1 sexual partner\",
+            else null end :: boolean AS \"[Initial] Do you have more than 1 sexual partner\",
      
      case when prep_init_form_do_you_know_your_non_regular_partner_s_hiv_s = 'Yes' then 1
             when prep_init_form_do_you_know_your_non_regular_partner_s_hiv_s = 'No' then 0
-            else null end :: boolean AS \"Whats is non-regular partners HIV status\",
+            else null end :: boolean AS \"[Initial] Whats is non-regular partners HIV status\",
         
-     prep_init_form_specify_hiv_status_of_partner AS \"Specify HIV status of partner\",
+     prep_init_form_specify_hiv_status_of_partner AS \"[Initial] Specify HIV status of partner\",
      
      case when prep_init_form_do_you_use_condoms_every_time_you_have_sex_w_1 = 'Yes' then 1
             when prep_init_form_do_you_use_condoms_every_time_you_have_sex_w_1 = 'No' then 0
-            else null end :: boolean AS \"Use condom alwys with nonregular partner\",
+            else null end :: boolean AS \"[Initial] Use condom alwys with nonregular partner\",
      
      case when prep_init_form_have_you_been_treated_for_an_sti_in_the_last = 'Yes' then 1
           when prep_init_form_have_you_been_treated_for_an_sti_in_the_last = 'No' then 0
-          else null end :: boolean AS \"Treated for an STI in the last 3 months\",
+          else null end :: boolean AS \"[Initial] Treated for an STI in the last 3 months\",
           
      CASE WHEN prep_cont_form_have_you_exchanged_sex_for_money_goods_or_se is not null then
           case when prep_cont_form_have_you_exchanged_sex_for_money_goods_or_se = 'Yes' then 1
@@ -4875,44 +4875,44 @@ ORDER BY date_created DESC;"
           case when prep_init_form_have_you_exchanged_sex_for_money_goods_or_se = 'Yes' then 1
                when prep_init_form_have_you_exchanged_sex_for_money_goods_or_se = 'No'  then 0
                else null end
-     end :: boolean  AS \"Exchanged sex for money/goods/services\",    
+     end :: boolean  AS \"Exchanged sex for money/goods/services\",
    
      case when prep_init_form_do_you_have_a_history_of_sexual_abuse_gender = 'Yes' then 1
             when prep_init_form_do_you_have_a_history_of_sexual_abuse_gender = 'No' then 0
-            else null end :: boolean AS \"History of sexual abuse/gbv\",
+            else null end :: boolean AS \"[Initial] History of sexual abuse/gbv\",
             
      case when prep_init_form_have_you_used_emergency_contraception_in_the  = 'Yes' then 1
             when prep_init_form_have_you_used_emergency_contraception_in_the  = 'No' then 0
-            else null end :: boolean AS \"Used ec contraception in last 6 months\",
+            else null end :: boolean AS \"[Initial] Used ec contraception in last 6 months\",
             
     case when prep_init_form_have_you_used_pep_in_the_last_6_months  = 'Yes' then 1
             when prep_init_form_have_you_used_pep_in_the_last_6_months  = 'No' then 0
-            else null end :: boolean AS \"Have you used PEP in the last 6 months more than one partner\",
+            else null end :: boolean AS \"[Initial] Have you used PEP in the last 6 months more than one partner\",
             
-     prep_init_form_what_was_the_reason_for_taking_pep AS \"What was the reason for taking PEP?\",
+     prep_init_form_what_was_the_reason_for_taking_pep AS \"[Initial] What was the reason for taking PEP?\",
      
      case when prep_init_form_are_you_single_or_not_in_a_stable_relationsh  = 'Yes' then 1
           when prep_init_form_are_you_single_or_not_in_a_stable_relationsh = 'No' then 0
-          else null end :: boolean AS \"You single/not in a stable relationship\",
+          else null end :: boolean AS \"[Initial] You single/not in a stable relationship\",
      case when prep_init_form_have_you_had_sexual_partner_s_in_the_last_6_  = 'Yes' then 1
           when prep_init_form_have_you_had_sexual_partner_s_in_the_last_6_ = 'No' then 0
-          else null end :: boolean  AS \"Have you had sexual partner(s) in the last 6 months?\",
+          else null end :: boolean  AS \"[Initial] Have you had sexual partner(s) in the last 6 months?\",
      
-     prep_init_form_if_yes_how_many AS \"How many?\",
+     prep_init_form_if_yes_how_many AS \"[Initial] How many?\",
      
      case when prep_init_form_do_you_use_condoms_every_time_you_have_vagin = 'Yes' then 1
           when prep_init_form_do_you_use_condoms_every_time_you_have_vagin = 'No' then 0
-          else null end :: boolean AS \"Use condoms always for vaginal/anal sex\",
+          else null end :: boolean AS \"[Initial] Use condoms always for vaginal/anal sex\",
             
      case when prep_init_form_have_you_had_a_condom_burst_in_the_last_3_mo = 'Yes' then 1
           when prep_init_form_have_you_had_a_condom_burst_in_the_last_3_mo = 'No' then 0
-          else null end :: boolean AS \"Had a condom burst in the last 3 month\",
+          else null end :: boolean AS \"[Initial] Had a condom burst in the last 3 month\",
             
-     prep_init_form_if_yes_for_condorm_burst_how_many_times AS \"How many times condom burst?\",
+     prep_init_form_if_yes_for_condorm_burst_how_many_times AS \"[Initial] How many times condom burst?\",
      
      case when prep_init_form_in_a_single_relationship_have_you_been_treat = 'Yes' then 1
           when prep_init_form_in_a_single_relationship_have_you_been_treat = 'No' then 0
-          else null end :: boolean AS \"Treated for an STI in the last 3 months in single Relationship\",
+          else null end :: boolean AS \"[Initial] Treated for an STI in the last 3 months in single Relationship\",
      
      CASE WHEN prep_cont_form_have_you_had_sex_whilst_indoxicated_with_alc is not null then
           case when prep_cont_form_have_you_had_sex_whilst_indoxicated_with_alc = 'Yes' then 1
@@ -4922,20 +4922,20 @@ ORDER BY date_created DESC;"
           case when prep_init_form_have_you_had_sex_whilst_indoxicated_with_alc = 'Yes' then 1
                when prep_init_form_have_you_had_sex_whilst_indoxicated_with_alc = 'No'  then 0
                else null end
-     end :: boolean  AS \"Have you had sex whilst indoxicated\",   
+     end :: boolean  AS \"[Continuation / Initial] Have you had sex whilst indoxicated\",
 
      case when prep_init_form_have_you_or_your_partner_used_emergency_cont = 'Yes' then 1
           when prep_init_form_have_you_or_your_partner_used_emergency_cont = 'No' then 0
-          else null end :: boolean  AS \"Couple used ec contraception last 6month\",
+          else null end :: boolean  AS \"[Initial] Couple used ec contraception last 6month\",
      
-     prep_init_form_if_yes_for_emergency_contraception_how_many_ AS \"How many times contraception\",
+     prep_init_form_if_yes_for_emergency_contraception_how_many_ AS \"[Initial] How many times contraception\",
      case when prep_init_form_single_or_stable_relationship_have_you_used_ = 'Yes' then 1
           when prep_init_form_single_or_stable_relationship_have_you_used_ = 'No' then 0
-          else null end :: boolean as \"Have you used PEP in the last 6 months single and used\",
-     prep_init_form_single_or_stable_relationship_what_was_the_r AS \" What was the reason for taking PEP?\",
+          else null end :: boolean as \"[Initial] Have you used PEP in the last 6 months single and used\",
+     prep_init_form_single_or_stable_relationship_what_was_the_r AS \"[Initial] What was the reason for taking PEP?\",
      case when prep_init_form_do_you_inject_drugs = 'Yes' then 1
          when prep_init_form_do_you_inject_drugs = 'No' then 0
-         else null end :: boolean as \"Do you inject drugs?\", 
+         else null end :: boolean as \"[Initial] Do you inject drugs?\",
          
      CASE WHEN prep_cont_form_does_the_client_have_any_sings_of_primary_in is not null then
           case when prep_cont_form_does_the_client_have_any_sings_of_primary_in = 'Yes' then 1
@@ -4945,25 +4945,25 @@ ORDER BY date_created DESC;"
           case when prep_init_form_any_signs_of_primary_infection = 'Yes' then 1
                when prep_init_form_any_signs_of_primary_infection = 'No'  then 0
                else null end
-     end :: boolean   AS \"Any signs of primary infection\", 
+     end :: boolean   AS \"[Continuation / Initial] Any signs of primary infection\",
      
      CASE WHEN prep_cont_form_if_yes_for_client_have_any_sings_of_primary_  is not null then
                prep_cont_form_if_yes_for_client_have_any_sings_of_primary_  
           when prep_cont_form_if_yes_for_client_have_any_sings_of_primary_  is null then 
                prep_init_form_if_yes_for_any_signs_of_primary_infection
-     end  AS \"Specify details\",
+     end  AS \"[Continuation] Specify details\",
      
      CASE WHEN prep_cont_form_what_is_the_client_s_hiv_status_today  is not null then
           prep_cont_form_what_is_the_client_s_hiv_status_today 
           when prep_cont_form_what_is_the_client_s_hiv_status_today  is null then 
           prep_init_form_what_is_the_client_s_hiv_status_today
-          end   AS \"What is the clients HIV status today\",
+          end   AS \"[Continuation] What is the clients HIV status today\",
 
     CASE WHEN prep_cont_form_type_of_follow_up  is not null then
           prep_cont_form_type_of_follow_up
           when prep_cont_form_type_of_follow_up  is null then
           prep_cont_form_type_of_follow_up
-          end   AS \"Type of follow up\",
+          end   AS \"[Continuation] Type of follow up\",
 
     CASE WHEN prep_cont_form_duration_of_medication  is not null then
           prep_cont_form_duration_of_medication
@@ -4971,163 +4971,163 @@ ORDER BY date_created DESC;"
           prep_cont_form_duration_of_medication
           end   AS \"[Continuation] Duration of medication\",
 
-     prep_cont_form_next_date_of_medication_resupply as \"Next date of medication resupply\",
-     prep_cont_form_prep_end_date as \"PrEP end date\",
+     prep_cont_form_next_date_of_medication_resupply as \"[Continuation] Next date of medication resupply\",
+     prep_cont_form_prep_end_date as \"[Continuation] PrEP end date\",
       
      case when prep_init_form_are_you_ready_to_start_prep = 'Yes' then 1
           when prep_init_form_are_you_ready_to_start_prep = 'No' then 0
-          else null end :: boolean AS \"Are you ready to start Prep\",
+          else null end :: boolean AS \"[Initial] Are you ready to start Prep\",
           
      CASE WHEN prep_cont_form_if_no_for_are_you_ready_to_continue_prep is not null then
            prep_cont_form_if_no_for_are_you_ready_to_continue_prep  
           when prep_cont_form_if_no_for_are_you_ready_to_continue_prep is null then 
            prep_init_form_if_yes_for_ready_to_start_prep_specify_reaso 
-     end  AS \"Specify Reason\",
+     end  AS \"[Continuation / Initial] Specify Reason\",
 
      case when prep_init_form_is_the_client_eligible_to_take_prep = 'Yes' then 1
           when prep_init_form_is_the_client_eligible_to_take_prep = 'No' then 0
-          else null end :: boolean  AS \"Is the client Eligible to take PrEP\",
+          else null end :: boolean  AS \"[Initial] Is the client Eligible to take PrEP\",
 
      case when prep_init_form_was_client_initiated_on_prep = 'Yes' then 1
           when prep_init_form_was_client_initiated_on_prep = 'No' then 0
-          else null end :: boolean  AS \"Was client initiated on PrEP?\",
+          else null end :: boolean  AS \"[Initial] Was client initiated on PrEP?\",
 
-    prep_init_form_date_client_initiated_on_prep AS \"Date client initiated on PrEP\",
+    prep_init_form_date_client_initiated_on_prep AS \"[Initial] Date client initiated on PrEP\",
     prep_init_form_duration_of_medication AS \"[Initial] Duration of medication\",
-    prep_init_form_duration_client_intends_to_take_prep AS \"Duration client intends to take PrEP\",
+    prep_init_form_duration_client_intends_to_take_prep AS \"[Initial] Duration client intends to take PrEP\",
 
      case when prep_cont_form_do_you_have_any_heath_related_problems_today = 'Yes' then 1
           when prep_cont_form_do_you_have_any_heath_related_problems_today = 'No' then 0
-          else null end :: boolean  AS \"Have any heath related problems today\",
+          else null end :: boolean  AS \"[Continuation] Have any heath related problems today\",
      
-     prep_cont_form_if_yes_for_health_related_problems_today AS \"Indicate the problem\",
+     prep_cont_form_if_yes_for_health_related_problems_today AS \"[Continuation] Indicate the problem\",
      case when prep_cont_form_are_you_using_any_family_planning_method = 'Yes' then 1
           when prep_cont_form_are_you_using_any_family_planning_method = 'No' then 0
-          else null end :: boolean AS \"Are you using any family planning method\",
+          else null end :: boolean AS \"[Continuation] Are you using any family planning method\",
       
-     prep_cont_form_if_yes_for_are_you_using_any_family_planning AS \"Specify Method\",
-     prep_cont_form_last_normal_menstrual_period as \"Last Normal Menstrual Period Prep Cont\",
+     prep_cont_form_if_yes_for_are_you_using_any_family_planning AS \"[Continuation] Specify Method\",
+     prep_cont_form_last_normal_menstrual_period as \"[Continuation] Last Normal Menstrual Period Prep Cont\",
      case when prep_cont_form_are_you_breast_feeding = 'Yes' then 1
           when prep_cont_form_are_you_breast_feeding = 'No' then 0
-          else null end :: boolean AS \"Are you breast feeding\",
+          else null end :: boolean AS \"[Continuation] Are you breast feeding\",
      
      case when prep_cont_form_are_you_using_any_other_medications = 'Yes' then 1
           when prep_cont_form_are_you_using_any_other_medications = 'No' then 0
-          else null end :: boolean AS \"Are you using any other medications\",
+          else null end :: boolean AS \"[Continuation] Are you using any other medications\",
       
-     prep_cont_form_if_yes_for_are_you_using_any_other_medicatio AS \"Specify medications\",
-     prep_cont_form_how_many_sexual_partners_have_you_had_since_ AS \"How many sex partners since last visit\",
-     prep_cont_form_if_yes_for_do_you_know_your_partner_s_hiv_st AS \"If Yes then specify\",
+     prep_cont_form_if_yes_for_are_you_using_any_other_medicatio AS \"[Continuation] Specify medications\",
+     prep_cont_form_how_many_sexual_partners_have_you_had_since_ AS \"[Continuation] How many sex partners since last visit\",
+     prep_cont_form_if_yes_for_do_you_know_your_partner_s_hiv_st AS \"[Continuation] If Yes then specify\",
      
      case when prep_cont_form_do_you_know_your_partner_s_viral_load = 'Yes' then 1
           when prep_cont_form_do_you_know_your_partner_s_viral_load = 'No' then 0
-          else null end :: boolean  AS \"Do you know your partners viral load\",
+          else null end :: boolean  AS \"[Continuation] Do you know your partners viral load\",
       
-     prep_cont_form_if_yes_for_do_you_know_your_partner_s_viral_ AS \"Indicate value\",
+     prep_cont_form_if_yes_for_do_you_know_your_partner_s_viral_ AS \"[Continuation] Indicate value\",
      
      case when prep_cont_form_have_you_had_a_condom_burst_since_the_last_v = 'Yes' then 1
           when prep_cont_form_have_you_had_a_condom_burst_since_the_last_v = 'No' then 0
-          else null end :: boolean AS \"Had a condom burst since the last visit\",
-     prep_cont_form_if_yes_for_condom_burst_since_the_last_visit AS \"How many times condom burst since last visit\",
+          else null end :: boolean AS \"[Continuation] Had a condom burst since the last visit\",
+     prep_cont_form_if_yes_for_condom_burst_since_the_last_visit AS \"[Continuation] How many times condom burst since last visit\",
      case when prep_cont_form_have_you_been_treated_for_an_sti_since_the_l = 'Yes' then 1
           when prep_cont_form_have_you_been_treated_for_an_sti_since_the_l = 'No' then 0
-          else null end :: boolean AS \"Treated for STI since the last visit\",
+          else null end :: boolean AS \"[Continuation] Treated for STI since the last visit\",
      case when prep_cont_form_have_you_been_sexually_abused_or_had_gender_ = 'Yes' then 1
           when prep_cont_form_have_you_been_sexually_abused_or_had_gender_ = 'No' then 0
-          else null end :: boolean AS \"Sexually abused/ GBV since last visit\",
+          else null end :: boolean AS \"[Continuation] Sexually abused/ GBV since last visit\",
      case when prep_cont_form_have_you_used_emergency_contraception_since_ = 'Yes' then 1
           when prep_cont_form_have_you_used_emergency_contraception_since_ = 'No' then 0
-          else null end :: boolean AS \"Used ec contraception since last visit\",
+          else null end :: boolean AS \"[Continuation] Used ec contraception since last visit\",
       
-     prep_cont_form_if_yes_for_used_emergency_contraception_sinc AS \"How many times contraception since last visit\",
+     prep_cont_form_if_yes_for_used_emergency_contraception_sinc AS \"[Continuation] How many times contraception since last visit\",
     case when prep_cont_form_are_you_ready_to_continue_prep = 'Yes' then 1
          when prep_cont_form_are_you_ready_to_continue_prep = 'No' then 0
-         else null end :: boolean AS \"Are you ready to continue PrEP\",
+         else null end :: boolean AS \"[Continuation] Are you ready to continue PrEP\",
      case when prep_cont_form_is_the_client_eligible_to_continue_prep = 'Yes' then 1
           when prep_cont_form_is_the_client_eligible_to_continue_prep = 'No' then 0
-          else null end :: boolean AS \"Is the client eligible to continue PrEP\",
+          else null end :: boolean AS \"[Continuation] Is the client eligible to continue PrEP\",
 
     case when prep_st_form_is_the_client_hiv_negative = 'Yes' then 1
       when prep_st_form_is_the_client_hiv_negative = 'No' then 0
-      else null end :: boolean AS \"Is Client Tested HIV Negative?\",
+      else null end :: boolean AS \"[Screening] Is Client Tested HIV Negative?\",
 
-prep_st_form_date_tested AS \"Date Tested \",
+prep_st_form_date_tested AS \"[Screening] Date Tested \",
 
 case when prep_st_form_is_the_client_sexually_active = 'Yes' then 1
       when prep_st_form_is_the_client_sexually_active = 'No' then 0
-      else null end :: boolean AS \"Is Client Sexually Active?\",
+      else null end :: boolean AS \"[Screening] Is Client Sexually Active?\",
 
 case when prep_st_form_is_the_sexually_active_in_a_high_prevalence_kp = 'Yes' then 1
       when prep_st_form_is_the_sexually_active_in_a_high_prevalence_kp = 'No' then 0
-      else null end :: boolean AS \"Is Client Sexually Active In A High Prevalence?\",
+      else null end :: boolean AS \"[Screening] Is Client Sexually Active In A High Prevalence?\",
 
-prep_st_form_if_yes_then_specify1 AS \"High Prelavance Details\",
+prep_st_form_if_yes_then_specify1 AS \"[Screening] High Prelavance Details\",
 
 case when prep_st_form_has_the_client_had_vaginal_or_anal_intercourse = 'Yes' then 1
       when prep_st_form_has_the_client_had_vaginal_or_anal_intercourse = 'No' then 0
-      else null end :: boolean AS \"Has Client had Vaginal/Intercourse ?\",
+      else null end :: boolean AS \"[Screening] Has Client had Vaginal/Intercourse ?\",
 
-prep_st_form_how_many_sexual_partners_did_you_have_vaginal_ AS \"How Many Sexual Partners Did You Have Vaginal/Anal sex with\",
+prep_st_form_how_many_sexual_partners_did_you_have_vaginal_ AS \"[Screening] How Many Sexual Partners Did You Have Vaginal/Anal sex with\",
 
 case when prep_st_form_in_the_past_6_months_did_you_use_condoms_consi = 'Yes' then 1
       when prep_st_form_in_the_past_6_months_did_you_use_condoms_consi = 'No' then 0
-      else null end :: boolean AS \"Did You Use Condoms Consistently During Sex In Last 6 Months?\",
+      else null end :: boolean AS \"[Screening] Did You Use Condoms Consistently During Sex In Last 6 Months?\",
 
 case when prep_st_form_does_the_client_have_a_sex_partner_with_one_or = 'Yes' then 1
       when prep_st_form_does_the_client_have_a_sex_partner_with_one_or = 'No' then 0
-      else null end :: boolean AS \"Does The Client Have A Sex Partner With One or More HIV Risk Factors?\",
+      else null end :: boolean AS \"[Screening] Does The Client Have A Sex Partner With One or More HIV Risk Factors?\",
 
-prep_st_form_if_yes_then_specify2 AS \"Sex Partner Details \",
+prep_st_form_if_yes_then_specify2 AS \"[Screening] Sex Partner Details \",
 
 case when prep_st_form_in_the_last_6_months_has_the_client_been_treat = 'Yes' then 1
       when prep_st_form_in_the_last_6_months_has_the_client_been_treat = 'No' then 0
-      else null end :: boolean AS \"In the last 6 months has the client been treated for an STI by lab testing?\",
+      else null end :: boolean AS \"[Screening] In the last 6 months has the client been treated for an STI by lab testing?\",
 
  case when prep_st_form_in_the_last_6_months_have_you_taken_post_expos = 'Yes' then 1
       when prep_st_form_in_the_last_6_months_have_you_taken_post_expos = 'No' then 0
-      else null end :: boolean AS \"In the last 6 months have you taken PEP ?\",
+      else null end :: boolean AS \"[Screening] In the last 6 months have you taken PEP ?\",
 
 case when prep_st_form_in_the_last_6_months_have_you_used_emergency_c = 'Yes' then 1
       when prep_st_form_in_the_last_6_months_have_you_used_emergency_c = 'No' then 0
-      else null end :: boolean AS \"In the last 6 months have you used emergency contraception?\",
+      else null end :: boolean AS \"[Screening] In the last 6 months have you used emergency contraception?\",
 
 case when prep_st_form_in_the_last_6_months_have_you_had_sex_while_un = 'Yes' then 1
       when prep_st_form_in_the_last_6_months_have_you_had_sex_while_un = 'No' then 0
-      else null end :: boolean AS \"In the last 6 months have you had sex while under the influence of alcohol?\",
+      else null end :: boolean AS \"[Screening] In the last 6 months have you had sex while under the influence of alcohol?\",
 
 case when prep_st_form_are_you_in_a_sero_discordant_relationship = 'Yes' then 1
       when prep_st_form_are_you_in_a_sero_discordant_relationship = 'No' then 0
-      else null end :: boolean AS \"Are you in a Sero-discordant relationship?\",
+      else null end :: boolean AS \"[Screening] Are you in a Sero-discordant relationship?\",
 
-prep_st_form_if_yes_then_specify3 AS \"Sero-discordant Relationship Details ?\",
+prep_st_form_if_yes_then_specify3 AS \"[Screening] Sero-discordant Relationship Details ?\",
 
 case when prep_st_form_do_you_have_a_partners_of_unknown_status_who_r = 'Yes' then 1
       when prep_st_form_do_you_have_a_partners_of_unknown_status_who_r = 'No' then 0
-      else null end :: boolean AS \"Do you have a partners of unknown status who refuse testing?\",
+      else null end :: boolean AS \"[Screening] Do you have a partners of unknown status who refuse testing?\",
 
 case when prep_st_form_do_you_inject_drugs = 'Yes' then 1
       when prep_st_form_do_you_inject_drugs = 'No' then 0
-      else null end :: boolean AS \"Prep Screening - Do You Inject Drugs?\",
+      else null end :: boolean AS \"[Screening] Prep Screening - Do You Inject Drugs?\",
 
 case when prep_st_form_is_the_client_eligible_for_prep = 'Yes' then 1
       when prep_st_form_is_the_client_eligible_for_prep = 'No' then 0
-      else null end :: boolean AS \"Is the client eligible for PrEP?\",
+      else null end :: boolean AS \"[Screening] Is the client eligible for PrEP?\",
 
-prep_st_form_if_yes_then_specify4 AS \"Prep Eigibility Details \",
+prep_st_form_if_yes_then_specify4 AS \"[Screening] Prep Eigibility Details \",
 
 case when prep_st_form_has_the_client_been_referred_for_prep = 'Yes' then 1
       when prep_st_form_has_the_client_been_referred_for_prep = 'No' then 0
-      else null end :: boolean AS \"Has the client been referred for PrEP?\",
+      else null end :: boolean AS \"[Screening] Has the client been referred for PrEP?\",
 
-prep_st_form_reason_s_for_not_referring_the_client AS \"Reasons For Not Referring The client \",
+prep_st_form_reason_s_for_not_referring_the_client AS \"[Screening] Reasons For Not Referring The client \",
 
     case when prep_st_form_client_offered_prep = 'Yes' then 1
       when prep_st_form_client_offered_prep = 'No' then 0
-      else null end :: boolean AS \"Client offered PrEP?\",
+      else null end :: boolean AS \"[Screening] Client offered PrEP?\",
 
     case when prep_st_form_client_accepted_prep = 'Yes' then 1
       when prep_st_form_client_accepted_prep = 'No' then 0
-      else null end :: boolean AS \"Client accepted PrEP?\"
+      else null end :: boolean AS \"[Screening] Client accepted PrEP?\"
       
      
 
