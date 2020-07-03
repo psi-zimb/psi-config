@@ -13,7 +13,7 @@
 
 
     <changeSet id="PSI-CONFIG-VM-207011271900" author="psi">
-        <comment>Adding Answers to "Prep Init Form, Was client initaited on PrEP?"</comment>
+        <comment>Adding Answers to "Prep Init Form, Was client initiated on PrEP?"</comment>
         <sql>
             set @concept_id = 0;
             set @child1_concept_id = 0;
