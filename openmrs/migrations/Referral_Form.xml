@@ -6,7 +6,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <changeSet id="PSI-CONFIG-VM-242261270989" author="psi">
+    <changeSet id="PSI-CONFIG-VM-542261270999" author="psi">
         <comment>Adding New Concepts for Referrals Template</comment>
         <sqlFile path="Referral_Form_Concepts.sql"/>
     </changeSet>
@@ -685,7 +685,7 @@
         </sql>
     </changeSet>
 
-    <changeSet id="PSI-CONFIG-VM-252111272839" author="psi">
+    <changeSet id="PSI-CONFIG-VM-252111272739" author="psi">
         <comment>Adding Answers to "Referrals Form, Type of referral"</comment>
         <sql>
             set @concept_id = 0;
@@ -2156,7 +2156,7 @@
 
 
 
-    <changeSet id="PSI-CONFIG-VM-232411452182" author="psi">
+    <changeSet id="PSI-CONFIG-VM-232411452192" author="psi">
         <comment>Adding set members to Referrals Form</comment>
           <sql>
               set @concept_id = 0;
@@ -2261,6 +2261,7 @@
               set @member98_concept_id = 0;
               set @member99_concept_id = 0;
               set @member100_concept_id = 0;
+              set @member101_concept_id = 0;
               set @member102_concept_id = 0;
               set @member103_concept_id = 0;
               set @member104_concept_id = 0;
@@ -2796,6 +2797,7 @@
              call add_concept_set_members (@concept_id, @member98_concept_id, 98);
              call add_concept_set_members (@concept_id, @member99_concept_id, 98);
              call add_concept_set_members (@concept_id, @member100_concept_id, 100);
+             call add_concept_set_members (@concept_id, @member101_concept_id, 101);
              call add_concept_set_members (@concept_id, @member102_concept_id, 102);
              call add_concept_set_members (@concept_id, @member103_concept_id, 103);
              call add_concept_set_members (@concept_id, @member104_concept_id, 104);

@@ -12600,200 +12600,200 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
             return conditions;
     },
 
-'Provider HIV test counselling,Was recency testing done?': function (formName, formFieldValues) {
+"Provider HIV test counselling, Was recency testing done?": function (formName, formFieldValues) {
         var conditions = {
               hide: [],
               show: [],
               enable: [],
               disable: []
               };
-        var conditionConcept = formFieldValues['Provider HIV test counselling,Was recency testing done?'];
+        var conditionConcept = formFieldValues["Provider HIV test counselling, Was recency testing done?"];
         if (conditionConcept == "Yes") {
      
-            conditions.show.push("Provider HIV test counselling,if What was the result?");
-            conditions.show.push("Provider HIV test counselling,Date of recency testing result");
-            conditions.show.push("Provider HIV test counselling,What was the testing modality used?");
-            conditions.hide.push("Provider HIV test counselling,Why was it not done?");
+            conditions.show.push("Provider HIV test counselling, if What was the result?");
+            conditions.show.push("Provider HIV test counselling, Date of recency testing result");
+            conditions.show.push("Provider HIV test counselling, What was the testing modality used?");
+            conditions.hide.push("Provider HIV test counselling, Why was it not done?");
 
             }
        else if (conditionConcept == "No") {
     
-            conditions.hide.push("Provider HIV test counselling,if What was the result?");
-            conditions.hide.push("Provider HIV test counselling,Date of recency testing result");
-            conditions.hide.push("Provider HIV test counselling,What was the testing modality used?");
-            conditions.show.push("Provider HIV test counselling,Why was it not done?");
+            conditions.hide.push("Provider HIV test counselling, What was the result?");
+            conditions.hide.push("Provider HIV test counselling, Date of recency testing result");
+            conditions.hide.push("Provider HIV test counselling, What was the testing modality used?");
+            conditions.show.push("Provider HIV test counselling, Why was it not done?");
               }
        else {
-            conditions.hide.push("Provider HIV test counselling,if What was the result?");
-            conditions.hide.push("Provider HIV test counselling,Date of recency testing result");
-            conditions.hide.push("Provider HIV test counselling,What was the testing modality used?");
-            conditions.hide.push("Provider HIV test counselling,Why was it not done?");
+            conditions.hide.push("Provider HIV test counselling, if What was the result?");
+            conditions.hide.push("Provider HIV test counselling, Date of recency testing result");
+            conditions.hide.push("Provider HIV test counselling, What was the testing modality used?");
+            conditions.hide.push("Provider HIV test counselling, Why was it not done?");
 
           }
         return conditions;
         },
 
 
-'Prep Init Form,Was client initaited on PrEP?': function (formName, formFieldValues) {
+"Prep Init Form, Was client initaited on PrEP?": function (formName, formFieldValues) {
         var conditions = {
               hide: [],
               show: [],
               enable: [],
               disable: []
               };
-        var conditionConcept = formFieldValues['Prep Init Form,Was client initaited on PrEP?'];
+        var conditionConcept = formFieldValues["Prep Init Form, Was client initaited on PrEP?"];
         if (conditionConcept == "Yes") {
      
-            conditions.show.push("Prep Init Form,Date client initiated on PrEP");
-            conditions.show.push("Prep Init Form,Duration of medication");
-            conditions.show.push("Prep Init Form,Duration client intends to take prep?");
+            conditions.show.push("Prep Init Form, Date client initiated on PrEP");
+            conditions.show.push("Prep Init Form, Duration of medication");
+            conditions.show.push("Prep Init Form, Duration client intends to take prep?");
             
             }
        else if (conditionConcept == "No") {
     
-            conditions.hide.push("Prep Init Form,Date client initiated on PrEP");
-            conditions.hide.push("Prep Init Form,Duration of medication");
-            conditions.hide.push("Prep Init Form,Duration client intends to take prep?");
+            conditions.hide.push("Prep Init Form, Date client initiated on PrEP");
+            conditions.hide.push("Prep Init Form, Duration of medication");
+            conditions.hide.push("Prep Init Form, Duration client intends to take prep?");
               }
        else {
-            conditions.hide.push("Prep Init Form,Date client initiated on PrEP");
-            conditions.hide.push("Prep Init Form,Duration of medication");
-            conditions.hide.push("Prep Init Form,Duration client intends to take prep?");
+            conditions.hide.push("Prep Init Form, Date client initiated on PrEP");
+            conditions.hide.push("Prep Init Form, Duration of medication");
+            conditions.hide.push("Prep Init Form, Duration client intends to take prep?");
 
           }
         return conditions;
         },
 
-'PrEP ST Form,Client offered PrEP?': function (formName, formFieldValues) {
+"PrEP ST Form, Client offered PrEP?": function (formName, formFieldValues) {
         var conditions = {
               hide: [],
               show: [],
               enable: [],
               disable: []
               };
-        var conditionConcept = formFieldValues['PrEP ST Form,Client offered PrEP?'];
+        var conditionConcept = formFieldValues["PrEP ST Form, Client offered PrEP?"];
         if (conditionConcept == "Yes") {
      
-            conditions.show.push("PrEP ST Form,Client accepted PrEP?");
+            conditions.show.push("PrEP ST Form, Client accepted PrEP?");
                        
             }
        else if (conditionConcept == "No") {
     
-            conditions.hide.push("PrEP ST Form,Client accepted PrEP?");
+            conditions.hide.push("PrEP ST Form, Client accepted PrEP?");
            
               }
        else {
-            conditions.hide.push("PrEP ST Form,Client accepted PrEP?");
+            conditions.hide.push("PrEP ST Form, Client accepted PrEP?");
           }
         return conditions;
         },
 
-'Art initial Visit compulsory Question 2 of 2,Client initiated on ART': function (formName, formFieldValues) {
+"Art initial Visit compulsory Question 2 of 2, Client initiated on ART": function (formName, formFieldValues) {
         var conditions = {
               hide: [],
               show: [],
               enable: [],
               disable: []
               };
-        var conditionConcept = formFieldValues['Art initial Visit compulsory Question 2 of 2,Client initiated on ART'];
+        var conditionConcept = formFieldValues["Art initial Visit compulsory Question 2 of 2, Client initiated on ART"];
         if (conditionConcept == "Yes") {
      
-            conditions.show.push("Art initial Visit compulsory Question 2 of 2,Date client initiated on ART");
-            conditions.show.push("Art initial Visit compulsory Question 2 of 2,Duration of medication");
-            conditions.show.push("Art initial Visit compulsory Question 2 of 2,Next date of medication resupply");
+            conditions.show.push("Art initial Visit compulsory Question 2 of 2, Date client initiated on ART");
+            conditions.show.push("Art initial Visit compulsory Question 2 of 2, Duration of medication");
+            conditions.show.push("Art initial Visit compulsory Question 2 of 2, Next date of medication resupply");
             
             }
        else if (conditionConcept == "No") {
     
-            conditions.hide.push("Art initial Visit compulsory Question 2 of 2,Date client initiated on ART");
-            conditions.hide.push("Art initial Visit compulsory Question 2 of 2,Duration of medication");
-            conditions.hide.push("Art initial Visit compulsory Question 2 of 2,Next date of medication resupply");
+            conditions.hide.push("Art initial Visit compulsory Question 2 of 2, Date client initiated on ART");
+            conditions.hide.push("Art initial Visit compulsory Question 2 of 2, Duration of medication");
+            conditions.hide.push("Art initial Visit compulsory Question 2 of 2, Next date of medication resupply");
               }
        else {
-             conditions.hide.push("Art initial Visit compulsory Question 2 of 2,Date client initiated on ART");
-            conditions.hide.push("Art initial Visit compulsory Question 2 of 2,Duration of medication");
-            conditions.hide.push("Art initial Visit compulsory Question 2 of 2,Next date of medication resupply");
+             conditions.hide.push("Art initial Visit compulsory Question 2 of 2, Date client initiated on ART");
+            conditions.hide.push("Art initial Visit compulsory Question 2 of 2, Duration of medication");
+            conditions.hide.push("Art initial Visit compulsory Question 2 of 2, Next date of medication resupply");
 
           }
         return conditions;
         },
 
-'NCD Form,Clients screened for hypertension': function (formName, formFieldValues) {
+"NCD Form, Clients screened for hypertension": function (formName, formFieldValues) {
         var conditions = {
               hide: [],
               show: [],
               enable: [],
               disable: []
               };
-        var conditionConcept = formFieldValues['NCD Form,Clients screened for hypertension'];
+        var conditionConcept = formFieldValues["NCD Form, Clients screened for hypertension"];
         if (conditionConcept == "Yes") {
      
             
-            conditions.show.push("NCD Form,Clients diagnosed with hypertension");
-            conditions.show.push("NCD Form,Is hypertension condition controlled");
-            conditions.show.push("NCD Form,Hypertension management");
+            conditions.show.push("NCD Form, Clients diagnosed with hypertension");
+            conditions.show.push("NCD Form, Is hypertension condition controlled");
+            conditions.show.push("NCD Form, Hypertension management");
                 
             }
        else if (conditionConcept == "No") {
     
            
-            conditions.hide.push("NCD Form,Clients diagnosed with hypertension");
-            conditions.hide.push("NCD Form,Is hypertension condition controlled");
-            conditions.hide.push("NCD Form,Hypertension management");
+            conditions.hide.push("NCD Form, Clients diagnosed with hypertension");
+            conditions.hide.push("NCD Form, Is hypertension condition controlled");
+            conditions.hide.push("NCD Form, Hypertension management");
            
               }
        else {
-            conditions.hide.push("NCD Form,Clients diagnosed with hypertension");
-            conditions.hide.push("NCD Form,Is hypertension condition controlled");
-            conditions.hide.push("NCD Form,Hypertension management");
+            conditions.hide.push("NCD Form, Clients diagnosed with hypertension");
+            conditions.hide.push("NCD Form, Is hypertension condition controlled");
+            conditions.hide.push("NCD Form, Hypertension management");
            
           }
         return conditions;
         },
 
-'NCD Form,Clients screened for Type 2 diabetes': function (formName, formFieldValues) {
+"NCD Form, Clients screened for Type 2 diabetes": function (formName, formFieldValues) {
         var conditions = {
               hide: [],
               show: [],
               enable: [],
               disable: []
               };
-        var conditionConcept = formFieldValues['NCD Form,Clients screened for Type 2 diabetes'];
+        var conditionConcept = formFieldValues["NCD Form, Clients screened for Type 2 diabetes"];
         if (conditionConcept == "Yes") {
      
-            conditions.show.push("NCD Form,Clients diagnosed with Type 2 diabetes");
-            conditions.show.push("NCD Form,Is Diabetes condition controlled");
-            conditions.show.push("NCD Form,Diabetes management – gestational");
-            conditions.show.push("NCD Form,Diabetes management – non-gestational");
+            conditions.show.push("NCD Form, Clients diagnosed with Type 2 diabetes");
+            conditions.show.push("NCD Form, Is Diabetes condition controlled");
+            conditions.show.push("NCD Form, Diabetes management – gestational");
+            conditions.show.push("NCD Form, Diabetes management – non-gestational");
                 
             }
        else if (conditionConcept == "No") {
     
            
-            conditions.hide.push("NCD Form,Clients diagnosed with Type 2 diabetes");
-            conditions.hide.push("NCD Form,Is Diabetes condition controlled");
-            conditions.hide.push("NCD Form,Diabetes management – gestational");
-            conditions.hide.push("NCD Form,Diabetes management – non-gestational");
+            conditions.hide.push("NCD Form, Clients diagnosed with Type 2 diabetes");
+            conditions.hide.push("NCD Form, Is Diabetes condition controlled");
+            conditions.hide.push("NCD Form, Diabetes management – gestational");
+            conditions.hide.push("NCD Form, Diabetes management – non-gestational");
            
               }
        else {
-             conditions.hide.push("NCD Form,Clients diagnosed with Type 2 diabetes");
-            conditions.hide.push("NCD Form,Is Diabetes condition controlled");
-            conditions.hide.push("NCD Form,Diabetes management – gestational");
-            conditions.hide.push("NCD Form,Diabetes management – non-gestational");
+             conditions.hide.push("NCD Form, Clients diagnosed with Type 2 diabetes");
+            conditions.hide.push("NCD Form, Is Diabetes condition controlled");
+            conditions.hide.push("NCD Form, Diabetes management – gestational");
+            conditions.hide.push("NCD Form, Diabetes management – non-gestational");
            
           }
         return conditions;
         },
 
-'AP, Activity Status': function (formName, formFieldValues) {
+"AP, Activity Status": function (formName, formFieldValues) {
         var conditions = {
               hide: [],
               show: [],
               enable: [],
               disable: []
               };
-        var conditionConcept = formFieldValues['AP, Activity Status'];
+        var conditionConcept = formFieldValues["AP, Activity Status"];
         if (conditionConcept == "Deceased") {
      
             conditions.show.push("AP, Cause of death");
@@ -12931,6 +12931,179 @@ else if (conditionConcept == "Restarted") {
     conditions.hide.push("AP, Program stop date");
      conditions.hide.push("AP, Transfer in Date");
       conditions.hide.push("AP, Date of Reinitiation");
+          }
+        return conditions;
+        },
+
+"TB History Form Template,Type of Visit": function (formName, formFieldValues) {
+        var conditions = {
+              hide: [],
+              show: [],
+              enable: [],
+              disable: []
+              };
+        var conditionConcept = formFieldValues["TB History Form Template,Type of Visit"];
+        if (conditionConcept == "Results Entry") {
+     
+                
+                conditions.hide.push("TB History Form Template, Type of client");
+                conditions.hide.push("TB History Form Template, Did you received IPT?");
+                conditions.hide.push("TB History Form Template, IPT start date");
+                conditions.hide.push("TB History Form Template, Did you complete IPT?");
+                conditions.hide.push("TB History Form Template, IPT completion date");
+                conditions.hide.push("TB History Form Template, Reason for not completing IPT");
+                conditions.hide.push("TB History Form Template, HIV Status");
+                conditions.hide.push("TB History Form Template, ART Status");
+                conditions.hide.push("TB History Form Template, Where is client getting medication");
+                conditions.hide.push("TB History Form Template, Are you on ART?");
+
+                conditions.show.push("TB History Form Template, Gene Xpert Results");
+                conditions.show.push("TB History Form Template, RIF Resistance");
+                conditions.show.push("TB History Form Template, Screening method used today");
+                conditions.show.push("TB History Form Template, Smear (Microscopy) results");
+                conditions.show.push("TB History Form Template, Specify method used");
+                conditions.show.push("TB History Form Template, Xray results");
+                conditions.show.push("TB History Form Template, Type of TB case");
+                conditions.show.push("TB History Form Template, Date of last TB treatment");
+                conditions.show.push("TB History Form Template, Treatment outcome");
+                conditions.show.push("TB History Form Template, Course completion outcomes");
+
+                
+            }
+       else if (conditionConcept == "TB Screening") {
+    
+                
+                conditions.show.push("TB History Form Template, Type of client");
+                conditions.show.push("TB History Form Template, Did you received IPT?");
+                conditions.show.push("TB History Form Template, IPT start date");
+                conditions.show.push("TB History Form Template, Did you complete IPT?");
+                conditions.show.push("TB History Form Template, IPT completion date");
+                conditions.show.push("TB History Form Template, Reason for not completing IPT");
+                conditions.show.push("TB History Form Template, HIV Status");
+                conditions.show.push("TB History Form Template, ART Status");
+                conditions.show.push("TB History Form Template, Where is client getting medication");
+                conditions.show.push("TB History Form Template, Are you on ART?");
+
+                conditions.show.push("TB History Form Template, Gene Xpert Results");
+                conditions.show.push("TB History Form Template, RIF Resistance");
+                conditions.show.push("TB History Form Template, Screening method used today");
+                conditions.show.push("TB History Form Template, Smear (Microscopy) results");
+                conditions.show.push("TB History Form Template, Specify method used");
+                conditions.show.push("TB History Form Template, Xray results");
+                conditions.show.push("TB History Form Template, Type of TB case");
+                conditions.show.push("TB History Form Template, Date of last TB treatment");
+                conditions.show.push("TB History Form Template, Treatment outcome");
+                conditions.show.push("TB History Form Template, Course completion outcomes");
+
+           
+              }
+       else {
+            
+                conditions.show.push("TB History Form Template, Type of client");
+                conditions.show.push("TB History Form Template, Did you received IPT?");
+                conditions.show.push("TB History Form Template, IPT start date");
+                conditions.show.push("TB History Form Template, Did you complete IPT?");
+                conditions.show.push("TB History Form Template, IPT completion date");
+                conditions.show.push("TB History Form Template, Reason for not completing IPT");
+                conditions.show.push("TB History Form Template, HIV Status");
+                conditions.show.push("TB History Form Template, ART Status");
+                conditions.show.push("TB History Form Template, Where is client getting medication");
+                conditions.show.push("TB History Form Template, Are you on ART?");
+
+                conditions.show.push("TB History Form Template, Gene Xpert Results");
+                conditions.show.push("TB History Form Template, RIF Resistance");
+                conditions.show.push("TB History Form Template, Screening method used today");
+                conditions.show.push("TB History Form Template, Smear (Microscopy) results");
+                conditions.show.push("TB History Form Template, Specify method used");
+                conditions.show.push("TB History Form Template, Xray results");
+                conditions.show.push("TB History Form Template, Type of TB case");
+                conditions.show.push("TB History Form Template, Date of last TB treatment");
+                conditions.show.push("TB History Form Template, Treatment outcome");
+                conditions.show.push("TB History Form Template, Course completion outcomes");
+           
+          }
+        return conditions;
+        },
+
+"TB History Form Template,Did you received IPT?": function (formName, formFieldValues) {
+        var conditions = {
+              hide: [],
+              show: [],
+              enable: [],
+              disable: []
+              };
+        var conditionConcept = formFieldValues["TB History Form Template,Did you received IPT?"];
+        if (conditionConcept == "Yes") {
+                     
+                conditions.show.push("TB History Form Template, IPT start date");
+                         
+                
+            }
+       else if (conditionConcept == "No") {
+    
+                conditions.hide.push("TB History Form Template, IPT start date");
+
+           
+              }
+       else {
+            
+          }
+        return conditions;
+        },
+
+"TB History Form Template, Did you complete IPT?": function (formName, formFieldValues) {
+        var conditions = {
+              hide: [],
+              show: [],
+              enable: [],
+              disable: []
+              };
+        var conditionConcept = formFieldValues["TB History Form Template, Did you complete IPT?"];
+        if (conditionConcept == "Yes") {
+                     
+                conditions.show.push("TB History Form Template, IPT completion date");
+                conditions.hide.push("TB History Form Template, Reason for not completing IPT");
+                         
+                
+            }
+       else if (conditionConcept == "No") {
+    
+               conditions.hide.push("TB History Form Template, IPT completion date");
+                conditions.show.push("TB History Form Template, Reason for not completing IPT");
+              }
+       else {
+            
+          }
+        return conditions;
+        },
+
+"TB History Form Template, HIV Status": function (formName, formFieldValues) {
+        var conditions = {
+              hide: [],
+              show: [],
+              enable: [],
+              disable: []
+              };
+        var conditionConcept = formFieldValues["TB History Form Template, HIV Status"];
+        if (conditionConcept == "Positive") {
+                     
+                conditions.show.push("TB History Form Template, ART Status");
+                conditions.show.push("TB History Form Template, Where is client getting medication");
+                conditions.show.push("TB History Form Template, Are you on ART?");
+                conditions.show.push("TB History Form Template, ART initiation date");
+                         
+                
+            }
+       else if (conditionConcept == "Negative") {
+    
+               conditions.hide.push("TB History Form Template, ART Status");
+                conditions.hide.push("TB History Form Template, Where is client getting medication");
+                conditions.hide.push("TB History Form Template, Are you on ART?");
+                conditions.hide.push("TB History Form Template, ART initiation date");
+               
+              }
+       else {
+            
           }
         return conditions;
         }

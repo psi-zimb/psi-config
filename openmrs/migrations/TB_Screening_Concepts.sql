@@ -6,6 +6,11 @@ set @uuid = NULL;
 
 
 
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'TB History Form Template, Service Provided','Service Provided','N/A','Misc',true);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'TB History Form Template, Facility','Facility','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'TB History Form Template, Site Type','Site Type','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'TB History Form Template, District','District','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'TB History Form Template, Setting','Setting','Coded','Misc',false);
 
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'TB History Form Template, Type of Visit','Type of Visit','Coded','Misc',false);
 
