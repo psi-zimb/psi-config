@@ -4875,7 +4875,7 @@ ORDER BY date_created DESC;"
           case when prep_init_form_have_you_exchanged_sex_for_money_goods_or_se = 'Yes' then 1
                when prep_init_form_have_you_exchanged_sex_for_money_goods_or_se = 'No'  then 0
                else null end
-     end :: boolean  AS \"Exchanged sex for money/goods/services\",
+     end :: boolean  AS \"[Continuation / Initial] Exchanged sex for money/goods/services\",
    
      case when prep_init_form_do_you_have_a_history_of_sexual_abuse_gender = 'Yes' then 1
             when prep_init_form_do_you_have_a_history_of_sexual_abuse_gender = 'No' then 0
