@@ -9564,6 +9564,48 @@ Bahmni.ConceptSet.FormConditions.rules = {
           return conditions;
   },
 
+  "Referrals Form, Site Type": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['Referrals Form, Site Type'];
+     if (conditionConcept =="Outreach") {
+          conditions.show.push("Referrals Form, District");
+
+     }
+     else
+     {
+          conditions.hide.push("Referrals Form, District");
+     }
+          return conditions;
+  },
+
+  "NCD Form, Site Type": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['NCD Form, Site Type'];
+     if (conditionConcept =="Outreach") {
+          conditions.show.push("NCD Form, District");
+
+     }
+     else
+     {
+          conditions.hide.push("NCD Form, District");
+     }
+          return conditions;
+  },
+
+  "TB History Form Template, Site Type": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['TB History Form Template, Site Type'];
+     if (conditionConcept =="Outreach") {
+          conditions.show.push("TB History Form Template, District");
+
+     }
+     else
+     {
+          conditions.hide.push("TB History Form Template, District");
+     }
+          return conditions;
+  },
+
 
    "FPS Form, Site Type": function(formName, formFieldValues) {
      var conditions = {show: [], hide: []};
@@ -9575,48 +9617,6 @@ Bahmni.ConceptSet.FormConditions.rules = {
      else
      {
           conditions.hide.push("FPS, District");
-     }
-          return conditions;
-  },
-
-"Referrals Form,Site Type": function(formName, formFieldValues) {
-     var conditions = {show: [], hide: []};
-     var conditionConcept = formFieldValues['Referrals Form,Site Type'];
-     if (conditionConcept =="Outreach") {
-          conditions.show.push("Referrals, District");
-
-     }
-     else
-     {
-          conditions.hide.push("Referrals, District");
-     }
-          return conditions;
-  },
-
-  "NCD Form,Site Type": function(formName, formFieldValues) {
-     var conditions = {show: [], hide: []};
-     var conditionConcept = formFieldValues['NCD Form,Site Type'];
-     if (conditionConcept =="Outreach") {
-          conditions.show.push("NCD, District");
-
-     }
-     else
-     {
-          conditions.hide.push("NCD, District");
-     }
-          return conditions;
-  },
-
-  "IPV Form,Site Type": function(formName, formFieldValues) {
-     var conditions = {show: [], hide: []};
-     var conditionConcept = formFieldValues['IPV Form,Site Type'];
-     if (conditionConcept =="Outreach") {
-          conditions.show.push("IPV, District");
-
-     }
-     else
-     {
-          conditions.hide.push("IPV, District");
      }
           return conditions;
   },
@@ -12760,31 +12760,31 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
         return conditions;
         },
 
-"Art initial Visit compulsory Question 2 of 2, Client initiated on ART": function (formName, formFieldValues) {
+"AIVC, Client initiated on ART": function (formName, formFieldValues) {
         var conditions = {
               hide: [],
               show: [],
               enable: [],
               disable: []
               };
-        var conditionConcept = formFieldValues["Art initial Visit compulsory Question 2 of 2, Client initiated on ART"];
+        var conditionConcept = formFieldValues["AIVC, Client initiated on ART"];
         if (conditionConcept == "Yes") {
      
-            conditions.show.push("Art initial Visit compulsory Question 2 of 2, Date client initiated on ART");
-            conditions.show.push("Art initial Visit compulsory Question 2 of 2, Duration of medication");
-            conditions.show.push("Art initial Visit compulsory Question 2 of 2, Next date of medication resupply");
+            conditions.show.push("AIVC, Date client initiated on ART");
+            conditions.show.push("AIVC, Duration of medication");
+            conditions.show.push("AIVC, Next date of medication resupply");
 
             }
        else if (conditionConcept == "No") {
 
-            conditions.hide.push("Art initial Visit compulsory Question 2 of 2, Date client initiated on ART");
-            conditions.hide.push("Art initial Visit compulsory Question 2 of 2, Duration of medication");
-            conditions.hide.push("Art initial Visit compulsory Question 2 of 2, Next date of medication resupply");
+            conditions.hide.push("AIVC, Date client initiated on ART");
+            conditions.hide.push("AIVC, Duration of medication");
+            conditions.hide.push("AIVC, Next date of medication resupply");
               }
        else {
-             conditions.hide.push("Art initial Visit compulsory Question 2 of 2, Date client initiated on ART");
-            conditions.hide.push("Art initial Visit compulsory Question 2 of 2, Duration of medication");
-            conditions.hide.push("Art initial Visit compulsory Question 2 of 2, Next date of medication resupply");
+             conditions.hide.push("AIVC, Date client initiated on ART");
+            conditions.hide.push("AIVC, Duration of medication");
+            conditions.hide.push("AIVC, Next date of medication resupply");
 
           }
         return conditions;
@@ -12858,163 +12858,168 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
         return conditions;
         },
 
-"AP, Activity Status": function (formName, formFieldValues) {
-        var conditions = {
-              hide: [],
-              show: [],
-              enable: [],
-              disable: []
-              };
-        var conditionConcept = formFieldValues["AP, Activity Status"];
-        if (conditionConcept == "Deceased") {
-     
-            conditions.show.push("AP, Cause of death");
-            conditions.show.push("AP, Specify Other Infections and Parasitic Disease");
-            conditions.show.push("AP, Specify Other Natural Causes");
-            conditions.show.push("AP, Specify other Disease or conditions leading to Death");
-            conditions.show.push("AP, Date of death");
-            conditions.show.push("AP, Program stop date");
+"AP, Activity status": function (formName, formFieldValues) {
+    var conditions = {
+        hide: [],
+        show: [],
+    };
+    var conditionConcept = formFieldValues["AP, Activity status"];
+    if (conditionConcept == "Deceased") {
+        conditions.show.push("AP, Cause of death");
+        conditions.show.push("AP, Specify Other Infections and Parasitic Disease");
+        conditions.show.push("AP, Specify Other Natural Causes");
+        conditions.show.push("AP, Specify other Disease or conditions leading to Death");
+        conditions.show.push("AP, Date of death");
+        conditions.show.push("AP, Program stop date");
+        conditions.hide.push("AP, Period initiated on ART before LTFU");
+        conditions.hide.push("AP, Date client reported as LTFU");
+        conditions.hide.push("AP, Transfer out date");
+        conditions.hide.push("AP, Type of transfer out");
+        conditions.hide.push("AP, Date client opted out");
+        conditions.hide.push("AP, Transfer in Date");
+        conditions.hide.push("AP, Date of Reinitiation");
+    }
+     else if (conditionConcept == "Lost to follow up") {
 
 
-            conditions.hide.push("AP, Period initiated on ART before LTFU");
-           conditions.hide.push("AP, Date client reported as LTFU");
-            conditions.hide.push("AP, Transfer out date");
-           conditions.hide.push("AP, Type of transfer out");
-           conditions.hide.push("AP, Date client opted out");
-         conditions.hide.push("AP, Transfer in Date");
-          conditions.hide.push("AP, Date of Reinitiation");
 
-            }
-       else if (conditionConcept == "Lost to follow up") {
-
-           conditions.show.push("AP, Period initiated on ART before LTFU");
-           conditions.show.push("AP, Date client reported as LTFU");
-          conditions.show.push("AP, Program stop date");
-
-
-  conditions.hide.push("AP, Cause of death");
-            conditions.hide.push("AP, Specify Other Infections and Parasitic Disease");
-            conditions.hide.push("AP, Specify Other Natural Causes");
-            conditions.hide.push("AP, Specify other Disease or conditions leading to Death");
-            conditions.hide.push("AP, Date of death");
-
-            conditions.hide.push("AP, Transfer out date");
-           conditions.hide.push("AP, Type of transfer out");
-           conditions.hide.push("AP, Date client opted out");
-         conditions.hide.push("AP, Transfer in Date");
-          conditions.hide.push("AP, Date of Reinitiation");
+        conditions.show.push("AP, Period initiated on ART before LTFU");
+        conditions.show.push("AP, Date client reported as LTFU");
+        conditions.show.push("AP, Program stop date");
+        conditions.hide.push("AP, Cause of death");
+        conditions.hide.push("AP, Specify Other Infections and Parasitic Disease");
+        conditions.hide.push("AP, Specify Other Natural Causes");
+        conditions.hide.push("AP, Specify other Disease or conditions leading to Death");
+        conditions.hide.push("AP, Date of death");
+        conditions.hide.push("AP, Transfer out date");
+        conditions.hide.push("AP, Type of transfer out");
+        conditions.hide.push("AP, Date client opted out");
+        conditions.hide.push("AP, Transfer in Date");
+        conditions.hide.push("AP, Date of Reinitiation");
 
 
-              }
-        else if (conditionConcept == "Transfer Out") {
-
-           conditions.show.push("AP, Transfer out date");
-           conditions.show.push("AP, Type of transfer out");
-           conditions.show.push("AP, Program stop date");
 
 
-             conditions.hide.push("AP, Cause of death");
-            conditions.hide.push("AP, Specify Other Infections and Parasitic Disease");
-            conditions.hide.push("AP, Specify Other Natural Causes");
-            conditions.hide.push("AP, Specify other Disease or conditions leading to Death");
-            conditions.hide.push("AP, Date of death");
-            conditions.hide.push("AP, Period initiated on ART before LTFU");
-           conditions.hide.push("AP, Date client reported as LTFU");
-
-           conditions.hide.push("AP, Date client opted out");
-         conditions.hide.push("AP, Transfer in Date");
-          conditions.hide.push("AP, Date of Reinitiation");
-
-              }
- else if (conditionConcept == "Opted out") {
-    conditions.show.push("AP, Date client opted out");
-    conditions.show.push("AP, Program stop date");
+    }
 
 
-      conditions.hide.push("AP, Cause of death");
-            conditions.hide.push("AP, Specify Other Infections and Parasitic Disease");
-            conditions.hide.push("AP, Specify Other Natural Causes");
-            conditions.hide.push("AP, Specify other Disease or conditions leading to Death");
-            conditions.hide.push("AP, Date of death");
-            conditions.hide.push("AP, Period initiated on ART before LTFU");
-           conditions.hide.push("AP, Date client reported as LTFU");
-            conditions.hide.push("AP, Transfer out date");
-           conditions.hide.push("AP, Type of transfer out");
 
-         conditions.hide.push("AP, Transfer in Date");
-          conditions.hide.push("AP, Date of Reinitiation");
+    else if (conditionConcept == "Transfer Out") {
 
 
-              }
-else if (conditionConcept == "Transfer in") {
-    conditions.show.push("AP, Transfer in Date");
+
+        conditions.show.push("AP, Transfer out date");
+        conditions.show.push("AP, Type of transfer out");
+        conditions.show.push("AP, Program stop date");
+        conditions.hide.push("AP, Cause of death");
+        conditions.hide.push("AP, Specify Other Infections and Parasitic Disease");
+        conditions.hide.push("AP, Specify Other Natural Causes");
+        conditions.hide.push("AP, Specify other Disease or conditions leading to Death");
+        conditions.hide.push("AP, Date of death");
+        conditions.hide.push("AP, Period initiated on ART before LTFU");
+        conditions.hide.push("AP, Date client reported as LTFU");
+        conditions.hide.push("AP, Date client opted out");
+        conditions.hide.push("AP, Transfer in Date");
+        conditions.hide.push("AP, Date of Reinitiation");
+    }
+     else if (conditionConcept == "Opted out") {
+        conditions.show.push("AP, Date client opted out");
+        conditions.show.push("AP, Program stop date");
+        conditions.hide.push("AP, Cause of death");
+        conditions.hide.push("AP, Specify Other Infections and Parasitic Disease");
+        conditions.hide.push("AP, Specify Other Natural Causes");
+        conditions.hide.push("AP, Specify other Disease or conditions leading to Death");
+        conditions.hide.push("AP, Date of death");
+        conditions.hide.push("AP, Period initiated on ART before LTFU");
+        conditions.hide.push("AP, Date client reported as LTFU");
+        conditions.hide.push("AP, Transfer out date");
+        conditions.hide.push("AP, Type of transfer out");
+        conditions.hide.push("AP, Transfer in Date");
+        conditions.hide.push("AP, Date of Reinitiation");
 
 
-      conditions.hide.push("AP, Cause of death");
-            conditions.hide.push("AP, Specify Other Infections and Parasitic Disease");
-            conditions.hide.push("AP, Specify Other Natural Causes");
-            conditions.hide.push("AP, Specify other Disease or conditions leading to Death");
-            conditions.hide.push("AP, Date of death");
-            conditions.hide.push("AP, Period initiated on ART before LTFU");
-           conditions.hide.push("AP, Date client reported as LTFU");
-            conditions.hide.push("AP, Transfer out date");
-           conditions.hide.push("AP, Type of transfer out");
-           conditions.hide.push("AP, Date client opted out");
+
+    }
+
+
+
+     else if (conditionConcept == "Transfer in") {
+        conditions.show.push("AP, Transfer in Date");
+        conditions.hide.push("AP, Cause of death");
+        conditions.hide.push("AP, Specify Other Infections and Parasitic Disease");
+        conditions.hide.push("AP, Specify Other Natural Causes");
+        conditions.hide.push("AP, Specify other Disease or conditions leading to Death");
+        conditions.hide.push("AP, Date of death");
+        conditions.hide.push("AP, Period initiated on ART before LTFU");
+        conditions.hide.push("AP, Date client reported as LTFU");
+        conditions.hide.push("AP, Transfer out date");
+        conditions.hide.push("AP, Type of transfer out");
+        conditions.hide.push("AP, Date client opted out");
         conditions.hide.push("AP, Program stop date");
-          conditions.hide.push("AP, Date of Reinitiation");
+        conditions.hide.push("AP, Date of Reinitiation");
 
 
-              }
-
-else if (conditionConcept == "Restarted") {
-    conditions.show.push("AP, Date of Reinitiation");
-
-      conditions.hide.push("AP, Cause of death");
-            conditions.hide.push("AP, Specify Other Infections and Parasitic Disease");
-            conditions.hide.push("AP, Specify Other Natural Causes");
-            conditions.hide.push("AP, Specify other Disease or conditions leading to Death");
-            conditions.hide.push("AP, Date of death");
-            conditions.hide.push("AP, Period initiated on ART before LTFU");
-           conditions.hide.push("AP, Date client reported as LTFU");
-            conditions.hide.push("AP, Transfer out date");
-           conditions.hide.push("AP, Type of transfer out");
-           conditions.hide.push("AP, Date client opted out");
-         conditions.hide.push("AP, Transfer in Date");
-          conditions.hide.push("AP, Program stop date");
 
 
-              }
+    }
 
 
-       else {
-                conditions.hide.push("AP, Cause of death");
-            conditions.hide.push("AP, Specify Other Infections and Parasitic Disease");
-            conditions.hide.push("AP, Specify Other Natural Causes");
-            conditions.hide.push("AP, Specify other Disease or conditions leading to Death");
-            conditions.hide.push("AP, Date of death");
-            conditions.hide.push("AP, Program stop date");
-            conditions.hide.push("AP, Period initiated on ART before LTFU");
-           conditions.hide.push("AP, Date client reported as LTFU");
-          conditions.hide.push("AP, Program stop date");
-          conditions.hide.push("AP, Transfer out date");
-           conditions.hide.push("AP, Type of transfer out");
-           conditions.hide.push("AP, Program stop date");
-           conditions.hide.push("AP, Date client opted out");
-    conditions.hide.push("AP, Program stop date");
-     conditions.hide.push("AP, Transfer in Date");
-      conditions.hide.push("AP, Date of Reinitiation");
-          }
-        return conditions;
-        },
 
-"TB History Form Template,Type of Visit": function (formName, formFieldValues) {
+
+    else if (conditionConcept == "Restarted") {
+        conditions.show.push("AP, Date of Reinitiation");
+
+
+
+        conditions.hide.push("AP, Cause of death");
+        conditions.hide.push("AP, Specify Other Infections and Parasitic Disease");
+        conditions.hide.push("AP, Specify Other Natural Causes");
+        conditions.hide.push("AP, Specify other Disease or conditions leading to Death");
+        conditions.hide.push("AP, Date of death");
+        conditions.hide.push("AP, Period initiated on ART before LTFU");
+        conditions.hide.push("AP, Date client reported as LTFU");
+        conditions.hide.push("AP, Transfer out date");
+        conditions.hide.push("AP, Type of transfer out");
+        conditions.hide.push("AP, Date client opted out");
+        conditions.hide.push("AP, Transfer in Date");
+        conditions.hide.push("AP, Program stop date");
+
+
+
+
+    }
+
+
+
+    else {
+        conditions.hide.push("AP, Cause of death");
+        conditions.hide.push("AP, Specify Other Infections and Parasitic Disease");
+        conditions.hide.push("AP, Specify Other Natural Causes");
+        conditions.hide.push("AP, Specify other Disease or conditions leading to Death");
+        conditions.hide.push("AP, Date of death");
+        conditions.hide.push("AP, Program stop date");
+        conditions.hide.push("AP, Period initiated on ART before LTFU");
+        conditions.hide.push("AP, Date client reported as LTFU");
+        conditions.hide.push("AP, Program stop date");
+        conditions.hide.push("AP, Transfer out date");
+        conditions.hide.push("AP, Type of transfer out");
+        conditions.hide.push("AP, Program stop date");
+        conditions.hide.push("AP, Date client opted out");
+        conditions.hide.push("AP, Program stop date");
+        conditions.hide.push("AP, Transfer in Date");
+        conditions.hide.push("AP, Date of Reinitiation");
+    }
+        return conditions;
+},
+
+"TB History Form Template, Type of Visit": function (formName, formFieldValues) {
         var conditions = {
               hide: [],
               show: [],
               enable: [],
               disable: []
               };
-        var conditionConcept = formFieldValues["TB History Form Template,Type of Visit"];
+        var conditionConcept = formFieldValues["TB History Form Template, Type of Visit"];
         if (conditionConcept == "Results Entry") {
      
 
