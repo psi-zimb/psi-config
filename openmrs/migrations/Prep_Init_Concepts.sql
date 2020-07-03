@@ -5,7 +5,7 @@ set @count = 0;
 set @uuid = NULL;
 
 
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Prep Init Form, Was client initiated on PrEP?','Was client initaited on PrEP?','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Prep Init Form, Was client initiated on PrEP?','Was client initiated on PrEP?','Coded','Misc',false);
 
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Prep Init Form, Date client initiated on PrEP','Date client initiated on PrEP','Date','Misc',false);
 

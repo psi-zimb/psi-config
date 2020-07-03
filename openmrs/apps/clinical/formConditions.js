@@ -9535,9 +9535,39 @@ Bahmni.ConceptSet.FormConditions.rules = {
          }
           return conditions;
 },
-    "FPS Form,Site Type": function(formName, formFieldValues) {
+    "PrEP ST Form, Site Type": function(formName, formFieldValues) {
      var conditions = {show: [], hide: []};
-     var conditionConcept = formFieldValues['FPS Form,Site Type'];
+     var conditionConcept = formFieldValues['PrEP ST Form, Site Type'];
+     if (conditionConcept =="Outreach") {
+          conditions.show.push("PrEP ST Form, District");
+
+     }
+     else
+     {
+          conditions.hide.push("PrEP ST Form, District");
+     }
+          return conditions;
+  },
+
+
+   "IPV Form, Site Type": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['IPV Form, Site Type'];
+     if (conditionConcept =="Outreach") {
+          conditions.show.push("IPV Form, District");
+
+     }
+     else
+     {
+          conditions.hide.push("IPV Form, District");
+     }
+          return conditions;
+  },
+
+
+   "FPS Form, Site Type": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['FPS Form, Site Type'];
      if (conditionConcept =="Outreach") {
           conditions.show.push("FPS, District");
 
@@ -12610,7 +12640,7 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
         var conditionConcept = formFieldValues["Provider HIV test counselling, Was recency testing done?"];
         if (conditionConcept == "Yes") {
      
-            conditions.show.push("Provider HIV test counselling, if What was the result?");
+            conditions.show.push("Provider HIV test counselling, What was the result?");
             conditions.show.push("Provider HIV test counselling, Date of recency testing result");
             conditions.show.push("Provider HIV test counselling, What was the testing modality used?");
             conditions.hide.push("Provider HIV test counselling, Why was it not done?");
@@ -12624,7 +12654,7 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
             conditions.show.push("Provider HIV test counselling, Why was it not done?");
               }
        else {
-            conditions.hide.push("Provider HIV test counselling, if What was the result?");
+            conditions.hide.push("Provider HIV test counselling, What was the result?");
             conditions.hide.push("Provider HIV test counselling, Date of recency testing result");
             conditions.hide.push("Provider HIV test counselling, What was the testing modality used?");
             conditions.hide.push("Provider HIV test counselling, Why was it not done?");
@@ -12634,14 +12664,14 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
         },
 
 
-"Prep Init Form, Was client initaited on PrEP?": function (formName, formFieldValues) {
+"Prep Init Form, Was client initiated on PrEP?": function (formName, formFieldValues) {
         var conditions = {
               hide: [],
               show: [],
               enable: [],
               disable: []
               };
-        var conditionConcept = formFieldValues["Prep Init Form, Was client initaited on PrEP?"];
+        var conditionConcept = formFieldValues["Prep Init Form, Was client initiated on PrEP?"];
         if (conditionConcept == "Yes") {
      
             conditions.show.push("Prep Init Form, Date client initiated on PrEP");
