@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="PSI-CONFIG-VM-796011278899" author="psi"> 
+        <comment>Adding New Concepts for AP</comment>
+        <sqlFile path="ART_Cont_Concepts.sql"/>
+    </changeSet>
+
+  
+    
+<changeSet id="PSI-CONFIG-VM-709011272903" author="psi">
+        <comment>Adding Answers to "AP, Activity status"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+            set @child6_concept_id = 0;
+            set @child7_concept_id = 0;
+
+
+
+
+            select concept_id into @concept_id from concept_name where name = "AP, Activity status" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Active' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'Deceased' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'Lost to follow up' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = 'Transfer Out' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child5_concept_id from concept_name where name = 'Transfer in' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child6_concept_id from concept_name where name = 'Opted out' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child7_concept_id from concept_name where name = 'Restarted' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+
+
+
+
+call add_concept_answer(@concept_id, @child1_concept_id, 1);
+call add_concept_answer(@concept_id, @child2_concept_id, 2);
+call add_concept_answer(@concept_id, @child3_concept_id, 3);
+call add_concept_answer(@concept_id, @child4_concept_id, 4);
+call add_concept_answer(@concept_id, @child5_concept_id, 5);
+call add_concept_answer(@concept_id, @child6_concept_id, 6);
+call add_concept_answer(@concept_id, @child7_concept_id, 7);
+
+
+
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-VM-708011272904" author="psi">
+        <comment>Adding Answers to "AP, Type of transfer out"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            
+
+
+
+
+            select concept_id into @concept_id from concept_name where name = "AP, Type of transfer out" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Self Transfer' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'Official Transfer' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            
+
+
+
+
+call add_concept_answer(@concept_id, @child1_concept_id, 1);
+call add_concept_answer(@concept_id, @child2_concept_id, 2);
+
+
+
+
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-VM-706011272905" author="psi">
+        <comment>Adding Answers to "AP, Cause of death"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+            set @child6_concept_id = 0;
+
+
+
+
+            select concept_id into @concept_id from concept_name where name = "AP, Cause of death" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'HIV Disease Resulting in TB' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'HIV Disease Resulting in Cancer' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'HIV Disease Resulting in other Infections and Parasitic Disease' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = 'Other Disease Resulting in other Disease or conditions leading to Death' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child5_concept_id from concept_name where name = 'Other Natural Causes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child6_concept_id from concept_name where name = 'Non-Natural Causes and Unknown Causes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            
+
+
+
+
+call add_concept_answer(@concept_id, @child1_concept_id, 1);
+call add_concept_answer(@concept_id, @child2_concept_id, 2);
+call add_concept_answer(@concept_id, @child3_concept_id, 3);
+call add_concept_answer(@concept_id, @child4_concept_id, 4);
+call add_concept_answer(@concept_id, @child5_concept_id, 5);
+call add_concept_answer(@concept_id, @child6_concept_id, 6);
+
+
+
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-VM-707011272906" author="psi">
+        <comment>Adding Answers to "AP, Period initiated on ART before LTFU"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            
+
+
+
+
+            select concept_id into @concept_id from concept_name where name = "AP, Period initiated on ART before LTFU" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'less than 3 months' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'more than 3 months' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            
+
+
+
+
+call add_concept_answer(@concept_id, @child1_concept_id, 1);
+call add_concept_answer(@concept_id, @child2_concept_id, 2);
+
+
+
+
+        </sql>
+    </changeSet>
+
+
+    <changeSet id="PSI-CONFIG-VM-765011271907" author="psi">
+        <comment>Adding Answers to "AP, Type of follow up"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+            set @child6_concept_id = 0;
+            set @child7_concept_id = 0;
+            set @child8_concept_id = 0;
+
+
+
+
+            select concept_id into @concept_id from concept_name where name = "AP, Type of follow up" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Follow-up visit1 at 2 weeks' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'Follow-up visit 2 at 1 Month' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'Follow-up visit 3 at 2 Months' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = 'Follow-up visit 4 at 3 Months' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child5_concept_id from concept_name where name = 'Follow-up visit 5 at 4 Months' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child6_concept_id from concept_name where name = 'Follow-up visit 6 at 5 Months' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child7_concept_id from concept_name where name = 'Follow-up visit 7 at 6 Months' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child8_concept_id from concept_name where name = 'Follow-up visit 8 at more than 6 Months' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+
+
+
+
+call add_concept_answer(@concept_id, @child1_concept_id, 1);
+call add_concept_answer(@concept_id, @child2_concept_id, 2);
+call add_concept_answer(@concept_id, @child3_concept_id, 3);
+call add_concept_answer(@concept_id, @child4_concept_id, 4);
+call add_concept_answer(@concept_id, @child5_concept_id, 5);
+call add_concept_answer(@concept_id, @child6_concept_id, 6);
+call add_concept_answer(@concept_id, @child7_concept_id, 6);
+call add_concept_answer(@concept_id, @child8_concept_id, 6);
+
+
+
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-VM-706011272908" author="psi">
+        <comment>Adding Answers to "AP, Duration of medication"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+            set @child6_concept_id = 0;
+            set @child7_concept_id = 0;
+
+
+
+
+            select concept_id into @concept_id from concept_name where name = "AP, Duration of medication" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = '1 month or less' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = '2 Months supply' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = '3 Months supply' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = '4 Months supply' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child5_concept_id from concept_name where name = '5 Months supply' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child6_concept_id from concept_name where name = '6 Months supply' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child7_concept_id from concept_name where name = 'More than 6 months supply' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+
+
+
+
+call add_concept_answer(@concept_id, @child1_concept_id, 1);
+call add_concept_answer(@concept_id, @child2_concept_id, 2);
+call add_concept_answer(@concept_id, @child3_concept_id, 3);
+call add_concept_answer(@concept_id, @child4_concept_id, 4);
+call add_concept_answer(@concept_id, @child5_concept_id, 5);
+call add_concept_answer(@concept_id, @child6_concept_id, 6);
+call add_concept_answer(@concept_id, @child7_concept_id, 7);
+
+
+
+        </sql>
+    </changeSet>
+
+
+
+    <changeSet id="PSI-CONFIG-VM-70501127190" author="psi">
+        <comment>Adding Answers to "AP, Is the client eligible for Viral Load?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "AP, Is the client eligible for Viral Load?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+            call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-VM-7040011271910" author="psi">
+        <comment>Adding Answers to "AP, Was the sample sent to the lab"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "AP, Was the sample sent to the lab" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+            call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-VM-703011272912" author="psi">
+        <comment>Adding Answers to "AP, Reason sample not sent to the lab"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+            
+
+
+
+
+            select concept_id into @concept_id from concept_name where name = "AP, Reason sample not sent to the lab" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Sample clotted' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'Sample insufficient' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'Wrong sample tube' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = 'Unsuitable sample' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child5_concept_id from concept_name where name = 'Sample not labelled' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            
+
+
+
+
+
+call add_concept_answer(@concept_id, @child1_concept_id, 1);
+call add_concept_answer(@concept_id, @child2_concept_id, 2);
+call add_concept_answer(@concept_id, @child3_concept_id, 3);
+call add_concept_answer(@concept_id, @child4_concept_id, 4);
+call add_concept_answer(@concept_id, @child5_concept_id, 5);
+
+
+
+        </sql>
+    </changeSet>
+
+
+    <changeSet id="PSI-CONFIG-VM-702011271914" author="psi">
+        <comment>Adding Answers to "AP, Type of request"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "AP, Type of request" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Routine' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'Targeted' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+            call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-VM-7010011271915" author="psi">
+        <comment>Adding Answers to "AP, Routine type"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "AP, Routine type" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = '6 or 12 months routine' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'Annual routine' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+            call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-VM-711011271916" author="psi">
+        <comment>Adding Answers to "AP, Targeted type"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "AP, Targeted type" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Targeted after EAC' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'Targeted PREG/BF' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+            call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-VM-711211272917" author="psi">
+        <comment>Adding Answers to "AP, Why is the client not eligible for V/L?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+            set @child6_concept_id = 0;
+            
+
+
+
+
+            select concept_id into @concept_id from concept_name where name = "AP, Why is the client not eligible for V/L?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Has a valid result' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'Awaiting results' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'Less than 6 months on ART' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = 'Less than 12 month on ART' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child5_concept_id from concept_name where name = 'Results Entry' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child6_concept_id from concept_name where name = 'Invalid test results' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            
+
+
+
+
+
+call add_concept_answer(@concept_id, @child1_concept_id, 1);
+call add_concept_answer(@concept_id, @child2_concept_id, 2);
+call add_concept_answer(@concept_id, @child3_concept_id, 3);
+call add_concept_answer(@concept_id, @child4_concept_id, 4);
+call add_concept_answer(@concept_id, @child5_concept_id, 5);
+call add_concept_answer(@concept_id, @child6_concept_id, 6);
+
+
+
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-VM-711411271918" author="psi">
+        <comment>Adding Answers to "AP, Viral load status"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "AP, Viral load status" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Suppressed' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'Unsuppressed' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+            call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+
+
+
+    
+
+    <changeSet id="PSI-CONFIG-VM-721611271919" author="psi">
+        <comment>Adding set members to AP</comment>
+          <sql>
+              set @concept_id = 0;
+             
+              
+              set @member5_concept_id = 0;
+              set @member6_concept_id = 0;
+              set @member7_concept_id = 0;
+              set @member8_concept_id = 0;
+              set @member9_concept_id = 0;
+              set @member10_concept_id = 0;
+              set @member11_concept_id = 0;
+              set @member12_concept_id = 0;
+              set @member13_concept_id = 0;
+              set @member14_concept_id = 0;
+              set @member15_concept_id = 0;
+              set @member16_concept_id = 0;
+              set @member17_concept_id = 0;
+              set @member18_concept_id = 0;
+              set @member19_concept_id = 0;
+              set @member20_concept_id = 0;
+              set @member21_concept_id = 0;
+              set @member22_concept_id = 0;
+              set @member23_concept_id = 0;
+              set @member24_concept_id = 0;
+              set @member25_concept_id = 0;
+              set @member26_concept_id = 0;
+              set @member27_concept_id = 0;
+              set @member28_concept_id = 0;
+              set @member29_concept_id = 0;
+              set @member30_concept_id = 0;
+              set @member31_concept_id = 0;
+              set @member32_concept_id = 0;
+              set @member33_concept_id = 0;
+              set @member34_concept_id = 0;
+              set @member35_concept_id = 0;
+              set @member36_concept_id = 0;
+
+
+
+
+                         
+            select concept_id into @concept_id from concept_name where name = "Assessment and Plan Form Template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+
+            select concept_id into @member5_concept_id from concept_name where name = "AP, Activity status" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member6_concept_id from concept_name where name = "AP, Type of transfer out" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member7_concept_id from concept_name where name = "AP, Cause of death" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member8_concept_id from concept_name where name = "AP, Specify Other Infections and Parasitic Disease" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member9_concept_id from concept_name where name = "AP, Specify Other Natural Causes" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member10_concept_id from concept_name where name = "AP, Specify other Disease or conditions leading to Death" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member11_concept_id from concept_name where name = "AP, Date client reported as LTFU" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member12_concept_id from concept_name where name = "AP, Transfer out date" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member13_concept_id from concept_name where name = "AP, Date of death" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member14_concept_id from concept_name where name = "AP, Period initiated on ART before LTFU" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member15_concept_id from concept_name where name = "AP, Date client opted out" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member16_concept_id from concept_name where name = "AP, Transfer in Date" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member17_concept_id from concept_name where name = "AP, Date of Reinitiation" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member18_concept_id from concept_name where name = "AP, Program stop date" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member19_concept_id from concept_name where name = "AP, Type of follow up" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member20_concept_id from concept_name where name = "AP, Duration of medication" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member21_concept_id from concept_name where name = "AP, Next date of medication resupply" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member22_concept_id from concept_name where name = "AP, Next review date" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member23_concept_id from concept_name where name = "AP, Is the client eligible for Viral Load?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member24_concept_id from concept_name where name = "AP, Was the sample sent to the lab" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member25_concept_id from concept_name where name = "AP, Reason sample not sent to the lab" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member26_concept_id from concept_name where name = "AP, Type of request" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member27_concept_id from concept_name where name = "AP, Routine type" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member28_concept_id from concept_name where name = "AP, Targeted type" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member29_concept_id from concept_name where name = "AP, Why is the client not eligible for V/L?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member30_concept_id from concept_name where name = "AP, Date of last V/L" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member31_concept_id from concept_name where name = "AP, What is the value of the V/L?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member32_concept_id from concept_name where name = "AP, Date Viral load results received" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member33_concept_id from concept_name where name = "AP, Viral Load result" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member34_concept_id from concept_name where name = "AP, Viral load status" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member35_concept_id from concept_name where name = "AP, Client referred for EAC" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member36_concept_id from concept_name where name = "AP, Next Viral Load date" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+             
+                      
+
+              
+             
+           call add_concept_set_members (@concept_id, @member5_concept_id, 48);
+           call add_concept_set_members (@concept_id, @member6_concept_id, 49);
+           call add_concept_set_members (@concept_id, @member7_concept_id, 50);
+           call add_concept_set_members (@concept_id, @member8_concept_id, 51);
+           call add_concept_set_members (@concept_id, @member9_concept_id, 52);
+           call add_concept_set_members (@concept_id, @member10_concept_id, 53);
+           call add_concept_set_members (@concept_id, @member11_concept_id, 54);
+           call add_concept_set_members (@concept_id, @member12_concept_id, 55);
+           call add_concept_set_members (@concept_id, @member13_concept_id, 56);
+           call add_concept_set_members (@concept_id, @member14_concept_id, 57);
+           call add_concept_set_members (@concept_id, @member15_concept_id, 58);
+           call add_concept_set_members (@concept_id, @member16_concept_id, 59);
+           call add_concept_set_members (@concept_id, @member17_concept_id, 60);
+           call add_concept_set_members (@concept_id, @member18_concept_id, 61);
+           call add_concept_set_members (@concept_id, @member19_concept_id, 62);
+           call add_concept_set_members (@concept_id, @member20_concept_id, 63);
+           call add_concept_set_members (@concept_id, @member21_concept_id, 64);
+           call add_concept_set_members (@concept_id, @member22_concept_id, 65);
+           call add_concept_set_members (@concept_id, @member23_concept_id, 66);
+           call add_concept_set_members (@concept_id, @member24_concept_id, 67);
+           call add_concept_set_members (@concept_id, @member25_concept_id, 68);
+           call add_concept_set_members (@concept_id, @member26_concept_id, 69);
+           call add_concept_set_members (@concept_id, @member27_concept_id, 70);
+           call add_concept_set_members (@concept_id, @member28_concept_id, 71);
+           call add_concept_set_members (@concept_id, @member29_concept_id, 72);
+           call add_concept_set_members (@concept_id, @member30_concept_id, 73);
+           call add_concept_set_members (@concept_id, @member31_concept_id, 74);
+           call add_concept_set_members (@concept_id, @member32_concept_id, 75);
+           call add_concept_set_members (@concept_id, @member33_concept_id, 76);
+           call add_concept_set_members (@concept_id, @member34_concept_id, 77);
+           call add_concept_set_members (@concept_id, @member35_concept_id, 78);
+           call add_concept_set_members (@concept_id, @member36_concept_id, 79);
+           
+              
+              
+          </sql>
+    </changeSet>
+
+
+</databaseChangeLog>
