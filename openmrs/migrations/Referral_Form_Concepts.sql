@@ -127,7 +127,7 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals F
 
 
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Legal Counsel Services','Received Legal Counsel Services','Coded','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received to Victim Friendly Services','Received to Victim Friendly Services Services','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received to Victim Friendly Services','Received to Victim Friendly Services','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Vital Registration Services','Received Vital Registration Services','Coded','Misc',false);
 
 

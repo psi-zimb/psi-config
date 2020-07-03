@@ -86,3 +86,5 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Unsuppresse
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, Client referred for EAC','Client referred for EAC','Coded','Misc',false);
 
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, Next Viral Load date','Next Viral Load date','Date','Misc',false);
+
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, Are you currently breastfeeding?','Are you currently breastfeeding?','Coded','Misc',false);

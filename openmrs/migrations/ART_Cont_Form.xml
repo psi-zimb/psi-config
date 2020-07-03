@@ -6,7 +6,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <changeSet id="PSI-CONFIG-VM-796011278899" author="psi"> 
+    <changeSet id="PSI-CONFIG-VM-796111278899" author="psi"> 
         <comment>Adding New Concepts for AP</comment>
         <sqlFile path="ART_Cont_Concepts.sql"/>
     </changeSet>
@@ -425,11 +425,46 @@ call add_concept_answer(@concept_id, @child6_concept_id, 6);
     </changeSet>
 
 
+    <changeSet id="PSI-CONFIG-VM-811411271918" author="psi">
+        <comment>Adding Answers to "AP, Are you currently breastfeeding?"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "AP, Are you currently breastfeeding?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+            call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-VM-851411271918" author="psi">
+        <comment>Adding Answers to "AP, Client referred for EAC"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "AP, Client referred for EAC" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+            call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+
 
 
     
 
-    <changeSet id="PSI-CONFIG-VM-721611271919" author="psi">
+    <changeSet id="PSI-CONFIG-VM-721611271929" author="psi">
         <comment>Adding set members to AP</comment>
           <sql>
               set @concept_id = 0;
@@ -487,9 +522,12 @@ call add_concept_answer(@concept_id, @child6_concept_id, 6);
             select concept_id into @member14_concept_id from concept_name where name = "AP, Period initiated on ART before LTFU" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
             select concept_id into @member15_concept_id from concept_name where name = "AP, Date client opted out" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
             select concept_id into @member16_concept_id from concept_name where name = "AP, Transfer in Date" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @member17_concept_id from concept_name where name = "AP, Date of Reinitiation" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @member18_concept_id from concept_name where name = "AP, Program stop date" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            select concept_id into @member19_concept_id from concept_name where name = "AP, Type of follow up" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            
+            select concept_id into @member17_concept_id from concept_name where name = "AP, Program stop date" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member18_concept_id from concept_name where name = "AP, Type of follow up" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @member19_concept_id from concept_name where name = "AP, Are you currently breastfeeding?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
             select concept_id into @member20_concept_id from concept_name where name = "AP, Duration of medication" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
             select concept_id into @member21_concept_id from concept_name where name = "AP, Next date of medication resupply" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
             select concept_id into @member22_concept_id from concept_name where name = "AP, Next review date" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;

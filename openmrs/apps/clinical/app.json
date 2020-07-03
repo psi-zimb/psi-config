@@ -412,6 +412,26 @@
         {
              "multiSelect":true
             },
+
+            "AP, Next date of medication resupply":{
+                "allowFutureDates" : true 
+           },
+           "AP, Next review date":{
+                "allowFutureDates" : true 
+           },
+
+           "AP, Next Viral Load date":{
+                "allowFutureDates" : true 
+           },
+           "AIVC, Next date of medication resupply":{
+                "allowFutureDates" : true 
+           },
+           "AIVC, Next review date":{
+                "allowFutureDates" : true 
+           },
+           "Prep Cont Form, Next date of medication resupply":{
+                "allowFutureDates" : true 
+           },
         "FPS REG,Reason for the visit":{
             "dropdown":true
           },
@@ -451,6 +471,22 @@
             "required":true
           },
 
+          "TB History Form Template, Facility":{
+            "dropdown":true,
+            "required":true
+          },
+          "TB History Form Template, District":{
+            "dropdown":true,
+            "required":true
+          },
+
+          "TB History Form Template, Site Type":{
+            "required":true
+          },
+
+          "TB History Form Template, Setting":{
+            "required":true
+          },
 
           "PrEP ST Form, District":{
             "dropdown":true,

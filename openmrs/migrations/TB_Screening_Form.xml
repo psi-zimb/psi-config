@@ -6,7 +6,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <changeSet id="PSI-CONFIG-VM-896991678891" author="psi"> 
+    <changeSet id="PSI-CONFIG-VM-996991678891" author="psi"> 
         <comment>Adding New Concepts for TB Screening</comment>
         <sqlFile path="TB_Screening_Concepts.sql"/>
     </changeSet>
@@ -438,12 +438,12 @@ call add_concept_answer(@concept_id, @child5_concept_id, 5);
 
     
 
-    <changeSet id="PSI-CONFIG-VM-121611271926" author="psi">
+    <changeSet id="PSI-CONFIG-VM-121611278926" author="psi">
         <comment>Adding set members to TB Screening Form</comment>
           <sql>
               set @concept_id = 0;
              
-              
+              set @member0_concept_id = 0;
               set @member5_concept_id = 0;
               set @member6_concept_id = 0;
               set @member7_concept_id = 0;
@@ -470,6 +470,8 @@ call add_concept_answer(@concept_id, @child5_concept_id, 5);
 
                          
             select concept_id into @concept_id from concept_name where name = "TB History Form Template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+              select concept_id into @member0_concept_id from concept_name where name = "TB History Form Template, Service Provided" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
 
             select concept_id into @member5_concept_id from concept_name where name = "TB History Form Template, Type of Visit" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
@@ -498,7 +500,7 @@ call add_concept_answer(@concept_id, @child5_concept_id, 5);
                       
 
               
-             
+           call add_concept_set_members (@concept_id, @member0_concept_id, 1);  
            call add_concept_set_members (@concept_id, @member5_concept_id, 3);
            call add_concept_set_members (@concept_id, @member6_concept_id, 4);
            call add_concept_set_members (@concept_id, @member7_concept_id, 5);
@@ -524,6 +526,455 @@ call add_concept_answer(@concept_id, @child5_concept_id, 5);
               
           </sql>
     </changeSet>
+
+    <changeSet id="PSI-CONFIG-VM-23202928" author="psi">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                   select count(*) from concept_answer ca
+                   join
+                   concept_name cn
+                   on ca.concept_id = cn.concept_id
+                   where ca.answer_concept IN (select concept_id from concept_name where name IN 
+                   (
+                   'BAMBANANI',
+                    'MAC',
+                    'GWERU',
+                    'NKULUMANE',
+                    'CHITUNGWIZA',
+                    'NAH',
+                    'CHIPINGE',
+                    'MUTARE',
+                    'CONCESSION',
+                    'CHIREDZI',
+                    'TRIANGLE',
+                    'MASVINGO'
+                    ) and concept_name_type = "FULLY_SPECIFIED")
+                   AND
+                   cn.concept_id IN (select concept_id from concept_name where name = "TB History Form Template, Facility");
+                </sqlCheck>
+        </preConditions>
+        <comment>Adding Answers to TB History Form Template Question</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+            set @child6_concept_id = 0;
+            set @child7_concept_id = 0;
+            set @child8_concept_id = 0;
+            set @child9_concept_id = 0;
+            set @child10_concept_id = 0;
+            set @child11_concept_id = 0;
+            set @child12_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "TB History Form Template, Facility" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'BAMBANANI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'MAC' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'GWERU' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = 'NKULUMANE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child5_concept_id from concept_name where name = 'CHITUNGWIZA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child6_concept_id from concept_name where name = 'NAH' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child7_concept_id from concept_name where name = 'CHIPINGE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child8_concept_id from concept_name where name = 'MUTARE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child9_concept_id from concept_name where name = 'CONCESSION' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child10_concept_id from concept_name where name = 'CHIREDZI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child11_concept_id from concept_name where name = 'TRIANGLE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child12_concept_id from concept_name where name = 'MASVINGO' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+            call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            call add_concept_answer(@concept_id, @child3_concept_id, 3);
+            call add_concept_answer(@concept_id, @child4_concept_id, 4);
+            call add_concept_answer(@concept_id, @child5_concept_id, 5);
+            call add_concept_answer(@concept_id, @child6_concept_id, 6);
+            call add_concept_answer(@concept_id, @child7_concept_id, 7);
+            call add_concept_answer(@concept_id, @child8_concept_id, 8);
+            call add_concept_answer(@concept_id, @child9_concept_id, 9);
+            call add_concept_answer(@concept_id, @child10_concept_id, 10);
+            call add_concept_answer(@concept_id, @child11_concept_id, 11);
+            call add_concept_answer(@concept_id, @child12_concept_id, 12);
+
+        </sql>
+    </changeSet>
+
+
+<changeSet id="PSI-CONFIG-VM-23202929" author="psi">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                   select count(*) from concept_answer ca
+                   join
+                   concept_name cn
+                   on ca.concept_id = cn.concept_id
+                   where ca.answer_concept IN (select concept_id from concept_name where name IN 
+                   (
+                   'BEITBRIDGE',
+                  'BIKITA',
+                  'BINDURA',
+                  'BINGA',
+                  'BUBI',
+                  'BUHERA',
+                  'BULAWAYO',
+                  'BULILIMA',
+                  'CENTENARY',
+                  'CHEGUTU',
+                  'CHIKOMBA',
+                  'CHIMANIMANI',
+                  'CHIPINGE',
+                  'CHIREDZI',
+                  'CHIRUMHANZU',
+                  'CHIVI',
+                  'GOKWE NORTH',
+                  'GOKWE SOUTH',
+                  'GOROMONZI',
+                  'GURUVE',
+                  'GUTU',
+                  'GWANDA',
+                  'GWERU',
+                  'HARARE',
+                  'HURUNGWE',
+                  'HWANGE',
+                  'HWEDZA',
+                  'INSIZA',
+                  'KADOMA',
+                  'KARIBA',
+                  'KWEKWE',
+                  'LUPANE',
+                  'MAKONDE',
+                  'MAKONI',
+                  'MANGWE',
+                  'MARONDERA',
+                  'MASVINGO',
+                  'MATOBO',
+                  'MAZOWE',
+                  'MBERENGWA',
+                  'MBIRE',
+                  'MT.DARWIN',
+                  'MUDZI',
+                  'MUREWA',
+                  'MUTARE',
+                  'MUTASA',
+                  'MUTOKO',
+                  'MWENEZI',
+                  'NKAYI',
+                  'NYANGA',
+                  'OUT',
+                  'RUSHINGA',
+                  'SEKE',
+                  'SHAMVA',
+                  'SHURUGWI',
+                  'TSHOLOTSHO',
+                  'U.B.H.',
+                  'U.M.P',
+                  'UMGUZA',
+                  'UMZINGWANE',
+                  'ZAKA',
+                  'ZVIMBA',
+                  'ZVISHAVANE'
+                    ) and concept_name_type = "FULLY_SPECIFIED")
+                   AND
+                   cn.concept_id IN (select concept_id from concept_name where name = "TB History Form Template, District");
+                </sqlCheck>
+        </preConditions>
+        <comment>Adding Answers to TB History Form Template Question</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+            set @child6_concept_id = 0;
+            set @child7_concept_id = 0;
+            set @child8_concept_id = 0;
+            set @child9_concept_id = 0;
+            set @child10_concept_id = 0;
+            set @child11_concept_id = 0;
+            set @child12_concept_id = 0;
+            set @child13_concept_id = 0;
+            set @child14_concept_id = 0;
+            set @child15_concept_id = 0;
+            set @child16_concept_id = 0;
+            set @child17_concept_id = 0;
+            set @child18_concept_id = 0;
+            set @child19_concept_id = 0;
+            set @child20_concept_id = 0;
+            set @child21_concept_id = 0;
+            set @child22_concept_id = 0;
+            set @child23_concept_id = 0;
+            set @child24_concept_id = 0;
+            set @child25_concept_id = 0;
+            set @child26_concept_id = 0;
+            set @child27_concept_id = 0;
+            set @child28_concept_id = 0;
+            set @child29_concept_id = 0;
+            set @child30_concept_id = 0;
+            set @child31_concept_id = 0;
+            set @child32_concept_id = 0;
+            set @child33_concept_id = 0;
+            set @child34_concept_id = 0;
+            set @child35_concept_id = 0;
+            set @child36_concept_id = 0;
+            set @child37_concept_id = 0;
+            set @child38_concept_id = 0;
+            set @child39_concept_id = 0;
+            set @child40_concept_id = 0;
+            set @child41_concept_id = 0;
+            set @child42_concept_id = 0;
+            set @child43_concept_id = 0;
+            set @child44_concept_id = 0;
+            set @child45_concept_id = 0;
+            set @child46_concept_id = 0;
+            set @child47_concept_id = 0;
+            set @child48_concept_id = 0;
+            set @child49_concept_id = 0;
+            set @child50_concept_id = 0;
+            set @child51_concept_id = 0;
+            set @child52_concept_id = 0;
+            set @child53_concept_id = 0;
+            set @child54_concept_id = 0;
+            set @child55_concept_id = 0;
+            set @child56_concept_id = 0;
+            set @child57_concept_id = 0;
+            set @child58_concept_id = 0;
+            set @child59_concept_id = 0;
+            set @child60_concept_id = 0;
+            set @child61_concept_id = 0;
+            set @child61_concept_id = 0;
+            set @child63_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "TB History Form Template, District" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'BEITBRIDGE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'BIKITA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'BINDURA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = 'BINGA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child5_concept_id from concept_name where name = 'BUBI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child6_concept_id from concept_name where name = 'BUHERA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child7_concept_id from concept_name where name = 'BULAWAYO' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child8_concept_id from concept_name where name = 'BULILIMA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child9_concept_id from concept_name where name = 'CENTENARY' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child10_concept_id from concept_name where name = 'CHEGUTU' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child11_concept_id from concept_name where name = 'CHIKOMBA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child12_concept_id from concept_name where name = 'CHIMANIMANI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child13_concept_id from concept_name where name = 'CHIPINGE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child14_concept_id from concept_name where name = 'CHIREDZI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child15_concept_id from concept_name where name = 'CHIRUMHANZU' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child16_concept_id from concept_name where name = 'CHIVI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child17_concept_id from concept_name where name = 'GOKWE NORTH' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child18_concept_id from concept_name where name = 'GOKWE SOUTH' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child19_concept_id from concept_name where name = 'GOROMONZI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child20_concept_id from concept_name where name = 'GURUVE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child21_concept_id from concept_name where name = 'GUTU' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child22_concept_id from concept_name where name = 'GWANDA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child23_concept_id from concept_name where name = 'GWERU' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child24_concept_id from concept_name where name = 'HARARE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child25_concept_id from concept_name where name = 'HURUNGWE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child26_concept_id from concept_name where name = 'HWANGE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child27_concept_id from concept_name where name = 'HWEDZA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child28_concept_id from concept_name where name = 'INSIZA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child29_concept_id from concept_name where name = 'KADOMA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child30_concept_id from concept_name where name = 'KARIBA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child31_concept_id from concept_name where name = 'KWEKWE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child32_concept_id from concept_name where name = 'LUPANE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child33_concept_id from concept_name where name = 'MAKONDE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child34_concept_id from concept_name where name = 'MAKONI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child35_concept_id from concept_name where name = 'MANGWE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child36_concept_id from concept_name where name = 'MARONDERA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child37_concept_id from concept_name where name = 'MASVINGO' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child38_concept_id from concept_name where name = 'MATOBO' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child39_concept_id from concept_name where name = 'MAZOWE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child40_concept_id from concept_name where name = 'MBERENGWA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child41_concept_id from concept_name where name = 'MBIRE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child42_concept_id from concept_name where name = 'MT.DARWIN' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child43_concept_id from concept_name where name = 'MUDZI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child44_concept_id from concept_name where name = 'MUREWA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child45_concept_id from concept_name where name = 'MUTARE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child46_concept_id from concept_name where name = 'MUTASA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child47_concept_id from concept_name where name = 'MUTOKO' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child48_concept_id from concept_name where name = 'MWENEZI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child49_concept_id from concept_name where name = 'NKAYI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child50_concept_id from concept_name where name = 'NYANGA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child51_concept_id from concept_name where name = 'OUT' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child52_concept_id from concept_name where name = 'RUSHINGA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child53_concept_id from concept_name where name = 'SEKE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child54_concept_id from concept_name where name = 'SHAMVA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child55_concept_id from concept_name where name = 'SHURUGWI' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child56_concept_id from concept_name where name = 'TSHOLOTSHO' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child57_concept_id from concept_name where name = 'U.B.H.' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child58_concept_id from concept_name where name = 'U.M.P' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child59_concept_id from concept_name where name = 'UMGUZA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child60_concept_id from concept_name where name = 'UMZINGWANE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child61_concept_id from concept_name where name = 'ZAKA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child62_concept_id from concept_name where name = 'ZVIMBA' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child63_concept_id from concept_name where name = 'ZVISHAVANE' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+            call add_concept_answer(@concept_id, @child2_concept_id, 2);
+            call add_concept_answer(@concept_id, @child3_concept_id, 3);
+            call add_concept_answer(@concept_id, @child4_concept_id, 4);
+            call add_concept_answer(@concept_id, @child5_concept_id, 5);
+            call add_concept_answer(@concept_id, @child6_concept_id, 6);
+            call add_concept_answer(@concept_id, @child7_concept_id, 7);
+            call add_concept_answer(@concept_id, @child8_concept_id, 8);
+            call add_concept_answer(@concept_id, @child9_concept_id, 9);
+            call add_concept_answer(@concept_id, @child10_concept_id, 10);
+            call add_concept_answer(@concept_id, @child11_concept_id, 11);
+            call add_concept_answer(@concept_id, @child12_concept_id, 12);
+            call add_concept_answer(@concept_id, @child13_concept_id, 13);
+            call add_concept_answer(@concept_id, @child14_concept_id, 14);
+            call add_concept_answer(@concept_id, @child15_concept_id, 15);
+            call add_concept_answer(@concept_id, @child16_concept_id, 16);
+            call add_concept_answer(@concept_id, @child17_concept_id, 17);
+            call add_concept_answer(@concept_id, @child18_concept_id, 18);
+            call add_concept_answer(@concept_id, @child19_concept_id, 19);
+            call add_concept_answer(@concept_id, @child20_concept_id, 20);
+            call add_concept_answer(@concept_id, @child21_concept_id, 21);
+            call add_concept_answer(@concept_id, @child22_concept_id, 22);
+            call add_concept_answer(@concept_id, @child23_concept_id, 23);
+            call add_concept_answer(@concept_id, @child24_concept_id, 24);
+            call add_concept_answer(@concept_id, @child25_concept_id, 25);
+            call add_concept_answer(@concept_id, @child26_concept_id, 26);
+            call add_concept_answer(@concept_id, @child27_concept_id, 27);
+            call add_concept_answer(@concept_id, @child28_concept_id, 28);
+            call add_concept_answer(@concept_id, @child29_concept_id, 29);
+            call add_concept_answer(@concept_id, @child30_concept_id, 30);
+            call add_concept_answer(@concept_id, @child31_concept_id, 31);
+            call add_concept_answer(@concept_id, @child32_concept_id, 32);
+            call add_concept_answer(@concept_id, @child33_concept_id, 33);
+            call add_concept_answer(@concept_id, @child34_concept_id, 34);
+            call add_concept_answer(@concept_id, @child35_concept_id, 35);
+            call add_concept_answer(@concept_id, @child36_concept_id, 36);
+            call add_concept_answer(@concept_id, @child37_concept_id, 37);
+            call add_concept_answer(@concept_id, @child38_concept_id, 38);
+            call add_concept_answer(@concept_id, @child39_concept_id, 39);
+            call add_concept_answer(@concept_id, @child40_concept_id, 40);
+            call add_concept_answer(@concept_id, @child41_concept_id, 41);
+            call add_concept_answer(@concept_id, @child42_concept_id, 42);
+            call add_concept_answer(@concept_id, @child43_concept_id, 43);
+            call add_concept_answer(@concept_id, @child44_concept_id, 44);
+            call add_concept_answer(@concept_id, @child45_concept_id, 45);
+            call add_concept_answer(@concept_id, @child46_concept_id, 46);
+            call add_concept_answer(@concept_id, @child47_concept_id, 47);
+            call add_concept_answer(@concept_id, @child48_concept_id, 48);
+            call add_concept_answer(@concept_id, @child49_concept_id, 49);
+            call add_concept_answer(@concept_id, @child50_concept_id, 50);
+            call add_concept_answer(@concept_id, @child51_concept_id, 51);
+            call add_concept_answer(@concept_id, @child52_concept_id, 52);
+            call add_concept_answer(@concept_id, @child53_concept_id, 53);
+            call add_concept_answer(@concept_id, @child54_concept_id, 54);
+            call add_concept_answer(@concept_id, @child55_concept_id, 55);
+            call add_concept_answer(@concept_id, @child56_concept_id, 56);
+            call add_concept_answer(@concept_id, @child57_concept_id, 57);
+            call add_concept_answer(@concept_id, @child58_concept_id, 58);
+            call add_concept_answer(@concept_id, @child59_concept_id, 59);
+            call add_concept_answer(@concept_id, @child60_concept_id, 60);
+            call add_concept_answer(@concept_id, @child61_concept_id, 61);
+            call add_concept_answer(@concept_id, @child62_concept_id, 62);
+            call add_concept_answer(@concept_id, @child63_concept_id, 63);
+
+        </sql>
+    </changeSet>
+
+
+ <changeSet id="PSI-CONFIG-VM-24202930" author="psi">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                   select count(*) from concept_answer ca
+                   join
+                   concept_name cn
+                   on ca.concept_id = cn.concept_id
+                   where ca.answer_concept IN (select concept_id from concept_name where name IN ('Static','Outreach') and concept_name_type = "FULLY_SPECIFIED")
+                   AND
+                   cn.concept_id IN (select concept_id from concept_name where name = "TB History Form Template, Site Type");
+                </sqlCheck>
+        </preConditions>
+        <comment>Adding Answers to TB History Form Template Question</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "TB History Form Template, Site Type" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child1_concept_id from concept_name where name = 'Static' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'Outreach' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+            call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+
+<changeSet id="PSI-CONFIG-VM-23242931" author="psi">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                   select count(*) from concept_answer ca
+                   join
+                   concept_name cn
+                   on ca.concept_id = cn.concept_id
+                   where ca.answer_concept IN (select concept_id from concept_name where name IN ('Urban','Rural') and concept_name_type = "FULLY_SPECIFIED")
+                   AND
+                   cn.concept_id IN (select concept_id from concept_name where name = "TB History Form Template, Setting");
+                </sqlCheck>
+        </preConditions>
+        <comment>Adding Answers to TB History Form Template Question</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "TB History Form Template, Setting" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child1_concept_id from concept_name where name = 'Urban' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'Rural' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+            call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+
+<changeSet id="PSI-CONFIG-VM-22232932" author="psi">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                   select COUNT(*) from concept_set cs
+                   join concept_name cn
+                   on cs.concept_id = cn.concept_id
+                   where cs.concept_id IN (select concept_id from concept_name where name IN
+                   (
+                   "IPV FormB, Facility",
+                   "IPV FormB, Site Type",
+                   "IPV FormB, District",
+                   "IPV FormB, Setting"
+                   )
+                   AND concept_name_type = "FULLY_SPECIFIED")
+                   and cs.concept_set IN (select concept_id from concept_name where name = "TB History Form Template, Service Provided");
+                </sqlCheck>
+        </preConditions>
+        <comment>Adding set members to TB History Form Template</comment>
+        <sql>
+            set @concept_id = 0;
+            set @member1_concept_id = 0;
+            set @member2_concept_id = 0;
+            set @member3_concept_id = 0;
+            set @member4_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "TB History Form Template, Service Provided" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @member1_concept_id from concept_name where name = "TB History Form Template, Facility" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member2_concept_id from concept_name where name = "TB History Form Template, Site Type" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member3_concept_id from concept_name where name = "TB History Form Template, District" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member4_concept_id from concept_name where name = "TB History Form Template, Setting" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_set_members (@concept_id, @member1_concept_id, 1);
+            call add_concept_set_members (@concept_id, @member2_concept_id, 2);
+            call add_concept_set_members (@concept_id, @member3_concept_id, 3);
+            call add_concept_set_members (@concept_id, @member4_concept_id, 4);
+
+        </sql>
+        </changeSet>
+
 
 
 </databaseChangeLog>
