@@ -4957,7 +4957,7 @@ ORDER BY date_created DESC;"
           prep_cont_form_what_is_the_client_s_hiv_status_today 
           when prep_cont_form_what_is_the_client_s_hiv_status_today  is null then 
           prep_init_form_what_is_the_client_s_hiv_status_today
-          end   AS \"[Continuation] What is the clients HIV status today\",
+          end   AS \"[Continuation / Initial] What is the clients HIV status today\",
 
     CASE WHEN prep_cont_form_type_of_follow_up  is not null then
           prep_cont_form_type_of_follow_up
