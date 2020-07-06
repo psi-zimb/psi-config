@@ -1118,6 +1118,394 @@
       "tableName": "prep_program_enrollment_table",
       "chunkSizeToRead": "500",
       "columnsToIgnore": []
+    },
+    {
+    "name": "NCD_instance_table_creation",
+      "type": "customSql",
+      "readerSql":  "SELECT Group_concat(DISTINCT ( CASE
+                                   WHEN pat1.NAME = 'Site Type' THEN
+                                       cv.concept_full_name
+                                   ELSE NULL
+    END ))               AS \"Site Type\",
+       Group_concat(DISTINCT ( CASE
+                                   WHEN pat1.NAME = 'Outreach site name' THEN
+                                       pac.value
+                                   ELSE NULL
+           END ))               AS \"Outreach site name\",
+       Group_concat(DISTINCT ( CASE
+                                   WHEN pat1.NAME = 'Outreach Classification' THEN
+                                       cv.concept_full_name
+                                   ELSE NULL
+           END ))               AS \"Outreach type\",
+       ( CASE
+             WHEN patientSitetype.sitetype = (SELECT concept_id
+                                              FROM   concept_view
+                                              WHERE  concept_full_name = 'Static'
+                                                AND retired = 0) THEN \"fixed\"
+             ELSE (SELECT concept_full_name
+                   FROM   concept_view
+                   WHERE  concept_id = patientSitetype.sitetype)
+           END )                                      AS \"Channel Type\",
+       piUIC.identifier                             AS \"UIC\",
+       per.gender                                   AS \"Gender\",
+       per.birthdate                                AS \"Date of Birth\",
+       Group_concat(DISTINCT ( CASE
+                                   WHEN pat1.NAME = 'Client Resident' THEN
+                                       cv.concept_full_name
+                                   ELSE NULL
+           END ))               AS \"Residence\",
+       Group_concat(DISTINCT ( CASE
+                                   WHEN pat1.NAME = 'Marital Status' THEN
+                                       cv.concept_full_name
+                                   ELSE NULL
+           END ))               AS \"Marital Status\",
+       Group_concat(DISTINCT ( CASE
+                                   WHEN pat1.NAME = 'occupation' THEN
+                                       cv.concept_full_name
+                                   ELSE NULL
+           END ))               AS \"Occupation\",
+       Group_concat(DISTINCT ( CASE
+                                   WHEN pat1.NAME = 'Telephone' THEN pac.value
+                                   ELSE NULL
+           END ))               AS
+           \"Patient telephone Number\",
+       Group_concat(DISTINCT ( CASE
+                                   WHEN pat1.NAME = 'Nationality' THEN
+                                       cv.concept_full_name
+                                   ELSE NULL
+           END ))               AS \"Nationality\",
+       Group_concat(DISTINCT ( CASE
+                                   WHEN pat1.NAME = 'education' THEN
+                                       cv.concept_full_name
+                                   ELSE NULL
+           END ))               AS \"Education\",
+       Group_concat(DISTINCT ( CASE
+                                   WHEN pat1.NAME = 'Ethnicity' THEN
+                                       cv.concept_full_name
+                                   ELSE NULL
+           END ))               AS \"Ethnicity\",
+       Group_concat(DISTINCT ( CASE
+                                   WHEN pat1.NAME = 'District of Birth' THEN
+                                       cv.concept_full_name
+                                   ELSE NULL
+           END ))               AS \"District of Birth\",
+       Group_concat(DISTINCT ( CASE
+                                   WHEN pat1.NAME = 'Next-of-kin Contact Name'
+                                       THEN
+                                       pac.value
+                                   ELSE NULL
+           END ))               AS
+           \"Next-of-kin Contact Name\",
+       Group_concat(DISTINCT ( CASE
+                                   WHEN pat1.NAME = 'Next-of-kin Address' THEN
+                                       pac.value
+                                   ELSE NULL
+           END ))               AS \"Next-of-kin Address\",
+       Group_concat(DISTINCT ( CASE
+                                   WHEN pat1.NAME = 'Next-of-kin Telephone Number'
+                                       THEN
+                                       pac.value
+                                   ELSE NULL
+           END ))               AS
+           \"Next-of-kin Telephone Number\",
+       Group_concat(DISTINCT ( CASE
+                                   WHEN pat1.NAME = 'Population' THEN
+                                       cv.concept_full_name
+                                   ELSE NULL
+           END ))               AS \"Population\",
+       Group_concat(DISTINCT ( CASE
+                                   WHEN pat1.NAME = 'Referral source' THEN
+                                       cv.concept_full_name
+                                   ELSE NULL
+           END ))               AS \"Referred by\",
+       Group_concat(DISTINCT ( CASE
+                                   WHEN pat1.NAME = 'Contact Tracing' THEN (
+                                       CASE
+                                           WHEN cv.concept_full_name = 'Yes' THEN 'true'
+                                           WHEN cv.concept_full_name = 'No' THEN 'false'
+                                           ELSE NULL
+                                           END )
+                                   ELSE NULL
+           END ))               AS \"Contact Tracing\",
+       Group_concat(DISTINCT ( CASE
+                                   WHEN pat1.NAME = 'Index Client Code' THEN
+                                       pac.value
+                                   ELSE NULL
+           END ))               AS \"Index Client Code\",
+       Cast(Group_concat(DISTINCT ( CASE
+                                        WHEN
+                                                pat1.NAME = 'Date index client tested' THEN
+                                            pac.value
+                                        ELSE NULL
+           END )) AS DATE) AS
+           \"Date index client tested\",
+       CASE
+           WHEN OrgUnitLogic.sitetype = 'Outreach' THEN
+               Concat('ZWNSC-OU-', Upper(OrgUnitLogic.facility), '-',
+                      Upper(
+                              OrgUnitLogic.district))
+           ELSE Concat('ZWNSC-', Upper(OrgUnitLogic.facility))
+           END                                          AS \"OrgUnit\",
+       personInstanceDateChanged.datechanged        AS \"date_created\",
+       pi.identifier                                AS \"Patient_Identifier\"
+FROM   patient_identifier pi
+           INNER JOIN person per
+                      ON pi.patient_id = per.person_id
+                          AND pi.identifier_type IN (SELECT patient_identifier_type_id
+                                                     FROM   patient_identifier_type
+                                                     WHERE  NAME = 'Patient Identifier'
+                                                       AND retired = 0)
+           INNER JOIN patient pat
+                      ON pi.patient_id = pat.patient_id
+           INNER JOIN (/*To get the max changed date for a person instance*/
+    SELECT pid              AS person_id,
+           Max(datechanged) AS dateChanged
+    FROM   (
+               /*Person name max date created*/
+               SELECT person_id                                 AS
+                          pid,
+                      Max(COALESCE(date_changed, date_created))
+                          dateChanged
+               FROM   person_name
+               GROUP  BY person_id
+               UNION ALL
+               /*Person max date created*/
+               SELECT person_id                                 AS
+                          pid,
+                      Max(COALESCE(date_changed, date_created))
+                          dateChanged
+               FROM   person
+               GROUP  BY person_id
+               UNION ALL
+               /*Person identifier max date created*/
+               SELECT patient_id                                AS
+                          pid,
+                      Max(COALESCE(date_changed, date_created))
+                          dateChanged
+               FROM   patient_identifier
+               GROUP  BY patient_id
+               UNION ALL
+               /*Person address max date created*/
+               SELECT person_id                                 AS
+                          pid,
+                      Max(COALESCE(date_changed, date_created))
+                          dateChanged
+               FROM   person_address
+               GROUP  BY person_id
+               UNION ALL
+               /*Person attribute max date created*/
+               SELECT person_id                                 AS
+                          pid,
+                      Max(COALESCE(date_changed, date_created))
+                          dateChanged
+               FROM   person_attribute
+               GROUP  BY person_id) AS personInstanceDateChanged
+    GROUP  BY pid) AS personInstanceDateChanged
+                      ON personInstanceDateChanged.person_id = pat.patient_id
+           INNER JOIN patient_identifier piUIC
+                      ON pat.patient_id = piUIC.patient_id
+           INNER JOIN person_address perAdd
+                      ON pi.patient_id = perAdd.person_id
+           LEFT JOIN (/*Patient id along with the site type value*/
+    SELECT perAtt.person_id,
+           perAtt.value AS 'siteType'
+    FROM   person_attribute perAtt
+               INNER JOIN person_attribute_type perAtttype
+                          ON perAtt.person_attribute_type_id =
+                             perAtttype.person_attribute_type_id
+    WHERE  perAtttype.NAME = 'Site Type'
+      AND perAtt.voided = 0) AS patientSitetype
+                     ON patientSitetype.person_id = pi.patient_id
+           LEFT JOIN person_attribute pac
+                     ON pi.patient_id = pac.person_id
+                         AND pac.voided = 0
+           LEFT JOIN person_attribute_type pat1
+                     ON pac.person_attribute_type_id = pat1.person_attribute_type_id
+           LEFT JOIN concept_view cv
+                     ON pac.value = cv.concept_id
+                         AND cv.retired = 0
+                         AND piUIC.identifier_type IN (SELECT patient_identifier_type_id
+                                                       FROM   patient_identifier_type
+                                                       WHERE  NAME = 'UIC'
+                                                         AND retired = 0)
+           INNER JOIN (SELECT facilityObs.person_id,
+                              (SELECT concept_full_name
+                               FROM   concept_view
+                               WHERE  retired = 0
+                                 AND concept_id = facilityObs.value_coded) AS
+                                  facility
+                               ,
+                              (SELECT concept_full_name
+                               FROM   concept_view
+                               WHERE  retired = 0
+                                 AND concept_id = siteTypeObs.value_coded) AS
+                                  sitetype
+                               ,
+                              (SELECT concept_full_name
+                               FROM   concept_view
+                               WHERE  retired = 0
+                                 AND concept_id = districtObs.value_coded) AS
+                                  district
+                       FROM   obs facilityObs
+                                  INNER JOIN (SELECT concept_id,
+                                                     person_id,
+                                                     Max(obs_datetime) AS
+                                                         facilityObsDateTime
+                                              FROM   obs
+                                              WHERE  concept_id =
+                                                     (SELECT concept_id
+                                                      FROM   concept_view
+                                                      WHERE  retired = 0
+                                                        AND concept_full_name
+                                                          =
+                                                            'NCD Form, Facility')
+                                                AND voided = 0
+                                              GROUP  BY person_id) AS
+                           facilityObsDateTimePerPerson
+                                             ON facilityObsDateTimePerPerson.concept_id =
+                                                facilityObs.concept_id
+                                                 AND facilityObsDateTimePerPerson.person_id
+                                                    =
+                                                     facilityObs.person_id
+                                                 AND
+                                                facilityObsDateTimePerPerson.facilityobsdatetime =
+                                                facilityObs.obs_datetime
+                                                 AND facilityObs.voided = 0
+                                  INNER JOIN obs siteTypeObs
+                                             ON siteTypeObs.encounter_id =
+                                                facilityObs.encounter_id
+                                                 AND siteTypeObs.voided = 0
+                                                 AND siteTypeObs.concept_id =
+                                                     (SELECT concept_id
+                                                      FROM   concept_view
+                                                      WHERE  retired = 0
+                                                        AND concept_full_name =
+                                                            'NCD Form, Site Type')
+                                  LEFT JOIN obs districtObs
+                                            ON districtObs.encounter_id =
+                                               siteTypeObs.encounter_id
+                                                AND districtObs.voided = 0
+                                                AND districtObs.concept_id =
+                                                    (SELECT concept_id
+                                                     FROM   concept_view
+                                                     WHERE  retired = 0
+                                                       AND concept_full_name =
+                                                           'NCD Form, District')
+) AS OrgUnitLogic
+                      ON OrgUnitLogic.person_id = pi.patient_id
+WHERE  pi.patient_id IN (
+    
+    SELECT patient_id
+    FROM   patient_program pp
+    WHERE  program_id IN (SELECT program_id
+                          FROM   program
+                          WHERE  retired = 0)
+      AND voided = 0)
+GROUP  BY pi.patient_id ",
+      "tableName": "ncd_instance_table",
+      "chunkSizeToRead": "500",
+      "columnsToIgnore": []
+    },
+    {
+    "name": "NCD_program_table_creation",
+      "type": "customSql",
+      "readerSql":  "SELECT pi.identifier                             AS \"Patient_Identifier\",
+       CASE
+           WHEN OrgUnitLogic.sitetype = 'Outreach' THEN
+               Concat('ZWNSC-OU-', Upper(OrgUnitLogic.facility), '-', Upper(
+                       OrgUnitLogic.district))
+           ELSE Concat('ZWNSC-', Upper(OrgUnitLogic.facility))
+           END                                       AS \"OrgUnit\",
+       'vatFxlZR2lj'                             AS program,
+       Cast(Min(Date(pp.date_enrolled)) AS DATE) AS \"enrollment_date\",
+       Cast(Min(Date(pp.date_enrolled)) AS DATE) AS \"incident_date\",
+       Min(pp.date_created)                      AS \"date_created\",
+       Min(pp.patient_program_id)                AS \"program_unique_id\",
+       CASE
+           WHEN pp.voided = 0
+               AND pp.date_completed IS NOT NULL THEN 'COMPLETED'
+           ELSE 'ACTIVE'
+           END                                       AS status
+FROM   patient_program pp
+           INNER JOIN patient_identifier pi
+                      ON pp.patient_id = pi.patient_id
+                          AND pi.identifier_type IN (SELECT patient_identifier_type_id
+                                                     FROM   patient_identifier_type
+                                                     WHERE  NAME = 'Patient Identifier'
+                                                       AND retired = 0)
+           INNER JOIN (SELECT facilityObs.person_id,
+                              (SELECT concept_full_name
+                               FROM   concept_view
+                               WHERE  retired = 0
+                                 AND concept_id = facilityObs.value_coded) AS
+                                  facility
+                               ,
+                              (SELECT concept_full_name
+                               FROM   concept_view
+                               WHERE  retired = 0
+                                 AND concept_id = siteTypeObs.value_coded) AS
+                                  sitetype
+                               ,
+                              (SELECT concept_full_name
+                               FROM   concept_view
+                               WHERE  retired = 0
+                                 AND concept_id = districtObs.value_coded) AS
+                                  district
+                       FROM   obs facilityObs
+                                  INNER JOIN (SELECT concept_id,
+                                                     person_id,
+                                                     Max(obs_datetime) AS
+                                                         facilityObsDateTime
+                                              FROM   obs
+                                              WHERE  concept_id =
+                                                     (SELECT concept_id
+                                                      FROM   concept_view
+                                                      WHERE  retired = 0
+                                                        AND concept_full_name
+                                                          =
+                                                            'NCD Form, Facility')
+                                                AND voided = 0
+                                              GROUP  BY person_id) AS
+                           facilityObsDateTimePerPerson
+                                             ON facilityObsDateTimePerPerson.concept_id =
+                                                facilityObs.concept_id
+                                                 AND facilityObsDateTimePerPerson.person_id
+                                                    =
+                                                     facilityObs.person_id
+                                                 AND
+                                                facilityObsDateTimePerPerson.facilityobsdatetime =
+                                                facilityObs.obs_datetime
+                                                 AND facilityObs.voided = 0
+                                  INNER JOIN obs siteTypeObs
+                                             ON siteTypeObs.encounter_id =
+                                                facilityObs.encounter_id
+                                                 AND siteTypeObs.voided = 0
+                                                 AND siteTypeObs.concept_id =
+                                                     (SELECT concept_id
+                                                      FROM   concept_view
+                                                      WHERE  retired = 0
+                                                        AND concept_full_name =
+                                                            'NCD Form, Site Type')
+                                  LEFT JOIN obs districtObs
+                                            ON districtObs.encounter_id =
+                                               siteTypeObs.encounter_id
+                                                AND districtObs.voided = 0
+                                                AND districtObs.concept_id =
+                                                    (SELECT concept_id
+                                                     FROM   concept_view
+                                                     WHERE  retired = 0
+                                                       AND concept_full_name =
+                                                           'NCD Form, District')
+) AS OrgUnitLogic
+                      ON OrgUnitLogic.person_id = pi.patient_id
+WHERE  pp.program_id IN (SELECT program_id
+                         FROM   program
+                         WHERE  retired = 0)
+  AND pp.voided = 0
+GROUP  BY pp.patient_id ",
+      "tableName": "ncd_program_enrollment_table",
+      "chunkSizeToRead": "500",
+      "columnsToIgnore": []
     }
   ],
   "procedures":[
@@ -5698,6 +6086,193 @@ ON prep1_1.visit_id = prep3_3.visit_id
 INNER JOIN psi_patient_program_data ppv on (ppv.patient_id = prep1_1.patient_id or ppv.patient_id = prep2_2.patient_id or ppv.patient_id = prep3_3.patient_id) and (ppv.program_id = (SELECT program_id FROM programs_default WHERE program_name= 'PrEP Program'))
 INNER JOIN patient_identifier pi ON (prep1_1.patient_id = pi.patient_id or prep2_2.patient_id = pi.patient_id or prep3_3.patient_id = pi.patient_id)
 ORDER BY date_created DESC;"
-}
+},
+  {
+  "name": "ncd_program_events_table",
+  "sql": "SELECT     'vatFxlZR2lj':: text AS program,
+           'HEMM6ZpkqgJ':: text AS program_stage,
+           CASE
+               WHEN ncd_form_site_type = 'Outreach' THEN concat('ZWNSC-OU-',upper(COALESCE(ncd_form_facility,
+                                                                                           (
+                                                                                               SELECT   ncd_form_facility
+                                                                                               FROM     ncd_template
+                                                                                               WHERE    ncd_form_facility IS NOT NULL
+                                                                                                 AND      patient_id = ncd1.patient_id
+                                                                                               ORDER BY encounter_id DESC limit 1))),'-',upper(ncd_form_district))
+               WHEN ncd_form_site_type = 'Static' THEN concat('ZWNSC-',upper(COALESCE(ncd_form_facility,
+                                                                                      (
+                                                                                          SELECT   ncd_form_facility
+                                                                                          FROM     ncd_template
+                                                                                          WHERE    ncd_form_facility IS NOT NULL
+                                                                                            AND      patient_id = ncd1.patient_id
+                                                                                          ORDER BY encounter_id DESC limit 1))))
+               END                                                 AS \"OrgUnit\",
+           COALESCE(ncd1.obs_datetime, '01-01-0001' )          AS \"event_date\",
+           'COMPLETED' :: text                                 AS status,
+           ncd1.visit_id                                       AS \"event_unique_id\",
+           date(ppv.\"date_enrolled\")                           AS \"enrollment_date\",
+           COALESCE(ncd1.date_created, '01-01-0001 00:00:00' ) AS \"date_created\",
+           pi.\"Patient_Identifier\"                             AS \"Patient_Identifier\",
+           CASE
+               WHEN ncd_form_clients_screened_for_hypertension = 'Yes' THEN 1
+               WHEN ncd_form_clients_screened_for_hypertension = 'No' THEN 0
+               ELSE NULL
+               END :: boolean AS \"Screened for hypertension\",
+           CASE
+               WHEN ncd_form_clients_screened_for_type_2_diabetes = 'Yes' THEN 1
+               WHEN ncd_form_clients_screened_for_type_2_diabetes = 'No' THEN 0
+               ELSE NULL
+               END :: boolean AS \"Client screened for Type 2 Diabetes\",
+           CASE
+               WHEN ncd_form_clients_diagnosed_with_hypertension = 'Yes' THEN 1
+               WHEN ncd_form_clients_diagnosed_with_hypertension = 'No' THEN 0
+               ELSE NULL
+               END :: boolean AS \"Client diagnosed with hypertension\",
+           CASE
+               WHEN ncd_form_clients_diagnosed_with_type_2_diabetes = 'Yes' THEN 1
+               WHEN ncd_form_clients_diagnosed_with_type_2_diabetes = 'No' THEN 0
+               ELSE NULL
+               END :: boolean AS \"Client diagnosed with Type 2 Diabetes\",
+           CASE
+               WHEN ncd_form_is_hypertension_condition_controlled = 'Yes' THEN 1
+               WHEN ncd_form_is_hypertension_condition_controlled = 'No' THEN 0
+               ELSE NULL
+               END :: boolean AS \"Is hypertension condition controlled\",
+           CASE
+               WHEN ncd_form_is_diabetes_condition_controlled = 'Yes' THEN 1
+               WHEN ncd_form_is_diabetes_condition_controlled = 'No' THEN 0
+               ELSE NULL
+               END :: boolean AS \"Is diabetes condition controlled\",
+           CASE
+               WHEN ncd_form_hypertension_management = 'Yes' THEN 1
+               WHEN ncd_form_hypertension_management = 'No' THEN 0
+               ELSE NULL
+               END :: boolean AS \"Hypertension management\",
+           CASE
+               WHEN ncd_form_diabetes_management_gestational = 'Yes' THEN 1
+               WHEN ncd_form_diabetes_management_gestational = 'No' THEN 0
+               ELSE NULL
+               END :: boolean AS \"Diabetes management gestational\",
+           CASE
+               WHEN ncd_form_diabetes_management_non_gestational = 'Yes' THEN 1
+               WHEN ncd_form_diabetes_management_non_gestational = 'No' THEN 0
+               ELSE NULL
+               END :: boolean AS \"Diabetes management non gestational\"
+FROM       (
+               SELECT DISTINCT visit_id ,
+                               first_value(ncd.obs_datetime) OVER(partition BY visit_id ORDER BY
+                                   CASE
+                                       WHEN ncd.obs_datetime IS NULL THEN 0
+                                       ELSE 1
+                                       END DESC, ncd.encounter_id DESC) AS obs_datetime,
+                               first_value(ncd.patient_id) OVER(partition BY visit_id ORDER BY
+                                   CASE
+                                       WHEN ncd.patient_id IS NULL THEN 0
+                                       ELSE 1
+                                       END DESC, ncd.encounter_id DESC) AS patient_id,
+                               first_value(ncd.date_created) OVER(partition BY visit_id ORDER BY
+                                   CASE
+                                       WHEN ncd.date_created IS NULL THEN 0
+                                       ELSE 1
+                                       END DESC, ncd.encounter_id DESC) AS date_created,
+                               first_value(ncd.program_id) OVER(partition BY visit_id ORDER BY
+                                   CASE
+                                       WHEN ncd.program_id IS NULL THEN 0
+                                       ELSE 1
+                                       END DESC, ncd.encounter_id DESC) AS program_id,
+                               first_value(ncd.program_name) OVER(partition BY visit_id ORDER BY
+                                   CASE
+                                       WHEN ncd.program_name IS NULL THEN 0
+                                       ELSE 1
+                                       END DESC, ncd.encounter_id DESC) AS program_name,
+                               first_value(ncd.ncd_form_facility) OVER(partition BY visit_id ORDER BY
+                                   CASE
+                                       WHEN ncd.ncd_form_facility IS NULL THEN 0
+                                       ELSE 1
+                                       END DESC, ncd.encounter_id DESC) AS ncd_form_facility,
+                               first_value(ncd.ncd_form_site_type) OVER(partition BY visit_id ORDER BY
+                                   CASE
+                                       WHEN ncd.ncd_form_site_type IS NULL THEN 0
+                                       ELSE 1
+                                       END DESC, ncd.encounter_id DESC) AS ncd_form_site_type,
+                               first_value(ncd.ncd_form_district) OVER(partition BY visit_id ORDER BY
+                                   CASE
+                                       WHEN ncd.ncd_form_district IS NULL THEN 0
+                                       ELSE 1
+                                       END DESC, ncd.encounter_id DESC) AS ncd_form_district,
+                               first_value(ncd.ncd_form_clients_screened_for_hypertension) OVER(partition BY visit_id ORDER BY
+                                   CASE
+                                       WHEN ncd_form_clients_screened_for_hypertension IS NULL THEN 0
+                                       ELSE 1
+                                       END DESC, ncd.encounter_id DESC) AS ncd_form_clients_screened_for_hypertension,
+                               first_value(ncd.ncd_form_clients_screened_for_type_2_diabetes) OVER(partition BY visit_id ORDER BY
+                                   CASE
+                                       WHEN ncd_form_clients_screened_for_type_2_diabetes IS NULL THEN 0
+                                       ELSE 1
+                                       END DESC, ncd.encounter_id DESC) AS ncd_form_clients_screened_for_type_2_diabetes,
+                               first_value(ncd.ncd_form_clients_diagnosed_with_hypertension) OVER(partition BY visit_id ORDER BY
+                                   CASE
+                                       WHEN ncd_form_clients_diagnosed_with_hypertension IS NULL THEN 0
+                                       ELSE 1
+                                       END DESC, ncd.encounter_id DESC) AS ncd_form_clients_diagnosed_with_hypertension,
+                               first_value(ncd.ncd_form_clients_diagnosed_with_type_2_diabetes) OVER(partition BY visit_id ORDER BY
+                                   CASE
+                                       WHEN ncd_form_clients_diagnosed_with_type_2_diabetes IS NULL THEN 0
+                                       ELSE 1
+                                       END DESC, ncd.encounter_id DESC) AS ncd_form_clients_diagnosed_with_type_2_diabetes,
+                               first_value(ncd.ncd_form_is_hypertension_condition_controlled) OVER(partition BY visit_id ORDER BY
+                                   CASE
+                                       WHEN ncd_form_is_hypertension_condition_controlled IS NULL THEN 0
+                                       ELSE 1
+                                       END DESC, ncd.encounter_id DESC) AS ncd_form_is_hypertension_condition_controlled,
+                               first_value(ncd.ncd_form_is_diabetes_condition_controlled) OVER(partition BY visit_id ORDER BY
+                                   CASE
+                                       WHEN ncd_form_is_diabetes_condition_controlled IS NULL THEN 0
+                                       ELSE 1
+                                       END DESC, ncd.encounter_id DESC) AS ncd_form_is_diabetes_condition_controlled,
+                               first_value(ncd.ncd_form_hypertension_management) OVER(partition BY visit_id ORDER BY
+                                   CASE
+                                       WHEN ncd_form_hypertension_management IS NULL THEN 0
+                                       ELSE 1
+                                       END DESC, ncd.encounter_id DESC) AS ncd_form_hypertension_management,
+                               first_value(ncd.ncd_form_diabetes_management_gestational) OVER(partition BY visit_id ORDER BY
+                                   CASE
+                                       WHEN ncd_form_diabetes_management_gestational IS NULL THEN 0
+                                       ELSE 1
+                                       END DESC, ncd.encounter_id DESC) AS ncd_form_diabetes_management_gestational,
+                               first_value(ncd.ncd_form_diabetes_management_non_gestational) OVER(partition BY visit_id ORDER BY
+                                   CASE
+                                       WHEN ncd_form_diabetes_management_non_gestational IS NULL THEN 0
+                                       ELSE 1
+                                       END DESC, ncd.encounter_id DESC) AS ncd_form_diabetes_management_non_gestational
+               FROM            (
+                                   SELECT   encounter_id,
+                                            max(patient_id)                                      AS patient_id ,
+                                            max(obs_datetime)                                    AS obs_datetime,
+                                            max(date_created)                                    AS date_created,
+                                            max(program_id)                                      AS program_id,
+                                            max(program_name)                                    AS program_name,
+                                            max(ncd_form_facility)                               AS ncd_form_facility,
+                                            max(ncd_form_site_type)                              AS ncd_form_site_type,
+                                            max(ncd_form_district)                               AS ncd_form_district,
+                                            max(ncd_form_clients_screened_for_hypertension)      AS ncd_form_clients_screened_for_hypertension,
+                                            max(ncd_form_clients_screened_for_type_2_diabetes)   AS ncd_form_clients_screened_for_type_2_diabetes,
+                                            max(ncd_form_clients_diagnosed_with_hypertension)    AS ncd_form_clients_diagnosed_with_hypertension,
+                                            max(ncd_form_clients_diagnosed_with_type_2_diabetes) AS ncd_form_clients_diagnosed_with_type_2_diabetes,
+                                            max(ncd_form_is_hypertension_condition_controlled)   AS ncd_form_is_hypertension_condition_controlled,
+                                            max(ncd_form_is_diabetes_condition_controlled)       AS ncd_form_is_diabetes_condition_controlled,
+                                            max(ncd_form_hypertension_management)                AS ncd_form_hypertension_management,
+                                            max(ncd_form_diabetes_management_gestational)        AS ncd_form_diabetes_management_gestational,
+                                            max(ncd_form_diabetes_management_non_gestational)    AS ncd_form_diabetes_management_non_gestational
+                                   FROM     ncd_template
+                                   GROUP BY encounter_id) AS ncd
+                                   INNER JOIN      patient_encounter_table pedd
+                                                   ON              pedd.encounter_id = ncd.encounter_id) ncd1
+               INNER JOIN psi_patient_program_data ppv
+                          ON         ppv.patient_id = ncd1.patient_id
+               INNER JOIN patient_identifier pi
+                          ON         ncd1.patient_id = pi.patient_id
+ORDER BY   date_created DESC "
+  }
   ]
 }
