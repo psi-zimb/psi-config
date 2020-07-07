@@ -9564,9 +9564,81 @@ Bahmni.ConceptSet.FormConditions.rules = {
          }
           return conditions;
 },
-    "FPS Form,Site Type": function(formName, formFieldValues) {
+    "PrEP ST Form, Site Type": function(formName, formFieldValues) {
      var conditions = {show: [], hide: []};
-     var conditionConcept = formFieldValues['FPS Form,Site Type'];
+     var conditionConcept = formFieldValues['PrEP ST Form, Site Type'];
+     if (conditionConcept =="Outreach") {
+          conditions.show.push("PrEP ST Form, District");
+
+     }
+     else
+     {
+          conditions.hide.push("PrEP ST Form, District");
+     }
+          return conditions;
+  },
+
+
+   "IPV Form, Site Type": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['IPV Form, Site Type'];
+     if (conditionConcept =="Outreach") {
+          conditions.show.push("IPV Form, District");
+
+     }
+     else
+     {
+          conditions.hide.push("IPV Form, District");
+     }
+          return conditions;
+  },
+
+  "Referrals Form, Site Type": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['Referrals Form, Site Type'];
+     if (conditionConcept =="Outreach") {
+          conditions.show.push("Referrals Form, District");
+
+     }
+     else
+     {
+          conditions.hide.push("Referrals Form, District");
+     }
+          return conditions;
+  },
+
+  "NCD Form, Site Type": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['NCD Form, Site Type'];
+     if (conditionConcept =="Outreach") {
+          conditions.show.push("NCD Form, District");
+
+     }
+     else
+     {
+          conditions.hide.push("NCD Form, District");
+     }
+          return conditions;
+  },
+
+  "TB History Form Template, Site Type": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['TB History Form Template, Site Type'];
+     if (conditionConcept =="Outreach") {
+          conditions.show.push("TB History Form Template, District");
+
+     }
+     else
+     {
+          conditions.hide.push("TB History Form Template, District");
+     }
+          return conditions;
+  },
+
+
+   "FPS Form, Site Type": function(formName, formFieldValues) {
+     var conditions = {show: [], hide: []};
+     var conditionConcept = formFieldValues['FPS Form, Site Type'];
      if (conditionConcept =="Outreach") {
           conditions.show.push("FPS, District");
 
@@ -12628,6 +12700,7 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
        }
             return conditions;
     },
+
 "Provider HIV test counselling, Was recency testing done?": function (formName, formFieldValues) {
         var conditions = {
               hide: [],
@@ -13032,33 +13105,33 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
               }
        else {
 
-                conditions.show.push("TB History Form Template, Type of client");
-                conditions.show.push("TB History Form Template, Did you received IPT?");
-                conditions.show.push("TB History Form Template, IPT start date");
-                conditions.show.push("TB History Form Template, Did you complete IPT?");
-                conditions.show.push("TB History Form Template, IPT completion date");
-                conditions.show.push("TB History Form Template, Reason for not completing IPT");
-                conditions.show.push("TB History Form Template, HIV Status");
-                conditions.show.push("TB History Form Template, ART Status");
-                conditions.show.push("TB History Form Template, Where is client getting medication");
-                conditions.show.push("TB History Form Template, Are you on ART?");
+                conditions.hide.push("TB History Form Template, Type of client");
+                conditions.hide.push("TB History Form Template, Did you received IPT?");
+                conditions.hide.push("TB History Form Template, IPT start date");
+                conditions.hide.push("TB History Form Template, Did you complete IPT?");
+                conditions.hide.push("TB History Form Template, IPT completion date");
+                conditions.hide.push("TB History Form Template, Reason for not completing IPT");
+                conditions.hide.push("TB History Form Template, HIV Status");
+                conditions.hide.push("TB History Form Template, ART Status");
+                conditions.hide.push("TB History Form Template, Where is client getting medication");
+                conditions.hide.push("TB History Form Template, Are you on ART?");
 
-                conditions.show.push("TB History Form Template, Gene Xpert Results");
-                conditions.show.push("TB History Form Template, RIF Resistance");
-                conditions.show.push("TB History Form Template, Screening method used today");
-                conditions.show.push("TB History Form Template, Smear (Microscopy) results");
-                conditions.show.push("TB History Form Template, Specify method used");
-                conditions.show.push("TB History Form Template, Xray results");
-                conditions.show.push("TB History Form Template, Type of TB case");
-                conditions.show.push("TB History Form Template, Date of last TB treatment");
-                conditions.show.push("TB History Form Template, Treatment outcome");
-                conditions.show.push("TB History Form Template, Course completion outcomes");
+                conditions.hide.push("TB History Form Template, Gene Xpert Results");
+                conditions.hide.push("TB History Form Template, RIF Resistance");
+                conditions.hide.push("TB History Form Template, Screening method used today");
+                conditions.hide.push("TB History Form Template, Smear (Microscopy) results");
+                conditions.hide.push("TB History Form Template, Specify method used");
+                conditions.hide.push("TB History Form Template, Xray results");
+                conditions.hide.push("TB History Form Template, Type of TB case");
+                conditions.hide.push("TB History Form Template, Date of last TB treatment");
+                conditions.hide.push("TB History Form Template, Treatment outcome");
+                conditions.hide.push("TB History Form Template, Course completion outcomes");
 
           }
         return conditions;
         },
 
-"TB History Form Template,Did you received IPT?": function (formName, formFieldValues) {
+"TB History Form Template, Did you received IPT?": function (formName, formFieldValues) {
         var conditions = {
               hide: [],
               show: [],
@@ -13079,6 +13152,8 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
 
               }
        else {
+    conditions.hide.push("TB History Form Template, IPT start date");
+
 
           }
         return conditions;
@@ -13105,7 +13180,8 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
                 conditions.show.push("TB History Form Template, Reason for not completing IPT");
               }
        else {
-
+            conditions.hide.push("TB History Form Template, IPT completion date");
+                conditions.hide.push("TB History Form Template, Reason for not completing IPT");
           }
         return conditions;
         },
@@ -13123,7 +13199,6 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
                 conditions.show.push("TB History Form Template, ART Status");
                 conditions.show.push("TB History Form Template, Where is client getting medication");
                 conditions.show.push("TB History Form Template, Are you on ART?");
-                conditions.show.push("TB History Form Template, ART initiation date");
 
 
             }
@@ -13132,82 +13207,17 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
                conditions.hide.push("TB History Form Template, ART Status");
                 conditions.hide.push("TB History Form Template, Where is client getting medication");
                 conditions.hide.push("TB History Form Template, Are you on ART?");
-                conditions.hide.push("TB History Form Template, ART initiation date");
+
 
               }
        else {
+             conditions.hide.push("TB History Form Template, ART Status");
+                conditions.hide.push("TB History Form Template, Where is client getting medication");
+                conditions.hide.push("TB History Form Template, Are you on ART?");
 
           }
         return conditions;
-        },
- "PrEP ST Form, Site Type": function(formName, formFieldValues) {
-     var conditions = {show: [], hide: []};
-     var conditionConcept = formFieldValues['PrEP ST Form, Site Type'];
-     if (conditionConcept =="Outreach") {
-          conditions.show.push("PrEP ST Form, District");
+        }
 
-     }
-     else
-     {
-          conditions.hide.push("PrEP ST Form, District");
-     }
-          return conditions;
-  },
+    }
 
-
-   "IPV Form, Site Type": function(formName, formFieldValues) {
-     var conditions = {show: [], hide: []};
-     var conditionConcept = formFieldValues['IPV Form, Site Type'];
-     if (conditionConcept =="Outreach") {
-          conditions.show.push("IPV Form, District");
-
-     }
-     else
-     {
-          conditions.hide.push("IPV Form, District");
-     }
-          return conditions;
-  },
-
-  "Referrals Form, Site Type": function(formName, formFieldValues) {
-     var conditions = {show: [], hide: []};
-     var conditionConcept = formFieldValues['Referrals Form, Site Type'];
-     if (conditionConcept =="Outreach") {
-          conditions.show.push("Referrals Form, District");
-
-     }
-     else
-     {
-          conditions.hide.push("Referrals Form, District");
-     }
-          return conditions;
-  },
-
-  "NCD Form, Site Type": function(formName, formFieldValues) {
-     var conditions = {show: [], hide: []};
-     var conditionConcept = formFieldValues['NCD Form, Site Type'];
-     if (conditionConcept =="Outreach") {
-          conditions.show.push("NCD Form, District");
-
-     }
-     else
-     {
-          conditions.hide.push("NCD Form, District");
-     }
-          return conditions;
-  },
-
-  "TB History Form Template, Site Type": function(formName, formFieldValues) {
-     var conditions = {show: [], hide: []};
-     var conditionConcept = formFieldValues['TB History Form Template, Site Type'];
-     if (conditionConcept =="Outreach") {
-          conditions.show.push("TB History Form Template, District");
-
-     }
-     else
-     {
-          conditions.hide.push("TB History Form Template, District");
-     }
-          return conditions;
-  }
-}
