@@ -1435,8 +1435,8 @@ FROM   patient_program pp
                                                        AND retired = 0)
            INNER JOIN episode_patient_program epp
                       ON epp.patient_program_id = pp.patient_program_id
-           INNER JOIN episode_encounter ee
-                      ON epp.episode_id = ee.episode_id
+           INNER JOIN (select episode_id, min(encounter_id) as \"encounter_id\" from episode_encounter group by episode_id) as ee 
+                        ON epp.episode_id = ee.episode_id
            INNER JOIN (SELECT facilityObs.person_id,
                               facilityObs.encounter_id,
                               (SELECT concept_full_name
