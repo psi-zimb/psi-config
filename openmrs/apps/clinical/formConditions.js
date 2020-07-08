@@ -13047,7 +13047,7 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
 
 
             }
-       else if (conditionConcept == "TB Screening visit") {
+       else if (conditionConcept == "TB Screening") {
 
 
                 conditions.show.push("TB History Form Template, Type of client");
