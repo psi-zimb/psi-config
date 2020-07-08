@@ -6269,7 +6269,7 @@ FROM       (
                                    INNER JOIN      patient_encounter_table pedd
                                                    ON              pedd.encounter_id = ncd.encounter_id) ncd1
                INNER JOIN psi_patient_program_data ppv
-                          ON         ppv.patient_id = ncd1.patient_id
+                          ON         ppv.patient_id = ncd1.patient_id AND ppv.program_id = ncd1.program_id
                INNER JOIN patient_identifier pi
                           ON         ncd1.patient_id = pi.patient_id
 ORDER BY   date_created DESC "
