@@ -1581,16 +1581,7 @@ Bahmni.ConceptSet.FormConditions.rules = {
         }
         return conditions;
         },
-     'TB History, Has you mother or caregiver been treated for TB? (for children under 5)': function (formName, formFieldValues) {
-        var conditions = {enable: [], disable: []};
-        var conditionConcept = formFieldValues['TB History, Has you mother or caregiver been treated for TB? (for children under 5)'];
-        if (conditionConcept == "Yes") {
-            conditions.enable.push("TB History, Did you received IPT?");
-        } else {
-            conditions.disable.push("TB History, Did you received IPT?");
-        }
-        return conditions;
-        },
+     
     'Abuse, Have you experienced or are you experiencing any form of non-sexual abuse?': function (formName, formFieldValues) {
         var conditions = {enable: [], disable: []};
         var conditionConcept = formFieldValues['Abuse, Have you experienced or are you experiencing any form of non-sexual abuse?'];
@@ -13138,7 +13129,7 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
               enable: [],
               disable: []
               };
-        var conditionConcept = formFieldValues["TB History Form Template,Did you received IPT?"];
+        var conditionConcept = formFieldValues["TB History Form Template, Did you received IPT?"];
         if (conditionConcept == "Yes") {
      
                 conditions.show.push("TB History Form Template, IPT start date");
