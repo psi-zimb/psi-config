@@ -601,16 +601,17 @@ Bahmni.ConceptSet.FormConditions.rules = {
         }
         return ruleActions;
 	    },
-	"Ever been tested": function(formName, formFieldValues) {
-		var questionThatTriggersRule = "Ever been tested";
+
+"Ever been tested": function(formName, formFieldValues) {
+        var questionThatTriggersRule = "Ever been tested";
         var selectedResponses = formFieldValues[questionThatTriggersRule];
-		var question1AffectedByRule = "If yes, where were you last tested?";
-		var question2AffectedByRule = "If ever been tested, how many times have you been tested for HIV before?";
-		var question3AffectedByRule = "How long ago were you last tested (months)?";
-		var question4AffectedByRule = "What were the results the last time you were tested?";
-		var question5AffectedByRule = "Has your most recent sex partner been tested in the last 3 months?";
+        var question1AffectedByRule = "If yes, where were you last tested?";
+        var question2AffectedByRule = "If ever been tested, how many times have you been tested for HIV before?";
+        var question3AffectedByRule = "How long ago were you last tested (months)?";
+        var question4AffectedByRule = "What were the results the last time you were tested?";
+        var question5AffectedByRule = "Has your most recent sex partner been tested in the last 3 months?";
         var conditionTrue = selectedResponses == 'Yes';
-    	var ruleActions = {enable: [], disable: []};
+        var ruleActions = {enable: [], disable: []};
         if(conditionTrue) {
             ruleActions.enable.push(question1AffectedByRule);
             ruleActions.enable.push(question2AffectedByRule);
@@ -625,7 +626,35 @@ Bahmni.ConceptSet.FormConditions.rules = {
             ruleActions.disable.push(question5AffectedByRule);
         }
         return ruleActions;
-	    },
+        },
+
+"Provider HIV test counselling, Was recency testing done?": function(formName, formFieldValues) {
+        var questionThatTriggersRule = "Provider HIV test counselling, Was recency testing done?";
+        var selectedResponses = formFieldValues[questionThatTriggersRule];
+        var question1AffectedByRule = "Provider HIV test counselling, What was the result?";
+        var question2AffectedByRule = "Provider HIV test counselling, Date of recency testing result";
+        var question3AffectedByRule = "Provider HIV test counselling, What was the testing modality used?";
+        var question4AffectedByRule = "Provider HIV test counselling, Why was it not done?";
+
+        var conditionTrue = selectedResponses == 'Yes';
+        var ruleActions = {enable: [], disable: []};
+        if(conditionTrue) {
+            ruleActions.enable.push(question1AffectedByRule);
+            ruleActions.enable.push(question2AffectedByRule);
+            ruleActions.enable.push(question3AffectedByRule);
+            ruleActions.disable.push(question4AffectedByRule);
+
+        } else {
+            ruleActions.disable.push(question1AffectedByRule);
+            ruleActions.disable.push(question2AffectedByRule);
+            ruleActions.disable.push(question3AffectedByRule);
+            ruleActions.enable.push(question4AffectedByRule);
+
+        }
+        return ruleActions;
+        },
+
+
 	"If client advised to return for re-testing indicate timeline (2 weeks, 4 weeks, 3months, 6 months, other)": function(formName, formFieldValues) {
 		var questionThatTriggersRule = "If client advised to return for re-testing indicate timeline (2 weeks, 4 weeks, 3months, 6 months, other)";
         var selectedResponses = formFieldValues[questionThatTriggersRule];
@@ -12680,7 +12709,7 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
 
             }
        else if (conditionConcept == "No") {
-    
+
             conditions.hide.push("Provider HIV test counselling, What was the result?");
             conditions.hide.push("Provider HIV test counselling, Date of recency testing result");
             conditions.hide.push("Provider HIV test counselling, What was the testing modality used?");
@@ -12710,10 +12739,10 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
             conditions.show.push("Prep Init Form, Date client initiated on PrEP");
             conditions.show.push("Prep Init Form, Duration of medication");
             conditions.show.push("Prep Init Form, Duration client intends to take prep?");
-            
+
             }
        else if (conditionConcept == "No") {
-    
+
             conditions.hide.push("Prep Init Form, Date client initiated on PrEP");
             conditions.hide.push("Prep Init Form, Duration of medication");
             conditions.hide.push("Prep Init Form, Duration client intends to take prep?");
@@ -12738,12 +12767,12 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
         if (conditionConcept == "Yes") {
      
             conditions.show.push("PrEP ST Form, Client accepted PrEP?");
-                       
+
             }
        else if (conditionConcept == "No") {
-    
+
             conditions.hide.push("PrEP ST Form, Client accepted PrEP?");
-           
+
               }
        else {
             conditions.hide.push("PrEP ST Form, Client accepted PrEP?");
@@ -12764,10 +12793,10 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
             conditions.show.push("AIVC, Date client initiated on ART");
             conditions.show.push("AIVC, Duration of medication");
             conditions.show.push("AIVC, Next date of medication resupply");
-            
+
             }
        else if (conditionConcept == "No") {
-    
+
             conditions.hide.push("AIVC, Date client initiated on ART");
             conditions.hide.push("AIVC, Duration of medication");
             conditions.hide.push("AIVC, Next date of medication resupply");
@@ -12791,25 +12820,25 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
         var conditionConcept = formFieldValues["NCD Form, Clients screened for hypertension"];
         if (conditionConcept == "Yes") {
      
-            
+
             conditions.show.push("NCD Form, Clients diagnosed with hypertension");
             conditions.show.push("NCD Form, Is hypertension condition controlled");
             conditions.show.push("NCD Form, Hypertension management");
-                
+
             }
        else if (conditionConcept == "No") {
-    
-           
+
+
             conditions.hide.push("NCD Form, Clients diagnosed with hypertension");
             conditions.hide.push("NCD Form, Is hypertension condition controlled");
             conditions.hide.push("NCD Form, Hypertension management");
-           
+
               }
        else {
             conditions.hide.push("NCD Form, Clients diagnosed with hypertension");
             conditions.hide.push("NCD Form, Is hypertension condition controlled");
             conditions.hide.push("NCD Form, Hypertension management");
-           
+
           }
         return conditions;
         },
@@ -12828,23 +12857,23 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
             conditions.show.push("NCD Form, Is Diabetes condition controlled");
             conditions.show.push("NCD Form, Diabetes management – gestational");
             conditions.show.push("NCD Form, Diabetes management – non-gestational");
-                
+
             }
        else if (conditionConcept == "No") {
-    
-           
+
+
             conditions.hide.push("NCD Form, Clients diagnosed with Type 2 diabetes");
             conditions.hide.push("NCD Form, Is Diabetes condition controlled");
             conditions.hide.push("NCD Form, Diabetes management – gestational");
             conditions.hide.push("NCD Form, Diabetes management – non-gestational");
-           
+
               }
        else {
              conditions.hide.push("NCD Form, Clients diagnosed with Type 2 diabetes");
             conditions.hide.push("NCD Form, Is Diabetes condition controlled");
             conditions.hide.push("NCD Form, Diabetes management – gestational");
             conditions.hide.push("NCD Form, Diabetes management – non-gestational");
-           
+
           }
         return conditions;
         },
@@ -12872,7 +12901,7 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
     }
      else if (conditionConcept == "Lost to follow up") {
 
- 
+
 
         conditions.show.push("AP, Period initiated on ART before LTFU");
         conditions.show.push("AP, Date client reported as LTFU");
@@ -12888,16 +12917,16 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
         conditions.hide.push("AP, Transfer in Date");
         conditions.hide.push("AP, Date of Reinitiation");
 
- 
+
 
 
     }
 
- 
+
 
     else if (conditionConcept == "Transfer Out") {
 
- 
+
 
         conditions.show.push("AP, Transfer out date");
         conditions.show.push("AP, Type of transfer out");
@@ -12928,11 +12957,11 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
         conditions.hide.push("AP, Transfer in Date");
         conditions.hide.push("AP, Date of Reinitiation");
 
- 
+
 
     }
 
- 
+
 
      else if (conditionConcept == "Transfer in") {
         conditions.show.push("AP, Transfer in Date");
@@ -12949,18 +12978,18 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
         conditions.hide.push("AP, Program stop date");
         conditions.hide.push("AP, Date of Reinitiation");
 
- 
+
 
 
     }
 
- 
+
 
 
     else if (conditionConcept == "Restarted") {
         conditions.show.push("AP, Date of Reinitiation");
 
- 
+
 
         conditions.hide.push("AP, Cause of death");
         conditions.hide.push("AP, Specify Other Infections and Parasitic Disease");
@@ -12975,12 +13004,12 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
         conditions.hide.push("AP, Transfer in Date");
         conditions.hide.push("AP, Program stop date");
 
- 
+
 
 
     }
 
- 
+
 
     else {
         conditions.hide.push("AP, Cause of death");
@@ -13013,7 +13042,7 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
         var conditionConcept = formFieldValues["TB History Form Template, Type of Visit"];
         if (conditionConcept == "Results Entry") {
      
-                
+
                 conditions.hide.push("TB History Form Template, Type of client");
                 conditions.hide.push("TB History Form Template, Did you received IPT?");
                 conditions.hide.push("TB History Form Template, IPT start date");
@@ -13036,11 +13065,11 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
                 conditions.show.push("TB History Form Template, Treatment outcome");
                 conditions.show.push("TB History Form Template, Course completion outcomes");
 
-                
+
             }
        else if (conditionConcept == "TB Screening visit") {
-    
-                
+
+
                 conditions.show.push("TB History Form Template, Type of client");
                 conditions.show.push("TB History Form Template, Did you received IPT?");
                 conditions.show.push("TB History Form Template, IPT start date");
@@ -13063,10 +13092,10 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
                 conditions.show.push("TB History Form Template, Treatment outcome");
                 conditions.show.push("TB History Form Template, Course completion outcomes");
 
-           
+
               }
        else {
-            
+
                 conditions.hide.push("TB History Form Template, Type of client");
                 conditions.hide.push("TB History Form Template, Did you received IPT?");
                 conditions.hide.push("TB History Form Template, IPT start date");
@@ -13088,7 +13117,7 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
                 conditions.hide.push("TB History Form Template, Date of last TB treatment");
                 conditions.hide.push("TB History Form Template, Treatment outcome");
                 conditions.hide.push("TB History Form Template, Course completion outcomes");
-           
+
           }
         return conditions;
         },
@@ -13102,21 +13131,21 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
               };
         var conditionConcept = formFieldValues["TB History Form Template, Did you received IPT?"];
         if (conditionConcept == "Yes") {
-                     
+     
                 conditions.show.push("TB History Form Template, IPT start date");
-                         
-                
+
+
             }
        else if (conditionConcept == "No") {
-    
+
                 conditions.hide.push("TB History Form Template, IPT start date");
 
-           
+
               }
        else {
     conditions.hide.push("TB History Form Template, IPT start date");
-   
-            
+
+
           }
         return conditions;
         },
@@ -13130,14 +13159,14 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
               };
         var conditionConcept = formFieldValues["TB History Form Template, Did you complete IPT?"];
         if (conditionConcept == "Yes") {
-                     
+     
                 conditions.show.push("TB History Form Template, IPT completion date");
                 conditions.hide.push("TB History Form Template, Reason for not completing IPT");
-                         
-                
+
+
             }
        else if (conditionConcept == "No") {
-    
+
                conditions.hide.push("TB History Form Template, IPT completion date");
                 conditions.show.push("TB History Form Template, Reason for not completing IPT");
               }
@@ -13157,30 +13186,29 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
               };
         var conditionConcept = formFieldValues["TB History Form Template, HIV Status"];
         if (conditionConcept == "Positive") {
-                     
+     
                 conditions.show.push("TB History Form Template, ART Status");
                 conditions.show.push("TB History Form Template, Where is client getting medication");
                 conditions.show.push("TB History Form Template, Are you on ART?");
-                         
-                
+
+
             }
        else if (conditionConcept == "Negative") {
-    
+
                conditions.hide.push("TB History Form Template, ART Status");
                 conditions.hide.push("TB History Form Template, Where is client getting medication");
                 conditions.hide.push("TB History Form Template, Are you on ART?");
-                
-               
+
+
               }
        else {
              conditions.hide.push("TB History Form Template, ART Status");
                 conditions.hide.push("TB History Form Template, Where is client getting medication");
                 conditions.hide.push("TB History Form Template, Are you on ART?");
-                
+
           }
         return conditions;
         }
 
     }
 
-            

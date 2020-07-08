@@ -1734,7 +1734,7 @@
         </sql>
     </changeSet>
 
-    
+
 
     <changeSet id="PSI-CONFIG-VM-202111272322" author="psi">
         <comment>Adding Answers to "Referrals Form, Received Cryotherapy (referred from HPV DNA)"</comment>
@@ -2059,7 +2059,7 @@
         </sql>
     </changeSet>
 
-   
+
 
     <changeSet id="PSI-CONFIG-VM-202111272342" author="psi">
         <comment>Adding Answers to "Referrals Form, Received lymphogranuloma (venerium)</comment>
@@ -2148,9 +2148,9 @@
 
 
 
-    
 
-    
+
+
 
 
 
@@ -2286,17 +2286,17 @@
               set @member124_concept_id = 0;
               set @member125_concept_id = 0;
               set @member126_concept_id = 0;
-              
-              
-              
-              
-              
-              
-              
+
+
+
+
+
+
+
 
               select concept_id into @concept_id from concept_name where name = "Referrals Template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-                         
+
 
 
               select concept_id into @member0_concept_id from concept_name where name = "Referrals Form, Service Provided" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
@@ -2305,16 +2305,16 @@
               select concept_id into @member2_concept_id from concept_name where name = "Referrals Form, Referring officer" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
               select concept_id into @member3_concept_id from concept_name where name = "Referrals Form, Facility where client has been referred to" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
               select concept_id into @member4_concept_id from concept_name where name = "Referrals Form, Expected visit date" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
- 
+
               select concept_id into @member5_concept_id from concept_name where name = "Referrals Form, Referred for HIV Counselling" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-            
+
              select concept_id into @member6_concept_id from concept_name where name = "Referrals Form, Referred for Post Exposure Prophylaxis" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-              
+
               select concept_id into @member7_concept_id from concept_name where name = "Referrals Form, Referred for PrEP" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
               select concept_id into @member8_concept_id from concept_name where name = "Referrals Form, Referred for STI –screening /treatment" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-              select concept_id into @member9_concept_id from concept_name where name = "Referrals Form, Referred for VMMC" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0; 
+              select concept_id into @member9_concept_id from concept_name where name = "Referrals Form, Referred for VMMC" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
               select concept_id into @member10_concept_id from concept_name where name = "Referrals Form, Referred for HIV Rapid Test" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
@@ -2389,12 +2389,12 @@
               select concept_id into @member45_concept_id from concept_name where name = "Referrals Form, Received HIV Counselling Services" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
               select concept_id into @member46_concept_id from concept_name where name = "Referrals Form, Received Post Exposure Prophylaxis Services" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-              
+
               select concept_id into @member47_concept_id from concept_name where name = "Referrals Form, Received PrEP Services" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
               select concept_id into @member48_concept_id from concept_name where name = "Referrals Form, Received STI –screening /treatment Services" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-              select concept_id into @member49_concept_id from concept_name where name = "Referrals Form, Received VMMC Services" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0; 
+              select concept_id into @member49_concept_id from concept_name where name = "Referrals Form, Received VMMC Services" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
               select concept_id into @member50_concept_id from concept_name where name = "Referrals Form, Received HIV Rapid Test Services" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
@@ -2468,233 +2468,233 @@
 
               select concept_id into @member85_concept_id from concept_name where name = "Referrals Form, Received Progestin-only pills" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
+
             select concept_id into @member86_concept_id from concept_name where name = "Referrals Form, Received Combined oral contraceptive pills" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
+
             select concept_id into @member87_concept_id from concept_name where name = "Referrals Form, Received Injectable 1 month" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
+
             select concept_id into @member88_concept_id from concept_name where name = "Referrals Form, Received Injectable 2 months" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-           
+
 
             select concept_id into @member89_concept_id from concept_name where name = "Referrals Form, Received Injectable 3 months" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
+
 
             select concept_id into @member90_concept_id from concept_name where name = "Referrals Form, Received Injectable duration unknown" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
+
 
             select concept_id into @member91_concept_id from concept_name where name = "Referrals Form, Received Cyclebeads" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
+
 
             select concept_id into @member92_concept_id from concept_name where name = "Referrals Form, Received IUS 3 insertion" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
+
 
             select concept_id into @member93_concept_id from concept_name where name = "Referrals Form, Received IUD 5 insertion" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
+
 
             select concept_id into @member94_concept_id from concept_name where name = "Referrals Form, Received IUD 10 insertion" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
-              
+
+
 
             select concept_id into @member95_concept_id from concept_name where name = "Referrals Form, Received IUD insertion duration unknown" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
-    
-            
+
+
+
 
             select concept_id into @member96_concept_id from concept_name where name = "Referrals Form, Received Implant 3 insertion" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
-    
-            
+
+
+
 
             select concept_id into @member97_concept_id from concept_name where name = "Referrals Form, Received Implant 4 insertion" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
 
-   
-            
+
+
+
 
             select concept_id into @member98_concept_id from concept_name where name = "Referrals Form, Received Implant 5 insertion" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
-    
+
+
             select concept_id into @member99_concept_id from concept_name where name = "Referrals Form, Received Implant insertion duration unknown" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
-    
+
+
             select concept_id into @member100_concept_id from concept_name where name = "Referrals Form, Received Vasectomy" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-          
+
 
             select concept_id into @member101_concept_id from concept_name where name = "Referrals Form, Received Tubal ligation" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-         
+
             select concept_id into @member102_concept_id from concept_name where name = "Referrals Form, Received Opioid treatment" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
 
             select concept_id into @member103_concept_id from concept_name where name = "Referrals Form, Received Cryotherapy (referred from VIA/VILI)" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-       
+
 
             select concept_id into @member104_concept_id from concept_name where name = "Referrals Form, Received Cryotherapy (referred from Pap Screen)" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
 
-            
 
-            
 
-    
+
+
+
+
 
             select concept_id into @member105_concept_id from concept_name where name = "Referrals Form, Received Cryotherapy (referred from HPV DNA)" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
-    
+
+
 
             select concept_id into @member106_concept_id from concept_name where name = "Referrals Form, Received Conization or LEEP (referred from VIA/VILI)" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
-    
+
+
 
             select concept_id into @member107_concept_id from concept_name where name = "Referrals Form, Received Conization or LEEP (referred from Pap Screen)" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
-   
+
+
 
             select concept_id into @member108_concept_id from concept_name where name = "Referrals Form, Received Conization or LEEP (referred from HPV DNA)" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
-   
+
+
             select concept_id into @member109_concept_id from concept_name where name = "Referrals Form, Received Any cervical cancer treatment (from VIA/VILI)" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
+
 
             select concept_id into @member110_concept_id from concept_name where name = "Referrals Form, Received Any cervical cancer treatment (from Pap Screen)" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
-   
+
+
             select concept_id into @member111_concept_id from concept_name where name = "Referrals Form, Received Any cervical cancer treatment (from HPV DNA)" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
-   
+
+
 
             select concept_id into @member112_concept_id from concept_name where name = "Referrals Form, Received Advanced treatment for cervical cancer" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
-    
+
+
 
             select concept_id into @member113_concept_id from concept_name where name = "Referrals Form, Received Hypertension management" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
-    
+
+
 
             select concept_id into @member114_concept_id from concept_name where name = "Referrals Form, Received Diabetes management – gestational" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
-    
+
+
 
             select concept_id into @member115_concept_id from concept_name where name = "Referrals Form, Received Diabetes management – non-gestational" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
-    
+
+
 
             select concept_id into @member116_concept_id from concept_name where name = "Referrals Form, Received Treatment for urethral discharge, men" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
-    
+
+
             select concept_id into @member117_concept_id from concept_name where name = "Referrals Form, Received Treatment for urethral discharge, women" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
-    
+
+
             select concept_id into @member118_concept_id from concept_name where name = "Referrals Form, Received (Chlamydia, Gonorrhea, Trichomona)" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
-    
+
+
 
             select concept_id into @member119_concept_id from concept_name where name = "Referrals Form, Received Treatment for vaginitis" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
-    
+
+
 
             select concept_id into @member120_concept_id from concept_name where name = "Referrals Form, Received Treatment for cervicitis" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
-    
+
+
 
             select concept_id into @member121_concept_id from concept_name where name = "Referrals Form, Received Treatment for non-herpetic genital ulcer" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
-    
+
+
             select concept_id into @member122_concept_id from concept_name where name = "Referrals Form, Received (Syphilis, Chancroid)" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
-    
+
+
 
             select concept_id into @member123_concept_id from concept_name where name = "Referrals Form, Received Treatment for genital herpes" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
-    
-           
 
-            
 
-    
-            
+
+
+
+
+
+
 
             select concept_id into @member124_concept_id from concept_name where name = "Referrals Form, Received lymphogranuloma (venerium)" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
-   
+
+
 
             select concept_id into @member125_concept_id from concept_name where name = "Referrals Form, Received Treatment for lower abdominal pain" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
-    
+
+
 
             select concept_id into @member126_concept_id from concept_name where name = "Referrals Form, Received Treatment unknown" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-            
 
 
 
 
-             
+
+
 
              call add_concept_set_members (@concept_id, @member0_concept_id, 0);
              call add_concept_set_members (@concept_id, @member1_concept_id, 1);
@@ -2823,12 +2823,12 @@
              call add_concept_set_members (@concept_id, @member124_concept_id, 124);
              call add_concept_set_members (@concept_id, @member125_concept_id, 125);
              call add_concept_set_members (@concept_id, @member126_concept_id, 126);
-             
-             
-             
-               
-            
-              
+
+
+
+
+
+
           </sql>
     </changeSet>
 
@@ -2840,7 +2840,7 @@
                    join
                    concept_name cn
                    on ca.concept_id = cn.concept_id
-                   where ca.answer_concept IN (select concept_id from concept_name where name IN 
+                   where ca.answer_concept IN (select concept_id from concept_name where name IN
                    (
                    'BAMBANANI',
                     'MAC',
@@ -2914,7 +2914,7 @@
                    join
                    concept_name cn
                    on ca.concept_id = cn.concept_id
-                   where ca.answer_concept IN (select concept_id from concept_name where name IN 
+                   where ca.answer_concept IN (select concept_id from concept_name where name IN
                    (
                    'BEITBRIDGE',
                   'BIKITA',

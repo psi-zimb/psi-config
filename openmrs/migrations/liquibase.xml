@@ -177,8 +177,6 @@
 
     <include file ="PrEP_Screening_Tool_Form.xml"/>
 
-    <include file ="IPV_FormB.xml"/>
-
     <include file ="ART_VIAC_Questions.xml"/>
 
     <include file ="Adherence_Counselling_Form.xml"/>
@@ -211,7 +209,7 @@
 
 
     <include file ="VFConcepts.xml"/>
-    <include file ="Provider_HIV_test_counselling.xml"/>  
+    <include file ="Provider_HIV_test_counselling.xml"/>
     <include file ="Prep_Inital_Form.xml"/>
     <include file ="Prep_Continuation_Form.xml"/>
     <include file ="Referral_Form.xml"/>
@@ -222,7 +220,7 @@
     <include file ="TB_Screening_Form.xml"/>
     <include file ="TB_delete.xml"/>
     <include file ="AP_add.xml"/>
-   
+
 
 
 </databaseChangeLog>

@@ -132,88 +132,87 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals F
 
 
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Progestin-only pills','Received Progestin-only pills','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Combined oral contraceptive pills','Received Combined oral contraceptive pills','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Injectable 1 month','Received Injectable 1 month','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Injectable 2 months','Received Injectable 2 months','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Injectable 3 months','Received Injectable 3 months','Coded','Misc',false);
-		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Injectable duration unknown','Received Injectable duration unknown','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Cyclebeads','Received Cyclebeads','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received IUS 3 insertion','Received IUS 3 insertion','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received IUD 5 insertion','Received IUD 5 insertion','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received IUD 10 insertion','Received IUD 10 insertion','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received IUD insertion duration unknown','Received IUD insertion duration unknown','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Implant 3 insertion','Received Implant 3 insertion','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Implant 4 insertion','Received Implant 4 insertion','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Implant 5 insertion','Received Implant 5 insertion','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Implant insertion duration unknown','Received Implant insertion duration unknown','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Vasectomy','Received Vasectomy','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Tubal ligation','Received Tubal ligation','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Opioid treatment','Received Opioid treatment','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Cryotherapy (referred from VIA/VILI)','Received Cryotherapy (referred from VIA/VILI)','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Cryotherapy (referred from Pap Screen)','Received Cryotherapy (referred from Pap Screen)','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Cryotherapy (referred from HPV DNA)','Received Cryotherapy (referred from HPV DNA)','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Conization or LEEP (referred from VIA/VILI)','Received Conization or LEEP (referred from VIA/VILI)','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Conization or LEEP (referred from Pap Screen)','Received Conization or LEEP (referred from Pap Screen)','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Conization or LEEP (referred from HPV DNA)','Received Conization or LEEP (referred from HPV DNA)','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Any cervical cancer treatment (from VIA/VILI)','Received Any cervical cancer treatment (from VIA/VILI)','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Any cervical cancer treatment (from Pap Screen)','Received Any cervical cancer treatment (from Pap Screen)','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Any cervical cancer treatment (from HPV DNA)','Received Any cervical cancer treatment (from HPV DNA)','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Advanced treatment for cervical cancer','Received Advanced treatment for cervical cancer','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Hypertension management','Received Hypertension management','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Diabetes management – gestational','Received Diabetes management – gestational','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Diabetes management – non-gestational','Received Diabetes management – non-gestational','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Treatment for urethral discharge, men','Received Treatment for urethral discharge, men','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Treatment for urethral discharge, women','Received Treatment for urethral discharge, women','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received (Chlamydia, Gonorrhea, Trichomona)','Received (Chlamydia, Gonorrhea, Trichomona)','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Treatment for vaginitis','Received Treatment for vaginitis','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Treatment for cervicitis','Received Treatment for cervicitis','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Treatment for non-herpetic genital ulcer','Received Treatment for non-herpetic genital ulcer','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received (Syphilis, Chancroid)','Received (Syphilis, Chancroid)','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Treatment for genital herpes','Received Treatment for genital herpes','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Treatment for inguinal bubo,','Received Treatment for inguinal bubo,','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received lymphogranuloma (venerium)','Received lymphogranuloma (venerium)','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Treatment for lower abdominal pain','Received Treatment for lower abdominal pain','Coded','Misc',false);
- 		
+
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Treatment unknown','Received Treatment unknown','Coded','Misc',false);
- 		

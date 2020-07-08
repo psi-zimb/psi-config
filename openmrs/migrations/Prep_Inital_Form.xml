@@ -6,12 +6,12 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <changeSet id="PSI-CONFIG-VM-276111278899" author="psi" runAlways="true"> 
+    <changeSet id="PSI-CONFIG-VM-276111278899" author="psi" runAlways="true">
         <comment>Adding New Concepts for Prep Init Form</comment>
         <sqlFile path="Prep_Init_Concepts.sql"/>
     </changeSet>
 
-  
+
     <changeSet id="PSI-CONFIG-VM-207011271900" author="psi">
         <comment>Adding Answers to "Prep Init Form, Was client initiated on PrEP?"</comment>
         <sql>
@@ -124,8 +124,8 @@ call add_concept_answer(@concept_id, @child6_concept_id, 6);
         <comment>Adding set members to Prep Init Form</comment>
           <sql>
               set @concept_id = 0;
-             
-              
+
+
               set @member5_concept_id = 0;
               set @member6_concept_id = 0;
               set @member7_concept_id = 0;
@@ -134,7 +134,7 @@ call add_concept_answer(@concept_id, @child6_concept_id, 6);
 
 
 
-                         
+
               select concept_id into @concept_id from concept_name where name = "Prep Init Form Template" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
 
@@ -143,17 +143,17 @@ call add_concept_answer(@concept_id, @child6_concept_id, 6);
              select concept_id into @member7_concept_id from concept_name where name = "Prep Init Form, Duration of medication" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
              select concept_id into @member8_concept_id from concept_name where name = "Prep Init Form, Duration client intends to take prep?" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
-                      
 
-              
-             
+
+
+
            call add_concept_set_members (@concept_id, @member5_concept_id, 70);
            call add_concept_set_members (@concept_id, @member6_concept_id, 71);
            call add_concept_set_members (@concept_id, @member7_concept_id, 72);
            call add_concept_set_members (@concept_id, @member8_concept_id, 73);
-           
-              
-              
+
+
+
           </sql>
     </changeSet>
 
