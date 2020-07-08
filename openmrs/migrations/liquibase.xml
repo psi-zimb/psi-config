@@ -220,6 +220,8 @@
     <include file ="ART_Inital_Form.xml"/>
     <include file ="ART_Cont_Form.xml"/>
     <include file ="TB_Screening_Form.xml"/>
+    <include file ="TB_delete.xml"/>
+    <include file ="AP_add.xml"/>
    
 
 
