@@ -5613,8 +5613,159 @@ FROM art_initial_visit_compulsory_question_2_of_2 GROUP BY encounter_id) art2
 INNER JOIN patient_encounter_table pedd ON pedd.encounter_id = art2.encounter_id) art2_2
 ON art1_1.visit_id = art2_2.visit_id
 
-INNER JOIN psi_patient_program_data ppv on (ppv.patient_id = art1_1.patient_id or ppv.patient_id = art2_2.patient_id) and (ppv.program_id = (SELECT program_id FROM programs_default WHERE program_name= 'ART Program'))
-INNER JOIN patient_identifier pi ON (art1_1.patient_id = pi.patient_id or art2_2.patient_id = pi.patient_id)
+FULL OUTER JOIN 
+( 
+SELECT DISTINCT visit_id ,
+FIRST_VALUE(assesment.obs_datetime)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN assesment.obs_datetime IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC) AS obs_datetime,
+FIRST_VALUE(assesment.date_created)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN assesment.date_created IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)AS date_created,
+FIRST_VALUE(assesment.patient_id)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN assesment.patient_id IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)AS patient_id,
+FIRST_VALUE(ap_activity_status)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_activity_status IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_activity_status,
+FIRST_VALUE(ap_type_of_transfer_out)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_type_of_transfer_out IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_type_of_transfer_out,
+FIRST_VALUE(ap_transfer_out_date)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_transfer_out_date IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_transfer_out_date,
+FIRST_VALUE(ap_date_of_death)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_date_of_death IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_date_of_death,
+FIRST_VALUE(ap_cause_of_death)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_cause_of_death IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_cause_of_death,
+FIRST_VALUE(ap_specify_other_infections_and_parasitic_disease)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_specify_other_infections_and_parasitic_disease IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_specify_other_infections_and_parasitic_disease,
+FIRST_VALUE(ap_specify_other_natural_causes)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_specify_other_natural_causes IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_specify_other_natural_causes,
+FIRST_VALUE(ap_specify_other_disease_or_conditions_leading_to_death)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_specify_other_disease_or_conditions_leading_to_death IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_specify_other_disease_or_conditions_leading_to_death,
+FIRST_VALUE(ap_date_client_reported_as_ltfu)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_date_client_reported_as_ltfu IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_date_client_reported_as_ltfu,
+FIRST_VALUE(ap_period_initiated_on_art_before_ltfu)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_period_initiated_on_art_before_ltfu IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_period_initiated_on_art_before_ltfu,
+FIRST_VALUE(ap_date_client_opted_out)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_date_client_opted_out IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_date_client_opted_out,
+FIRST_VALUE(ap_transfer_in_date)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_transfer_in_date IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_transfer_in_date,
+FIRST_VALUE(ap_program_stop_date)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_program_stop_date IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_program_stop_date,
+FIRST_VALUE(ap_type_of_follow_up)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_type_of_follow_up IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_type_of_follow_up,
+FIRST_VALUE(ap_are_you_currently_breastfeeding)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_are_you_currently_breastfeeding IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_are_you_currently_breastfeeding,
+FIRST_VALUE(ap_duration_of_medication)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_duration_of_medication IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_duration_of_medication,
+FIRST_VALUE(ap_next_date_of_medication_resupply)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_next_date_of_medication_resupply IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_next_date_of_medication_resupply,
+FIRST_VALUE(ap_next_review_date)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_next_review_date IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_next_review_date,
+FIRST_VALUE(ap_is_the_client_eligible_for_viral_load)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_is_the_client_eligible_for_viral_load IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_is_the_client_eligible_for_viral_load,
+FIRST_VALUE(ap_was_the_sample_sent_to_the_lab)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_was_the_sample_sent_to_the_lab IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_was_the_sample_sent_to_the_lab,
+FIRST_VALUE(ap_reason_sample_not_sent_to_the_lab)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_reason_sample_not_sent_to_the_lab IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_reason_sample_not_sent_to_the_lab,
+FIRST_VALUE(ap_type_of_request)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_type_of_request IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_type_of_request,
+FIRST_VALUE(ap_routine_type)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_routine_type IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_routine_type,
+FIRST_VALUE(ap_targeted_type)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_targeted_type IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_targeted_type,
+FIRST_VALUE(ap_why_is_the_client_not_eligible_for_v_l)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_why_is_the_client_not_eligible_for_v_l IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_why_is_the_client_not_eligible_for_v_l,
+FIRST_VALUE(ap_date_of_last_v_l)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_date_of_last_v_l IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_date_of_last_v_l,
+FIRST_VALUE(ap_what_is_the_value_of_the_v_l)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_what_is_the_value_of_the_v_l IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_what_is_the_value_of_the_v_l,
+FIRST_VALUE(ap_date_viral_load_results_received)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_date_viral_load_results_received IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_date_viral_load_results_received,
+FIRST_VALUE(ap_viral_load_result)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_viral_load_result IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_viral_load_result,
+FIRST_VALUE(ap_viral_load_status)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_viral_load_status IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_viral_load_status,
+FIRST_VALUE(ap_client_referred_for_eac)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_client_referred_for_eac IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_client_referred_for_eac,
+FIRST_VALUE(ap_next_viral_load_date)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_next_viral_load_date IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
+      AS ap_next_viral_load_date
+FROM
+(SELECT max(id_assessment_and_plan_form_template) AS id_assessment_and_plan_form_template,
+max(patient_id) AS patient_id,
+encounter_id,
+max(obs_datetime) AS obs_datetime,
+max(date_created) AS date_created,
+max(date_modified) AS date_modified,
+max(location_id) AS location_id,
+max(location_name) AS location_name,
+max(program_id) AS program_id,
+max(program_name) AS program_name,
+max(ap_activity_status) AS ap_activity_status,
+max(ap_type_of_transfer_out) AS ap_type_of_transfer_out,
+max(ap_transfer_out_date) AS ap_transfer_out_date,
+max(ap_date_of_death) AS ap_date_of_death,
+max(ap_cause_of_death) AS ap_cause_of_death,
+max(ap_specify_other_infections_and_parasitic_disease) AS ap_specify_other_infections_and_parasitic_disease,
+max(ap_specify_other_natural_causes) AS ap_specify_other_natural_causes ,
+max(ap_specify_other_disease_or_conditions_leading_to_death) AS ap_specify_other_disease_or_conditions_leading_to_death,
+max(ap_date_client_reported_as_ltfu)  AS ap_date_client_reported_as_ltfu,
+max(ap_period_initiated_on_art_before_ltfu)  AS ap_period_initiated_on_art_before_ltfu,
+max(ap_date_client_opted_out)  AS ap_date_client_opted_out,
+max(ap_transfer_in_date) AS ap_transfer_in_date,
+max(ap_program_stop_date) AS ap_program_stop_date,
+max(ap_type_of_follow_up) AS ap_type_of_follow_up,
+max(ap_are_you_currently_breastfeeding) AS ap_are_you_currently_breastfeeding,
+max(ap_duration_of_medication) AS ap_duration_of_medication,
+max(ap_next_date_of_medication_resupply) AS ap_next_date_of_medication_resupply,
+max(ap_next_review_date) AS ap_next_review_date,
+max(ap_is_the_client_eligible_for_viral_load) AS ap_is_the_client_eligible_for_viral_load,
+max(ap_was_the_sample_sent_to_the_lab) AS ap_was_the_sample_sent_to_the_lab,
+max(ap_reason_sample_not_sent_to_the_lab) AS ap_reason_sample_not_sent_to_the_lab,
+max(ap_type_of_request) AS ap_type_of_request,
+max(ap_routine_type) AS ap_routine_type,
+max(ap_targeted_type) AS ap_targeted_type,
+max(ap_why_is_the_client_not_eligible_for_v_l) AS ap_why_is_the_client_not_eligible_for_v_l,
+max(ap_date_of_last_v_l) AS ap_date_of_last_v_l,
+max(ap_what_is_the_value_of_the_v_l) AS ap_what_is_the_value_of_the_v_l,
+max(ap_date_viral_load_results_received) AS ap_date_viral_load_results_received,
+max(ap_viral_load_result) AS ap_viral_load_result,
+max(ap_viral_load_status) AS ap_viral_load_status,
+max(ap_client_referred_for_eac) AS ap_client_referred_for_eac,
+max(ap_next_viral_load_date) AS ap_next_viral_load_date
+FROM assessment_and_plan_form_template GROUP BY encounter_id) assesment
+INNER JOIN patient_encounter_table pedd ON pedd.encounter_id = assesment.encounter_id) assesment_1
+ON art1_1.visit_id = assesment_1.visit_id
+INNER JOIN psi_patient_program_data ppv on (ppv.patient_id = art1_1.patient_id or ppv.patient_id = art2_2.patient_id or ppv.patient_id = assesment_1.patient_id) and (ppv.program_id = (SELECT program_id FROM programs_default WHERE program_name= 'ART Program'))
+INNER JOIN patient_identifier pi ON (art1_1.patient_id = pi.patient_id or art2_2.patient_id = pi.patient_id or assesment_1.patient_id = pi.patient_id)
 ORDER BY date_created DESC;"
 },
 {
