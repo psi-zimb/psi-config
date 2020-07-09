@@ -78,7 +78,7 @@ call add_concept_answer(@concept_id, @child7_concept_id, 7);
 
     
 
-    <changeSet id="PSI-CONFIG-VM-579111271913" author="psi">
+    <changeSet id="PSI-CONFIG-VM-589111271913" author="psi">
         <comment>Adding set members to AIVC</comment>
           <sql>
               set @concept_id = 0;
@@ -111,9 +111,9 @@ call add_concept_answer(@concept_id, @child7_concept_id, 7);
              
            call add_concept_set_members (@concept_id, @member5_concept_id, 55);
            call add_concept_set_members (@concept_id, @member6_concept_id, 56);
-           call add_concept_set_members (@concept_id, @member7_concept_id, 57);
-           call add_concept_set_members (@concept_id, @member8_concept_id, 58);
-           call add_concept_set_members (@concept_id, @member9_concept_id, 59);
+           call add_concept_set_members (@concept_id, @member8_concept_id, 57);
+           call add_concept_set_members (@concept_id, @member9_concept_id, 58);
+            call add_concept_set_members (@concept_id, @member7_concept_id, 59);
            
               
               
