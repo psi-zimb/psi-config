@@ -4057,7 +4057,7 @@ patient_encounter_table pedd
       ap_date_client_opted_out AS \"[Assesment Form]Date Client Opted Out\",
       ap_transfer_in_date AS \"[Assesment Form]Transfer In Date\",
       ap_program_stop_date AS \"[Assesment Form]Program Stop date\",
-      ap_type_of_follow_up AS \"[Assesment Form]Type Of FollowUp\",
+      ap_type_of_follow_up AS \"[Assesment Form]Type Of Follow Up\",
       CASE WHEN ap_are_you_currently_breastfeeding = 'Yes' THEN 1
            WHEN ap_are_you_currently_breastfeeding = 'No' THEN 0
            ELSE NULL END :: BOOLEAN AS \"[Assesment Form]Are you currently breastfeeding?\", 
@@ -4083,7 +4083,7 @@ patient_encounter_table pedd
       CASE WHEN ap_client_referred_for_eac = 'Yes' THEN 1
            WHEN ap_client_referred_for_eac = 'No' THEN 0
            ELSE NULL END :: BOOLEAN AS \"[Assesment Form]Client referred for EAC\",
-      ap_next_viral_load_date AS \"Next Viral Load date\"
+      ap_next_viral_load_date AS \"[Assesment Form]Next Viral Load date\"
      
        
  FROM
