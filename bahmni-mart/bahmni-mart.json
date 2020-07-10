@@ -1566,286 +1566,120 @@ WHERE  pp.program_id IN (SELECT program_id
     {
     "name": "IPV_instance_table_creation",
       "type": "customSql",
-      "readerSql":  "SELECT Group_concat(DISTINCT ( CASE
-                                   WHEN pat1.NAME = 'Site Type' THEN
-                                       cv.concept_full_name
-                                   ELSE NULL
-    END ))               AS \"Site Type\",
-       Group_concat(DISTINCT ( CASE
-                                   WHEN pat1.NAME = 'Outreach site name' THEN
-                                       pac.value
-                                   ELSE NULL
-           END ))               AS \"Outreach site name\",
-       Group_concat(DISTINCT ( CASE
-                                   WHEN pat1.NAME = 'Outreach Classification' THEN
-                                       cv.concept_full_name
-                                   ELSE NULL
-           END ))               AS \"Outreach type\",
-       ( CASE
-             WHEN patientSitetype.sitetype = (SELECT concept_id
-                                              FROM   concept_view
-                                              WHERE  concept_full_name = 'Static'
-                                                AND retired = 0) THEN \"fixed\"
-             ELSE (SELECT concept_full_name
-                   FROM   concept_view
-                   WHERE  concept_id = patientSitetype.sitetype)
-           END )                                      AS \"Channel Type\",
-       piUIC.identifier                             AS \"UIC\",
-       per.gender                                   AS \"Gender\",
-       per.birthdate                                AS \"Date of Birth\",
-       Group_concat(DISTINCT ( CASE
-                                   WHEN pat1.NAME = 'Client Resident' THEN
-                                       cv.concept_full_name
-                                   ELSE NULL
-           END ))               AS \"Residence\",
-       Group_concat(DISTINCT ( CASE
-                                   WHEN pat1.NAME = 'Marital Status' THEN
-                                       cv.concept_full_name
-                                   ELSE NULL
-           END ))               AS \"Marital Status\",
-       Group_concat(DISTINCT ( CASE
-                                   WHEN pat1.NAME = 'occupation' THEN
-                                       cv.concept_full_name
-                                   ELSE NULL
-           END ))               AS \"Occupation\",
-       Group_concat(DISTINCT ( CASE
-                                   WHEN pat1.NAME = 'Telephone' THEN pac.value
-                                   ELSE NULL
-           END ))               AS
-           \"Patient telephone Number\",
-       Group_concat(DISTINCT ( CASE
-                                   WHEN pat1.NAME = 'Nationality' THEN
-                                       cv.concept_full_name
-                                   ELSE NULL
-           END ))               AS \"Nationality\",
-       Group_concat(DISTINCT ( CASE
-                                   WHEN pat1.NAME = 'education' THEN
-                                       cv.concept_full_name
-                                   ELSE NULL
-           END ))               AS \"Education\",
-       Group_concat(DISTINCT ( CASE
-                                   WHEN pat1.NAME = 'Ethnicity' THEN
-                                       cv.concept_full_name
-                                   ELSE NULL
-           END ))               AS \"Ethnicity\",
-       Group_concat(DISTINCT ( CASE
-                                   WHEN pat1.NAME = 'District of Birth' THEN
-                                       cv.concept_full_name
-                                   ELSE NULL
-           END ))               AS \"District of Birth\",
-       Group_concat(DISTINCT ( CASE
-                                   WHEN pat1.NAME = 'Next-of-kin Contact Name'
-                                       THEN
-                                       pac.value
-                                   ELSE NULL
-           END ))               AS
-           \"Next-of-kin Contact Name\",
-       Group_concat(DISTINCT ( CASE
-                                   WHEN pat1.NAME = 'Next-of-kin Address' THEN
-                                       pac.value
-                                   ELSE NULL
-           END ))               AS \"Next-of-kin Address\",
-       Group_concat(DISTINCT ( CASE
-                                   WHEN pat1.NAME = 'Next-of-kin Telephone Number'
-                                       THEN
-                                       pac.value
-                                   ELSE NULL
-           END ))               AS
-           \"Next-of-kin Telephone Number\",
-       Group_concat(DISTINCT ( CASE
-                                   WHEN pat1.NAME = 'Population' THEN
-                                       cv.concept_full_name
-                                   ELSE NULL
-           END ))               AS \"Population\",
-       Group_concat(DISTINCT ( CASE
-                                   WHEN pat1.NAME = 'Referral source' THEN
-                                       cv.concept_full_name
-                                   ELSE NULL
-           END ))               AS \"Referred by\",
-       Group_concat(DISTINCT ( CASE
-                                   WHEN pat1.NAME = 'Contact Tracing' THEN (
-                                       CASE
-                                           WHEN cv.concept_full_name = 'Yes' THEN 'true'
-                                           WHEN cv.concept_full_name = 'No' THEN 'false'
-                                           ELSE NULL
-                                           END )
-                                   ELSE NULL
-           END ))               AS \"Contact Tracing\",
-       Group_concat(DISTINCT ( CASE
-                                   WHEN pat1.NAME = 'Index Client Code' THEN
-                                       pac.value
-                                   ELSE NULL
-           END ))               AS \"Index Client Code\",
-       Cast(Group_concat(DISTINCT ( CASE
-                                        WHEN
-                                                pat1.NAME = 'Date index client tested' THEN
-                                            pac.value
-                                        ELSE NULL
-           END )) AS DATE) AS
-           \"Date index client tested\",
-       CASE
-           WHEN OrgUnitLogic.sitetype = 'Outreach' THEN
-               Concat('ZWNSC-OU-', Upper(OrgUnitLogic.facility), '-',
-                      Upper(
-                              OrgUnitLogic.district))
-           ELSE Concat('ZWNSC-', Upper(OrgUnitLogic.facility))
-           END                                          AS \"OrgUnit\",
-       personInstanceDateChanged.datechanged        AS \"date_created\",
-       pi.identifier                                AS \"Patient_Identifier\"
-FROM   patient_identifier pi
-           INNER JOIN person per
-                      ON pi.patient_id = per.person_id
-                          AND pi.identifier_type IN (SELECT patient_identifier_type_id
-                                                     FROM   patient_identifier_type
-                                                     WHERE  NAME = 'Patient Identifier'
-                                                       AND retired = 0)
-           INNER JOIN patient pat
-                      ON pi.patient_id = pat.patient_id
-           INNER JOIN (/*To get the max changed date for a person instance*/
-    SELECT pid              AS person_id,
-           Max(datechanged) AS dateChanged
-    FROM   (
-               /*Person name max date created*/
-               SELECT person_id                                 AS
-                          pid,
-                      Max(COALESCE(date_changed, date_created))
-                          dateChanged
-               FROM   person_name
-               GROUP  BY person_id
-               UNION ALL
-               /*Person max date created*/
-               SELECT person_id                                 AS
-                          pid,
-                      Max(COALESCE(date_changed, date_created))
-                          dateChanged
-               FROM   person
-               GROUP  BY person_id
-               UNION ALL
-               /*Person identifier max date created*/
-               SELECT patient_id                                AS
-                          pid,
-                      Max(COALESCE(date_changed, date_created))
-                          dateChanged
-               FROM   patient_identifier
-               GROUP  BY patient_id
-               UNION ALL
-               /*Person address max date created*/
-               SELECT person_id                                 AS
-                          pid,
-                      Max(COALESCE(date_changed, date_created))
-                          dateChanged
-               FROM   person_address
-               GROUP  BY person_id
-               UNION ALL
-               /*Person attribute max date created*/
-               SELECT person_id                                 AS
-                          pid,
-                      Max(COALESCE(date_changed, date_created))
-                          dateChanged
-               FROM   person_attribute
-               GROUP  BY person_id) AS personInstanceDateChanged
-    GROUP  BY pid) AS personInstanceDateChanged
-                      ON personInstanceDateChanged.person_id = pat.patient_id
-           INNER JOIN patient_identifier piUIC
-                      ON pat.patient_id = piUIC.patient_id
-           INNER JOIN person_address perAdd
-                      ON pi.patient_id = perAdd.person_id
-           LEFT JOIN (/*Patient id along with the site type value*/
-    SELECT perAtt.person_id,
-           perAtt.value AS 'siteType'
-    FROM   person_attribute perAtt
-               INNER JOIN person_attribute_type perAtttype
-                          ON perAtt.person_attribute_type_id =
-                             perAtttype.person_attribute_type_id
-    WHERE  perAtttype.NAME = 'Site Type'
-      AND perAtt.voided = 0) AS patientSitetype
-                     ON patientSitetype.person_id = pi.patient_id
-           LEFT JOIN person_attribute pac
-                     ON pi.patient_id = pac.person_id
-                         AND pac.voided = 0
-           LEFT JOIN person_attribute_type pat1
-                     ON pac.person_attribute_type_id = pat1.person_attribute_type_id
-           LEFT JOIN concept_view cv
-                     ON pac.value = cv.concept_id
-                         AND cv.retired = 0
-                         AND piUIC.identifier_type IN (SELECT patient_identifier_type_id
-                                                       FROM   patient_identifier_type
-                                                       WHERE  NAME = 'UIC'
-                                                         AND retired = 0)
-           INNER JOIN (SELECT facilityObs.person_id,
-                              (SELECT concept_full_name
-                               FROM   concept_view
-                               WHERE  retired = 0
-                                 AND concept_id = facilityObs.value_coded) AS
-                                  facility
-                               ,
-                              (SELECT concept_full_name
-                               FROM   concept_view
-                               WHERE  retired = 0
-                                 AND concept_id = siteTypeObs.value_coded) AS
-                                  sitetype
-                               ,
-                              (SELECT concept_full_name
-                               FROM   concept_view
-                               WHERE  retired = 0
-                                 AND concept_id = districtObs.value_coded) AS
-                                  district
-                       FROM   obs facilityObs
-                                  INNER JOIN (SELECT concept_id,
-                                                     person_id,
-                                                     Max(obs_datetime) AS
-                                                         facilityObsDateTime
-                                              FROM   obs
-                                              WHERE  concept_id =
-                                                     (SELECT concept_id
-                                                      FROM   concept_view
-                                                      WHERE  retired = 0
-                                                        AND concept_full_name
-                                                          =
-                                                            'IPV Form, Facility')
-                                                AND voided = 0
-                                              GROUP  BY person_id) AS
-                           facilityObsDateTimePerPerson
-                                             ON facilityObsDateTimePerPerson.concept_id =
-                                                facilityObs.concept_id
-                                                 AND facilityObsDateTimePerPerson.person_id
-                                                    =
-                                                     facilityObs.person_id
-                                                 AND
-                                                facilityObsDateTimePerPerson.facilityobsdatetime =
-                                                facilityObs.obs_datetime
-                                                 AND facilityObs.voided = 0
-                                  INNER JOIN obs siteTypeObs
-                                             ON siteTypeObs.encounter_id =
-                                                facilityObs.encounter_id
-                                                 AND siteTypeObs.voided = 0
-                                                 AND siteTypeObs.concept_id =
-                                                     (SELECT concept_id
-                                                      FROM   concept_view
-                                                      WHERE  retired = 0
-                                                        AND concept_full_name =
-                                                            'IPV Form, Site Type')
-                                  LEFT JOIN obs districtObs
-                                            ON districtObs.encounter_id =
-                                               siteTypeObs.encounter_id
-                                                AND districtObs.voided = 0
-                                                AND districtObs.concept_id =
-                                                    (SELECT concept_id
-                                                     FROM   concept_view
-                                                     WHERE  retired = 0
-                                                       AND concept_full_name =
-                                                           'IPV Form, District')
-) AS OrgUnitLogic
-                      ON OrgUnitLogic.person_id = pi.patient_id
-WHERE  pi.patient_id IN (
-
-    SELECT patient_id
-    FROM   patient_program pp
-    WHERE  program_id IN (SELECT program_id
-                          FROM   program
-                          WHERE  retired = 0)
-      AND voided = 0)
-GROUP  BY pi.patient_id ",
+     "readerSql":  "select
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'Site Type' then cv.concept_full_name else null end)) as \"Site Type\",
+      GROUP_CONCAT(distinct (case when pat1.name = 'Outreach site name' Then pac.value else null end)) as \"Outreach site name\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'Outreach Classification' then cv.concept_full_name else null end)) as \"Outreach type\",
+      (case when patientSitetype.siteType = (select concept_id from concept_view where concept_full_name = 'Static' and retired = 0)
+      then \"Fixed\"
+      ELSE
+      (Select concept_full_name from concept_view where concept_id = patientSitetype.siteType)
+      end) as \"Channel Type\",
+      piUIC.identifier as \"UIC\",
+      per.gender as \"Gender\",
+      per.birthdate as \"Date of Birth\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'Client Resident' then cv.concept_full_name else null end)) as \"Residence\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'Marital Status' then cv.concept_full_name else null end)) as \"Marital Status\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'occupation' then cv.concept_full_name else null end)) as \"Occupation\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'Telephone' Then pac.value else null end)) as \"Patient telephone Number\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'Nationality' then cv.concept_full_name else null end)) as \"Nationality\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'education' then cv.concept_full_name else null end)) as \"Education\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'Ethnicity' then cv.concept_full_name else null end)) as \"Ethnicity\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'District of Birth' then cv.concept_full_name else null end)) as \"District of Birth\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'Next-of-kin Contact Name' Then pac.value else null end)) as \"Next-of-kin Contact Name\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'Next-of-kin Address' Then pac.value else null end)) as \"Next-of-kin Address\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'Next-of-kin Telephone Number' Then pac.value else null end)) as \"Next-of-kin Telephone Number\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'Population' then cv.concept_full_name else null end)) as \"Population\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'Referral source' then cv.concept_full_name else null end)) as \"Referred by\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'Contact Tracing' then (case when cv.concept_full_name = 'Yes' THEN 'true' when cv.concept_full_name = 'No' then 'false' else null end) else null end)) as \"Contact Tracing\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'Index Client Code' Then pac.value else null end)) as \"Index Client Code\",
+      CAST(GROUP_CONCAT(DISTINCT (case when pat1.name = 'Date index client tested' Then pac.value else null end)) AS DATE) as \"Date index client tested\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'Moonlight Testing' then (case when cv.concept_full_name = 'Yes' THEN 'true' when cv.concept_full_name = 'No' then 'false' else null end) else null end)) as \"Moonlight Testing\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'Dreams Activity' then (case when cv.concept_full_name = 'Yes' THEN 'true' when cv.concept_full_name = 'No' then 'false' else null end) else null end)) AS \"Dreams Activity\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'Nearest Clinic/Hospital' Then pac.value else null end)) as \"Nearest Clinic/Hospital\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'Have you ever been tested for HIV' then (case when cv.concept_full_name = 'Yes' THEN 'true' when cv.concept_full_name = 'No' then 'false' else null end) else null end)) AS \"Have you ever been tested for HIV\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'If yes for ever been tested for HIV, Result?' then cv.concept_full_name else null end)) as \"If yes for ever been tested for HIV, Result?\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'Ever been tested in the last twelve months' then (case when cv.concept_full_name = 'Yes' THEN 'true' when cv.concept_full_name = 'No' then 'false' else null end) else null end)) AS \"Ever been tested in the last twelve months\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'Couple testing ?' then (case when cv.concept_full_name = 'Yes' THEN 'true' when cv.concept_full_name = 'No' then 'false' else null end) else null end)) AS \"Couple testing ?\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'If couple testing yes,capture the registration no.' Then pac.value else null end)) as \"If couple testing yes,capture the registration no.\",
+      case when OrgUnitLogic.sitetype = 'Outreach'
+      then concat('ZWNSC-OU-',upper(OrgUnitLogic.facility),'-',upper(OrgUnitLogic.district))
+      ELSE concat('ZWNSC-',upper(OrgUnitLogic.facility))
+      end as \"OrgUnit\",
+      personInstanceDateChanged.dateChanged as \"date_created\",
+      pi.identifier as \"Patient_Identifier\"
+      from patient_identifier pi
+      inner join person per on pi.patient_id = per.person_id
+      and pi.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'Patient Identifier' and retired=0)
+      inner join patient pat on pi.patient_id = pat.patient_id
+      Inner Join (/*To get the max changed date for a person instance*/
+      Select
+      pid as person_id,
+      max(DateChanged) as dateChanged
+      from (
+      /*Person name max date created*/
+      Select person_id as pid, max(coalesce(date_changed,date_created)) dateChanged from person_name group by person_id
+      Union All
+      /*Person max date created*/
+      Select person_id as pid, max(coalesce(date_changed,date_created)) dateChanged from person group by person_id
+      Union All
+      /*Person identifier max date created*/
+      Select patient_id as pid, max(coalesce(date_changed,date_created)) dateChanged from patient_identifier group by patient_id
+      Union All
+      /*Person address max date created*/
+      Select person_id as pid, max(coalesce(date_changed,date_created)) dateChanged from person_address group by person_id
+      Union All
+      /*Person attribute max date created*/
+      Select person_id as pid, max(coalesce(date_changed,date_created)) dateChanged from person_attribute group by person_id
+      ) as personInstanceDateChanged
+      group by pid
+      ) as personInstanceDateChanged
+      On personInstanceDateChanged.person_id = pat.patient_id
+      inner join patient_identifier piUIC on pat.patient_id = piUIC.patient_id
+      inner join person_address perAdd on pi.patient_id = perAdd.person_id
+      LEFT JOIN (/*Patient id along with the site type value*/
+      Select perAtt.person_id,perAtt.value as 'siteType' from person_attribute perAtt
+      inner JOIN person_attribute_type perAtttype on perAtt.person_attribute_type_id = perAtttype.person_attribute_type_id
+      where  perAtttype.name = 'Site Type'
+      and perAtt.voided=0
+      ) as patientSitetype
+      on patientSitetype.person_id = pi.patient_id
+      LEFT JOIN person_attribute pac on pi.patient_id = pac.person_id and pac.voided = 0
+      LEFT JOIN person_attribute_type pat1 on pac.person_attribute_type_id = pat1.person_attribute_type_id
+      LEFT jOIN concept_view cv on pac.value = cv.concept_id AND cv.retired = 0
+      and piUIC.identifier_type in (select patient_identifier_type_id from patient_identifier_type where name = 'UIC' and retired=0)
+      inner join
+      (Select
+      facilityObs.person_id,
+      (select concept_full_name from concept_view where retired = 0 and concept_id= facilityObs.value_coded) as facility,
+      (select concept_full_name from concept_view where retired = 0 and concept_id= siteTypeObs.value_coded) as sitetype,
+      (select concept_full_name from concept_view where retired = 0 and concept_id= districtObs.value_coded) as district
+      from obs facilityObs
+      Inner Join
+      (Select concept_id,person_id,max(obs_datetime) as facilityObsDateTime from obs
+      where concept_id=(select concept_id from concept_view where retired = 0 and concept_full_name='IPV Form, Facility')
+      and voided=0
+      group by person_id) as facilityObsDateTimePerPerson
+      on facilityObsDateTimePerPerson.concept_id = facilityObs.concept_id
+      And facilityObsDateTimePerPerson.person_id = facilityObs.person_id
+      And facilityObsDateTimePerPerson.facilityObsDateTime = facilityObs.obs_datetime
+      and facilityObs.voided = 0
+      Inner join obs siteTypeObs
+      on siteTypeObs.encounter_id = facilityObs.encounter_id
+      and siteTypeObs.voided = 0 and siteTypeObs.concept_id=(select concept_id from concept_view where retired = 0 and concept_full_name='IPV Form, Site Type')
+      Left join obs districtObs
+      on districtObs.encounter_id = siteTypeObs.encounter_id
+      and  districtObs.voided = 0 and districtObs.concept_id=(select concept_id from concept_view where retired = 0 and concept_full_name='IPV Form, District')
+      ) as OrgUnitLogic
+      on OrgUnitLogic.person_id = pi.patient_id
+      where pi.patient_id in ( /*Filtering if patient is enrolled in any FORM*/
+      Select patient_id from patient_program pp where program_id in (
+      Select program_id from
+      program where retired=0
+      )
+      and voided = 0
+      )
+      group by pi.patient_id ",
       "tableName": "ipv_instance_table",
       "chunkSizeToRead": "500",
       "columnsToIgnore": []
@@ -8465,19 +8299,19 @@ FROM       (
                  ipv.ipv_form_partner_ever_threatened_to_kill_you AS ipv_form_partner_ever_threatened_to_kill_you
                FROM            (
                                    SELECT   encounter_id,
-                                            (patient_id)                                      AS patient_id ,
-                                            (obs_datetime)                                    AS obs_datetime,
-                                            (date_created)                                    AS date_created,
-                                            (program_id)                                      AS program_id,
-                                            (program_name)                                    AS program_name,
-                                            (ipv_form_facility)                               AS ipv_form_facility,
-                                            (ipv_form_site_type)                              AS ipv_form_site_type,
-                                            (ipv_form_district)                               AS ipv_form_district,
-                                            (ipv_form_has_partner_ever_threatened_to_hurt_you) AS ipv_form_has_partner_ever_threatened_to_hurt_you,
-                                            (ipv_form_partner_ever_physically_hurt_you)   AS ipv_form_partner_ever_physically_hurt_you,
-                                            (ipv_form_partner_ever_sexually_abused_you)    AS ipv_form_partner_ever_sexually_abused_you,
-                                            (ipv_form_partner_ever_threatened_you) AS ipv_form_partner_ever_threatened_you,
-                                            (ipv_form_partner_ever_threatened_to_kill_you)   AS ipv_form_partner_ever_threatened_to_kill_you
+                                            max(patient_id)                                      AS patient_id ,
+                                            max(obs_datetime)                                    AS obs_datetime,
+                                            max(date_created)                                    AS date_created,
+                                            max(program_id)                                      AS program_id,
+                                            max(program_name)                                    AS program_name,
+                                            max(ipv_form_facility)                               AS ipv_form_facility,
+                                            max(ipv_form_site_type)                              AS ipv_form_site_type,
+                                            max(ipv_form_district)                               AS ipv_form_district,
+                                            max(ipv_form_has_partner_ever_threatened_to_hurt_you) AS ipv_form_has_partner_ever_threatened_to_hurt_you,
+                                            max(ipv_form_partner_ever_physically_hurt_you)   AS ipv_form_partner_ever_physically_hurt_you,
+                                            max(ipv_form_partner_ever_sexually_abused_you)    AS ipv_form_partner_ever_sexually_abused_you,
+                                            max(ipv_form_partner_ever_threatened_you) AS ipv_form_partner_ever_threatened_you,
+                                            max(ipv_form_partner_ever_threatened_to_kill_you)   AS ipv_form_partner_ever_threatened_to_kill_you
                                    FROM     ipv_template) AS ipv
                                    INNER JOIN      patient_encounter_table pedd
                                                    ON              pedd.encounter_id = ipv.encounter_id) ipv1
