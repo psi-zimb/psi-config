@@ -8312,7 +8312,8 @@ FROM       (
                                             max(ipv_form_partner_ever_sexually_abused_you)    AS ipv_form_partner_ever_sexually_abused_you,
                                             max(ipv_form_partner_ever_threatened_you) AS ipv_form_partner_ever_threatened_you,
                                             max(ipv_form_partner_ever_threatened_to_kill_you)   AS ipv_form_partner_ever_threatened_to_kill_you
-                                   FROM     ipv_template) AS ipv
+                                   FROM     ipv_template
+                                   GROUP BY encounter_id) AS ipv
                                    INNER JOIN      patient_encounter_table pedd
                                                    ON              pedd.encounter_id = ipv.encounter_id) ipv1
                INNER JOIN psi_patient_program_data ppv
