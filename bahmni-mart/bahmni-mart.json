@@ -6964,109 +6964,109 @@ ORDER BY   date_created DESC "
 
       referrals_form_type_of_referral AS \"Type of referral\",
       referrals_form_referring_officer AS \"Referring Officer\",
-      referrals_form_facility_where_client_has_been_referred_to AS \"Facility where client has been referred to\",
+      referrals_form_facility_where_client_has_been_referred_to AS \"Facility client has been referred to\",
       referrals_form_expected_visit_date AS \"Expected visit date\",
 
       CASE
       WHEN referrals_form_referred_for_hiv_counselling = 'Yes' THEN 1
       WHEN referrals_form_referred_for_hiv_counselling = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for hiv counselling\",
+      END :: boolean AS \"Referred for HIV counselling\",
       CASE
       WHEN referrals_form_referred_for_post_exposure_prophylaxis = 'Yes' THEN 1
       WHEN referrals_form_referred_for_post_exposure_prophylaxis = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for post exposure prophylaxis\",
+      END :: boolean AS \"Referred for Post Exposure Prophylaxis\",
       CASE
       WHEN referrals_form_referred_for_prep = 'Yes' THEN 1
       WHEN referrals_form_referred_for_prep = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for prep\",
+      END :: boolean AS \"Referred for PReP\",
       CASE
       WHEN referrals_form_referred_for_sti_screening_treatment = 'Yes' THEN 1
       WHEN referrals_form_referred_for_sti_screening_treatment = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for sti screening treatment\",
+      END :: boolean AS \"Referred for STI screening / Treatment\",
       CASE
       WHEN referrals_form_referred_for_vmmc = 'Yes' THEN 1
       WHEN referrals_form_referred_for_vmmc = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for vmmc\",
+      END :: boolean AS \"Referred for VMMC\",
       CASE
       WHEN referrals_form_referred_for_hiv_rapid_test = 'Yes' THEN 1
       WHEN referrals_form_referred_for_hiv_rapid_test = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for hiv rapid test\",
+      END :: boolean AS \"Referred for HIV Rapid Test\",
       CASE
       WHEN referrals_form_referred_for_dbs_pcr_hiv_testing = 'Yes' THEN 1
       WHEN referrals_form_referred_for_dbs_pcr_hiv_testing = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for dbs pcr hiv testing\",
+      END :: boolean AS \"Referred for DBS PCR HIV Testing\",
       CASE
       WHEN referrals_form_referred_for_cd4_count = 'Yes' THEN 1
       WHEN referrals_form_referred_for_cd4_count = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for cd4 count\",
+      END :: boolean AS \"Referred for CDF Count\",
       CASE
       WHEN referrals_form_referred_for_viral_load_test = 'Yes' THEN 1
       WHEN referrals_form_referred_for_viral_load_test = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for viral load test\",
+      END :: boolean AS \"Referred for Viral load test\",
       CASE
       WHEN referrals_form_referred_for_fbc = 'Yes' THEN 1
       WHEN referrals_form_referred_for_fbc = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for fbc\",
+      END :: boolean AS \"Referred for FBC\",
       CASE
       WHEN referrals_form_referred_for_lft = 'Yes' THEN 1
       WHEN referrals_form_referred_for_lft = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for lft\",
+      END :: boolean AS \"Referred for LFT\",
       CASE
       WHEN referrals_form_referred_for_uandes = 'Yes' THEN 1
       WHEN referrals_form_referred_for_uandes = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for uandes\",
+      END :: boolean AS \"Referred for U&Es\",
       CASE
       WHEN referrals_form_referred_for_creatinine = 'Yes' THEN 1
       WHEN referrals_form_referred_for_creatinine = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for creatinine\",
+      END :: boolean AS \"Referred for Creatinine\",
       CASE
       WHEN referrals_form_referred_for_pre_art_registration = 'Yes' THEN 1
       WHEN referrals_form_referred_for_pre_art_registration = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for pre art registration\",
+      END :: boolean AS \"Referred for Pre-ART Registration\",
       CASE
       WHEN referrals_form_referred_for_art_initiation = 'Yes' THEN 1
       WHEN referrals_form_referred_for_art_initiation = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for art initiation\",
+      END :: boolean AS \"Referred for ART Initiation\",
       CASE
       WHEN referrals_form_referred_for_art_refill_defaulters = 'Yes' THEN 1
       WHEN referrals_form_referred_for_art_refill_defaulters = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for art refill defaulters\",
+      END :: boolean AS \"Referred for ART refill (defaulters)\",
       CASE
       WHEN referrals_form_referred_for_art_decentralization = 'Yes' THEN 1
       WHEN referrals_form_referred_for_art_decentralization = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for art decentralization\",
+      END :: boolean AS \"Referred for ART Decentralization\",
       CASE
       WHEN referrals_form_referred_for_pmtct_option_b = 'Yes' THEN 1
       WHEN referrals_form_referred_for_pmtct_option_b = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for pmtct option b\",
+      END :: boolean AS \"Referred for PMTCT/Option B+\",
       CASE
       WHEN referrals_form_referred_for_ctx_oi_management = 'Yes' THEN 1
       WHEN referrals_form_referred_for_ctx_oi_management = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for ctx oi management\",
+      END :: boolean AS \"Referred for CTX/OI Management\",
       CASE
       WHEN referrals_form_referred_for_carg_enrolment_transfer = 'Yes' THEN 1
       WHEN referrals_form_referred_for_carg_enrolment_transfer = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for carg enrolment transfer\",
+      END :: boolean AS \"Referred for CARG enrolment/ Transfer\",
       CASE
       WHEN referrals_form_referred_for_support_groups = 'Yes' THEN 1
       WHEN referrals_form_referred_for_support_groups = 'No' THEN 0
@@ -7076,302 +7076,302 @@ ORDER BY   date_created DESC "
       WHEN referrals_form_referred_for_art_official_transfer = 'Yes' THEN 1
       WHEN referrals_form_referred_for_art_official_transfer = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for art official transfer\",
+      END :: boolean AS \"Referred for ART official transfer\",
       CASE
       WHEN referrals_form_referred_for_art_reinitiating = 'Yes' THEN 1
       WHEN referrals_form_referred_for_art_reinitiating = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for art reinitiating\",
+      END :: boolean AS \"Referred for ART Reinitiating\",
       CASE
       WHEN referrals_form_referred_for_tb_screening = 'Yes' THEN 1
       WHEN referrals_form_referred_for_tb_screening = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for tb screening\",
+      END :: boolean AS \"Referred for TB Screening\",
       CASE
       WHEN referrals_form_referred_for_tb_diagnosis_sputum_collection = 'Yes' THEN 1
       WHEN referrals_form_referred_for_tb_diagnosis_sputum_collection = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for tb diagnosis sputum collection\",
+      END :: boolean AS \"Referred for TB Diagnosis/Sputum Collection\",
       CASE
       WHEN referrals_form_referred_for_tb_treatment_management = 'Yes' THEN 1
       WHEN referrals_form_referred_for_tb_treatment_management = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for tb treatment management\",
+      END :: boolean AS \"Referred for TB Treatment/Management\",
       CASE
       WHEN referrals_form_referred_for_tb_re_initiation_after_ltfu = 'Yes' THEN 1
       WHEN referrals_form_referred_for_tb_re_initiation_after_ltfu = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for tb re initiation after ltfu\",
+      END :: boolean AS \"Referred for TB Re-Initiation after LTFU\",
       CASE
       WHEN referrals_form_referred_for_anc = 'Yes' THEN 1
       WHEN referrals_form_referred_for_anc = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for anc\",
+      END :: boolean AS \"Referred for ANS\",
       CASE
       WHEN referrals_form_referred_for_emergency_contraception = 'Yes' THEN 1
       WHEN referrals_form_referred_for_emergency_contraception = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for emergency contraception\",
+      END :: boolean AS \"Referred for Emergency Contraception\",
       CASE
       WHEN referrals_form_referred_for_family_planning = 'Yes' THEN 1
       WHEN referrals_form_referred_for_family_planning = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for family planning\",
+      END :: boolean AS \"Referred for Family Planning\",
       CASE
       WHEN referrals_form_referred_for_cancer_of_cervix_screening = 'Yes' THEN 1
       WHEN referrals_form_referred_for_cancer_of_cervix_screening = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for cancer of cervix screening\",
+      END :: boolean AS \"Referred for Cancer of Cervix Screening\",
       CASE
       WHEN referrals_form_referred_for_breast_cancer_screening = 'Yes' THEN 1
       WHEN referrals_form_referred_for_breast_cancer_screening = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for breast cancer screening\",
+      END :: boolean AS \"Referred for Breast cancer screening\",
       CASE
       WHEN referrals_form_referred_for_psycho_social_support = 'Yes' THEN 1
       WHEN referrals_form_referred_for_psycho_social_support = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for psycho social support\",
+      END :: boolean AS \"Referred for Psycho-social support\",
       CASE
       WHEN referrals_form_referred_for_economic_strengthening = 'Yes' THEN 1
       WHEN referrals_form_referred_for_economic_strengthening = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for economic strengthening\",
+      END :: boolean AS \"Referred for Economic strengthening\",
       CASE
       WHEN referrals_form_referred_for_educational_services = 'Yes' THEN 1
       WHEN referrals_form_referred_for_educational_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for educational services\",
+      END :: boolean AS \"Referred for Educational Services\",
       CASE
       WHEN referrals_form_referred_for_emergency_shelter = 'Yes' THEN 1
       WHEN referrals_form_referred_for_emergency_shelter = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for emergency shelter\",
+      END :: boolean AS \"Referred for Emergency shelter\",
       CASE
       WHEN referrals_form_referred_for_nutrition_support = 'Yes' THEN 1
       WHEN referrals_form_referred_for_nutrition_support = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for nutrition support\",
+      END :: boolean AS \"Referred for Nutrition support\",
       CASE
       WHEN referrals_form_referred_for_legal_counsel = 'Yes' THEN 1
       WHEN referrals_form_referred_for_legal_counsel = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for legal counsel\",
+      END :: boolean AS \"Referred for Legal counsel\",
       CASE
       WHEN referrals_form_referred_to_victim_friendly_services = 'Yes' THEN 1
       WHEN referrals_form_referred_to_victim_friendly_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred to victim friendly services\",
+      END :: boolean AS \"Referred to victim Friendly Services\",
       CASE
       WHEN referrals_form_referred_for_vital_registration = 'Yes' THEN 1
       WHEN referrals_form_referred_for_vital_registration = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for vital registration\",
+      END :: boolean AS \"Referred for Vital registration\",
       CASE
       WHEN referrals_form_received_hiv_counselling_services = 'Yes' THEN 1
       WHEN referrals_form_received_hiv_counselling_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received hiv counselling services\",
+      END :: boolean AS \"Received HIV Counselling Services\",
       CASE
       WHEN referrals_form_received_post_exposure_prophylaxis_services = 'Yes' THEN 1
       WHEN referrals_form_received_post_exposure_prophylaxis_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received post exposure prophylaxis services\",
+      END :: boolean AS \"Received Post Exposure Prophylaxis Services\",
       CASE
       WHEN referrals_form_received_prep_services = 'Yes' THEN 1
       WHEN referrals_form_received_prep_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received prep services\",
+      END :: boolean AS \"Received PrEP Services\",
       CASE
       WHEN referrals_form_received_sti_screening_treatment_services = 'Yes' THEN 1
       WHEN referrals_form_received_sti_screening_treatment_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received sti screening treatment services\",
+      END :: boolean AS \"Received STI - Screening / treatment Services\",
       CASE
       WHEN referrals_form_received_vmmc_services = 'Yes' THEN 1
       WHEN referrals_form_received_vmmc_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received vmmc services\",
+      END :: boolean AS \"Received VMMC Services\",
       CASE
       WHEN referrals_form_received_hiv_rapid_test_services = 'Yes' THEN 1
       WHEN referrals_form_received_hiv_rapid_test_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received hiv rapid test services\",
+      END :: boolean AS \"Received HIV Rapid test Services\",
       CASE
       WHEN referrals_form_received_dbs_pcr_hiv_testing_services = 'Yes' THEN 1
       WHEN referrals_form_received_dbs_pcr_hiv_testing_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received dbs pcr hiv testing services\",
+      END :: boolean AS \"Received DBS- PCR HIV Testing Services\",
       CASE
       WHEN referrals_form_received_cd4_count_services = 'Yes' THEN 1
       WHEN referrals_form_received_cd4_count_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received cd4 count services\",
+      END :: boolean AS \"Received CD4 Count Services\",
       CASE
       WHEN referrals_form_received_viral_load_test_services = 'Yes' THEN 1
       WHEN referrals_form_received_viral_load_test_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received viral load test services\",
+      END :: boolean AS \"Received Viral load test Services\",
       CASE
       WHEN referrals_form_received_fbc_services = 'Yes' THEN 1
       WHEN referrals_form_received_fbc_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received fbc services\",
+      END :: boolean AS \"Received FBC Services\",
       CASE
       WHEN referrals_form_received_lft_services = 'Yes' THEN 1
       WHEN referrals_form_received_lft_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received lft services\",
+      END :: boolean AS \"Received LFT Services\",
       CASE
       WHEN referrals_form_received_uandes_services = 'Yes' THEN 1
       WHEN referrals_form_received_uandes_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received uandes services\",
+      END :: boolean AS \"Received U&Es Services\",
       CASE
       WHEN referrals_form_received_creatinine_services = 'Yes' THEN 1
       WHEN referrals_form_received_creatinine_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received creatinine services\",
+      END :: boolean AS \"Received Creatinine Services\",
       CASE
       WHEN referrals_form_received_pre_art_registration_services = 'Yes' THEN 1
       WHEN referrals_form_received_pre_art_registration_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received pre art registration services\",
+      END :: boolean AS \"Received Pre-ART registration Services\",
       CASE
       WHEN referrals_form_received_art_initiation_services = 'Yes' THEN 1
       WHEN referrals_form_received_art_initiation_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received art initiation services\",
+      END :: boolean AS \"Received ART Initiation Services\",
       CASE
       WHEN referrals_form_received_art_refill_defaulters_services = 'Yes' THEN 1
       WHEN referrals_form_received_art_refill_defaulters_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received art refill defaulters services\",
+      END :: boolean AS \"Received ART refill (defaulters) Services\",
       CASE
       WHEN referrals_form_received_art_decentralization_services = 'Yes' THEN 1
       WHEN referrals_form_received_art_decentralization_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received art decentralization services\",
+      END :: boolean AS \"Received ART Decentralization Services\",
       CASE
       WHEN referrals_form_received_pmtct_option_b_services = 'Yes' THEN 1
       WHEN referrals_form_received_pmtct_option_b_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received pmtct option b services\",
+      END :: boolean AS \"Received PMTCT / Option B+ Services\",
       CASE
       WHEN referrals_form_received_ctx_oi_management_services = 'Yes' THEN 1
       WHEN referrals_form_received_ctx_oi_management_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received ctx oi management services\",
+      END :: boolean AS \"Received CARG Enrolment / Transfer Services\",
       CASE
       WHEN referrals_form_received_carg_enrolment_transfer_services = 'Yes' THEN 1
       WHEN referrals_form_received_carg_enrolment_transfer_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received carg enrolment transfer services\",
+      END :: boolean AS \"Received carg enrolment transfer Services\",
       CASE
       WHEN referrals_form_received_support_groups_services = 'Yes' THEN 1
       WHEN referrals_form_received_support_groups_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received support groups services\",
+      END :: boolean AS \"Received Support Groups e.g. CATS Services\",
       CASE
       WHEN referrals_form_received_art_official_transfer_services = 'Yes' THEN 1
       WHEN referrals_form_received_art_official_transfer_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received art official transfer services\",
+      END :: boolean AS \"Received ART Official Transfer Services\",
       CASE
       WHEN referrals_form_received_art_reinitiating_services = 'Yes' THEN 1
       WHEN referrals_form_received_art_reinitiating_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received art reinitiating services\",
+      END :: boolean AS \"Received ART Reinitiating Services\",
       CASE
       WHEN referrals_form_received_tb_screening_services = 'Yes' THEN 1
       WHEN referrals_form_received_tb_screening_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received tb screening services\",
+      END :: boolean AS \"Received TB Screening Services\",
       CASE
       WHEN referrals_form_received_tb_diagnosis_sputum_collection_serv = 'Yes' THEN 1
       WHEN referrals_form_received_tb_diagnosis_sputum_collection_serv = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received tb diagnosis sputum collection serv\",
+      END :: boolean AS \"Received TB Diagnosis / Sputum Collection Services\",
       CASE
       WHEN referrals_form_received_tb_treatment_management_services = 'Yes' THEN 1
       WHEN referrals_form_received_tb_treatment_management_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received tb treatment management services\",
+      END :: boolean AS \"Received TB Treatment / Management Services\",
       CASE
       WHEN referrals_form_received_tb_re_initiation_after_ltfu_service = 'Yes' THEN 1
       WHEN referrals_form_received_tb_re_initiation_after_ltfu_service = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received tb re initiation after ltfu service\",
+      END :: boolean AS \"Received TB Re-Initiation after LTFU service\",
       CASE
       WHEN referrals_form_received_anc_services = 'Yes' THEN 1
       WHEN referrals_form_received_anc_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received anc services\",
+      END :: boolean AS \"Received ANC Services\",
       CASE
       WHEN referrals_form_received_emergency_contraception_services = 'Yes' THEN 1
       WHEN referrals_form_received_emergency_contraception_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received emergency contraception services\",
+      END :: boolean AS \"Received Emergency Contraception Services\",
       CASE
       WHEN referrals_form_received_family_planning_services = 'Yes' THEN 1
       WHEN referrals_form_received_family_planning_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received family planning services\",
+      END :: boolean AS \"Received family planning Services\",
       CASE
       WHEN referrals_form_received_cancer_of_cervix_screening_services = 'Yes' THEN 1
       WHEN referrals_form_received_cancer_of_cervix_screening_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received cancer of cervix screening services\",
+      END :: boolean AS \"Received cancer of Cervix screening Services\",
       CASE
       WHEN referrals_form_received_breast_cancer_screening_services = 'Yes' THEN 1
       WHEN referrals_form_received_breast_cancer_screening_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received breast cancer screening services\",
+      END :: boolean AS \"Received Breast cancer screening Services\",
       CASE
       WHEN referrals_form_received_psycho_social_support_services = 'Yes' THEN 1
       WHEN referrals_form_received_psycho_social_support_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received psycho social support services\",
+      END :: boolean AS \"Received Psycho-social support  Services\",
       CASE
       WHEN referrals_form_received_economic_strengthening_services = 'Yes' THEN 1
       WHEN referrals_form_received_economic_strengthening_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received economic strengthening services\",
+      END :: boolean AS \"Received economic strengthening Services\",
       CASE
       WHEN referrals_form_received_educational_services_services = 'Yes' THEN 1
       WHEN referrals_form_received_educational_services_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received educational services services\",
+      END :: boolean AS \"Received Educational services Services\",
       CASE
       WHEN referrals_form_received_emergency_shelter_services = 'Yes' THEN 1
       WHEN referrals_form_received_emergency_shelter_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received emergency shelter services\",
+      END :: boolean AS \"Received Emergency Shelter Services\",
       CASE
       WHEN referrals_form_received_nutrition_support_services = 'Yes' THEN 1
       WHEN referrals_form_received_nutrition_support_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received nutrition support services\",
+      END :: boolean AS \"Received Nutrition Support Services\",
       CASE
       WHEN referrals_form_received_legal_counsel_services = 'Yes' THEN 1
       WHEN referrals_form_received_legal_counsel_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received legal counsel services\",
+      END :: boolean AS \"Received Legal Counsel Services\",
       CASE
       WHEN referrals_form_received_to_victim_friendly_services = 'Yes' THEN 1
       WHEN referrals_form_received_to_victim_friendly_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received to victim friendly services\",
+      END :: boolean AS \"Received to victim Friendly Services\",
       CASE
       WHEN referrals_form_received_vital_registration_services = 'Yes' THEN 1
       WHEN referrals_form_received_vital_registration_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received vital registration services\",
+      END :: boolean AS \"Received Vital registration Services\",
       CASE
       WHEN referrals_form_received_progestin_only_pills = 'Yes' THEN 1
       WHEN referrals_form_received_progestin_only_pills = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received progestin only pills\",
+      END :: boolean AS \"Received Progestin only pills\",
       CASE
       WHEN referrals_form_received_combined_oral_contraceptive_pills = 'Yes' THEN 1
       WHEN referrals_form_received_combined_oral_contraceptive_pills = 'No' THEN 0
@@ -7396,172 +7396,172 @@ ORDER BY   date_created DESC "
       WHEN referrals_form_received_injectable_duration_unknown = 'Yes' THEN 1
       WHEN referrals_form_received_injectable_duration_unknown = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received injectable duration unknown\",
+      END :: boolean AS \"Received injectable [duration unknown]\",
       CASE
       WHEN referrals_form_received_cyclebeads = 'Yes' THEN 1
       WHEN referrals_form_received_cyclebeads = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received cyclebeads\",
+      END :: boolean AS \"Received Cyclebeads\",
       CASE
       WHEN referrals_form_received_ius_3_insertion = 'Yes' THEN 1
       WHEN referrals_form_received_ius_3_insertion = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received ius 3 insertion\",
+      END :: boolean AS \"Received IUS 3 insertion\",
       CASE
       WHEN referrals_form_received_iud_5_insertion = 'Yes' THEN 1
       WHEN referrals_form_received_iud_5_insertion = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received iud 5 insertion\",
+      END :: boolean AS \"Received IUD 5 insertion\",
       CASE
       WHEN referrals_form_received_iud_10_insertion = 'Yes' THEN 1
       WHEN referrals_form_received_iud_10_insertion = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received iud 10 insertion\",
+      END :: boolean AS \"Received IUD 10 insertion\",
       CASE
       WHEN referrals_form_received_iud_insertion_duration_unknown = 'Yes' THEN 1
       WHEN referrals_form_received_iud_insertion_duration_unknown = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received iud insertion duration unknown\",
+      END :: boolean AS \"Received IUD insertion [duration unknown]\",
       CASE
       WHEN referrals_form_received_implant_3_insertion = 'Yes' THEN 1
       WHEN referrals_form_received_implant_3_insertion = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received implant 3 insertion\",
+      END :: boolean AS \"Received Implant 3 insertion\",
       CASE
       WHEN referrals_form_received_implant_4_insertion = 'Yes' THEN 1
       WHEN referrals_form_received_implant_4_insertion = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received implant 4 insertion\",
+      END :: boolean AS \"Received Implant 4 insertion\",
       CASE
       WHEN referrals_form_received_implant_insertion_duration_unknown = 'Yes' THEN 1
       WHEN referrals_form_received_implant_insertion_duration_unknown = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received implant insertion duration unknown\",
+      END :: boolean AS \"Received Implant insertion [duration unknown]\",
       CASE
       WHEN referrals_form_received_implant_5_insertion = 'Yes' THEN 1
       WHEN referrals_form_received_implant_5_insertion = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received implant 5 insertion\",
+      END :: boolean AS \"Received Implant 5 insertion\",
       CASE
       WHEN referrals_form_received_vasectomy = 'Yes' THEN 1
       WHEN referrals_form_received_vasectomy = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received vasectomy\",
+      END :: boolean AS \"Received Vasectomy\",
       CASE
       WHEN referrals_form_received_tubal_ligation = 'Yes' THEN 1
       WHEN referrals_form_received_tubal_ligation = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received tubal ligation\",
+      END :: boolean AS \"Received Tubal ligation\",
       CASE
       WHEN referrals_form_received_opioid_treatment = 'Yes' THEN 1
       WHEN referrals_form_received_opioid_treatment = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received opioid treatment\",
+      END :: boolean AS \"Received Opioid Treatment\",
       CASE
       WHEN referrals_form_received_cryotherapy_referred_from_via_vili = 'Yes' THEN 1
       WHEN referrals_form_received_cryotherapy_referred_from_via_vili = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received cryotherapy referred from via vili\",
+      END :: boolean AS \"Received Cryotherapy (referred from VIA/VILI)\",
       CASE
       WHEN referrals_form_received_cryotherapy_referred_from_pap_scree = 'Yes' THEN 1
       WHEN referrals_form_received_cryotherapy_referred_from_pap_scree = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received cryotherapy referred from pap scree\",
+      END :: boolean AS \"Received Cryotherapy (referred from Pap Screen)\",
       CASE
       WHEN referrals_form_received_cryotherapy_referred_from_hpv_dna = 'Yes' THEN 1
       WHEN referrals_form_received_cryotherapy_referred_from_hpv_dna = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received cryotherapy referred from hpv dna\",
+      END :: boolean AS \"Received cryotherapy (referred from HPV DNA)\",
       CASE
       WHEN referrals_form_received_conization_or_leep_referred_from_vi = 'Yes' THEN 1
       WHEN referrals_form_received_conization_or_leep_referred_from_vi = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received conization or leep referred from vi\",
+      END :: boolean AS \"Received conization or LEEP (referred from VIA/VILI)\",
       CASE
       WHEN referrals_form_received_conization_or_leep_referred_from_pa = 'Yes' THEN 1
       WHEN referrals_form_received_conization_or_leep_referred_from_pa = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received conization or leep referred from pa\",
+      END :: boolean AS \"Received conization or LEEP (referred from Pap Screen)\",
       CASE
       WHEN referrals_form_received_conization_or_leep_referred_from_hp = 'Yes' THEN 1
       WHEN referrals_form_received_conization_or_leep_referred_from_hp = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received conization or leep referred from hp\",
+      END :: boolean AS \"Received conization or LEEP (referred from HPV DNA)\",
       CASE
       WHEN referrals_form_received_any_cervical_cancer_treatment_from_ = 'Yes' THEN 1
       WHEN referrals_form_received_any_cervical_cancer_treatment_from_ = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received any cervical cancer treatment from \",
+      END :: boolean AS \"Received any cervical cancer Treatment (referred from VIA/VILI) \",
       CASE
       WHEN referrals_form_received_any_cervical_cancer_treatment_from__1 = 'Yes' THEN 1
       WHEN referrals_form_received_any_cervical_cancer_treatment_from__1 = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received any cervical cancer treatment from  1\",
+      END :: boolean AS \"Received any cervical cancer Treatment from (referred from Pap Screen)\",
       CASE
       WHEN referrals_form_received_any_cervical_cancer_treatment_from__2 = 'Yes' THEN 1
       WHEN referrals_form_received_any_cervical_cancer_treatment_from__2 = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received any cervical cancer treatment from  2\",
+      END :: boolean AS \"Received any cervical cancer Treatment from (referred from HPV DNA)\",
       CASE
       WHEN referrals_form_received_advanced_treatment_for_cervical_can = 'Yes' THEN 1
       WHEN referrals_form_received_advanced_treatment_for_cervical_can = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received advanced treatment for cervical can\",
+      END :: boolean AS \"Received advanced Treatment for Cervical cancer\",
       CASE
       WHEN referrals_form_received_hypertension_management = 'Yes' THEN 1
       WHEN referrals_form_received_hypertension_management = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received hypertension management\",
+      END :: boolean AS \"Received Hypertension management\",
       CASE
       WHEN referrals_form_received_diabetes_management_gestational = 'Yes' THEN 1
       WHEN referrals_form_received_diabetes_management_gestational = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received diabetes management gestational\",
+      END :: boolean AS \"Received Diabetes management - gestational\",
       CASE
       WHEN referrals_form_received_diabetes_management_non_gestational = 'Yes' THEN 1
       WHEN referrals_form_received_diabetes_management_non_gestational = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received diabetes management non gestational\",
+      END :: boolean AS \"Received Diabetes management - non-gestational\",
       CASE
       WHEN referrals_form_received_treatment_for_urethral_discharge_me = 'Yes' THEN 1
       WHEN referrals_form_received_treatment_for_urethral_discharge_me = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received treatment for urethral discharge me\",
+      END :: boolean AS \"Received Treatment for rethral discharge, men\",
       CASE
       WHEN referrals_form_received_treatment_for_urethral_discharge_wo = 'Yes' THEN 1
       WHEN referrals_form_received_treatment_for_urethral_discharge_wo = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received treatment for urethral discharge wo\",
+      END :: boolean AS \"Received Treatment for urethral discharge, women\",
       CASE
       WHEN referrals_form_received_chlamydia_gonorrhea_trichomona = 'Yes' THEN 1
       WHEN referrals_form_received_chlamydia_gonorrhea_trichomona = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received chlamydia gonorrhea trichomona\",
+      END :: boolean AS \"Received (Chlamydia, Gonorrhea, Trichomona)\",
       CASE
       WHEN referrals_form_received_treatment_for_vaginitis = 'Yes' THEN 1
       WHEN referrals_form_received_treatment_for_vaginitis = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received treatment for vaginitis\",
+      END :: boolean AS \"Received Treatment for vaginitis\",
       CASE
       WHEN referrals_form_received_treatment_for_cervicitis = 'Yes' THEN 1
       WHEN referrals_form_received_treatment_for_cervicitis = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received treatment for cervicitis\",
+      END :: boolean AS \"Received Treatment for cervicitis\",
       CASE
       WHEN referrals_form_received_treatment_for_non_herpetic_genital_ = 'Yes' THEN 1
       WHEN referrals_form_received_treatment_for_non_herpetic_genital_ = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received treatment for non herpetic genital \",
+      END :: boolean AS \"Received Treatment for non-herpetic genital ulcer\",
       CASE
       WHEN referrals_form_received_syphilis_chancroid = 'Yes' THEN 1
       WHEN referrals_form_received_syphilis_chancroid = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received syphilis chancroid\",
+      END :: boolean AS \"Received (Syphilis, Chancroid)\",
       CASE
       WHEN referrals_form_received_treatment_for_genital_herpes = 'Yes' THEN 1
       WHEN referrals_form_received_treatment_for_genital_herpes = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received treatment for genital herpes\",
+      END :: boolean AS \"Received Treatment for genital herpes\",
       CASE
       WHEN referrals_form_received_lymphogranuloma_venerium = 'Yes' THEN 1
       WHEN referrals_form_received_lymphogranuloma_venerium = 'No' THEN 0
@@ -7571,12 +7571,12 @@ ORDER BY   date_created DESC "
       WHEN referrals_form_received_treatment_for_lower_abdominal_pain = 'Yes' THEN 1
       WHEN referrals_form_received_treatment_for_lower_abdominal_pain = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received treatment for lower abdominal pain\",
+      END :: boolean AS \"Received Treatment for lower abdominal pain\",
       CASE
       WHEN referrals_form_received_treatment_unknown = 'Yes' THEN 1
       WHEN referrals_form_received_treatment_unknown = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received treatment unknown\"
+      END :: boolean AS \"Received Treatment unknown\"
       FROM       (
       SELECT DISTINCT visit_id ,
       first_value(referrals.obs_datetime) OVER(partition BY visit_id ORDER BY
