@@ -4730,7 +4730,7 @@ patient_encounter_table pedd
       ap_date_client_opted_out AS \"[Assesment Form]Date Client Opted Out\",
       ap_transfer_in_date AS \"[Assesment Form]Transfer In Date\",
       ap_program_stop_date AS \"[Assesment Form]Program Stop date\",
-      ap_type_of_follow_up AS \"[Assesment Form]Type Of FollowUp\",
+      ap_type_of_follow_up AS \"[Assesment Form]Type Of Follow Up\",
       CASE WHEN ap_are_you_currently_breastfeeding = 'Yes' THEN 1
            WHEN ap_are_you_currently_breastfeeding = 'No' THEN 0
            ELSE NULL END :: BOOLEAN AS \"[Assesment Form]Are you currently breastfeeding?\",
@@ -4756,9 +4756,9 @@ patient_encounter_table pedd
       CASE WHEN ap_client_referred_for_eac = 'Yes' THEN 1
            WHEN ap_client_referred_for_eac = 'No' THEN 0
            ELSE NULL END :: BOOLEAN AS \"[Assesment Form]Client referred for EAC\",
-      ap_next_viral_load_date AS \"Next Viral Load date\"
-
-
+      ap_next_viral_load_date AS \"[Assesment Form]Next Viral Load date\"
+     
+       
  FROM
 (SELECT 
 DISTINCT visit_id ,
@@ -5552,6 +5552,7 @@ FIRST_VALUE(ap_client_referred_for_eac)
 FIRST_VALUE(ap_next_viral_load_date)
       OVER(PARTITION BY visit_id ORDER BY CASE WHEN ap_next_viral_load_date IS NULL THEN 0 ELSE 1 END DESC, assesment.encounter_id DESC)
       AS ap_next_viral_load_date
+
 FROM
 (SELECT max(id_assessment_and_plan_form_template) AS id_assessment_and_plan_form_template,
 max(patient_id) AS patient_id,
@@ -5597,7 +5598,9 @@ max(ap_client_referred_for_eac) AS ap_client_referred_for_eac,
 max(ap_next_viral_load_date) AS ap_next_viral_load_date
 FROM assessment_and_plan_form_template GROUP BY encounter_id) assesment
 INNER JOIN patient_encounter_table pedd ON pedd.encounter_id = assesment.encounter_id) assesment_1
+
 ON art1_1.visit_id = assesment_1.visit_id
+
 INNER JOIN psi_patient_program_data ppv on (ppv.patient_id = art1_1.patient_id or ppv.patient_id = art2_2.patient_id or ppv.patient_id = assesment_1.patient_id) and (ppv.program_id = (SELECT program_id FROM programs_default WHERE program_name= 'ART Program'))
 INNER JOIN patient_identifier pi ON (art1_1.patient_id = pi.patient_id or art2_2.patient_id = pi.patient_id or assesment_1.patient_id = pi.patient_id)
 ORDER BY date_created DESC;"
