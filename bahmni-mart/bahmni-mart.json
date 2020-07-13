@@ -8549,10 +8549,7 @@ ORDER BY   date_created DESC "
   },
     {
       "name": "tb_program_events_table",
-      "sql": "select *
-      from tb_history_form_template
-
-      SELECT 'vatFxlZR2lj':: TEXT AS program,
+      "sql": "SELECT 'vatFxlZR2lj':: TEXT AS program,
       'TB_STAGE':: TEXT AS program_stage,
       CASE WHEN tb_history_form_template_site_type = 'Outreach'  THEN
       concat('ZWNSC-OU-',upper(COALESCE(tb_history_form_template_facility,(SELECT tb_history_form_template_facility
