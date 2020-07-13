@@ -8549,76 +8549,238 @@ ORDER BY   date_created DESC "
   },
     {
       "name": "tb_program_events_table",
-      "sql": "SELECT 'vatFxlZR2lj':: TEXT AS program,
+      "sql": "select
+      'vatFxlZR2lj':: TEXT AS program,
       'TB_STAGE':: TEXT AS program_stage,
       CASE WHEN tb_history_form_template_site_type = 'Outreach'  THEN
       concat('ZWNSC-OU-',upper(COALESCE(tb_history_form_template_facility,(SELECT tb_history_form_template_facility
       FROM tb_history_form_template
       WHERE tb_history_form_template_facility IS NOT NULL
-      AND patient_id = tbform.patient_id
+      AND patient_id = tbform_1.patient_id
       ORDER BY encounter_id DESC
       LIMIT 1))),'-',upper(tb_history_form_template_district))
       ELSE
       concat('ZWNSC-',upper(COALESCE(tb_history_form_template_facility,(SELECT tb_history_form_template_facility
       FROM tb_history_form_template
       WHERE tb_history_form_template_facility IS NOT NULL
-      AND patient_id = tbform.patient_id
+      AND patient_id = tbform_1.patient_id
       ORDER BY encounter_id DESC
       LIMIT 1))))
       END AS \"OrgUnit\",
-      tbform.obs_datetime  as \"event_date\",
+      tbform_1.obs_datetime  as \"event_date\",
       'COMPLETED' :: TEXT AS status,
-
-      pedd.\"visit_id\" AS \"event_unique_id\",
-      DATE(ppv.\"date_enrolled\")  AS \"enrollment_date\",
-      tbform.date_created as  \"date_created\",
+      COALESCE (tbform_1.visit_id) AS \"event_unique_id\",
+      DATE(ppv.\"date_enrolled\") AS \"enrollment_date\",
+      tbform_1.date_created as  \"date_created\",
       pi.\"Patient_Identifier\" AS \"Patient_Identifier\",
 
-      program_name AS program_name,
-
-      tb_history_form_template_facility AS \"[TB Screening & History] Facility\",
-      tb_history_form_template_site_type AS \"[TB Screening & History] Site type\",
-      tb_history_form_template_district AS \"[TB Screening & History] District\",
-      tb_history_form_template_setting AS \"[TB Screening & History] Setting\",
-      tb_history_form_template_type_of_visit AS \"[TB Screening & History] Type of visit\",
-      tb_history_form_template_type_of_client AS \"[TB Screening & History] Type of client\",
+      tb_history_form_template_facility AS \"[TB Screening & History] facility\",
+      tb_history_form_template_site_type AS \"[TB Screening & History] site type\",
+      tb_history_form_template_district AS \"[TB Screening & History] district\",
+      tb_history_form_template_setting AS \"[TB Screening & History] setting\",
+      tb_history_form_template_type_of_visit AS \"[TB Screening & History] type of visit\",
+      tb_history_form_template_type_of_client AS \"[TB Screening & History] type of client\",
       tb_history_form_template_ipt_start_date AS \"[TB Screening & History] IPT start date\",
       tb_history_form_template_ipt_completion_date AS \"[TB Screening & History] IPT completion date\",
-      tb_history_form_template_reason_for_not_completing_ipt AS \"[TB Screening & History] Reason for not completing IPT\",
+      tb_history_form_template_reason_for_not_completing_ipt AS \"[TB Screening & History] reason for not completing IPT\",
       tb_history_form_template_art_status AS \"[TB Screening & History] ART status\",
-      tb_history_form_template_where_is_client_getting_medication AS \"[TB Screening & History] Where is client getting medication\",
-      tb_history_form_template_are_you_on_art AS \"[TB Screening & History] Are you on ART\",
-      tb_history_form_template_gene_xpert_results AS \"[TB Screening & History] Gene xpert results\",
-      tb_history_form_template_rif_resistance AS \"[TB Screening & History] RIF resistance\",
-      tb_history_form_template_screening_method_used_today AS \"[TB Screening & History] Screening method used today\",
-      tb_history_form_template_smear_microscopy_results AS \"[TB Screening & History] Smear microscopy results\",
-      tb_history_form_template_specify_method_used AS \"[TB Screening & History] Specify method used\",
+      tb_history_form_template_where_is_client_getting_medication AS \"[TB Screening & History] where is client getting medication\",
+      tb_history_form_template_are_you_on_art AS \"[TB Screening & History] are you on ART\",
+      tb_history_form_template_gene_xpert_results AS \"[TB Screening & History] gene xpert results\",
+      tb_history_form_template_screening_method_used_today AS \"[TB Screening & History] screening method used today\",
+      tb_history_form_template_smear_microscopy_results AS \"[TB Screening & History] smear microscopy results\",
+      tb_history_form_template_specify_method_used AS \"[TB Screening & History] specify method used\",
       tb_history_form_template_xray_results AS \"[TB Screening & History] XRay results\",
-      tb_history_form_template_type_of_tb_case AS \"[TB Screening & History] Type of TB case\",
-      tb_history_form_template_date_of_last_tb_treatment AS \"[TB Screening & History] Date of last TB treatment\",
-      tb_history_form_template_treatment_outcome AS \"[TB Screening & History] Treatment outcome\",
-      tb_history_form_template_course_completion_outcomes AS \"[TB Screening & History] Course completion outcomes\",
+      tb_history_form_template_type_of_tb_case AS \"[TB Screening & History] type of TB case\",
+      tb_history_form_template_date_of_last_tb_treatment AS \"[TB Screening & History] date of last TB treatment\",
+      tb_history_form_template_treatment_outcome AS \"[TB Screening & History] treatment outcome\",
+      tb_history_form_template_course_completion_outcomes AS \"[TB Screening & History] course completion outcomes\",
+      tb_history_form_template_hiv_status AS  \"[TB Screening & History] hiv status\",
 
       CASE
       WHEN tb_history_form_template_did_you_complete_ipt = 'Yes' THEN 1
       WHEN tb_history_form_template_did_you_complete_ipt = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"[TB Screening & History] Did you complete IPT\",
+      END :: boolean AS \"[TB Screening & History] did you complete IPT\",
       CASE
-      WHEN tb_history_form_template_hiv_status = 'Positive' THEN 1
-      WHEN tb_history_form_template_hiv_status = 'Negative' THEN 0
+      WHEN tb_history_form_template_rif_resistance = 'Positive' THEN 1
+      WHEN tb_history_form_template_rif_resistance = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"[TB Screening & History] HIV status\"
+      END :: boolean AS \"[TB Screening & History] RIF resistance\"
 
       FROM
-      patient_encounter_table pedd
+      (SELECT
+      DISTINCT visit_id ,
+      FIRST_VALUE(tbform.obs_datetime)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN tbform.obs_datetime IS NULL THEN 0 ELSE 1 END DESC, tbform.encounter_id DESC) AS obs_datetime,
+      FIRST_VALUE(tbform.patient_id)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN tbform.patient_id IS NULL THEN 0 ELSE 1 END DESC, tbform.encounter_id DESC) AS patient_id,
+      FIRST_VALUE(tbform.date_created)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN tbform.date_created IS NULL THEN 0 ELSE 1 END DESC, tbform.encounter_id DESC) AS date_created,
+      FIRST_VALUE(tbform.program_id)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN tbform.program_id IS NULL THEN 0 ELSE 1 END DESC, tbform.encounter_id DESC) AS program_id,
+      FIRST_VALUE(tbform.program_name)
+      OVER(PARTITION BY visit_id ORDER BY CASE WHEN tbform.program_name IS NULL THEN 0 ELSE 1 END DESC, tbform.encounter_id DESC) AS program_name,
 
-      JOIN psi_patient_program_data ppv ON pedd.patient_id = ppv.patient_id
-      JOIN patient_identifier pi ON ppv.patient_id = pi.patient_id
-      LEFT OUTER JOIN tb_history_form_template tbform ON tbform.encounter_id = pedd.encounter_id
+      first_value(tbform.tb_history_form_template_facility) OVER(partition BY visit_id ORDER BY
+      CASE
+      WHEN tb_history_form_template_facility IS NULL THEN 0
+      ELSE 1
+      END DESC, tbform.encounter_id DESC) AS tb_history_form_template_facility,
+      first_value(tbform.tb_history_form_template_site_type) OVER(partition BY visit_id ORDER BY
+      CASE
+      WHEN tb_history_form_template_site_type IS NULL THEN 0
+      ELSE 1
+      END DESC, tbform.encounter_id DESC) AS tb_history_form_template_site_type,
+      first_value(tbform.tb_history_form_template_district) OVER(partition BY visit_id ORDER BY
+      CASE
+      WHEN tb_history_form_template_district IS NULL THEN 0
+      ELSE 1
+      END DESC, tbform.encounter_id DESC) AS tb_history_form_template_district,
+      first_value(tbform.tb_history_form_template_setting) OVER(partition BY visit_id ORDER BY
+      CASE
+      WHEN tb_history_form_template_setting IS NULL THEN 0
+      ELSE 1
+      END DESC, tbform.encounter_id DESC) AS tb_history_form_template_setting,
+      first_value(tbform.tb_history_form_template_type_of_visit) OVER(partition BY visit_id ORDER BY
+      CASE
+      WHEN tb_history_form_template_type_of_visit IS NULL THEN 0
+      ELSE 1
+      END DESC, tbform.encounter_id DESC) AS tb_history_form_template_type_of_visit,
+      first_value(tbform.tb_history_form_template_type_of_client) OVER(partition BY visit_id ORDER BY
+      CASE
+      WHEN tb_history_form_template_type_of_client IS NULL THEN 0
+      ELSE 1
+      END DESC, tbform.encounter_id DESC) AS tb_history_form_template_type_of_client,
+      first_value(tbform.tb_history_form_template_ipt_start_date) OVER(partition BY visit_id ORDER BY
+      CASE
+      WHEN tb_history_form_template_ipt_start_date IS NULL THEN 0
+      ELSE 1
+      END DESC, tbform.encounter_id DESC) AS tb_history_form_template_ipt_start_date,
+      first_value(tbform.tb_history_form_template_did_you_complete_ipt) OVER(partition BY visit_id ORDER BY
+      CASE
+      WHEN tb_history_form_template_did_you_complete_ipt IS NULL THEN 0
+      ELSE 1
+      END DESC, tbform.encounter_id DESC) AS tb_history_form_template_did_you_complete_ipt,
+      first_value(tbform.tb_history_form_template_ipt_completion_date) OVER(partition BY visit_id ORDER BY
+      CASE
+      WHEN tb_history_form_template_ipt_completion_date IS NULL THEN 0
+      ELSE 1
+      END DESC, tbform.encounter_id DESC) AS tb_history_form_template_ipt_completion_date,
+      first_value(tbform.tb_history_form_template_reason_for_not_completing_ipt) OVER(partition BY visit_id ORDER BY
+      CASE
+      WHEN tb_history_form_template_reason_for_not_completing_ipt IS NULL THEN 0
+      ELSE 1
+      END DESC, tbform.encounter_id DESC) AS tb_history_form_template_reason_for_not_completing_ipt,
+      first_value(tbform.tb_history_form_template_hiv_status) OVER(partition BY visit_id ORDER BY
+      CASE
+      WHEN tb_history_form_template_hiv_status IS NULL THEN 0
+      ELSE 1
+      END DESC, tbform.encounter_id DESC) AS tb_history_form_template_hiv_status,
+      first_value(tbform.tb_history_form_template_art_status) OVER(partition BY visit_id ORDER BY
+      CASE
+      WHEN tb_history_form_template_art_status IS NULL THEN 0
+      ELSE 1
+      END DESC, tbform.encounter_id DESC) AS tb_history_form_template_art_status,
+      first_value(tbform.tb_history_form_template_where_is_client_getting_medication) OVER(partition BY visit_id ORDER BY
+      CASE
+      WHEN tb_history_form_template_where_is_client_getting_medication IS NULL THEN 0
+      ELSE 1
+      END DESC, tbform.encounter_id DESC) AS tb_history_form_template_where_is_client_getting_medication,
+      first_value(tbform.tb_history_form_template_are_you_on_art) OVER(partition BY visit_id ORDER BY
+      CASE
+      WHEN tb_history_form_template_are_you_on_art IS NULL THEN 0
+      ELSE 1
+      END DESC, tbform.encounter_id DESC) AS tb_history_form_template_are_you_on_art,
+      first_value(tbform.tb_history_form_template_gene_xpert_results) OVER(partition BY visit_id ORDER BY
+      CASE
+      WHEN tb_history_form_template_gene_xpert_results IS NULL THEN 0
+      ELSE 1
+      END DESC, tbform.encounter_id DESC) AS tb_history_form_template_gene_xpert_results,
+      first_value(tbform.tb_history_form_template_rif_resistance) OVER(partition BY visit_id ORDER BY
+      CASE
+      WHEN tb_history_form_template_rif_resistance IS NULL THEN 0
+      ELSE 1
+      END DESC, tbform.encounter_id DESC) AS tb_history_form_template_rif_resistance,
+      first_value(tbform.tb_history_form_template_screening_method_used_today) OVER(partition BY visit_id ORDER BY
+      CASE
+      WHEN tb_history_form_template_screening_method_used_today IS NULL THEN 0
+      ELSE 1
+      END DESC, tbform.encounter_id DESC) AS tb_history_form_template_screening_method_used_today,
+      first_value(tbform.tb_history_form_template_smear_microscopy_results) OVER(partition BY visit_id ORDER BY
+      CASE
+      WHEN tb_history_form_template_smear_microscopy_results IS NULL THEN 0
+      ELSE 1
+      END DESC, tbform.encounter_id DESC) AS tb_history_form_template_smear_microscopy_results,
+      first_value(tbform.tb_history_form_template_specify_method_used) OVER(partition BY visit_id ORDER BY
+      CASE
+      WHEN tb_history_form_template_specify_method_used IS NULL THEN 0
+      ELSE 1
+      END DESC, tbform.encounter_id DESC) AS tb_history_form_template_specify_method_used,
+      first_value(tbform.tb_history_form_template_xray_results) OVER(partition BY visit_id ORDER BY
+      CASE
+      WHEN tb_history_form_template_xray_results IS NULL THEN 0
+      ELSE 1
+      END DESC, tbform.encounter_id DESC) AS tb_history_form_template_xray_results,
+      first_value(tbform.tb_history_form_template_type_of_tb_case) OVER(partition BY visit_id ORDER BY
+      CASE
+      WHEN tb_history_form_template_type_of_tb_case IS NULL THEN 0
+      ELSE 1
+      END DESC, tbform.encounter_id DESC) AS tb_history_form_template_type_of_tb_case,
+      first_value(tbform.tb_history_form_template_date_of_last_tb_treatment) OVER(partition BY visit_id ORDER BY
+      CASE
+      WHEN tb_history_form_template_date_of_last_tb_treatment IS NULL THEN 0
+      ELSE 1
+      END DESC, tbform.encounter_id DESC) AS tb_history_form_template_date_of_last_tb_treatment,
+      first_value(tbform.tb_history_form_template_treatment_outcome) OVER(partition BY visit_id ORDER BY
+      CASE
+      WHEN tb_history_form_template_treatment_outcome IS NULL THEN 0
+      ELSE 1
+      END DESC, tbform.encounter_id DESC) AS tb_history_form_template_treatment_outcome,
+      first_value(tbform.tb_history_form_template_course_completion_outcomes) OVER(partition BY visit_id ORDER BY
+      CASE
+      WHEN tb_history_form_template_course_completion_outcomes IS NULL THEN 0
+      ELSE 1
+      END DESC, tbform.encounter_id DESC) AS tb_history_form_template_course_completion_outcomes
 
-      where ppv.program_id = (SELECT program_id FROM programs_default WHERE program_name= 'TB Program')
-      AND (pedd.encounter_id in (select encounter_id from tb_history_form_template))
+      FROM
+      (SELECT
+      encounter_id,
+      max(patient_id) AS patient_id ,
+      max(obs_datetime) AS obs_datetime,
+      max(date_created) AS date_created,
+      max(program_id) AS program_id,
+      max(program_name) AS program_name,
+
+      max(tb_history_form_template_facility)      AS tb_history_form_template_facility,
+      max(tb_history_form_template_site_type)      AS tb_history_form_template_site_type,
+      max(tb_history_form_template_district)      AS tb_history_form_template_district,
+      max(tb_history_form_template_setting)      AS tb_history_form_template_setting,
+      max(tb_history_form_template_type_of_visit)      AS tb_history_form_template_type_of_visit,
+      max(tb_history_form_template_type_of_client)      AS tb_history_form_template_type_of_client,
+      max(tb_history_form_template_ipt_start_date)      AS tb_history_form_template_ipt_start_date,
+      max(tb_history_form_template_did_you_complete_ipt)      AS tb_history_form_template_did_you_complete_ipt,
+      max(tb_history_form_template_ipt_completion_date)      AS tb_history_form_template_ipt_completion_date,
+      max(tb_history_form_template_reason_for_not_completing_ipt)      AS tb_history_form_template_reason_for_not_completing_ipt,
+      max(tb_history_form_template_hiv_status)      AS tb_history_form_template_hiv_status,
+      max(tb_history_form_template_art_status)      AS tb_history_form_template_art_status,
+      max(tb_history_form_template_where_is_client_getting_medication)      AS tb_history_form_template_where_is_client_getting_medication,
+      max(tb_history_form_template_are_you_on_art)      AS tb_history_form_template_are_you_on_art,
+      max(tb_history_form_template_gene_xpert_results)      AS tb_history_form_template_gene_xpert_results,
+      max(tb_history_form_template_rif_resistance)      AS tb_history_form_template_rif_resistance,
+      max(tb_history_form_template_screening_method_used_today)      AS tb_history_form_template_screening_method_used_today,
+      max(tb_history_form_template_smear_microscopy_results)      AS tb_history_form_template_smear_microscopy_results,
+      max(tb_history_form_template_specify_method_used)      AS tb_history_form_template_specify_method_used,
+      max(tb_history_form_template_xray_results)      AS tb_history_form_template_xray_results,
+      max(tb_history_form_template_type_of_tb_case)      AS tb_history_form_template_type_of_tb_case,
+      max(tb_history_form_template_date_of_last_tb_treatment)      AS tb_history_form_template_date_of_last_tb_treatment,
+      max(tb_history_form_template_treatment_outcome)      AS tb_history_form_template_treatment_outcome,
+      max(tb_history_form_template_course_completion_outcomes)      AS tb_history_form_template_course_completion_outcomes
+
+      FROM tb_history_form_template tbform GROUP BY encounter_id) AS tbform
+      INNER JOIN patient_encounter_table pedd ON pedd.encounter_id = tbform.encounter_id) tbform_1
+      INNER JOIN psi_patient_program_data ppv on ppv.patient_id = tbform_1.patient_id and (ppv.program_id = (SELECT program_id FROM programs_default WHERE program_name= 'TB Program'))
+      INNER JOIN patient_identifier pi ON tbform_1.patient_id = pi.patient_id
       ORDER BY date_created DESC"
     }
   ]
