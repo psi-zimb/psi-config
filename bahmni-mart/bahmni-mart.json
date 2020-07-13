@@ -6828,27 +6828,27 @@ ORDER BY date_created DESC;"
       WHEN ncd_form_clients_screened_for_hypertension = 'Yes' THEN 1
       WHEN ncd_form_clients_screened_for_hypertension = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Screened for hypertension\",
+      END :: boolean AS \"Clients screened for hypertension\",
       CASE
       WHEN ncd_form_clients_screened_for_type_2_diabetes = 'Yes' THEN 1
       WHEN ncd_form_clients_screened_for_type_2_diabetes = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Client screened for Type 2 Diabetes\",
+      END :: boolean AS \"Clients screened for Type 2 diabetes\",
       CASE
       WHEN ncd_form_clients_diagnosed_with_hypertension = 'Yes' THEN 1
       WHEN ncd_form_clients_diagnosed_with_hypertension = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Client diagnosed with hypertension\",
+      END :: boolean AS \"Clients diagnosed with hypertension\",
       CASE
       WHEN ncd_form_clients_diagnosed_with_type_2_diabetes = 'Yes' THEN 1
       WHEN ncd_form_clients_diagnosed_with_type_2_diabetes = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Client diagnosed with Type 2 Diabetes\",
+      END :: boolean AS \"Clients diagnosed with Type 2 diabetes\",
       CASE
       WHEN ncd_form_is_hypertension_condition_controlled = 'Yes' THEN 1
       WHEN ncd_form_is_hypertension_condition_controlled = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Is hypertension condition controlled\",
+      END :: boolean AS \"Diabetes management – gestational\",
       CASE
       WHEN ncd_form_is_diabetes_condition_controlled = 'Yes' THEN 1
       WHEN ncd_form_is_diabetes_condition_controlled = 'No' THEN 0
@@ -6863,12 +6863,12 @@ ORDER BY date_created DESC;"
       WHEN ncd_form_diabetes_management_gestational = 'Yes' THEN 1
       WHEN ncd_form_diabetes_management_gestational = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Diabetes management (gestational)\",
+      END :: boolean AS \"Diabetes management – gestational\",
       CASE
       WHEN ncd_form_diabetes_management_non_gestational = 'Yes' THEN 1
       WHEN ncd_form_diabetes_management_non_gestational = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Diabetes management (non-gestational)\"
+      END :: boolean AS \"Diabetes management – non-gestational\"
       FROM
       ncd_template ncd
       INNER JOIN patient_encounter_table  pedd
