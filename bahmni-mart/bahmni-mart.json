@@ -6819,7 +6819,7 @@ ORDER BY date_created DESC;"
       END                                                 AS \"OrgUnit\",
       COALESCE(ncd.obs_datetime, '01-01-0001' )          AS \"event_date\",
       'COMPLETED' :: text                                 AS status,
-      ppv.program_id as program_id, -- #comment this nantar
+      ppv.program_id as program_id,
       ncd.encounter_id                                       AS \"event_unique_id\",
       date(ppv.\"date_enrolled\")                           AS \"enrollment_date\",
       COALESCE(ncd.date_created, '01-01-0001 00:00:00' ) AS \"date_created\",
