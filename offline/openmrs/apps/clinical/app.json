@@ -789,7 +789,6 @@
                 "Boolean concept": true,
                 "Text concept": "Remarks",
                 "Date concept": "2015-12-01"
-            }
         },
 
 
@@ -911,4 +910,5 @@
             }
         }
     }
+}
 }
