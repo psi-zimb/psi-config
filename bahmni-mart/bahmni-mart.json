@@ -2103,6 +2103,7 @@ WHERE  pp.program_id IN (SELECT program_id
          'COMPLETED' :: TEXT AS status,
 
         max(pedd.\"visit_id\") AS \"event_unique_id\",
+        max(ppv.patient_program_id) as \"patient_program_id\",
         max(DATE(ppv.\"date_enrolled\"))  AS \"enrollment_date\",
 
         max(CASE WHEN COALESCE(phtc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(hst.date_created, '01-01-0001 00:00:00' )
@@ -2586,6 +2587,7 @@ patient_encounter_table pedd
         max(date(viac.\"obs_datetime\")) as \"event_date\",
         'COMPLETED' :: TEXT as status,
         max(pedd.\"visit_id\") as \"event_unique_id\",
+        max(ppv.patient_program_id) as \"patient_program_id\",
         max(DATE(ppv.\"date_enrolled\"))  as \"enrollment_date\",
         max(viac.\"date_created\") as \"date_created\",
         max(pi.\"Patient_Identifier\") as \"Patient_Identifier\",
@@ -2784,6 +2786,7 @@ patient_encounter_table pedd
          END) AS \"OrgUnit\",
 
          max(pedd.\"visit_id\") AS \"event_unique_id\",
+         max(ppv.patient_program_id) as \"patient_program_id\",
          max(DATE(ppv.\"date_enrolled\"))  AS \"enrollment_date\",
 
          max(CASE WHEN COALESCE(fps.obs_datetime, '01-01-0001' ) >= COALESCE(fpc.obs_datetime, '01-01-0001' )
@@ -5867,6 +5870,7 @@ ORDER BY date_created DESC;"
          END AS \"event_date\",
      'COMPLETED' :: TEXT AS status,
      COALESCE (prep1_1.visit_id,prep2_2.visit_id) AS \"event_unique_id\",
+     ppv.patient_program_id AS \"patient_program_id\",
      DATE(ppv.\"date_enrolled\") AS \"enrollment_date\",
      CASE WHEN   COALESCE(prep1_1.date_created, '01-01-0001 00:00:00' ) >= COALESCE(prep2_2.date_created, '01-01-0001  00:00:00' )
           THEN prep1_1.date_created
@@ -6902,6 +6906,7 @@ ORDER BY date_created DESC;"
       COALESCE(referrals.obs_datetime, '01-01-0001' )          AS \"event_date\",
       'COMPLETED' :: text                                 AS status,
       referrals.encounter_id                                       AS \"event_unique_id\",
+      ppv.patient_program_id as \"patient_program_id\",
       date(ppv.\"date_enrolled\")                           AS \"enrollment_date\",
       COALESCE(referrals.date_created, '01-01-0001 00:00:00' ) AS \"date_created\",
       pi.\"Patient_Identifier\"                             AS \"Patient_Identifier\",
@@ -7616,6 +7621,7 @@ ORDER BY   date_created DESC"
       tbform_1.obs_datetime  as \"event_date\",
       'COMPLETED' :: TEXT AS status,
       COALESCE (tbform_1.visit_id) AS \"event_unique_id\",
+      ppv.patient_program_id as \"patient_program_id\",
       DATE(ppv.\"date_enrolled\") AS \"enrollment_date\",
       tbform_1.date_created as  \"date_created\",
       pi.\"Patient_Identifier\" AS \"Patient_Identifier\",
