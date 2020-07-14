@@ -6863,12 +6863,12 @@ ORDER BY date_created DESC;"
       WHEN ncd_form_diabetes_management_gestational = 'Yes' THEN 1
       WHEN ncd_form_diabetes_management_gestational = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Diabetes management – gestational\",
+      END :: boolean AS \"Diabetes management _ gestational\",
       CASE
       WHEN ncd_form_diabetes_management_non_gestational = 'Yes' THEN 1
       WHEN ncd_form_diabetes_management_non_gestational = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Diabetes management – non-gestational\"
+      END :: boolean AS \"Diabetes management _ non-gestational\"
       FROM
       ncd_template ncd
       INNER JOIN patient_encounter_table  pedd
