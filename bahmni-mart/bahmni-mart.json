@@ -7650,39 +7650,35 @@ ORDER BY   date_created DESC "
       tbform_1.date_created as  \"date_created\",
       pi.\"Patient_Identifier\" AS \"Patient_Identifier\",
 
-      tb_history_form_template_facility AS \"[TB Screening & History] facility\",
-      tb_history_form_template_site_type AS \"[TB Screening & History] site type\",
-      tb_history_form_template_district AS \"[TB Screening & History] district\",
-      tb_history_form_template_setting AS \"[TB Screening & History] setting\",
-      tb_history_form_template_type_of_visit AS \"[TB Screening & History] type of visit\",
-      tb_history_form_template_type_of_client AS \"[TB Screening & History] type of client\",
+      tb_history_form_template_facility AS \"[TB Screening & History] Facility\",
+      tb_history_form_template_site_type AS \"[TB Screening & History] Site type\",
+      tb_history_form_template_district AS \"[TB Screening & History] District\",
+      tb_history_form_template_setting AS \"[TB Screening & History] Setting\",
+      tb_history_form_template_type_of_visit AS \"[TB Screening & History] Type of Visit\",
+      tb_history_form_template_type_of_client AS \"[TB Screening & History] Type of Client\",
       tb_history_form_template_ipt_start_date AS \"[TB Screening & History] IPT start date\",
       tb_history_form_template_ipt_completion_date AS \"[TB Screening & History] IPT completion date\",
-      tb_history_form_template_reason_for_not_completing_ipt AS \"[TB Screening & History] reason for not completing IPT\",
-      tb_history_form_template_art_status AS \"[TB Screening & History] ART status\",
-      tb_history_form_template_where_is_client_getting_medication AS \"[TB Screening & History] where is client getting medication\",
-      tb_history_form_template_are_you_on_art AS \"[TB Screening & History] are you on ART\",
-      tb_history_form_template_gene_xpert_results AS \"[TB Screening & History] gene xpert results\",
-      tb_history_form_template_screening_method_used_today AS \"[TB Screening & History] screening method used today\",
-      tb_history_form_template_smear_microscopy_results AS \"[TB Screening & History] smear microscopy results\",
-      tb_history_form_template_specify_method_used AS \"[TB Screening & History] specify method used\",
-      tb_history_form_template_xray_results AS \"[TB Screening & History] XRay results\",
-      tb_history_form_template_type_of_tb_case AS \"[TB Screening & History] type of TB case\",
-      tb_history_form_template_date_of_last_tb_treatment AS \"[TB Screening & History] date of last TB treatment\",
-      tb_history_form_template_treatment_outcome AS \"[TB Screening & History] treatment outcome\",
-      tb_history_form_template_course_completion_outcomes AS \"[TB Screening & History] course completion outcomes\",
-      tb_history_form_template_hiv_status AS  \"[TB Screening & History] hiv status\",
+      tb_history_form_template_reason_for_not_completing_ipt AS \"[TB Screening & History] Reason for not completing IPT\",
+      tb_history_form_template_art_status AS \"[TB Screening & History] ART Status\",
+      tb_history_form_template_where_is_client_getting_medication AS \"[TB Screening & History] Where is client getting medication\",
+      tb_history_form_template_are_you_on_art AS \"[TB Screening & History] Are you on ART?\",
+      tb_history_form_template_gene_xpert_results AS \"[TB Screening & History] Gene Xpert Results\",
+      tb_history_form_template_screening_method_used_today AS \"[TB Screening & History] Screening method used today\",
+      tb_history_form_template_smear_microscopy_results AS \"[TB Screening & History] Smear (Microscopy) results\",
+      tb_history_form_template_specify_method_used AS \"[TB Screening & History] Specify method used\",
+      tb_history_form_template_xray_results AS \"[TB Screening & History] Xray results\",
+      tb_history_form_template_type_of_tb_case AS \"[TB Screening & History] Type of TB case\",
+      tb_history_form_template_date_of_last_tb_treatment AS \"[TB Screening & History] Date of last TB treatment\",
+      tb_history_form_template_treatment_outcome AS \"[TB Screening & History] Treatment outcome\",
+      tb_history_form_template_course_completion_outcomes AS \"[TB Screening & History] Course completion outcomes\",
+      tb_history_form_template_hiv_status AS  \"[TB Screening & History] HIV Status\",
+      tb_history_form_template_rif_resistance AS \"[TB Screening & History] RIF Resistance\",
 
       CASE
       WHEN tb_history_form_template_did_you_complete_ipt = 'Yes' THEN 1
       WHEN tb_history_form_template_did_you_complete_ipt = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"[TB Screening & History] did you complete IPT\",
-      CASE
-      WHEN tb_history_form_template_rif_resistance = 'Positive' THEN 1
-      WHEN tb_history_form_template_rif_resistance = 'No' THEN 0
-      ELSE NULL
-      END :: boolean AS \"[TB Screening & History] RIF resistance\"
+      END :: boolean AS \"[TB Screening & History] Did you complete IPT?\"
 
       FROM
       (SELECT
