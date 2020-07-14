@@ -1738,7 +1738,7 @@ FROM   patient_program pp
                        FROM   obs facilityObs
                                   INNER JOIN (SELECT concept_id,
                                                      person_id,
-                                                     Max(obs_datetime) AS
+                                                     (obs_datetime) AS
                                                          facilityObsDateTime
                                               FROM   obs
                                               WHERE  concept_id =
@@ -1748,8 +1748,7 @@ FROM   patient_program pp
                                                         AND concept_full_name
                                                           =
                                                             'IPV Form, Facility')
-                                                AND voided = 0
-                                              GROUP  BY person_id) AS
+                                                AND voided = 0) AS
                            facilityObsDateTimePerPerson
                                              ON facilityObsDateTimePerPerson.concept_id =
                                                 facilityObs.concept_id
@@ -1786,8 +1785,7 @@ FROM   patient_program pp
 WHERE  pp.program_id IN (SELECT program_id
                          FROM   program
                          WHERE  retired = 0)
-  AND pp.voided = 0
-GROUP  BY pp.patient_id ",
+  AND pp.voided = 0",
       "tableName": "ipv_program_enrollment_table",
       "chunkSizeToRead": "500",
       "columnsToIgnore": []
@@ -7542,21 +7540,22 @@ ORDER BY date_created DESC;"
                                                                                                SELECT   ipv_form_facility
                                                                                                FROM     ipv_template
                                                                                                WHERE    ipv_form_facility IS NOT NULL
-                                                                                                AND     patient_id = ipv1.patient_id
+                                                                                                AND     patient_id = ipv.patient_id
                                                                                                ORDER BY encounter_id DESC limit 1))),'-',upper(ipv_form_district))
                WHEN ipv_form_site_type = 'Static' THEN concat('ZWNSC-',upper(COALESCE(ipv_form_facility,
                                                                                       (
                                                                                           SELECT   ipv_form_facility
                                                                                           FROM     ipv_template
                                                                                           WHERE    ipv_form_facility IS NOT NULL
-                                                                                          AND      patient_id = ipv1.patient_id
+                                                                                          AND      patient_id = ipv.patient_id
                                                                                           ORDER BY encounter_id DESC limit 1))))
                END                                                 AS \"OrgUnit\",
-           COALESCE(ipv1.obs_datetime, '01-01-0001' )          AS \"event_date\",
+           COALESCE(ipv.obs_datetime, '01-01-0001' )          AS \"event_date\",
            'COMPLETED' :: text                                 AS status,
-           ipv1.visit_id                                       AS \"event_unique_id\",
+           ipv.encounter_id                                       AS \"event_unique_id\",
+           ppv.patient_program_id as \"patient_program_id\",
            date(ppv.\"date_enrolled\")                           AS \"enrollment_date\",
-           COALESCE(ipv1.date_created, '01-01-0001 00:00:00' ) AS \"date_created\",
+           COALESCE(ipv.date_created, '01-01-0001 00:00:00' ) AS \"date_created\",
            pi.\"Patient_Identifier\"                             AS \"Patient_Identifier\",
            CASE
                WHEN ipv_form_has_partner_ever_threatened_to_hurt_you = 'Yes' THEN 1
@@ -7583,45 +7582,14 @@ ORDER BY date_created DESC;"
                WHEN ipv_form_partner_ever_threatened_to_kill_you = 'No' THEN 0
                ELSE NULL
                END :: boolean AS \"Partner ever threatened to Kill you?\"
-FROM       (
-               SELECT DISTINCT visit_id ,
-                 ipv.obs_datetime AS obs_datetime,
-                 ipv.patient_id AS patient_id,
-                 ipv.date_created AS date_created,
-                 ipv.program_id AS program_id,
-                 ipv.program_name AS program_name,
-                 ipv.ipv_form_facility AS ipv_form_facility,
-                 ipv.ipv_form_site_type AS ipv_form_site_type,
-                 ipv.ipv_form_district AS ipv_form_district,
-                 ipv.ipv_form_has_partner_ever_threatened_to_hurt_you AS ipv_form_has_partner_ever_threatened_to_hurt_you,
-                 ipv.ipv_form_partner_ever_physically_hurt_you AS ipv_form_partner_ever_physically_hurt_you,
-                 ipv.ipv_form_partner_ever_sexually_abused_you AS ipv_form_partner_ever_sexually_abused_you,
-                 ipv.ipv_form_partner_ever_threatened_you AS ipv_form_partner_ever_threatened_you,
-                 ipv.ipv_form_partner_ever_threatened_to_kill_you AS ipv_form_partner_ever_threatened_to_kill_you
-               FROM            (
-                                   SELECT   encounter_id,
-                                            max(patient_id)                                      AS patient_id ,
-                                            max(obs_datetime)                                    AS obs_datetime,
-                                            max(date_created)                                    AS date_created,
-                                            max(program_id)                                      AS program_id,
-                                            max(program_name)                                    AS program_name,
-                                            max(ipv_form_facility)                               AS ipv_form_facility,
-                                            max(ipv_form_site_type)                              AS ipv_form_site_type,
-                                            max(ipv_form_district)                               AS ipv_form_district,
-                                            max(ipv_form_has_partner_ever_threatened_to_hurt_you) AS ipv_form_has_partner_ever_threatened_to_hurt_you,
-                                            max(ipv_form_partner_ever_physically_hurt_you)   AS ipv_form_partner_ever_physically_hurt_you,
-                                            max(ipv_form_partner_ever_sexually_abused_you)    AS ipv_form_partner_ever_sexually_abused_you,
-                                            max(ipv_form_partner_ever_threatened_you) AS ipv_form_partner_ever_threatened_you,
-                                            max(ipv_form_partner_ever_threatened_to_kill_you)   AS ipv_form_partner_ever_threatened_to_kill_you
-                                   FROM     ipv_template
-                                   GROUP BY encounter_id) AS ipv
-                                   INNER JOIN      patient_encounter_table pedd
-                                                   ON              pedd.encounter_id = ipv.encounter_id) ipv1
+               FROM     ipv_template ipv
+               INNER JOIN      patient_encounter_table pedd
+                                                   ON              pedd.encounter_id = ipv.encounter_id
                INNER JOIN psi_patient_program_data ppv
-                          ON         ppv.patient_id = ipv1.patient_id AND ppv.program_id = ipv1.program_id
+                          ON         ppv.patient_id = ipv.patient_id AND ppv.program_id = ipv.program_id
                INNER JOIN patient_identifier pi
-                          ON         ipv1.patient_id = pi.patient_id
-ORDER BY   date_created DESC "
+                          ON         ipv.patient_id = pi.patient_id
+ORDER BY   date_created DESC"
   },
     {
       "name": "tb_program_events_table",
