@@ -6820,7 +6820,7 @@ ORDER BY date_created DESC;"
       COALESCE(ncd.obs_datetime, '01-01-0001' )          AS \"event_date\",
       'COMPLETED' :: text                                 AS status,
       ppv.program_id as program_id,
-      ncd.encounter_id                                       AS \"event_unique_id\",
+      ppv.patient_program_id                                   AS \"event_unique_id\",
       date(ppv.\"date_enrolled\")                           AS \"enrollment_date\",
       COALESCE(ncd.date_created, '01-01-0001 00:00:00' ) AS \"date_created\",
       pi.\"Patient_Identifier\"                             AS \"Patient_Identifier\",
