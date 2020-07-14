@@ -6848,7 +6848,7 @@ ORDER BY date_created DESC;"
       WHEN ncd_form_is_hypertension_condition_controlled = 'Yes' THEN 1
       WHEN ncd_form_is_hypertension_condition_controlled = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Diabetes management – gestational\",
+      END :: boolean AS \"Is hypertension condition controlled?\",
       CASE
       WHEN ncd_form_is_diabetes_condition_controlled = 'Yes' THEN 1
       WHEN ncd_form_is_diabetes_condition_controlled = 'No' THEN 0
