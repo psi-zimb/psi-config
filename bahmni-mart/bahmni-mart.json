@@ -6955,7 +6955,7 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_referred_for_cd4_count = 'Yes' THEN 1
       WHEN referrals_form_referred_for_cd4_count = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for CDF Count\",
+      END :: boolean AS \"Referred for CD4 Count\",
       CASE
       WHEN referrals_form_referred_for_viral_load_test = 'Yes' THEN 1
       WHEN referrals_form_referred_for_viral_load_test = 'No' THEN 0
@@ -7055,7 +7055,7 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_referred_for_anc = 'Yes' THEN 1
       WHEN referrals_form_referred_for_anc = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for ANS\",
+      END :: boolean AS \"Referred for ANC\",
       CASE
       WHEN referrals_form_referred_for_emergency_contraception = 'Yes' THEN 1
       WHEN referrals_form_referred_for_emergency_contraception = 'No' THEN 0
@@ -7210,12 +7210,12 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_received_ctx_oi_management_services = 'Yes' THEN 1
       WHEN referrals_form_received_ctx_oi_management_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received CARG Enrolment / Transfer Services\",
+      END :: boolean AS \"Received CTX/OI Management Services\",
       CASE
       WHEN referrals_form_received_carg_enrolment_transfer_services = 'Yes' THEN 1
       WHEN referrals_form_received_carg_enrolment_transfer_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received carg enrolment transfer Services\",
+      END :: boolean AS \"Received CARG enrolment/ Transfer  Services\",
       CASE
       WHEN referrals_form_received_support_groups_services = 'Yes' THEN 1
       WHEN referrals_form_received_support_groups_services = 'No' THEN 0
@@ -7290,7 +7290,7 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_received_educational_services_services = 'Yes' THEN 1
       WHEN referrals_form_received_educational_services_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received Educational services Services\",
+      END :: boolean AS \"Received Educational Services\",
       CASE
       WHEN referrals_form_received_emergency_shelter_services = 'Yes' THEN 1
       WHEN referrals_form_received_emergency_shelter_services = 'No' THEN 0
@@ -7440,17 +7440,17 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_received_any_cervical_cancer_treatment_from_ = 'Yes' THEN 1
       WHEN referrals_form_received_any_cervical_cancer_treatment_from_ = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received any cervical cancer Treatment (referred from VIA/VILI) \",
+      END :: boolean AS \"Received Any cervical cancer Treatment (referred from VIA/VILI)\",
       CASE
       WHEN referrals_form_received_any_cervical_cancer_treatment_from__1 = 'Yes' THEN 1
       WHEN referrals_form_received_any_cervical_cancer_treatment_from__1 = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received any cervical cancer Treatment from (referred from Pap Screen)\",
+      END :: boolean AS \"Received Any cervical cancer Treatment from (referred from Pap Screen)\",
       CASE
       WHEN referrals_form_received_any_cervical_cancer_treatment_from__2 = 'Yes' THEN 1
       WHEN referrals_form_received_any_cervical_cancer_treatment_from__2 = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received any cervical cancer Treatment from (referred from HPV DNA)\",
+      END :: boolean AS \"Received Any cervical cancer Treatment from (referred from HPV DNA)\",
       CASE
       WHEN referrals_form_received_advanced_treatment_for_cervical_can = 'Yes' THEN 1
       WHEN referrals_form_received_advanced_treatment_for_cervical_can = 'No' THEN 0
@@ -7475,7 +7475,7 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_received_treatment_for_urethral_discharge_me = 'Yes' THEN 1
       WHEN referrals_form_received_treatment_for_urethral_discharge_me = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received Treatment for rethral discharge, men\",
+      END :: boolean AS \"Received Treatment for urethral discharge, men\",
       CASE
       WHEN referrals_form_received_treatment_for_urethral_discharge_wo = 'Yes' THEN 1
       WHEN referrals_form_received_treatment_for_urethral_discharge_wo = 'No' THEN 0
