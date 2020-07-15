@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="PSI-CONFIG-202003071730" author="Som">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from global_property where property='bahmni.sqlGet.getBaseLineFormInformation';
+            </sqlCheck>
+        </preConditions>
+        <comment>Creating Global Property for getting information on latest NCD forms</comment>
+        <sql>INSERT INTO global_property (property, property_value, uuid)
+            VALUES ('bahmni.sqlGet.getBaseLineFormInformation', '', uuid());
+        </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-202003071530" author="Som">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from global_property where property='bahmni.sqlGet.getLast10NCDFormInformation';
+            </sqlCheck>
+        </preConditions>
+        <comment>Creating Global Property for getting information on  last 10 filled NCD forms</comment>
+        <sql>INSERT INTO global_property (property, property_value, uuid)
+            VALUES ('bahmni.sqlGet.getLast10NCDFormInformation', '', uuid());
+        </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-202003071930" author="Som">
+        <comment>Updating Global Property for getting information on latest NCD forms filled for a patient</comment>
+        <sqlFile path="AddQueryForBaseLineForms.sql"/>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-202010071930" author="Som">
+        <comment>Updating Global Property for getting information on last 10 NCD forms filled for a patient</comment>
+        <sqlFile path="AddQueryForLast10NCDForms.sql"/>
+    </changeSet>
+</databaseChangeLog>

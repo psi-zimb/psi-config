@@ -52,6 +52,20 @@
           "template": "<number-of-weeks-for-program section='config' patient='patient'></number-of-weeks-for-program>"
         }
       },
+      "ncd": {
+        "type": "custom",
+        "translationKey": "NCD_FORMS",
+        "displayOrder": 21,
+        "hideEmptyDisplayControl": true,
+        "config": {
+          "title": "NCD",
+          "translationKey": "NCD_FORMS",
+          "template": "<ncd-display section='config' patient='patient'></ncd-display>"
+        },
+        "pivotTable":{
+
+        }
+      },
       "diagnosis":{
         "translationKey":"DASHBOARD_TITLE_DIAGNOSIS_KEY",
         "type":"diagnosis",
