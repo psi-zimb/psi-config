@@ -1,0 +1,32 @@
+fileignoreconfig:
+- filename: openmrs/migrations/ART_Cont_Concepts.sql
+  checksum: 6b098518e2c033e3c96843e3f0a80529e6001865e507809b3990bafceb878c89
+  ignore_detectors: []
+- filename: openmrs/migrations/ART_Init_Concepts.sql
+  checksum: 40664e6f2c52dd1b82a80d8e474639dc0e2a5175f08dce87de806858e7eb53f6
+  ignore_detectors: []
+- filename: openmrs/migrations/IPV_Form_Concepts.sql
+  checksum: 4bf82fb5f72210b9bccdf2cb626691d94821bbbd6a7d31bff9b2ad738c6614d9
+  ignore_detectors: []
+- filename: openmrs/migrations/IPV_Form_ConceptsB.sql
+  checksum: cca804f4e5dc289a53a9018156cd7b0e93b98a39210aa29cc21083769e566e59
+  ignore_detectors: []
+- filename: openmrs/migrations/NCD_Form_Concepts.sql
+  checksum: f0e6e4afc4751c60cc953e6bf882f609c69497cfafc66481c1821fb93b93c453
+  ignore_detectors: []
+- filename: openmrs/migrations/PrEP_Screening_Tool_Form_Concepts.sql
+  checksum: 6638db079cd0ca1c309acb19d713300de0c50815119d4a016b9912b754f8aa59
+  ignore_detectors: []
+- filename: openmrs/migrations/Prep_Contiuation_Concepts.sql
+  checksum: c8896925e8f503f68a820b2e3e6cdd1bebf961147b030759de61ea18919046dd
+  ignore_detectors: []
+- filename: openmrs/migrations/Prep_Init_Concepts.sql
+  checksum: 1c84c31a1315c3421aed1126c8544c1880c781393e510fc9642154d44af9c3ab
+  ignore_detectors: []
+- filename: openmrs/migrations/Provider_HIV_test_counselling_Concepts.sql
+  checksum: 72c374e785a832bef4c87c045a76f624faa6796142afbf4f9d9aaa130ab5d34f
+  ignore_detectors: []
+- filename: openmrs/migrations/Referral_Form_Concepts.sql
+  checksum: f75280003b9877ddc06bf44681ea166c8ec2d112887d1bb62d6372b43a9866d3
+  ignore_detectors: []
+scopeconfig: []

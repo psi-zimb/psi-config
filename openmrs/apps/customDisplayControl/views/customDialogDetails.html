@@ -1,0 +1,28 @@
+<section class="block section-grid">
+    <h2 class="section-title" style>{{::section | titleTranslate}}</h2>
+    <!--<div class="template-container">-->
+    <div class="concept-set-container">
+        <div ng-if="responseDataSet.length==0">
+            <p class="placeholder-text" ng-if="responseDataSet.length==0">
+                {{'NO_DATA_FOR_NCD_FOUND' | translate}}
+            </p>
+        </div>
+        <ul class="laborder-sub-heading active" ng-if="responseDataSet.length>0">
+            <p>{{diagnosis_date | bahmniDateTime}}</p>
+            <table>
+                <tbody>
+                <span class="tree-list-item row-click" ng-click="showNCD()">
+                <i class="fa fa-caret-down" ng-show="ncd">{{examinationResults.name}}</i>
+                <i class="fa fa-caret-right" ng-show="!ncd">{{examinationResults.name}}</i>
+               <span class="obs_date"> NCD Latest </span>
+            </span>
+                <tr ng-repeat="examinationResults in responseDataSet">
+                    <td class="form-field" ng-show="ncd">{{examinationResults.name}}</td>
+                    <td class="form-field" ng-show="ncd">{{examinationResults.ValueConcept}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </ul>
+    </div>
+    <!--</div>-->
+</section>

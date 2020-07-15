@@ -185,7 +185,7 @@
 
     <include file ="Enhanced_Adherence_Counselling.xml"/>
 
-
+    <include file="AddQueryForBaseLineForms.xml"/>
 
 <!--    <include file ="AddProvidersList_EAC_13th.xml"/>-->
 

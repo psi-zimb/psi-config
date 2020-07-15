@@ -1,0 +1,30 @@
+<section class="block hierarchy">
+    <h2 ng-click="normalDialog()"
+        ng-dialog-class="ngdialog-theme-default ng-dialog-all-details-page"
+        class="section-title has-link">
+        <span class="title-link"> {{::section | titleTranslate}} </span>
+        <i class="fa fa-external-link"></i>
+    </h2>
+    <div ng-if="responseDataSet.length==0">
+        <p class="placeholder-text" ng-if="responseDataSet.length==0">
+            {{'NO_DATA_FOR_NCD_FOUND' | translate}}
+        </p>
+    </div>
+    <ul class="laborder-sub-heading active" ng-if="responseDataSet.length>0">
+        <p>{{diagnosis_date | bahmniDateTime}}</p>
+        <table >
+            <tbody>
+            <span class="tree-list-item row-click" ng-click="toggleShowNCD()">
+                <i class="fa fa-caret-down" ng-show="togglencd">{{examinationResults.name}}</i>
+                <i class="fa fa-caret-right" ng-show="!togglencd">{{examinationResults.name}}</i>
+                <span class="obs_date"> NCD Latest </span>
+            </span>
+            <tr ng-repeat="examinationResults in responseDataSet">
+                <td class="form-field" ng-show="togglencd">{{examinationResults.name}}</td>
+                <td class="form-field" ng-show="togglencd">{{examinationResults.ValueConcept}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </ul>
+
+</section>
