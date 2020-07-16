@@ -1902,7 +1902,7 @@ WHERE  pp.program_id IN (SELECT program_id
       where pi.patient_id in ( /*Filtering if patient is enrolled in any FORM*/
       Select patient_id from patient_program pp where program_id in (
       Select program_id from
-      program where name='TB Program' AND retired=0
+      program where retired=0
       )
       and voided = 0
       )
@@ -2006,7 +2006,7 @@ WHERE  pp.program_id IN (SELECT program_id
       AND OrgUnitLogic.encounter_id = ee.encounter_id
       WHERE  pp.program_id IN (SELECT program_id
       FROM   program
-      WHERE name='TB Program' AND retired = 0)
+      WHERE retired = 0)
       AND pp.voided = 0 ",
       "tableName": "tb_program_enrollment_table",
       "chunkSizeToRead": "500",
@@ -7827,7 +7827,7 @@ ORDER BY   date_created DESC"
 
       FROM tb_history_form_template tbform GROUP BY encounter_id) AS tbform
       INNER JOIN patient_encounter_table pedd ON pedd.encounter_id = tbform.encounter_id) tbform_1
-      INNER JOIN psi_patient_program_data ppv on ppv.patient_id = tbform_1.patient_id and (ppv.program_id = (SELECT program_id FROM programs_default WHERE program_name= 'TB Program'))
+      INNER JOIN psi_patient_program_data ppv on ppv.patient_id = tbform_1.patient_id
       INNER JOIN patient_identifier pi ON tbform_1.patient_id = pi.patient_id
       ORDER BY date_created DESC"
     }
