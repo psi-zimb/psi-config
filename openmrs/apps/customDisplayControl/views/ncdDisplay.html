@@ -15,14 +15,13 @@
         <table >
             <tbody>
             <span class="tree-list-item row-click" ng-click="toggleShowNCD()">
-                <i class="fa fa-caret-down" ng-show="togglencd">{{examinationResults.name}}</i>
-                <i class="fa fa-caret-right" ng-show="!togglencd">{{examinationResults.name}}</i>
-                <span class="obs_date"> NCD Latest </span>
+                <i class="fa fa-caret-down" ng-show="togglencd"></i>
+                <i class="fa fa-caret-right" ng-show="!togglencd"></i>
+                <span class="obs_date">{{ responseDataSet[0].obs_datetime | date : 'dd MMM yyyy h:mm:ss a' }}</span>
             </span>
-            <tr ng-repeat="examinationResults in responseDataSet">
-                <td class="form-field" ng-show="togglencd">{{examinationResults.obs_datetime}}</td>
-                <td class="form-field" ng-show="togglencd">{{examinationResults.conceptShortName}}</td>
-                <td class="form-field" ng-show="togglencd">{{examinationResults.ValueConcept}}</td>
+            <tr ng-repeat="ncdFormData in responseDataSet" ng-if="ncdFormData.encounterId == responseDataSet[0].encounterId">
+                <td class="form-field" ng-show="togglencd" >{{ncdFormData.name}}</td>
+                <td class="form-field" ng-show="togglencd" >{{ncdFormData.ValueConcept}}</td>
             </tr>
             </tbody>
         </table>

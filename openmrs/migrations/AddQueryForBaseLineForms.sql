@@ -32,9 +32,9 @@ from (select DISTINCT o.person_id        as person_id,
         and o.concept_id = concept.concept_id
         and o.person_id = (select person_id from person where person.uuid=${patientUuid})
         and enc.encounter_id = o.encounter_id
-        and cname.name like '%NCD%'
+        and cname.name like '%NCD Form%'
         and Date(o.obs_datetime) = CURDATE()) as test
          left outer join concept concept on test.conceptid = concept.concept_id
          left outer join concept_name cn
-                         on test.codedvalue = cn.concept_id and cn.locale = 'en' and cn.locale_preferred = 1
+                         on test.codedvalue = cn.concept_id and cn.locale = 'en' and cn.locale_preferred = 1 order by test.obs_datetime desc
 ") where property= 'bahmni.sqlGet.getBaseLineFormInformation';
