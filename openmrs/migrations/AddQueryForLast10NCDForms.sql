@@ -1,6 +1,6 @@
 update global_property set property_value = ("
 select DISTINCT test.person_id,
-                test.obs_datetime,
+                test.obs_datetime AS obs_datetime,
                 test.name,
                 test.numbervalue,
                 test.textvalue,
@@ -36,5 +36,5 @@ from (select DISTINCT o.person_id        as person_id,
         and Date(o.obs_datetime) >= CURDATE()-1) as test
          left outer join concept concept on test.conceptid = concept.concept_id
          left outer join concept_name cn
-                         on test.codedvalue = cn.concept_id and cn.locale = 'en' and cn.locale_preferred = 1
+                         on test.codedvalue = cn.concept_id and cn.locale = 'en' and cn.locale_preferred = 1 test.encounterId=(select max(encounter_id) from encounter where cn.concept_id=cn.concept_id) order by test.obs_datetime desc
 ") where property= 'bahmni.sqlGet.getLast10NCDFormInformation';
