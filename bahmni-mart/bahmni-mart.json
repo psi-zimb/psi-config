@@ -6975,7 +6975,7 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_referred_for_uandes = 'Yes' THEN 1
       WHEN referrals_form_referred_for_uandes = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for U&Es\",
+      END :: boolean AS \"Referred for UandEs\",
       CASE
       WHEN referrals_form_referred_for_creatinine = 'Yes' THEN 1
       WHEN referrals_form_referred_for_creatinine = 'No' THEN 0
@@ -7175,7 +7175,7 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_received_uandes_services = 'Yes' THEN 1
       WHEN referrals_form_received_uandes_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received U&Es Services\",
+      END :: boolean AS \"Received UandEs Services\",
       CASE
       WHEN referrals_form_received_creatinine_services = 'Yes' THEN 1
       WHEN referrals_form_received_creatinine_services = 'No' THEN 0
