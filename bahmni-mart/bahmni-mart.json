@@ -1902,7 +1902,7 @@ WHERE  pp.program_id IN (SELECT program_id
       where pi.patient_id in ( /*Filtering if patient is enrolled in any FORM*/
       Select patient_id from patient_program pp where program_id in (
       Select program_id from
-      program where name='TB Program' AND retired=0
+      program where retired=0
       )
       and voided = 0
       )
@@ -2006,7 +2006,7 @@ WHERE  pp.program_id IN (SELECT program_id
       AND OrgUnitLogic.encounter_id = ee.encounter_id
       WHERE  pp.program_id IN (SELECT program_id
       FROM   program
-      WHERE name='TB Program' AND retired = 0)
+      WHERE retired = 0)
       AND pp.voided = 0 ",
       "tableName": "tb_program_enrollment_table",
       "chunkSizeToRead": "500",
