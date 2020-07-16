@@ -6920,7 +6920,7 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_referred_for_hiv_counselling = 'Yes' THEN 1
       WHEN referrals_form_referred_for_hiv_counselling = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for HIV counselling\",
+      END :: boolean AS \"Referred for HIV Counselling\",
       CASE
       WHEN referrals_form_referred_for_post_exposure_prophylaxis = 'Yes' THEN 1
       WHEN referrals_form_referred_for_post_exposure_prophylaxis = 'No' THEN 0
@@ -6960,7 +6960,7 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_referred_for_viral_load_test = 'Yes' THEN 1
       WHEN referrals_form_referred_for_viral_load_test = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for Viral load test\",
+      END :: boolean AS \"Referred for Viral Load test\",
       CASE
       WHEN referrals_form_referred_for_fbc = 'Yes' THEN 1
       WHEN referrals_form_referred_for_fbc = 'No' THEN 0
@@ -7020,7 +7020,7 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_referred_for_support_groups = 'Yes' THEN 1
       WHEN referrals_form_referred_for_support_groups = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for support groups\",
+      END :: boolean AS \"Referred for Support Groups\",
       CASE
       WHEN referrals_form_referred_for_art_official_transfer = 'Yes' THEN 1
       WHEN referrals_form_referred_for_art_official_transfer = 'No' THEN 0
@@ -7075,7 +7075,7 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_referred_for_breast_cancer_screening = 'Yes' THEN 1
       WHEN referrals_form_referred_for_breast_cancer_screening = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for Breast cancer screening\",
+      END :: boolean AS \"Referred for Breast Cancer screening\",
       CASE
       WHEN referrals_form_referred_for_psycho_social_support = 'Yes' THEN 1
       WHEN referrals_form_referred_for_psycho_social_support = 'No' THEN 0
@@ -7085,7 +7085,7 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_referred_for_economic_strengthening = 'Yes' THEN 1
       WHEN referrals_form_referred_for_economic_strengthening = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for Economic strengthening\",
+      END :: boolean AS \"Referred for Economic Strengthening\",
       CASE
       WHEN referrals_form_referred_for_educational_services = 'Yes' THEN 1
       WHEN referrals_form_referred_for_educational_services = 'No' THEN 0
@@ -7100,7 +7100,7 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_referred_for_nutrition_support = 'Yes' THEN 1
       WHEN referrals_form_referred_for_nutrition_support = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for Nutrition support\",
+      END :: boolean AS \"Referred for Nutrition Support\",
       CASE
       WHEN referrals_form_referred_for_legal_counsel = 'Yes' THEN 1
       WHEN referrals_form_referred_for_legal_counsel = 'No' THEN 0
@@ -7160,7 +7160,7 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_received_viral_load_test_services = 'Yes' THEN 1
       WHEN referrals_form_received_viral_load_test_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received Viral load test Services\",
+      END :: boolean AS \"Received Viral Load test Services\",
       CASE
       WHEN referrals_form_received_fbc_services = 'Yes' THEN 1
       WHEN referrals_form_received_fbc_services = 'No' THEN 0
@@ -7220,7 +7220,7 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_received_support_groups_services = 'Yes' THEN 1
       WHEN referrals_form_received_support_groups_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received Support Groups\",
+      END :: boolean AS \"Received Support Groups Services\",
       CASE
       WHEN referrals_form_received_art_official_transfer_services = 'Yes' THEN 1
       WHEN referrals_form_received_art_official_transfer_services = 'No' THEN 0
@@ -7275,7 +7275,7 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_received_breast_cancer_screening_services = 'Yes' THEN 1
       WHEN referrals_form_received_breast_cancer_screening_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received Breast cancer screening Services\",
+      END :: boolean AS \"Received Breast Cancer Screening Services\",
       CASE
       WHEN referrals_form_received_psycho_social_support_services = 'Yes' THEN 1
       WHEN referrals_form_received_psycho_social_support_services = 'No' THEN 0
@@ -7310,7 +7310,7 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_received_to_victim_friendly_services = 'Yes' THEN 1
       WHEN referrals_form_received_to_victim_friendly_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received to victim Friendly Services\",
+      END :: boolean AS \"Received to Victim Friendly Services\",
       CASE
       WHEN referrals_form_received_vital_registration_services = 'Yes' THEN 1
       WHEN referrals_form_received_vital_registration_services = 'No' THEN 0
@@ -7325,7 +7325,7 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_received_combined_oral_contraceptive_pills = 'Yes' THEN 1
       WHEN referrals_form_received_combined_oral_contraceptive_pills = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received combined oral contraceptive pills\",
+      END :: boolean AS \"Received Combined oral contraceptive pills\",
       CASE
       WHEN referrals_form_received_injectable_1_month = 'Yes' THEN 1
       WHEN referrals_form_received_injectable_1_month = 'No' THEN 0
@@ -7425,17 +7425,17 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_received_conization_or_leep_referred_from_vi = 'Yes' THEN 1
       WHEN referrals_form_received_conization_or_leep_referred_from_vi = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received conization or LEEP (referred from VIA/VILI)\",
+      END :: boolean AS \"Received Conization or LEEP (referred from VIA/VILI)\",
       CASE
       WHEN referrals_form_received_conization_or_leep_referred_from_pa = 'Yes' THEN 1
       WHEN referrals_form_received_conization_or_leep_referred_from_pa = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received conization or LEEP (referred from Pap Screen)\",
+      END :: boolean AS \"Received Conization or LEEP (referred from Pap Screen)\",
       CASE
       WHEN referrals_form_received_conization_or_leep_referred_from_hp = 'Yes' THEN 1
       WHEN referrals_form_received_conization_or_leep_referred_from_hp = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received conization or LEEP (referred from HPV DNA)\",
+      END :: boolean AS \"Received Conization or LEEP (referred from HPV DNA)\",
       CASE
       WHEN referrals_form_received_any_cervical_cancer_treatment_from_ = 'Yes' THEN 1
       WHEN referrals_form_received_any_cervical_cancer_treatment_from_ = 'No' THEN 0
@@ -7515,7 +7515,7 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_received_lymphogranuloma_venerium = 'Yes' THEN 1
       WHEN referrals_form_received_lymphogranuloma_venerium = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received lymphogranuloma venerium\",
+      END :: boolean AS \"Received lymphogranuloma (venerium)\",
       CASE
       WHEN referrals_form_received_treatment_for_lower_abdominal_pain = 'Yes' THEN 1
       WHEN referrals_form_received_treatment_for_lower_abdominal_pain = 'No' THEN 0
