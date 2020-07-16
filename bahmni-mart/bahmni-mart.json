@@ -6913,7 +6913,7 @@ ORDER BY date_created DESC;"
 
       referrals_form_type_of_referral AS \"Type of referral\",
       referrals_form_referring_officer AS \"Referring Officer\",
-      referrals_form_facility_where_client_has_been_referred_to AS \"Facility client has been referred to\",
+      referrals_form_facility_where_client_has_been_referred_to AS \"Facility where client has been referred to\",
       referrals_form_expected_visit_date AS \"Expected visit date\",
 
       CASE
@@ -6950,7 +6950,7 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_referred_for_dbs_pcr_hiv_testing = 'Yes' THEN 1
       WHEN referrals_form_referred_for_dbs_pcr_hiv_testing = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Referred for DBS PCR HIV Testing\",
+      END :: boolean AS \"Referred for DBS- PCR HIV Testing\",
       CASE
       WHEN referrals_form_referred_for_cd4_count = 'Yes' THEN 1
       WHEN referrals_form_referred_for_cd4_count = 'No' THEN 0
@@ -7145,7 +7145,7 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_received_hiv_rapid_test_services = 'Yes' THEN 1
       WHEN referrals_form_received_hiv_rapid_test_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received HIV Rapid test Services\",
+      END :: boolean AS \"Received HIV Rapid Test Services\",
       CASE
       WHEN referrals_form_received_dbs_pcr_hiv_testing_services = 'Yes' THEN 1
       WHEN referrals_form_received_dbs_pcr_hiv_testing_services = 'No' THEN 0
@@ -7220,7 +7220,7 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_received_support_groups_services = 'Yes' THEN 1
       WHEN referrals_form_received_support_groups_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received Support Groups e.g. CATS Services\",
+      END :: boolean AS \"Received Support Groups\",
       CASE
       WHEN referrals_form_received_art_official_transfer_services = 'Yes' THEN 1
       WHEN referrals_form_received_art_official_transfer_services = 'No' THEN 0
@@ -7265,7 +7265,7 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_received_family_planning_services = 'Yes' THEN 1
       WHEN referrals_form_received_family_planning_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received family planning Services\",
+      END :: boolean AS \"Received Family Planning Services\",
       CASE
       WHEN referrals_form_received_cancer_of_cervix_screening_services = 'Yes' THEN 1
       WHEN referrals_form_received_cancer_of_cervix_screening_services = 'No' THEN 0
@@ -7285,7 +7285,7 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_received_economic_strengthening_services = 'Yes' THEN 1
       WHEN referrals_form_received_economic_strengthening_services = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received economic strengthening Services\",
+      END :: boolean AS \"Received Economic Strengthening Services\",
       CASE
       WHEN referrals_form_received_educational_services_services = 'Yes' THEN 1
       WHEN referrals_form_received_educational_services_services = 'No' THEN 0
@@ -7330,22 +7330,22 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_received_injectable_1_month = 'Yes' THEN 1
       WHEN referrals_form_received_injectable_1_month = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received injectable 1 month\",
+      END :: boolean AS \"Received Injectable 1 month\",
       CASE
       WHEN referrals_form_received_injectable_2_months = 'Yes' THEN 1
       WHEN referrals_form_received_injectable_2_months = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received injectable 2 months\",
+      END :: boolean AS \"Received Injectable 2 months\",
       CASE
       WHEN referrals_form_received_injectable_3_months = 'Yes' THEN 1
       WHEN referrals_form_received_injectable_3_months = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received injectable 3 months\",
+      END :: boolean AS \"Received Injectable 3 months\",
       CASE
       WHEN referrals_form_received_injectable_duration_unknown = 'Yes' THEN 1
       WHEN referrals_form_received_injectable_duration_unknown = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received injectable [duration unknown]\",
+      END :: boolean AS \"Received Injectable duration unknown\",
       CASE
       WHEN referrals_form_received_cyclebeads = 'Yes' THEN 1
       WHEN referrals_form_received_cyclebeads = 'No' THEN 0
@@ -7370,7 +7370,7 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_received_iud_insertion_duration_unknown = 'Yes' THEN 1
       WHEN referrals_form_received_iud_insertion_duration_unknown = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received IUD insertion [duration unknown]\",
+      END :: boolean AS \"Received IUD insertion duration unknown\",
       CASE
       WHEN referrals_form_received_implant_3_insertion = 'Yes' THEN 1
       WHEN referrals_form_received_implant_3_insertion = 'No' THEN 0
@@ -7385,7 +7385,7 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_received_implant_insertion_duration_unknown = 'Yes' THEN 1
       WHEN referrals_form_received_implant_insertion_duration_unknown = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received Implant insertion [duration unknown]\",
+      END :: boolean AS \"Received Implant insertion duration unknown\",
       CASE
       WHEN referrals_form_received_implant_5_insertion = 'Yes' THEN 1
       WHEN referrals_form_received_implant_5_insertion = 'No' THEN 0
@@ -7440,22 +7440,22 @@ ORDER BY date_created DESC;"
       WHEN referrals_form_received_any_cervical_cancer_treatment_from_ = 'Yes' THEN 1
       WHEN referrals_form_received_any_cervical_cancer_treatment_from_ = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received Any cervical cancer Treatment (referred from VIA/VILI)\",
+      END :: boolean AS \"Received Any cervical cancer treatment (from HPV DNA)\",
       CASE
       WHEN referrals_form_received_any_cervical_cancer_treatment_from__1 = 'Yes' THEN 1
       WHEN referrals_form_received_any_cervical_cancer_treatment_from__1 = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received Any cervical cancer Treatment from (referred from Pap Screen)\",
+      END :: boolean AS \"Received Any cervical cancer treatment (from Pap Screen)\",
       CASE
       WHEN referrals_form_received_any_cervical_cancer_treatment_from__2 = 'Yes' THEN 1
       WHEN referrals_form_received_any_cervical_cancer_treatment_from__2 = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received Any cervical cancer Treatment from (referred from HPV DNA)\",
+      END :: boolean AS \"Received Any cervical cancer treatment (from VIA/VILI)\",
       CASE
       WHEN referrals_form_received_advanced_treatment_for_cervical_can = 'Yes' THEN 1
       WHEN referrals_form_received_advanced_treatment_for_cervical_can = 'No' THEN 0
       ELSE NULL
-      END :: boolean AS \"Received advanced Treatment for Cervical cancer\",
+      END :: boolean AS \"Received Advanced treatment for cervical cancer\",
       CASE
       WHEN referrals_form_received_hypertension_management = 'Yes' THEN 1
       WHEN referrals_form_received_hypertension_management = 'No' THEN 0
