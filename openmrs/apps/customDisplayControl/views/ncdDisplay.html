@@ -20,7 +20,8 @@
                 <span class="obs_date"> NCD Latest </span>
             </span>
             <tr ng-repeat="examinationResults in responseDataSet">
-                <td class="form-field" ng-show="togglencd">{{examinationResults.name}}</td>
+                <td class="form-field" ng-show="togglencd">{{examinationResults.obs_datetime}}</td>
+                <td class="form-field" ng-show="togglencd">{{examinationResults.conceptShortName}}</td>
                 <td class="form-field" ng-show="togglencd">{{examinationResults.ValueConcept}}</td>
             </tr>
             </tbody>
