@@ -6886,7 +6886,7 @@ ORDER BY date_created DESC;"
     {
       "name": "referrals_program_events_table",
       "sql": "SELECT     'vatFxlZR2lj':: text AS program,
-      'HEMM6ZpkqgJ':: text AS program_stage,
+      'hpVv6E1Lzfl':: text AS program_stage,
       CASE
       WHEN referrals_form_site_type = 'Outreach' THEN concat('ZWNSC-OU-',upper(COALESCE(referrals_form_facility,
       (
