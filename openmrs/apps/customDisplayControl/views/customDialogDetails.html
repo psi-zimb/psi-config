@@ -2,27 +2,30 @@
     <h2 class="section-title" style>{{::section | titleTranslate}}</h2>
     <!--<div class="template-container">-->
     <div class="concept-set-container">
-        <div ng-if="responseDataSet.length==0">
-            <p class="placeholder-text" ng-if="responseDataSet.length==0">
+        <div ng-if="responseDataSet1.length==0">
+            <p class="placeholder-text" ng-if="responseDataSet1.length==0">
                 {{'NO_DATA_FOR_NCD_FOUND' | translate}}
             </p>
         </div>
-        <ul class="laborder-sub-heading active" ng-if="responseDataSet.length>0">
+        
+<div ng-repeat="latestEncounterData in encounterArray">
+        <ul class="laborder-sub-heading active" ng-if="responseDataSet1.length>0">
             <p>{{diagnosis_date | bahmniDateTime}}</p>
-            <table>
-                <tbody>
-            <span class="tree-list-item row-click" ng-click="showNCD()">
-                <i class="fa fa-caret-down" ng-show="ncd"></i>
-                <i class="fa fa-caret-right" ng-show="!ncd"></i>
-                <span class="obs_date">{{ responseDataSet[0].obs_datetime | date : 'dd MMM yyyy h:mm:ss a' }}</span>
+            <span class="tree-list-item row-click" ng-click="toggleDisplay(latestEncounterData[0].split('->')[2])">
+                <i class="fa fa-caret-down" ng-show="togglencd"></i>
+                <i class="fa fa-caret-right" ng-show="!togglencd"></i>
+                <span class="obs_date">{{ latestEncounterData[0].split('->')[2] | date : 'dd MMM yyyy h:mm:ss a' }}</span>
             </span>
-            <tr ng-repeat="ncdFormData in responseDataSet">
-                <td class="form-field" ng-show="ncd">{{ncdFormData.name}}</td>
-                <td class="form-field" ng-show="ncd">{{ncdFormData.ValueConcept}}</td>
+            <table ng-attr-id="{{latestEncounterData[0].split('->')[2]}}">
+                <tbody>
+            <tr ng-repeat="ncdFormData in latestEncounterData" ng-if="ncdFormData.split('->')[1]!=''">
+                <td class="form-field" ng-show="togglencd">{{ncdFormData.split('->')[0]}}</td>
+                <td class="form-field" ng-show="togglencd">{{ncdFormData.split('->')[1]}}</td>
             </tr>
             </tbody>
             </table>
         </ul>
+</div>
     </div>
     <!--</div>-->
 </section>

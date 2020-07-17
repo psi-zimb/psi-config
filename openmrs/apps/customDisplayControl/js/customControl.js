@@ -226,6 +226,17 @@ angular.module('bahmni.common.displaycontrol.custom')
     var controller = function ($scope) {
       $scope.togglencd = true;
       $scope.ncd=true;
+
+      $scope.toggleDisplay = function(idValue) {
+        var currentId = '#'+idValue;
+        $(currentId).toggle();
+      }
+
+      $scope.checkDisplay = function(idValue) {
+        var elementId = '#'+idValue;
+        return $(elementId).is(":visible");
+      }
+
       $scope.toggleShowNCD = function () {
         $scope.togglencd = !$scope.togglencd;
       };
@@ -254,10 +265,37 @@ angular.module('bahmni.common.displaycontrol.custom')
       $scope.isClickable = function () {
         return true;
       };
+
+$scope.modifiedData = new Map();
+$scope.encounterArray = [];
+
       $scope.normalDialog = function () {
-        spinner.forPromise($q.all([getResponseFromQuery("bahmni.sqlGet.getLast10NCDFormInformation")]).then(function (response) {
-          $scope.responseDataSet = response[0].data;
+        spinner.forPromise($q.all([getResponseFromQuery("bahmni.sqlGet.getBaseLineFormInformation")]).then(function (response) {
+          $scope.responseDataSet1 = response[0].data;
+
+      angular.forEach($scope.responseDataSet1, function(value, key) {
+          if($scope.modifiedData.has(value.encounterId)){
+              var list = $scope.modifiedData.get(value.encounterId);
+              if(list.indexOf(value.name+"->"+value.ValueConcept+"->"+value.obs_datetime) == -1)
+              {
+                list.push(value.name+"->"+value.ValueConcept+"->"+value.obs_datetime);
+              }
+              $scope.modifiedData.set(value.encounterId,list);
+          }
+          else {
+            var newList = [];
+            newList.push(value.name+"->"+value.ValueConcept+"->"+value.obs_datetime);
+            $scope.modifiedData.set(value.encounterId,newList);
+          }
+        });
+
+        $scope.encounterArray = [];
+        angular.forEach($scope.modifiedData,function(value,key){
+          $scope.encounterArray.push(value);
+        })
+
         }));
+
         ngDialog.open({
           template: $scope.urlbase + '/customDisplayControl/views/' + 'customDialogDetails.html',
           className: 'ngdialog-theme-default',
@@ -265,9 +303,10 @@ angular.module('bahmni.common.displaycontrol.custom')
         });
       };
 
-      spinner.forPromise($q.all([getResponseFromQuery("bahmni.sqlGet.getBaseLineFormInformation")]).then(function (response) {
+      spinner.forPromise($q.all([getResponseFromQuery("bahmni.sqlGet.getLast10NCDFormInformation")]).then(function (response) {
         $scope.responseDataSet = response[0].data;
       }));
+
     };
 
     return {
