@@ -7287,8 +7287,8 @@ ORDER BY date_created DESC;"
       ELSE NULL
       END :: boolean AS \"Received Economic Strengthening Services\",
       CASE
-      WHEN referrals_form_received_educational_services_services = 'Yes' THEN 1
-      WHEN referrals_form_received_educational_services_services = 'No' THEN 0
+      WHEN referrals_form_received_educational_services = 'Yes' THEN 1
+      WHEN referrals_form_received_educational_services = 'No' THEN 0
       ELSE NULL
       END :: boolean AS \"Received Educational Services\",
       CASE
