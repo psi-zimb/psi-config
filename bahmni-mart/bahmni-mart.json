@@ -7600,7 +7600,7 @@ ORDER BY   date_created DESC"
   },
     {
       "name": "tb_program_events_table",
-      "sql": "select 'vatFxlZR2lj':: TEXT                                        AS program,,
+      "sql": "select 'vatFxlZR2lj':: TEXT                                        AS program,
       'LQl9pV09DR8':: TEXT                                           AS program_stage,
       CASE
       WHEN tb_history_form_template_site_type = 'Outreach' THEN

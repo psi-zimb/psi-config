@@ -600,14 +600,14 @@
         </sql>
     </changeSet>
 
-    <changeSet id="PSI-CONFIG-VM-202111272135" author="psi">
+    <changeSet id="PSI-CONFIG-VM-202111272346" author="psi">
         <comment>Adding Answers to "Referrals Form, Referred for Educational services"</comment>
         <sql>
             set @concept_id = 0;
             set @child1_concept_id = 0;
             set @child2_concept_id = 0;
 
-            select concept_id into @concept_id from concept_name where name = "Referrals Form, Referred for Educational services" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @concept_id from concept_name where name = "Referrals Form, Referred for Educational Services" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
             select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
             select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
@@ -1287,14 +1287,14 @@
         </sql>
     </changeSet>
 
-    <changeSet id="PSI-CONFIG-VM-202111272175" author="psi">
-        <comment>Adding Answers to "Referrals Form, Received Educational services Services"</comment>
+    <changeSet id="PSI-CONFIG-VM-202111272348" author="psi">
+        <comment>Adding Answers to "Referrals Form, Received Educational Services"</comment>
         <sql>
             set @concept_id = 0;
             set @child1_concept_id = 0;
             set @child2_concept_id = 0;
 
-            select concept_id into @concept_id from concept_name where name = "Referrals Form, Received Educational services Services" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @concept_id from concept_name where name = "Referrals Form, Received Educational Services" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
             select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
             select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
@@ -2156,7 +2156,7 @@
 
 
 
-    <changeSet id="PSI-CONFIG-VM-232411452192" author="psi">
+    <changeSet id="PSI-CONFIG-VM-202111272349" author="psi">
         <comment>Adding set members to Referrals Form</comment>
           <sql>
               set @concept_id = 0;
@@ -2374,7 +2374,7 @@
 
               select concept_id into @member38_concept_id from concept_name where name = "Referrals Form, Referred for Economic Strengthening" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-              select concept_id into @member39_concept_id from concept_name where name = "Referrals Form, Referred for Educational services" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member39_concept_id from concept_name where name = "Referrals Form, Referred for Educational Services" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
               select concept_id into @member40_concept_id from concept_name where name = "Referrals Form, Referred for Emergency Shelter" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
@@ -2454,7 +2454,7 @@
 
               select concept_id into @member78_concept_id from concept_name where name = "Referrals Form, Received Economic Strengthening Services" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
-              select concept_id into @member79_concept_id from concept_name where name = "Referrals Form, Received Educational services Services" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+              select concept_id into @member79_concept_id from concept_name where name = "Referrals Form, Received Educational Services" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
               select concept_id into @member80_concept_id from concept_name where name = "Referrals Form, Received Emergency Shelter Services" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 

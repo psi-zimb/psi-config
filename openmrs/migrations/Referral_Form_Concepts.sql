@@ -121,7 +121,7 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals F
 
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Psycho-social support Services','Received Psycho-social support Services','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Economic Strengthening Services','Received Economic Strengthening Services','Coded','Misc',false);
-call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Educational services Services','Received Educational services Services','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Educational Services','Received Educational Services','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Emergency Shelter Services','Received Emergency Shelter Services','Coded','Misc',false);
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Referrals Form, Received Nutrition Support Services','Received Nutrition Support Services','Coded','Misc',false);
 
