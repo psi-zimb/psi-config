@@ -20,7 +20,7 @@
                 <span class="obs_date">{{ responseDataSet[0].obs_datetime | date : 'dd MMM yyyy h:mm:ss a' }}</span>
             </span>
             <tr ng-repeat="ncdFormData in responseDataSet" ng-if="ncdFormData.encounterId == responseDataSet[0].encounterId && ncdFormData.ValueConcept.length!=0">
-                <td class="form-field" ng-show="togglencd" >{{ncdFormData.name}}</td>
+                <td class="form-field" ng-show="togglencd" >{{ncdFormData.name.split(',')[1]}}</td>
                 <td class="form-field" ng-show="togglencd" >{{ncdFormData.ValueConcept}}</td>            
             </tr>
             </tbody>

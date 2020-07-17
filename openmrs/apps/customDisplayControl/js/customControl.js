@@ -237,12 +237,19 @@ angular.module('bahmni.common.displaycontrol.custom')
         return $(elementId).is(":visible");
       }
 
+      $scope.compareValues = function(value1,value2) {
+        var result = value1 == value2;
+        return result;
+      }
+
       $scope.toggleShowNCD = function () {
         $scope.togglencd = !$scope.togglencd;
       };
+
       $scope.showNCD = function () {
         $scope.ncd = !$scope.ncd;
       };
+      
       $scope.contentUrl = appService.configBaseUrl() + "/customDisplayControl/views/ncdDisplay.html";
       $scope.urlbase = appService.configBaseUrl();
       var getResponseFromQuery = function (queryParameter) {
@@ -291,6 +298,7 @@ $scope.encounterArray = [];
 
         $scope.encounterArray = [];
         angular.forEach($scope.modifiedData,function(value,key){
+          if($scope.encounterArray.length<20)
           $scope.encounterArray.push(value);
         })
 
