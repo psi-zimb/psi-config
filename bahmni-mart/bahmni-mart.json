@@ -7601,7 +7601,7 @@ ORDER BY   date_created DESC"
     {
       "name": "tb_program_events_table",
       "sql": "select 'vatFxlZR2lj':: TEXT                                        AS program,
-      'LQl9pV09DR8':: TEXT                                           AS program_stage,
+      'LQl9pV09DR8':: TEXT                                        AS program_stage,
       CASE
       WHEN tb_history_form_template_site_type = 'Outreach' THEN
       concat('ZWNSC-OU-',
@@ -7621,29 +7621,25 @@ ORDER BY   date_created DESC"
       ORDER BY encounter_id DESC
       LIMIT 1))))
       END                                                     AS \"OrgUnit\",
-      tbform.obs_datetime                                         as \"event_date\",
+      tbform.obs_datetime                                         AS \"event_date\",
       'COMPLETED' :: TEXT                                         AS status,
       COALESCE(tbform.encounter_id)                               AS \"event_unique_id\",
-      ppv.patient_program_id                                      as \"patient_program_id\",
-      DATE(ppv.\"date_enrolled\")                                   AS \"enrollment_date\",
-      tbform.date_created                                         as \"date_created\",
+      ppv.patient_program_id                                      AS \"patient_program_id\",
+      DATE(ppv.\"date_enrolled\")                                 AS \"enrollment_date\",
+      tbform.date_created                                         AS \"date_created\",
       pi.\"Patient_Identifier\"                                     AS \"Patient_Identifier\",
-
       tb_history_form_template_facility                           AS \"[TB Screening and History] Facility\",
       tb_history_form_template_site_type                          AS \"[TB Screening and History] Site type\",
       tb_history_form_template_district                           AS \"[TB Screening and History] District\",
       tb_history_form_template_setting                            AS \"[TB Screening and History] Setting\",
       tb_history_form_template_type_of_visit                      AS \"[TB Screening and History] Type of Visit\",
       tb_history_form_template_type_of_client                     AS \"[TB Screening and History] Type of Client\",
-      tb_history_form_template_ipt_start_date                     AS \"[TB Screening and History] IPT
-      start date \",
+      tb_history_form_template_ipt_start_date                     AS \"[TB Screening and History] IPT start date \",
       tb_history_form_template_ipt_completion_date                AS \"[TB Screening and History] IPT completion date \",
       tb_history_form_template_reason_for_not_completing_ipt      AS \"[TB Screening and History] Reason for not completing IPT \",
       tb_history_form_template_art_status                         AS \"[TB Screening and History] ART Status \",
-      tb_history_form_template_where_is_client_getting_medication AS \"[TB Screening and History]
-      Where is client getting medication \",
-      tb_history_form_template_are_you_on_art                     AS \"[TB Screening and History] Are you
-      on ART?\",
+      tb_history_form_template_where_is_client_getting_medication AS \"[TB Screening and History] Where is client getting medication \",
+      tb_history_form_template_are_you_on_art                     AS \"[TB Screening and History] Are you on ART?\",
       tb_history_form_template_gene_xpert_results                 AS \"[TB Screening and History] Gene Xpert Results \",
       tb_history_form_template_screening_method_used_today        AS \"[TB Screening and History] Screening method used today \",
       tb_history_form_template_smear_microscopy_results           AS \"[TB Screening and History] Smear (Microscopy) results \",
@@ -7655,7 +7651,78 @@ ORDER BY   date_created DESC"
       tb_history_form_template_course_completion_outcomes         AS \"[TB Screening and History] Course completion outcomes \",
       tb_history_form_template_hiv_status                         AS \"[TB Screening and History] HIV Status \",
       tb_history_form_template_rif_resistance                     AS \"[TB Screening and History] RIF Resistance \",
-
+      tb_screening_type_of_cough                                  AS \"[TB Screening and History] Type of cough\",
+      tb_screening_cough_duration                                 AS \"[TB Screening and History] Duration of cough\",
+      tb_screening_location_of_chest_pains                        AS \"[TB Screening and History] Location of chest pains\",
+      tb_screening_when_does_the_chest_pain_occur                 AS \"[TB Screening and History] When does the chest pain occur\",
+      tb_screening_chest_pain_duration                            AS \"[TB Screening and History] Duration of chest pain\",
+      tb_screening_shortness_of_breath_duration                   AS \"[TB Screening and History] Duration of shortness of breath\",
+      tb_screening_when_does_the_shortness_of_breath_occur        AS \"[TB Screening and History] When the shortness of breath occur\",
+      tb_screening_duration_of_fever                              AS \"[TB Screening and History] Duration of fever\",
+      tb_screening_duration_of_night_sweats                       AS \"[TB Screening and History] Duration of night sweats\",
+      tb_screening_duration_of_weight_loss                        AS \"[TB Screening and History] Duration of weight loss\",
+      tb_history_how_was_the_current_tb_diagnosed                 AS \"[TB Screening and History] How was the current TB diagnosed\",
+      tb_history_location_of_current_tb                           AS \"[TB Screening and History] Location of current TB\",
+      tb_history_how_was_the_previous_tb_diagnosed                AS \"[TB Screening and History] How was the previous TB diagnosed\",
+      tb_history_location_of_previous_tb                          AS \"[TB Screening and History] Location of previous TB\",
+      tb_history_how_many_episodes_of_tb                          AS \"[TB Screening and History] How many episodes of TB\",
+      tb_history_when_were_you_treated_for_tb                     AS \"[TB Screening and History] When were you treated for TB\",
+      tb_history_where_were_you_last_treated                      AS \"[TB Screening and History] Where were you last treated\",
+      CASE
+      WHEN tb_history_are_you_currently_being_treated_for_tb = 'Yes' THEN 1
+      WHEN tb_history_are_you_currently_being_treated_for_tb = 'No' THEN 0
+      ELSE NULL
+      END :: boolean                                          AS \"[TB Screening and History] Are u currently being treated for TB\",
+      CASE
+      WHEN tb_screening_did_you_have_fever_recently = 'Yes' THEN 1
+      WHEN tb_screening_did_you_have_fever_recently = 'No' THEN 0
+      ELSE NULL
+      END :: boolean                                          AS \"[TB Screening and History] Did you have fever recently\",
+      CASE
+      WHEN tb_screening_did_you_have_night_sweats = 'Yes' THEN 1
+      WHEN tb_screening_did_you_have_night_sweats = 'No' THEN 0
+      ELSE NULL
+      END :: boolean                                          AS \"[TB Screening and History] Did you have night sweats\",
+      CASE
+      WHEN tb_screening_do_you_have_weight_loss = 'Yes' THEN 1
+      WHEN tb_screening_do_you_have_weight_loss = 'No' THEN 0
+      ELSE NULL
+      END :: boolean                                          AS \"[TB Screening and History] Do you have weight loss\",
+      CASE
+      WHEN tb_history_have_you_lived_with_someone_who_has_been_diagnos = 'Yes' THEN 1
+      WHEN tb_history_have_you_lived_with_someone_who_has_been_diagnos = 'No' THEN 0
+      ELSE NULL
+      END :: boolean                                          AS \"[TB Screening and History] Lived with someone with TB 3 months\",
+      CASE
+      WHEN tb_history_have_been_treated_for_tb_before = 'Yes' THEN 1
+      WHEN tb_history_have_been_treated_for_tb_before = 'No' THEN 0
+      ELSE NULL
+      END :: boolean                                          AS \"[TB Screening and History] Have been treated for TB before\",
+      CASE
+      WHEN tb_screening_have_you_had_a_cough = 'Yes' THEN 1
+      WHEN tb_screening_have_you_had_a_cough = 'No' THEN 0
+      ELSE NULL
+      END :: boolean                                          AS \"[TB Screening and History] Have you had a cough\",
+      CASE
+      WHEN tb_screening_have_you_had_chest_pain = 'Yes' THEN 1
+      WHEN tb_screening_have_you_had_chest_pain = 'No' THEN 0
+      ELSE NULL
+      END :: boolean                                          AS \"[TB Screening and History] Have you had chest pain\",
+      CASE
+      WHEN tb_screening_have_you_had_shortness_of_breath = 'Yes' THEN 1
+      WHEN tb_screening_have_you_had_shortness_of_breath = 'No' THEN 0
+      ELSE NULL
+      END :: boolean                                          AS \"[TB Screening and History] Have you had shortness of breath\",
+      CASE
+      WHEN tb_history_has_you_mother_or_caregiver_been_treated_for_tb_ = 'Yes' THEN 1
+      WHEN tb_history_has_you_mother_or_caregiver_been_treated_for_tb_ = 'No' THEN 0
+      ELSE NULL
+      END :: boolean                                          AS \"[TB Screening and History] Mother ever treated for TB\",
+      CASE
+      WHEN tb_history_was_treatment_interupted = 'Yes' THEN 1
+      WHEN tb_history_was_treatment_interupted = 'No' THEN 0
+      ELSE NULL
+      END :: boolean                                          AS \"[TB Screening and History] Was treatment interupted\",
       CASE
       WHEN tb_history_form_template_did_you_complete_ipt = 'Yes' THEN 1
       WHEN tb_history_form_template_did_you_complete_ipt = 'No' THEN 0
