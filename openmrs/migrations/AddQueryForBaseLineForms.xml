@@ -34,4 +34,34 @@
         <comment>Updating Global Property for getting information on last 20 NCD forms filled for a patient</comment>
         <sqlFile path="AddQueryForNCD20LatestVisits.sql"/>
     </changeSet>
+    <changeSet id="PSI-CONFIG-202010071940" author="Sanket">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from global_property where property='bahmni.sqlGet.getIPVLatestEncounter';
+            </sqlCheck>
+        </preConditions>
+        <comment>Creating Global Property for getting information on latest (encounter) IPV forms NCD forms</comment>
+        <sql>INSERT INTO global_property (property, property_value, uuid)
+            VALUES ('bahmni.sqlGet.getIPVLatestEncounter', '', uuid());
+        </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-202010071950" author="Sanket">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from global_property where property='bahmni.sqlGet.getIPV20LatestVisits';
+            </sqlCheck>
+        </preConditions>
+        <comment>Creating Global Property for getting information on latest 20 IPV forms filled for a patient</comment>
+        <sql>INSERT INTO global_property (property, property_value, uuid)
+            VALUES ('bahmni.sqlGet.getIPV20LatestVisits', '', uuid());
+        </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-202010071960" author="Sanket">
+        <comment>Updating Global Property for getting information on latest (encounter) IPV forms filled for a patient</comment>
+        <sqlFile path="AddQueryForIPVLatestEncounter.sql"/>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-202010071970" author="Sanket">
+        <comment>Updating Global Property for getting information on latest 20 IPV forms filled for a patient</comment>
+        <sqlFile path="AddQueryForIPV20LatestVisits.sql"/>
+    </changeSet>
 </databaseChangeLog>

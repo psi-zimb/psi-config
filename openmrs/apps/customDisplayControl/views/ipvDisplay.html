@@ -1,0 +1,30 @@
+<section class="block hierarchy">
+    <h2 ng-click="expandedViewDialog()"
+        ng-dialog-class="ngdialog-theme-default ng-dialog-all-details-page"
+        class="section-title has-link">
+        <span class="title-link"> {{::section | titleTranslate}} </span>
+        <i class="fa fa-external-link"></i>
+    </h2>
+    <div ng-if="latestEncounterData.length==0">
+        <p class="placeholder-text" ng-if="latestEncounterData.length==0">
+            {{'NO_DATA_FOR_IPV_FOUND' | translate}}
+        </p>
+    </div>
+    <ul class="laborder-sub-heading active" ng-if="latestEncounterData.length>0">
+        <p>{{diagnosis_date | bahmniDateTime}}</p>
+        <table >
+            <tbody>
+            <span class="tree-list-item row-click" ng-click="toggleShowIPV()">
+                <i class="fa fa-caret-down" ng-show="toggleipv"></i>
+                <i class="fa fa-caret-right" ng-show="!toggleipv"></i>
+                <span class="obs_date">{{ latestEncounterData[0].obs_datetime | date : 'dd MMM yyyy h:mm:ss a' }}</span>
+            </span>
+            <tr ng-repeat="ipvField in latestEncounterData" ng-if="ipvField.value!=''">
+                <td class="form-field" ng-show="toggleipv" >{{ipvField.name}}</td>
+                <td class="form-field" ng-show="toggleipv" >{{ipvField.value}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </ul>
+
+</section>

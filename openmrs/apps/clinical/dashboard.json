@@ -52,6 +52,17 @@
           "template": "<number-of-weeks-for-program section='config' patient='patient'></number-of-weeks-for-program>"
         }
       },
+      "ipv": {
+        "type": "custom",
+        "translationKey": "IPV_FORMS",
+        "displayOrder": 16,
+        "hideEmptyDisplayControl": true,
+        "config": {
+          "title": "IPV",
+          "translationKey": "IPV_FORMS",
+          "template": "<ipv-display section='config' patient='patient'></ipv-display>"
+        }
+      },
       "ncd": {
         "type": "custom",
         "translationKey": "NCD_FORMS",
