@@ -7629,38 +7629,38 @@ ORDER BY   date_created DESC"
       tbform.date_created                                         as \"date_created\",
       pi.\"Patient_Identifier\"                                     AS \"Patient_Identifier\",
 
-      tb_history_form_template_facility                           AS \"[TB Screening & History] Facility\",
-      tb_history_form_template_site_type                          AS \"[TB Screening & History] Site type\",
-      tb_history_form_template_district                           AS \"[TB Screening & History] District\",
-      tb_history_form_template_setting                            AS \"[TB Screening & History] Setting\",
-      tb_history_form_template_type_of_visit                      AS \"[TB Screening & History] Type of Visit\",
-      tb_history_form_template_type_of_client                     AS \"[TB Screening & History] Type of Client\",
-      tb_history_form_template_ipt_start_date                     AS \"[TB Screening & History] IPT
+      tb_history_form_template_facility                           AS \"[TB Screening and History] Facility\",
+      tb_history_form_template_site_type                          AS \"[TB Screening and History] Site type\",
+      tb_history_form_template_district                           AS \"[TB Screening and History] District\",
+      tb_history_form_template_setting                            AS \"[TB Screening and History] Setting\",
+      tb_history_form_template_type_of_visit                      AS \"[TB Screening and History] Type of Visit\",
+      tb_history_form_template_type_of_client                     AS \"[TB Screening and History] Type of Client\",
+      tb_history_form_template_ipt_start_date                     AS \"[TB Screening and History] IPT
       start date \",
-      tb_history_form_template_ipt_completion_date                AS \"[TB Screening & History] IPT completion date \",
-      tb_history_form_template_reason_for_not_completing_ipt      AS \"[TB Screening & History] Reason for not completing IPT \",
-      tb_history_form_template_art_status                         AS \"[TB Screening & History] ART Status \",
-      tb_history_form_template_where_is_client_getting_medication AS \"[TB Screening & History]
+      tb_history_form_template_ipt_completion_date                AS \"[TB Screening and History] IPT completion date \",
+      tb_history_form_template_reason_for_not_completing_ipt      AS \"[TB Screening and History] Reason for not completing IPT \",
+      tb_history_form_template_art_status                         AS \"[TB Screening and History] ART Status \",
+      tb_history_form_template_where_is_client_getting_medication AS \"[TB Screening and History]
       Where is client getting medication \",
-      tb_history_form_template_are_you_on_art                     AS \"[TB Screening & History] Are you
+      tb_history_form_template_are_you_on_art                     AS \"[TB Screening and History] Are you
       on ART?\",
-      tb_history_form_template_gene_xpert_results                 AS \"[TB Screening & History] Gene Xpert Results \",
-      tb_history_form_template_screening_method_used_today        AS \"[TB Screening & History] Screening method used today \",
-      tb_history_form_template_smear_microscopy_results           AS \"[TB Screening & History] Smear (Microscopy) results \",
-      tb_history_form_template_specify_method_used                AS \"[TB Screening & History] Specify method used \",
-      tb_history_form_template_xray_results                       AS \"[TB Screening & History] Xray results \",
-      tb_history_form_template_type_of_tb_case                    AS \"[TB Screening & History] Type of TB case \",
-      tb_history_form_template_date_of_last_tb_treatment          AS \"[TB Screening & History] Date of last TB treatment \",
-      tb_history_form_template_treatment_outcome                  AS \"[TB Screening & History] Treatment outcome \",
-      tb_history_form_template_course_completion_outcomes         AS \"[TB Screening & History] Course completion outcomes \",
-      tb_history_form_template_hiv_status                         AS \"[TB Screening & History] HIV Status \",
-      tb_history_form_template_rif_resistance                     AS \"[TB Screening & History] RIF Resistance \",
+      tb_history_form_template_gene_xpert_results                 AS \"[TB Screening and History] Gene Xpert Results \",
+      tb_history_form_template_screening_method_used_today        AS \"[TB Screening and History] Screening method used today \",
+      tb_history_form_template_smear_microscopy_results           AS \"[TB Screening and History] Smear (Microscopy) results \",
+      tb_history_form_template_specify_method_used                AS \"[TB Screening and History] Specify method used \",
+      tb_history_form_template_xray_results                       AS \"[TB Screening and History] Xray results \",
+      tb_history_form_template_type_of_tb_case                    AS \"[TB Screening and History] Type of TB case \",
+      tb_history_form_template_date_of_last_tb_treatment          AS \"[TB Screening and History] Date of last TB treatment \",
+      tb_history_form_template_treatment_outcome                  AS \"[TB Screening and History] Treatment outcome \",
+      tb_history_form_template_course_completion_outcomes         AS \"[TB Screening and History] Course completion outcomes \",
+      tb_history_form_template_hiv_status                         AS \"[TB Screening and History] HIV Status \",
+      tb_history_form_template_rif_resistance                     AS \"[TB Screening and History] RIF Resistance \",
 
       CASE
       WHEN tb_history_form_template_did_you_complete_ipt = 'Yes' THEN 1
       WHEN tb_history_form_template_did_you_complete_ipt = 'No' THEN 0
       ELSE NULL
-      END :: boolean                                          AS \"[TB Screening & History] Did you complete IPT?\"
+      END :: boolean                                          AS \"[TB Screening and History] Did you complete IPT?\"
 
       FROM tb_history_form_template tbform
       INNER JOIN patient_encounter_table pedd
