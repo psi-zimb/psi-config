@@ -1,0 +1,30 @@
+<section class="block section-grid">
+    <h2 class="section-title" style>{{::section | titleTranslate}}</h2>
+    <div class="concept-set-container">
+        <div ng-if="formsData.length==0">
+            <p class="placeholder-text">
+                {{'NO_DATA_FOR_IPV_FOUND' | translate}}
+            </p>
+        </div>
+        
+        <div ng-repeat="visitForm in formsData">
+                <ul class="laborder-sub-heading active" ng-if="formsData.length>0">
+                    <p>{{diagnosis_date | bahmniDateTime}}</p>
+                    <span class="tree-list-item row-click" ng-click="toggleDisplayExpandedView(visitForm[0].datetime)">
+                        <i class="fa fa-caret-down" ng-show="checkDisplayExpandedView(visitForm[0].datetime)"></i>
+                        <i class="fa fa-caret-right" ng-show="!checkDisplayExpandedView(visitForm[0].datetime)"></i>
+                        <span class="obs_date">{{ visitForm[0].datetime | date : 'dd MMM yyyy h:mm:ss a' }}</span>
+                    </span>
+                    <table ng-attr-id="{{visitForm[0].datetime}}" ng-show="$first">
+                        <tbody>
+                            <tr ng-repeat="formData in visitForm" ng-if="formsData.value!=''">
+                                <td class="form-field">{{formData.name}}</td>
+                                <td class="form-field">{{formData.value}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </ul>
+        </div>
+    </div>
+    <!--</div>-->
+</section>

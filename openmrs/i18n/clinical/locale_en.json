@@ -110,6 +110,7 @@
   "DASHBOARD_TITLE_ART_ACTIVE_DRUG_DETAILS":"All Active Drugs",
   "DASHBOARD_TITLE_INTERNAL_IPV_FORM_KEY": "IPV Froms",
   "NCD_FORMS": "NCD Forms",
-
-  "NO_DATA_FOR_NCD_FOUND": "No NCD data for this patient"
+  "IPV_FORMS" : "IPV Forms",
+  "NO_DATA_FOR_NCD_FOUND": "No NCD data for this patient",
+  "NO_DATA_FOR_IPV_FOUND": "No IPV data for this patient"
 }

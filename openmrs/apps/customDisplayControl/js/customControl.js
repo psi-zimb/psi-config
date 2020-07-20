@@ -273,8 +273,8 @@ angular.module('bahmni.common.displaycontrol.custom')
         return true;
       };
 
-$scope.modifiedData = new Map();
-$scope.encounterArray = [];
+      $scope.modifiedData = new Map();
+      $scope.encounterArray = [];
 
       $scope.normalDialog = function () {
         spinner.forPromise($q.all([getResponseFromQuery("bahmni.sqlGet.getBaseLineFormInformation")]).then(function (response) {
@@ -331,4 +331,79 @@ $scope.encounterArray = [];
       template: '<ng-include src="contentUrl"/>'
     }
   }
-  ]);
+  ])
+  .directive('ipvDisplay',['ngDialog','programService','appService','spinner','$q','$http', function (ngDialog, programService, appService, spinner, $q, $http) {
+    var controller = function($scope) {
+      $scope.toggleipv = true;
+      $scope.visitRecordsToBeDislayed = 20;
+      $scope.urlbase = appService.configBaseUrl();
+      $scope.contentUrl = appService.configBaseUrl() + "/customDisplayControl/views/ipvDisplay.html";
+      $scope.toggleShowIPV = () => {
+        $scope.toggleipv = !$scope.toggleipv;
+      };
+      $scope.checkDisplayExpandedView = (id) => {
+        return $('#'+id).is(":visible");
+      }
+      $scope.toggleDisplayExpandedView = (id)=>{
+        if($('#'+id).hasClass('ng-hide'))
+          $('#'+id).removeClass('ng-hide');
+        else
+          $('#'+id).toggle();
+      }
+      var getResponseFromQuery = function (queryParameter) {
+        var params = {
+          patientUuid: $scope.patient.uuid,
+          q: queryParameter,
+          v: "full"
+        };
+
+        return $http.get('/openmrs/ws/rest/v1/bahmnicore/sql', {
+          method: "GET",
+          params: params,
+          withCredentials: true
+        });
+      };
+
+      //fetch the data for basic view
+      spinner.forPromise($q.all([getResponseFromQuery("bahmni.sqlGet.getIPVLatestEncounter")]).then(response => {
+        $scope.latestEncounterData = response[0].data;
+      }));
+
+      $scope.formsData = []; // actual forms data for all visits
+      $scope.expandedViewDialog = () => {
+          spinner.forPromise($q.all([getResponseFromQuery("bahmni.sqlGet.getIPV20LatestVisits")]).then(function (response) {
+
+          let encounterFormMap = _.groupBy(response[0].data,'encounter_id');
+          //take first 20 visits only
+          let visits = Object.keys(encounterFormMap).
+                              sort((v1,v2) => {return v2-v1}).
+                              slice(0,20);
+          //set the data for visits in map
+          let list = [];
+          visits.forEach((visit) => {
+            list.push(encounterFormMap[visit]);
+          });
+          $scope.formsData = list;
+        }));
+
+        ngDialog.open({
+          template: $scope.urlbase + '/customDisplayControl/views/' + 'expandedViewDialogDetails.html',
+          className: 'ngdialog-theme-default',
+          scope: $scope
+        });
+      };
+    }
+    return {
+      restrict: 'E',
+      controller: controller,
+      scope: {
+        patient: "=",
+        config:"=",
+        section:"=",
+        enrollment:"=",
+        visitSummary:"=",
+        showDetailsButton:"=?"
+      },
+      template: '<ng-include src="contentUrl"/>'
+    }
+  }]);
