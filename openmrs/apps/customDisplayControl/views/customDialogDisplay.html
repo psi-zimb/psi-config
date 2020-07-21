@@ -1,0 +1,66 @@
+<div class="template-container">
+    <h6>All {{::section | titleTranslate}}s</h6>
+    <div class="concept-set-container">
+        <section class="block observation dashboard-section">
+            <section class="block">
+                <h2 class="section-title">{{::section | titleTranslate}}</h2>
+                <div class="concept-set-container-view">
+                    <section class="block hierarchy">
+                        <div ng-if="formsData.length==0">
+                            <div class="placeholder-text">
+                                <p>{{error_message | translate}}</p>
+                            </div>
+                        </div>
+                        <ul class="form-field" ng-if="formsData.length > 0">
+                            <li ng-repeat="visitForms in formsData">
+                                <span class="tree-list-item row-click toggle-container active" toggle="visitForms.toggleExpandedObs">
+                                    <i class="fa fa-caret-right"></i>
+                                    <i class="fa fa-caret-down"></i>
+                                    <span class="obs-date">{{ visitForms[0].datetime | bahmniDateTime }}</span>
+                                </span>
+                                <ul ng-show="visitForms.toggleExpandedObs" class="print-observations hidden-print">
+                                    <li class="has-child">
+                                        <div class="tree-list-item clearfix">
+                                            <span class="testUnderPanel left">
+                                                <label>{{::section | titleTranslate}}</label>
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <ul class="hidden-print" ng-repeat="obsData in visitForms" ng-if="obsData.value!=''">
+                                                <li class="has-child">
+                                                    <div class="tree-list-item clearfix">
+                                                    <span class="testUnderPanel left">
+                                                        <label>{{obsData.name}}</label>
+                                                    </span>
+                                                    <span class="value-text-only">
+                                                        <pre class="left">{{obsData.value}}</pre>
+                                                        <span class="label-add-on"></span>
+                                                    </span>
+                                                    <button  class="toggle fr" ng-hide="obsData.comments" toggle="observation.showDetails">
+                                                        <i class="fa fa-angle-down"></i>
+                                                        <i class="fa fa-angle-up"></i>
+                                                    </button>
+                                                    </div>
+                                                    <div class="notes inline-comments print-notes" ng-if="obsData.comments || observation.showDetails">
+                                                        <i class="fa fa-comments left" ng-show="obsData.comments"></i>
+                                                        <pre class="left" ng-show="obsData.comments">&nbsp;&nbsp;&nbsp;&nbsp;{{obsData.comments}}</pre>
+                                                        <div class="footer-note fr">
+                                                        <span class="provider">
+                                                            <span>{{obsData.username}}</span>
+                                                            <span>{{obsData.datetime | date:'h:mm a'}}</span>
+                                                        </span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
+            </section>
+        </section>
+    </div>
+</div>

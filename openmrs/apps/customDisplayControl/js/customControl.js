@@ -225,23 +225,8 @@ angular.module('bahmni.common.displaycontrol.custom')
   .directive('ncdDisplay', ['ngDialog', 'programService', 'appService', 'spinner', '$q', '$http', function (ngDialog, programService, appService, spinner, $q, $http) {
       var controller = function ($scope) {
         $scope.togglencd = true;
-        $scope.error_message = '';
-        $scope.checkDisplayExpandedView = (id) => {
-          return $('#'+id).is(":visible");
-        }
-
-        $scope.toggleDisplayExpandedView = (id)=>{
-          if($('#'+id).hasClass('ng-hide'))
-            $('#'+id).removeClass('ng-hide');
-          else
-            $('#'+id).toggle();
-        }
-
-        $scope.toggleShowNCD = function () {
-          $scope.togglencd = !$scope.togglencd;
-        };
-
-        $scope.contentUrl = appService.configBaseUrl() + "/customDisplayControl/views/ncdDisplay.html";
+        $scope.error_message='NO_DATA_FOR_NCD_FOUND';
+        $scope.contentUrl = appService.configBaseUrl() + "/customDisplayControl/views/customFormDisplay.html";
         $scope.urlbase = appService.configBaseUrl();
         var getResponseFromQuery = function (queryParameter) {
           var params = {
@@ -257,7 +242,6 @@ angular.module('bahmni.common.displaycontrol.custom')
           });
         };
 
-        $scope.formsData = []; // actual forms data for all visits
         $scope.getListFromResponse = function(response,limit) {
 
           let encounterFormMap = _.groupBy(response[0].data,'encounter_id');
@@ -272,28 +256,27 @@ angular.module('bahmni.common.displaycontrol.custom')
           });
           return list;
         }
-
         $scope.expandedViewDialog = function () {
           spinner.forPromise($q.all([getResponseFromQuery("bahmni.sqlGet.getLatestNCD20visits")]).then(function (response) {
 
             $scope.formsData = $scope.getListFromResponse(response,20);
-            if($scope.formsData.length == 0)
-              $scope.error_message='NO_DATA_FOR_NCD_FOUND';
+            if($scope.formsData.length > 0)
+              $scope.formsData[0]['toggleExpandedObs']=true;
           }));
 
           ngDialog.open({
-            template: $scope.urlbase + '/customDisplayControl/views/' + 'customDialogDetails.html',
-            className: 'ngdialog-theme-default',
+            template: $scope.urlbase + '/customDisplayControl/views/' + 'customDialogDisplay.html',
+            className: 'ngdialog-theme-default ng-dialog-all-details-page',
             scope: $scope
           });
         };
 
         spinner.forPromise($q.all([getResponseFromQuery("bahmni.sqlGet.getLatestNCDFormInformation")]).then(function (response) {
           $scope.latestEncounterData = $scope.getListFromResponse(response,1);
+          $scope.latestEncounterData['toggleObs']=true;
         }));
 
       };
-
     return {
       restrict: 'E',
       controller: controller,
@@ -315,19 +298,8 @@ angular.module('bahmni.common.displaycontrol.custom')
       $scope.error_message = 'NO_DATA_FOR_IPV_FOUND';
       $scope.visitRecordsToBeDislayed = 20;
       $scope.urlbase = appService.configBaseUrl();
-      $scope.contentUrl = appService.configBaseUrl() + "/customDisplayControl/views/ipvDisplay.html";
-      $scope.toggleShowIPV = () => {
-        $scope.toggleipv = !$scope.toggleipv;
-      };
-      $scope.checkDisplayExpandedView = (id) => {
-        return $('#'+id).is(":visible");
-      };
-      $scope.toggleDisplayExpandedView = (id)=>{
-        if($('#'+id).hasClass('ng-hide'))
-          $('#'+id).removeClass('ng-hide');
-        else
-          $('#'+id).toggle();
-      };
+      $scope.contentUrl = appService.configBaseUrl() + "/customDisplayControl/views/customFormDisplay.html";
+
       var getResponseFromQuery = (queryParameter) => {
         var params = {
           patientUuid: $scope.patient.uuid,
@@ -355,15 +327,15 @@ angular.module('bahmni.common.displaycontrol.custom')
         });
         return list;
       };
-
-      $scope.formsData = []; // actual forms data for all visits
       $scope.expandedViewDialog = () => {
         spinner.forPromise($q.all([getResponseFromQuery("bahmni.sqlGet.getIPV20LatestVisits")]).then(response => {
           $scope.formsData = $scope.getListFromResponse(response, $scope.visitRecordsToBeDislayed);
+          if($scope.formsData.length>0)
+            $scope.formsData[0]['toggleExpandedObs']=true;
         }));
         ngDialog.open({
-          template: $scope.urlbase + '/customDisplayControl/views/' + 'customDialogDetails.html',
-          className: 'ngdialog-theme-default',
+          template: $scope.urlbase + '/customDisplayControl/views/' + 'customDialogDisplay.html',
+          className: 'ngdialog-theme-default ng-dialog-all-details-page',
           scope: $scope
         });
       };
@@ -371,8 +343,8 @@ angular.module('bahmni.common.displaycontrol.custom')
       //fetch the data for basic view
       spinner.forPromise($q.all([getResponseFromQuery("bahmni.sqlGet.getIPVLatestEncounter")]).then(response => {
         $scope.latestEncounterData = $scope.getListFromResponse(response,1);
+        $scope.latestEncounterData['toggleObs']=true;
       }));
-
     };
     return {
       restrict: 'E',
