@@ -55,7 +55,7 @@
       "ncd": {
         "type": "custom",
         "translationKey": "NCD_FORMS",
-        "displayOrder": 21,
+        "displayOrder": 17,
         "hideEmptyDisplayControl": true,
         "config": {
           "title": "NCD",

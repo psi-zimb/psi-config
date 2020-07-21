@@ -1,30 +1,30 @@
 <section class="block hierarchy">
-    <h2 ng-click="normalDialog()"
+    <h2 ng-click="expandedViewDialog()"
         ng-dialog-class="ngdialog-theme-default ng-dialog-all-details-page"
         class="section-title has-link">
         <span class="title-link"> {{::section | titleTranslate}} </span>
         <i class="fa fa-external-link"></i>
     </h2>
-    <div ng-if="responseDataSet.length==0">
-        <p class="placeholder-text" ng-if="responseDataSet.length==0">
+    <div ng-if="latestEncounterData.length==0">
+        <p class="placeholder-text" ng-if="latestEncounterData.length==0">
             {{'NO_DATA_FOR_NCD_FOUND' | translate}}
         </p>
     </div>
-    <ul class="laborder-sub-heading active" ng-if="responseDataSet.length>0">
+    <ul class="laborder-sub-heading active" ng-if="latestEncounterData.length>0">
         <p>{{diagnosis_date | bahmniDateTime}}</p>
         <table >
             <tbody>
             <span class="tree-list-item row-click" ng-click="toggleShowNCD()">
                 <i class="fa fa-caret-down" ng-show="togglencd"></i>
                 <i class="fa fa-caret-right" ng-show="!togglencd"></i>
-                <span class="obs_date">{{ responseDataSet[0].obs_datetime | date : 'dd MMM yyyy h:mm:ss a' }}</span>
+                <span class="obs_date">{{ latestEncounterData[0][0].obs_datetime | bahmniDateTime }}</span>
             </span>
-            <tr ng-repeat="ncdFormData in responseDataSet" ng-if="ncdFormData.encounterId == responseDataSet[0].encounterId && ncdFormData.ValueConcept.length!=0">
-                <td class="form-field" ng-show="togglencd" >{{ncdFormData.name.split(',')[1]}}</td>
-                <td class="form-field" ng-show="togglencd" >{{ncdFormData.ValueConcept}}</td>            
+            <tr ng-repeat="ncdField in latestEncounterData[0]" ng-if="ncdField.value!=''">
+                <td class="form-field" ng-show="togglencd" >{{ncdField.name}}</td>
+                <td class="form-field" ng-show="togglencd" >{{ncdField.value}}</td>
             </tr>
             </tbody>
         </table>
     </ul>
 
-</section>
+</section> 
