@@ -307,23 +307,7 @@ angular.module('bahmni.common.displaycontrol.custom')
         },
         template: '<ng-include src="contentUrl"/>'
       }
-    }
-    ]);
-    return {
-      restrict: 'E',
-      controller: controller,
-      scope: {
-        patient: "=",
-        config: "=",
-        section: "=",
-        enrollment: "=",
-        visitSummary: "=",
-        showDetailsButton: "=?"
-      },
-      template: '<ng-include src="contentUrl"/>'
-    }
-  }
-  ])
+    }])
   .directive('ipvDisplay',['ngDialog','programService','appService','spinner','$q','$http', function (ngDialog, programService, appService, spinner, $q, $http) {
     var controller = function($scope) {
       $scope.toggleipv = true;
