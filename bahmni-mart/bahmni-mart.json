@@ -7668,6 +7668,12 @@ ORDER BY   date_created DESC"
       tb_history_how_many_episodes_of_tb                          AS \"[TB Screening and History] How many episodes of TB\",
       tb_history_when_were_you_treated_for_tb                     AS \"[TB Screening and History] When were you treated for TB\",
       tb_history_where_were_you_last_treated                      AS \"[TB Screening and History] Where were you last treated\",
+      tb_screening_if_other_location_specify_details              AS \"[TB Screening and History]If other specify chest pains location\",
+      tb_screening_if_other_specify_details                       AS \"[TB Screening and History]If other specify when chest pains\",
+      tb_history_if_other_for_current_tb_diagnosed_specify        AS \"[TB Screening and History]If other specify current TB diagnosed\",
+      tb_history_if_other_for_current_tb_location_specify         AS \"[TB Screening and History]If other specify current TB location\",
+      tb_history_if_other_for_previous_tb_diagnosed_specify       AS \"[TB Screening and History]If other specify before TB diagnosed\",
+      tb_history_if_other_for_previous_tb_location_specify        AS \"[TB Screening and History]If other specify before TB location\",
       CASE
       WHEN tb_history_are_you_currently_being_treated_for_tb = 'Yes' THEN 1
       WHEN tb_history_are_you_currently_being_treated_for_tb = 'No' THEN 0
