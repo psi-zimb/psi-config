@@ -370,7 +370,7 @@
       "ipv": {
         "type": "custom",
         "translationKey": "IPV_FORMS",
-        "displayOrder": 20,
+        "displayOrder": 16,
         "hideEmptyDisplayControl": true,
         "config": {
           "title": "IPV",
