@@ -212,7 +212,7 @@
     <include file ="Provider_HIV_test_counselling.xml"/>
     <include file ="Prep_Inital_Form.xml"/>
     <include file ="Prep_Continuation_Form.xml"/>
-    <include file ="Referral_Form.xml"/>
+<!--    <include file ="Referral_Form.xml"/>-->
     <include file ="NCD_Form.xml"/>
     <include file ="IPV_Form.xml"/>
     <include file ="ART_Inital_Form.xml"/>

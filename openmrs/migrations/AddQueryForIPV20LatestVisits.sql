@@ -1,10 +1,9 @@
 update global_property set property_value = ("
 select distinct encounter_id,
-                sort_weight,
                 concept_short_name as name,
                 name as value,
                 obs_datetime as datetime
-from (select distinct encounter.encounter_id,
+from (select encounter.encounter_id,
                       value_coded,
                       concept_short_name,
                       sort_weight,

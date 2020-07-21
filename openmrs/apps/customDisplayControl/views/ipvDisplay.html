@@ -11,17 +11,16 @@
         </p>
     </div>
     <ul class="laborder-sub-heading active" ng-if="latestEncounterData.length>0">
-        <p>{{diagnosis_date | bahmniDateTime}}</p>
         <table >
             <tbody>
             <span class="tree-list-item row-click" ng-click="toggleShowIPV()">
                 <i class="fa fa-caret-down" ng-show="toggleipv"></i>
                 <i class="fa fa-caret-right" ng-show="!toggleipv"></i>
-                <span class="obs_date">{{ latestEncounterData[0].obs_datetime | date : 'dd MMM yyyy h:mm:ss a' }}</span>
+                <span class="obs_date">{{ latestEncounterData[0][0].obs_datetime | bahmniDateTime }}</span>
             </span>
-            <tr ng-repeat="ipvField in latestEncounterData" ng-if="ipvField.value!=''">
-                <td class="form-field" ng-show="toggleipv" >{{ipvField.name}}</td>
-                <td class="form-field" ng-show="toggleipv" >{{ipvField.value}}</td>
+            <tr ng-repeat="ipvField in latestEncounterData[0]"  ng-show="toggleipv" ng-if="ipvField.value!=''">
+                <td class="form-field">{{ipvField.name}}</td>
+                <td class="form-field">{{ipvField.value}}</td>
             </tr>
             </tbody>
         </table>

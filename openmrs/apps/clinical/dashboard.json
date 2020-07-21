@@ -9,7 +9,9 @@
         "type": "patientInformation",
         "displayOrder": 0,
         "ageLimit": 100,
-        "patientAttributes": ["Population"],
+        "patientAttributes": [
+          "Population"
+        ],
         "addressFields": [
           "address1",
           "address2",
@@ -17,28 +19,26 @@
           "stateProvince"
         ]
       },
-      "activityStatus":{
-        "translationKey":"Activity Status",
-        "type":"vitals",
-        "isObservation":true,
-        "displayOrder":1,
-        "hideEmptyDisplayControl":true,
-        "dashboardConfig":{
-          "showDetailsButton":true,
-          "conceptNames":[
+      "activityStatus": {
+        "translationKey": "Activity Status",
+        "type": "vitals",
+        "isObservation": true,
+        "displayOrder": 1,
+        "hideEmptyDisplayControl": true,
+        "dashboardConfig": {
+          "showDetailsButton": true,
+          "conceptNames": [
             "Activity Status Form template"
           ],
           "scope": "latest"
         },
-        "expandedViewConfig":{
-          "conceptNames":[
+        "expandedViewConfig": {
+          "conceptNames": [
             "Activity Status Form template"
           ],
-          "numberOfVisits":20,
-          "showDetailsButton":true,
-          "pivotTable":{
-
-          }
+          "numberOfVisits": 16,
+          "showDetailsButton": true,
+          "pivotTable": {}
         }
       },
       "weeksInProgram": {
@@ -52,61 +52,34 @@
           "template": "<number-of-weeks-for-program section='config' patient='patient'></number-of-weeks-for-program>"
         }
       },
-      "ipv": {
-        "type": "custom",
-        "translationKey": "IPV_FORMS",
-        "displayOrder": 16,
-        "hideEmptyDisplayControl": true,
-        "config": {
-          "title": "IPV",
-          "translationKey": "IPV_FORMS",
-          "template": "<ipv-display section='config' patient='patient'></ipv-display>"
-        }
+      "diagnosis": {
+        "translationKey": "DASHBOARD_TITLE_DIAGNOSIS_KEY",
+        "type": "diagnosis",
+        "showCertainty": true,
+        "showOrder": true,
+        "showDetailsButton": true,
+        "displayOrder": 3
       },
-      "ncd": {
-        "type": "custom",
-        "translationKey": "NCD_FORMS",
-        "displayOrder": 17,
-        "hideEmptyDisplayControl": true,
-        "config": {
-          "title": "NCD",
-          "translationKey": "NCD_FORMS",
-          "template": "<ncd-display section='config' patient='patient'></ncd-display>"
+      "internalReferral": {
+        "translationKey": "DASHBOARD_TITLE_INTERNAL_REFERRAL_FORM_KEY",
+        "type": "vitals",
+        "isObservation": true,
+        "displayOrder": 4,
+        "dashboardConfig": {
+          "showDetailsButton": true,
+          "conceptNames": [
+            "Internal Referral"
+          ],
+          "scope": "latest"
         },
-        "pivotTable":{
-
+        "expandedViewConfig": {
+          "conceptNames": [
+            "Internal Referral"
+          ],
+          "numberOfVisits": 20,
+          "showDetailsButton": true,
+          "pivotTable": {}
         }
-      },
-      "diagnosis":{
-        "translationKey":"DASHBOARD_TITLE_DIAGNOSIS_KEY",
-        "type":"diagnosis",
-        "showCertainty":true,
-        "showOrder":true,
-        "showDetailsButton":true,
-        "displayOrder":3
-      },
-      "internalReferral":{
-                "translationKey":"DASHBOARD_TITLE_INTERNAL_REFERRAL_FORM_KEY",
-                "type":"vitals",
-                "isObservation":true,
-                "displayOrder":4,
-                "dashboardConfig":{
-                    "showDetailsButton":true,
-                    "conceptNames":[
-                        "Internal Referral"
-                    ],
-                    "scope": "latest"
-                },
-                "expandedViewConfig":{
-                    "conceptNames":[
-                        "Internal Referral"
-                    ],
-                    "numberOfVisits":20,
-                    "showDetailsButton":true,
-                    "pivotTable":{
-
-                    }
-                }
       },
       "labResults": {
         "translationKey": "DASHBOARD_TITLE_LAB_RESULTS_KEY",
@@ -130,59 +103,57 @@
         "type": "forms",
         "displayOrder": 9,
         "dashboardConfig": {
-        "maximumNoOfVisits": 10
+          "maximumNoOfVisits": 10
         },
-        "formGroup":[]
+        "formGroup": []
       },
-      "artObservation":{
-        "translationKey":"Art Observation",
-        "type":"vitals",
-        "isObservation":true,
-        "displayOrder":6,
-        "hideEmptyDisplayControl":true,
-        "dashboardConfig":{
-          "showDetailsButton":true,
-          "conceptNames":[
+      "artObservation": {
+        "translationKey": "Art Observation",
+        "type": "vitals",
+        "isObservation": true,
+        "displayOrder": 6,
+        "hideEmptyDisplayControl": true,
+        "dashboardConfig": {
+          "showDetailsButton": true,
+          "conceptNames": [
             "ART Observations Form Template"
           ],
           "scope": "latest"
         },
-        "expandedViewConfig":{
-          "conceptNames":[
+        "expandedViewConfig": {
+          "conceptNames": [
             "ART Observations Form Template"
           ],
-          "numberOfVisits":20,
-          "showDetailsButton":true,
-          "pivotTable":{
-
-          }
-        }
-      }, 
-      "treatments":{
-        "translationKey":"DASHBOARD_TITLE_TREATMENTS_KEY",
-        "type":"treatment",
-        "displayOrder":7,
-        "dashboardConfig":{
-          "showFlowSheet":true,
-          "showListView":true,
-          "showRoute":true,
-          "showDrugForm":true,
-          "numberOfVisits":4,
-          "showOtherActive":true,
-          "showDetailsButton":true
-        },
-        "expandedViewConfig":{
-          "translationKey":"DASHBOARD_TITLE_TREATMENTS_KEY",
-          "showFlowSheet":true,
-          "showListView":true,
-          "showRoute":true,
-          "showDrugForm":true,
-          "numberOfVisits":20,
-          "showOtherActive":true,
-          "showDetailsButton":true
+          "numberOfVisits": 20,
+          "showDetailsButton": true,
+          "pivotTable": {}
         }
       },
-"visits": {
+      "treatments": {
+        "translationKey": "DASHBOARD_TITLE_TREATMENTS_KEY",
+        "type": "treatment",
+        "displayOrder": 7,
+        "dashboardConfig": {
+          "showFlowSheet": true,
+          "showListView": true,
+          "showRoute": true,
+          "showDrugForm": true,
+          "numberOfVisits": 4,
+          "showOtherActive": true,
+          "showDetailsButton": true
+        },
+        "expandedViewConfig": {
+          "translationKey": "DASHBOARD_TITLE_TREATMENTS_KEY",
+          "showFlowSheet": true,
+          "showListView": true,
+          "showRoute": true,
+          "showDrugForm": true,
+          "numberOfVisits": 20,
+          "showOtherActive": true,
+          "showDetailsButton": true
+        }
+      },
+      "visits": {
         "translationKey": "DASHBOARD_TITLE_VISITS_KEY",
         "type": "visits",
         "displayOrder": 8,
@@ -190,8 +161,8 @@
           "title": null,
           "maximumNoOfVisits": 20,
           "groupByVisits": true
-    }
-  },
+        }
+      },
       "artprogram": {
         "translationKey": "ART Program",
         "type": "vitals",
@@ -364,178 +335,199 @@
           "pivotTable": {}
         }
       },
-      "AllActiveDrugs": { 
-        "translationKey": "DASHBOARD_TITLE_ART_ACTIVE_DRUG_DETAILS",  
+      "AllActiveDrugs": {
+        "translationKey": "DASHBOARD_TITLE_ART_ACTIVE_DRUG_DETAILS",
         "type": "drugOrderDetails",
-        "showDetailsButton": true,  
-        "displayOrder": 1,  
-        "dashboardConfig": {  
-          "showOnlyActive": true, 
-          "numberOfVisits":20}
-        },
-        
-        "vitalSigns":{
-        "translationKey":"Registration Vital Signs",
-        "type":"vitals",
-        "isObservation":true,
-        "displayOrder":15,
-        "hideEmptyDisplayControl":true,
-        "dashboardConfig":{
-          "showDetailsButton":true,
-          "conceptNames":[
+        "showDetailsButton": true,
+        "displayOrder": 1,
+        "dashboardConfig": {
+          "showOnlyActive": true,
+          "numberOfVisits": 20
+        }
+      },
+      "vitalSigns": {
+        "translationKey": "Registration Vital Signs",
+        "type": "vitals",
+        "isObservation": true,
+        "displayOrder": 15,
+        "hideEmptyDisplayControl": true,
+        "dashboardConfig": {
+          "showDetailsButton": true,
+          "conceptNames": [
             "Reg Page, Vital Signs"
           ],
           "scope": "latest"
         },
-        "expandedViewConfig":{
-          "conceptNames":[
+        "expandedViewConfig": {
+          "conceptNames": [
             "Reg Page, Vital Signs"
           ],
-          "numberOfVisits":20,
-          "showDetailsButton":true,
-          "pivotTable":{
-
-          }
+          "numberOfVisits": 20,
+          "showDetailsButton": true,
+          "pivotTable": {}
         }
+      },
+      "ipv": {
+        "type": "custom",
+        "translationKey": "IPV_FORMS",
+        "displayOrder": 20,
+        "hideEmptyDisplayControl": true,
+        "config": {
+          "title": "IPV",
+          "translationKey": "IPV_FORMS",
+          "template": "<ipv-display section='config' patient='patient'></ipv-display>"
+        }
+      },
+      "ncd": {
+        "type": "custom",
+        "translationKey": "NCD_FORMS",
+        "displayOrder": 17,
+        "hideEmptyDisplayControl": true,
+        "config": {
+          "title": "NCD",
+          "translationKey": "NCD_FORMS",
+          "template": "<ncd-display section='config' patient='patient'></ncd-display>"
+        },
+        "pivotTable": {}
       }
     }
-},
-"trends": {
+  },
+  "trends": {
     "translationKey": "Trends",
     "maxRecentlyViewedPatients": 10,
     "sections": {
-        "cd4Graph":{
-                "type":"observationGraph",
-                "title":"CD4 Graph",
-                "config":{
-                  "yAxisConcepts":[
-                    "CD4Count"
-                  ],
-                  "xAxisConcept":"observationDateTime",
-                  "numberOfVisits":10
-                },
-                "displayOrder":0
-              },
-        "HIVRNAPCRGraph":{
-                "type":"observationGraph",
-                "title":"HIV RNA PCR Graph",
-                "config":{
-                  "yAxisConcepts":[
-                    "HIV RNA PCR"
-                  ],
-                  "xAxisConcept":"observationDateTime",
-                  "numberOfVisits":10
-                },
-                "displayOrder":1
-              },
-        "AltGraph":{
-                "type":"observationGraph",
-                "title":"Alt Graph",
-                "config":{
-                  "yAxisConcepts":[
-                    "Alt"
-                  ],
-                  "xAxisConcept":"observationDateTime",
-                  "numberOfVisits":10
-                },
-                "displayOrder":2
-              },
-        "creatinineGraph":{
-                "type":"observationGraph",
-                "title":"Creatinine Graph",
-                "config":{
-                  "yAxisConcepts":[
-                    "Creatinine (Chem)"
-                  ],
-                  "xAxisConcept":"observationDateTime",
-                  "numberOfVisits":10
-                },
-                "displayOrder":3
-              },
-        "creatinineclearanceGraph":{
-                "type":"observationGraph",
-                "title":"Creatinine Clearance Graph",
-                "config":{
-                  "yAxisConcepts":[
-                    "Creatinine Clearance (Chem)"
-                  ],
-                  "xAxisConcept":"observationDateTime",
-                  "numberOfVisits":10
-                },
-                "displayOrder":4
-              },
-        "WBCGraph":{
-                "type":"observationGraph",
-                "title":"WBC Graph",
-                "config":{
-                  "yAxisConcepts":[
-                    "WBC (FBC)"
-                  ],
-                  "xAxisConcept":"observationDateTime",
-                  "numberOfVisits":10
-                },
-                "displayOrder":5
-              },
-        "HGBGraph":{
-                "type":"observationGraph",
-                "title":" HGB Graph",
-                "config":{
-                  "yAxisConcepts":[
-                    "HGB (FBC)"
-                  ],
-                  "xAxisConcept":"observationDateTime",
-                  "numberOfVisits":10
-                },
-                "displayOrder":6
-              },
-        "MCVGraph":{
-                "type":"observationGraph",
-                "title":"MCV Graph",
-                "config":{
-                  "yAxisConcepts":[
-                    "MCV (FBC)"
-                  ],
-                  "xAxisConcept":"observationDateTime",
-                  "numberOfVisits":10
-                },
-                "displayOrder":7
-              },
-        "MCHGraph":{
-                "type":"observationGraph",
-                "title":"MCH Graph",
-                "config":{
-                  "yAxisConcepts":[
-                    "MCH (FBC)"
-                  ],
-                  "xAxisConcept":"observationDateTime",
-                  "numberOfVisits":10
-                },
-                "displayOrder":8
-              },
-        "MCHCGraph":{
-                "type":"observationGraph",
-                "title":"MCHC Graph",
-                "config":{
-                  "yAxisConcepts":[
-                    "MCHC (FBC)"
-                  ],
-                  "xAxisConcept":"observationDateTime",
-                  "numberOfVisits":10
-                },
-                "displayOrder":9
-              },
-        "PLTGraph":{
-                "type":"observationGraph",
-                "title":"PLT Graph",
-                "config":{
-                  "yAxisConcepts":[
-                    "PLT (FBC)"
-                  ],
-                  "xAxisConcept":"observationDateTime",
-                  "numberOfVisits":10
-                },
-                "displayOrder":10
-              }
+      "cd4Graph": {
+        "type": "observationGraph",
+        "title": "CD4 Graph",
+        "config": {
+          "yAxisConcepts": [
+            "CD4Count"
+          ],
+          "xAxisConcept": "observationDateTime",
+          "numberOfVisits": 10
+        },
+        "displayOrder": 0
+      },
+      "HIVRNAPCRGraph": {
+        "type": "observationGraph",
+        "title": "HIV RNA PCR Graph",
+        "config": {
+          "yAxisConcepts": [
+            "HIV RNA PCR"
+          ],
+          "xAxisConcept": "observationDateTime",
+          "numberOfVisits": 10
+        },
+        "displayOrder": 1
+      },
+      "AltGraph": {
+        "type": "observationGraph",
+        "title": "Alt Graph",
+        "config": {
+          "yAxisConcepts": [
+            "Alt"
+          ],
+          "xAxisConcept": "observationDateTime",
+          "numberOfVisits": 10
+        },
+        "displayOrder": 2
+      },
+      "creatinineGraph": {
+        "type": "observationGraph",
+        "title": "Creatinine Graph",
+        "config": {
+          "yAxisConcepts": [
+            "Creatinine (Chem)"
+          ],
+          "xAxisConcept": "observationDateTime",
+          "numberOfVisits": 10
+        },
+        "displayOrder": 3
+      },
+      "creatinineclearanceGraph": {
+        "type": "observationGraph",
+        "title": "Creatinine Clearance Graph",
+        "config": {
+          "yAxisConcepts": [
+            "Creatinine Clearance (Chem)"
+          ],
+          "xAxisConcept": "observationDateTime",
+          "numberOfVisits": 10
+        },
+        "displayOrder": 4
+      },
+      "WBCGraph": {
+        "type": "observationGraph",
+        "title": "WBC Graph",
+        "config": {
+          "yAxisConcepts": [
+            "WBC (FBC)"
+          ],
+          "xAxisConcept": "observationDateTime",
+          "numberOfVisits": 10
+        },
+        "displayOrder": 5
+      },
+      "HGBGraph": {
+        "type": "observationGraph",
+        "title": " HGB Graph",
+        "config": {
+          "yAxisConcepts": [
+            "HGB (FBC)"
+          ],
+          "xAxisConcept": "observationDateTime",
+          "numberOfVisits": 10
+        },
+        "displayOrder": 6
+      },
+      "MCVGraph": {
+        "type": "observationGraph",
+        "title": "MCV Graph",
+        "config": {
+          "yAxisConcepts": [
+            "MCV (FBC)"
+          ],
+          "xAxisConcept": "observationDateTime",
+          "numberOfVisits": 10
+        },
+        "displayOrder": 7
+      },
+      "MCHGraph": {
+        "type": "observationGraph",
+        "title": "MCH Graph",
+        "config": {
+          "yAxisConcepts": [
+            "MCH (FBC)"
+          ],
+          "xAxisConcept": "observationDateTime",
+          "numberOfVisits": 10
+        },
+        "displayOrder": 8
+      },
+      "MCHCGraph": {
+        "type": "observationGraph",
+        "title": "MCHC Graph",
+        "config": {
+          "yAxisConcepts": [
+            "MCHC (FBC)"
+          ],
+          "xAxisConcept": "observationDateTime",
+          "numberOfVisits": 10
+        },
+        "displayOrder": 9
+      },
+      "PLTGraph": {
+        "type": "observationGraph",
+        "title": "PLT Graph",
+        "config": {
+          "yAxisConcepts": [
+            "PLT (FBC)"
+          ],
+          "xAxisConcept": "observationDateTime",
+          "numberOfVisits": 10
+        },
+        "displayOrder": 10
+      }
     }
-}
+  }
 }
