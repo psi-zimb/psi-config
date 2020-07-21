@@ -1,4 +1,5 @@
-<section class="block section-grid">
+<section class="observationControlSection">
+    <h6>All NCD Forms</h6>
     <h2 class="section-title" style>{{::section | titleTranslate}}</h2>
     <div class="concept-set-container">
         <div ng-if="formsData.length==0">
@@ -16,9 +17,16 @@
                     </span>
                 <table ng-attr-id="{{visitForm[0].datetime}}" ng-show="$first">
                     <tbody>
-                    <tr ng-repeat="formData in visitForm" ng-if="formsData.value!=''">
+                    <tr ng-repeat-start="formData in visitForm" ng-if="formsData.value!=''">
                         <td class="form-field">{{formData.name}}</td>
                         <td class="form-field">{{formData.value}}</td>
+                    </tr>
+                    <tr border="0" ng-show="togglencd" ng-if="formData.comments != ''" class="notes inline-comments print-notes" ng-repeat-end>
+                        <td>
+                             <i class="fa fa-comments left"></i>
+                            <pre class="left">{{formData.comments}}</pre>
+                        </td>
+                        <td class="provider">{{formData.username}} {{formData.datetime | date:'h:mm a'}}</td>
                     </tr>
                     </tbody>
                 </table>
