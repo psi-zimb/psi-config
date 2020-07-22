@@ -107,5 +107,10 @@
 
   "NUMBER_OF_WEEKS_IN_ART_PROGRAM": "Weeks in ART Program",
   "NOT_ENROLLED_IN_ART_PROGRAM": "Not enrolled in the ART Program",
-  "DASHBOARD_TITLE_ART_ACTIVE_DRUG_DETAILS":"All Active Drugs"
+  "DASHBOARD_TITLE_ART_ACTIVE_DRUG_DETAILS":"All Active Drugs",
+  "DASHBOARD_TITLE_INTERNAL_IPV_FORM_KEY": "IPV Froms",
+  "NCD_FORMS": "NCD Form",
+  "IPV_FORMS" : "IPV Form",
+  "NO_DATA_FOR_NCD_FOUND": "No NCD Form for this patient",
+  "NO_DATA_FOR_IPV_FOUND": "No IPV Form for this patient"
 }

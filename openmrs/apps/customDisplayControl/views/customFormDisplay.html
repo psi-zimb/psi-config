@@ -1,0 +1,64 @@
+<section class="block">
+    <h2 ng-click="expandedViewDialog()"
+        ng-dialog-class="ngdialog-theme-default ng-dialog-all-details-page"
+        class="section-title has-link">
+        <span class="title-link"> {{::section | titleTranslate}} </span>
+        <i class="fa fa-external-link"></i>
+    </h2>
+    <div ng-if="latestEncounterData.length==0">
+        <p class="placeholder-text" ng-if="latestEncounterData.length==0">{{error_message | translate}}</p>
+    </div>
+    <div class="concept-set-container-view">
+        <section class="block hierarchy">
+            <ul class="form-field" ng-if="latestEncounterData.length > 0">
+                <li ng-repeat="obsGroup in ::latestEncounterData">
+                    <span class="tree-list-item row-click toggle-container" toggle="latestEncounterData.toggleObs">
+                        <i class="fa fa-caret-right"></i>
+                        <i class="fa fa-caret-down"></i>
+                        <span class="obs-date">
+                            {{::obsGroup[0].obs_datetime | bahmniDateTime}}
+                        </span>
+                    </span>
+                    <ul ng-show="latestEncounterData.toggleObs">
+                        <li class="has-child">
+                            <div class="tree-list-item clearfix">
+                                <span class="testUnderPanel left">
+                                    <label>{{::section | titleTranslate}}</label>
+                                </span>
+                            </div>
+                            <div>
+                                <ul class="hidden-print" ng-repeat="obsData in latestEncounterData[0]" ng-if="obsData.value!=''">
+                                    <li class="has-child">
+                                        <div class="tree-list-item clearfix">
+                                            <span class="testUnderPanel left">
+                                                <label>{{obsData.name}}</label>
+                                            </span>
+                                            <span class="value-text-only">
+                                                <pre class="left">{{obsData.value}}</pre>
+                                                <span class="label-add-on"></span>
+                                            </span>
+                                            <button  class="toggle fr" ng-hide="obsData.comments" toggle="observation.showDetails">
+                                                <i class="fa fa-angle-down"></i>
+                                                <i class="fa fa-angle-up"></i>
+                                            </button>
+                                        </div>
+                                        <div class="notes inline-comments print-notes" ng-if="obsData.comments || observation.showDetails">
+                                            <i class="fa fa-comments left" ng-show="obsData.comments"></i>
+                                            <pre class="left" ng-show="obsData.comments">&nbsp;&nbsp;{{obsData.comments}}</pre>
+                                            <div class="footer-note fr">
+                                            <span class="provider">
+                                                <span>{{obsData.username}}</span>
+                                                <span>{{obsData.obs_datetime | date:'h:mm a'}}</span>
+                                            </span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+    </div>
+</section>
