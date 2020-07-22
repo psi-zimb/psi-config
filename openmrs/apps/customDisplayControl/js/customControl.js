@@ -273,7 +273,7 @@ angular.module('bahmni.common.displaycontrol.custom')
 
         spinner.forPromise($q.all([getResponseFromQuery("bahmni.sqlGet.getLatestNCDFormInformation")]).then(function (response) {
           $scope.latestEncounterData = $scope.getListFromResponse(response,1);
-          $scope.latestEncounterData['toggleObs']=true;
+          $scope.latestEncounterData[0]['toggleObs']=true;
         }));
 
       };
@@ -343,7 +343,7 @@ angular.module('bahmni.common.displaycontrol.custom')
       //fetch the data for basic view
       spinner.forPromise($q.all([getResponseFromQuery("bahmni.sqlGet.getIPVLatestEncounter")]).then(response => {
         $scope.latestEncounterData = $scope.getListFromResponse(response,1);
-        $scope.latestEncounterData['toggleObs']=true;
+        $scope.latestEncounterData[0]['toggleObs']=true;
       }));
     };
     return {
@@ -364,7 +364,7 @@ angular.module('bahmni.common.displaycontrol.custom')
   var controller = function($scope) {
     $scope.toggleipv = true;
     $scope.error_message = 'NO_DATA_FOR_REFERRALS_FOUND';
-    $scope.visitRecordsToBeDislayed = 1;
+    $scope.visitRecordsToBeDislayed = 20;
     $scope.urlbase = appService.configBaseUrl();
     $scope.contentUrl = appService.configBaseUrl() + "/customDisplayControl/views/customFormDisplay.html";
 
@@ -381,23 +381,31 @@ angular.module('bahmni.common.displaycontrol.custom')
         withCredentials: true
       });
     };
-    $scope.getListFromResponse = (response,limit) => {
 
-      let encounterFormMap = _.groupBy(response[0].data,'encounter_id');
-      //take first 20 visits only
-      let visits = Object.keys(encounterFormMap).
+    $scope.getListFromResponseWithVisitid = (response,limit) => {
+
+      let visitFormMap = _.groupBy(response[0].data,'visit_id');
+      //take first 2 visits only
+      let visits = Object.keys(visitFormMap).
       sort((v1,v2) => {return v2-v1}).
       slice(0,limit);
       //set the data for visits in map
       let list = [];
       visits.forEach((visit) => {
-        list.push(encounterFormMap[visit]);
+        let encounterFormdata = _.groupBy(visitFormMap[visit],'encounter_id');
+        let encounters = Object.keys(encounterFormdata).
+        sort((v1,v2) => {return v2-v1})
+        encounters.forEach((encounter) => {
+          list.push(encounterFormdata[encounter]);
+        });
+        //list.push(encounterFormMap[visit]);
       });
       return list;
     };
+
     $scope.expandedViewDialog = () => {
       spinner.forPromise($q.all([getResponseFromQuery("bahmni.sqlGet.getReferrals20LatestVisits")]).then(response => {
-        $scope.formsData = $scope.getListFromResponse(response, $scope.visitRecordsToBeDislayed);
+        $scope.formsData = $scope.getListFromResponseWithVisitid(response, $scope.visitRecordsToBeDislayed);
         if($scope.formsData.length>0)
           $scope.formsData[0]['toggleExpandedObs']=true;
       }));
@@ -410,8 +418,8 @@ angular.module('bahmni.common.displaycontrol.custom')
 
     //fetch the data for basic view
     spinner.forPromise($q.all([getResponseFromQuery("bahmni.sqlGet.getReferralsLatestEncounter")]).then(response => {
-      $scope.latestEncounterData = $scope.getListFromResponse(response,1);
-      $scope.latestEncounterData['toggleObs']=true;
+      $scope.latestEncounterData = $scope.getListFromResponseWithVisitid(response,2);
+      $scope.latestEncounterData[0]['toggleObs']=true;
     }));
   };
   return {

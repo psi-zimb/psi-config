@@ -12,7 +12,8 @@ update global_property set property_value = (
        sort_weight,
        obs_datetime,
        observations.comments,
-       username
+       username,
+       visit_id
 from obs observations
          inner join concept_view concept
          inner join concept_set conceptSet
@@ -29,6 +30,3 @@ where   observations.person_id= (select person_id from person where person.uuid=
         concept.concept_full_name like "%Referrals Form%" and concept.retired=0
 order by encounter_id desc ,sort_weight asc'
 ) where openmrs.global_property.property='bahmni.sqlGet.getReferralsLatestEncounter';
-
-select *
-from liquibasechangelog where  ID='PSI-CONFIG-202010071962' order by DATEEXECUTED desc;

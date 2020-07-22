@@ -12,7 +12,8 @@ select encounter.encounter_id,
              sort_weight,
              obs_datetime as datetime,
              observations.comments,
-             username
+             username,
+             visit_id
       from obs observations
                inner join concept_view concept
                inner join concept_set conceptSet
