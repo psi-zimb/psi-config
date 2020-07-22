@@ -389,6 +389,18 @@
           "template": "<ncd-display section='config' patient='patient'></ncd-display>"
         },
         "pivotTable": {}
+      },
+      "referrals": {
+        "type": "custom",
+        "translationKey": "REFERRALS_FORMS",
+        "displayOrder": 18,
+        "hideEmptyDisplayControl": true,
+        "config": {
+          "title": "Referrals",
+          "translationKey": "REFERRALS_FORMS",
+          "template": "<referrals-display section='config' patient='patient'></referrals-display>"
+        },
+        "pivotTable": {}
       }
     }
   },

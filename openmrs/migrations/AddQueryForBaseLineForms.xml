@@ -4,7 +4,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <changeSet id="PSI-CONFIG-202003071730" author="Gopi">
+    <changeSet id="PSI-CONFIG-20200307171" author="Gopi">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
                 select count(*) from global_property where property='bahmni.sqlGet.getLatestNCD20visits';
@@ -15,7 +15,7 @@
             VALUES ('bahmni.sqlGet.getLatestNCD20visits', '', uuid());
         </sql>
     </changeSet>
-    <changeSet id="PSI-CONFIG-202003071530" author="Gopi">
+    <changeSet id="PSI-CONFIG-20200307151" author="Gopi">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
                 select count(*) from global_property where property='bahmni.sqlGet.getLatestNCDFormInformation';
@@ -26,15 +26,15 @@
             VALUES ('bahmni.sqlGet.getLatestNCDFormInformation', '', uuid());
         </sql>
     </changeSet>
-    <changeSet id="PSI-CONFIG-202003071930" author="Gopi">
+    <changeSet id="PSI-CONFIG-20200307191" author="Gopi">
         <comment>Updating Global Property for getting information on latest NCD forms filled for a patient</comment>
         <sqlFile path="AddQueryForNCDLatestEncounter.sql"/>
     </changeSet>
-    <changeSet id="PSI-CONFIG-202010071930" author="Gopi">
+    <changeSet id="PSI-CONFIG-20201007191" author="Gopi">
         <comment>Updating Global Property for getting information on last 20 NCD forms filled for a patient</comment>
         <sqlFile path="AddQueryForNCD20LatestVisits.sql"/>
     </changeSet>
-    <changeSet id="PSI-CONFIG-202010071941" author="Sanket">
+    <changeSet id="PSI-CONFIG-202010071942" author="Sanket">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
                 select count(*) from global_property where property='bahmni.sqlGet.getIPVLatestEncounter';
@@ -45,7 +45,7 @@
             VALUES ('bahmni.sqlGet.getIPVLatestEncounter', '', uuid());
         </sql>
     </changeSet>
-    <changeSet id="PSI-CONFIG-202010071951" author="Sanket">
+    <changeSet id="PSI-CONFIG-202010071952" author="Sanket">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
                 select count(*) from global_property where property='bahmni.sqlGet.getIPV20LatestVisits';
@@ -56,12 +56,43 @@
             VALUES ('bahmni.sqlGet.getIPV20LatestVisits', '', uuid());
         </sql>
     </changeSet>
-    <changeSet id="PSI-CONFIG-202010071961" author="Sanket">
+    <changeSet id="PSI-CONFIG-202010071962" author="Sanket">
         <comment>Updating Global Property for getting information on latest (encounter) IPV forms filled for a patient</comment>
         <sqlFile path="AddQueryForIPVLatestEncounter.sql"/>
     </changeSet>
-    <changeSet id="PSI-CONFIG-202010071971" author="Sanket">
+    <changeSet id="PSI-CONFIG-202010071972" author="Sanket">
         <comment>Updating Global Property for getting information on latest 20 IPV forms filled for a patient</comment>
         <sqlFile path="AddQueryForIPV20LatestVisits.sql"/>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-202010071942" author="Gopi">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from global_property where property='bahmni.sqlGet.getReferralsLatestEncounter';
+            </sqlCheck>
+        </preConditions>
+        <comment>Creating Global Property for getting information on latest (encounter) Referrals forms NCD forms</comment>
+        <sql>INSERT INTO global_property (property, property_value, uuid)
+            VALUES ('bahmni.sqlGet.getReferralsLatestEncounter', '', uuid());
+        </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-202010071952" author="Sanket">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from global_property where property='bahmni.sqlGet.getReferrals20LatestVisits';
+            </sqlCheck>
+        </preConditions>
+        <comment>Creating Global Property for getting information on latest 20 Referrals forms filled for a patient</comment>
+        <sql>INSERT INTO global_property (property, property_value, uuid)
+            VALUES ('bahmni.sqlGet.getReferrals20LatestVisits', '', uuid());
+        </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-202010071962" author="Gopi">
+        <comment>Updating Global Property for getting information on latest (encounter) Referrals forms filled for a patient</comment>
+        <sqlFile path="AddQueryForReferralsLatestEncounter.sql"/>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-202010071972" author="Sanket">
+        <comment>Updating Global Property for getting information on latest 20 Referrals forms filled for a patient</comment>
+        <sqlFile path="AddQueryForReferrals20LatestVisits.sql"/>
     </changeSet>
 </databaseChangeLog>
