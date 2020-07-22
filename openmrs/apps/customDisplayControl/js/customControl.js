@@ -273,7 +273,8 @@ angular.module('bahmni.common.displaycontrol.custom')
 
         spinner.forPromise($q.all([getResponseFromQuery("bahmni.sqlGet.getLatestNCDFormInformation")]).then(function (response) {
           $scope.latestEncounterData = $scope.getListFromResponse(response,1);
-          $scope.latestEncounterData[0]['toggleObs']=true;
+         if($scope.latestEncounterData.length!=0)
+            $scope.latestEncounterData[0]['toggleObs']=true;
         }));
 
       };
@@ -343,7 +344,8 @@ angular.module('bahmni.common.displaycontrol.custom')
       //fetch the data for basic view
       spinner.forPromise($q.all([getResponseFromQuery("bahmni.sqlGet.getIPVLatestEncounter")]).then(response => {
         $scope.latestEncounterData = $scope.getListFromResponse(response,1);
-        $scope.latestEncounterData[0]['toggleObs']=true;
+        if($scope.latestEncounterData.length!=0)
+          $scope.latestEncounterData[0]['toggleObs']=true;
       }));
     };
     return {
@@ -419,7 +421,8 @@ angular.module('bahmni.common.displaycontrol.custom')
     //fetch the data for basic view
     spinner.forPromise($q.all([getResponseFromQuery("bahmni.sqlGet.getReferralsLatestEncounter")]).then(response => {
       $scope.latestEncounterData = $scope.getListFromResponseWithVisitid(response,2);
-      $scope.latestEncounterData[0]['toggleObs']=true;
+      if($scope.latestEncounterData.length!=0)
+          $scope.latestEncounterData[0]['toggleObs']=true;
     }));
   };
   return {
