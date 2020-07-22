@@ -76,7 +76,7 @@
             VALUES ('bahmni.sqlGet.getReferralsLatestEncounter', '', uuid());
         </sql>
     </changeSet>
-    <changeSet id="PSI-CONFIG-202010071952" author="Sanket">
+    <changeSet id="PSI-CONFIG-202010071992" author="Sanket">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
                 select count(*) from global_property where property='bahmni.sqlGet.getReferrals20LatestVisits';
@@ -91,7 +91,7 @@
         <comment>Updating Global Property for getting information on latest (encounter) Referrals forms filled for a patient</comment>
         <sqlFile path="AddQueryForReferralsLatestEncounter.sql"/>
     </changeSet>
-    <changeSet id="PSI-CONFIG-202010071972" author="Sanket">
+    <changeSet id="PSI-CONFIG-202010071982" author="Sanket">
         <comment>Updating Global Property for getting information on latest 20 Referrals forms filled for a patient</comment>
         <sqlFile path="AddQueryForReferrals20LatestVisits.sql"/>
     </changeSet>
