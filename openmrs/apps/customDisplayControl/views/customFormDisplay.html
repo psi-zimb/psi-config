@@ -12,14 +12,14 @@
         <section class="block hierarchy">
             <ul class="form-field" ng-if="latestEncounterData.length > 0">
                 <li ng-repeat="obsGroup in ::latestEncounterData">
-                    <span class="tree-list-item row-click toggle-container" toggle="latestEncounterData.toggleObs">
+                    <span class="tree-list-item row-click toggle-container" toggle="obsGroup.toggleObs">
                         <i class="fa fa-caret-right"></i>
                         <i class="fa fa-caret-down"></i>
                         <span class="obs-date">
                             {{::obsGroup[0].obs_datetime | bahmniDateTime}}
                         </span>
                     </span>
-                    <ul ng-show="latestEncounterData.toggleObs">
+                    <ul ng-show="obsGroup.toggleObs">
                         <li class="has-child">
                             <div class="tree-list-item clearfix">
                                 <span class="testUnderPanel left">
@@ -27,7 +27,7 @@
                                 </span>
                             </div>
                             <div>
-                                <ul class="hidden-print" ng-repeat="obsData in latestEncounterData[0]" ng-if="obsData.value!=''">
+                                <ul class="hidden-print" ng-repeat="obsData in obsGroup" ng-if="obsData.value!=''">
                                     <li class="has-child">
                                         <div class="tree-list-item clearfix">
                                             <span class="testUnderPanel left">

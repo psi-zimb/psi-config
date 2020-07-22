@@ -111,6 +111,8 @@
   "DASHBOARD_TITLE_INTERNAL_IPV_FORM_KEY": "IPV Froms",
   "NCD_FORMS": "NCD Form",
   "IPV_FORMS" : "IPV Form",
+  "REFERRALS_FORMS" : "Referral Template",
   "NO_DATA_FOR_NCD_FOUND": "No NCD Form for this patient",
-  "NO_DATA_FOR_IPV_FOUND": "No IPV Form for this patient"
+  "NO_DATA_FOR_IPV_FOUND": "No IPV Form for this patient",
+  "NO_DATA_FOR_REFERRALS_FOUND": "No Referrals Template for this patient"
 }
