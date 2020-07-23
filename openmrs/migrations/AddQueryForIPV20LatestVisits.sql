@@ -25,6 +25,7 @@ from (select encounter.encounter_id,
       where   observations.person_id= (select person_id from person where person.uuid=${patientUuid})
         and   encounter.voided=0 and encounter_type=1 and
               observations.voided=0 and value_coded is not null and
+              sort_weight is not null and
               concept.concept_full_name like '%IPV Form%' and concept.retired=0)
          as IPV inner join
      concept_name conceptName
