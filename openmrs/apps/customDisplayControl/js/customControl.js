@@ -400,8 +400,8 @@ angular.module('bahmni.common.displaycontrol.custom')
         encounters.forEach((encounter) => {
           list.push(encounterFormdata[encounter]);
         });
-        //list.push(encounterFormMap[visit]);
       });
+      list.sort((encounter2,encounter1) => {return encounter1[0].encounter_id - encounter2[0].encounter_id});
       return list;
     };
 
