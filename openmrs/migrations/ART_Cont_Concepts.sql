@@ -88,3 +88,15 @@ call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, Client 
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, Next Viral Load date','Next Viral Load date','Date','Misc',false);
 
 call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, Are you currently breastfeeding?','Are you currently breastfeeding?','Coded','Misc',false);
+
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, DSD model','DSD model','Coded','Misc',false);
+
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'CARG','CARG','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'FARG','FARG','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'Individual','Individual','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AGYW Group','AGYW Group','N/A','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'FAST Track','FAST Track','N/A','Misc',false);
+
+
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, DSD offered','DSD offered','Coded','Misc',false);
+call add_concept_psi(@concept_id,@concept_short_id,@concept_full_id,'AP, DSD accepted','DSD accepted','Coded','Misc',false);
