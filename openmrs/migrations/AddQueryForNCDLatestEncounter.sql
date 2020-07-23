@@ -31,7 +31,6 @@ from (select distinct encounter.encounter_id,
      concept_name conceptName
      on conceptName.concept_id=value_coded
 where locale_preferred=1 and locale='en' and voided=0
-  and encounter_id=(select max(encounter_id) from encounter where patient_id=test.patient_id and visit_id=test.visit_id)
 order by sort_weight
 
 ") where property= 'bahmni.sqlGet.getLatestNCDFormInformation';
