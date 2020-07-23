@@ -28,5 +28,5 @@ where   observations.person_id= (select person_id from person where person.uuid=
   and   encounter.voided=0 and encounter_type=1 and
         observations.voided=0 and
         concept.concept_full_name like "%Referrals Form%" and concept.retired=0
-order by encounter_id desc ,sort_weight asc'
+order by encounter_id desc ,concept_set desc , sort_weight asc'
 ) where openmrs.global_property.property='bahmni.sqlGet.getReferralsLatestEncounter';
