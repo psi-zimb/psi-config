@@ -13179,8 +13179,63 @@ conditions.hide.push("Viac Form,Reason for not on treatment");
                 
           }
         return conditions;
-        }
+        },
 
+"AP, DSD offered": function (formName, formFieldValues) {
+        var conditions = {
+              hide: [],
+              show: [],
+              enable: [],
+              disable: []
+              };
+        var conditionConcept = formFieldValues["AP, DSD offered"];
+        if (conditionConcept == "Yes") {
+                     
+                conditions.show.push("AP, DSD accepted");
+                              
+                
+            }
+       else if (conditionConcept == "No") {
+    
+               conditions.hide.push("AP, DSD accepted");
+              conditions.hide.push("AP, DSD model");
+                               
+              }
+       else {
+            conditions.hide.push("AP, DSD accepted");
+                conditions.hide.push("AP, DSD model");
+                
+          }
+        return conditions;
+        },
+
+"AP, DSD accepted": function (formName, formFieldValues) {
+        var conditions = {
+              hide: [],
+              show: [],
+              enable: [],
+              disable: []
+              };
+        var conditionConcept = formFieldValues["AP, DSD accepted"];
+        if (conditionConcept == "Yes") {
+                     
+                conditions.show.push("AP, DSD model");
+                              
+                
+            }
+       else if (conditionConcept == "No") {
+    
+               conditions.hide.push("AP, DSD model");
+              
+                               
+              }
+       else {
+           
+                
+                
+          }
+        return conditions;
+        }
     }
 
             

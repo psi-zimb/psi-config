@@ -6,7 +6,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <changeSet id="PSI-CONFIG-VM-796111278899" author="psi"> 
+    <changeSet id="PSI-CONFIG-VM-896111278899" author="psi"> 
         <comment>Adding New Concepts for AP</comment>
         <sqlFile path="ART_Cont_Concepts.sql"/>
     </changeSet>
@@ -459,12 +459,85 @@ call add_concept_answer(@concept_id, @child6_concept_id, 6);
         </sql>
     </changeSet>
 
+     <changeSet id="PSI-CONFIG-VM-607011272921" author="psi">
+        <comment>Adding Answers to "AP, DSD model"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+            set @child3_concept_id = 0;
+            set @child4_concept_id = 0;
+            set @child5_concept_id = 0;
+            
+
+
+
+
+            select concept_id into @concept_id from concept_name where name = "AP, DSD model" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'CARG' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'FARG' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child3_concept_id from concept_name where name = 'Individual' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child4_concept_id from concept_name where name = 'AGYW Group' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child5_concept_id from concept_name where name = 'FAST Track' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            
+
+
+
+
+
+call add_concept_answer(@concept_id, @child1_concept_id, 1);
+call add_concept_answer(@concept_id, @child2_concept_id, 2);
+call add_concept_answer(@concept_id, @child3_concept_id, 3);
+call add_concept_answer(@concept_id, @child4_concept_id, 4);
+call add_concept_answer(@concept_id, @child5_concept_id, 5);
+
+
+
+        </sql>
+    </changeSet>
+
+
+     <changeSet id="PSI-CONFIG-VM-607011271922" author="psi">
+        <comment>Adding Answers to "AP, DSD offered"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "AP, DSD offered" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+            call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
+     <changeSet id="PSI-CONFIG-VM-607011271923" author="psi">
+        <comment>Adding Answers to "AP, DSD accepted"</comment>
+        <sql>
+            set @concept_id = 0;
+            set @child1_concept_id = 0;
+            set @child2_concept_id = 0;
+
+            select concept_id into @concept_id from concept_name where name = "AP, DSD accepted" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            select concept_id into @child1_concept_id from concept_name where name = 'Yes' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @child2_concept_id from concept_name where name = 'No' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+
+            call add_concept_answer(@concept_id, @child1_concept_id, 1);
+            call add_concept_answer(@concept_id, @child2_concept_id, 2);
+        </sql>
+    </changeSet>
+
 
 
 
     
 
-    <changeSet id="PSI-CONFIG-VM-721611271929" author="psi">
+    <changeSet id="PSI-CONFIG-VM-821611271929" author="psi">
         <comment>Adding set members to AP</comment>
           <sql>
               set @concept_id = 0;
@@ -502,6 +575,9 @@ call add_concept_answer(@concept_id, @child6_concept_id, 6);
               set @member34_concept_id = 0;
               set @member35_concept_id = 0;
               set @member36_concept_id = 0;
+              set @member37_concept_id = 0;
+              set @member38_concept_id = 0;
+              set @member39_concept_id = 0;
 
 
 
@@ -545,6 +621,9 @@ call add_concept_answer(@concept_id, @child6_concept_id, 6);
             select concept_id into @member34_concept_id from concept_name where name = "AP, Viral load status" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
             select concept_id into @member35_concept_id from concept_name where name = "AP, Client referred for EAC" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
             select concept_id into @member36_concept_id from concept_name where name = "AP, Next Viral Load date" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member37_concept_id from concept_name where name = "AP, DSD model" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member38_concept_id from concept_name where name = "AP, DSD offered" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member39_concept_id from concept_name where name = "AP, DSD accepted" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
 
              
                       
@@ -583,6 +662,9 @@ call add_concept_answer(@concept_id, @child6_concept_id, 6);
            call add_concept_set_members (@concept_id, @member34_concept_id, 77);
            call add_concept_set_members (@concept_id, @member35_concept_id, 78);
            call add_concept_set_members (@concept_id, @member36_concept_id, 79);
+           call add_concept_set_members (@concept_id, @member37_concept_id, 80);
+           call add_concept_set_members (@concept_id, @member38_concept_id, 81);
+           call add_concept_set_members (@concept_id, @member39_concept_id, 82);
            
               
               
