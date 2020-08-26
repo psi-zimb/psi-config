@@ -118,5 +118,5 @@
   "PREPSCREENING_FORMS" : "PrepScreening Template",
   "NO_DATA_FOR_PREP_FOUND": "No PrepScreening Form for this patient",
   "TBHISTORY_FORMS" : "TB History Template",
-  "NO_DATA_FOR_TB_FOUND": "No TB History Form for this patient",
+  "NO_DATA_FOR_TB_FOUND": "No TB History Form for this patient"
 }
