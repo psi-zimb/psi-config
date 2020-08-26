@@ -95,4 +95,68 @@
         <comment>Updating Global Property for getting information on latest 20 Referrals forms filled for a patient</comment>
         <sqlFile path="AddQueryForReferrals20LatestVisits.sql"/>
     </changeSet>
+
+ <changeSet id="PSI-CONFIG-202008261998" author="Gopi">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from global_property where property='bahmni.sqlGet.getLatestPREPFormInformation';
+            </sqlCheck>
+        </preConditions>
+        <comment>Creating Global Property for getting information on latest (encounter) Prep forms NCD forms</comment>
+        <sql>INSERT INTO global_property (property, property_value, uuid)
+            VALUES ('bahmni.sqlGet.getLatestPREPFormInformation', '', uuid());
+        </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-202008261999" author="Gopi">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from global_property where property='bbahmni.sqlGet.getLatestPREP20visits';
+            </sqlCheck>
+        </preConditions>
+        <comment>Creating Global Property for getting information on latest 20 TB forms filled for a patient</comment>
+        <sql>INSERT INTO global_property (property, property_value, uuid)
+            VALUES ('bahmni.sqlGet.getLatestPREP20visits', '', uuid());
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-202008261992" author="Gopi">
+        <comment>Updating Global Property for getting information on latest (encounter) PREP Screening forms filled for a patient</comment>
+        <sqlFile path="AddQueryForPREPLatestEncounter.sql"/>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-202008261993" author="Gopi">
+        <comment>Updating Global Property for getting information on latest 20 PREP Screening forms filled for a patient</comment>
+        <sqlFile path="AddQueryForPREP20LatestVisits.sql"/>
+    </changeSet>
+
+ <changeSet id="PSI-CONFIG-202008261996" author="Gopi">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from global_property where property='bahmni.sqlGet.getLatestTBFormInformation';
+            </sqlCheck>
+        </preConditions>
+        <comment>Creating Global Property for getting information on latest (encounter) TB forms NCD forms</comment>
+        <sql>INSERT INTO global_property (property, property_value, uuid)
+            VALUES ('bahmni.sqlGet.getLatestTBFormInformation', '', uuid());
+        </sql>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-202008261997" author="Gopi">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from global_property where property='bahmni.sqlGet.getLatestTB20visits';
+            </sqlCheck>
+        </preConditions>
+        <comment>Creating Global Property for getting information on latest 20 TB forms filled for a patient</comment>
+        <sql>INSERT INTO global_property (property, property_value, uuid)
+            VALUES ('bahmni.sqlGet.getLatestTB20visits', '', uuid());
+        </sql>
+    </changeSet>
+
+    <changeSet id="PSI-CONFIG-202008261994" author="Gopi">
+        <comment>Updating Global Property for getting information on latest (encounter) TB History forms filled for a patient</comment>
+        <sqlFile path="AddQueryForTBLatestEncounter.sql"/>
+    </changeSet>
+    <changeSet id="PSI-CONFIG-202008261995" author="Gopi">
+        <comment>Updating Global Property for getting information on latest 20 TB History forms filled for a patient</comment>
+        <sqlFile path="AddQueryForTB20LatestVisits.sql"/>
+    </changeSet>
 </databaseChangeLog>

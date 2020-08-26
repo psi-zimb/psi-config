@@ -401,6 +401,30 @@
           "template": "<referrals-display section='config' patient='patient'></referrals-display>"
         },
         "pivotTable": {}
+      },
+      "prepScreening" : {
+        "type": "custom",
+        "translationKey": "PREPSCREENING_FORMS",
+        "displayOrder": 19,
+        "hideEmptyDisplayControl": true,
+        "config": {
+          "title": "Referrals",
+          "translationKey": "PREPSCREENING_FORMS",
+          "template": "<prep-display section='config' patient='patient'></prep-display>"
+        },
+        "pivotTable": {}
+      },
+      "tbHistory" : {
+        "type": "custom",
+        "translationKey": "TBHISTORY_FORMS",
+        "displayOrder": 20,
+        "hideEmptyDisplayControl": true,
+        "config": {
+          "title": "Referrals",
+          "translationKey": "TBHISTORY_FORMS",
+          "template": "<tb-display section='config' patient='patient'></tb-display>"
+        },
+        "pivotTable": {}
       }
     }
   },

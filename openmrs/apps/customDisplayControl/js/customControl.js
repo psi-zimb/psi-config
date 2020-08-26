@@ -438,4 +438,146 @@ angular.module('bahmni.common.displaycontrol.custom')
     },
     template: '<ng-include src="contentUrl"/>'
   }
-}]);
+}])
+  .directive('prepDisplay', ['ngDialog', 'programService', 'appService', 'spinner', '$q', '$http', function (ngDialog, programService, appService, spinner, $q, $http) {
+      var controller = function ($scope) {
+        $scope.togglencd = true;
+        $scope.error_message='NO_DATA_FOR_PREP_FOUND';
+        $scope.contentUrl = appService.configBaseUrl() + "/customDisplayControl/views/customFormDisplay.html";
+        $scope.urlbase = appService.configBaseUrl();
+        var getResponseFromQuery = function (queryParameter) {
+          var params = {
+            patientUuid: $scope.patient.uuid,
+            q: queryParameter,
+            v: "full"
+          };
+
+          return $http.get('/openmrs/ws/rest/v1/bahmnicore/sql', {
+            method: "GET",
+            params: params,
+            withCredentials: true
+          });
+        };
+
+        $scope.getListFromResponse = function(response,limit) {
+
+          let encounterFormMap = _.groupBy(response[0].data,'encounter_id');
+          //take first 20 visits only
+          let visits = Object.keys(encounterFormMap).
+          sort((v1,v2) => {return v2-v1}).
+          slice(0,limit);
+          //set the data for visits in map
+          let list = [];
+          visits.forEach((visit) => {
+            list.push(encounterFormMap[visit]);
+          });
+          return list;
+        }
+        $scope.expandedViewDialog = function () {
+          spinner.forPromise($q.all([getResponseFromQuery("bahmni.sqlGet.getLatestPREP20visits")]).then(function (response) {
+
+            $scope.formsData = $scope.getListFromResponse(response,20);
+            if($scope.formsData.length > 0)
+              $scope.formsData[0]['toggleExpandedObs']=true;
+          }));
+
+          ngDialog.open({
+            template: $scope.urlbase + '/customDisplayControl/views/' + 'customDialogDisplay.html',
+            className: 'ngdialog-theme-default ng-dialog-all-details-page',
+            scope: $scope
+          });
+        };
+
+        spinner.forPromise($q.all([getResponseFromQuery("bahmni.sqlGet.getLatestPREPFormInformation")]).then(function (response) {
+          $scope.latestEncounterData = $scope.getListFromResponse(response,1);
+         if($scope.latestEncounterData.length!=0)
+            $scope.latestEncounterData[0]['toggleObs']=true;
+        }));
+
+      };
+    return {
+      restrict: 'E',
+      controller: controller,
+      scope: {
+        patient: "=",
+        config: "=",
+        section: "=",
+        enrollment: "=",
+        visitSummary: "=",
+        showDetailsButton: "=?"
+      },
+      template: '<ng-include src="contentUrl"/>'
+    }
+  }
+  ])
+  .directive('tbDisplay', ['ngDialog', 'programService', 'appService', 'spinner', '$q', '$http', function (ngDialog, programService, appService, spinner, $q, $http) {
+      var controller = function ($scope) {
+        $scope.togglencd = true;
+        $scope.error_message='NO_DATA_FOR_TB_FOUND';
+        $scope.contentUrl = appService.configBaseUrl() + "/customDisplayControl/views/customFormDisplay.html";
+        $scope.urlbase = appService.configBaseUrl();
+        var getResponseFromQuery = function (queryParameter) {
+          var params = {
+            patientUuid: $scope.patient.uuid,
+            q: queryParameter,
+            v: "full"
+          };
+
+          return $http.get('/openmrs/ws/rest/v1/bahmnicore/sql', {
+            method: "GET",
+            params: params,
+            withCredentials: true
+          });
+        };
+
+        $scope.getListFromResponse = function(response,limit) {
+
+          let encounterFormMap = _.groupBy(response[0].data,'encounter_id');
+          //take first 20 visits only
+          let visits = Object.keys(encounterFormMap).
+          sort((v1,v2) => {return v2-v1}).
+          slice(0,limit);
+          //set the data for visits in map
+          let list = [];
+          visits.forEach((visit) => {
+            list.push(encounterFormMap[visit]);
+          });
+          return list;
+        }
+        $scope.expandedViewDialog = function () {
+          spinner.forPromise($q.all([getResponseFromQuery("bahmni.sqlGet.getLatestTB20visits")]).then(function (response) {
+
+            $scope.formsData = $scope.getListFromResponse(response,20);
+            if($scope.formsData.length > 0)
+              $scope.formsData[0]['toggleExpandedObs']=true;
+          }));
+
+          ngDialog.open({
+            template: $scope.urlbase + '/customDisplayControl/views/' + 'customDialogDisplay.html',
+            className: 'ngdialog-theme-default ng-dialog-all-details-page',
+            scope: $scope
+          });
+        };
+
+        spinner.forPromise($q.all([getResponseFromQuery("bahmni.sqlGet.getLatestTBFormInformation")]).then(function (response) {
+          $scope.latestEncounterData = $scope.getListFromResponse(response,1);
+         if($scope.latestEncounterData.length!=0)
+            $scope.latestEncounterData[0]['toggleObs']=true;
+        }));
+
+      };
+    return {
+      restrict: 'E',
+      controller: controller,
+      scope: {
+        patient: "=",
+        config: "=",
+        section: "=",
+        enrollment: "=",
+        visitSummary: "=",
+        showDetailsButton: "=?"
+      },
+      template: '<ng-include src="contentUrl"/>'
+    }
+  }
+  ]);
