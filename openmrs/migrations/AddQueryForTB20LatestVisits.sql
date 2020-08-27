@@ -26,7 +26,7 @@ from (select distinct encounter.encounter_id,
         and   encounter.voided=0 and encounter_type=1 and
               observations.voided=0 and value_coded is not null and
               sort_weight is not null and
-              concept.concept_full_name like '%TB History%' and concept.retired=0)
+              concept.concept_full_name like '%TB History Form Template%' and concept.retired=0)
          as TB inner join
      concept_name conceptName
      on conceptName.concept_id=TB.value_coded
