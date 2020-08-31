@@ -345,8 +345,13 @@
                     CAST(min(date(pp.date_enrolled)) AS DATE) as \"incident_date\",
                     min(pp.date_created) as \"date_created\",
                     min(pp.patient_program_id) as \"program_unique_id\",
-                    CASE WHEN pp.voided = 0 AND pp.date_completed IS NOT NULL THEN 'COMPLETED' ELSE 'ACTIVE'
-                    END as status
+      CASE
+      WHEN pp.voided = 0 AND pp.date_completed IS NOT NULL And  pp.outcome_concept_id  in (
+      select c.concept_id from concept c inner join concept_name cn on cn.name='Double entry' and c.concept_id=cn.concept_id)
+      THEN 'CANCELLED'
+      WHEN pp.voided = 0 AND pp.date_completed IS NOT NULL
+      THEN 'COMPLETED'
+      ELSE 'ACTIVE' END as status
                         from patient_program pp /*patient_program for the patients enrolled in FPS Program*/
                         Inner Join patient_identifier pi on pp.patient_id = pi.patient_id
                     and pi.identifier_type in (
@@ -528,7 +533,13 @@
                     CAST(min(date(pp.date_enrolled)) AS DATE) as \"incident_date\",
                     min(pp.date_created) as \"date_created\",
                     min(pp.patient_program_id) as \"program_unique_id\",
-                    CASE WHEN pp.voided = 0 AND pp.date_completed IS NOT NULL THEN 'COMPLETED' ELSE 'ACTIVE' END as status
+      CASE
+      WHEN pp.voided = 0 AND pp.date_completed IS NOT NULL And  pp.outcome_concept_id  in (
+      select c.concept_id from concept c inner join concept_name cn on cn.name='Double entry' and c.concept_id=cn.concept_id)
+      THEN 'CANCELLED'
+      WHEN pp.voided = 0 AND pp.date_completed IS NOT NULL
+      THEN 'COMPLETED'
+      ELSE 'ACTIVE' END as status
                         from patient_program pp /*patient_program for the patients enrolled in HTS Program*/
                         Inner Join patient_identifier pi on pp.patient_id = pi.patient_id
                     and pi.identifier_type in (
@@ -710,7 +721,13 @@
                     CAST(min(date(pp.date_enrolled)) AS DATE) as \"incident_date\",
                     min(pp.date_created) as \"date_created\",
                     min(pp.patient_program_id) as \"program_unique_id\",
-                    CASE WHEN pp.voided = 0 AND pp.date_completed IS NOT NULL THEN 'COMPLETED' ELSE 'ACTIVE' END as status
+      CASE
+      WHEN pp.voided = 0 AND pp.date_completed IS NOT NULL And  pp.outcome_concept_id  in (
+      select c.concept_id from concept c inner join concept_name cn on cn.name='Double entry' and c.concept_id=cn.concept_id)
+      THEN 'CANCELLED'
+      WHEN pp.voided = 0 AND pp.date_completed IS NOT NULL
+      THEN 'COMPLETED'
+      ELSE 'ACTIVE' END as status
                         from patient_program pp /*patient_program for the patients enrolled in VIAC Program*/
                         Inner Join patient_identifier pi on pp.patient_id = pi.patient_id
                     and pi.identifier_type in (
@@ -1074,7 +1091,13 @@
                     CAST(min(date(pp.date_enrolled)) AS DATE) as \"incident_date\",
                     min(pp.date_created) as \"date_created\",
                     min(pp.patient_program_id) as \"program_unique_id\",
-                    CASE WHEN pp.voided = 0 AND pp.date_completed IS NOT NULL THEN 'COMPLETED' ELSE 'ACTIVE' END as status
+  CASE
+  WHEN pp.voided = 0 AND pp.date_completed IS NOT NULL And  pp.outcome_concept_id  in (
+  select c.concept_id from concept c inner join concept_name cn on cn.name='Double entry' and c.concept_id=cn.concept_id)
+  THEN 'CANCELLED'
+  WHEN pp.voided = 0 AND pp.date_completed IS NOT NULL
+  THEN 'COMPLETED'
+  ELSE 'ACTIVE' END as status
                         from patient_program pp /*patient_program for the patients enrolled in PrEP Program*/
                         Inner Join patient_identifier pi on pp.patient_id = pi.patient_id
                     and pi.identifier_type in (
@@ -1255,11 +1278,13 @@
        Cast(Date(pp.date_enrolled) AS DATE) AS \"incident_date\",
        ( pp.date_created )                  AS \"date_created\",
        ( pp.patient_program_id )            AS \"program_unique_id\",
-       CASE
-           WHEN pp.voided = 0
-               AND pp.date_completed IS NOT NULL THEN 'COMPLETED'
-           ELSE 'ACTIVE'
-           END                                  AS status
+      CASE
+      WHEN pp.voided = 0 AND pp.date_completed IS NOT NULL And  pp.outcome_concept_id  in (
+      select c.concept_id from concept c inner join concept_name cn on cn.name='Double entry' and c.concept_id=cn.concept_id)
+      THEN 'CANCELLED'
+      WHEN pp.voided = 0 AND pp.date_completed IS NOT NULL
+      THEN 'COMPLETED'
+      ELSE 'ACTIVE' END                    AS status
 FROM   patient_program pp
            INNER JOIN patient_identifier pi
                       ON pp.patient_id = pi.patient_id
@@ -1478,10 +1503,12 @@ WHERE  pp.program_id IN (SELECT program_id
       ( pp.date_created )                  AS \"date_created\",
       ( pp.patient_program_id )            AS \"program_unique_id\",
       CASE
-      WHEN pp.voided = 0
-      AND pp.date_completed IS NOT NULL THEN 'COMPLETED'
-      ELSE 'ACTIVE'
-      END                                  AS status
+      WHEN pp.voided = 0 AND pp.date_completed IS NOT NULL And  pp.outcome_concept_id  in (
+      select c.concept_id from concept c inner join concept_name cn on cn.name='Double entry' and c.concept_id=cn.concept_id)
+      THEN 'CANCELLED'
+      WHEN pp.voided = 0 AND pp.date_completed IS NOT NULL
+      THEN 'COMPLETED'
+      ELSE 'ACTIVE' END                             AS status
       FROM   patient_program pp
       INNER JOIN patient_identifier pi
       ON pp.patient_id = pi.patient_id
@@ -1699,11 +1726,13 @@ WHERE  pp.program_id IN (SELECT program_id
        Cast((Date(pp.date_enrolled)) AS DATE) AS \"incident_date\",
        (pp.date_created)                      AS \"date_created\",
        (pp.patient_program_id)                AS \"program_unique_id\",
-       CASE
-           WHEN pp.voided = 0
-               AND pp.date_completed IS NOT NULL THEN 'COMPLETED'
-           ELSE 'ACTIVE'
-           END                                       AS status
+      CASE
+      WHEN pp.voided = 0 AND pp.date_completed IS NOT NULL And  pp.outcome_concept_id  in (
+      select c.concept_id from concept c inner join concept_name cn on cn.name='Double entry' and c.concept_id=cn.concept_id)
+      THEN 'CANCELLED'
+      WHEN pp.voided = 0 AND pp.date_completed IS NOT NULL
+      THEN 'COMPLETED'
+      ELSE 'ACTIVE' END                                     AS status
 FROM   patient_program pp
            INNER JOIN patient_identifier pi
                       ON pp.patient_id = pi.patient_id
@@ -1927,10 +1956,12 @@ WHERE  pp.program_id IN (SELECT program_id
       ( pp.date_created )                  AS \"date_created\",
       ( pp.patient_program_id )            AS \"program_unique_id\",
       CASE
-      WHEN pp.voided = 0
-      AND pp.date_completed IS NOT NULL THEN 'COMPLETED'
-      ELSE 'ACTIVE'
-      END                                  AS status
+      WHEN pp.voided = 0 AND pp.date_completed IS NOT NULL And  pp.outcome_concept_id  in (
+      select c.concept_id from concept c inner join concept_name cn on cn.name='Double entry' and c.concept_id=cn.concept_id)
+      THEN 'CANCELLED'
+      WHEN pp.voided = 0 AND pp.date_completed IS NOT NULL
+      THEN 'COMPLETED'
+      ELSE 'ACTIVE' END                               AS status
       FROM   patient_program pp
       INNER JOIN patient_identifier pi
       ON pp.patient_id = pi.patient_id
