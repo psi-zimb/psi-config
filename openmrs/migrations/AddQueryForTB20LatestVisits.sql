@@ -16,7 +16,7 @@ select encounter.encounter_id,
               WHEN value_coded is not null
               THEN (select name from concept_name cname where  cname.concept_id=value_coded and locale_preferred=1 and locale='en' and voided=0 limit 1)
               WHEN observations.value_datetime is not null 
-                THEN DATE_FORMAT(observations.value_datetime, '%d %M %y')
+                THEN observations.value_datetime
               WHEN observations.value_numeric is not null
                 THEN observations.value_numeric
               ELSE observations.value_text
