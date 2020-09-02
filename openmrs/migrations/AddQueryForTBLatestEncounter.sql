@@ -92,6 +92,7 @@ where   observations.person_id= (select person_id from person where person.uuid=
         sort_weight is not null and
         observations.voided=0 and
         concept.concept_full_name like 'TB Screening,%' and concept.retired=0
+        and conceptSet.concept_set = (select concept_id from concept_name where name='TB Screening' and concept_name_type='FULLY_SPECIFIED' and locale = 'en' and voided =0 limit 1)
 order by encounter_id desc ,concept_set desc , sort_weight asc)AS RESULT
 GROUP BY concept_id,sort_weight,encounter_id order by sort_weight asc)
 
@@ -141,6 +142,7 @@ where   observations.person_id= (select person_id from person where person.uuid=
         sort_weight is not null and
         observations.voided=0 and
         concept.concept_full_name like 'TB History,%' and concept.retired=0
+        and conceptSet.concept_set = (select concept_id from concept_name where name='TB History' and concept_name_type='FULLY_SPECIFIED' and locale = 'en' and voided =0 limit 1)
 order by encounter_id desc ,concept_set desc , sort_weight asc)AS RESULT
 GROUP BY concept_id,sort_weight,encounter_id order by sort_weight asc)
 
