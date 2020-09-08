@@ -530,7 +530,7 @@ call add_concept_answer(@concept_id, @child5_concept_id, 5);
           </sql>
     </changeSet>
 
-     <changeSet id="PSI-CONFIG-VM-202026081993" author="Gopi">
+     <changeSet id="PSI-CONFIG-VM-202026082020" author="Gopi">
         <comment>Adding set members to TB Screening Form</comment>
           <sql>
             delete from concept_set where concept_set in (select concept_id from concept_name where name ="TB History Form Template" and concept_name_type='FULLY_SPECIFIED' and locale = 'en' and voided =0);
@@ -558,6 +558,8 @@ call add_concept_answer(@concept_id, @child5_concept_id, 5);
               set @member23_concept_id = 0;
               set @member24_concept_id = 0;
               set @member25_concept_id = 0;
+              set @member26_concept_id = 0;
+              set @member27_concept_id = 0;
               
 
 
@@ -589,11 +591,9 @@ call add_concept_answer(@concept_id, @child5_concept_id, 5);
             select concept_id into @member23_concept_id from concept_name where name = "TB History Form Template, Date of last TB treatment" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
             select concept_id into @member24_concept_id from concept_name where name = "TB History Form Template, Treatment outcome" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
             select concept_id into @member25_concept_id from concept_name where name = "TB History Form Template, Course completion outcomes" and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member26_concept_id from concept_name where name = 'TB Screening' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
+            select concept_id into @member27_concept_id from concept_name where name = 'TB History' and concept_name_type = 'FULLY_SPECIFIED' and locale = 'en' and voided = 0;
            
-
-             
-                      
-
               
            call add_concept_set_members (@concept_id, @member0_concept_id, 1);  
            call add_concept_set_members (@concept_id, @member5_concept_id, 5);
@@ -617,8 +617,8 @@ call add_concept_answer(@concept_id, @child5_concept_id, 5);
            call add_concept_set_members (@concept_id, @member23_concept_id, 23);
            call add_concept_set_members (@concept_id, @member24_concept_id, 24);
            call add_concept_set_members (@concept_id, @member25_concept_id, 25);
-          
-              
+           call add_concept_set_members (@concept_id, @member26_concept_id, 26);
+           call add_concept_set_members (@concept_id, @member27_concept_id, 27);         
               
           </sql>
     </changeSet>

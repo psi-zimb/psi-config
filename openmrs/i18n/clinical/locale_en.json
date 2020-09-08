@@ -115,8 +115,8 @@
   "NO_DATA_FOR_NCD_FOUND": "No NCD Form for this patient",
   "NO_DATA_FOR_IPV_FOUND": "No IPV Form for this patient",
   "NO_DATA_FOR_REFERRALS_FOUND": "No Referrals Template for this patient",
-  "PREPSCREENING_FORMS" : "PrepScreening Template",
-  "NO_DATA_FOR_PREP_FOUND": "No PrepScreening Form for this patient",
-  "TBHISTORY_FORMS" : "TB History Template",
-  "NO_DATA_FOR_TB_FOUND": "No TB History Form for this patient"
+  "PREPSCREENING_FORMS" : "PrEP Screening Form",
+  "NO_DATA_FOR_PREP_FOUND": "No PrEP Screening Form",
+  "TBHISTORY_FORMS" : "TB Screening and History Form",
+  "NO_DATA_FOR_TB_FOUND": "No TB Screening and History Form"
 }

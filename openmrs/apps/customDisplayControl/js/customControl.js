@@ -473,10 +473,32 @@ angular.module('bahmni.common.displaycontrol.custom')
           });
           return list;
         }
+
+      $scope.getListFromResponseWithVisitid = (response,limit) => {
+
+      let visitFormMap = _.groupBy(response[0].data,'visit_id');
+      //take first 20 visits only
+      let visits = Object.keys(visitFormMap).
+      sort((v1,v2) => {return v2-v1}).
+      slice(0,limit);
+      //set the data for visits in map
+      let list = [];
+      visits.forEach((visit) => {
+        let encounterFormdata = _.groupBy(visitFormMap[visit],'encounter_id');
+        let encounters = Object.keys(encounterFormdata).
+        sort((v1,v2) => {return v2-v1})
+        encounters.forEach((encounter) => {
+          list.push(encounterFormdata[encounter]);
+        });
+      });
+      list.sort((encounter2,encounter1) => {return encounter1[0].encounter_id - encounter2[0].encounter_id});
+      return list;
+    };
+
         $scope.expandedViewDialog = function () {
           spinner.forPromise($q.all([getResponseFromQuery("bahmni.sqlGet.getLatestPREP20visits")]).then(function (response) {
 
-            $scope.formsData = $scope.getListFromResponse(response,20);
+            $scope.formsData = $scope.getListFromResponseWithVisitid(response,20);
             if($scope.formsData.length > 0)
               $scope.formsData[0]['toggleExpandedObs']=true;
           }));
@@ -544,10 +566,31 @@ angular.module('bahmni.common.displaycontrol.custom')
           });
           return list;
         }
+
+      $scope.getListFromResponseWithVisitid = (response,limit) => {
+
+      let visitFormMap = _.groupBy(response[0].data,'visit_id');
+      //take first 20 visits only
+      let visits = Object.keys(visitFormMap).
+      sort((v1,v2) => {return v2-v1}).
+      slice(0,limit);
+      //set the data for visits in map
+      let list = [];
+      visits.forEach((visit) => {
+        let encounterFormdata = _.groupBy(visitFormMap[visit],'encounter_id');
+        let encounters = Object.keys(encounterFormdata).
+        sort((v1,v2) => {return v2-v1})
+        encounters.forEach((encounter) => {
+          list.push(encounterFormdata[encounter]);
+        });
+      });
+      list.sort((encounter2,encounter1) => {return encounter1[0].encounter_id - encounter2[0].encounter_id});
+      return list;
+    };
         $scope.expandedViewDialog = function () {
           spinner.forPromise($q.all([getResponseFromQuery("bahmni.sqlGet.getLatestTB20visits")]).then(function (response) {
 
-            $scope.formsData = $scope.getListFromResponse(response,20);
+            $scope.formsData = $scope.getListFromResponseWithVisitid(response,20);
             if($scope.formsData.length > 0)
               $scope.formsData[0]['toggleExpandedObs']=true;
           }));
