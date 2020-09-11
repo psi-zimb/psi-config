@@ -2142,7 +2142,7 @@ WHERE  pp.program_id IN (SELECT program_id
         max(pedd.\"visit_id\") AS \"event_unique_id\",
         max(ppv.patient_program_id) as \"patient_program_id\",
           
-          ppv.program_outcome As \"program_outcome\",
+          ppv.program_outcome AS \"program_outcome\",
         max(DATE(ppv.\"date_enrolled\"))  AS \"enrollment_date\",
 
         max(CASE WHEN COALESCE(phtc.date_created, '01-01-0001 00:00:00' ) >= COALESCE(hst.date_created, '01-01-0001 00:00:00' )
@@ -2601,7 +2601,7 @@ patient_encounter_table pedd
                                 UNION select encounter_id from post_hiv_test_counselling
                                 UNION select encounter_id from hiv_self_testing))
 
-    GROUP BY hst.id_hiv_self_testing,phtc.id_provider_hiv_test_counselling
+    GROUP BY hst.id_hiv_self_testing,phtc.id_provider_hiv_test_counselling,ppv.program_outcome
     ORDER BY date_created DESC;"
  },
  {
@@ -2806,7 +2806,7 @@ patient_encounter_table pedd
                 join person_address_default pad on pa.person_id = pad.person_id
                 join patient_encounter_table pedd on viac.encounter_id = pedd.encounter_id
                 where ppv.program_id = (select program_id from programs_default where program_name = 'VIAC Program')
-                group by viac.id_viac_form_template,viac.patient_id
+                group by viac.id_viac_form_template,viac.patient_id,ppv.program_outcome
                 order by viac.id_viac_form_template desc;"
 },
 {
@@ -2827,7 +2827,7 @@ patient_encounter_table pedd
 
          max(pedd.\"visit_id\") AS \"event_unique_id\",
          max(ppv.patient_program_id) as \"patient_program_id\",
-         ppv.program_outcome As \"program_outcome\",
+         ppv.program_outcome AS \"program_outcome\",
          max(DATE(ppv.\"date_enrolled\"))  AS \"enrollment_date\",
 
          max(CASE WHEN COALESCE(fps.obs_datetime, '01-01-0001' ) >= COALESCE(fpc.obs_datetime, '01-01-0001' )
@@ -4437,7 +4437,7 @@ patient_encounter_table pedd
                                 UNION SELECT encounter_id FROM fps_fp_continuation_form
                                 UNION SELECT encounter_id FROM fps_fp_counselling_only_form))
 
-    GROUP BY fps.id_fps_family_planning_service,fpc.id_fps_fp_continuation_form,fpcounselling.id_fps_fp_counselling_only_form
+    GROUP BY fps.id_fps_family_planning_service,fpc.id_fps_fp_continuation_form,fpcounselling.id_fps_fp_counselling_only_form,ppv.program_outcome
     ORDER BY  date_created DESC;"
 },
 {
@@ -4471,7 +4471,7 @@ patient_encounter_table pedd
      COALESCE(art1_1.visit_id,art2_2.visit_id) AS \"event_unique_id\",
      ppv.patient_program_id                              AS \"patient_program_id\",
   
-   ppv.program_outcome  As \"program_outcome\",
+   ppv.program_outcome  AS \"program_outcome\",
      DATE(ppv.\"date_enrolled\") AS \"enrollment_date\",
      CASE WHEN   COALESCE(art1_1.date_created, '01-01-0001 00:00:00' ) >= COALESCE(art2_2.date_created, '01-01-0001  00:00:00' )
           THEN art1_1.date_created
@@ -5922,7 +5922,7 @@ ORDER BY date_created DESC;"
           END AS \"date_created\",
      pi.\"Patient_Identifier\" AS \"Patient_Identifier\",
   
-   ppv.program_outcome  As \"program_outcome\",
+   ppv.program_outcome  AS \"program_outcome\",
      case when prep_init_form_have_you_had_an_hiv_test_in_the_past_1_week = 'Yes' then 1
           when prep_init_form_have_you_had_an_hiv_test_in_the_past_1_week = 'No' then 0
           else null end :: boolean AS \"[Initial] Had you had HIV test in the past 1 week\",
@@ -6870,7 +6870,7 @@ ORDER BY date_created DESC;"
       ncd.encounter_id                                       AS \"event_unique_id\",
       ppv.patient_program_id                              AS \"patient_program_id\",
   
-   ppv.program_outcome  As \"program_outcome\",
+      ppv.program_outcome  AS \"program_outcome\",
       date(ppv.\"date_enrolled\")                           AS \"enrollment_date\",
       COALESCE(ncd.date_created, '01-01-0001 00:00:00' ) AS \"date_created\",
       pi.\"Patient_Identifier\"                             AS \"Patient_Identifier\",
@@ -6952,9 +6952,9 @@ ORDER BY date_created DESC;"
       COALESCE(referrals.obs_datetime, '01-01-0001' )          AS \"event_date\",
       'COMPLETED' :: text                                 AS status,
       referrals.encounter_id                                       AS \"event_unique_id\",
-      ppv.patient_program_id as \"patient_program_id\",,
+      ppv.patient_program_id as \"patient_program_id\",
       
-       ppv.program_outcome  As \"program_outcome\",
+       ppv.program_outcome  AS \"program_outcome\",
       date(ppv.\"date_enrolled\")                           AS \"enrollment_date\",
       COALESCE(referrals.date_created, '01-01-0001 00:00:00' ) AS \"date_created\",
       pi.\"Patient_Identifier\"                             AS \"Patient_Identifier\",
@@ -7609,8 +7609,7 @@ ORDER BY date_created DESC;"
            'COMPLETED' :: text                                 AS status,
            ipv.encounter_id                                       AS \"event_unique_id\",
            ppv.patient_program_id as \"patient_program_id\",
-      
-       ppv.program_outcome                                    As \"program_outcome\",
+           ppv.program_outcome                                    As \"program_outcome\",
            date(ppv.\"date_enrolled\")                           AS \"enrollment_date\",
            COALESCE(ipv.date_created, '01-01-0001 00:00:00' ) AS \"date_created\",
            pi.\"Patient_Identifier\"                             AS \"Patient_Identifier\",
