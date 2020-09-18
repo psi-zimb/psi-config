@@ -2585,7 +2585,41 @@ max(CASE WHEN phtc.hiv_test_results IS NOT NULL AND COALESCE(phtc.date_modified,
          max(provider_hiv_test_counselling_what_was_the_result) AS \"What was the result?\",
          max(provider_hiv_test_counselling_date_of_recency_testing_resul) AS \"Date of recency testing result\",
          max(provider_hiv_test_counselling_what_was_the_testing_modality) AS \"What was the testing modality used?\",
-         max(provider_hiv_test_counselling_why_was_it_not_done) AS \"Why was it not done?\"
+         max(provider_hiv_test_counselling_why_was_it_not_done) AS \"Why was it not done?\",
+         max(CASE WHEN hst_assisted_st = 'Yes' THEN 1
+                  WHEN hst_assisted_st =  'No' THEN 0
+             ELSE NULL END) :: BOOLEAN AS \"Assisted ST - HST\",
+         max(CASE WHEN hst_workplace = 'Yes' THEN 1
+                  WHEN hst_workplace =  'No' THEN 0
+             ELSE NULL END) :: BOOLEAN AS \"Workplace - HST\",
+         max(self_test_outcome) AS \"Self Testing Outcome - HST\",
+        string_agg(
+        case
+        when hst_request_services = 'PrEP Initiation' then 'PrEP Initiation'
+        when hst_request_services = 'Family Planning' then 'Family Planning'
+        when hst_request_services = 'VIAC' then 'VIAC'
+        when hst_request_services = 'VMMC' then 'VMMC'
+        end ,', ') as \"Request Services - HST\",
+         max(CASE WHEN (hst_external_referral_to_multiple_responses_possible = 'STI treatment centre') THEN 1 ELSE NULL END) :: BOOLEAN AS  \"Referred For STI treatment centre ? - HST\",
+         max(CASE WHEN (hst_external_referral_to_multiple_responses_possible = 'TB diagnostic center') THEN 1 ELSE NULL END) :: BOOLEAN AS  \"Referred For TB diagnostic center ? - HST\",
+         max(CASE WHEN (hst_external_referral_to_multiple_responses_possible = 'Antenatal PMTCT') THEN 1 ELSE NULL END) :: BOOLEAN AS  \"Referred For Antenatal PMTCT ? - HST\",
+         max(CASE WHEN (hst_external_referral_to_multiple_responses_possible = 'Other medical services') THEN 1 ELSE NULL END) :: BOOLEAN AS  \"Referred For Other medical services ? - HST\",
+         max(CASE WHEN (hst_external_referral_to_multiple_responses_possible = 'Social welfare') THEN 1 ELSE NULL END) :: BOOLEAN AS  \"Referred For Social welfare ? - HST\",
+         max(CASE WHEN (hst_external_referral_to_multiple_responses_possible = 'Nutritional information') THEN 1 ELSE NULL END) :: BOOLEAN AS  \"Referred For Nutritional information ? - HST\",
+         max(CASE WHEN (hst_external_referral_to_multiple_responses_possible = 'Other pyscho social support services') THEN 1 ELSE NULL END) :: BOOLEAN AS  \"Referred For Other pyscho social support services ? - HST\",
+         max(CASE WHEN (hst_external_referral_to_multiple_responses_possible = 'Male circumcision') THEN 1 ELSE NULL END) :: BOOLEAN AS  \"Referred For Male circumcision ? - HST\",
+         max(CASE WHEN (hst_external_referral_to_multiple_responses_possible = 'Home based care') THEN 1 ELSE NULL END) :: BOOLEAN AS  \"Referred For Home based care ? - HST\",
+         max(CASE WHEN (hst_external_referral_to_multiple_responses_possible = 'OI-ART clinic') THEN 1 ELSE NULL END) :: BOOLEAN AS  \"Referred For OI-ART clinic ? - HST\",
+         max(CASE WHEN (hst_external_referral_to_multiple_responses_possible = 'Family Planning') THEN 1 ELSE NULL END) :: BOOLEAN AS  \"Referred For Family Planning ? - HST\",
+         max(CASE WHEN (hst_external_referral_to_multiple_responses_possible = 'PReP') THEN 1 ELSE NULL END) :: BOOLEAN AS  \"Referred For PReP ? - HST\",
+         max(CASE WHEN (hst_external_referral_to_multiple_responses_possible = 'VIAC') THEN 1 ELSE NULL END) :: BOOLEAN AS  \"Referred For VIAC ? - HST\",
+         max(CASE WHEN (hst_external_referral_to_multiple_responses_possible = 'PEP') THEN 1 ELSE NULL END) :: BOOLEAN AS  \"Referred For PEP ? - HST\",
+         max(CASE WHEN hst_consent_to_test = 'Yes' THEN 1
+                 WHEN hst_consent_to_test =  'No' THEN 0
+            ELSE NULL END) :: BOOLEAN AS \"Consent to Test - HST\",
+         max(hst_setting) AS \"Setting - HST\",
+         max(hst_site_type) AS \"Site Type - HST\"
+         
 
 FROM
 patient_encounter_table pedd
