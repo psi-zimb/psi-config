@@ -2157,9 +2157,6 @@ WHERE  pp.program_id IN (SELECT program_id
         END) AS \"date_created\",
 
         max(pi.\"Patient_Identifier\") AS \"Patient_Identifier\",
-        max( CASE WHEN hst.hst_assisted_st = 'Yes' THEN 1
-                  WHEN hst.hst_assisted_st =  'No' THEN 0
-              ELSE NULL END ) :: BOOLEAN AS \"Assisted ST\",
 
         max( CASE WHEN phtc.you_partner_currently_pregnant = 'Yes' THEN 1
                   WHEN phtc.you_partner_currently_pregnant = 'No' THEN 0
@@ -2614,6 +2611,7 @@ max(CASE WHEN phtc.hiv_test_results IS NOT NULL AND COALESCE(phtc.date_modified,
          max(CASE WHEN (hst_external_referral_to_multiple_responses_possible = 'PReP') THEN 1 ELSE NULL END) :: BOOLEAN AS  \"Referred For PReP ? - HST\",
          max(CASE WHEN (hst_external_referral_to_multiple_responses_possible = 'VIAC') THEN 1 ELSE NULL END) :: BOOLEAN AS  \"Referred For VIAC ? - HST\",
          max(CASE WHEN (hst_external_referral_to_multiple_responses_possible = 'PEP') THEN 1 ELSE NULL END) :: BOOLEAN AS  \"Referred For PEP ? - HST\",
+         max(CASE WHEN (hst_external_referral_to_multiple_responses_possible = 'Private doctor') THEN 1 ELSE NULL END) :: BOOLEAN AS  \"Referred For Private Doctor ? - HST\",
          max(CASE WHEN hst_consent_to_test = 'Yes' THEN 1
                  WHEN hst_consent_to_test =  'No' THEN 0
             ELSE NULL END) :: BOOLEAN AS \"Consent to Test - HST\",
