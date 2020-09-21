@@ -223,12 +223,14 @@
                     piUIC.identifier as \"UIC\",
                     per.gender as \"Gender\",
                     per.birthdate as \"Date of Birth\",
+                    pn.family_name as \"Last Name\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Client Resident' then cv.concept_full_name else null end)) as \"Residence\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Marital Status' then cv.concept_full_name else null end)) as \"Marital Status\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'occupation' then cv.concept_full_name else null end)) as \"Occupation\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Telephone' Then pac.value else null end)) as \"Patient telephone Number\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Nationality' then cv.concept_full_name else null end)) as \"Nationality\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Mother\'\'s name' then pac.value else null end)) as \"Mothers First Name\",
+                    GROUP_CONCAT(DISTINCT (case when pat1.name = 'Are you a twin?' then (case when cv.concept_full_name = 'Yes' THEN 'true' when cv.concept_full_name = 'No' then 'false' else null end) else null end)) as \"Are you Twin\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'education' then cv.concept_full_name else null end)) as \"Education\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Ethnicity' then cv.concept_full_name else null end)) as \"Ethnicity\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'District of Birth' then cv.concept_full_name else null end)) as \"District of Birth\",
@@ -283,6 +285,7 @@
                     On personInstanceDateChanged.person_id = pat.patient_id
                     inner join patient_identifier piUIC on pat.patient_id = piUIC.patient_id
                     inner join person_address perAdd on pi.patient_id = perAdd.person_id
+                    inner join person_name pn on per.person_id = pn.person_id
                     LEFT JOIN (/*Patient id along with the site type value*/
                                 Select perAtt.person_id,perAtt.value as 'siteType' from person_attribute perAtt
                                 inner JOIN person_attribute_type perAtttype on perAtt.person_attribute_type_id = perAtttype.person_attribute_type_id
@@ -412,12 +415,14 @@
                     piUIC.identifier as \"UIC\",
                     per.gender as \"Gender\",
                     per.birthdate as \"Date of Birth\",
+                    pn.family_name as \"Last Name\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Client Resident' then cv.concept_full_name else null end)) as \"Residence\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Marital Status' then cv.concept_full_name else null end)) as \"Marital Status\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'occupation' then cv.concept_full_name else null end)) as \"Occupation\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Telephone' Then pac.value else null end)) as \"Patient telephone Number\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Nationality' then cv.concept_full_name else null end)) as \"Nationality\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Mother\'\'s name' then pac.value else null end)) as \"Mothers First Name\",
+                    GROUP_CONCAT(DISTINCT (case when pat1.name = 'Are you a twin?' then (case when cv.concept_full_name = 'Yes' THEN 'true' when cv.concept_full_name = 'No' then 'false' else null end) else null end)) as \"Are you Twin\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'education' then cv.concept_full_name else null end)) as \"Education\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Ethnicity' then cv.concept_full_name else null end)) as \"Ethnicity\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'District of Birth' then cv.concept_full_name else null end)) as \"District of Birth\",
@@ -472,6 +477,7 @@
                     On personInstanceDateChanged.person_id = pat.patient_id
                     inner join patient_identifier piUIC on pat.patient_id = piUIC.patient_id
                     inner join person_address perAdd on pi.patient_id = perAdd.person_id
+                    inner join person_name pn on per.person_id = pn.person_id
                     LEFT JOIN (/*Patient id along with the site type value*/
                                 Select perAtt.person_id,perAtt.value as 'siteType' from person_attribute perAtt
                                 inner JOIN person_attribute_type perAtttype on perAtt.person_attribute_type_id = perAtttype.person_attribute_type_id
@@ -601,12 +607,14 @@
                     piUIC.identifier as \"UIC\",
                     per.gender as \"Gender\",
                     per.birthdate as \"Date of Birth\",
+                    pn.family_name as \"Last Name\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Client Resident' then cv.concept_full_name else null end)) as \"Residence\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Marital Status' then cv.concept_full_name else null end)) as \"Marital Status\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'occupation' then cv.concept_full_name else null end)) as \"Occupation\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Telephone' Then pac.value else null end)) as \"Patient telephone Number\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Nationality' then cv.concept_full_name else null end)) as \"Nationality\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Mother\'\'s name' then pac.value else null end)) as \"Mothers First Name\",
+                    GROUP_CONCAT(DISTINCT (case when pat1.name = 'Are you a twin?' then (case when cv.concept_full_name = 'Yes' THEN 'true' when cv.concept_full_name = 'No' then 'false' else null end) else null end)) as \"Are you Twin\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'education' then cv.concept_full_name else null end)) as \"Education\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Ethnicity' then cv.concept_full_name else null end)) as \"Ethnicity\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'District of Birth' then cv.concept_full_name else null end)) as \"District of Birth\",
@@ -661,6 +669,7 @@
                     On personInstanceDateChanged.person_id = pat.patient_id
                     inner join patient_identifier piUIC on pat.patient_id = piUIC.patient_id
                     inner join person_address perAdd on pi.patient_id = perAdd.person_id
+                    inner join person_name pn on per.person_id = pn.person_id
                     LEFT JOIN (/*Patient id along with the site type value*/
                                 Select perAtt.person_id,perAtt.value as 'siteType' from person_attribute perAtt
                                 inner JOIN person_attribute_type perAtttype on perAtt.person_attribute_type_id = perAtttype.person_attribute_type_id
@@ -790,12 +799,14 @@
                     piUIC.identifier as \"UIC\",
                     per.gender as \"Gender\",
                     per.birthdate as \"Date of Birth\",
+                    pn.family_name as \"Last Name\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Client Resident' then cv.concept_full_name else null end)) as \"Residence\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Marital Status' then cv.concept_full_name else null end)) as \"Marital Status\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'occupation' then cv.concept_full_name else null end)) as \"Occupation\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Telephone' Then pac.value else null end)) as \"Patient telephone Number\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Nationality' then cv.concept_full_name else null end)) as \"Nationality\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Mother\'\'s name' then pac.value else null end)) as \"Mothers First Name\",
+                    GROUP_CONCAT(DISTINCT (case when pat1.name = 'Are you a twin?' then (case when cv.concept_full_name = 'Yes' THEN 'true' when cv.concept_full_name = 'No' then 'false' else null end) else null end)) as \"Are you Twin\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'education' then cv.concept_full_name else null end)) as \"Education\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Ethnicity' then cv.concept_full_name else null end)) as \"Ethnicity\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'District of Birth' then cv.concept_full_name else null end)) as \"District of Birth\",
@@ -850,6 +861,7 @@
                     On personInstanceDateChanged.person_id = pat.patient_id
                     inner join patient_identifier piUIC on pat.patient_id = piUIC.patient_id
                     inner join person_address perAdd on pi.patient_id = perAdd.person_id
+                    inner join person_name pn on per.person_id = pn.person_id
                     LEFT JOIN (/*Patient id along with the site type value*/
                                 Select perAtt.person_id,perAtt.value as 'siteType' from person_attribute perAtt
                                 inner JOIN person_attribute_type perAtttype on perAtt.person_attribute_type_id = perAtttype.person_attribute_type_id
@@ -979,12 +991,14 @@
                     piUIC.identifier as \"UIC\",
                     per.gender as \"Gender\",
                     per.birthdate as \"Date of Birth\",
+                    pn.family_name as \"Last Name\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Client Resident' then cv.concept_full_name else null end)) as \"Residence\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Marital Status' then cv.concept_full_name else null end)) as \"Marital Status\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'occupation' then cv.concept_full_name else null end)) as \"Occupation\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Telephone' Then pac.value else null end)) as \"Patient telephone Number\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Nationality' then cv.concept_full_name else null end)) as \"Nationality\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Mother\'\'s name' then pac.value else null end)) as \"Mothers First Name\",
+                    GROUP_CONCAT(DISTINCT (case when pat1.name = 'Are you a twin?' then (case when cv.concept_full_name = 'Yes' THEN 'true' when cv.concept_full_name = 'No' then 'false' else null end) else null end)) as \"Are you Twin\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'education' then cv.concept_full_name else null end)) as \"Education\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'Ethnicity' then cv.concept_full_name else null end)) as \"Ethnicity\",
                     GROUP_CONCAT(DISTINCT (case when pat1.name = 'District of Birth' then cv.concept_full_name else null end)) as \"District of Birth\",
@@ -1039,6 +1053,7 @@
                     On personInstanceDateChanged.person_id = pat.patient_id
                     inner join patient_identifier piUIC on pat.patient_id = piUIC.patient_id
                     inner join person_address perAdd on pi.patient_id = perAdd.person_id
+                    inner join person_name pn on per.person_id = pn.person_id
                     LEFT JOIN (/*Patient id along with the site type value*/
                                 Select perAtt.person_id,perAtt.value as 'siteType' from person_attribute perAtt
                                 inner JOIN person_attribute_type perAtttype on perAtt.person_attribute_type_id = perAtttype.person_attribute_type_id
@@ -1168,12 +1183,14 @@
       piUIC.identifier as \"UIC\",
       per.gender as \"Gender\",
       per.birthdate as \"Date of Birth\",
+      pn.family_name as \"Last Name\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'Client Resident' then cv.concept_full_name else null end)) as \"Residence\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'Marital Status' then cv.concept_full_name else null end)) as \"Marital Status\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'occupation' then cv.concept_full_name else null end)) as \"Occupation\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'Telephone' Then pac.value else null end)) as \"Patient telephone Number\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'Nationality' then cv.concept_full_name else null end)) as \"Nationality\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'Mother\'\'s name' then pac.value else null end)) as \"Mothers First Name\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'Are you a twin?' then (case when cv.concept_full_name = 'Yes' THEN 'true' when cv.concept_full_name = 'No' then 'false' else null end) else null end)) as \"Are you Twin\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'education' then cv.concept_full_name else null end)) as \"Education\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'Ethnicity' then cv.concept_full_name else null end)) as \"Ethnicity\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'District of Birth' then cv.concept_full_name else null end)) as \"District of Birth\",
@@ -1228,6 +1245,7 @@
       On personInstanceDateChanged.person_id = pat.patient_id
       inner join patient_identifier piUIC on pat.patient_id = piUIC.patient_id
       inner join person_address perAdd on pi.patient_id = perAdd.person_id
+      inner join person_name pn on per.person_id = pn.person_id
       LEFT JOIN (/*Patient id along with the site type value*/
       Select perAtt.person_id,perAtt.value as 'siteType' from person_attribute perAtt
       inner JOIN person_attribute_type perAtttype on perAtt.person_attribute_type_id = perAtttype.person_attribute_type_id
@@ -1393,12 +1411,14 @@ WHERE  pp.program_id IN (SELECT program_id
       piUIC.identifier as \"UIC\",
       per.gender as \"Gender\",
       per.birthdate as \"Date of Birth\",
+      pn.family_name as \"Last Name\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'Client Resident' then cv.concept_full_name else null end)) as \"Residence\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'Marital Status' then cv.concept_full_name else null end)) as \"Marital Status\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'occupation' then cv.concept_full_name else null end)) as \"Occupation\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'Telephone' Then pac.value else null end)) as \"Patient telephone Number\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'Nationality' then cv.concept_full_name else null end)) as \"Nationality\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'Mother\'\'s name' then pac.value else null end)) as \"Mothers First Name\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'Are you a twin?' then (case when cv.concept_full_name = 'Yes' THEN 'true' when cv.concept_full_name = 'No' then 'false' else null end) else null end)) as \"Are you Twin\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'education' then cv.concept_full_name else null end)) as \"Education\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'Ethnicity' then cv.concept_full_name else null end)) as \"Ethnicity\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'District of Birth' then cv.concept_full_name else null end)) as \"District of Birth\",
@@ -1453,6 +1473,7 @@ WHERE  pp.program_id IN (SELECT program_id
       On personInstanceDateChanged.person_id = pat.patient_id
       inner join patient_identifier piUIC on pat.patient_id = piUIC.patient_id
       inner join person_address perAdd on pi.patient_id = perAdd.person_id
+      inner join person_name pn on per.person_id = pn.person_id
       LEFT JOIN (/*Patient id along with the site type value*/
       Select perAtt.person_id,perAtt.value as 'siteType' from person_attribute perAtt
       inner JOIN person_attribute_type perAtttype on perAtt.person_attribute_type_id = perAtttype.person_attribute_type_id
@@ -1618,12 +1639,14 @@ WHERE  pp.program_id IN (SELECT program_id
       piUIC.identifier as \"UIC\",
       per.gender as \"Gender\",
       per.birthdate as \"Date of Birth\",
+      pn.family_name as \"Last Name\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'Client Resident' then cv.concept_full_name else null end)) as \"Residence\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'Marital Status' then cv.concept_full_name else null end)) as \"Marital Status\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'occupation' then cv.concept_full_name else null end)) as \"Occupation\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'Telephone' Then pac.value else null end)) as \"Patient telephone Number\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'Nationality' then cv.concept_full_name else null end)) as \"Nationality\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'Mother\'\'s name' then pac.value else null end)) as \"Mothers First Name\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'Are you a twin?' then (case when cv.concept_full_name = 'Yes' THEN 'true' when cv.concept_full_name = 'No' then 'false' else null end) else null end)) as \"Are you Twin\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'education' then cv.concept_full_name else null end)) as \"Education\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'Ethnicity' then cv.concept_full_name else null end)) as \"Ethnicity\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'District of Birth' then cv.concept_full_name else null end)) as \"District of Birth\",
@@ -1678,6 +1701,7 @@ WHERE  pp.program_id IN (SELECT program_id
       On personInstanceDateChanged.person_id = pat.patient_id
       inner join patient_identifier piUIC on pat.patient_id = piUIC.patient_id
       inner join person_address perAdd on pi.patient_id = perAdd.person_id
+      inner join person_name pn on per.person_id = pn.person_id
       LEFT JOIN (/*Patient id along with the site type value*/
       Select perAtt.person_id,perAtt.value as 'siteType' from person_attribute perAtt
       inner JOIN person_attribute_type perAtttype on perAtt.person_attribute_type_id = perAtttype.person_attribute_type_id
@@ -1848,12 +1872,14 @@ WHERE  pp.program_id IN (SELECT program_id
       piUIC.identifier as \"UIC\",
       per.gender as \"Gender\",
       per.birthdate as \"Date of Birth\",
+      pn.family_name as \"Last Name\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'Client Resident' then cv.concept_full_name else null end)) as \"Residence\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'Marital Status' then cv.concept_full_name else null end)) as \"Marital Status\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'occupation' then cv.concept_full_name else null end)) as \"Occupation\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'Telephone' Then pac.value else null end)) as \"Patient telephone Number\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'Nationality' then cv.concept_full_name else null end)) as \"Nationality\",
-      GROUP_CONCAT(DISTINCT (case when pat1.name = 'Mother\''s name' then pac.value else null end)) as \"Mother's First Name\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'Mother\'\'s name' then pac.value else null end)) as \"Mothers First Name\",
+      GROUP_CONCAT(DISTINCT (case when pat1.name = 'Are you a twin?' then (case when cv.concept_full_name = 'Yes' THEN 'true' when cv.concept_full_name = 'No' then 'false' else null end) else null end)) as \"Are you Twin\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'education' then cv.concept_full_name else null end)) as \"Education\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'Ethnicity' then cv.concept_full_name else null end)) as \"Ethnicity\",
       GROUP_CONCAT(DISTINCT (case when pat1.name = 'District of Birth' then cv.concept_full_name else null end)) as \"District of Birth\",
@@ -1908,6 +1934,7 @@ WHERE  pp.program_id IN (SELECT program_id
       On personInstanceDateChanged.person_id = pat.patient_id
       inner join patient_identifier piUIC on pat.patient_id = piUIC.patient_id
       inner join person_address perAdd on pi.patient_id = perAdd.person_id
+      inner join person_name pn on per.person_id = pn.person_id
       LEFT JOIN (/*Patient id along with the site type value*/
       Select perAtt.person_id,perAtt.value as 'siteType' from person_attribute perAtt
       inner JOIN person_attribute_type perAtttype on perAtt.person_attribute_type_id = perAtttype.person_attribute_type_id
