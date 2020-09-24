@@ -2648,6 +2648,7 @@ max(CASE WHEN phtc.hiv_test_results IS NOT NULL AND COALESCE(phtc.date_modified,
          max(CASE WHEN (hst_external_referral_to_multiple_responses_possible = 'VIAC') THEN 1 ELSE NULL END) :: BOOLEAN AS  \"Referred For VIAC ? - HST\",
          max(CASE WHEN (hst_external_referral_to_multiple_responses_possible = 'PEP') THEN 1 ELSE NULL END) :: BOOLEAN AS  \"Referred For PEP ? - HST\",
          max(CASE WHEN (hst_external_referral_to_multiple_responses_possible = 'Private doctor') THEN 1 ELSE NULL END) :: BOOLEAN AS  \"Referred For Private Doctor ? - HST\",
+         max(CASE WHEN (hst_external_referral_to_multiple_responses_possible = 'Other') THEN 1 ELSE NULL END) :: BOOLEAN AS  \"Referred For Other ? - HST\",
          max(CASE WHEN hst_consent_to_test = 'Yes' THEN 1
                  WHEN hst_consent_to_test =  'No' THEN 0
             ELSE NULL END) :: BOOLEAN AS \"Consent to Test - HST\",
